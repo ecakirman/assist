@@ -1,3 +1,10 @@
+# [0.805.0](https://github.com/staff0rd/assist/compare/v0.804.0...v0.805.0) (2026-10-12)
+
+
+### Features
+
+* edit screenshot caption/group in pane ([118d6cd](https://github.com/staff0rd/assist/commit/118d6cda2c373b6fa02d478b150dfa442bdc53aa))
+
 # [0.804.0](https://github.com/staff0rd/assist/compare/v0.803.0...v0.804.0) (2026-10-09)
 
 
