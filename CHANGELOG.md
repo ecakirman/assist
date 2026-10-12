@@ -1,3 +1,10 @@
+## [0.815.1](https://github.com/staff0rd/assist/compare/v0.815.0...v0.815.1) (2026-10-12)
+
+
+### Bug Fixes
+
+* tell drafting agent a run started ([830785f](https://github.com/staff0rd/assist/commit/830785fd669ce734f2be289eee5c569006440e60))
+
 # [0.815.0](https://github.com/staff0rd/assist/compare/v0.814.0...v0.815.0) (2026-10-12)
 
 
