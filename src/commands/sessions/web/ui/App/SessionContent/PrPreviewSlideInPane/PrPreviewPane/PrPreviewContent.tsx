@@ -55,6 +55,7 @@ export function PrPreviewContent({
 						screenshots={pane.screenshots}
 						uploads={pane.uploads}
 						onRemove={pane.removeScreenshot}
+						onUpdate={pane.updateScreenshot}
 					/>
 				) : undefined
 			}

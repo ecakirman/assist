@@ -5,12 +5,15 @@ import {
 	savePersistedScreenshots,
 } from "./loadPersistedScreenshots";
 import { useSeededScreenshots } from "./useSeededScreenshots";
+import { useUpdateScreenshot } from "./useUpdateScreenshot";
 import type { PreviewAttachment } from "../../../../../../shared/PreviewAttachment";
 
 export type LocalScreenshot = PersistedScreenshot & {
 	url: string;
 	id: number;
 };
+
+export type ScreenshotLabel = Partial<Pick<PreviewAttachment, "alt" | "group">>;
 
 export function useScreenshots(
 	scope: string | undefined,
@@ -47,10 +50,12 @@ export function useScreenshots(
 		[scope, setScreenshots],
 	);
 
+	const update = useUpdateScreenshot(scope, setScreenshots);
+
 	const clearPersisted = useCallback(
 		() => clearPersistedScreenshots(scope),
 		[scope],
 	);
 
-	return { screenshots, add, remove, clearPersisted };
+	return { screenshots, add, remove, update, clearPersisted };
 }

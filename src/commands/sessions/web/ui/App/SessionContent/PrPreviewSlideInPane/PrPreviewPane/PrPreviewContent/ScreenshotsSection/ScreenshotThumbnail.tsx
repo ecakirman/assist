@@ -1,6 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, IconButton, Typography } from "@mui/material";
-import type { LocalScreenshot } from "../../useScreenshots";
+import { Box, IconButton } from "@mui/material";
+import type { LocalScreenshot, ScreenshotLabel } from "../../useScreenshots";
+import { ScreenshotLabelFields } from "./ScreenshotLabelFields";
 
 const mediaSx = {
 	display: "block",
@@ -21,9 +22,11 @@ const removeSx = {
 export function ScreenshotThumbnail({
 	screenshot,
 	onRemove,
+	onUpdate,
 }: {
 	screenshot: LocalScreenshot;
 	onRemove: (id: number) => void;
+	onUpdate: (id: number, patch: ScreenshotLabel) => void;
 }) {
 	const isVideo = screenshot.contentType.startsWith("video/");
 	return (
@@ -53,11 +56,7 @@ export function ScreenshotThumbnail({
 			>
 				<CloseIcon fontSize="small" />
 			</IconButton>
-			{screenshot.alt && (
-				<Typography variant="caption" color="text.secondary">
-					{screenshot.alt}
-				</Typography>
-			)}
+			<ScreenshotLabelFields screenshot={screenshot} onUpdate={onUpdate} />
 		</Box>
 	);
 }

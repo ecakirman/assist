@@ -1,8 +1,9 @@
 import { Box, Stack } from "@mui/material";
 import { groupScreenshots } from "./ScreenshotsSection/groupScreenshots";
 import { ScreenshotThumbnail } from "./ScreenshotsSection/ScreenshotThumbnail";
+import { screenshotGroupListId } from "./ScreenshotsSection/ScreenshotLabelFields";
 import { ScreenshotUploadStatus } from "./ScreenshotsSection/ScreenshotUploadStatus";
-import type { LocalScreenshot } from "../useScreenshots";
+import type { LocalScreenshot, ScreenshotLabel } from "../useScreenshots";
 import type { ScreenshotUpload } from "../useScreenshotUpload";
 
 const groupGridSx = {
@@ -15,18 +16,30 @@ export function ScreenshotsSection({
 	screenshots,
 	uploads,
 	onRemove,
+	onUpdate,
 }: {
 	screenshots: LocalScreenshot[];
 	uploads: ScreenshotUpload[];
 	onRemove: (id: number) => void;
+	onUpdate: (id: number, patch: ScreenshotLabel) => void;
 }) {
 	const { groups, ungrouped } = groupScreenshots(screenshots);
 	const thumbnail = (s: LocalScreenshot) => (
-		<ScreenshotThumbnail key={s.id} screenshot={s} onRemove={onRemove} />
+		<ScreenshotThumbnail
+			key={s.id}
+			screenshot={s}
+			onRemove={onRemove}
+			onUpdate={onUpdate}
+		/>
 	);
 	return (
 		<Box sx={{ mt: 3 }}>
 			{screenshots.length > 0 && <Box component="h2">Screenshots</Box>}
+			<datalist id={screenshotGroupListId}>
+				{groups.map(([group]) => (
+					<option key={group} value={group} />
+				))}
+			</datalist>
 			{groups.map(([group, members]) => (
 				<Box key={group} sx={{ mb: 2 }}>
 					<Box component="h3">{group}</Box>

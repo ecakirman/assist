@@ -9,7 +9,7 @@ export function usePaneScreenshots({
 	requestId,
 	seededScreenshots,
 }: PrPaneOptions) {
-	const { screenshots, add, remove, clearPersisted } = useScreenshots(
+	const { screenshots, add, remove, update, clearPersisted } = useScreenshots(
 		enabled ? screenshotScope : undefined,
 		requestId,
 		enabled ? seededScreenshots : [],
@@ -23,6 +23,7 @@ export function usePaneScreenshots({
 	return {
 		screenshots,
 		removeScreenshot: remove,
+		updateScreenshot: update,
 		decision: {
 			attachments: () =>
 				screenshots.map(({ path, alt, group }) =>
