@@ -1,3 +1,10 @@
+# [0.813.0](https://github.com/staff0rd/assist/compare/v0.812.1...v0.813.0) (2026-10-12)
+
+
+### Features
+
+* add Approve & start to item preview ([30a9609](https://github.com/staff0rd/assist/commit/30a9609878faf5dfc94e51f113db4f017a18062c))
+
 ## [0.812.1](https://github.com/staff0rd/assist/compare/v0.812.0...v0.812.1) (2026-10-12)
 
 
