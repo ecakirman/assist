@@ -1,3 +1,10 @@
+# [0.809.0](https://github.com/staff0rd/assist/compare/v0.808.0...v0.809.0) (2026-10-12)
+
+
+### Features
+
+* focus backlog search on list open ([0566c1d](https://github.com/staff0rd/assist/commit/0566c1d01696da3b9febac73d4a252185e0aad1a))
+
 # [0.808.0](https://github.com/staff0rd/assist/compare/v0.807.0...v0.808.0) (2026-10-12)
 
 
