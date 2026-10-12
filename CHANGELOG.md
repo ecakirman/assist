@@ -1,3 +1,10 @@
+# [0.808.0](https://github.com/staff0rd/assist/compare/v0.807.0...v0.808.0) (2026-10-12)
+
+
+### Features
+
+* Alt+Q opens the updates page ([463cef0](https://github.com/staff0rd/assist/commit/463cef023c462a618b7da2842e5ae70dfc2d8226))
+
 # [0.807.0](https://github.com/staff0rd/assist/compare/v0.806.0...v0.807.0) (2026-10-12)
 
 
