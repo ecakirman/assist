@@ -102,6 +102,16 @@ describe("ItemList type filter", () => {
 	});
 });
 
+describe("ItemList search focus", () => {
+	it("focuses the search field when the list renders", () => {
+		renderList([]);
+
+		expect(document.activeElement).toBe(
+			screen.getByPlaceholderText("Search backlog…"),
+		);
+	});
+});
+
 describe("ItemList empty state", () => {
 	it("reflects the bug filter when no bugs exist", () => {
 		renderList([
