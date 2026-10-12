@@ -1,3 +1,10 @@
+# [0.816.0](https://github.com/staff0rd/assist/compare/v0.815.1...v0.816.0) (2026-10-12)
+
+
+### Features
+
+* run one of each verify :fix pair ([6aba586](https://github.com/staff0rd/assist/commit/6aba5861df0f1f13e3db041a4cb975eed4ad441e))
+
 ## [0.815.1](https://github.com/staff0rd/assist/compare/v0.815.0...v0.815.1) (2026-10-12)
 
 
