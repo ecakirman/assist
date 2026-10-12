@@ -19,7 +19,8 @@ export function useNodeRestart(
 			const target = restartTargetFor(entry.status?.restart ?? []);
 			if (!target) return;
 			notices.mark(entry.name, "Restarting");
-			if (reloadsThisPage(entry)) return localWeb.restartTo(target);
+			if (reloadsThisPage(entry))
+				return localWeb.restartTo(target === "daemon" ? "both" : target);
 			await restartReporting(entry, target, notices);
 			notices.mark(entry.name);
 			refresh();
