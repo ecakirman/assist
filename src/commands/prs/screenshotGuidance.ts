@@ -4,7 +4,7 @@ export const screenshotGuidance = `Screenshots: pass --screenshot '[Group/]Capti
 (png, jpg, jpeg, gif, webp, svg, mp4, webm, mov). gh ${minGhAttachVersion}+ uploads each
 file and the body gets a ## Screenshots section: one ### Group heading per group
 with its images in a 2-column captioned table (so light/dark pairs sit side by
-side), then any ungrouped images. The spec splits on the first '=' (label vs
+side), then any ungrouped images as plain images. The spec splits on the first '=' (label vs
 path), then the label on the first '/' (group vs caption); a missing caption
 falls back to the file name. A missing file or unsupported extension fails the
 command before anything is previewed or sent. Never author ## Screenshots in a

@@ -328,7 +328,7 @@ describe("edit", () => {
 					"edit",
 					"42",
 					"--body",
-					"## What\n\nnew what\n\n## Why\n\nold why\n\n## How\n\nold how\n\n## Screenshots\n\n| a |  |\n| --- | --- |\n| ![a](/s/a.png) |  |\n\n![b](/s/b.mp4)",
+					"## What\n\nnew what\n\n## Why\n\nold why\n\n## How\n\nold how\n\n## Screenshots\n\n![a](/s/a.png)\n\n![b](/s/b.mp4)",
 					"--attach",
 					"/s/a.png",
 					"--attach",

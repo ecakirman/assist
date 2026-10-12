@@ -55,7 +55,7 @@ describe("previewAndPlace", () => {
 		expect(placePrMock).toHaveBeenCalledWith(
 			null,
 			"t",
-			"## What\n\nx\n\n## Screenshots\n\n| a | b |\n| --- | --- |\n| ![a](/s/a.png) | ![b](/s/b.png) |",
+			"## What\n\nx\n\n## Screenshots\n\n![a](/s/a.png)\n\n![b](/s/b.png)",
 			{},
 			[
 				{ path: "/s/a.png", alt: "a" },
@@ -93,7 +93,7 @@ describe("previewAndPlace", () => {
 
 		const [, , body, , attachments] = placePrMock.mock.calls[0];
 		expect(body).toContain(
-			"### Profile\n\n| light |  |\n| --- | --- |\n| ![light](/staged/l.png) |  |\n\n| drop |",
+			"### Profile\n\n| light |  |\n| --- | --- |\n| ![light](/staged/l.png) |  |\n\n![drop](/s/drop.png)",
 		);
 		expect(body).not.toContain("dark");
 		expect(attachments).toEqual([kept, { path: "/s/drop.png", alt: "drop" }]);

@@ -1,12 +1,8 @@
 import { extname } from "node:path";
 import type { PreviewAttachment } from "../sessions/shared/PreviewAttachment";
+import { screenshotReference } from "./screenshotReference";
 
 const VIDEO_EXTENSIONS = new Set([".mp4", ".webm", ".mov"]);
-
-function reference({ path, alt }: PreviewAttachment): string {
-	const target = /\s/.test(path) ? `<${path}>` : path;
-	return `![${alt}](${target})`;
-}
 
 function cell(text: string): string {
 	return text.replaceAll("|", String.raw`\|`);
@@ -22,7 +18,9 @@ function imageTable(images: PreviewAttachment[]): string[] {
 	for (let i = 0; i < images.length; i += 2) {
 		const pair = images.slice(i, i + 2);
 		const captions = [0, 1].map((j) => (pair[j] ? cell(pair[j].alt) : ""));
-		const refs = [0, 1].map((j) => (pair[j] ? cell(reference(pair[j])) : ""));
+		const refs = [0, 1].map((j) =>
+			pair[j] ? cell(screenshotReference(pair[j])) : "",
+		);
 		if (i === 0) lines.push(row(captions), row(["---", "---"]));
 		else lines.push(row(captions.map((c) => (c ? `**${c}**` : ""))));
 		lines.push(row(refs));
@@ -37,6 +35,6 @@ export function renderScreenshotBlock(
 		VIDEO_EXTENSIONS.has(extname(a.path).toLowerCase());
 	return [
 		...imageTable(attachments.filter((a) => !isVideo(a))),
-		...attachments.filter(isVideo).map(reference),
+		...attachments.filter(isVideo).map(screenshotReference),
 	];
 }
