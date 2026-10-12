@@ -1,5 +1,5 @@
 import type { MeasureRecord } from "./printMeasureTable";
-import type { VerifyEntry } from "./resolveEntries";
+import type { VerifyEntry } from "./VerifyEntry";
 import { collectOutput, flushIfFailed, spawnCommand } from "./spawnCommand";
 
 function logFailedScripts(failed: MeasureRecord[]): void {

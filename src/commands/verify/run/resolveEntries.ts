@@ -4,19 +4,13 @@ import { findPackageJsonWithVerifyScripts } from "../../../shared/readPackageJso
 import { resolveRunConfigs } from "../../../shared/resolveRunConfigs";
 import { runConfigBaseDir } from "../../../shared/runConfigBaseDir";
 import { shellQuote } from "../../../shared/shellQuote";
+import { getRootEntries } from "./getRootEntries";
+import type { VerifyEntry } from "./VerifyEntry";
+import { getRepoRootEntries } from "./getRepoRootEntries";
 
 function buildFullCommand(command: string, args?: string[]): string {
 	return [shellQuote(command), ...(args ?? []).map(shellQuote)].join(" ");
 }
-
-export type VerifyEntry = {
-	name: string;
-	fullCommand: string;
-	cwd?: string;
-	env?: Record<string, string>;
-	filter?: string;
-	quiet?: boolean;
-};
 
 function getRunEntries(): VerifyEntry[] {
 	const { run } = loadConfig();
@@ -45,6 +39,19 @@ function getPackageJsonEntries(): VerifyEntry[] {
 	}));
 }
 
+function normalizeRoot(root: string): string {
+	return path.posix.normalize(root.replaceAll("\\", "/")).replace(/\/+$/, "");
+}
+
 export function resolveEntries(): VerifyEntry[] {
-	return [...getRunEntries(), ...getPackageJsonEntries()];
+	const roots = (loadConfig().verify?.roots ?? []).map(normalizeRoot);
+	if (roots.length === 0) {
+		return [...getRunEntries(), ...getPackageJsonEntries()];
+	}
+	const baseDir = runConfigBaseDir();
+	return [
+		...getRunEntries(),
+		...getRootEntries(baseDir, roots),
+		...getRepoRootEntries(baseDir, roots),
+	];
 }

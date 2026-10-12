@@ -89,6 +89,11 @@ const assistConfigShape = {
 			ignore: z.array(z.string()).default([]),
 		})
 		.optional(),
+	verify: z
+		.strictObject({
+			roots: z.array(z.string()).default([]),
+		})
+		.optional(),
 	restructure: z
 		.strictObject({
 			ignore: z.array(z.string()).default([]),

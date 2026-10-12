@@ -36,6 +36,12 @@ export function requirePackageJson(): {
 	return { packageJsonPath, pkg };
 }
 
+export function readVerifyScripts(packageJsonPath: string): string[] {
+	if (!fs.existsSync(packageJsonPath)) return [];
+	const scripts = readPackageJson(packageJsonPath).scripts ?? {};
+	return Object.keys(scripts).filter((name) => name.startsWith("verify:"));
+}
+
 export function findPackageJsonWithVerifyScripts(startDir: string): {
 	packageJsonPath: string;
 	verifyScripts: string[];
@@ -44,17 +50,9 @@ export function findPackageJsonWithVerifyScripts(startDir: string): {
 
 	while (true) {
 		const packageJsonPath = path.join(currentDir, "package.json");
-
-		if (fs.existsSync(packageJsonPath)) {
-			const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
-			const scripts = packageJson.scripts || {};
-			const verifyScripts = Object.keys(scripts).filter((name) =>
-				name.startsWith("verify:"),
-			);
-
-			if (verifyScripts.length > 0) {
-				return { packageJsonPath, verifyScripts };
-			}
+		const verifyScripts = readVerifyScripts(packageJsonPath);
+		if (verifyScripts.length > 0) {
+			return { packageJsonPath, verifyScripts };
 		}
 
 		const parentDir = path.dirname(currentDir);
