@@ -1,3 +1,17 @@
+# [0.811.0](https://github.com/staff0rd/assist/compare/v0.810.0...v0.811.0) (2026-10-12)
+
+
+### Bug Fixes
+
+* document issue edit --fetch in skill ([260678a](https://github.com/staff0rd/assist/commit/260678a7c9608240b8f065afe2cdac4015ccf99e))
+
+
+### Features
+
+* github issue edit --fetch ([d2965b8](https://github.com/staff0rd/assist/commit/d2965b8bf560c12a4eb8332cf18c976629dd2e18))
+* local daemon restart reloads page ([bc04f30](https://github.com/staff0rd/assist/commit/bc04f30101d266689721787dbf5f3ae50578952b))
+* verify.roots for monorepo packages ([67eb33b](https://github.com/staff0rd/assist/commit/67eb33b30577841dab98cadd7348fe47b197918e))
+
 # [0.810.0](https://github.com/staff0rd/assist/compare/v0.809.0...v0.810.0) (2026-10-12)
 
 
