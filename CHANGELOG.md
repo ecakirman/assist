@@ -1,3 +1,10 @@
+# [0.814.0](https://github.com/staff0rd/assist/compare/v0.813.0...v0.814.0) (2026-10-12)
+
+
+### Features
+
+* queued commit diff popover ([1390901](https://github.com/staff0rd/assist/commit/1390901dcd406c0157dc52e30ed7e3a941f8c442))
+
 # [0.813.0](https://github.com/staff0rd/assist/compare/v0.812.1...v0.813.0) (2026-10-12)
 
 
