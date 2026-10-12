@@ -10,6 +10,7 @@ const APP_HOTKEYS: ShortcutName[] = [
 	"focusSidebar",
 	"focusTerminal",
 	"toggleDiff",
+	"openUpdates",
 	"openConfig",
 	"openMenu",
 	"focusRepoPicker",

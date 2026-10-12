@@ -25,6 +25,7 @@ export const shortcutRegistry = {
 		group: "Navigate",
 	},
 	focusRepoPicker: { label: "Focus repo picker", group: "Navigate" },
+	openUpdates: { label: "Open updates", group: "Navigate" },
 	openConfig: { label: "Open config", group: "Navigate" },
 	openMenu: { label: "Open menu", group: "Navigate" },
 	cycleCards: { label: "Next / previous sidebar card", group: "Navigate" },

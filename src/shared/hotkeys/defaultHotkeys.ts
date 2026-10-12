@@ -4,6 +4,7 @@ export const defaultHotkeys = {
 	focusTerminal: ["Alt+S"],
 	toggleDiff: ["Alt+D"],
 	focusRepoPicker: ["Alt+R"],
+	openUpdates: ["Alt+Q"],
 	openConfig: ["Alt+W"],
 	openMenu: ["Alt+E"],
 	focusAddAgent: ["Alt+Z"],

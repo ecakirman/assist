@@ -16,6 +16,7 @@ export const hotkeysSchema = z.strictObject({
 	focusTerminal: keyChord,
 	toggleDiff: keyChord,
 	focusRepoPicker: keyChord,
+	openUpdates: keyChord,
 	openConfig: keyChord,
 	openMenu: keyChord,
 	focusAddAgent: keyChord,

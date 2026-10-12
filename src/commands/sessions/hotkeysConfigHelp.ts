@@ -11,6 +11,7 @@ const ACTIONS: Record<HotkeyName, string> = {
 	focusTerminal: "focus the active terminal",
 	toggleDiff: "open / close the diff panel, or focus the preview pane",
 	focusRepoPicker: "focus the toolbar repo picker",
+	openUpdates: "open the version / updates page",
 	openConfig: "open the config page",
 	openMenu: "open the hamburger menu",
 	focusAddAgent: "focus the top bar's add agent button",

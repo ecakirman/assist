@@ -56,6 +56,7 @@ function renderMenu(
 					/>
 					<Routes>
 						<Route path="/config" element={<div>config page</div>} />
+						<Route path="/updates" element={<div>updates page</div>} />
 						<Route path="/sessions" element={<div>sessions page</div>} />
 					</Routes>
 				</SessionLaunchContext.Provider>
@@ -191,13 +192,36 @@ describe("HamburgerMenu", () => {
 		await waitFor(() => expect(screen.queryByRole("menuitem")).toBeNull());
 	});
 
-	it("does nothing on Alt+Q yet", () => {
+	it("navigates to the updates page on Alt+Q", () => {
 		renderMenu(vi.fn());
 
 		fireEvent.keyDown(document.body, { code: "KeyQ", altKey: true });
 
-		expect(screen.queryByRole("menuitem")).toBeNull();
-		expect(screen.getByText("sessions page")).toBeTruthy();
+		expect(screen.getByText("updates page")).toBeTruthy();
+	});
+
+	it("follows a remapped updates chord", () => {
+		renderMenu(vi.fn());
+		act(() =>
+			hotkeyBindingsStore.set({
+				...defaultHotkeys,
+				openUpdates: ["Ctrl+Alt+U"],
+			}),
+		);
+
+		try {
+			fireEvent.keyDown(document.body, { code: "KeyQ", altKey: true });
+			expect(screen.queryByText("updates page")).toBeNull();
+
+			fireEvent.keyDown(document.body, {
+				code: "KeyU",
+				ctrlKey: true,
+				altKey: true,
+			});
+			expect(screen.getByText("updates page")).toBeTruthy();
+		} finally {
+			hotkeyBindingsStore.set(defaultHotkeys);
+		}
 	});
 
 	it("does not launch when the update is cancelled", () => {
