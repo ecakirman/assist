@@ -50,7 +50,11 @@ export type ReleaseStreamState = {
 
 export type ReleaseCompareCommit = ReleaseCommit & { date: string | null };
 
+export type ReleaseChange = ReleaseCompareCommit & {
+	pr: { number: number; url: string } | null;
+};
+
 export type ReleaseCompare = {
 	total: number;
-	commits: ReleaseCompareCommit[];
+	changes: ReleaseChange[];
 };

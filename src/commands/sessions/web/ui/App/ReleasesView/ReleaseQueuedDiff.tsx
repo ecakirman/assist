@@ -21,13 +21,13 @@ export function ReleaseQueuedDiff({
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const open = Boolean(anchorEl);
 	const view = useReleaseCompare(open, repo, live?.sha ?? null, queued.sha);
-	const label = `Commits queued for ${environment}`;
+	const label = `Changes queued for ${environment}`;
 
 	return (
 		<>
 			<IconButton
 				sx={releaseQueuedDiffSx.button}
-				aria-label={`Show commits queued for ${environment}`}
+				aria-label={`Show changes queued for ${environment}`}
 				aria-expanded={open}
 				aria-haspopup="dialog"
 				title={label}

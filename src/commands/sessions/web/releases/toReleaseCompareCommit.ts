@@ -2,12 +2,15 @@ import type { ReleaseCompareCommit } from "./types";
 
 export type ApiCommit = {
 	sha: string;
+	parents?: string[];
 	commit?: {
 		message?: string | null;
 		author?: { name?: string | null } | null;
 		committer?: { date?: string | null } | null;
 	} | null;
 };
+
+export const API_COMMIT_JQ = "{sha, commit, parents: [.parents[].sha]}";
 
 export function toReleaseCompareCommit({
 	sha,

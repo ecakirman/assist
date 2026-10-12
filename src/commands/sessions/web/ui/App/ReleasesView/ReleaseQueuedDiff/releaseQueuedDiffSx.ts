@@ -10,5 +10,5 @@ export const releaseQueuedDiffSx = {
 		"&[aria-expanded='true']": { color: releaseToneColors.gate },
 	},
 	icon: { fontSize: 16 },
-	paper: { width: "min(400px, calc(100vw - 32px))", mt: 0.75 },
+	paper: { width: "min(720px, calc(100vw - 32px))", mt: 0.75 },
 } as const;

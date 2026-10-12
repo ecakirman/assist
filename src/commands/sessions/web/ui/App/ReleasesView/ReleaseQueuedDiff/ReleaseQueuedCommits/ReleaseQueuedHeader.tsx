@@ -29,9 +29,11 @@ function short(sha: string): string {
 }
 
 function title(view: ReleaseCompareView, environment: string | null): string {
-	if (view.status !== "loaded") return `Commits queued for ${environment}`;
-	const { total } = view.compare;
-	return `${total} ${total === 1 ? "commit" : "commits"} queued for ${environment}`;
+	if (view.status !== "loaded") return `Changes queued for ${environment}`;
+	const { total, changes } = view.compare;
+	const allPrs = changes.every((change) => change.pr);
+	const noun = allPrs ? "PR" : "change";
+	return `${total} ${noun}${total === 1 ? "" : "s"} queued for ${environment}`;
 }
 
 export function ReleaseQueuedHeader({

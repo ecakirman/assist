@@ -30,7 +30,7 @@ export function ReleaseQueuedFooter({
 	view: ReleaseCompareView;
 }) {
 	const capped =
-		view.status === "loaded" && view.compare.commits.length < view.compare.total
+		view.status === "loaded" && view.compare.changes.length < view.compare.total
 			? view.compare
 			: null;
 	if (!capped && !live) return null;
@@ -39,7 +39,7 @@ export function ReleaseQueuedFooter({
 		<Box sx={footSx}>
 			{capped && (
 				<span>
-					Showing {capped.commits.length} of {capped.total}
+					Showing {capped.changes.length} of {capped.total}
 				</span>
 			)}
 			{live && (

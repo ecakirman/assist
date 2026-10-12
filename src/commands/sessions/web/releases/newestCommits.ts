@@ -1,11 +1,8 @@
 import { ghJson } from "./ghJson";
-import {
-	type ApiCommit,
-	toReleaseCompareCommit,
-} from "./toReleaseCompareCommit";
-import type { ReleaseCompare } from "./types";
+import { API_COMMIT_JQ, type ApiCommit } from "./toReleaseCompareCommit";
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 100;
+const MAX_PAGES = 3;
 
 type ComparePage = { total_commits: number; commits: ApiCommit[] };
 
@@ -19,7 +16,7 @@ function comparePage(
 		"api",
 		`repos/${repo}/compare/${range}?per_page=${PAGE_SIZE}&page=${page}`,
 		"--jq",
-		"{total_commits, commits: [.commits[] | {sha, commit}]}",
+		`{total_commits, commits: [.commits[] | ${API_COMMIT_JQ}]}`,
 	]);
 }
 
@@ -27,17 +24,18 @@ export async function newestCommits(
 	cwd: string,
 	repo: string,
 	range: string,
-): Promise<ReleaseCompare> {
+): Promise<ApiCommit[]> {
 	const first = await comparePage(cwd, repo, range, 1);
-	const total = first.total_commits;
-	if (total <= PAGE_SIZE)
-		return { total, commits: first.commits.map(toReleaseCompareCommit) };
-	const last = Math.ceil(total / PAGE_SIZE);
+	const last = Math.ceil(first.total_commits / PAGE_SIZE);
+	if (last <= 1) return first.commits;
+	const pages = Array.from(
+		{ length: Math.min(MAX_PAGES, last) },
+		(_, i) => last - i,
+	).reverse();
 	const tail = await Promise.all(
-		[last - 1, last].map((page) =>
+		pages.map((page) =>
 			page === 1 ? first : comparePage(cwd, repo, range, page),
 		),
 	);
-	const commits = tail.flatMap((page) => page.commits).slice(-PAGE_SIZE);
-	return { total, commits: commits.map(toReleaseCompareCommit) };
+	return tail.flatMap((page) => page.commits);
 }

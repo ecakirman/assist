@@ -14,4 +14,4 @@ The queued-commit popover fetches separately, on click, from:
 curl -s "http://localhost:3100/api/releases/compare?cwd=<cwd>&repo=<owner/name>&base=<live sha>&head=<queued sha>"
 ```
 
-It returns `{ total, commits }`, the newest 50 commits of `base...head`, newest first. Without `base` (no live deployment) it returns just the `head` commit.
+It returns `{ total, changes }`, the newest 50 first-parent commits of `base...head`, newest first. Each carries the PR it merged as `pr` (subject and author then come from the PR), or `pr: null` for a direct push. Without `base` (no live deployment) it returns just the `head` commit.

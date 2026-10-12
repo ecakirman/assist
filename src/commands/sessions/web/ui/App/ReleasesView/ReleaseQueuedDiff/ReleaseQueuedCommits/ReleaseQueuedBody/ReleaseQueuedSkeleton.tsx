@@ -7,7 +7,7 @@ const WIDTHS = [86, 64, 86, 64];
 
 export function ReleaseQueuedSkeleton() {
 	return (
-		<Box sx={skeletonSx} aria-label="Loading commits">
+		<Box sx={skeletonSx} aria-label="Loading changes">
 			{WIDTHS.map((width, index) => (
 				<Skeleton
 					key={index}

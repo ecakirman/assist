@@ -38,16 +38,16 @@ export function ReleaseQueuedBody({
 				<code>gh auth status</code>, then try again.
 			</Box>
 		);
-	const { total, commits } = view.compare;
+	const { total, changes } = view.compare;
 	return (
 		<Box component="ol" sx={listSx}>
-			{commits.map((commit) => (
-				<ReleaseQueuedCommitRow key={commit.sha} repo={repo} commit={commit} />
+			{changes.map((change) => (
+				<ReleaseQueuedCommitRow key={change.sha} repo={repo} change={change} />
 			))}
-			{live && commits.length >= total && (
+			{live && changes.length >= total && (
 				<ReleaseQueuedCommitRow
 					repo={repo}
-					commit={{ ...live, date: null }}
+					change={{ ...live, date: null, pr: null }}
 					live
 				/>
 			)}
