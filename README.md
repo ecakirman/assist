@@ -231,7 +231,7 @@ The Config tab of the sessions web dashboard never shows secret values; their fi
 
 ### Verify and lint
 
-- `assist verify` - Run all verify:\* commands in parallel (from assist.yml run configs and package.json scripts); with `verify.roots`, each listed package dir's `verify:*` scripts run as `<root>:verify:*` when files under it change, and the repo-root package.json scripts run only for changes outside every root
+- `assist verify` - Run all verify:\* commands in parallel (from assist.yml run configs and package.json scripts); with `verify.roots`, each listed package dir's `verify:*` scripts run as `<root>:verify:*` when files under it change, and the repo-root package.json scripts run only for changes outside every root; each `verify:<name>` / `verify:<name>:fix` pair (MakerXStudio/verify convention) runs once — the `:fix` variant in fix mode, the base in check mode (`VERIFY_MODE=check|fix`, else check when `CI` is set)
 - `assist verify all` - Run all checks, ignoring diff-based filters
 - `assist verify --measure` - Run all verify:\* commands and time each one
 - `assist verify init [--package-json]` - Add verify scripts to a project

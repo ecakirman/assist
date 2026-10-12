@@ -45,5 +45,9 @@ export function registerVerify(program: Command): void {
 
 	registerVerifyChecks(verifyCommand);
 
-	configHelp(verifyCommand, verifyConfigHelp);
+	configHelp(
+		verifyCommand,
+		verifyConfigHelp,
+		"Following MakerXStudio/verify's convention, a verify:<name> / verify:<name>:fix pair runs once: fix mode runs the :fix variant (or verify:<name> when there is none), check mode runs only verify:<name> and skips a :fix with no base. VERIFY_MODE=check|fix picks the mode; otherwise a truthy CI means check, else fix.",
+	);
 }
