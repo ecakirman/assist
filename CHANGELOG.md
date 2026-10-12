@@ -1,3 +1,10 @@
+# [0.818.0](https://github.com/staff0rd/assist/compare/v0.817.0...v0.818.0) (2026-10-12)
+
+
+### Features
+
+* confirm config array item removal ([b2dabc2](https://github.com/staff0rd/assist/commit/b2dabc27cd703a1573e42c0e92fa67aaee13780c))
+
 # [0.817.0](https://github.com/staff0rd/assist/compare/v0.816.1...v0.817.0) (2026-10-12)
 
 
