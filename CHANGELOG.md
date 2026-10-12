@@ -1,3 +1,10 @@
+# [0.807.0](https://github.com/staff0rd/assist/compare/v0.806.0...v0.807.0) (2026-10-12)
+
+
+### Features
+
+* link to running session from card ([7bf23c1](https://github.com/staff0rd/assist/commit/7bf23c1ed516c662cdd05aa5dcdcbf6853289d20))
+
 # [0.806.0](https://github.com/staff0rd/assist/compare/v0.805.0...v0.806.0) (2026-10-12)
 
 
