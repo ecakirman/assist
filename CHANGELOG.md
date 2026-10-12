@@ -1,3 +1,10 @@
+# [0.806.0](https://github.com/staff0rd/assist/compare/v0.805.0...v0.806.0) (2026-10-12)
+
+
+### Features
+
+* propose issue body up front via --body ([cd83923](https://github.com/staff0rd/assist/commit/cd839232c8eaa91c9a8ebe480c861c5f4cba342b))
+
 # [0.805.0](https://github.com/staff0rd/assist/compare/v0.804.0...v0.805.0) (2026-10-12)
 
 
