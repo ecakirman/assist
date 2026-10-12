@@ -356,6 +356,61 @@ describe("editIssue validation", () => {
 	});
 });
 
+describe("editIssue proposed body", () => {
+	const PROPOSED = "# History\n\n- [ ] checklist item";
+
+	it("previews and pushes the proposed body on the first run", async () => {
+		webSession();
+		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
+
+		await editIssue("42", { repo: "acme/widgets", body: PROPOSED });
+
+		expect(mockRequestPreviewDecision).toHaveBeenCalledTimes(1);
+		expect(previewedBody()).toBe(PROPOSED);
+		expect(readFileSync(workingBodyPath(), "utf8")).toBe(PROPOSED);
+		expect(ghCalls("edit")).toHaveLength(1);
+	});
+
+	it("takes precedence over an existing working file", async () => {
+		webSession();
+		seedWorkingFile("older revision", FETCHED_AT);
+		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
+
+		await editIssue("42", { body: PROPOSED });
+
+		expect(previewedBody()).toBe(PROPOSED);
+	});
+
+	it("still pushes nothing when the issue moved after it was fetched", async () => {
+		webSession();
+		vi.spyOn(console, "error").mockImplementation(() => {});
+		exitThrows();
+		ghViewReturns(
+			issueJson(),
+			issueJson({ updatedAt: "2026-08-02T09:30:00Z" }),
+		);
+		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
+
+		await expect(editIssue("42", { body: PROPOSED })).rejects.toThrow(
+			"process.exit",
+		);
+
+		expect(ghCalls("edit")).toEqual([]);
+	});
+
+	it("rejects a proposed body referencing Claude before previewing", async () => {
+		webSession();
+		vi.spyOn(console, "error").mockImplementation(() => {});
+		exitThrows();
+
+		await expect(
+			editIssue("42", { body: "Rewritten by Claude" }),
+		).rejects.toThrow("process.exit");
+
+		expect(mockRequestPreviewDecision).not.toHaveBeenCalled();
+	});
+});
+
 describe("editIssue resume", () => {
 	const REVISED = "# History\n\n<details>\nrevised\n</details>";
 

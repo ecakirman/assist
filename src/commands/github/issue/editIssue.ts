@@ -1,3 +1,4 @@
+import { readBodyArgument } from "../../prs/readBodyArgument";
 import { inWebSession } from "../../sessions/shared/inWebSession";
 import { prepareIssueEdit } from "./prepareIssueEdit";
 import { pushUnchangedIssue } from "./pushUnchangedIssue";
@@ -9,11 +10,12 @@ import { viewIssue } from "./viewIssue";
 type EditIssueOptions = {
 	repo?: string;
 	fresh?: boolean;
+	body?: string;
 	parent?: string;
 };
 
 const USAGE =
-	"Usage: assist github issue edit <number> [-R <owner>/<repo>] [--parent <issue>]";
+	"Usage: assist github issue edit <number> [-R <owner>/<repo>] [--body <body>] [--parent <issue>]";
 
 export async function editIssue(
 	numberArg: string,
@@ -35,7 +37,10 @@ export async function editIssue(
 		return;
 	}
 
-	const issue = prepareIssueEdit(number, options.repo, options.fresh);
+	const proposed = options.body
+		? await readBodyArgument(options.body)
+		: undefined;
+	const issue = prepareIssueEdit(number, options.repo, options.fresh, proposed);
 	const edited = await reviewProposedIssueEdit(
 		`Edit ${issue.target}: ${issue.title}`,
 		issue.body,

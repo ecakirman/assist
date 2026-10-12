@@ -21,14 +21,16 @@ export function prepareIssueEdit(
 	number: number,
 	repo: string | undefined,
 	fresh: boolean | undefined,
+	proposed: string | undefined,
 ): PreparedIssueEdit {
 	const issue = fetchIssue(number, repo);
 	const slug = repo ?? slugFromUrl(issue.url);
 	const target = `${slug}#${number}`;
-	const resumed = fresh
-		? undefined
-		: resumeIssueBody(slug, number, issue.updatedAt);
-	const body = resumed ?? issue.body;
+	const resumed =
+		proposed !== undefined || fresh
+			? undefined
+			: resumeIssueBody(slug, number, issue.updatedAt);
+	const body = proposed ?? resumed ?? issue.body;
 	validateIssueBody(issue.title, body);
 
 	const save = (markdown: string) =>
