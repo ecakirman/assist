@@ -7,6 +7,8 @@ import { shellQuote } from "../../../shared/shellQuote";
 import { getRootEntries } from "./getRootEntries";
 import type { VerifyEntry } from "./VerifyEntry";
 import { getRepoRootEntries } from "./getRepoRootEntries";
+import { resolveVerifyMode } from "./resolveVerifyMode";
+import { selectEntriesForMode } from "./selectEntriesForMode";
 
 function buildFullCommand(command: string, args?: string[]): string {
 	return [shellQuote(command), ...(args ?? []).map(shellQuote)].join(" ");
@@ -43,7 +45,7 @@ function normalizeRoot(root: string): string {
 	return path.posix.normalize(root.replaceAll("\\", "/")).replace(/\/+$/, "");
 }
 
-export function resolveEntries(): VerifyEntry[] {
+function collectEntries(): VerifyEntry[] {
 	const roots = (loadConfig().verify?.roots ?? []).map(normalizeRoot);
 	if (roots.length === 0) {
 		return [...getRunEntries(), ...getPackageJsonEntries()];
@@ -54,4 +56,8 @@ export function resolveEntries(): VerifyEntry[] {
 		...getRootEntries(baseDir, roots),
 		...getRepoRootEntries(baseDir, roots),
 	];
+}
+
+export function resolveEntries(): VerifyEntry[] {
+	return selectEntriesForMode(collectEntries(), resolveVerifyMode());
 }

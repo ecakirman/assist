@@ -80,3 +80,60 @@ describe("resolveEntries with verify.roots", () => {
 		expect(resolveEntries().map((e) => e.name)).toEqual(["verify:format"]);
 	});
 });
+
+describe("resolveEntries with :fix pairs", () => {
+	const cwd = process.cwd();
+
+	beforeEach(() => {
+		baseDir = fs.mkdtempSync(path.join(os.tmpdir(), "verify-pairs-"));
+		writePackageJson(".", {
+			"verify:format": "biome",
+			"verify:format:fix": "biome --write",
+		});
+		writePackageJson("coach-tools", {
+			"verify:lint": "eslint",
+			"verify:lint:fix": "eslint --fix",
+		});
+		vi.stubEnv("CI", "");
+		vi.stubEnv("VERIFY_MODE", "");
+	});
+
+	afterEach(() => {
+		process.chdir(cwd);
+		vi.unstubAllEnvs();
+		fs.rmSync(baseDir, { recursive: true, force: true });
+	});
+
+	const run = [
+		{ name: "verify:build", command: "tsc" },
+		{ name: "verify:build:fix", command: "tsc" },
+	];
+
+	it("merges run, root and repo-root pairs to the :fix variant in fix mode", () => {
+		mockLoadConfig.mockReturnValue({ run, verify: { roots: ["coach-tools"] } });
+
+		expect(resolveEntries().map((e) => e.name)).toEqual([
+			"verify:build:fix",
+			"coach-tools:verify:lint:fix",
+			"verify:format:fix",
+		]);
+	});
+
+	it("merges run, root and repo-root pairs to the base in check mode", () => {
+		vi.stubEnv("CI", "true");
+		mockLoadConfig.mockReturnValue({ run, verify: { roots: ["coach-tools"] } });
+
+		expect(resolveEntries().map((e) => e.name)).toEqual([
+			"verify:build",
+			"coach-tools:verify:lint",
+			"verify:format",
+		]);
+	});
+
+	it("merges pairs from the nearest package.json", () => {
+		mockLoadConfig.mockReturnValue({});
+		process.chdir(path.join(baseDir, "coach-tools"));
+
+		expect(resolveEntries().map((e) => e.name)).toEqual(["verify:lint:fix"]);
+	});
+});
