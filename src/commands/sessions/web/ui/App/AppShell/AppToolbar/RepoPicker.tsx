@@ -26,13 +26,15 @@ export function RepoPicker({
 			<DropdownWrapper
 				label={selected ? repoName(selected) : "Select repo..."}
 				tooltip={<ChordTooltipTitle label="Repo" chords={chords} />}
+				typeToOpen
 			>
-				{(close) => (
+				{(close, initialFilter) => (
 					<RepoList
 						repos={repos}
 						selected={selected}
 						onSelect={onSelect}
 						close={close}
+						initialFilter={initialFilter}
 					/>
 				)}
 			</DropdownWrapper>

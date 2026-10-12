@@ -20,13 +20,15 @@ export function RepoList({
 	selected,
 	onSelect,
 	close,
+	initialFilter = "",
 }: {
 	repos: string[];
 	selected: string;
 	onSelect: (cwd: string) => void;
 	close: () => void;
+	initialFilter?: string;
 }) {
-	const [filter, setFilter] = useState("");
+	const [filter, setFilter] = useState(initialFilter);
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
