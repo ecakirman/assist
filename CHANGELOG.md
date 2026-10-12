@@ -1,3 +1,10 @@
+# [0.812.0](https://github.com/staff0rd/assist/compare/v0.811.0...v0.812.0) (2026-10-12)
+
+
+### Features
+
+* verify diffs against merge-base ([5c80899](https://github.com/staff0rd/assist/commit/5c8089901e8524df31382f9cca2904864f4c0d65))
+
 # [0.811.0](https://github.com/staff0rd/assist/compare/v0.810.0...v0.811.0) (2026-10-12)
 
 
