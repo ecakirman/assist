@@ -56,6 +56,13 @@ vi.mock("../../shared/loadConfig", async () =>
 
 const mockLoadConfig = vi.mocked(loadConfig);
 
+const mockRequestAssistSession = vi.fn();
+
+vi.mock("../sessions/shared/requestAssistSession", () => ({
+	requestAssistSession: (...args: unknown[]) =>
+		mockRequestAssistSession(...args),
+}));
+
 vi.mock("../sessions/shared/requestPreviewDecision", () => ({
 	requestPreviewDecision: (...args: unknown[]) =>
 		mockRequestPreviewDecision(...args),
@@ -104,6 +111,7 @@ beforeEach(async () => {
 	claudeCode = false;
 	process.exitCode = undefined;
 	mockRequestPreviewDecision.mockReset();
+	mockRequestAssistSession.mockReset();
 	logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 	delete process.env.ASSIST_SESSION;
 	delete process.env.ASSIST_SESSION_ID;
@@ -191,6 +199,7 @@ describe("propose inside a web session", () => {
 				title: "Preview never opens",
 				kind: "backlog-item",
 				itemType: "bug",
+				canStart: true,
 				prNumber: null,
 			}),
 		);
@@ -223,6 +232,51 @@ describe("propose inside a web session", () => {
 				.from(itemSubtasks)
 				.where(eq(itemSubtasks.itemId, item.id)),
 		).toEqual([{ title: "Write tests" }]);
+	});
+
+	it("starts no run on a plain approval", async () => {
+		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
+
+		await propose({ json: writePayload(bug) });
+
+		expect(await allItems()).toHaveLength(1);
+		expect(mockRequestAssistSession).not.toHaveBeenCalled();
+	});
+
+	it("starts a backlog run for the new item on Approve & start", async () => {
+		mockRequestPreviewDecision.mockResolvedValue({
+			decision: "approve",
+			autostart: true,
+		});
+		mockRequestAssistSession.mockResolvedValue("8");
+
+		await propose({ json: writePayload(bug) });
+
+		const [item] = await allItems();
+		expect(mockRequestAssistSession).toHaveBeenCalledWith(
+			["backlog", "run", `a${item.id}`],
+			process.cwd(),
+		);
+		expect(logSpy.mock.calls.map((c) => c.join(" ")).join("\n")).toContain(
+			`Started a backlog run session for a${item.id}.`,
+		);
+	});
+
+	it("keeps the item and warns when the run fails to start", async () => {
+		const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+		mockRequestPreviewDecision.mockResolvedValue({
+			decision: "approve",
+			autostart: true,
+		});
+		mockRequestAssistSession.mockRejectedValue(new Error("daemon down"));
+
+		await propose({ json: writePayload(bug) });
+
+		expect(await allItems()).toHaveLength(1);
+		expect(errorSpy.mock.calls.map((c) => c.join(" ")).join("\n")).toContain(
+			"Warning: could not start a backlog run session",
+		);
+		expect(process.exitCode).toBeUndefined();
 	});
 
 	it("renders the plan in the previewed body", async () => {

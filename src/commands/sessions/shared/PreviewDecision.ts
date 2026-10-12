@@ -27,6 +27,7 @@ export type PreviewDecisionFields = {
 	announceAfter?: boolean;
 	draft?: boolean;
 	autoMerge?: boolean;
+	autostart?: boolean;
 	selection?: PreviewSelection;
 	checklist?: PreviewChecklistItem[];
 };

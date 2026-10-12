@@ -18,9 +18,11 @@ export type PrPreviewFooterProps = {
 	onDecision: (
 		decision: "approve" | "reject",
 		comments: PrPreviewComment[],
+		autostart?: boolean,
 	) => void;
 	chain?: PrPreviewChain | undefined;
 	editable: boolean;
 	newPr: boolean;
+	canStart: boolean;
 	onChainChange: (chain: PrPreviewChain) => void;
 };

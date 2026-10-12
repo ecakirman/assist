@@ -43,6 +43,12 @@ describe("parsePreviewDecision", () => {
 		});
 	});
 
+	it("reads autostart only when it is exactly true", () => {
+		expect(parsed({ autostart: true }).autostart).toBe(true);
+		expect(parsed({ autostart: "yes" }).autostart).toBe(false);
+		expect(parsed().autostart).toBe(false);
+	});
+
 	describe("the selection field", () => {
 		it("round-trips a picked anchor pair", () => {
 			expect(

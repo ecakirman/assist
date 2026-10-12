@@ -40,6 +40,7 @@ export function usePrDecision(
 	const onDecide = (
 		decision: "approve" | "reject",
 		comments: PrPreviewComment[],
+		autostart = false,
 	) => {
 		const approved = decision === "approve";
 		clearPersistedComments(requestId);
@@ -47,16 +48,16 @@ export function usePrDecision(
 			clearPersistedPrChain(sessionId);
 			screenshots.clearPersisted();
 		}
-		onDecision(
-			decision,
-			previewDecisionDetails(
+		onDecision(decision, {
+			...previewDecisionDetails(
 				approved,
 				comments,
 				chain,
 				approved ? screenshots.attachments() : [],
 				editedBody(),
 			),
-		);
+			...(approved && autostart ? { autostart: true } : {}),
+		});
 	};
 
 	return { chain, setChain: chooseChain, onDecide };

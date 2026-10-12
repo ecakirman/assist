@@ -10,6 +10,7 @@ export type PrDecisionDetails = PrPreviewChain & {
 	comments: PrPreviewComment[];
 	screenshots: PreviewAttachment[];
 	body?: string;
+	autostart?: boolean;
 	selection?: PreviewSelection;
 	checklist?: PreviewChecklistItem[];
 };

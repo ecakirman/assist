@@ -19,6 +19,7 @@ export function PrPreviewFooter({
 	chain,
 	editable,
 	newPr,
+	canStart,
 	onChainChange,
 }: PrPreviewFooterProps) {
 	return (
@@ -33,8 +34,10 @@ export function PrPreviewFooter({
 				commentCount={comments.length}
 				chain={chain}
 				newPr={newPr}
+				canStart={canStart}
 				onChainChange={onChainChange}
 				onApprove={() => onDecision("approve", [])}
+				onApproveAndStart={() => onDecision("approve", [], true)}
 				onReject={() => onDecision("reject", [])}
 				onRequestChanges={() =>
 					onDecision(

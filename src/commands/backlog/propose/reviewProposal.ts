@@ -6,15 +6,17 @@ import { awaitPreviewApproval } from "../../sessions/shared/awaitPreviewApproval
 import type { ProposedItem } from "./proposedItemSchema";
 import { renderProposedItem } from "./renderProposedItem";
 
+type ProposalApproval = { autostart: boolean };
+
 export async function reviewProposal(
 	item: ProposedItem,
 	sessionId: string | undefined,
 	confirmed: boolean,
-): Promise<boolean> {
+): Promise<ProposalApproval | null> {
 	const body = renderProposedItem(item);
 
 	if (sessionId) {
-		await awaitPreviewApproval("Backlog item preview", {
+		const decision = await awaitPreviewApproval("Backlog item preview", {
 			sessionId,
 			requestId: randomUUID(),
 			title: item.name,
@@ -22,21 +24,22 @@ export async function reviewProposal(
 			prNumber: null,
 			kind: "backlog-item",
 			itemType: item.type,
+			canStart: true,
 		});
-		return true;
+		return { autostart: decision.autostart === true };
 	}
 
-	if (isClaudeCode() && confirmed) return true;
+	if (isClaudeCode() && confirmed) return { autostart: false };
 
 	console.log(chalk.bold(item.name));
 	console.log(renderMarkdownTerminal(body));
 
-	if (!isClaudeCode()) return true;
+	if (!isClaudeCode()) return { autostart: false };
 
 	console.log(
 		chalk.yellow(
 			"Draft only — nothing was written to the backlog. Show this draft in the chat, apply any changes the user asks for, then re-run 'assist backlog propose --json <file|->' with --confirmed to create the item.",
 		),
 	);
-	return false;
+	return null;
 }

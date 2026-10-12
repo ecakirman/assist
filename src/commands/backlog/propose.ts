@@ -4,6 +4,7 @@ import { ensureRemoteOrigin } from "./ensureRemoteOrigin";
 import { formatItemId } from "./formatItemId";
 import { readProposedItem } from "./propose/readProposedItem";
 import { reviewProposal } from "./propose/reviewProposal";
+import { startProposedRun } from "./propose/startProposedRun";
 
 type ProposeOptions = {
 	json: string;
@@ -30,9 +31,14 @@ export async function propose(options: ProposeOptions): Promise<void> {
 
 	const item = await readProposedItem(options.json);
 
-	if (!(await reviewProposal(item, sessionId, options.confirmed === true)))
-		return;
+	const approval = await reviewProposal(
+		item,
+		sessionId,
+		options.confirmed === true,
+	);
+	if (!approval) return;
 
 	const id = await createItemWithDefaults(item);
 	console.log(chalk.green(`Added item ${formatItemId(id)}: ${item.name}`));
+	if (approval.autostart) await startProposedRun(id);
 }

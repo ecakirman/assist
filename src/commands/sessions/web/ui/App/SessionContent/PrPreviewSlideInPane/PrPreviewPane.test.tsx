@@ -895,6 +895,43 @@ describe("PrPreviewPane inline comments", () => {
 			expect(screen.getByText("Story")).toBeTruthy();
 		});
 
+		it("offers no Approve & start without the canStart marker", () => {
+			render(<PrPreviewPane preview={item} onDecision={vi.fn()} />);
+
+			expect(
+				screen.queryByRole("button", { name: "Approve & start" }),
+			).toBeNull();
+		});
+
+		it("Approve & start sends autostart on a startable preview", () => {
+			const onDecision = vi.fn();
+			render(
+				<PrPreviewPane
+					preview={{ ...item, canStart: true }}
+					onDecision={onDecision}
+				/>,
+			);
+
+			fireEvent.click(screen.getByRole("button", { name: "Approve & start" }));
+			expect(onDecision).toHaveBeenCalledWith(
+				"approve",
+				expect.objectContaining({ autostart: true }),
+			);
+		});
+
+		it("plain Approve on a startable preview sends no autostart", () => {
+			const onDecision = vi.fn();
+			render(
+				<PrPreviewPane
+					preview={{ ...item, canStart: true }}
+					onDecision={onDecision}
+				/>,
+			);
+
+			fireEvent.click(screen.getByRole("button", { name: "Approve" }));
+			expect(onDecision.mock.calls[0][1]).not.toHaveProperty("autostart");
+		});
+
 		it("offers no screenshot UI and ignores a pasted image", async () => {
 			const fetchMock = vi.fn();
 			vi.stubGlobal("fetch", fetchMock);

@@ -25,7 +25,7 @@ export function decidePrPreview(
 		: 0;
 	const checklistCount = Array.isArray(d.checklist) ? d.checklist.length : 0;
 	daemonLog(
-		`pr-decision received: id=${id} requestId=${requestId} decision=${d.decision} comments=${commentCount} screenshots=${screenshotCount} checklist=${checklistCount} reviewAfter=${d.reviewAfter === true} announceAfter=${d.announceAfter === true} draft=${d.draft} autoMerge=${d.autoMerge === true}`,
+		`pr-decision received: id=${id} requestId=${requestId} decision=${d.decision} comments=${commentCount} screenshots=${screenshotCount} checklist=${checklistCount} reviewAfter=${d.reviewAfter === true} announceAfter=${d.announceAfter === true} draft=${d.draft} autoMerge=${d.autoMerge === true} autostart=${d.autostart === true}`,
 	);
 	const waiter = waiters.get(id);
 	if (waiter)
@@ -41,6 +41,7 @@ export function decidePrPreview(
 			announceAfter: d.announceAfter,
 			draft: d.draft,
 			autoMerge: d.autoMerge,
+			autostart: d.autostart,
 			checklist: d.checklist,
 		});
 	waiters.delete(id);

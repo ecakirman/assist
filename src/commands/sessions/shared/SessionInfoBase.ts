@@ -38,6 +38,7 @@ export type PrPreview = {
 	prNumber: number | null;
 	kind?: PreviewKind;
 	itemType?: PreviewItemType;
+	canStart?: boolean;
 	draft?: boolean;
 	metadata?: PreviewMetadata[];
 	screenshots?: PreviewAttachment[];

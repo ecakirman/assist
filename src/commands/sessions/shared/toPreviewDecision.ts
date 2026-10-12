@@ -37,6 +37,7 @@ export function toPreviewDecision(
 		announceAfter: msg.announceAfter === true,
 		draft: typeof msg.draft === "boolean" ? msg.draft : undefined,
 		autoMerge: msg.autoMerge === true,
+		autostart: msg.autostart === true,
 		selection: toSelection(msg.selection),
 		checklist: toChecklist(msg.checklist),
 	};

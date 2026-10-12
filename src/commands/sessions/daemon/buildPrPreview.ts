@@ -20,6 +20,7 @@ export function buildPrPreview(
 					? "bug"
 					: "story"
 				: undefined,
+		canStart: kind === "backlog-item" && d.canStart === true ? true : undefined,
 		draft: kind === "pr" && prNumber === null ? draft : undefined,
 		metadata: parsePreviewMetadata(d.metadata),
 		screenshots: kind === "pr" ? toAttachments(d.screenshots) : undefined,

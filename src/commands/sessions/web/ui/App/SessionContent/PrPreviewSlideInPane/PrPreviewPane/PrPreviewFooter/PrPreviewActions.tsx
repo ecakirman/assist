@@ -6,16 +6,20 @@ export function PrPreviewActions({
 	commentCount,
 	chain,
 	newPr,
+	canStart,
 	onChainChange,
 	onApprove,
+	onApproveAndStart,
 	onReject,
 	onRequestChanges,
 }: {
 	commentCount: number;
 	chain?: PrPreviewChain;
 	newPr: boolean;
+	canStart: boolean;
 	onChainChange: (chain: PrPreviewChain) => void;
 	onApprove: () => void;
+	onApproveAndStart: () => void;
 	onReject: () => void;
 	onRequestChanges: () => void;
 }) {
@@ -40,9 +44,18 @@ export function PrPreviewActions({
 					Request changes ({commentCount})
 				</Button>
 			)}
-			<Button color="success" variant="contained" onClick={onApprove}>
+			<Button
+				color="success"
+				variant={canStart ? "outlined" : "contained"}
+				onClick={onApprove}
+			>
 				Approve
 			</Button>
+			{canStart && (
+				<Button color="success" variant="contained" onClick={onApproveAndStart}>
+					Approve & start
+				</Button>
+			)}
 		</Stack>
 	);
 }

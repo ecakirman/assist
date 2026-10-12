@@ -115,6 +115,38 @@ describe("PrPreviewCoordinator", () => {
 		});
 	});
 
+	it("keeps the canStart marker only on a backlog-item preview", () => {
+		const sessions = makeSessions("1", "2");
+		const coord = new PrPreviewCoordinator(sessions, vi.fn());
+
+		coord.set(makeClient(), {
+			...previewMsg("1", "r1"),
+			kind: "backlog-item",
+			canStart: true,
+		});
+		coord.set(makeClient(), { ...previewMsg("2", "r2"), canStart: true });
+
+		expect(sessions.get("1")?.pendingPrPreview?.canStart).toBe(true);
+		expect(sessions.get("2")?.pendingPrPreview?.canStart).toBeUndefined();
+	});
+
+	it("forwards the autostart choice to the waiting client", () => {
+		const sessions = makeSessions("1");
+		const coord = new PrPreviewCoordinator(sessions, vi.fn());
+		const client = makeClient();
+		coord.set(client, previewMsg("1", "r1"));
+
+		coord.decide({
+			type: "pr-decision",
+			sessionId: "1",
+			requestId: "r1",
+			decision: "approve",
+			autostart: true,
+		});
+
+		expect(client.sent.at(-1)).toMatchObject({ autostart: true });
+	});
+
 	it("forwards inline comments to the waiting client on rejection", () => {
 		const sessions = makeSessions("1");
 		const coord = new PrPreviewCoordinator(sessions, vi.fn());
