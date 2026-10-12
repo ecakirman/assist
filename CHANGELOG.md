@@ -1,3 +1,10 @@
+# [0.810.0](https://github.com/staff0rd/assist/compare/v0.809.0...v0.810.0) (2026-10-12)
+
+
+### Features
+
+* type to filter repo picker ([40291c3](https://github.com/staff0rd/assist/commit/40291c3066666013a1fd63fd2e6efaeebc61c3c4))
+
 # [0.809.0](https://github.com/staff0rd/assist/compare/v0.808.0...v0.809.0) (2026-10-12)
 
 
