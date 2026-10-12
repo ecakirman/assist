@@ -1,3 +1,10 @@
+## [0.812.1](https://github.com/staff0rd/assist/compare/v0.812.0...v0.812.1) (2026-10-12)
+
+
+### Bug Fixes
+
+* render ungrouped screenshots plainly ([7d176a5](https://github.com/staff0rd/assist/commit/7d176a5dc40df2c8e261a6f9584408c47591f64b))
+
 # [0.812.0](https://github.com/staff0rd/assist/compare/v0.811.0...v0.812.0) (2026-10-12)
 
 
