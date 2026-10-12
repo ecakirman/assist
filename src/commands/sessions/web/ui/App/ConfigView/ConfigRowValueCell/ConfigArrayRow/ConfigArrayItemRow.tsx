@@ -36,7 +36,12 @@ export function ConfigArrayItemRow({ entry, node, index, editor }: Props) {
 					repoKey={entry.repoKey}
 					repoSource={entry.repoSource}
 				/>
-				<ConfigArrayItemActions entry={entry} index={index} editor={editor} />
+				<ConfigArrayItemActions
+					entry={entry}
+					node={node}
+					index={index}
+					editor={editor}
+				/>
 			</Box>
 			{open && (
 				<ConfigArrayItemWriteActions

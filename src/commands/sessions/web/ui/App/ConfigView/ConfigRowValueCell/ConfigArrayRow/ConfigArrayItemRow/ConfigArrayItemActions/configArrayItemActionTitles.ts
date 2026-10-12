@@ -3,6 +3,7 @@ import type { ConfigScope } from "../../../saveConfigValue";
 
 type Options = {
 	label: string;
+	summary: string;
 	ownerScope: ConfigScope | undefined;
 	repoKey: string | undefined;
 	globalConfigFile?: string;
@@ -15,10 +16,12 @@ type ConfigArrayItemActionTitles = {
 	moveUp: string;
 	moveDown: string;
 	remove: string;
+	removeConfirm: string;
 };
 
 export function configArrayItemActionTitles({
 	label,
+	summary,
 	ownerScope,
 	repoKey,
 	globalConfigFile,
@@ -32,6 +35,7 @@ export function configArrayItemActionTitles({
 			moveUp: unowned,
 			moveDown: unowned,
 			remove: unowned,
+			removeConfirm: unowned,
 		};
 	}
 
@@ -44,5 +48,6 @@ export function configArrayItemActionTitles({
 		moveUp: canMoveUp ? `Move ${label} up in ${where}` : edge("first"),
 		moveDown: canMoveDown ? `Move ${label} down in ${where}` : edge("last"),
 		remove: `Remove ${label} from ${where}`,
+		removeConfirm: `Remove "${summary}" (${label}) from ${where}?`,
 	};
 }

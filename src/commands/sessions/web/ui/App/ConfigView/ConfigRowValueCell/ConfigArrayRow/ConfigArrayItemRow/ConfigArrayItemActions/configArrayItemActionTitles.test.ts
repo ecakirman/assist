@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { configArrayItemActionTitles } from "./configArrayItemActionTitles";
 
-const base = { label: "run[1]", repoKey: "assist" };
+const base = { label: "run[1]", summary: "build", repoKey: "assist" };
 
 describe("configArrayItemActionTitles", () => {
 	it("names the file an item moves and is removed within", () => {
@@ -18,6 +18,8 @@ describe("configArrayItemActionTitles", () => {
 			moveUp: "Move run[1] up in repos.assist in the shared db (all nodes)",
 			moveDown: "Move run[1] down in repos.assist in the shared db (all nodes)",
 			remove: "Remove run[1] from repos.assist in the shared db (all nodes)",
+			removeConfirm:
+				'Remove "build" (run[1]) from repos.assist in the shared db (all nodes)?',
 		});
 	});
 
