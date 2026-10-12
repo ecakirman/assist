@@ -25,14 +25,15 @@ export function PlayAction({
 	const [launched, setLaunched] = useState(false);
 	if (target.kind === "clone")
 		return <CloneOnNodeButton target={target.prompt} />;
+	if (inFlight) return <InFlightSessionButton session={inFlight} />;
 	const unavailableOn = target.kind === "unavailable" ? target.node : undefined;
-	const disabled = launched || inFlight !== undefined || !!unavailableOn;
+	const disabled = launched || !!unavailableOn;
 	const launch = (harnessArgs: string[]) => {
 		if (disabled || target.kind !== "ready") return;
 		setLaunched(true);
 		launchBuild(launchAssist, itemId, target, harnessArgs);
 	};
-	const tooltip = playTooltip(inFlight !== undefined, unavailableOn);
+	const tooltip = playTooltip(unavailableOn);
 	if (compact)
 		return (
 			<PlayButton
@@ -44,7 +45,6 @@ export function PlayAction({
 				}}
 			/>
 		);
-	if (inFlight) return <InFlightSessionButton session={inFlight} />;
 	return (
 		<BuildSplitButton
 			tooltip={tooltip}

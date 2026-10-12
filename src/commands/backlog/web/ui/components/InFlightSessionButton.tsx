@@ -11,7 +11,10 @@ export function InFlightSessionButton({ session }: { session: SessionInfo }) {
 			variant="contained"
 			size="small"
 			startIcon={<TerminalIcon />}
-			onClick={() => activate(session.id)}
+			onClick={(event) => {
+				event.stopPropagation();
+				activate(session.id);
+			}}
 		>
 			Session {session.id}
 		</Button>

@@ -20,7 +20,12 @@ function renderPlay(
 	{
 		compact = false,
 		selectSession = () => {},
-	}: { compact?: boolean; selectSession?: (id: string) => void } = {},
+		onCardClick = () => {},
+	}: {
+		compact?: boolean;
+		selectSession?: (id: string) => void;
+		onCardClick?: () => void;
+	} = {},
 ) {
 	return render(
 		<MemoryRouter initialEntries={["/backlog"]}>
@@ -34,7 +39,9 @@ function renderPlay(
 							armUpdateReload: () => {},
 						}}
 					>
-						<PlayAction itemId={775} compact={compact} />
+						<div onClick={onCardClick}>
+							<PlayAction itemId={775} compact={compact} />
+						</div>
 						<LocationProbe />
 					</SessionLaunchContext.Provider>
 				</SelectSessionContext.Provider>
@@ -86,16 +93,21 @@ describe("PlayAction", () => {
 		expect(screen.queryByRole("button", { name: "Session 4" })).toBeNull();
 	});
 
-	it("keeps the compact play button disabled while a run is live", () => {
-		const launchAssist = vi.fn();
-		renderPlay(launchAssist, [liveRun], { compact: true });
+	it("swaps the compact play button for the session link without opening the card", () => {
+		const selectSession = vi.fn();
+		const onCardClick = vi.fn();
+		renderPlay(vi.fn(), [liveRun], {
+			compact: true,
+			selectSession,
+			onCardClick,
+		});
 
-		const button = screen.getByRole("button", { name: "Build" });
-		expect(button.hasAttribute("disabled")).toBe(true);
-		expect(screen.queryByRole("button", { name: "Session 4" })).toBeNull();
-		fireEvent.click(button);
+		expect(screen.queryByRole("button", { name: "Build" })).toBeNull();
+		fireEvent.click(screen.getByRole("button", { name: "Session 4" }));
 
-		expect(launchAssist).not.toHaveBeenCalled();
+		expect(selectSession).toHaveBeenCalledWith("4");
+		expect(screen.getByTestId("location").textContent).toBe("/sessions");
+		expect(onCardClick).not.toHaveBeenCalled();
 	});
 
 	it("stays available while another item is running", () => {
