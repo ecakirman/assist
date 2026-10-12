@@ -1,3 +1,10 @@
+# [0.815.0](https://github.com/staff0rd/assist/compare/v0.814.0...v0.815.0) (2026-10-12)
+
+
+### Features
+
+* list queued changes by PR ([dbed397](https://github.com/staff0rd/assist/commit/dbed397bdd1c39c8a552395ea37372fafa32f186))
+
 # [0.814.0](https://github.com/staff0rd/assist/compare/v0.813.0...v0.814.0) (2026-10-12)
 
 
