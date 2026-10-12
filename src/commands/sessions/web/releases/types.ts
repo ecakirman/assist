@@ -47,3 +47,10 @@ export type ReleaseStreamState = {
 	run: ReleaseRunState | null;
 	error?: string;
 };
+
+export type ReleaseCompareCommit = ReleaseCommit & { date: string | null };
+
+export type ReleaseCompare = {
+	total: number;
+	commits: ReleaseCompareCommit[];
+};

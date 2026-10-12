@@ -20,6 +20,7 @@ export function ReleaseNodeFacts({
 				<ReleaseQueuedLine
 					repo={repo}
 					environment={node.environment}
+					live={node.live}
 					commit={node.queued}
 				/>
 			)}

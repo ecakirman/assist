@@ -20,6 +20,7 @@ restructure:
     - SessionCard
     - PrPreviewSlideInPane
     - ConfigRowValueCell
+    - ReleaseQueuedDiff
 worktree:
   watcher: true
 run:

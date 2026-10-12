@@ -33,6 +33,7 @@ import { prList } from "./prList";
 import { proxyToNode } from "./proxyToNode";
 import { previewImage } from "./previewImage";
 import { prStatus } from "./prStatus";
+import { releasesCompare } from "./releases/releasesCompare";
 import { releasesConfigured } from "./releases/releasesConfigured";
 import { releasesState } from "./releases/releasesState";
 import { restartWeb } from "./restartWeb";
@@ -114,6 +115,7 @@ const routes: Record<string, Handler> = {
 	"GET /api/news/nav": newsNavConfig,
 	"GET /api/releases/state": releasesState,
 	"GET /api/releases/configured": releasesConfigured,
+	"GET /api/releases/compare": releasesCompare,
 	"GET /api/usage/history": listUsageHistory,
 	"GET /api/usage/items": listUsageItems,
 	"GET /api/backups/list": getBackups,
