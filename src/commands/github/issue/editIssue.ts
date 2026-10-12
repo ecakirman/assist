@@ -1,21 +1,19 @@
-import { readBodyArgument } from "../../prs/readBodyArgument";
 import { inWebSession } from "../../sessions/shared/inWebSession";
-import { prepareIssueEdit } from "./prepareIssueEdit";
-import { pushUnchangedIssue } from "./pushUnchangedIssue";
-import { reviewProposedIssueEdit } from "./reviewProposedIssueEdit";
+import { fetchIssueToWorkingFile } from "./fetchIssueToWorkingFile";
+import { previewIssueEdit } from "./previewIssueEdit";
 import { setIssueParent } from "./setIssueParent";
-import { validateIssueBody } from "./validateIssueBody";
 import { viewIssue } from "./viewIssue";
 
 type EditIssueOptions = {
 	repo?: string;
 	fresh?: boolean;
+	fetch?: boolean;
 	body?: string;
 	parent?: string;
 };
 
 const USAGE =
-	"Usage: assist github issue edit <number> [-R <owner>/<repo>] [--body <body>] [--parent <issue>]";
+	"Usage: assist github issue edit <number> [-R <owner>/<repo>] [--body <body>] [--fetch] [--parent <issue>]";
 
 export async function editIssue(
 	numberArg: string,
@@ -32,27 +30,15 @@ export async function editIssue(
 		return;
 	}
 
+	if (options.fetch) {
+		fetchIssueToWorkingFile(number, options.repo);
+		return;
+	}
+
 	if (!inWebSession()) {
 		viewIssue(number, options.repo);
 		return;
 	}
 
-	const proposed = options.body
-		? await readBodyArgument(options.body)
-		: undefined;
-	const issue = prepareIssueEdit(number, options.repo, options.fresh, proposed);
-	const edited = await reviewProposedIssueEdit(
-		`Edit ${issue.target}: ${issue.title}`,
-		issue.body,
-		{ path: issue.bodyPath, save: issue.save },
-	);
-	validateIssueBody(issue.title, edited);
-
-	pushUnchangedIssue(
-		number,
-		options.repo,
-		issue.target,
-		issue.updatedAt,
-		issue.bodyPath,
-	);
+	await previewIssueEdit(number, options.repo, options.fresh, options.body);
 }

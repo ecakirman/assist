@@ -2,6 +2,7 @@ import { fetchIssue } from "./fetchIssue";
 import { resumeIssueBody } from "./resumeIssueBody";
 import { validateIssueBody } from "./validateIssueBody";
 import { writeIssueWorkingFile } from "./writeIssueWorkingFile";
+import { slugFromUrl } from "./slugFromUrl";
 
 type PreparedIssueEdit = {
 	title: string;
@@ -11,11 +12,6 @@ type PreparedIssueEdit = {
 	bodyPath: string;
 	save: (markdown: string) => string;
 };
-
-function slugFromUrl(url: string | undefined): string {
-	const match = /github\.com\/([^/]+\/[^/]+)\//.exec(url ?? "");
-	return match ? match[1] : "unknown/unknown";
-}
 
 export function prepareIssueEdit(
 	number: number,

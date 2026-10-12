@@ -30,7 +30,7 @@ const PATTERN_DENIES: {
 	{
 		pattern: "gh issue edit",
 		message:
-			"Do not run 'gh issue edit' directly. Use 'assist github issue edit <number> [-R <owner>/<repo>] [--body <body>]' instead — it opens the body in the assist web preview pane and pushes nothing back until the user approves it. When you already know the body you want, pass it with --body (--body - reads stdin) so the first preview shows your proposal; without --body the pane shows the issue's current body. Run 'assist github issue edit --help' for how the working file and the preview pane fit together; it is authoritative on how approval is handled in this environment.",
+			"Do not run 'gh issue edit' directly. Use 'assist github issue edit <number> [-R <owner>/<repo>] [--body <body>]' instead — it opens the body in the assist web preview pane and pushes nothing back until the user approves it. When you already know the body you want, pass it with --body (--body - reads stdin) so the first preview shows your proposal; without --body the pane shows the issue's current body. To make a targeted change to the current body, run it with --fetch first, which writes that body to a working file and prints its path without opening a preview; edit the file, then re-run without --fetch so the first preview shows your revision. Run 'assist github issue edit --help' for how the working file and the preview pane fit together; it is authoritative on how approval is handled in this environment.",
 	},
 	{
 		pattern: "gh issue comment",

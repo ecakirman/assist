@@ -449,6 +449,35 @@ describe("editIssue resume", () => {
 		expect(previewedBody()).toBe("# History\n\nlots of noise");
 	});
 
+	it("writes the current body to the working file with --fetch, without previewing", async () => {
+		webSession();
+		seedWorkingFile(REVISED, FETCHED_AT);
+
+		await editIssue("42", { repo: "acme/widgets", fetch: true });
+
+		expect(readFileSync(workingBodyPath(), "utf8")).toBe(
+			"# History\n\nlots of noise",
+		);
+		expect(console.log).toHaveBeenCalledWith(
+			expect.stringContaining(workingBodyPath()),
+		);
+		expect(mockRequestPreviewDecision).not.toHaveBeenCalled();
+		expect(ghCalls("edit")).toHaveLength(0);
+	});
+
+	it("previews only the revision of a fetched body on the next run", async () => {
+		webSession();
+		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
+
+		await editIssue("42", { fetch: true });
+		writeFileSync(workingBodyPath(), REVISED);
+		await editIssue("42", {});
+
+		expect(mockRequestPreviewDecision).toHaveBeenCalledTimes(1);
+		expect(previewedBody()).toBe(REVISED);
+		expect(ghCalls("edit")).toHaveLength(1);
+	});
+
 	it("keeps the collapses from a Request changes on the next run", async () => {
 		webSession();
 		vi.spyOn(console, "error").mockImplementation(() => {});
