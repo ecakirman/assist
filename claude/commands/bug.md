@@ -108,7 +108,7 @@ assist backlog add-activity a<id> slack "<permalink>" --url "<permalink>" --titl
 
 Use the same permalink verbatim for both the ref and `--url`, and the item's name for `--title`. If no Slack thread was referenced, skip this step.
 
-Then show the user the item was created and suggest they can run `assist backlog run a<id>` to start implementation.
+Then show the user the item was created. If `propose` printed `Started a backlog run session for a<id>.`, the user chose **Approve & start** and implementation is already running — say so, and do not suggest running it. Otherwise suggest they can run `assist backlog run a<id>` to start implementation.
 
 Finally, signal that the bug-filing task is complete, passing the created item id (a-prefixed, e.g. `a555`):
 

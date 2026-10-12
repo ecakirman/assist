@@ -167,7 +167,7 @@ Backlog item ids are written in an `a`-prefixed form (e.g. item 555 is `a555`) t
 - `assist backlog list [--status <type>] [-a, --all] [--all-repos] [-v]` - List backlog items (alias: `ls`; also `assist list` / `assist ls`)
 - `assist backlog add` - Add a new backlog item interactively (human CLI use only; agents must use `propose`)
 - `assist backlog add --name <n> --type <t> --desc <d> --ac <criterion...>` - Add a backlog item from CLI options
-- `assist backlog propose --json <file|-> [--confirmed]` - Create an agent-authored item from a JSON payload, previewed for approval in a web session; outside one, `--confirmed` writes it. See [docs/backlog-item-preview.md](docs/backlog-item-preview.md)
+- `assist backlog propose --json <file|-> [--confirmed]` - Create an agent-authored item from a JSON payload, previewed for approval in a web session, where **Approve & start** also launches `assist backlog run a<id>` in a new session; outside one, `--confirmed` writes it. See [docs/backlog-item-preview.md](docs/backlog-item-preview.md)
 - `assist backlog show <id> [--all-commits]` - Display full detail for a backlog item (alias: `view`); `--all-commits` lists every commit
 - `assist backlog plan <id>` - Display the phased plan for a backlog item
 - `assist backlog update-field <id> [--name <n>] [--desc <d>] [--type <t>] [--ac <criterion...>]` - Update fields on a backlog item

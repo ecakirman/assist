@@ -113,3 +113,4 @@ An agent is detected with `isClaudeCode()` — the `CLAUDECODE` environment vari
 - The preview renders exactly the markdown that will be stored, so what the reviewer marked up is what gets written.
 - The backlog preview never carries images.
 - `propose` prints the created item id on success, so the caller can associate trackers, attach activity, and signal completion against it.
+- **Approve & start** (only on a `propose` preview) creates the item, then launches `assist backlog run a<id>` and prints `Started a backlog run session for a<id>.` If the launch fails, the item stays created and `propose` prints a warning without exiting non-zero.
