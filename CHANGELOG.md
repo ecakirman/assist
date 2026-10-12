@@ -1,3 +1,10 @@
+## [0.816.1](https://github.com/staff0rd/assist/compare/v0.816.0...v0.816.1) (2026-10-12)
+
+
+### Bug Fixes
+
+* document verify :fix pairing ([1016d4d](https://github.com/staff0rd/assist/commit/1016d4d69bee55474608ca0ebf173f39aed82872))
+
 # [0.816.0](https://github.com/staff0rd/assist/compare/v0.815.1...v0.816.0) (2026-10-12)
 
 
