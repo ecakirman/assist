@@ -1,9 +1,8 @@
-import DifferenceOutlinedIcon from "@mui/icons-material/DifferenceOutlined";
-import IconButton from "@mui/material/IconButton";
 import Popover from "@mui/material/Popover";
 import { useState } from "react";
 import type { ReleaseCommit } from "../../../releases/types";
 import { ReleaseQueuedCommits } from "./ReleaseQueuedDiff/ReleaseQueuedCommits";
+import { ReleaseQueuedDiffButton } from "./ReleaseQueuedDiff/ReleaseQueuedDiffButton";
 import { releaseQueuedDiffSx } from "./ReleaseQueuedDiff/releaseQueuedDiffSx";
 import { useReleaseCompare } from "./ReleaseQueuedDiff/useReleaseCompare";
 
@@ -12,11 +11,13 @@ export function ReleaseQueuedDiff({
 	environment,
 	live,
 	queued,
+	runUrl,
 }: {
 	repo: string;
 	environment: string | null;
 	live: ReleaseCommit | null;
 	queued: ReleaseCommit;
+	runUrl: string | null;
 }) {
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const open = Boolean(anchorEl);
@@ -25,16 +26,12 @@ export function ReleaseQueuedDiff({
 
 	return (
 		<>
-			<IconButton
-				sx={releaseQueuedDiffSx.button}
-				aria-label={`Show changes queued for ${environment}`}
-				aria-expanded={open}
-				aria-haspopup="dialog"
+			<ReleaseQueuedDiffButton
+				environment={environment}
+				open={open}
 				title={label}
 				onClick={(e) => setAnchorEl(open ? null : e.currentTarget)}
-			>
-				<DifferenceOutlinedIcon sx={releaseQueuedDiffSx.icon} />
-			</IconButton>
+			/>
 			<Popover
 				open={open}
 				anchorEl={anchorEl}
@@ -54,6 +51,7 @@ export function ReleaseQueuedDiff({
 					environment={environment}
 					live={live}
 					queued={queued}
+					runUrl={runUrl}
 					view={view}
 				/>
 			</Popover>

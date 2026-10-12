@@ -12,6 +12,7 @@ export function ReleaseNode({
 	node,
 	repo,
 	defaultBranch,
+	streamRunUrl,
 	layer,
 	dimmed,
 	ringed,
@@ -19,6 +20,7 @@ export function ReleaseNode({
 	node: ReleaseNodeState;
 	repo: string;
 	defaultBranch: string | null;
+	streamRunUrl: string | null;
 	layer: ReleaseLayer;
 	dimmed: boolean;
 	ringed: boolean;
@@ -39,6 +41,7 @@ export function ReleaseNode({
 					node={node}
 					repo={repo}
 					defaultBranch={defaultBranch}
+					streamRunUrl={streamRunUrl}
 				/>
 			)}
 		</Box>

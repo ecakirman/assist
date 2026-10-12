@@ -11,11 +11,13 @@ export function ReleaseQueuedLine({
 	environment,
 	live,
 	commit,
+	runUrl,
 }: {
 	repo: string;
 	environment: string | null;
 	live: ReleaseCommit | null;
 	commit: ReleaseCommit;
+	runUrl: string | null;
 }) {
 	return (
 		<Box sx={releaseFactLineSx}>
@@ -35,6 +37,7 @@ export function ReleaseQueuedLine({
 				environment={environment}
 				live={live}
 				queued={commit}
+				runUrl={runUrl}
 			/>
 		</Box>
 	);

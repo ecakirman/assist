@@ -25,6 +25,7 @@ export type ReleaseNodeState = {
 	deployedAt: string | null;
 	behind: number | null;
 	queued: ReleaseCommit | null;
+	queuedRunUrl: string | null;
 	run: ReleaseRunNodeState | null;
 };
 

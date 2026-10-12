@@ -1,24 +1,25 @@
+import { type CommitNode, releaseCommit } from "./releaseCommit";
 import type { ReleaseCommit } from "./types";
 
 export type LiveDeployment = { commit: ReleaseCommit; at: string };
 
-export type CommitNode = {
-	oid?: string | null;
-	messageHeadline?: string | null;
-	author?: { name?: string | null } | null;
-};
+export type QueuedDeployment = LiveDeployment & { runUrl: string | null };
 
 export type DeploymentNode = {
 	environment: string | null;
 	createdAt: string;
 	commitOid: string | null;
 	commit: CommitNode | null;
-	latestStatus: { state: string; createdAt: string } | null;
+	latestStatus: {
+		state: string;
+		createdAt: string;
+		logUrl?: string | null;
+	} | null;
 };
 
 type DeploymentMaps = {
 	live: Map<string, LiveDeployment>;
-	queued: Map<string, LiveDeployment>;
+	queued: Map<string, QueuedDeployment>;
 };
 
 const NOT_YET_LIVE_STATES = new Set([
@@ -28,22 +29,15 @@ const NOT_YET_LIVE_STATES = new Set([
 	"IN_PROGRESS",
 ]);
 
-export function releaseCommit(
-	sha: string,
-	node: CommitNode | null,
-): ReleaseCommit {
-	return {
-		sha,
-		subject: node?.messageHeadline ?? null,
-		author: node?.author?.name ?? null,
-	};
-}
-
 function entryOf(node: DeploymentNode, sha: string): LiveDeployment {
 	return {
 		commit: releaseCommit(sha, node.commit),
 		at: node.latestStatus?.createdAt ?? node.createdAt,
 	};
+}
+
+function queuedEntryOf(node: DeploymentNode, sha: string): QueuedDeployment {
+	return { ...entryOf(node, sha), runUrl: node.latestStatus?.logUrl ?? null };
 }
 
 function dropAlreadyLive(maps: DeploymentMaps): DeploymentMaps {
@@ -57,7 +51,7 @@ export function deploymentMaps(
 	nodes: (DeploymentNode | null)[],
 ): DeploymentMaps {
 	const live = new Map<string, LiveDeployment>();
-	const queued = new Map<string, LiveDeployment>();
+	const queued = new Map<string, QueuedDeployment>();
 	for (const node of nodes) {
 		const state = node?.latestStatus?.state;
 		if (!node?.environment || !node.commitOid || !state) continue;
@@ -65,7 +59,7 @@ export function deploymentMaps(
 			live.set(node.environment, entryOf(node, node.commitOid));
 			queued.delete(node.environment);
 		} else if (NOT_YET_LIVE_STATES.has(state))
-			queued.set(node.environment, entryOf(node, node.commitOid));
+			queued.set(node.environment, queuedEntryOf(node, node.commitOid));
 	}
 	return dropAlreadyLive({ live, queued });
 }

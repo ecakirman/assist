@@ -8,7 +8,7 @@ export function deploymentsAlias(index: number): string {
 
 function environmentDeployments(environment: string, index: number): string {
 	return `${deploymentsAlias(index)}: deployments(environments:${JSON.stringify([environment])}, last:${DEPLOYMENTS_PER_ENVIRONMENT}, orderBy:{field:CREATED_AT,direction:ASC}){
-      nodes{ environment createdAt commitOid commit{ ${COMMIT_FIELDS} } latestStatus{ state createdAt } }
+      nodes{ environment createdAt commitOid commit{ ${COMMIT_FIELDS} } latestStatus{ state createdAt logUrl } }
     }`;
 }
 

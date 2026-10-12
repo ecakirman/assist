@@ -1,19 +1,19 @@
 import {
-	type CommitNode,
 	type DeploymentNode,
 	deploymentMaps,
 	type LiveDeployment,
-	releaseCommit,
+	type QueuedDeployment,
 } from "./deploymentMaps";
 import { deploymentsAlias, deploymentsQuery } from "./deploymentsQuery";
 import { ghJson } from "./ghJson";
+import { type CommitNode, releaseCommit } from "./releaseCommit";
 import type { ReleaseCommit } from "./types";
 
 export type RepoDeployments = {
 	defaultBranch: string | null;
 	head: ReleaseCommit | null;
 	live: Map<string, LiveDeployment>;
-	queued: Map<string, LiveDeployment>;
+	queued: Map<string, QueuedDeployment>;
 };
 
 type DeploymentConnection = { nodes?: (DeploymentNode | null)[] } | null;

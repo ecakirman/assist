@@ -12,6 +12,7 @@ function node(overrides: Partial<ReleaseNodeState> = {}): ReleaseNodeState {
 		deployedAt: "2026-09-18T00:00:00Z",
 		behind: 0,
 		queued: null,
+		queuedRunUrl: null,
 		run: null,
 		...overrides,
 	};

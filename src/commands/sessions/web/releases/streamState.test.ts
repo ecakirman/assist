@@ -79,6 +79,7 @@ describe("streamState", () => {
 			deployedAt: "2026-09-22T00:57:32Z",
 			behind: 3,
 			queued: null,
+			queuedRunUrl: null,
 			run: null,
 		});
 	});
@@ -103,12 +104,24 @@ describe("streamState", () => {
 			live: new Map([
 				["dev", { commit: devCommit, at: "2026-09-22T00:57:32Z" }],
 			]),
-			queued: new Map([["dev", { commit: gated, at: "2026-09-22T02:00:00Z" }]]),
+			queued: new Map([
+				[
+					"dev",
+					{
+						commit: gated,
+						at: "2026-09-22T02:00:00Z",
+						runUrl: "https://github.com/owner/name/actions/runs/7",
+					},
+				],
+			]),
 		});
 
 		const state = await streamState("/repo", stream);
 
 		expect(state.nodes[1]?.queued).toEqual(gated);
+		expect(state.nodes[1]?.queuedRunUrl).toBe(
+			"https://github.com/owner/name/actions/runs/7",
+		);
 	});
 
 	it("attaches the latest run's job state to each node", async () => {

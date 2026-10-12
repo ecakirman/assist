@@ -9,12 +9,14 @@ export function ReleaseQueuedCommits({
 	environment,
 	live,
 	queued,
+	runUrl,
 	view,
 }: {
 	repo: string;
 	environment: string | null;
 	live: ReleaseCommit | null;
 	queued: ReleaseCommit;
+	runUrl: string | null;
 	view: ReleaseCompareView;
 }) {
 	return (
@@ -30,6 +32,7 @@ export function ReleaseQueuedCommits({
 				repo={repo}
 				live={live}
 				queued={queued}
+				runUrl={runUrl}
 				view={view}
 			/>
 		</>

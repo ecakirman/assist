@@ -6,10 +6,12 @@ export function ReleaseNodeFacts({
 	node,
 	repo,
 	defaultBranch,
+	streamRunUrl,
 }: {
 	node: ReleaseNodeState;
 	repo: string;
 	defaultBranch: string | null;
+	streamRunUrl: string | null;
 }) {
 	if (node.kind !== "environment") return null;
 
@@ -22,6 +24,7 @@ export function ReleaseNodeFacts({
 					environment={node.environment}
 					live={node.live}
 					commit={node.queued}
+					runUrl={node.queuedRunUrl ?? streamRunUrl}
 				/>
 			)}
 		</>

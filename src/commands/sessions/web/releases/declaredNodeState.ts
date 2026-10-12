@@ -33,6 +33,7 @@ export function declaredNodeState(
 			? (behindBySha.get(deployment.commit.sha) ?? null)
 			: null,
 		queued: queued?.commit ?? null,
+		queuedRunUrl: queued?.runUrl ?? null,
 		run,
 	};
 }

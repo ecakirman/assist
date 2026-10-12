@@ -11,7 +11,7 @@ type Deployment = {
 	createdAt: string;
 	commitOid: string;
 	commit: { messageHeadline: string; author: { name: string } } | null;
-	latestStatus: { state: string; createdAt: string } | null;
+	latestStatus: { state: string; createdAt: string; logUrl?: string } | null;
 };
 
 function withEnvironmentDeployments(
@@ -94,6 +94,38 @@ describe("liveDeployments", () => {
 
 		expect(live.get("prod")?.commit.sha).toBe("live111");
 		expect(queued.get("prod")?.commit.sha).toBe("gated222");
+	});
+
+	it("carries the run holding a queued deployment", async () => {
+		const runUrl = "https://github.com/owner/name/actions/runs/42";
+		withDeployments([
+			deployment({
+				commitOid: "gated222",
+				latestStatus: {
+					state: "WAITING",
+					createdAt: "2026-09-19T00:00:00Z",
+					logUrl: runUrl,
+				},
+			}),
+		]);
+
+		const { queued } = await liveDeployments("/repo", "owner/name", ["prod"]);
+
+		expect(queryArg()).toContain("logUrl");
+		expect(queued.get("prod")?.runUrl).toBe(runUrl);
+	});
+
+	it("leaves the run unknown when a queued status has no log url", async () => {
+		withDeployments([
+			deployment({
+				commitOid: "gated222",
+				latestStatus: { state: "WAITING", createdAt: "2026-09-19T00:00:00Z" },
+			}),
+		]);
+
+		const { queued } = await liveDeployments("/repo", "owner/name", ["prod"]);
+
+		expect(queued.get("prod")?.runUrl).toBeNull();
 	});
 
 	it("drops a queued commit once it deploys successfully", async () => {

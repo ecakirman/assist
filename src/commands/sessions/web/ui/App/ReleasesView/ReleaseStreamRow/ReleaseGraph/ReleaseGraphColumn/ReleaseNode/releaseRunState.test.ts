@@ -20,6 +20,7 @@ function node(
 		deployedAt: null,
 		behind: null,
 		queued: null,
+		queuedRunUrl: null,
 		run,
 		...overrides,
 	};

@@ -32,6 +32,7 @@ export function ReleaseGraphColumn({
 					node={node}
 					repo={stream.repo}
 					defaultBranch={stream.defaultBranch}
+					streamRunUrl={stream.run?.url ?? null}
 					layer={layer}
 					dimmed={Boolean(highlight) && !highlight?.has(node.id)}
 					ringed={Boolean(highlight?.has(node.id))}

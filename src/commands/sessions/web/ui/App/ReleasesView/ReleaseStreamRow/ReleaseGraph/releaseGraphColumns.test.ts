@@ -12,6 +12,7 @@ function node(id: string): ReleaseNodeState {
 		deployedAt: null,
 		behind: null,
 		queued: null,
+		queuedRunUrl: null,
 		run: null,
 	};
 }
