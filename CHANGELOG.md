@@ -1,3 +1,10 @@
+# [0.817.0](https://github.com/staff0rd/assist/compare/v0.816.1...v0.817.0) (2026-10-12)
+
+
+### Features
+
+* link queued deploys to their run ([e2e2b1e](https://github.com/staff0rd/assist/commit/e2e2b1eb867b3580282002092b92c6dc2d38bb02))
+
 ## [0.816.1](https://github.com/staff0rd/assist/compare/v0.816.0...v0.816.1) (2026-10-12)
 
 
