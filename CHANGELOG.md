@@ -1,3 +1,10 @@
+## [0.820.1](https://github.com/staff0rd/assist/compare/v0.820.0...v0.820.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* make whole tree row clickable ([240ac98](https://github.com/staff0rd/assist/commit/240ac98a699abb7715d51b6d034fd98976b30178))
+
 # [0.820.0](https://github.com/staff0rd/assist/compare/v0.819.2...v0.820.0) (2026-10-13)
 
 
