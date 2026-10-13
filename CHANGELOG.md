@@ -1,3 +1,10 @@
+# [0.820.0](https://github.com/staff0rd/assist/compare/v0.819.2...v0.820.0) (2026-10-13)
+
+
+### Features
+
+* inline diffs in high-level file tree ([7a36f87](https://github.com/staff0rd/assist/commit/7a36f872264637feb5da9a76f3981b9eaecd53cc)), closes [hi#level](https://github.com/hi/issues/level)
+
 ## [0.819.2](https://github.com/staff0rd/assist/compare/v0.819.1...v0.819.2) (2026-10-13)
 
 
