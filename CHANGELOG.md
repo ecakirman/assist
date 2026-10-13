@@ -1,3 +1,10 @@
+## [0.824.2](https://github.com/staff0rd/assist/compare/v0.824.1...v0.824.2) (2026-10-13)
+
+
+### Bug Fixes
+
+* focus ring on Alt+D primary action ([b584b57](https://github.com/staff0rd/assist/commit/b584b57f3b3e3a86475088e965e8b0f741dcd553))
+
 ## [0.824.1](https://github.com/staff0rd/assist/compare/v0.824.0...v0.824.1) (2026-10-13)
 
 
