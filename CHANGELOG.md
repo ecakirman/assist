@@ -1,3 +1,10 @@
+## [0.818.1](https://github.com/staff0rd/assist/compare/v0.818.0...v0.818.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* treat pre-boot backlog locks as stale ([5e985f4](https://github.com/staff0rd/assist/commit/5e985f45ff49816b534ff15622027b4767534246))
+
 # [0.818.0](https://github.com/staff0rd/assist/compare/v0.817.0...v0.818.0) (2026-10-12)
 
 
