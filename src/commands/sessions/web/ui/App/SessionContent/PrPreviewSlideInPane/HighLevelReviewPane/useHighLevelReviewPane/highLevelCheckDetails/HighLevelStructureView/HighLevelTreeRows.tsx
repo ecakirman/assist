@@ -16,6 +16,7 @@ export function HighLevelTreeRows(props: HighLevelTreeRowsProps) {
 				indent={indent}
 				open={!props.collapsedFiles.has(node.path)}
 				onToggle={() => props.onToggleFile(node.path)}
+				glob={props.fileGlobs.get(node.path)}
 				viewType={props.viewType}
 				comments={props.comments}
 			/>

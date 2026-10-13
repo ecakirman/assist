@@ -25,6 +25,12 @@ export function buildHighLevelQuestions(
 			question: "Description word cap (blank to leave unset)",
 			suggest: String(current.descriptionWordCap),
 		},
+		{
+			key: highLevelConfigKeys.collapsedPaths,
+			question:
+				"Collapsed paths — comma-separated globs whose files start collapsed in the changed-files tree (blank to leave unset)",
+			suggest: suggestGlobs(current.collapsedPaths, []),
+		},
 	];
 }
 

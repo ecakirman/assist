@@ -4,19 +4,24 @@ import { DiffViewTypeToggle } from "../../../../../DiffViewTypeToggle";
 import type { HighLevelDiffComments } from "../HighLevelDiffComments";
 import { HighLevelTreeRows } from "./HighLevelStructureView/HighLevelTreeRows";
 import { useDiffViewType } from "../../../../../useDiffViewType";
-import { useHighLevelCollapse } from "./useHighLevelCollapse";
+import { useHighLevelStructureCollapse } from "./HighLevelStructureView/useHighLevelStructureCollapse";
 
 export function HighLevelStructureView({
 	structure,
+	collapsedPaths,
 	subject,
 	comments,
 }: {
 	structure: HighLevelStructure;
+	collapsedPaths: string[];
 	subject: string;
 	comments?: HighLevelDiffComments | undefined;
 }) {
-	const dirs = useHighLevelCollapse(subject);
-	const files = useHighLevelCollapse(`files:${subject}`);
+	const { dirs, files, fileGlobs } = useHighLevelStructureCollapse(
+		subject,
+		structure.tree,
+		collapsedPaths,
+	);
 	const { viewType, onChange } = useDiffViewType();
 
 	if (structure.tree.length === 0)
@@ -45,6 +50,7 @@ export function HighLevelStructureView({
 					onToggleDir={dirs.onToggle}
 					collapsedFiles={files.collapsed}
 					onToggleFile={files.onToggle}
+					fileGlobs={fileGlobs}
 					viewType={viewType}
 					comments={comments}
 				/>

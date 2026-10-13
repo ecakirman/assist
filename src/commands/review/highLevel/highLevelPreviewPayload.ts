@@ -13,6 +13,7 @@ export function highLevelPreviewPayload(
 		criticalPaths,
 		tests,
 		testPaths,
+		collapsedPaths,
 		saved,
 	} = subject;
 	return {
@@ -24,6 +25,7 @@ export function highLevelPreviewPayload(
 		criticalPaths,
 		tests,
 		testPaths,
+		collapsedPaths,
 		...(saved ? { saved } : {}),
 	};
 }

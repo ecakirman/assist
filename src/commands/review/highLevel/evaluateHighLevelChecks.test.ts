@@ -21,6 +21,7 @@ function subject(overrides: Partial<HighLevelSubject> = {}): HighLevelSubject {
 			uiPaths: [],
 			descriptionWordCap: 300,
 			testPaths: [],
+			collapsedPaths: [],
 		},
 		...overrides,
 	};
@@ -93,6 +94,7 @@ describe("evaluateHighLevelChecks", () => {
 				uiPaths: [],
 				descriptionWordCap: 10,
 				testPaths: [],
+				collapsedPaths: [],
 			},
 		});
 		expect(result.status).toBe("fail");
@@ -160,6 +162,7 @@ describe("evaluateHighLevelChecks", () => {
 				uiPaths: ["src/ui/**"],
 				descriptionWordCap: 300,
 				testPaths: [],
+				collapsedPaths: [],
 			},
 		});
 		expect(result.status).toBe("pass");
@@ -174,6 +177,7 @@ describe("evaluateHighLevelChecks", () => {
 				uiPaths: ["src/ui/**"],
 				descriptionWordCap: 300,
 				testPaths: [],
+				collapsedPaths: [],
 			},
 		});
 		expect(result.status).toBe("fail");
@@ -193,6 +197,7 @@ describe("evaluateHighLevelChecks", () => {
 				uiPaths: ["src/ui/**"],
 				descriptionWordCap: 300,
 				testPaths: [],
+				collapsedPaths: [],
 			},
 		});
 		expect(result.status).toBe("pass");

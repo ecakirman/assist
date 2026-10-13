@@ -49,6 +49,7 @@ export function gatherHighLevelSubject(
 			),
 		),
 		testPaths: config.testPaths,
+		collapsedPaths: config.collapsedPaths,
 		...(saved ? { saved } : {}),
 	};
 }

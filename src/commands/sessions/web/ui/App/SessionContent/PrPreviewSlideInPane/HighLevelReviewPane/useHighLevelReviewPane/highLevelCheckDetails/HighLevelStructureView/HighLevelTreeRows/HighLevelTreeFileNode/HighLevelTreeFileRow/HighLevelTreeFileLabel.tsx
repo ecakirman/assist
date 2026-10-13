@@ -6,7 +6,13 @@ import {
 	highLevelTreeNameSx,
 } from "../../../../highLevelTreeRowSx";
 
-export function HighLevelTreeFileLabel({ file }: { file: HighLevelTreeFile }) {
+export function HighLevelTreeFileLabel({
+	file,
+	muted = false,
+}: {
+	file: HighLevelTreeFile;
+	muted?: boolean;
+}) {
 	return (
 		<>
 			<Tooltip title={file.status}>
@@ -18,7 +24,14 @@ export function HighLevelTreeFileLabel({ file }: { file: HighLevelTreeFile }) {
 					{HIGH_LEVEL_STATUS_LETTERS[file.status]}
 				</Typography>
 			</Tooltip>
-			<Typography component="span" sx={highLevelTreeNameSx} title={file.path}>
+			<Typography
+				component="span"
+				sx={{
+					...highLevelTreeNameSx,
+					color: muted ? "text.secondary" : undefined,
+				}}
+				title={file.path}
+			>
 				{file.name}
 			</Typography>
 		</>

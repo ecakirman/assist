@@ -104,6 +104,7 @@ const payload: HighLevelPreviewPayload = {
 		},
 	],
 	testPaths: ["**/*.test.ts"],
+	collapsedPaths: [],
 };
 
 const testsCheck: HighLevelCheckResult = {

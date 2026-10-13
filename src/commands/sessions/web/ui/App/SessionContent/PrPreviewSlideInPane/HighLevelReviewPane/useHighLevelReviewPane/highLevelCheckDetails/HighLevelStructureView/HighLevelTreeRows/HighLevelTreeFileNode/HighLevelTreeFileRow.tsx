@@ -1,5 +1,3 @@
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import type { HighLevelTreeFile } from "../../../../../../../../../../../../review/highLevel/types";
 import { HighLevelLineCounts } from "../../../HighLevelLineCounts";
@@ -9,21 +7,25 @@ import {
 	highLevelTreeRowButtonSx,
 	highLevelTreeRowSx,
 } from "../../../highLevelTreeRowSx";
-import { HighLevelTreeFileLabel } from "./HighLevelTreeFileRow/HighLevelTreeFileLabel";
 import { HighLevelTreeFileLink } from "./HighLevelTreeFileRow/HighLevelTreeFileLink";
+import { HighLevelTreeFileChevron } from "./HighLevelTreeFileRow/HighLevelTreeFileChevron";
+import { HighLevelTreeFileLabel } from "./HighLevelTreeFileRow/HighLevelTreeFileLabel";
+import { HighLevelTreeGlobTag } from "./HighLevelTreeFileRow/HighLevelTreeGlobTag";
 
 export function HighLevelTreeFileRow({
 	file,
 	indent,
 	open,
 	onToggle,
+	glob,
 }: {
 	file: HighLevelTreeFile;
 	indent: string;
 	open: boolean;
 	onToggle: () => void;
+	glob: string | undefined;
 }) {
-	const Chevron = open ? ExpandMoreIcon : ChevronRightIcon;
+	const closedByGlob = !open && glob !== undefined;
 	return (
 		<Box
 			onClick={onToggle}
@@ -46,14 +48,9 @@ export function HighLevelTreeFileRow({
 					...highLevelButtonResetSx,
 				}}
 			>
-				<Chevron
-					sx={{
-						fontSize: 16,
-						color: open ? "primary.main" : "text.secondary",
-						flexShrink: 0,
-					}}
-				/>
-				<HighLevelTreeFileLabel file={file} />
+				<HighLevelTreeFileChevron open={open} />
+				<HighLevelTreeFileLabel file={file} muted={closedByGlob} />
+				{closedByGlob && <HighLevelTreeGlobTag glob={glob} />}
 				<HighLevelLineCounts
 					additions={file.additions}
 					deletions={file.deletions}

@@ -7,10 +7,11 @@ import { highLevelTreeFixture } from "../highLevelTreeFixture";
 beforeEach(() => localStorage.clear());
 afterEach(cleanup);
 
-function renderView() {
+function renderView(collapsedPaths: string[] = []) {
 	return render(
 		<HighLevelStructureView
 			subject="structure-inline-test"
+			collapsedPaths={collapsedPaths}
 			structure={{
 				tree: highLevelTreeFixture,
 				added: 0,
@@ -106,5 +107,49 @@ describe("HighLevelStructureView inline diffs", () => {
 
 		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
 		expect(diffCount(container)).toBe(2);
+	});
+});
+
+describe("HighLevelStructureView collapsedPaths defaults", () => {
+	it("starts matching files collapsed, tagged with their glob", () => {
+		const { container } = renderView(["**/*.md"]);
+
+		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
+		expect(screen.getByText("**/*.md")).toBeTruthy();
+		expect(fileRow("src/app.ts").getAttribute("aria-expanded")).toBe("true");
+		expect(diffCount(container)).toBe(2);
+	});
+
+	it("drops the glob tag once a matching file is opened", () => {
+		renderView(["**/*.md"]);
+
+		fireEvent.click(fileRow("README.md"));
+
+		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("true");
+		expect(screen.queryByText("**/*.md")).toBeNull();
+	});
+
+	it("starts a directory collapsed when all its files match", () => {
+		renderView(["src/lib/**"]);
+
+		expect(
+			screen
+				.getByRole("button", { name: "src/lib" })
+				.getAttribute("aria-expanded"),
+		).toBe("false");
+		expect(screen.getByText("1 file hidden")).toBeTruthy();
+		expect(
+			screen.getByRole("button", { name: "src" }).getAttribute("aria-expanded"),
+		).toBe("true");
+	});
+
+	it("remembers opening a file that started collapsed", () => {
+		const first = renderView(["**/*.md"]);
+		fireEvent.click(fileRow("README.md"));
+		first.unmount();
+
+		renderView(["**/*.md"]);
+
+		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("true");
 	});
 });

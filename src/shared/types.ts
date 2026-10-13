@@ -141,6 +141,9 @@ const assistConfigShape = {
 					testPaths: z
 						.array(z.string())
 						.default(["**/*.{test,spec}.{ts,tsx,js,jsx}"]),
+					collapsedPaths: z
+						.array(z.string())
+						.default(["**/*.test.*", "**/generated/**"]),
 				})
 				.optional(),
 		})

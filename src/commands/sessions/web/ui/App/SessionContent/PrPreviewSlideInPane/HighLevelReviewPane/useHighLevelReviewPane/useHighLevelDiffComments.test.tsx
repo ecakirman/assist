@@ -84,6 +84,7 @@ function Harness({
 		<>
 			<HighLevelStructureView
 				subject="comments-test"
+				collapsedPaths={[]}
 				structure={{
 					tree: highLevelTreeFixture,
 					added: 0,

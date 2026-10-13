@@ -1,7 +1,7 @@
 import type {
 	HighLevelTreeFile,
 	HighLevelTreeNode,
-} from "../../../../../../../../../../../../../review/highLevel/types";
+} from "../../../../../../../../../../review/highLevel/types";
 
 export function flattenHighLevelTree(
 	nodes: HighLevelTreeNode[],

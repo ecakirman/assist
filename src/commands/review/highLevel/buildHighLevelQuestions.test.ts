@@ -6,6 +6,7 @@ const unset = {
 	uiPaths: [],
 	descriptionWordCap: 300,
 	testPaths: [],
+	collapsedPaths: [],
 };
 
 function suggestionFor(
@@ -16,7 +17,7 @@ function suggestionFor(
 }
 
 describe("buildHighLevelQuestions", () => {
-	it("asks for all three keys", () => {
+	it("asks for all four keys", () => {
 		const questions = buildHighLevelQuestions(unset, {
 			criticalPaths: [],
 			uiPaths: [],
@@ -26,6 +27,7 @@ describe("buildHighLevelQuestions", () => {
 			"review.highLevel.criticalPaths",
 			"review.highLevel.uiPaths",
 			"review.highLevel.descriptionWordCap",
+			"review.highLevel.collapsedPaths",
 		]);
 	});
 
@@ -63,6 +65,17 @@ describe("buildHighLevelQuestions", () => {
 		expect(
 			suggestionFor(questions, "review.highLevel.criticalPaths"),
 		).toBeUndefined();
+	});
+
+	it("suggests the collapsed paths in force", () => {
+		const questions = buildHighLevelQuestions(
+			{ ...unset, collapsedPaths: ["**/*.test.*", "**/generated/**"] },
+			{ criticalPaths: [], uiPaths: [] },
+		);
+
+		expect(suggestionFor(questions, "review.highLevel.collapsedPaths")).toBe(
+			"**/*.test.*,**/generated/**",
+		);
 	});
 
 	it("suggests the word cap in force, default or not", () => {

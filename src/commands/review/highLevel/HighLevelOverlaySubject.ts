@@ -18,5 +18,6 @@ export type HighLevelOverlaySubject = {
 	criticalPaths: string[];
 	tests: HighLevelTestFile[];
 	testPaths: string[];
+	collapsedPaths: string[];
 	saved?: HighLevelReviewRecord;
 };

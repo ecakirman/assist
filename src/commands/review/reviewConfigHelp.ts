@@ -28,4 +28,10 @@ export const reviewConfigHelp: ConfigHelpEntry[] = [
 			'assist config set review.highLevel.testPaths "**/*.test.ts,e2e/**/*.spec.ts"',
 		note: "comma-separated globs of test files whose describe/it hierarchy backs the tests item (default **/*.{test,spec}.{ts,tsx,js,jsx})",
 	},
+	{
+		key: "review.highLevel.collapsedPaths",
+		setter:
+			'assist config set review.highLevel.collapsedPaths "**/*.test.*,**/generated/**"',
+		note: "comma-separated globs whose files start collapsed in the high-level changed-files tree; every other file starts expanded (default **/*.test.*,**/generated/**)",
+	},
 ];

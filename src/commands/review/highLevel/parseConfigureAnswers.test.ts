@@ -55,7 +55,7 @@ describe("parseConfigureAnswers", () => {
 });
 
 describe("answersCoverEveryKey", () => {
-	it("is true only once all three keys are answered", () => {
+	it("is true only once all four keys are answered", () => {
 		const answers = {
 			"review.highLevel.criticalPaths": "**/*.graphql",
 			"review.highLevel.uiPaths": "",
@@ -66,6 +66,7 @@ describe("answersCoverEveryKey", () => {
 			answersCoverEveryKey({
 				...answers,
 				"review.highLevel.descriptionWordCap": "300",
+				"review.highLevel.collapsedPaths": "**/*.test.*",
 			}),
 		).toBe(true);
 	});

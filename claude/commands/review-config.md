@@ -3,7 +3,7 @@ description: Configure this repo's high-level review checklist keys
 allowed_args: "[what matters in this repo, e.g. 'the graphql schema and the translation catalogue']"
 ---
 
-The user wants to set `review.highLevel.criticalPaths`, `review.highLevel.uiPaths` and `review.highLevel.descriptionWordCap` for this repo — the three variable parts of the high-level review checklist (`assist review --high-level`, see `docs/high-level-review.md`). You propose the values from the repo itself; the user accepts or edits them; `assist` writes them.
+The user wants to set `review.highLevel.criticalPaths`, `review.highLevel.uiPaths`, `review.highLevel.descriptionWordCap` and `review.highLevel.collapsedPaths` for this repo — the four variable parts of the high-level review checklist (`assist review --high-level`, see `docs/high-level-review.md`). You propose the values from the repo itself; the user accepts or edits them; `assist` writes them.
 
 ## Step 1: Read what is already set
 
@@ -11,6 +11,7 @@ The user wants to set `review.highLevel.criticalPaths`, `review.highLevel.uiPath
 assist config get review.highLevel.criticalPaths
 assist config get review.highLevel.uiPaths
 assist config get review.highLevel.descriptionWordCap
+assist config get review.highLevel.collapsedPaths
 ```
 
 A key that is already set is the starting point — propose a change to it only where you can say why.
@@ -22,6 +23,7 @@ Look at the repo, do not guess from its language or framework. `git ls-files` is
 - **criticalPaths** — the files where a wrong line is expensive and an LLM reviewer cannot judge it: schema and API definitions, translation catalogues, database migrations, infrastructure and deployment definitions, dependency and permission manifests. Their full diffs are put in front of the human reviewer, so keep the set small — a glob that matches half the repo makes the item unreadable and it will be rubber-stamped.
 - **uiPaths** — the files that render the user interface, so that touching one requires a screenshot or video on the PR. Exclude tests and stories.
 - **descriptionWordCap** — leave at 300 unless the user asks otherwise.
+- **collapsedPaths** — the files that are noise in the changed-files tree, so they start collapsed: tests, generated code, snapshots, lockfiles. Defaults to `**/*.test.*,**/generated/**`; keep the default unless this repo has other noise.
 
 Every glob must match files this repo actually has. Check each one does before proposing it.
 
@@ -31,6 +33,7 @@ Do not ask in chat. Write the proposal as markdown to a scratch file with the Wr
 
 - each glob as its own bullet, with the files in this repo it matches (a count, plus a few names), and why it belongs
 - `descriptionWordCap` with its value
+- `collapsedPaths`, each glob as its own bullet like the others
 - the scope you propose, with the other one named so the user can swap it:
   - `repo` — this repo's override in the shared assist database, personal to the user and seen by every node (propose this unless the user has said otherwise)
   - `project` — the repo's own `assist.yml`, a file to check in so the team reviews against the same globs; only when the user asks for it, since it leaves a new file in a repo they may not own
@@ -54,9 +57,10 @@ Pass every key, so nothing is prompted for — you have already asked:
 assist review --high-level --configure --scope repo \
   --answer 'review.highLevel.criticalPaths=**/*.graphql,en-AU/translation.json' \
   --answer 'review.highLevel.uiPaths=src/ui/**' \
-  --answer 'review.highLevel.descriptionWordCap=300'
+  --answer 'review.highLevel.descriptionWordCap=300' \
+  --answer 'review.highLevel.collapsedPaths=**/*.test.*,**/generated/**'
 ```
 
 An empty value (`--answer 'review.highLevel.uiPaths='`) leaves that key unset — which for `uiPaths` means the UI-evidence check passes rather than fails, so only do it when the user has said the repo has no UI.
 
-All three are validated and written in one pass, so a rejected value leaves the config file untouched. Report what was written and where, quoting the command's own output.
+All four are validated and written in one pass, so a rejected value leaves the config file untouched. Report what was written and where, quoting the command's own output.

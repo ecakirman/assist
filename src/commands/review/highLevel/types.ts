@@ -128,5 +128,6 @@ export type HighLevelPreviewPayload = {
 	criticalPaths: string[];
 	tests: HighLevelTestFile[];
 	testPaths: string[];
+	collapsedPaths: string[];
 	saved?: HighLevelReviewRecord;
 };

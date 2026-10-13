@@ -10,6 +10,7 @@ export function HighLevelTreeFileNode({
 	indent,
 	open,
 	onToggle,
+	glob,
 	viewType,
 	comments,
 }: {
@@ -17,6 +18,7 @@ export function HighLevelTreeFileNode({
 	indent: string;
 	open: boolean;
 	onToggle: () => void;
+	glob: string | undefined;
 	viewType: ViewType;
 	comments?: HighLevelDiffComments | undefined;
 }) {
@@ -27,6 +29,7 @@ export function HighLevelTreeFileNode({
 				indent={indent}
 				open={open}
 				onToggle={onToggle}
+				glob={glob}
 			/>
 			{open && (
 				<Box sx={{ mb: 1, minWidth: 0 }}>

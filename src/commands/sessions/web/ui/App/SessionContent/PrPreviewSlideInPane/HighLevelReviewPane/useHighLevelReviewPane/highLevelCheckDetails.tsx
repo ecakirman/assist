@@ -24,6 +24,7 @@ export function highLevelCheckDetails(
 			>
 				<HighLevelStructureView
 					structure={payload.structure}
+					collapsedPaths={payload.collapsedPaths}
 					subject={subject}
 					comments={comments}
 				/>
