@@ -15,7 +15,9 @@ vi.mock("node:fs", async () =>
 		await vi.importActual<typeof fsMockModule>("../../test/mocks/fsMock")
 	).fsMock(),
 );
+vi.mock("./isStaleLock", () => ({ isStaleLock: vi.fn(() => false) }));
 
+import { isStaleLock } from "./isStaleLock";
 import {
 	acquireLock,
 	foreignLockHolder,
@@ -90,6 +92,17 @@ describe("lockFile", () => {
 				pid: process.ppid,
 				timestamp: "2026-01-01",
 			});
+		});
+
+		it("returns null when a live pid no longer belongs to the lock's run", () => {
+			mockExistsSync.mockReturnValue(true);
+			mockReadFileSync.mockReturnValue(
+				JSON.stringify({ pid: process.ppid, timestamp: "2026-01-01" }),
+			);
+			vi.mocked(isStaleLock).mockReturnValueOnce(true);
+
+			expect(foreignLockHolder(1)).toBeNull();
+			expect(isStaleLock).toHaveBeenCalledWith(process.ppid, "2026-01-01");
 		});
 
 		it("returns null for a dead holder", () => {

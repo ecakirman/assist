@@ -7,6 +7,7 @@ import {
 } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { isStaleLock } from "./isStaleLock";
 
 function getLocksDir(): string {
 	return join(homedir(), ".assist", "locks");
@@ -35,6 +36,7 @@ export function foreignLockHolder(itemId: number): LockHolder | null {
 		const lock = JSON.parse(readFileSync(lockPath, "utf8"));
 		if (typeof lock.pid !== "number" || lock.pid === process.pid) return null;
 		if (!isProcessAlive(lock.pid)) return null;
+		if (isStaleLock(lock.pid, lock.timestamp)) return null;
 		return { pid: lock.pid, timestamp: lock.timestamp };
 	} catch {
 		return null;
