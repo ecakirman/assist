@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import * as pty from "node-pty";
 import { daemonLog } from "./daemonLog";
 import { ensureSpawnHelperExecutable } from "./ensureSpawnHelperExecutable";
+import { resolvePtyCommand } from "./resolvePtyCommand";
 
 export class MissingCwdError extends Error {
 	constructor(readonly cwd: string) {
@@ -18,12 +19,7 @@ export function spawnPty(
 ): pty.IPty {
 	refuseMissingCwd(cwd, sessionId);
 	ensureSpawnHelperExecutable();
-	const shell =
-		process.platform === "win32" ? "cmd.exe" : (process.env.SHELL ?? "bash");
-	const shellArgs =
-		process.platform === "win32"
-			? ["/c", ...args]
-			: ["-l", "-c", `exec ${args.map(shellEscape).join(" ")}`];
+	const command = resolvePtyCommand(args);
 
 	/* why: a daemon spawned from within a Claude Code session inherits
 	 * CLAUDE_CODE_CHILD_SESSION; left in the env it propagates to every claude the
@@ -38,7 +34,7 @@ export function spawnPty(
 		...parentEnv
 	} = process.env;
 
-	return pty.spawn(shell, shellArgs, {
+	return pty.spawn(command.file, command.args, {
 		name: "xterm-256color",
 		cols: 120,
 		rows: 30,
@@ -64,8 +60,4 @@ function refuseMissingCwd(
 		`${sessionId ? `session ${sessionId}` : "pty"} not spawned: working directory ${cwd} no longer exists`,
 	);
 	throw new MissingCwdError(cwd);
-}
-
-function shellEscape(s: string): string {
-	return `'${s.replace(/'/g, String.raw`'\''`)}'`;
 }
