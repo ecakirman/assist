@@ -13,7 +13,6 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { makeSession } from "../../../../test/mothers/makeSession";
 import type { Session } from "../createSession";
 import { allocateAndBind, type TreeSpawnContext } from "./allocateAndBind";
-import { planReuseTree } from "./planReuseTree";
 
 vi.mock("../daemonLog", () => ({ daemonLog: vi.fn() }));
 vi.mock("./seedWorktree", () => ({ seedWorktree: vi.fn() }));
@@ -129,40 +128,5 @@ describe("a second session colliding with a held clone", () => {
 		const ctx = ctxHolding();
 
 		expect(spawnInto(ctx, clone).cwd).toBe(clone);
-	});
-});
-
-describe("a chained run reusing a card that shares the clone", () => {
-	it("moves the reused card into a worktree", () => {
-		const { clone } = makeRepo();
-		const reused = makeSession({ id: "1", status: "waiting", cwd: clone });
-		const ctx = ctxHolding(
-			reused,
-			makeSession({ id: "2", status: "waiting", cwd: clone }),
-		);
-
-		expect(planReuseTree(reused, ctx)?.cwd).toBe(`${clone}-2`);
-	});
-
-	it("recognises the other holder through a symlinked cwd", () => {
-		const { base, clone } = makeRepo();
-		const reused = makeSession({ id: "1", status: "waiting", cwd: clone });
-		const ctx = ctxHolding(
-			reused,
-			makeSession({
-				id: "2",
-				status: "waiting",
-				cwd: join(base, "link", "myrepo"),
-			}),
-		);
-
-		expect(planReuseTree(reused, ctx)?.cwd).toBe(`${clone}-2`);
-	});
-
-	it("leaves the reused card in the clone when it is the only holder", () => {
-		const { clone } = makeRepo();
-		const reused = makeSession({ id: "1", status: "waiting", cwd: clone });
-
-		expect(planReuseTree(reused, ctxHolding(reused))).toBeUndefined();
 	});
 });

@@ -8,7 +8,7 @@ This has burned debugging before: `assist daemon drain` killed every pty, delete
 
 Rule: any operation that mutates daemon state or acts on a session MUST emit a `daemonLog` line. This covers, at minimum:
 
-- Every inbound message handler in `messageHandlers.ts` (`drain`, `dismiss`, `input` is high-volume — see exception below, `resize`, `retry`, `create*`, `resume`, `set-status`, `set-autorun`, `set-autoadvance`, `shutdown`).
+- Every inbound message handler in `messageHandlers.ts` (`drain`, `dismiss`, `input` is high-volume — see exception below, `resize`, `retry`, `create*`, `resume`, `set-status`, `set-autoadvance`, `shutdown`).
 - Session lifecycle mutations: spawn, restore, status change, dismiss, drain, error.
 - Persistence writes (`persistLiveSessions` / `savePersistedSessions`): what was saved and how many.
 - Node link routing decisions, forwards and drops, WebSocket connect/close/reconnect with reason, `hello` outcome, breaker trips, state changes and protocol blocks (`links/`, prefixed `link <name> ws:`).

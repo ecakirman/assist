@@ -23,7 +23,6 @@ export function SidebarBody(props: SidebarProps) {
 			onRetry={props.onRetry}
 			onRestart={props.onRestart}
 			onDismiss={props.onDismiss}
-			onSetAutoRun={props.onSetAutoRun}
 			onSetAutoAdvance={props.onSetAutoAdvance}
 			isFloatingWaiter={props.isFloatingWaiter}
 		/>

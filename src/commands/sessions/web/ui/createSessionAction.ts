@@ -85,11 +85,6 @@ export function createRunAction(send: SendFn) {
 	) => send({ type: "create-run", runName, cwd, replace, launchedFrom, node });
 }
 
-export function setAutoRunAction(send: SendFn) {
-	return (id: string, enabled: boolean) =>
-		send({ type: "set-autorun", sessionId: id, enabled });
-}
-
 export function setAutoAdvanceAction(send: SendFn) {
 	return (id: string, enabled: boolean) =>
 		send({ type: "set-autoadvance", sessionId: id, enabled });

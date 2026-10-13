@@ -19,7 +19,6 @@ export function restoreBase(id: string, persisted: PersistedSession) {
 		divergenceEscalation: persisted.divergenceEscalation,
 		design: persisted.design,
 		auto: persisted.auto,
-		autoRun: persisted.autoRun,
 		autoAdvance: restoredAutoAdvance(id, persisted),
 		reviewStarted: persisted.reviewStarted,
 		launchedFrom: persisted.launchedFrom,

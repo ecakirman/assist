@@ -66,7 +66,6 @@ export type SessionInfoBase = {
 	restored?: boolean;
 	error?: string;
 	activity?: Activity;
-	autoRun?: boolean;
 	autoAdvance?: boolean;
 	starred?: boolean;
 	usedPct?: number;

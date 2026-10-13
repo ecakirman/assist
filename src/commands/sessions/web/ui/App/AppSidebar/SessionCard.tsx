@@ -15,7 +15,6 @@ export function SessionCard({
 	onRestart,
 	onDismiss,
 	childDismiss,
-	onSetAutoRun,
 	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
@@ -41,7 +40,6 @@ export function SessionCard({
 				<CardBody
 					session={session}
 					loading={loading}
-					onSetAutoRun={onSetAutoRun}
 					onSetAutoAdvance={onSetAutoAdvance}
 				/>
 			</ButtonBase>

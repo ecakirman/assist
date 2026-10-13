@@ -64,7 +64,6 @@ function renderTopBar(
 					onRetry={handlers.onRetry}
 					onRestart={handlers.onRestart}
 					onDismiss={handlers.onDismiss ?? (() => {})}
-					onSetAutoRun={() => {}}
 					onSetAutoAdvance={handlers.onSetAutoAdvance ?? (() => {})}
 				/>
 			</StarredSessionsProvider>

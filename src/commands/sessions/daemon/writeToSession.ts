@@ -26,18 +26,6 @@ export function writeToSession(
 	if (!response) claimViewer(s, viewer, "input");
 }
 
-export function setAutoRun(
-	sessions: Map<string, Session>,
-	id: string,
-	enabled: boolean,
-): boolean {
-	const s = sessions.get(id);
-	if (!s) return false;
-	s.autoRun = enabled;
-	daemonLog(`session ${id} autorun ${enabled ? "on" : "off"}`);
-	return true;
-}
-
 export function setStarred(
 	sessions: Map<string, Session>,
 	id: string,

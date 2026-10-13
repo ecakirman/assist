@@ -9,36 +9,11 @@ const backlogActivity = {
 	totalPhases: 3,
 };
 
-describe("sessionToggles auto-run", () => {
-	it("offers auto-run on a draft session, captioned only once enabled", () => {
-		const off = sessionToggles(
-			makeSessionInfo({ commandType: "assist", assistArgs: ["draft"] }),
-		);
-		const on = sessionToggles(
-			makeSessionInfo({
-				commandType: "assist",
-				assistArgs: ["draft"],
-				autoRun: true,
-			}),
-		);
-
-		expect(off).toEqual([
-			{ key: "autoRun", label: "Auto-run", checked: false },
-		]);
-		expect(on).toEqual([
-			{
-				key: "autoRun",
-				label: "Auto-run",
-				checked: true,
-				caption: "will auto-run",
-			},
-		]);
-	});
-
-	it("offers no auto-run on a session type that cannot chain", () => {
+describe("sessionToggles draft", () => {
+	it("offers no toggle on a draft session", () => {
 		expect(
 			sessionToggles(
-				makeSessionInfo({ commandType: "assist", assistArgs: ["review"] }),
+				makeSessionInfo({ commandType: "assist", assistArgs: ["draft"] }),
 			),
 		).toEqual([]);
 	});

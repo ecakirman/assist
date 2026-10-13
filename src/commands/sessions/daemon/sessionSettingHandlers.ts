@@ -3,9 +3,6 @@ import { setSessionCwd } from "./setSessionCwd";
 import * as sessionIo from "./writeToSession";
 
 export const sessionSettingHandlers = {
-	"set-autorun": routed((_client, m, d) =>
-		m.setAutoRun(d.sessionId as string, d.enabled as boolean),
-	),
 	"set-autoadvance": routed((_client, m, d) =>
 		m.update((sessions) =>
 			sessionIo.setAutoAdvance(

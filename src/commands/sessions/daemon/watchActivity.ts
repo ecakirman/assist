@@ -61,8 +61,8 @@ export function watchActivity(
  * Synchronously load the latest activity into the session, bypassing the
  * watcher's debounce. A launch session writes its final activity (the created
  * item id) microseconds before exiting, so the pty `onExit` handler must read
- * it directly — the debounced watcher would otherwise lose the race and the
- * auto-run decision would see stale activity with no itemId.
+ * it directly — the debounced watcher would otherwise lose the race and leave
+ * the session with stale activity and no itemId.
  */
 export function refreshActivity(session: Session): void {
 	if (session.commandType !== "assist" || !session.cwd) return;

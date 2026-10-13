@@ -78,7 +78,7 @@ Status has exactly two sources, and both route through **one handler**:
 Both paths call `onStatusChange`, which is `makeStatusChangeHandler.ts`'s closure
 over `applyStatusChange.ts`. `applyStatusChange` is the single funnel: it skips
 no-op changes (hooks re-assert `running` on every tool call), folds running time
-into `runningMs` via `setStatus.ts`, and runs auto-run / auto-dismiss. Routing
+into `runningMs` via `setStatus.ts`, and runs auto-dismiss. Routing
 every status change through here is what keeps the card timer and broadcasts
 consistent regardless of which source fired.
 
@@ -89,7 +89,7 @@ flowchart TB
   exit["pty onExit"] --> hpe["handlePtyExit.ts"]
   ass -->|running / waiting| osc["onStatusChange<br/>(makeStatusChangeHandler)"]
   hpe -->|done / error| osc
-  osc --> asc["applyStatusChange.ts<br/>(setStatus, auto-run, auto-dismiss)"]
+  osc --> asc["applyStatusChange.ts<br/>(setStatus, auto-dismiss)"]
 ```
 
 ## Restart / resume — `restartSession.ts`

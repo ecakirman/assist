@@ -33,7 +33,6 @@ function renderCard(loading: boolean) {
 			loading={loading}
 			onClick={() => {}}
 			onDismiss={() => {}}
-			onSetAutoRun={() => {}}
 			onSetAutoAdvance={() => {}}
 		/>,
 		{ wrapper: Stars },
@@ -68,7 +67,6 @@ describe("SessionCard loading state", () => {
 				loading={false}
 				onClick={() => {}}
 				onDismiss={() => {}}
-				onSetAutoRun={() => {}}
 				onSetAutoAdvance={() => {}}
 			/>,
 			{ wrapper: Stars },
@@ -88,7 +86,6 @@ describe("SessionCard ripple", () => {
 				loading={false}
 				onClick={() => {}}
 				onDismiss={() => {}}
-				onSetAutoRun={() => {}}
 				onSetAutoAdvance={() => {}}
 			/>,
 			{ wrapper: Stars },
@@ -126,7 +123,6 @@ describe("SessionCard dismiss confirmation", () => {
 				loading={false}
 				onClick={onClick}
 				onDismiss={onDismiss}
-				onSetAutoRun={() => {}}
 				onSetAutoAdvance={() => {}}
 			/>,
 			{ wrapper: Stars },

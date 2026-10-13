@@ -76,14 +76,8 @@ ext4 and the Windows host is NTFS, neither of which supports it.
 
 ## The durability gate
 
-A worktree-backed session reaching `done` does not go straight there — unless it
-is about to chain into more work. `applyStatusChange` asks `shouldAutoRun` about
-the _proposed_ status first: a card carrying straight on (a drafted item picked
-up by auto-run, a run advancing to its next phase) keeps its worktree and skips
-the gate entirely, because end of life means the stream is over, not that one
-command in it finished.
-
-Otherwise the session is marked `closing` (broadcast immediately, so the card
+A worktree-backed session reaching `done` does not go straight there. The session
+is marked `closing` (broadcast immediately, so the card
 reflects the wait) and handed to `resolveDoneDurability`, which shells out to git
 (async, unlike the sync status pipeline) and checks:
 

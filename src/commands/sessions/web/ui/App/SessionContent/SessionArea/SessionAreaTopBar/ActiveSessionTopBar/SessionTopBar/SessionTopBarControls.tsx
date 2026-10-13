@@ -32,7 +32,6 @@ export function SessionTopBarControls({
 	onRestart,
 	onDismiss,
 	childDismiss,
-	onSetAutoRun,
 	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
@@ -48,7 +47,6 @@ export function SessionTopBarControls({
 			<SessionTopBarElapsed session={session} />
 			<SessionTopBarToggles
 				session={session}
-				onSetAutoRun={onSetAutoRun}
 				onSetAutoAdvance={onSetAutoAdvance}
 			/>
 			<LabelledActionsContext.Provider value={labelled}>

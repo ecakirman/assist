@@ -69,8 +69,8 @@ where you are or where any in-progress changes live. The tool tracks that; you d
   of push state, and never while another session is still working there.
 - End of life means the **stream** is over, not that a command in it finished. A card
   that carries straight on into more work keeps its workspace, so the work that
-  follows continues where the last one left off — a drafted item picked up by
-  auto-run, or a run continuing to its next phase.
+  follows continues where the last one left off — a run continuing to its next
+  phase.
 - Even then it is removed only if nothing is unpushed; otherwise it stops (see 3).
 
 ## 5. Recovery is automatic — never manual

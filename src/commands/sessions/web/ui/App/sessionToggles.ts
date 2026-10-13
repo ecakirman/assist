@@ -1,8 +1,7 @@
-import { sessionType } from "./sessionType";
 import type { SessionInfo } from "../types";
 
 export type SessionToggle = {
-	key: "autoRun" | "autoAdvance";
+	key: "autoAdvance";
 	label: string;
 	checked: boolean;
 	caption?: string;
@@ -10,18 +9,6 @@ export type SessionToggle = {
 
 export function sessionToggles(session: SessionInfo): SessionToggle[] {
 	const toggles: SessionToggle[] = [];
-	const type = sessionType(session);
-
-	if (type === "draft" || type === "bug" || type === "refine") {
-		const checked = session.autoRun ?? false;
-		toggles.push({
-			key: "autoRun",
-			label: "Auto-run",
-			checked,
-			...(checked ? { caption: "will auto-run" } : {}),
-		});
-	}
-
 	const { activity } = session;
 	if (activity?.kind === "backlog") {
 		const inReviewPhase =

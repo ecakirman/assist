@@ -62,21 +62,10 @@ const createSessionMock = createSession as unknown as ReturnType<typeof vi.fn>;
 const createAssistMock = createAssistSession as unknown as ReturnType<
 	typeof vi.fn
 >;
-const wirePtyMock = wirePtyEvents as unknown as ReturnType<typeof vi.fn>;
 const daemonLogMock = daemonLog as unknown as ReturnType<typeof vi.fn>;
 const restartSessionMock = restartSession as unknown as ReturnType<
 	typeof vi.fn
 >;
-
-type StatusChange = (
-	s: Session,
-	status: Session["status"],
-	exitCode?: number,
-) => void;
-
-function lastStatusChange(): StatusChange {
-	return wirePtyMock.mock.lastCall?.[2] as StatusChange;
-}
 
 describe("SessionManager", () => {
 	beforeEach(() => {
@@ -485,18 +474,6 @@ describe("SessionManager", () => {
 		});
 	});
 
-	describe("setAutoRun", () => {
-		it("stores the flag and surfaces it in broadcast session state", () => {
-			createSessionMock.mockReturnValue(makeSession({ id: "1" }));
-			const manager = new SessionManager();
-			manager.spawn();
-
-			manager.setAutoRun("1", true);
-
-			expect(manager.listSessions()[0]?.autoRun).toBe(true);
-		});
-	});
-
 	describe("setTitle", () => {
 		it("stores the title and surfaces it in broadcast session state", () => {
 			createSessionMock.mockReturnValue(makeSession({ id: "1" }));
@@ -671,59 +648,6 @@ describe("SessionManager", () => {
 			expect(daemonLogMock).toHaveBeenCalledWith(
 				expect.stringContaining("did nothing: no respawn plan"),
 			);
-		});
-	});
-
-	describe("auto-run on done", () => {
-		function drive(overrides: Partial<Session>): Session {
-			const draft = makeSession({
-				id: "1",
-				status: "running",
-				commandType: "assist",
-				assistArgs: ["draft", "--once"],
-				pty: null,
-				autoRun: true,
-				activity: { kind: "command", itemId: 42, startedAt: 1 },
-				...overrides,
-			});
-			createAssistMock.mockReturnValueOnce(draft);
-			const manager = new SessionManager();
-			manager.spawnAssist(["draft", "--once"]);
-			lastStatusChange()(draft, "done", 0);
-			return draft;
-		}
-
-		it("reuses the draft card to run 'backlog run <id>' when it exits cleanly", () => {
-			const draft = drive({});
-			expect(draft.assistArgs).toEqual(["backlog", "run", "42"]);
-			expect(draft.name).toBe("assist backlog run 42");
-			expect(draft.status).toBe("running");
-			expect(createAssistMock).toHaveBeenCalledTimes(1);
-		});
-
-		it("drops the launcher the reused card inherited from its last occupant", () => {
-			const draft = drive({ launchedFrom: "2" });
-			expect(draft.launchedFrom).toBeUndefined();
-		});
-
-		it("reuses a refine card to run 'backlog run <id>' when it exits cleanly", () => {
-			const refine = drive({ assistArgs: ["refine", "--once"] });
-			expect(refine.assistArgs).toEqual(["backlog", "run", "42"]);
-			expect(refine.name).toBe("assist backlog run 42");
-			expect(refine.status).toBe("running");
-			expect(createAssistMock).toHaveBeenCalledTimes(1);
-		});
-
-		it("does not reuse the card when autoRun is off", () => {
-			const draft = drive({ autoRun: false });
-			expect(draft.assistArgs).toEqual(["draft", "--once"]);
-			expect(createAssistMock).toHaveBeenCalledTimes(1);
-		});
-
-		it("does not reuse the card when no item was created", () => {
-			const draft = drive({ activity: undefined });
-			expect(draft.assistArgs).toEqual(["draft", "--once"]);
-			expect(createAssistMock).toHaveBeenCalledTimes(1);
 		});
 	});
 });

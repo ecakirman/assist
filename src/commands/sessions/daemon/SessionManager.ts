@@ -20,7 +20,7 @@ import { greetClient } from "./greetClient";
 import { PrPreviewCoordinator } from "./PrPreviewCoordinator";
 import { makeSessionSpawner } from "./makeSessionSpawner";
 import { applyUsageRecord } from "./applyUsageRecord";
-import { managerStatusChangeHandler } from "./managerStatusChangeHandler";
+import { makeStatusChangeHandler } from "./makeStatusChangeHandler";
 import { type HookStatusReport, setStatusFromHook } from "./setStatusFromHook";
 import { restartAndNotify } from "./restartAndNotify";
 import type { RestartResult } from "./restartManagedSession";
@@ -45,7 +45,6 @@ import {
 	spawnInTree,
 	type TreeSpawnContext,
 } from "./worktree/spawnInTree";
-import * as sessionIo from "./writeToSession";
 import { resumeInTree } from "./worktree/resumeInTree";
 
 export class SessionManager {
@@ -153,13 +152,10 @@ export class SessionManager {
 		return resumeInTree(this.treeCtx(), sessionId, cwd, name, harness);
 	}
 
-	private readonly onStatusChange = managerStatusChangeHandler(
-		this.sessions,
-		this.clients,
-		(id) => this.dismissSession(id),
-		() => this.notify(),
-		() => this.treeCtx(),
-	);
+	private readonly onStatusChange = makeStatusChangeHandler(this.sessions, {
+		dismiss: (id) => this.dismissSession(id),
+		notify: () => this.notify(),
+	});
 
 	readonly io = new SessionIo(
 		this.sessions,
@@ -201,10 +197,6 @@ export class SessionManager {
 
 	stopSession(id: string): void {
 		stopServerSession(this.sessions, id);
-	}
-
-	setAutoRun(id: string, enabled: boolean): void {
-		if (sessionIo.setAutoRun(this.sessions, id, enabled)) this.notify();
 	}
 
 	setTitle(id: string, title: string): void {
