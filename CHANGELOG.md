@@ -1,3 +1,10 @@
+# [0.821.0](https://github.com/staff0rd/assist/compare/v0.820.2...v0.821.0) (2026-10-13)
+
+
+### Features
+
+* Alt+D focuses preview primary action ([7ec571b](https://github.com/staff0rd/assist/commit/7ec571b10db867e205f34cc56694373646e7867b))
+
 ## [0.820.2](https://github.com/staff0rd/assist/compare/v0.820.1...v0.820.2) (2026-10-13)
 
 
