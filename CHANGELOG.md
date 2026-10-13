@@ -1,3 +1,10 @@
+# [0.819.0](https://github.com/staff0rd/assist/compare/v0.818.1...v0.819.0) (2026-10-13)
+
+
+### Features
+
+* remove draft Auto-run toggle ([06a3958](https://github.com/staff0rd/assist/commit/06a39582f417bae8097dcb22331e4374384ae9c9))
+
 ## [0.818.1](https://github.com/staff0rd/assist/compare/v0.818.0...v0.818.1) (2026-10-13)
 
 
