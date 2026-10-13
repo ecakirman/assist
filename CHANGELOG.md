@@ -1,3 +1,10 @@
+# [0.824.0](https://github.com/staff0rd/assist/compare/v0.823.0...v0.824.0) (2026-10-13)
+
+
+### Features
+
+* full/half toggle for high-level pane ([d3709dc](https://github.com/staff0rd/assist/commit/d3709dc9451667df860285fc27a9b196e571bd8e)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.823.0](https://github.com/staff0rd/assist/compare/v0.822.0...v0.823.0) (2026-10-13)
 
 
