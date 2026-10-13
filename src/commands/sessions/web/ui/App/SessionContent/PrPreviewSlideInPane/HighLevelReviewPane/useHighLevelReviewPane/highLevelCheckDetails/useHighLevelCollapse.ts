@@ -13,21 +13,33 @@ export function useHighLevelCollapse(
 	defaults: ReadonlySet<string> = NONE,
 ): {
 	collapsed: Set<string>;
+	overrides: ReadonlySet<string>;
 	onToggle: (path: string) => void;
+	onSet: (paths: Iterable<string>, collapse: boolean) => void;
+	onReset: () => void;
 } {
 	const key = `${PREFIX}${subject}`;
 	const [overrides, setOverrides] = useState(() => {
 		prunePersisted(PREFIX);
 		return new Set(loadPersisted<string>(key));
 	});
+	const save = (next: Set<string>) => {
+		savePersisted(key, [...next]);
+		setOverrides(next);
+	};
 
 	return {
 		collapsed: toggled(defaults, overrides),
-		onToggle: (path: string) => {
-			const next = toggled(overrides, [path]);
-			savePersisted(key, [...next]);
-			setOverrides(next);
+		overrides,
+		onToggle: (path) => save(toggled(overrides, [path])),
+		onSet: (paths, collapse) => {
+			const next = new Set(overrides);
+			for (const path of paths)
+				if (defaults.has(path) === collapse) next.delete(path);
+				else next.add(path);
+			save(next);
 		},
+		onReset: () => save(new Set()),
 	};
 }
 

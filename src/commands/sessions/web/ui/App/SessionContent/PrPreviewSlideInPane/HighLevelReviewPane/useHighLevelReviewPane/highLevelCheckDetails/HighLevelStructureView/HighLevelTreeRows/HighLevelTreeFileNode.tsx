@@ -11,6 +11,7 @@ export function HighLevelTreeFileNode({
 	open,
 	onToggle,
 	glob,
+	matched,
 	viewType,
 	comments,
 }: {
@@ -19,6 +20,7 @@ export function HighLevelTreeFileNode({
 	open: boolean;
 	onToggle: () => void;
 	glob: string | undefined;
+	matched: boolean;
 	viewType: ViewType;
 	comments?: HighLevelDiffComments | undefined;
 }) {
@@ -30,6 +32,7 @@ export function HighLevelTreeFileNode({
 				open={open}
 				onToggle={onToggle}
 				glob={glob}
+				matched={matched}
 			/>
 			{open && (
 				<Box sx={{ mb: 1, minWidth: 0 }}>

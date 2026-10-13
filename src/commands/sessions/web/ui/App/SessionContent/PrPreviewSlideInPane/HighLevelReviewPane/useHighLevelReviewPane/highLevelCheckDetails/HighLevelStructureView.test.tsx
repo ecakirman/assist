@@ -110,12 +110,14 @@ describe("HighLevelStructureView inline diffs", () => {
 	});
 });
 
+const GLOB_TAG_TITLE = "Collapsed by review.highLevel.collapsedPaths";
+
 describe("HighLevelStructureView collapsedPaths defaults", () => {
 	it("starts matching files collapsed, tagged with their glob", () => {
 		const { container } = renderView(["**/*.md"]);
 
 		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
-		expect(screen.getByText("**/*.md")).toBeTruthy();
+		expect(screen.getByTitle(GLOB_TAG_TITLE).textContent).toBe("**/*.md");
 		expect(fileRow("src/app.ts").getAttribute("aria-expanded")).toBe("true");
 		expect(diffCount(container)).toBe(2);
 	});
@@ -126,7 +128,7 @@ describe("HighLevelStructureView collapsedPaths defaults", () => {
 		fireEvent.click(fileRow("README.md"));
 
 		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("true");
-		expect(screen.queryByText("**/*.md")).toBeNull();
+		expect(screen.queryByTitle(GLOB_TAG_TITLE)).toBeNull();
 	});
 
 	it("starts a directory collapsed when all its files match", () => {
@@ -143,6 +145,13 @@ describe("HighLevelStructureView collapsedPaths defaults", () => {
 		).toBe("true");
 	});
 
+	it("offers each collapsedPaths glob as a quick chip beside **/*.md", () => {
+		renderView(["**/*.test.*"]);
+
+		expect(screen.getByRole("button", { name: "**/*.md" })).toBeTruthy();
+		expect(screen.getByRole("button", { name: "**/*.test.*" })).toBeTruthy();
+	});
+
 	it("remembers opening a file that started collapsed", () => {
 		const first = renderView(["**/*.md"]);
 		fireEvent.click(fileRow("README.md"));
@@ -151,5 +160,96 @@ describe("HighLevelStructureView collapsedPaths defaults", () => {
 		renderView(["**/*.md"]);
 
 		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("true");
+	});
+});
+
+function button(name: string | RegExp) {
+	return screen.getByRole("button", { name }) as HTMLButtonElement;
+}
+
+function matchGlob(glob: string) {
+	fireEvent.change(screen.getByLabelText("Match changed files"), {
+		target: { value: glob },
+	});
+}
+
+describe("HighLevelStructureView toolbar", () => {
+	it("collapses every diff and expands every folder and diff", () => {
+		const { container } = renderView();
+		fireEvent.click(button("src"));
+
+		fireEvent.click(button("Collapse all"));
+		expect(diffCount(container)).toBe(0);
+
+		fireEvent.click(button("Expand all"));
+		expect(button("src").getAttribute("aria-expanded")).toBe("true");
+		expect(diffCount(container)).toBe(3);
+	});
+
+	it("marks rows matching the glob and counts them", () => {
+		renderView();
+
+		matchGlob("src/**");
+
+		expect(screen.getByText("2 files")).toBeTruthy();
+		expect(
+			fileRow("src/app.ts").parentElement?.hasAttribute("data-matched"),
+		).toBe(true);
+		expect(
+			fileRow("README.md").parentElement?.hasAttribute("data-matched"),
+		).toBe(false);
+	});
+
+	it("disables Show and Hide until something matches", () => {
+		renderView();
+		expect(button("Show").disabled).toBe(true);
+
+		matchGlob("*.nothing");
+		expect(button("Hide").disabled).toBe(true);
+
+		matchGlob("*.md");
+		expect(button("Hide").disabled).toBe(false);
+	});
+
+	it("hides the matching diffs and shows them again with their folders", () => {
+		const { container } = renderView();
+		fireEvent.click(button("src/lib"));
+		fireEvent.click(button("src"));
+
+		fireEvent.click(button("**/*.md"));
+		fireEvent.click(button("Hide"));
+		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
+
+		matchGlob("src/lib/**");
+		expect(button("src").hasAttribute("data-matched")).toBe(true);
+		fireEvent.click(button("Show"));
+		expect(button("src").getAttribute("aria-expanded")).toBe("true");
+		expect(button("src/lib").getAttribute("aria-expanded")).toBe("true");
+		expect(diffCount(container)).toBe(2);
+	});
+
+	it("counts changes from the defaults and resets to them", () => {
+		const { container } = renderView(["**/*.md"]);
+		expect(button("Defaults").disabled).toBe(true);
+
+		fireEvent.click(button("Expand all"));
+		fireEvent.click(button("src"));
+		fireEvent.click(button("Reset 2 changes"));
+
+		expect(button("Defaults").disabled).toBe(true);
+		expect(button("src").getAttribute("aria-expanded")).toBe("true");
+		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
+		expect(diffCount(container)).toBe(2);
+	});
+
+	it("remembers bulk changes for the subject across remounts", () => {
+		const first = renderView();
+		fireEvent.click(button("Collapse all"));
+		first.unmount();
+
+		const { container } = renderView();
+
+		expect(diffCount(container)).toBe(0);
+		expect(button("Reset 3 changes").disabled).toBe(false);
 	});
 });

@@ -10,6 +10,7 @@ export type HighLevelTreeRowsProps = {
 	collapsedFiles: Set<string>;
 	onToggleFile: (path: string) => void;
 	fileGlobs: Map<string, string>;
+	matches: Set<string>;
 	viewType: ViewType;
 	comments?: HighLevelDiffComments | undefined;
 };

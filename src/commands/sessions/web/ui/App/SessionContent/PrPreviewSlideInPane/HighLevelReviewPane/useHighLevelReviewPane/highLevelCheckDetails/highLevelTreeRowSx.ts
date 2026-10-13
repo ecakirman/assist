@@ -56,3 +56,17 @@ export const HIGH_LEVEL_STATUS_LETTERS = {
 	removed: "D",
 	modified: "M",
 } as const;
+
+export const highLevelMatchedRowSx = (theme: Theme) => ({
+	position: "relative" as const,
+	"&::before": {
+		content: '""',
+		position: "absolute",
+		left: 0,
+		top: 4,
+		bottom: 4,
+		width: 3,
+		borderRadius: 1,
+		bgcolor: theme.palette.warning.main,
+	},
+});

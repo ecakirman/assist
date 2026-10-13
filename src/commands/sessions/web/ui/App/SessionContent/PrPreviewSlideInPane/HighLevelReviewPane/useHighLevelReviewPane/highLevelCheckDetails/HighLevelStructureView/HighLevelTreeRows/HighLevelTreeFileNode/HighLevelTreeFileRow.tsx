@@ -2,11 +2,9 @@ import { Box } from "@mui/material";
 import type { HighLevelTreeFile } from "../../../../../../../../../../../../review/highLevel/types";
 import { HighLevelLineCounts } from "../../../HighLevelLineCounts";
 import {
-	highLevelButtonResetSx,
-	highLevelTintedRowSx,
-	highLevelTreeRowButtonSx,
-	highLevelTreeRowSx,
-} from "../../../highLevelTreeRowSx";
+	highLevelTreeFileButtonSx,
+	highLevelTreeFileRowSx,
+} from "./HighLevelTreeFileRow/highLevelTreeFileRowSx";
 import { HighLevelTreeFileLink } from "./HighLevelTreeFileRow/HighLevelTreeFileLink";
 import { HighLevelTreeFileChevron } from "./HighLevelTreeFileRow/HighLevelTreeFileChevron";
 import { HighLevelTreeFileLabel } from "./HighLevelTreeFileRow/HighLevelTreeFileLabel";
@@ -18,35 +16,28 @@ export function HighLevelTreeFileRow({
 	open,
 	onToggle,
 	glob,
+	matched,
 }: {
 	file: HighLevelTreeFile;
 	indent: string;
 	open: boolean;
 	onToggle: () => void;
 	glob: string | undefined;
+	matched: boolean;
 }) {
 	const closedByGlob = !open && glob !== undefined;
 	return (
 		<Box
 			onClick={onToggle}
-			sx={[
-				{ ...highLevelTreeRowSx, gap: 0, cursor: "pointer" },
-				open && highLevelTintedRowSx,
-			]}
+			data-matched={matched || undefined}
+			sx={highLevelTreeFileRowSx(open, matched)}
 		>
 			<Box
 				component="button"
 				type="button"
 				aria-expanded={open}
 				aria-label={`${open ? "Collapse" : "Expand"} ${file.path}`}
-				sx={{
-					...highLevelTreeRowSx,
-					minHeight: highLevelTreeRowButtonSx.minHeight,
-					"&:hover": undefined,
-					minWidth: 0,
-					pl: indent,
-					...highLevelButtonResetSx,
-				}}
+				sx={highLevelTreeFileButtonSx(indent)}
 			>
 				<HighLevelTreeFileChevron open={open} />
 				<HighLevelTreeFileLabel file={file} muted={closedByGlob} />

@@ -3,6 +3,7 @@ import type { HighLevelTreeDir } from "../../../../../../../../../../../review/h
 import { HighLevelLineCounts } from "../../HighLevelLineCounts";
 import {
 	highLevelButtonResetSx,
+	highLevelMatchedRowSx,
 	highLevelTintedRowSx,
 	highLevelTreeNameSx,
 	highLevelTreeRowButtonSx,
@@ -14,11 +15,13 @@ import { HighLevelTreeHiddenCount } from "./HighLevelTreeDirRow/HighLevelTreeHid
 export function HighLevelTreeDirRow({
 	dir,
 	collapsed,
+	matched,
 	indent,
 	onToggle,
 }: {
 	dir: HighLevelTreeDir;
 	collapsed: boolean;
+	matched: boolean;
 	indent: string;
 	onToggle: () => void;
 }) {
@@ -29,6 +32,7 @@ export function HighLevelTreeDirRow({
 			onClick={onToggle}
 			aria-expanded={!collapsed}
 			aria-label={dir.path}
+			data-matched={matched || undefined}
 			sx={[
 				{
 					...highLevelTreeRowSx,
@@ -37,6 +41,7 @@ export function HighLevelTreeDirRow({
 					...highLevelButtonResetSx,
 				},
 				collapsed && highLevelTintedRowSx,
+				matched && highLevelMatchedRowSx,
 			]}
 		>
 			<HighLevelTreeDirIcons collapsed={collapsed} />
