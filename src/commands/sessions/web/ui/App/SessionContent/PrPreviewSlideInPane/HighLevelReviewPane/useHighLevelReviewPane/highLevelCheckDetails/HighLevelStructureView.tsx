@@ -40,7 +40,7 @@ export function HighLevelStructureView({
 				{structure.modified} modified · +{structure.additions} −
 				{structure.deletions}
 			</Typography>
-			<Box sx={{ mt: 0.5, maxHeight: 360, overflowY: "auto" }}>
+			<Box sx={{ mt: 0.5 }}>
 				<HighLevelTreeRows
 					nodes={structure.tree}
 					collapsed={collapsed}

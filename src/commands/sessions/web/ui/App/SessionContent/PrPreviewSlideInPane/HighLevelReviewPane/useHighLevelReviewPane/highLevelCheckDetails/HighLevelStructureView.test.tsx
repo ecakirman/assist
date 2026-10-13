@@ -36,6 +36,18 @@ function button(name: string) {
 	return dialog().getByRole("button", { name }) as HTMLButtonElement;
 }
 
+describe("HighLevelStructureView tree", () => {
+	it("renders inline without a nested scroll box", () => {
+		renderView();
+		const wrapper = screen.getByLabelText("Show the diff of README.md")
+			.parentElement as HTMLElement;
+		const style = getComputedStyle(wrapper);
+
+		expect(style.maxHeight).toBe("none");
+		expect(style.overflowY).toBe("visible");
+	});
+});
+
 describe("HighLevelStructureView diff dialog", () => {
 	it("steps forward and back through the files in tree order", () => {
 		renderView();
