@@ -1,3 +1,10 @@
+# [0.823.0](https://github.com/staff0rd/assist/compare/v0.822.0...v0.823.0) (2026-10-13)
+
+
+### Features
+
+* changed-files toolbar and reset ([b61bbc0](https://github.com/staff0rd/assist/commit/b61bbc0ba300441479438a35762574bf0e8fb2e9))
+
 # [0.822.0](https://github.com/staff0rd/assist/compare/v0.821.0...v0.822.0) (2026-10-13)
 
 
