@@ -181,6 +181,7 @@ beforeEach(() => {
 afterEach(() => {
 	cleanup();
 	vi.unstubAllGlobals();
+	vi.restoreAllMocks();
 });
 
 describe("useRegionFocusHotkeys", () => {
@@ -317,14 +318,22 @@ describe("useRegionFocusHotkeys", () => {
 	] as const)(
 		"Alt+D on a %s preview focuses its %s button, then returns to the terminal",
 		(kind, label) => {
+			const matches = Element.prototype.matches;
+			vi.spyOn(Element.prototype, "matches").mockImplementation(
+				function matchesWithoutFocusVisible(this: Element, selector: string) {
+					return selector === ":focus-visible"
+						? false
+						: matches.call(this, selector);
+				},
+			);
 			preview = kind;
 			renderShell();
 			screen.getByLabelText("terminal").focus();
 
 			pressAlt("KeyD");
-			expect(document.activeElement).toBe(
-				screen.getByRole("button", { name: label }),
-			);
+			const button = screen.getByRole("button", { name: label });
+			expect(document.activeElement).toBe(button);
+			expect(button.classList).toContain("Mui-focusVisible");
 			expect(animate.mock.contexts.at(-1)).toBe(
 				document.querySelector("[data-preview-session-id]"),
 			);

@@ -1,5 +1,6 @@
 import { holdSessionCardFocus } from "../holdSessionCardFocus";
 import type { Region } from "../../focusRegion";
+import { previewPrimaryActionFocusEvent } from "../../usePreviewPrimaryAction";
 
 export type RegionKind = "card" | "terminal" | "diff" | "preview";
 
@@ -19,10 +20,14 @@ const FOCUS: Record<RegionKind, (element: HTMLElement, id: string) => void> = {
 	},
 	terminal: (pane) => pane.querySelector<HTMLElement>("textarea")?.focus(),
 	diff: focusPanel,
-	preview: (pane) =>
-		focusPanel(
-			pane.querySelector<HTMLElement>("[data-preview-primary-action]") ?? pane,
-		),
+	preview: (pane) => {
+		const primary = pane.querySelector<HTMLElement>(
+			"[data-preview-primary-action]",
+		);
+		if (primary)
+			primary.dispatchEvent(new Event(previewPrimaryActionFocusEvent));
+		else focusPanel(pane);
+	},
 };
 
 export function sessionRegion(kind: RegionKind, id: string): Region {
