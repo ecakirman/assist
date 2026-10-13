@@ -54,6 +54,7 @@ export function HighLevelTreeDirRow({
 			<HighLevelLineCounts
 				additions={dir.additions}
 				deletions={dir.deletions}
+				inline
 			/>
 		</Box>
 	);

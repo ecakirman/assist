@@ -25,18 +25,23 @@ export function HighLevelTreeFileRow({
 }) {
 	const Chevron = open ? ExpandMoreIcon : ChevronRightIcon;
 	return (
-		<Box sx={[{ ...highLevelTreeRowSx, gap: 0 }, open && highLevelTintedRowSx]}>
+		<Box
+			onClick={onToggle}
+			sx={[
+				{ ...highLevelTreeRowSx, gap: 0, cursor: "pointer" },
+				open && highLevelTintedRowSx,
+			]}
+		>
 			<Box
 				component="button"
 				type="button"
-				onClick={onToggle}
 				aria-expanded={open}
 				aria-label={`${open ? "Collapse" : "Expand"} ${file.path}`}
 				sx={{
 					...highLevelTreeRowSx,
-					...highLevelTreeRowButtonSx,
+					minHeight: highLevelTreeRowButtonSx.minHeight,
 					"&:hover": undefined,
-					flex: 1,
+					minWidth: 0,
 					pl: indent,
 					...highLevelButtonResetSx,
 				}}
@@ -52,6 +57,7 @@ export function HighLevelTreeFileRow({
 				<HighLevelLineCounts
 					additions={file.additions}
 					deletions={file.deletions}
+					inline
 				/>
 			</Box>
 			<HighLevelTreeFileLink file={file} />

@@ -4,12 +4,22 @@ import { highLevelTreeCountSx } from "./highLevelTreeRowSx";
 export function HighLevelLineCounts({
 	additions,
 	deletions,
+	inline = false,
 }: {
 	additions: number;
 	deletions: number;
+	inline?: boolean;
 }) {
 	return (
-		<Box sx={{ display: "flex", gap: 0.5, ml: "auto", pl: 1, flexShrink: 0 }}>
+		<Box
+			sx={{
+				display: "flex",
+				gap: 0.5,
+				ml: inline ? 0 : "auto",
+				pl: 1,
+				flexShrink: 0,
+			}}
+		>
 			<Typography
 				component="span"
 				sx={highLevelTreeCountSx}

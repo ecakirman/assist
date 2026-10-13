@@ -10,6 +10,7 @@ export function HighLevelTreeFileLink({ file }: { file: HighLevelTreeFile }) {
 			target="_blank"
 			rel="noreferrer"
 			aria-label={`Open ${file.path} on GitHub`}
+			onClick={(event) => event.stopPropagation()}
 			sx={{ p: 0.25, flexShrink: 0 }}
 		>
 			<LaunchIcon sx={{ fontSize: 14 }} />

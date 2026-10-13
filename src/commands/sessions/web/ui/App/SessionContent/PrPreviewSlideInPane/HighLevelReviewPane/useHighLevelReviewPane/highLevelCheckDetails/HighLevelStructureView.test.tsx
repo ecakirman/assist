@@ -76,6 +76,17 @@ describe("HighLevelStructureView inline diffs", () => {
 		expect(diffCount(container)).toBe(3);
 	});
 
+	it("toggles from anywhere on the row but not from its GitHub link", () => {
+		const { container } = renderView();
+		const line = fileRow("README.md").parentElement as HTMLElement;
+
+		fireEvent.click(screen.getByLabelText("Open README.md on GitHub"));
+		expect(diffCount(container)).toBe(3);
+
+		fireEvent.click(line);
+		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
+	});
+
 	it("renders the diff beside the row, not inside its indented button", () => {
 		renderView();
 		const row = fileRow("src/lib/util.ts");
