@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { resolveActiveId } from "./useWsConnection/resolveActiveId";
 import type { HistoricalSession, SessionInfo } from "../types";
+import { useActiveId } from "./useWsConnection/useActiveId";
 import { useActiveIdReconciler } from "./useWsConnection/useActiveIdReconciler";
 import { useDaemonState } from "./useWsConnection/useDaemonState";
 import { useInitialized } from "./useWsConnection/useInitialized";
@@ -8,13 +9,14 @@ import { useNotices } from "../useNotices";
 import { usePendingLaunches } from "./useWsConnection/usePendingLaunches";
 import { useRateLimitsState } from "./useWsConnection/useRateLimitsState";
 import { useSessionsSync } from "./useWsConnection/useSessionsSync";
+import { useTerminalRefs } from "./useWsConnection/useTerminalRefs";
 import { useTranscriptState } from "./useWsConnection/useTranscriptState";
 import { useWebSocket } from "./useWsConnection/useWebSocket";
 
 export function useWsConnection() {
 	const [sessions, setSessions] = useState<SessionInfo[]>([]);
 	const [history, setHistory] = useState<HistoricalSession[]>([]);
-	const [activeId, setActiveId] = useState<string | null>(null);
+	const { activeId, setActiveId, getActiveId } = useActiveId();
 	const daemon = useDaemonState();
 	const transcripts = useTranscriptState();
 	const [currentCwd, setCurrentCwd] = useState<string>("");
@@ -22,13 +24,13 @@ export function useWsConnection() {
 	const pending = usePendingLaunches();
 	const limits = useRateLimitsState();
 	const { initialized, markInitialized, syncSessions } = useInitialized();
-	const buffers = useRef(new Map<string, string>());
-	const handlers = useRef(new Map<string, (data: string) => void>());
+	const terminals = useTerminalRefs();
 	const handleSessions = useSessionsSync(syncSessions, setSessions);
 
 	const { wsRef, requestHistory, reconnecting } = useWebSocket({
 		handleSessions,
 		setHistory,
+		getActiveId,
 		setActiveId,
 		...daemon,
 		...transcripts,
@@ -37,8 +39,7 @@ export function useWsConnection() {
 		...pending,
 		...limits,
 		markInitialized,
-		buffers,
-		handlers,
+		...terminals,
 	});
 
 	useActiveIdReconciler(
@@ -60,8 +61,7 @@ export function useWsConnection() {
 		...limits,
 		initialized,
 		wsRef,
-		buffers,
-		handlers,
+		...terminals,
 		requestHistory,
 		reconnecting,
 	};

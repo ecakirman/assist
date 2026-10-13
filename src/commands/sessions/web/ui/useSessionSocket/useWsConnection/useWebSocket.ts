@@ -13,6 +13,7 @@ type OutputHandler = (data: string) => void;
 type WsDeps = {
 	handleSessions: WsDispatch["setSessions"];
 	setHistory: WsDispatch["setHistory"];
+	getActiveId: WsDispatch["getActiveId"];
 	setActiveId: WsDispatch["setActiveId"];
 	setActiveByRepo: WsDispatch["setActiveByRepo"];
 	setDaemonVersion: WsDispatch["setDaemonVersion"];

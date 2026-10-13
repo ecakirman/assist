@@ -14,6 +14,7 @@ type OutputHandler = (data: string) => void;
 export type WsDispatch = {
 	setSessions: (s: SessionInfo[]) => void;
 	setHistory: (h: HistoricalSession[]) => void;
+	getActiveId: () => string | null;
 	setActiveId: (id: string) => void;
 	setActiveByRepo: (active: Record<string, string>) => void;
 	setDaemonVersion: (version: string) => void;

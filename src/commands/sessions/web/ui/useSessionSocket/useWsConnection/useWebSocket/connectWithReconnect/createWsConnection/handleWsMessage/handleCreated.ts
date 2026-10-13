@@ -6,9 +6,12 @@ export function handleCreated(
 ): void {
 	const sessionId = msg.sessionId as string;
 	const title = d.resolvePendingLaunch();
-	// why: creating/resuming switches the pane back to the live terminal
-	d.setViewingTranscriptSessionId(null);
-	d.setActiveId(sessionId);
+	const staysInBackground = msg.isNew && d.getActiveId() !== null;
+	if (!staysInBackground) {
+		// why: creating/resuming switches the pane back to the live terminal
+		d.setViewingTranscriptSessionId(null);
+		d.setActiveId(sessionId);
+	}
 	// why: toast only on a genuinely new spawn, not a resume
 	if (msg.isNew)
 		d.setSuccess({
