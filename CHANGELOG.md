@@ -1,3 +1,10 @@
+## [0.824.1](https://github.com/staff0rd/assist/compare/v0.824.0...v0.824.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* keep multi-line args on Windows spawn ([5a6889e](https://github.com/staff0rd/assist/commit/5a6889e87b019630c1f5896d2d0db6afa0c093c0))
+
 # [0.824.0](https://github.com/staff0rd/assist/compare/v0.823.0...v0.824.0) (2026-10-13)
 
 
