@@ -19,7 +19,10 @@ const FOCUS: Record<RegionKind, (element: HTMLElement, id: string) => void> = {
 	},
 	terminal: (pane) => pane.querySelector<HTMLElement>("textarea")?.focus(),
 	diff: focusPanel,
-	preview: focusPanel,
+	preview: (pane) =>
+		focusPanel(
+			pane.querySelector<HTMLElement>("[data-preview-primary-action]") ?? pane,
+		),
 };
 
 export function sessionRegion(kind: RegionKind, id: string): Region {

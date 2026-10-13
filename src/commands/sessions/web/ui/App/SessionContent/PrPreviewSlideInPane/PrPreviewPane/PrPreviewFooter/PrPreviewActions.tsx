@@ -1,5 +1,6 @@
 import { Button, Stack } from "@mui/material";
 import type { PrPreviewChain } from "../../../../../PrPreviewChain";
+import { PrPreviewApproveButtons } from "./PrPreviewActions/PrPreviewApproveButtons";
 import { PrPreviewChainToggles } from "./PrPreviewActions/PrPreviewChainToggles";
 
 export function PrPreviewActions({
@@ -44,18 +45,11 @@ export function PrPreviewActions({
 					Request changes ({commentCount})
 				</Button>
 			)}
-			<Button
-				color="success"
-				variant={canStart ? "outlined" : "contained"}
-				onClick={onApprove}
-			>
-				Approve
-			</Button>
-			{canStart && (
-				<Button color="success" variant="contained" onClick={onApproveAndStart}>
-					Approve & start
-				</Button>
-			)}
+			<PrPreviewApproveButtons
+				canStart={canStart}
+				onApprove={onApprove}
+				onApproveAndStart={onApproveAndStart}
+			/>
 		</Stack>
 	);
 }

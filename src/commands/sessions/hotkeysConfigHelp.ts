@@ -9,7 +9,8 @@ const ACTIONS: Record<HotkeyName, string> = {
 		"modifier for the top-level tab digits 1–N (modifiers only, e.g. Ctrl+Alt)",
 	focusSidebar: "focus the active sidebar card",
 	focusTerminal: "focus the active terminal",
-	toggleDiff: "open / close the diff panel, or focus the preview pane",
+	toggleDiff:
+		"open / close the diff panel, or focus the preview pane's primary action",
 	focusRepoPicker: "focus the toolbar repo picker",
 	openUpdates: "open the version / updates page",
 	openConfig: "open the config page",

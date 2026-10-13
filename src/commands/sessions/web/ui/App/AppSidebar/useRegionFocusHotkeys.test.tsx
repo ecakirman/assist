@@ -12,12 +12,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { makeSessionInfo } from "../../../../../../test/mothers/makeSessionInfo";
 import { isFocusHeld } from "../holdFocus";
 import type { SidebarTab } from "../../types";
+import { PrPreviewActions } from "../SessionContent/PrPreviewSlideInPane/PrPreviewPane/PrPreviewFooter/PrPreviewActions";
 import { DiffPanelsProvider, useDiffPanels } from "../useDiffPanels";
 import { SidebarCollapsedContext } from "../useSidebarCollapsedContext";
 import { useRegionFocusHotkeys } from "./useRegionFocusHotkeys";
 
 const ALL_TOP_BAR_ACTIONS = ["focusAddAgent", "focusVsCode", "focusDone"];
-let preview = false;
+let preview: false | "show" | "draft" | "pr" = false;
 let topBarActions = ALL_TOP_BAR_ACTIONS;
 let sessionIds = ["a"];
 let selectedId = "a";
@@ -72,6 +73,18 @@ function Regions({ tab, collapsed }: { tab: SidebarTab; collapsed: boolean }) {
 			{pathname === "/sessions" && preview && (
 				<div data-preview-session-id="a" tabIndex={-1}>
 					preview
+					{preview !== "show" && (
+						<PrPreviewActions
+							commentCount={0}
+							newPr={false}
+							canStart={preview === "draft"}
+							onChainChange={() => {}}
+							onApprove={() => {}}
+							onApproveAndStart={() => {}}
+							onReject={() => {}}
+							onRequestChanges={() => {}}
+						/>
+					)}
 				</div>
 			)}
 			{panel && (
@@ -284,8 +297,8 @@ describe("useRegionFocusHotkeys", () => {
 		);
 	});
 
-	it("Alt+D focuses an open preview pane instead of the diff, then returns to the terminal leaving it open", () => {
-		preview = true;
+	it("Alt+D focuses an open show-only preview pane instead of the diff, then returns to the terminal leaving it open", () => {
+		preview = "show";
 		renderShell();
 		screen.getByLabelText("terminal").focus();
 
@@ -297,6 +310,29 @@ describe("useRegionFocusHotkeys", () => {
 		expect(document.activeElement).toBe(screen.getByLabelText("terminal"));
 		expect(screen.getByText("preview")).toBeTruthy();
 	});
+
+	it.each([
+		["draft", "Approve & start"],
+		["pr", "Approve"],
+	] as const)(
+		"Alt+D on a %s preview focuses its %s button, then returns to the terminal",
+		(kind, label) => {
+			preview = kind;
+			renderShell();
+			screen.getByLabelText("terminal").focus();
+
+			pressAlt("KeyD");
+			expect(document.activeElement).toBe(
+				screen.getByRole("button", { name: label }),
+			);
+			expect(animate.mock.contexts.at(-1)).toBe(
+				document.querySelector("[data-preview-session-id]"),
+			);
+
+			pressAlt("KeyD");
+			expect(document.activeElement).toBe(screen.getByLabelText("terminal"));
+		},
+	);
 
 	it.each([
 		["KeyZ", "focusAddAgent"],
