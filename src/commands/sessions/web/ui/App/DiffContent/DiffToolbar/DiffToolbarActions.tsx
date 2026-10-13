@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import { CloseViewButton } from "../../CloseViewButton";
-import { DiffModeToggle } from "./DiffToolbarActions/DiffModeToggle";
+import { DiffModeToggle } from "../../DiffModeToggle";
 import { DiffToolbarRule } from "./DiffToolbarRule";
 import type { DiffPanelMode } from "../../toggleDiffPanel";
 

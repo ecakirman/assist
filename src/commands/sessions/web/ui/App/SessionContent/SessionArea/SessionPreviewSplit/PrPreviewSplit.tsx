@@ -2,9 +2,11 @@ import Box from "@mui/material/Box";
 import type { ReactNode } from "react";
 import type { PrPreview } from "../../../../../../shared/SessionInfoBase";
 import type { PrDecisionDetails } from "../../../../PrDecisionDetails";
+import { PreviewWidthContext } from "../../usePreviewWidthContext";
 import { PrPreviewSlideIn } from "./PrPreviewSplit/PrPreviewSlideIn";
+import { PrPreviewTerminalColumn } from "./PrPreviewSplit/PrPreviewTerminalColumn";
 import type { SessionInfo } from "../../../../types";
-import { SPLIT_EASE, SPLIT_MS } from "./PrPreviewSplit/slideInSx";
+import { usePreviewWidth } from "./PrPreviewSplit/usePreviewWidth";
 import { useRetainedPreview } from "./PrPreviewSplit/useRetainedPreview";
 
 type OnDecision = (
@@ -31,6 +33,7 @@ export function PrPreviewSplit({
 	children: ReactNode;
 }) {
 	const { rendered, onExited } = useRetainedPreview(preview);
+	const width = usePreviewWidth(rendered);
 	const open = preview !== null;
 
 	return (
@@ -43,25 +46,21 @@ export function PrPreviewSplit({
 				overflow: "hidden",
 			}}
 		>
-			<Box
-				sx={{
-					display: "flex",
-					width: open ? "50%" : "100%",
-					transition: `width ${SPLIT_MS}ms ${SPLIT_EASE}`,
-				}}
-			>
+			<PrPreviewTerminalColumn open={open} full={width.full}>
 				{children}
-			</Box>
-			<PrPreviewSlideIn
-				rendered={rendered}
-				session={session}
-				sessionId={sessionId}
-				cwd={cwd}
-				sendInput={sendInput}
-				open={open}
-				onExited={onExited}
-				onDecision={onDecision}
-			/>
+			</PrPreviewTerminalColumn>
+			<PreviewWidthContext.Provider value={width}>
+				<PrPreviewSlideIn
+					rendered={rendered}
+					session={session}
+					sessionId={sessionId}
+					cwd={cwd}
+					sendInput={sendInput}
+					open={open}
+					onExited={onExited}
+					onDecision={onDecision}
+				/>
+			</PreviewWidthContext.Provider>
 		</Box>
 	);
 }

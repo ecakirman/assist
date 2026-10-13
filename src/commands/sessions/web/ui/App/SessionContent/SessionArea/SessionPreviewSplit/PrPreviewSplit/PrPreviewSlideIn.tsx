@@ -4,7 +4,7 @@ import type { PrPreview } from "../../../../../../../shared/SessionInfoBase";
 import type { PrDecisionDetails } from "../../../../../PrDecisionDetails";
 import { PrPreviewSlideInPane } from "../../../PrPreviewSlideInPane";
 import type { SessionInfo } from "../../../../../types";
-import { slideInSx } from "./slideInSx";
+import { useSlideInSx } from "./PrPreviewSlideIn/useSlideInSx";
 
 export function PrPreviewSlideIn({
 	rendered,
@@ -29,6 +29,7 @@ export function PrPreviewSlideIn({
 		details: PrDecisionDetails,
 	) => void;
 }) {
+	const sx = useSlideInSx(open);
 	const handleTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
 		if (!open && e.propertyName === "transform" && e.target === e.currentTarget)
 			onExited();
@@ -40,7 +41,7 @@ export function PrPreviewSlideIn({
 			data-preview-session-id={open ? sessionId : undefined}
 			tabIndex={open ? -1 : undefined}
 			onTransitionEnd={handleTransitionEnd}
-			sx={slideInSx(open)}
+			sx={sx}
 		>
 			{rendered && (
 				<PrPreviewSlideInPane

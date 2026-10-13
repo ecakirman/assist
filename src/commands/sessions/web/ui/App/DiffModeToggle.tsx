@@ -1,19 +1,21 @@
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import IconButton from "@mui/material/IconButton";
-import type { DiffPanelMode } from "../../../toggleDiffPanel";
+import type { DiffPanelMode } from "./toggleDiffPanel";
 
 export function DiffModeToggle({
 	mode,
 	onToggleMode,
+	subject = "diff",
 }: {
 	mode: DiffPanelMode;
 	onToggleMode: () => void;
+	subject?: string;
 }) {
 	const full = mode === "full";
 	const label = full
-		? "Show terminal beside diff"
-		: "Fill the window with diff";
+		? `Show terminal beside ${subject}`
+		: `Fill the window with ${subject}`;
 	const Icon = full ? CloseFullscreenIcon : OpenInFullIcon;
 
 	return (
