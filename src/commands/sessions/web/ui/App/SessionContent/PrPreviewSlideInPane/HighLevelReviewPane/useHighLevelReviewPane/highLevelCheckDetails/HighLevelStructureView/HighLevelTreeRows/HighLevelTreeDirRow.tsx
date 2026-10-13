@@ -1,13 +1,14 @@
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Typography } from "@mui/material";
 import type { HighLevelTreeDir } from "../../../../../../../../../../../review/highLevel/types";
 import { HighLevelLineCounts } from "../../HighLevelLineCounts";
 import {
 	highLevelButtonResetSx,
+	highLevelTintedRowSx,
 	highLevelTreeNameSx,
 	highLevelTreeRowSx,
 } from "../../highLevelTreeRowSx";
+import { HighLevelTreeDirIcons } from "./HighLevelTreeDirRow/HighLevelTreeDirIcons";
+import { HighLevelTreeHiddenCount } from "./HighLevelTreeDirRow/HighLevelTreeHiddenCount";
 
 export function HighLevelTreeDirRow({
 	dir,
@@ -20,7 +21,6 @@ export function HighLevelTreeDirRow({
 	indent: string;
 	onToggle: () => void;
 }) {
-	const Chevron = collapsed ? ChevronRightIcon : ExpandMoreIcon;
 	return (
 		<Box
 			component="button"
@@ -28,19 +28,23 @@ export function HighLevelTreeDirRow({
 			onClick={onToggle}
 			aria-expanded={!collapsed}
 			aria-label={dir.path}
-			sx={{
-				...highLevelTreeRowSx,
-				pl: indent,
-				...highLevelButtonResetSx,
-			}}
+			sx={[
+				{ ...highLevelTreeRowSx, pl: indent, ...highLevelButtonResetSx },
+				collapsed && highLevelTintedRowSx,
+			]}
 		>
-			<Chevron sx={{ fontSize: 15, color: "text.secondary", flexShrink: 0 }} />
+			<HighLevelTreeDirIcons collapsed={collapsed} />
 			<Typography
 				component="span"
-				sx={{ ...highLevelTreeNameSx, fontWeight: 600 }}
+				sx={{
+					...highLevelTreeNameSx,
+					fontWeight: 600,
+					color: collapsed ? "primary.main" : undefined,
+				}}
 			>
 				{dir.name}
 			</Typography>
+			{collapsed && <HighLevelTreeHiddenCount dir={dir} />}
 			<HighLevelLineCounts
 				additions={dir.additions}
 				deletions={dir.deletions}

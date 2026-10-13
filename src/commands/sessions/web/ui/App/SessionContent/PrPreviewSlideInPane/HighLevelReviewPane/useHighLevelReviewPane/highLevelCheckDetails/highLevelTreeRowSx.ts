@@ -1,4 +1,11 @@
+import { alpha, type Theme } from "@mui/material/styles";
+
 export const HIGH_LEVEL_TREE_INDENT = 12;
+
+export const highLevelTintedRowSx = (theme: Theme) => ({
+	bgcolor: alpha(theme.palette.primary.main, 0.08),
+	"&:hover": { bgcolor: alpha(theme.palette.primary.main, 0.16) },
+});
 
 export const highLevelTreeRowSx = {
 	display: "flex",

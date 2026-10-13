@@ -253,12 +253,17 @@ describe("HighLevelReviewPane", () => {
 		);
 	});
 
-	it("opens a file's diff in the native viewer with a link to GitHub", () => {
-		render(<HighLevelReviewPane preview={preview()} onDecision={vi.fn()} />);
+	it("shows a file's diff inline in the native viewer with a link to GitHub", () => {
+		const { container } = render(
+			<HighLevelReviewPane preview={preview()} onDecision={vi.fn()} />,
+		);
 
-		fireEvent.click(screen.getByLabelText("Show the diff of src/app.ts"));
-
-		expect(screen.getByRole("dialog").textContent).toContain("src/app.ts");
+		expect(
+			screen
+				.getByRole("button", { name: "Collapse src/app.ts" })
+				.getAttribute("aria-expanded"),
+		).toBe("true");
+		expect(container.querySelector("table.diff")).not.toBeNull();
 		expect(
 			screen.getByLabelText("Open src/app.ts on GitHub").getAttribute("href"),
 		).toBe("https://github.com/org/repo/pull/42/files#diff-abc");

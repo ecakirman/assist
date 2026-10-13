@@ -151,17 +151,16 @@ function submitNote(note: string) {
 	fireEvent.click(screen.getByRole("button", { name: "Add comment" }));
 }
 
-function openSecondStructureFile() {
-	fireEvent.click(screen.getByLabelText("Show the diff of src/lib/util.ts"));
-	fireEvent.click(screen.getByRole("button", { name: "Next" }));
-	return screen.getByRole("dialog");
+function structureDiff(path: string) {
+	const row = screen.getByRole("button", { name: `Collapse ${path}` });
+	return row.parentElement?.nextElementSibling as Element;
 }
 
 describe("useHighLevelDiffComments", () => {
-	it("sends a comment on the structure dialog's diff to the review session", () => {
+	it("sends a comment on an inline structure diff to the review session", () => {
 		const sendInput = renderHarness();
 
-		selectWord(openSecondStructureFile(), "now");
+		selectWord(structureDiff("src/app.ts"), "now");
 		submitNote("why rename?");
 
 		const [sessionId, data] = sendInput.mock.calls[0] as [string, string];
