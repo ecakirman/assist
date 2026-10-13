@@ -1,3 +1,11 @@
+## [0.819.1](https://github.com/staff0rd/assist/compare/v0.819.0...v0.819.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* count Development-linked issues ([eaee801](https://github.com/staff0rd/assist/commit/eaee8019932010fdc6dfcd12adc98c76ceb8acfd))
+* let changed-files tree scroll inline ([9908f8b](https://github.com/staff0rd/assist/commit/9908f8bd106e55e1c740a36086695b1fbd194402))
+
 # [0.819.0](https://github.com/staff0rd/assist/compare/v0.818.1...v0.819.0) (2026-10-13)
 
 
