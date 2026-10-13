@@ -34,6 +34,7 @@ export function gatherHighLevelSubject(
 		headSha: pr.headSha,
 		checks: evaluateHighLevelChecks({
 			body: pr.body,
+			linkedIssues: pr.linkedIssues,
 			changedFiles: files.map((file) => file.path),
 			config,
 		}),

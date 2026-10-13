@@ -38,8 +38,9 @@ export const highLevelChecklist: HighLevelCheck[] = [
 	{
 		id: "description-links-issue",
 		kind: "deterministic",
-		title: "Description links the GitHub issue the PR resolves",
-		backing: "GitHub issue references in the PR body",
+		title: "PR links the GitHub issue it resolves",
+		backing:
+			"A Development-linked issue or a GitHub issue reference in the PR body",
 	},
 	{
 		id: "ui-evidence",

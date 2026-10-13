@@ -20,7 +20,7 @@ const evaluators: Record<
 	"description-word-cap": (subject) =>
 		checkDescriptionWordCap(subject.body, subject.config.descriptionWordCap),
 	"description-links-issue": (subject) =>
-		checkDescriptionLinksIssue(subject.body),
+		checkDescriptionLinksIssue(subject.body, subject.linkedIssues),
 	"ui-evidence": (subject) =>
 		checkUiEvidence(subject.body, subject.changedFiles, subject.config.uiPaths),
 };

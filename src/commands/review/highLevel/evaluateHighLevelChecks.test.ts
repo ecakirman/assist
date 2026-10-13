@@ -14,6 +14,7 @@ Resolves #412`;
 function subject(overrides: Partial<HighLevelSubject> = {}): HighLevelSubject {
 	return {
 		body: BODY,
+		linkedIssues: [],
 		changedFiles: ["src/orders/filter.ts"],
 		config: {
 			criticalPaths: [],
@@ -113,11 +114,29 @@ describe("evaluateHighLevelChecks", () => {
 		expect(result.reason).toBe(`links ${expected}`);
 	});
 
-	it("fails a description with no issue reference", () => {
+	it("passes a Development-linked issue with no body reference", () => {
 		const result = check("description-links-issue", {
 			body: "## What\n\nA change.\n\n## Why\n\nIt was broken.",
+			linkedIssues: ["acme/tracker#550"],
+		});
+		expect(result.status).toBe("pass");
+		expect(result.reason).toContain("acme/tracker#550");
+	});
+
+	it("passes a body reference with no Development link", () => {
+		const result = check("description-links-issue", { linkedIssues: [] });
+		expect(result.status).toBe("pass");
+		expect(result.reason).toBe("links #412");
+	});
+
+	it("fails with neither a body reference nor a Development link", () => {
+		const result = check("description-links-issue", {
+			body: "## What\n\nA change.\n\n## Why\n\nIt was broken.",
+			linkedIssues: [],
 		});
 		expect(result.status).toBe("fail");
+		expect(result.reason).toContain("description");
+		expect(result.reason).toContain("Development-linked");
 	});
 
 	it("does not read a comment anchor as an issue reference", () => {

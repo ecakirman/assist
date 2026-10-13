@@ -17,16 +17,16 @@ Per-file GitHub diff URLs stay available throughout, for when someone does want 
 
 Deterministic items are evaluated from the PR body and its changed files, and shown as pass or fail with the reason. Manual items are ticked by the reviewer, each backed by a view that makes the judgement possible.
 
-| Item                                                           | Kind          | Evaluated from                                                                                                     |
-| -------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Description has a **What** and a **Why** (**How** is optional) | deterministic | `## What` and `## Why` sections in the PR body, both non-empty                                                     |
-| Description is under the word cap                              | deterministic | The PR body's word count against `review.highLevel.descriptionWordCap`                                             |
-| Description links the GitHub issue the PR resolves             | deterministic | A `#123`, `owner/repo#123` or github.com issue URL in the PR body                                                  |
-| UI changes are evidenced by one or more screenshots or videos  | deterministic | An image, video or attachment in the PR body, required only when a changed file matches `review.highLevel.uiPaths` |
-| The structure of the change is sensible                        | manual        | The changed-file tree with add/delete/modify counts and a per-file GitHub diff link                                |
-| The critical-file diffs are correct                            | manual        | Full diffs of files matching `review.highLevel.criticalPaths`                                                      |
-| The tests are worth having                                     | manual        | The describe/it hierarchy of changed tests in files matching `review.highLevel.testPaths`                          |
-| If the change needs backend work, the backend PR is linked     | manual        | The PR body                                                                                                        |
+| Item                                                           | Kind          | Evaluated from                                                                                                            |
+| -------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Description has a **What** and a **Why** (**How** is optional) | deterministic | `## What` and `## Why` sections in the PR body, both non-empty                                                            |
+| Description is under the word cap                              | deterministic | The PR body's word count against `review.highLevel.descriptionWordCap`                                                    |
+| PR links the GitHub issue it resolves                          | deterministic | An issue linked in the PR's **Development** sidebar, or a `#123`, `owner/repo#123` or github.com issue URL in the PR body |
+| UI changes are evidenced by one or more screenshots or videos  | deterministic | An image, video or attachment in the PR body, required only when a changed file matches `review.highLevel.uiPaths`        |
+| The structure of the change is sensible                        | manual        | The changed-file tree with add/delete/modify counts and a per-file GitHub diff link                                       |
+| The critical-file diffs are correct                            | manual        | Full diffs of files matching `review.highLevel.criticalPaths`                                                             |
+| The tests are worth having                                     | manual        | The describe/it hierarchy of changed tests in files matching `review.highLevel.testPaths`                                 |
+| If the change needs backend work, the backend PR is linked     | manual        | The PR body                                                                                                               |
 
 The checklist is expected to change. This document carries the rationale and the expected items; the items themselves live in `src/commands/review/highLevel/highLevelChecklist.ts`, and each deterministic one is a module beside it.
 

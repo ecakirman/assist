@@ -17,6 +17,7 @@ export type HighLevelCheckResult = HighLevelCheck & {
 
 export type HighLevelSubject = {
 	body: string;
+	linkedIssues: string[];
 	changedFiles: string[];
 	config: HighLevelConfig;
 };

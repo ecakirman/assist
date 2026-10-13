@@ -9,7 +9,15 @@ function firstMatch(body: string, pattern: RegExp): string | null {
 	return body.match(pattern)?.[0] ?? null;
 }
 
-export function checkDescriptionLinksIssue(body: string): CheckOutcome {
+export function checkDescriptionLinksIssue(
+	body: string,
+	linkedIssues: string[],
+): CheckOutcome {
+	if (linkedIssues[0])
+		return {
+			status: "pass",
+			reason: `Development-linked to ${linkedIssues[0]}`,
+		};
 	const reference =
 		firstMatch(body, ISSUE_URL_PATTERN) ??
 		firstMatch(body, CROSS_REPO_PATTERN) ??
@@ -18,7 +26,7 @@ export function checkDescriptionLinksIssue(body: string): CheckOutcome {
 		return {
 			status: "fail",
 			reason:
-				"no GitHub issue reference (`#123`, `owner/repo#123`, or an issue URL) in the description",
+				"no GitHub issue reference (`#123`, `owner/repo#123`, or an issue URL) in the description and no Development-linked issue",
 		};
 	return { status: "pass", reason: `links ${reference}` };
 }
