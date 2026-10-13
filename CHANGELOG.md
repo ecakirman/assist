@@ -1,3 +1,10 @@
+# [0.822.0](https://github.com/staff0rd/assist/compare/v0.821.0...v0.822.0) (2026-10-13)
+
+
+### Features
+
+* collapsedPaths sets default collapse ([d01f4e8](https://github.com/staff0rd/assist/commit/d01f4e807a27c014772ff73899d8e73aa3ad2b82))
+
 # [0.821.0](https://github.com/staff0rd/assist/compare/v0.820.2...v0.821.0) (2026-10-13)
 
 
