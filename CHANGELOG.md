@@ -1,3 +1,10 @@
+## [0.820.2](https://github.com/staff0rd/assist/compare/v0.820.1...v0.820.2) (2026-10-13)
+
+
+### Bug Fixes
+
+* keep tree counts beside the name ([db92aa9](https://github.com/staff0rd/assist/commit/db92aa995dd530ced872d4eb3a38e9cfa074c28a))
+
 ## [0.820.1](https://github.com/staff0rd/assist/compare/v0.820.0...v0.820.1) (2026-10-13)
 
 
