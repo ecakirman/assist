@@ -1,3 +1,10 @@
+## [0.819.2](https://github.com/staff0rd/assist/compare/v0.819.1...v0.819.2) (2026-10-13)
+
+
+### Bug Fixes
+
+* keep new spawns in the background ([1769b8a](https://github.com/staff0rd/assist/commit/1769b8a539575d12be9704d4e407ba2577f75ef6))
+
 ## [0.819.1](https://github.com/staff0rd/assist/compare/v0.819.0...v0.819.1) (2026-10-13)
 
 
