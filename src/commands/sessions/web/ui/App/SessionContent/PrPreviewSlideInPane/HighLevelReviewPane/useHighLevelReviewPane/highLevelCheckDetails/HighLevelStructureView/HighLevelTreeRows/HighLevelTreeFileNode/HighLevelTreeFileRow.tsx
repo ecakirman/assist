@@ -6,6 +6,7 @@ import { HighLevelLineCounts } from "../../../HighLevelLineCounts";
 import {
 	highLevelButtonResetSx,
 	highLevelTintedRowSx,
+	highLevelTreeRowButtonSx,
 	highLevelTreeRowSx,
 } from "../../../highLevelTreeRowSx";
 import { HighLevelTreeFileLabel } from "./HighLevelTreeFileRow/HighLevelTreeFileLabel";
@@ -33,6 +34,7 @@ export function HighLevelTreeFileRow({
 				aria-label={`${open ? "Collapse" : "Expand"} ${file.path}`}
 				sx={{
 					...highLevelTreeRowSx,
+					...highLevelTreeRowButtonSx,
 					"&:hover": undefined,
 					flex: 1,
 					pl: indent,

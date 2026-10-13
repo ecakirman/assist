@@ -7,6 +7,11 @@ export const highLevelTintedRowSx = (theme: Theme) => ({
 	"&:hover": { bgcolor: alpha(theme.palette.primary.main, 0.16) },
 });
 
+export const highLevelTreeRowButtonSx = {
+	width: "100%",
+	minHeight: 24,
+} as const;
+
 export const highLevelTreeRowSx = {
 	display: "flex",
 	alignItems: "center",

@@ -5,6 +5,7 @@ import {
 	highLevelButtonResetSx,
 	highLevelTintedRowSx,
 	highLevelTreeNameSx,
+	highLevelTreeRowButtonSx,
 	highLevelTreeRowSx,
 } from "../../highLevelTreeRowSx";
 import { HighLevelTreeDirIcons } from "./HighLevelTreeDirRow/HighLevelTreeDirIcons";
@@ -29,7 +30,12 @@ export function HighLevelTreeDirRow({
 			aria-expanded={!collapsed}
 			aria-label={dir.path}
 			sx={[
-				{ ...highLevelTreeRowSx, pl: indent, ...highLevelButtonResetSx },
+				{
+					...highLevelTreeRowSx,
+					...highLevelTreeRowButtonSx,
+					pl: indent,
+					...highLevelButtonResetSx,
+				},
 				collapsed && highLevelTintedRowSx,
 			]}
 		>
