@@ -1,3 +1,10 @@
+## [0.825.1](https://github.com/staff0rd/assist/compare/v0.825.0...v0.825.1) (2026-10-14)
+
+
+### Bug Fixes
+
+* hide peer PRs approved by anyone ([32e642c](https://github.com/staff0rd/assist/commit/32e642c497b6efc7b96a23d6db549b5b3f0caf24))
+
 # [0.825.0](https://github.com/staff0rd/assist/compare/v0.824.5...v0.825.0) (2026-10-14)
 
 
