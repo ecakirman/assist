@@ -1,5 +1,6 @@
 import { sendTo } from "./broadcast";
 import type { ViewerClaim } from "./claimViewer";
+import { handleSnapshotRequest } from "./handleSnapshotRequest";
 import { type Handler, type Msg, routed } from "./routed";
 import { viewed } from "./viewed";
 
@@ -29,6 +30,7 @@ export const viewerHandlers: Record<string, Handler> = {
 			});
 		}),
 	),
+	snapshot: handleSnapshotRequest,
 	"viewer-left": (client, m, d) => {
 		if (typeof d.viewerId === "string") m.io.viewerLeft(client, d.viewerId);
 	},

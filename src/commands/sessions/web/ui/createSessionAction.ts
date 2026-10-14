@@ -2,7 +2,6 @@ import { sendCreate } from "./createHarnessSessionAction";
 import { viewerId } from "./viewerId";
 
 type SendFn = (msg: object) => void;
-type OutputHandler = (data: string) => void;
 
 export function createSessionAction(send: SendFn) {
 	return (prompt: string, cwd?: string, node?: string) =>
@@ -103,16 +102,4 @@ export function inputAction(send: SendFn) {
 export function resizeAction(send: SendFn) {
 	return (sessionId: string, cols: number, rows: number, claim?: boolean) =>
 		send({ type: "resize", sessionId, cols, rows, viewerId, claim });
-}
-
-export function outputAction(
-	buffers: Map<string, string>,
-	handlers: Map<string, OutputHandler>,
-) {
-	return (sessionId: string, handler: OutputHandler): (() => void) => {
-		const buf = buffers.get(sessionId);
-		if (buf) handler(buf);
-		handlers.set(sessionId, handler);
-		return () => handlers.delete(sessionId);
-	};
 }

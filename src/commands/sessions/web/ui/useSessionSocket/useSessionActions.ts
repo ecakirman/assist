@@ -2,7 +2,6 @@ import { type RefObject, useMemo } from "react";
 import {
 	createRunAction,
 	inputAction,
-	outputAction,
 	resizeAction,
 	setAutoAdvanceAction,
 	setStarredAction,
@@ -11,6 +10,7 @@ import {
 import { prDecisionAction } from "./useSessionActions/prDecisionAction";
 import { useLaunchActions } from "./useSessionActions/useLaunchActions";
 import { useLifecycleActions } from "./useSessionActions/useLifecycleActions";
+import { outputAction } from "./useSessionActions/outputAction";
 
 type SendFn = (msg: object) => void;
 type OutputHandler = (data: string) => void;
@@ -32,8 +32,8 @@ export function useSessionActions(
 	};
 
 	const onOutput = useMemo(
-		() => outputAction(buffers.current, handlers.current),
-		[buffers, handlers],
+		() => outputAction(send, buffers.current, handlers.current),
+		[send, buffers, handlers],
 	);
 
 	return {

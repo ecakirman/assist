@@ -4,20 +4,23 @@ import {
 	createAssistSessionAction,
 	createSessionAction,
 	dismissSessionAction,
-	outputAction,
 	restartSessionAction,
 } from "./createSessionAction";
 import { handleClear } from "./useSessionSocket/useWsConnection/useWebSocket/connectWithReconnect/createWsConnection/handleWsMessage/handleClear";
 import { handleOutput } from "./useSessionSocket/useWsConnection/useWebSocket/connectWithReconnect/createWsConnection/handleWsMessage/handleOutput";
+import { handleSnapshot } from "./useSessionSocket/useWsConnection/useWebSocket/connectWithReconnect/createWsConnection/handleWsMessage/handleSnapshot";
 import type { WsDispatch } from "./useSessionSocket/useWsConnection/useWebSocket/WsDispatch";
+import { outputAction } from "./useSessionSocket/useSessionActions/outputAction";
 
 function terminalState() {
 	const buffers = new Map<string, string>();
 	const handlers = new Map<string, (data: string) => void>();
 	const written: string[] = [];
-	const unsubscribe = outputAction(buffers, handlers)("5", (data) =>
-		written.push(data),
-	);
+	const unsubscribe = outputAction(
+		vi.fn(),
+		buffers,
+		handlers,
+	)("5", (data) => written.push(data));
 	const dispatch = {
 		buffers: { current: buffers },
 		handlers: { current: handlers },
@@ -113,5 +116,33 @@ describe("dismissSessionAction", () => {
 		handleOutput({ sessionId: "5", data: "resumed" }, dispatch);
 
 		expect(written).toEqual([]);
+	});
+});
+
+describe("outputAction", () => {
+	it("asks for a fresh snapshot when a pane remounts over buffered output", () => {
+		const send = vi.fn();
+		const buffers = new Map([["5", "frames at an old width"]]);
+		const handlers = new Map<string, (data: string) => void>();
+		const written: string[] = [];
+		outputAction(send, buffers, handlers)("5", (data) => written.push(data));
+		const dispatch = {
+			buffers: { current: buffers },
+			handlers: { current: handlers },
+		} as unknown as WsDispatch;
+
+		handleSnapshot({ sessionId: "5", data: "current" }, dispatch);
+
+		expect(send).toHaveBeenCalledWith({ type: "snapshot", sessionId: "5" });
+		expect(written).toEqual(["frames at an old width", "\x1bccurrent"]);
+		expect(buffers.get("5")).toBe("current");
+	});
+
+	it("waits for the daemon's replay when nothing is buffered", () => {
+		const send = vi.fn();
+
+		outputAction(send, new Map(), new Map())("5", vi.fn());
+
+		expect(send).not.toHaveBeenCalled();
 	});
 });
