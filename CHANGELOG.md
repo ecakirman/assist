@@ -1,3 +1,11 @@
+## [0.824.5](https://github.com/staff0rd/assist/compare/v0.824.4...v0.824.5) (2026-10-14)
+
+
+### Bug Fixes
+
+* spawn ptys at the viewer's size ([bb597a9](https://github.com/staff0rd/assist/commit/bb597a911dc16879d2c936a3fb2a2eeaabe7944d))
+* wire viewer size and resize redraw ([c2a9af4](https://github.com/staff0rd/assist/commit/c2a9af41110cc08839f19918a0f864a1c7930d61))
+
 ## [0.824.4](https://github.com/staff0rd/assist/compare/v0.824.3...v0.824.4) (2026-10-14)
 
 
