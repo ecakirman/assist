@@ -3,9 +3,11 @@ import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
 import { nudgePty } from "./nudgePty";
 import { resizePty } from "./resizePty";
-import { sendTakeoverSnapshot } from "./sendTakeoverSnapshot";
+import { sendResizeSnapshot } from "./sendResizeSnapshot";
+import { rememberViewerSize } from "./viewerSize";
 
 export type ResizeViewer = ViewerClaim & {
+	refresh?: boolean;
 	sendSnapshot?: (data: string) => void;
 };
 
@@ -27,11 +29,12 @@ export function resizeSession(
 		);
 	s.cols = cols;
 	s.rows = rows;
+	rememberViewerSize(cols, rows);
 	const resize = (c: number, r: number) => resizePty(s, c, r);
 	resize(cols, rows);
-	if (!viewer.claim) return;
-	if (viewer.sendSnapshot) sendTakeoverSnapshot(s, viewer.sendSnapshot);
-	else if (unchanged) nudgePty(s, resize);
+	if (viewer.sendSnapshot && (viewer.claim || viewer.refresh))
+		sendResizeSnapshot(s, viewer.sendSnapshot);
+	else if (viewer.claim && unchanged) nudgePty(s, resize);
 }
 
 function isInactiveViewer(

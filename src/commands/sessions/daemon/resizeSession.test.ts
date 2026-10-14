@@ -6,6 +6,7 @@ import { daemonLog } from "./daemonLog";
 import { resizeSession } from "./resizeSession";
 
 vi.mock("./daemonLog", () => ({ daemonLog: vi.fn() }));
+vi.mock("./viewerSize", () => ({ rememberViewerSize: vi.fn() }));
 
 const daemonLogMock = daemonLog as unknown as ReturnType<typeof vi.fn>;
 

@@ -1,5 +1,5 @@
 import { type RefObject, useEffect, useRef } from "react";
-import type { ResizeFn } from "../../../ResizeFn";
+import type { ResizeFn } from "../../../../../../../ResizeFn";
 import { type SessionTerminal, setupTerminal } from "./setupTerminal";
 
 type MountIo = {

@@ -6,6 +6,7 @@ import { resizeSession } from "./resizeSession";
 import { writeToSession } from "./writeToSession";
 
 vi.mock("./daemonLog", () => ({ daemonLog: vi.fn() }));
+vi.mock("./viewerSize", () => ({ rememberViewerSize: vi.fn() }));
 
 function liveSession(overrides: Partial<Session> = {}) {
 	const { pty } = makePty();
@@ -160,5 +161,36 @@ describe("active viewer", () => {
 
 		expect(pty.resize.mock.calls).toEqual([[120, 40]]);
 		expect(sendSnapshot).toHaveBeenCalledWith("prompt");
+	});
+
+	it("redraws a pane whose own size changed even when the pty's did not", () => {
+		const { sessions } = liveSession({
+			activeViewer: "a",
+			cols: 120,
+			rows: 40,
+			scrollback: "prompt",
+		});
+		const sendSnapshot = vi.fn();
+
+		resizeSession(sessions, "1", 120, 40, {
+			viewerId: "a",
+			refresh: true,
+			sendSnapshot,
+		});
+
+		expect(sendSnapshot).toHaveBeenCalledWith("prompt");
+	});
+
+	it("leaves a plain resize to the harness's own redraw", () => {
+		const { sessions } = liveSession({
+			activeViewer: "a",
+			cols: 120,
+			rows: 40,
+		});
+		const sendSnapshot = vi.fn();
+
+		resizeSession(sessions, "1", 100, 40, { viewerId: "a", sendSnapshot });
+
+		expect(sendSnapshot).not.toHaveBeenCalled();
 	});
 });

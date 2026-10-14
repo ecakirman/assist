@@ -1,9 +1,10 @@
 import { type RefObject, useCallback, useEffect } from "react";
 import type { Ownership } from "../../Ownership";
-import type { ResizeFn } from "../../../ResizeFn";
+import type { ResizeFn } from "../../../../../../../ResizeFn";
 import { isFocusHeld } from "../../../../../../holdFocus";
 import { isUserPresent } from "./isUserPresent";
 import type { TerminalHandle } from "./createTerminal";
+import { fitTerminal } from "./fitTerminal";
 import { hasTerminalSize } from "./hasTerminalSize";
 
 type FitDeps = {
@@ -23,9 +24,9 @@ export function useFitWhenVisible(
 	const fit = useCallback(() => {
 		const h = handleRef.current;
 		if (!h || !mayResize() || !hasTerminalSize(containerRef.current)) return;
-		h.fitAddon.fit();
+		const mode = fitTerminal(h);
 		if (!isFocusHeld()) h.term.focus();
-		sendResize(sessionId, h.term.cols, h.term.rows);
+		sendResize(sessionId, h.term.cols, h.term.rows, mode);
 	}, [containerRef, handleRef, mayResize, sessionId, sendResize]);
 
 	useEffect(() => {

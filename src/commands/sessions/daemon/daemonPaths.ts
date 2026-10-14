@@ -19,4 +19,5 @@ export const daemonPaths = {
 	autoUpdatePaused: join(DAEMON_DIR, "auto-update-paused"),
 	spawnLock: join(DAEMON_DIR, "spawn.lock"),
 	hooksSettings: join(DAEMON_DIR, "hooks-settings.json"),
+	viewerSize: join(DAEMON_DIR, "viewer-size.json"),
 };

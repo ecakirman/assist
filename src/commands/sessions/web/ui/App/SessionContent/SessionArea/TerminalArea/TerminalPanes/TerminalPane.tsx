@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { useRef } from "react";
 import type { Ownership } from "./Ownership";
-import type { ResizeFn } from "../ResizeFn";
+import type { ResizeFn } from "../../../../../ResizeFn";
 import { TakeOverOverlay } from "./TerminalPane/TakeOverOverlay";
 import { useTerminal } from "./TerminalPane/useTerminal";
 

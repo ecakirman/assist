@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import type { ResizeFn } from "./ResizeFn";
+import type { ResizeFn } from "../../../../ResizeFn";
 import { hasEnded } from "./TerminalPanes/hasEnded";
 import { SessionLoadingOverlay } from "./TerminalPanes/SessionLoadingOverlay";
 import { TerminalPane } from "./TerminalPanes/TerminalPane";

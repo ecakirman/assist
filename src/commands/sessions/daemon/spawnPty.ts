@@ -3,6 +3,7 @@ import * as pty from "node-pty";
 import { daemonLog } from "./daemonLog";
 import { ensureSpawnHelperExecutable } from "./ensureSpawnHelperExecutable";
 import { resolvePtyCommand } from "./resolvePtyCommand";
+import { viewerSize } from "./viewerSize";
 
 export class MissingCwdError extends Error {
 	constructor(readonly cwd: string) {
@@ -36,8 +37,7 @@ export function spawnPty(
 
 	return pty.spawn(command.file, command.args, {
 		name: "xterm-256color",
-		cols: 120,
-		rows: 30,
+		...viewerSize(),
 		cwd: cwd ?? process.cwd(),
 		env: {
 			...parentEnv,

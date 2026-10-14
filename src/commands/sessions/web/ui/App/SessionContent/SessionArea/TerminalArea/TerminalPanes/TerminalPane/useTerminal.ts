@@ -1,6 +1,6 @@
 import { type RefObject, useRef } from "react";
 import type { Ownership } from "../Ownership";
-import type { ResizeFn } from "../../ResizeFn";
+import type { ResizeFn } from "../../../../../../ResizeFn";
 import { isUserPresent } from "./useTerminal/isUserPresent";
 import { maySizeSession } from "./useTerminal/maySizeSession";
 import { pressHandler } from "./useTerminal/pressHandler";

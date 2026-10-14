@@ -4,20 +4,23 @@ import type { TerminalHandle } from "./createTerminal";
 import { setupTerminal } from "./setupTerminal";
 
 const fit = vi.fn();
+let term = { cols: 120, rows: 40 };
 
 vi.mock("./createTerminal", () => ({
-	createTerminal: () =>
-		({
-			term: {
-				cols: 120,
-				rows: 40,
-				onData: vi.fn(),
-				attachCustomKeyEventHandler: vi.fn(),
-				write: vi.fn(),
-			},
+	createTerminal: () => {
+		term = {
+			cols: 120,
+			rows: 40,
+			onData: vi.fn(),
+			attachCustomKeyEventHandler: vi.fn(),
+			write: vi.fn(),
+		} as typeof term;
+		return {
+			term,
 			fitAddon: { fit },
 			dispose: vi.fn(),
-		}) as unknown as TerminalHandle,
+		} as unknown as TerminalHandle;
+	},
 }));
 
 let notifyResize: () => void = () => {};
@@ -67,7 +70,19 @@ describe("setupTerminal resize reporting", () => {
 		vi.runAllTimers();
 
 		expect(fit).toHaveBeenCalled();
-		expect(sendResize).toHaveBeenCalledWith("session-1", 120, 40);
+		expect(sendResize).toHaveBeenCalledWith("session-1", 120, 40, undefined);
+	});
+
+	it("asks for a redraw when the fit changes the terminal's size", () => {
+		fit.mockImplementationOnce(() => {
+			term.cols = 200;
+		});
+		const sendResize = attach(paneOfSize(600, 400));
+
+		notifyResize();
+		vi.runAllTimers();
+
+		expect(sendResize).toHaveBeenCalledWith("session-1", 200, 40, "refresh");
 	});
 
 	it("reports once after a burst of resizes settles", () => {

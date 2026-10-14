@@ -1,5 +1,5 @@
 import { type RefObject, useCallback, useEffect } from "react";
-import type { ResizeFn } from "../../../ResizeFn";
+import type { ResizeFn } from "../../../../../../../ResizeFn";
 import type { Ownership } from "../../Ownership";
 import { hasTerminalSize } from "./hasTerminalSize";
 import type { SessionTerminal } from "./setupTerminal";
@@ -25,7 +25,7 @@ export function useTakeOver(
 		if (!hasTerminalSize(containerRef.current)) return;
 		h.fitAddon.fit();
 		h.term.focus();
-		sendResize(sessionId, h.term.cols, h.term.rows, true);
+		sendResize(sessionId, h.term.cols, h.term.rows, "claim");
 	}, [containerRef, handleRef, staleRef, sessionId, ended, sendResize]);
 
 	useEffect(() => {

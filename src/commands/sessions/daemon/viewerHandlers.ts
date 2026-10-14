@@ -19,14 +19,15 @@ export const viewerHandlers: Record<string, Handler> = {
 		routed((client, m, d) => {
 			const sessionId = d.sessionId as string;
 			const claim = d.claim === true;
+			const refresh = d.refresh === true;
 			const localViewer = d.viewerNode === m.links.localNode();
 			m.io.resize(sessionId, d.cols as number, d.rows as number, {
 				...viewerOf(d),
 				claim,
-				sendSnapshot:
-					claim && localViewer
-						? (data) => sendTo(client, { type: "snapshot", sessionId, data })
-						: undefined,
+				refresh,
+				sendSnapshot: localViewer
+					? (data) => sendTo(client, { type: "snapshot", sessionId, data })
+					: undefined,
 			});
 		}),
 	),

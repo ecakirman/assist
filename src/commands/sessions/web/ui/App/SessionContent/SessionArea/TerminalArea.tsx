@@ -1,5 +1,5 @@
 import { isSessionStarting } from "../../isSessionStarting";
-import type { ResizeFn } from "./TerminalArea/ResizeFn";
+import type { ResizeFn } from "../../../ResizeFn";
 import { TerminalPanes } from "./TerminalArea/TerminalPanes";
 import type { SessionInfo } from "../../../types";
 

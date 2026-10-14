@@ -1,5 +1,6 @@
-import type { ResizeFn } from "../../../ResizeFn";
+import type { ResizeFn } from "../../../../../../../ResizeFn";
 import { createTerminal, type TerminalHandle } from "./createTerminal";
+import { fitTerminal } from "./fitTerminal";
 import { handleClipboardKey } from "./setupTerminal/handleClipboardKey";
 import { hasTerminalSize } from "./hasTerminalSize";
 import { isAppHotkey } from "./setupTerminal/isAppHotkey";
@@ -43,8 +44,8 @@ export function setupTerminal(
 	});
 	const stopObserving = observeSettledResize(el, () => {
 		if (!mayResize() || !hasTerminalSize(el)) return;
-		handle.fitAddon.fit();
-		sendResize(sessionId, handle.term.cols, handle.term.rows);
+		const mode = fitTerminal(handle);
+		sendResize(sessionId, handle.term.cols, handle.term.rows, mode);
 	});
 
 	const cleanup = () => {
