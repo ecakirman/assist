@@ -1,3 +1,10 @@
+## [0.824.4](https://github.com/staff0rd/assist/compare/v0.824.3...v0.824.4) (2026-10-14)
+
+
+### Bug Fixes
+
+* snapshot terminal on pane remount ([b1ddd9c](https://github.com/staff0rd/assist/commit/b1ddd9c14c9bbc962c57fab3cf06afce00338f9d))
+
 ## [0.824.3](https://github.com/staff0rd/assist/compare/v0.824.2...v0.824.3) (2026-10-14)
 
 
