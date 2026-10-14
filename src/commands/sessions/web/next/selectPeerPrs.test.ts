@@ -86,6 +86,31 @@ describe("selectPeerPrs", () => {
 		expect(numbers([pr(1, { myReview: "APPROVED" })])).toEqual([]);
 	});
 
+	it("excludes peer PRs approved by another reviewer", () => {
+		expect(
+			numbers([
+				pr(1, {
+					latestReviews: {
+						nodes: [{ author: { login: "bob" }, state: "APPROVED" }],
+					},
+				}),
+			]),
+		).toEqual([]);
+	});
+
+	it("keeps requested PRs approved by another reviewer", () => {
+		expect(
+			numbers([
+				pr(1, {
+					requested: ["me"],
+					latestReviews: {
+						nodes: [{ author: { login: "bob" }, state: "APPROVED" }],
+					},
+				}),
+			]),
+		).toEqual([1]);
+	});
+
 	it("keeps peer PRs where my latest review was not an approval", () => {
 		expect(
 			numbers([
