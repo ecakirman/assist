@@ -27,6 +27,7 @@ export function HighLevelTestRow({
 			<Box sx={{ ...highLevelTreeRowSx, pl: indent }}>
 				<HighLevelTestToggle
 					name={test.name}
+					change={test.change}
 					open={open}
 					onToggle={() => setOpen(!open)}
 				/>

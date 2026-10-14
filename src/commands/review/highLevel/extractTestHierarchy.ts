@@ -1,32 +1,10 @@
-import { type CallExpression, Node, Project } from "ts-morph";
+import { Node, Project } from "ts-morph";
 import { classifyTestCall } from "./classifyTestCall";
-import type { HighLevelTestCase, HighLevelTestNode } from "./types";
-import { dedentedSource } from "./dedentedSource";
+import type { HighLevelTestNode } from "./types";
 import { testName } from "./testName";
+import { visitCase } from "./visitCase";
 
 type Context = { path: string; changed?: Set<number> };
-
-function touchesChange(call: CallExpression, changed?: Set<number>): boolean {
-	if (!changed) return true;
-	for (
-		let line = call.getStartLineNumber();
-		line <= call.getEndLineNumber();
-		line++
-	)
-		if (changed.has(line)) return true;
-	return false;
-}
-
-function toCase(call: CallExpression, context: Context): HighLevelTestCase {
-	const line = call.getStartLineNumber();
-	return {
-		kind: "it",
-		id: `${context.path}:${line}`,
-		name: testName(call),
-		line,
-		source: dedentedSource(call),
-	};
-}
 
 function collect(node: Node, context: Context): HighLevelTestNode[] {
 	const found: HighLevelTestNode[] = [];
@@ -39,8 +17,7 @@ function collect(node: Node, context: Context): HighLevelTestNode[] {
 function visit(node: Node, context: Context): HighLevelTestNode[] {
 	if (!Node.isCallExpression(node)) return collect(node, context);
 	const kind = classifyTestCall(node);
-	if (kind === "it")
-		return touchesChange(node, context.changed) ? [toCase(node, context)] : [];
+	if (kind === "it") return visitCase(node, context);
 	if (kind === undefined) return collect(node, context);
 	const children = node
 		.getArguments()

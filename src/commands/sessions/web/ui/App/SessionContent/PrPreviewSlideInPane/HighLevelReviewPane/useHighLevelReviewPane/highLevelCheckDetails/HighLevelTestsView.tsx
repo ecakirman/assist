@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import type { HighLevelTestFile } from "../../../../../../../../../review/highLevel/types";
 import { HighLevelCriticalDiffHeader } from "./HighLevelCriticalDiffHeader";
 import { HighLevelDiffNote } from "./HighLevelDiffNote";
 import { HighLevelTestNodes } from "./HighLevelTestNodes";
+import { highLevelTestChangeSummary } from "./HighLevelTestsView/highLevelTestChangeSummary";
 import { useHighLevelCollapse } from "./useHighLevelCollapse";
 
 export type HighLevelTestNotes = {
@@ -29,6 +30,13 @@ export function HighLevelTestsView({
 		);
 	return (
 		<Box sx={{ minWidth: 0 }}>
+			<Typography
+				variant="caption"
+				component="div"
+				sx={{ color: "text.secondary", mb: 0.5 }}
+			>
+				{highLevelTestChangeSummary(files)}
+			</Typography>
 			{files.map((file) => (
 				<Box key={file.path} sx={{ mb: 1, minWidth: 0 }}>
 					<HighLevelCriticalDiffHeader

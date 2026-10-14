@@ -74,6 +74,7 @@ type HighLevelTestBase = { name: string; line: number };
 export type HighLevelTestCase = HighLevelTestBase & {
 	kind: "it";
 	id: string;
+	change?: "added" | "modified";
 	source?: string;
 	truncated?: boolean;
 };

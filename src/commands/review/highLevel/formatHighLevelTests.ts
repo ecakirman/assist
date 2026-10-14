@@ -1,9 +1,20 @@
 import chalk from "chalk";
-import type { HighLevelTestFile, HighLevelTestNode } from "./types";
+import type {
+	HighLevelTestCase,
+	HighLevelTestFile,
+	HighLevelTestNode,
+} from "./types";
+
+function changeMarker(change: HighLevelTestCase["change"]): string {
+	if (change === "added") return "A";
+	if (change === "modified") return "M";
+	return "·";
+}
 
 function formatNode(node: HighLevelTestNode, depth: number): string[] {
 	const indent = "  ".repeat(depth + 2);
-	if (node.kind === "it") return [`${indent}${chalk.dim("·")} ${node.name}`];
+	if (node.kind === "it")
+		return [`${indent}${chalk.dim(changeMarker(node.change))} ${node.name}`];
 	return [
 		`${indent}${chalk.bold(node.name)}`,
 		...node.children.flatMap((child) => formatNode(child, depth + 1)),

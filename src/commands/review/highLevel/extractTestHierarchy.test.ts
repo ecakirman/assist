@@ -53,8 +53,30 @@ describe("extractTestHierarchy", () => {
 			id: "a.test.ts:7",
 			name: "first",
 			line: 7,
+			change: "modified",
 			source: 'it("first", () => {\n\texpect(1).toBe(1);\n})',
 		});
+	});
+
+	it("marks a test added when every line is new, modified when only some are", () => {
+		const tests = extractTestHierarchy(
+			"a.test.ts",
+			source,
+			new Set([8, 11, 12, 13]),
+		);
+		const [outer] = tests;
+		const inner = outer?.kind === "describe" ? outer.children[0] : undefined;
+		const cases = inner?.kind === "describe" ? inner.children : [];
+
+		expect(
+			cases.map((node) => (node.kind === "it" ? node.change : undefined)),
+		).toEqual(["modified", "added"]);
+	});
+
+	it("leaves change unset when nothing narrows the tests", () => {
+		const [top] = extractTestHierarchy("a.test.ts", "it('x', () => {});\n");
+
+		expect(top).not.toHaveProperty("change");
 	});
 
 	it("ignores hooks and Playwright-style config calls", () => {
