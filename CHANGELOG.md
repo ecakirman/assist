@@ -1,3 +1,10 @@
+## [0.824.3](https://github.com/staff0rd/assist/compare/v0.824.2...v0.824.3) (2026-10-14)
+
+
+### Bug Fixes
+
+* replay terminal at current width ([363f1a9](https://github.com/staff0rd/assist/commit/363f1a9c669fb487de7432bc02e802eea8366f8a))
+
 ## [0.824.2](https://github.com/staff0rd/assist/compare/v0.824.1...v0.824.2) (2026-10-13)
 
 
