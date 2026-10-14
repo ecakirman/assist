@@ -3,7 +3,7 @@ import type { ViewerClaim } from "./claimViewer";
 import type { NodeLinks } from "./links/NodeLinks";
 import { releaseViewer } from "./releaseViewer";
 import type { OnStatusChange, Session } from "./types";
-import { resizeSession } from "./resizeSession";
+import { type ResizeViewer, resizeSession } from "./resizeSession";
 import { ViewerConnections } from "./ViewerConnections";
 import { writeToSession } from "./writeToSession";
 
@@ -39,7 +39,7 @@ export class SessionIo {
 		});
 	}
 
-	resize(id: string, cols: number, rows: number, viewer?: ViewerClaim): void {
+	resize(id: string, cols: number, rows: number, viewer?: ResizeViewer): void {
 		resizeSession(this.sessions, id, cols, rows, {
 			...viewer,
 			onClaim: this.notify,

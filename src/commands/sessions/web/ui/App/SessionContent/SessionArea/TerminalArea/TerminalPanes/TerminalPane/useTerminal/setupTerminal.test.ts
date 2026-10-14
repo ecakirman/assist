@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { TerminalHandle } from "./createTerminal";
 import { setupTerminal } from "./setupTerminal";
 
@@ -52,6 +52,11 @@ function attach(el: HTMLElement, mayResize = true) {
 beforeEach(() => {
 	fit.mockClear();
 	vi.stubGlobal("ResizeObserver", StubResizeObserver);
+	vi.useFakeTimers();
+});
+
+afterEach(() => {
+	vi.useRealTimers();
 });
 
 describe("setupTerminal resize reporting", () => {
@@ -59,15 +64,30 @@ describe("setupTerminal resize reporting", () => {
 		const sendResize = attach(paneOfSize(600, 400));
 
 		notifyResize();
+		vi.runAllTimers();
 
 		expect(fit).toHaveBeenCalled();
 		expect(sendResize).toHaveBeenCalledWith("session-1", 120, 40);
+	});
+
+	it("reports once after a burst of resizes settles", () => {
+		const sendResize = attach(paneOfSize(600, 400));
+
+		notifyResize();
+		notifyResize();
+		notifyResize();
+		expect(sendResize).not.toHaveBeenCalled();
+		vi.runAllTimers();
+
+		expect(fit).toHaveBeenCalledOnce();
+		expect(sendResize).toHaveBeenCalledOnce();
 	});
 
 	it("stays silent while the pane is collapsed by full mode", () => {
 		const sendResize = attach(paneOfSize(0, 0));
 
 		notifyResize();
+		vi.runAllTimers();
 
 		expect(fit).not.toHaveBeenCalled();
 		expect(sendResize).not.toHaveBeenCalled();
@@ -77,6 +97,7 @@ describe("setupTerminal resize reporting", () => {
 		const sendResize = attach(paneOfSize(600, 400), false);
 
 		notifyResize();
+		vi.runAllTimers();
 
 		expect(sendResize).not.toHaveBeenCalled();
 	});

@@ -2,13 +2,19 @@ import { claimViewer, type ViewerClaim } from "./claimViewer";
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
 import { nudgePty } from "./nudgePty";
+import { resizePty } from "./resizePty";
+import { sendTakeoverSnapshot } from "./sendTakeoverSnapshot";
+
+export type ResizeViewer = ViewerClaim & {
+	sendSnapshot?: (data: string) => void;
+};
 
 export function resizeSession(
 	sessions: Map<string, Session>,
 	id: string,
 	cols: number,
 	rows: number,
-	viewer: ViewerClaim = {},
+	viewer: ResizeViewer = {},
 ): void {
 	const s = sessions.get(id);
 	if (!s || isInactiveViewer(s, viewer)) return;
@@ -23,7 +29,9 @@ export function resizeSession(
 	s.rows = rows;
 	const resize = (c: number, r: number) => resizePty(s, c, r);
 	resize(cols, rows);
-	if (viewer.claim && unchanged) nudgePty(s, resize);
+	if (!viewer.claim) return;
+	if (viewer.sendSnapshot) sendTakeoverSnapshot(s, viewer.sendSnapshot);
+	else if (unchanged) nudgePty(s, resize);
 }
 
 function isInactiveViewer(
@@ -32,14 +40,4 @@ function isInactiveViewer(
 ): boolean {
 	if (claim || !viewerId || !s.activeViewer) return false;
 	return s.activeViewer !== viewerId;
-}
-
-function resizePty(s: Session, cols: number, rows: number): void {
-	try {
-		s.pty?.resize(cols, rows);
-	} catch (error) {
-		daemonLog(
-			`session ${s.id} resize skipped (dead pty): ${error instanceof Error ? error.message : String(error)}`,
-		);
-	}
 }

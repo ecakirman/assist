@@ -12,6 +12,7 @@ export type TerminalHandle = {
 export function createTerminal(el: HTMLElement): TerminalHandle {
 	const term = new Terminal({
 		cursorBlink: true,
+		scrollback: 5000,
 		fontSize: 14,
 		fontFamily: "'Cascadia Code', 'Fira Code', Consolas, monospace",
 		theme: { background: "#1e1e1e", foreground: "#d4d4d4" },

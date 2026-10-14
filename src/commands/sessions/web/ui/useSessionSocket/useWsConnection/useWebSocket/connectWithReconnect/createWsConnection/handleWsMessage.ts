@@ -7,6 +7,7 @@ import { handleNotice } from "./handleWsMessage/handleNotice";
 import { handleOutput } from "./handleWsMessage/handleOutput";
 import { handleRunConflict } from "./handleWsMessage/handleRunConflict";
 import { handleSessions } from "./handleWsMessage/handleSessions";
+import { handleSnapshot } from "./handleWsMessage/handleSnapshot";
 import type {
 	HistoricalSession,
 	TranscriptMessage,
@@ -37,6 +38,7 @@ const wsHandlers: Record<string, (msg: Msg, d: WsDispatch) => void> = {
 	limits: handleLimits,
 	clear: handleClear,
 	output: handleOutput,
+	snapshot: handleSnapshot,
 };
 
 export function handleWsMessage(msg: Msg, d: WsDispatch): void {

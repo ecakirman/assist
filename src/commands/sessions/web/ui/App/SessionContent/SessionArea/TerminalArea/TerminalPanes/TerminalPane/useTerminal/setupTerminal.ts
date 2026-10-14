@@ -3,6 +3,7 @@ import { createTerminal, type TerminalHandle } from "./createTerminal";
 import { handleClipboardKey } from "./setupTerminal/handleClipboardKey";
 import { hasTerminalSize } from "./hasTerminalSize";
 import { isAppHotkey } from "./setupTerminal/isAppHotkey";
+import { observeSettledResize } from "./setupTerminal/observeSettledResize";
 
 type TerminalIo = {
 	sendInput: (sessionId: string, data: string) => void;
@@ -40,15 +41,14 @@ export function setupTerminal(
 			handle.term.paste(text),
 		);
 	});
-	const observer = new ResizeObserver(() => {
+	const stopObserving = observeSettledResize(el, () => {
 		if (!mayResize() || !hasTerminalSize(el)) return;
 		handle.fitAddon.fit();
 		sendResize(sessionId, handle.term.cols, handle.term.rows);
 	});
-	observer.observe(el);
 
 	const cleanup = () => {
-		observer.disconnect();
+		stopObserving();
 		unsubOutput();
 		handle.dispose();
 	};

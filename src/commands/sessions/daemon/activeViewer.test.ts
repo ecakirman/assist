@@ -141,4 +141,24 @@ describe("active viewer", () => {
 			[120, 40],
 		]);
 	});
+
+	it("sends a local takeover the current screen instead of nudging", () => {
+		const { pty, sessions } = liveSession({
+			activeViewer: "a",
+			cols: 120,
+			rows: 40,
+			scrollback: "prompt",
+		});
+		const sendSnapshot = vi.fn();
+
+		resizeSession(sessions, "1", 120, 40, {
+			viewerId: "b",
+			claim: true,
+			sendSnapshot,
+		});
+		vi.runAllTimers();
+
+		expect(pty.resize.mock.calls).toEqual([[120, 40]]);
+		expect(sendSnapshot).toHaveBeenCalledWith("prompt");
+	});
 });

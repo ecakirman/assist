@@ -1,6 +1,6 @@
 import { type SessionClient, sendTo } from "./broadcast";
 import type { Session } from "./createSession";
-import { stripReplayQueries } from "./stripReplayQueries";
+import { sessionSnapshot } from "./sessionSnapshot";
 
 export function replayScrollback(
 	sessions: Map<string, Session>,
@@ -11,7 +11,7 @@ export function replayScrollback(
 			sendTo(client, {
 				type: "output",
 				sessionId: s.id,
-				data: stripReplayQueries(s.scrollback),
+				data: sessionSnapshot(s),
 			});
 	}
 }

@@ -19,6 +19,7 @@ export function respawnSession(
 	session.closeGrace?.cancel();
 	session.closing = undefined;
 	session.scrollback = "";
+	session.screen = undefined;
 	session.startedAt = Date.now();
 	session.runningMs = 0;
 	session.runningSince = null;

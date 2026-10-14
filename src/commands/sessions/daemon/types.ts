@@ -6,6 +6,7 @@ import type {
 	PrPreview,
 	SessionInfoBase,
 } from "../shared/SessionInfoBase";
+import type { ScreenMirror } from "./createScreenMirror";
 import type { SessionInterruption } from "./SessionInterruption";
 import type { spawnClaude } from "./spawnClaude";
 import type { StateWatcher } from "./worktree/watchGitState";
@@ -46,6 +47,7 @@ export type Session = {
 	waitingSince: number | null;
 	pty: ReturnType<typeof spawnClaude> | null;
 	scrollback: string;
+	screen?: ScreenMirror;
 	runName?: string;
 	runArgs?: string[];
 	assistArgs?: string[];
