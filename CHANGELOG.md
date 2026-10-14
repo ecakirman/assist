@@ -1,3 +1,10 @@
+# [0.825.0](https://github.com/staff0rd/assist/compare/v0.824.5...v0.825.0) (2026-10-14)
+
+
+### Features
+
+* mark changed tests added or modified ([b314043](https://github.com/staff0rd/assist/commit/b314043c85d5832e23897cf6d3b5cf95189d3986))
+
 ## [0.824.5](https://github.com/staff0rd/assist/compare/v0.824.4...v0.824.5) (2026-10-14)
 
 
