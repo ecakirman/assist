@@ -1,3 +1,10 @@
+# [0.830.0](https://github.com/staff0rd/assist/compare/v0.829.0...v0.830.0) (2026-10-15)
+
+
+### Features
+
+* assist popover and header button ([e29f99b](https://github.com/staff0rd/assist/commit/e29f99b94d6aad043867a0c3533844cabb58e09b))
+
 # [0.829.0](https://github.com/staff0rd/assist/compare/v0.828.1...v0.829.0) (2026-10-15)
 
 
