@@ -1,3 +1,10 @@
+# [0.827.0](https://github.com/staff0rd/assist/compare/v0.826.0...v0.827.0) (2026-10-15)
+
+
+### Features
+
+* wait for server port before relaunch ([e9f23d1](https://github.com/staff0rd/assist/commit/e9f23d14b6165afdd2c12f72089a7e865e7f9d5f))
+
 # [0.826.0](https://github.com/staff0rd/assist/compare/v0.825.2...v0.826.0) (2026-10-15)
 
 
