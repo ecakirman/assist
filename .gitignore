@@ -10,7 +10,7 @@ screenshots
 .claude/settings.local.json
 assist-test.txt
 .assist/backlog.db
-criteria-extension/content.js
-criteria-extension/background.js
-criteria-extension/options.js
+extension/content.js
+extension/background.js
+extension/options.js
 claude/skills/review-ci/scripts/

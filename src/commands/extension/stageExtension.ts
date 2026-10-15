@@ -2,7 +2,7 @@ import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { stampManifestVersion } from "./stampManifestVersion";
 
-export async function stageCriteriaExtension(
+export async function stageExtension(
 	source: string,
 	staging: string,
 	version: string,

@@ -4,24 +4,22 @@ import { bundledSources } from "./bundledSources";
 import { latestUpdate } from "./latestUpdate";
 
 const entryPoints = [
-	"src/commands/criteriaExtension/criteriaContentScript.ts",
-	"src/commands/criteriaExtension/sendToAssist/assistBackground.ts",
-	"src/commands/criteriaExtension/sendToAssist/assistOptions.ts",
+	"src/commands/extension/criteriaContentScript.ts",
+	"src/commands/extension/sendToAssist/assistBackground.ts",
+	"src/commands/extension/sendToAssist/assistOptions.ts",
 ];
 
 function lastSignedVersion(): string | undefined {
 	const updates = execFileSync(
 		"git",
-		["show", "origin/main:criteria-extension/updates.json"],
+		["show", "origin/main:extension/updates.json"],
 		{ encoding: "utf8" },
 	);
-	return latestUpdate(
-		readFileSync("criteria-extension/manifest.json", "utf8"),
-		updates,
-	)?.version;
+	return latestUpdate(readFileSync("extension/manifest.json", "utf8"), updates)
+		?.version;
 }
 
-export async function criteriaExtensionChanged(): Promise<boolean> {
+export async function extensionChanged(): Promise<boolean> {
 	const signed = lastSignedVersion();
 	if (!signed) {
 		console.log("No signed version recorded; signing.");
@@ -29,10 +27,10 @@ export async function criteriaExtensionChanged(): Promise<boolean> {
 	}
 	const range = [`v${signed}`, "HEAD", "--"];
 	const paths = [
-		"criteria-extension",
-		"src/commands/criteriaExtension",
+		"extension",
+		"src/commands/extension",
 		...(await Promise.all(entryPoints.map(bundledSources))).flat(),
-		":!criteria-extension/updates.json",
+		":!extension/updates.json",
 	];
 	const { status } = spawnSync("git", ["diff", "--quiet", ...range, ...paths]);
 	if (status === 0) {
@@ -46,6 +44,6 @@ export async function criteriaExtensionChanged(): Promise<boolean> {
 	return true;
 }
 
-const changed = await criteriaExtensionChanged();
+const changed = await extensionChanged();
 if (process.env.GITHUB_OUTPUT)
 	appendFileSync(process.env.GITHUB_OUTPUT, `changed=${changed}\n`);

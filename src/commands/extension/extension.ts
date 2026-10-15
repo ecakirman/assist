@@ -1,10 +1,10 @@
 import { cp } from "node:fs/promises";
 import chalk from "chalk";
 import { detectPlatform } from "../../lib/detectPlatform";
-import { criteriaExtensionDir } from "./criteriaExtensionDir";
+import { extensionDir } from "./extensionDir";
 
-const WSL_WINDOWS_DIR = "/mnt/c/tools/criteria-extension";
-const WSL_WINDOWS_PATH = String.raw`C:\tools\criteria-extension`;
+const WSL_WINDOWS_DIR = "/mnt/c/tools/extension";
+const WSL_WINDOWS_PATH = String.raw`C:\tools\extension`;
 
 /**
  * Under WSL the browser runs on the Windows host, which cannot load an unpacked
@@ -23,8 +23,8 @@ async function loadPath(source: string): Promise<string> {
 	}
 }
 
-export async function criteriaExtension(): Promise<void> {
-	const path = await loadPath(criteriaExtensionDir());
+export async function extension(): Promise<void> {
+	const path = await loadPath(extensionDir());
 	console.log(
 		chalk.bold("acceptance criteria outliner — GitHub browser extension"),
 	);

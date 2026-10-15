@@ -5,7 +5,7 @@ description: Get the install link for the assist browser extension
 Run:
 
 ```
-assist criteria-extension --url
+assist extension --url
 ```
 
 It prints the download URL of the latest signed Firefox build. If it fails, report the error and stop.

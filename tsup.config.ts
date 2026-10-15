@@ -21,25 +21,22 @@ export default defineConfig({
 		});
 		await build({
 			entryPoints: {
-				content: "src/commands/criteriaExtension/criteriaContentScript.ts",
-				background:
-					"src/commands/criteriaExtension/sendToAssist/assistBackground.ts",
-				options: "src/commands/criteriaExtension/sendToAssist/assistOptions.ts",
+				content: "src/commands/extension/criteriaContentScript.ts",
+				background: "src/commands/extension/sendToAssist/assistBackground.ts",
+				options: "src/commands/extension/sendToAssist/assistOptions.ts",
 			},
 			bundle: true,
 			minify: true,
 			format: "iife",
 			target: "es2020",
-			outdir: "criteria-extension",
+			outdir: "extension",
 			jsx: "automatic",
 			jsxImportSource: "react",
 			define: { "process.env.NODE_ENV": '"production"' },
 		});
-		cpSync(
-			"criteria-extension",
-			"dist/commands/criteriaExtension/criteria-extension",
-			{ recursive: true },
-		);
+		cpSync("extension", "dist/commands/extension/extension", {
+			recursive: true,
+		});
 		await build({
 			entryPoints: {
 				init: "src/commands/review/ci/reviewCiInit.ts",

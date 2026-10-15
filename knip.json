@@ -4,10 +4,10 @@
 		"oxlint-rules/filenameConvention.ts",
 		"src/commands/sessions/web/ui/App.tsx",
 		"src/commands/sessions/web/ui/installMonacoGlobal.ts",
-		"src/commands/criteriaExtension/criteriaContentScript.ts",
-		"src/commands/criteriaExtension/sendToAssist/assistBackground.ts",
-		"src/commands/criteriaExtension/sendToAssist/assistOptions.ts",
-		"src/commands/criteriaExtension/criteriaExtensionChanged.ts",
+		"src/commands/extension/criteriaContentScript.ts",
+		"src/commands/extension/sendToAssist/assistBackground.ts",
+		"src/commands/extension/sendToAssist/assistOptions.ts",
+		"src/commands/extension/extensionChanged.ts",
 		"src/commands/review/ci/reviewCiInit.ts",
 		"src/commands/review/ci/reviewCiCheck.ts",
 		"src/commands/review/ci/reviewCiReview.ts",
@@ -20,10 +20,5 @@
 		"oxlint",
 		"skott"
 	],
-	"ignore": [
-		"**/.venv/**",
-		"netcap-extension/**",
-		"criteria-extension/**",
-		"pi/**"
-	]
+	"ignore": ["**/.venv/**", "netcap-extension/**", "extension/**", "pi/**"]
 }

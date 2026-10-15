@@ -1,11 +1,11 @@
 import type { Command } from "commander";
-import { criteriaExtension } from "./criteriaExtension/criteriaExtension";
-import { printCriteriaExtensionUrl } from "./criteriaExtension/printCriteriaExtensionUrl";
-import { signCriteriaExtension } from "./criteriaExtension/signCriteriaExtension";
+import { extension } from "./extension/extension";
+import { printExtensionUrl } from "./extension/printExtensionUrl";
+import { signExtension } from "./extension/signExtension";
 
-export function registerCriteriaExtension(program: Command): void {
+export function registerExtension(program: Command): void {
 	program
-		.command("criteria-extension")
+		.command("extension")
 		.description(
 			"Print the directory to load the acceptance criteria outliner browser extension from (load unpacked)",
 		)
@@ -18,7 +18,7 @@ export function registerCriteriaExtension(program: Command): void {
 			"Print the download URL of the latest signed Firefox build, read from the update manifest on main",
 		)
 		.action((options: { sign?: boolean; url?: boolean }) => {
-			if (options.url) return printCriteriaExtensionUrl();
-			return options.sign ? signCriteriaExtension() : criteriaExtension();
+			if (options.url) return printExtensionUrl();
+			return options.sign ? signExtension() : extension();
 		});
 }

@@ -59,7 +59,7 @@ const htmlHandler = createHtmlHandler(getHtml);
 const faviconHandler = (size: number) =>
 	createBundleHandler(
 		import.meta.url,
-		`commands/criteriaExtension/criteria-extension/icons/assist-${size}.png`,
+		`commands/extension/extension/icons/assist-${size}.png`,
 		"image/png",
 	);
 

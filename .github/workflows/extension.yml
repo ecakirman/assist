@@ -1,4 +1,4 @@
-name: Criteria extension
+name: Extension
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ on:
         default: false
 
 concurrency:
-  group: criteria-extension
+  group: extension
   cancel-in-progress: false
 
 permissions:
@@ -45,7 +45,7 @@ jobs:
       - name: Check for extension changes since the last signed version
         id: changes
         if: inputs.only-if-changed
-        run: npx tsx src/commands/criteriaExtension/criteriaExtensionChanged.ts
+        run: npx tsx src/commands/extension/extensionChanged.ts
 
       - name: Build
         if: steps.changes.outputs.changed != 'false'
@@ -56,22 +56,22 @@ jobs:
         env:
           WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
-        run: node dist/index.js criteria-extension --sign
+        run: node dist/index.js extension --sign
 
       - name: Attach to release
         if: steps.changes.outputs.changed != 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "v${{ steps.version.outputs.version }}" ~/.assist/criteria-extension/criteria-extension.xpi --clobber
+        run: gh release upload "v${{ steps.version.outputs.version }}" ~/.assist/extension/criteria-extension.xpi --clobber
 
       - name: Commit update manifest
         if: steps.changes.outputs.changed != 'false'
         run: |
-          cp ~/.assist/criteria-extension/updates.json criteria-extension/updates.json
+          cp ~/.assist/extension/updates.json extension/updates.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add criteria-extension/updates.json
-          git commit -m "chore: criteria extension ${{ steps.version.outputs.version }} update manifest [skip ci]"
+          git add extension/updates.json
+          git commit -m "chore: extension ${{ steps.version.outputs.version }} update manifest [skip ci]"
           git pull --rebase origin main
           git push origin HEAD:main
 

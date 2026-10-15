@@ -9,15 +9,15 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { stageCriteriaExtension } from "./stageCriteriaExtension";
+import { stageExtension } from "./stageExtension";
 
-describe("stageCriteriaExtension", () => {
+describe("stageExtension", () => {
 	let dir: string;
 	let source: string;
 	let staging: string;
 
 	beforeEach(() => {
-		dir = mkdtempSync(join(tmpdir(), "stage-criteria-extension-"));
+		dir = mkdtempSync(join(tmpdir(), "stage-extension-"));
 		source = join(dir, "source");
 		staging = join(dir, "staging");
 		mkdirSync(source);
@@ -39,12 +39,12 @@ describe("stageCriteriaExtension", () => {
 	}
 
 	it("stamps the version into the staged manifest", async () => {
-		await stageCriteriaExtension(source, staging, "0.592.1");
+		await stageExtension(source, staging, "0.592.1");
 		expect(stagedManifest().version).toBe("0.592.1");
 	});
 
 	it("leaves the source manifest untouched", async () => {
-		await stageCriteriaExtension(source, staging, "0.592.1");
+		await stageExtension(source, staging, "0.592.1");
 		const original = JSON.parse(
 			readFileSync(join(source, "manifest.json"), "utf8"),
 		) as { version: string };
@@ -52,7 +52,7 @@ describe("stageCriteriaExtension", () => {
 	});
 
 	it("copies the bundled content script", async () => {
-		await stageCriteriaExtension(source, staging, "0.592.1");
+		await stageExtension(source, staging, "0.592.1");
 		expect(readFileSync(join(staging, "content.js"), "utf8")).toBe(
 			"console.log(1)",
 		);
@@ -60,14 +60,14 @@ describe("stageCriteriaExtension", () => {
 
 	it("leaves the update manifest out of the package", async () => {
 		writeFileSync(join(source, "updates.json"), "{}");
-		await stageCriteriaExtension(source, staging, "0.592.1");
+		await stageExtension(source, staging, "0.592.1");
 		expect(existsSync(join(staging, "updates.json"))).toBe(false);
 	});
 
 	it("clears a stale staging directory", async () => {
-		await stageCriteriaExtension(source, staging, "0.592.0");
+		await stageExtension(source, staging, "0.592.0");
 		writeFileSync(join(staging, "stale.js"), "old");
-		await stageCriteriaExtension(source, staging, "0.592.1");
+		await stageExtension(source, staging, "0.592.1");
 		expect(readFileSync(join(staging, "content.js"), "utf8")).toBe(
 			"console.log(1)",
 		);

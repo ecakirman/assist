@@ -5,18 +5,18 @@ import chalk from "chalk";
 import packageJson from "../../../package.json";
 import { spawnInherit } from "../../shared/spawnInherit";
 import { copySignedXpi } from "./copySignedXpi";
-import { criteriaExtensionDir } from "./criteriaExtensionDir";
+import { extensionDir } from "./extensionDir";
 import { findSignedXpi } from "./findSignedXpi";
 import { signedAddonInstallPath } from "./signedAddonInstallPath";
 import { signPreflightProblem } from "./signPreflightProblem";
-import { stageCriteriaExtension } from "./stageCriteriaExtension";
+import { stageExtension } from "./stageExtension";
 import { writeUpdateManifest } from "./writeUpdateManifest";
 
-const ARTIFACTS_DIR = join(homedir(), ".assist", "criteria-extension");
-const STAGING_DIR = join(tmpdir(), "assist-criteria-extension");
+const ARTIFACTS_DIR = join(homedir(), ".assist", "extension");
+const STAGING_DIR = join(tmpdir(), "assist-extension");
 
-export async function signCriteriaExtension(): Promise<void> {
-	const source = criteriaExtensionDir();
+export async function signExtension(): Promise<void> {
+	const source = extensionDir();
 	const problem = signPreflightProblem(source);
 	if (problem) {
 		console.log(chalk.red(problem.message));
@@ -26,7 +26,7 @@ export async function signCriteriaExtension(): Promise<void> {
 	}
 
 	const { version } = packageJson;
-	await stageCriteriaExtension(source, STAGING_DIR, version);
+	await stageExtension(source, STAGING_DIR, version);
 	await rm(ARTIFACTS_DIR, { recursive: true, force: true });
 	console.log(chalk.bold(`signing version ${version} for self-distribution`));
 

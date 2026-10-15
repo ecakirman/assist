@@ -1,16 +1,16 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import chalk from "chalk";
-import { criteriaExtensionDir } from "./criteriaExtensionDir";
+import { extensionDir } from "./extensionDir";
 import { latestUpdateLink } from "./latestUpdateLink";
 
 type UpdateUrlManifest = {
 	browser_specific_settings: { gecko: { update_url: string } };
 };
 
-export async function printCriteriaExtensionUrl(): Promise<void> {
+export async function printExtensionUrl(): Promise<void> {
 	const manifest = await readFile(
-		join(criteriaExtensionDir(), "manifest.json"),
+		join(extensionDir(), "manifest.json"),
 		"utf8",
 	);
 	const { update_url } = (JSON.parse(manifest) as UpdateUrlManifest)
