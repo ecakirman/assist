@@ -1,3 +1,10 @@
+# [0.828.0](https://github.com/staff0rd/assist/compare/v0.827.2...v0.828.0) (2026-10-15)
+
+
+### Features
+
+* review-ci no-findings comment ([c7dc540](https://github.com/staff0rd/assist/commit/c7dc540b9c188f7894d4050c3bbb8938916a506d))
+
 ## [0.827.2](https://github.com/staff0rd/assist/compare/v0.827.1...v0.827.2) (2026-10-15)
 
 
