@@ -1,3 +1,15 @@
+# [0.826.0](https://github.com/staff0rd/assist/compare/v0.825.2...v0.826.0) (2026-10-15)
+
+
+### Bug Fixes
+
+* highlight viewed history card ([6cd1369](https://github.com/staff0rd/assist/commit/6cd13690e09d4468b260d2097ce17fd0ec450524))
+
+
+### Features
+
+* relaunch server runs on restore ([49f31ee](https://github.com/staff0rd/assist/commit/49f31ee68ccb9f0f95d48d93ec6a09e9b253bc8a))
+
 ## [0.825.2](https://github.com/staff0rd/assist/compare/v0.825.1...v0.825.2) (2026-10-15)
 
 
