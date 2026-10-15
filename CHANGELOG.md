@@ -1,3 +1,15 @@
+# [0.848.0](https://github.com/staff0rd/assist/compare/v0.847.0...v0.848.0) (2026-10-15)
+
+
+### Bug Fixes
+
+* record-slack reports its outcome ([0d55f28](https://github.com/staff0rd/assist/commit/0d55f28fe79d3b4a94b5d5475a94c1db384e4d30))
+
+
+### Features
+
+* open pending high-level review pane ([a3381a5](https://github.com/staff0rd/assist/commit/a3381a548998db467ef433e226c4c47cb4d3b272)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.847.0](https://github.com/staff0rd/assist/compare/v0.846.0...v0.847.0) (2026-10-15)
 
 
