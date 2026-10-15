@@ -1,3 +1,11 @@
+# [0.837.0](https://github.com/staff0rd/assist/compare/v0.836.0...v0.837.0) (2026-10-15)
+
+
+### Features
+
+* PR-page assist review mode menu ([b5256b6](https://github.com/staff0rd/assist/commit/b5256b605008c14ebddd758cc640b8b05e674b1d))
+* wire PR-page review menu end to end ([e996044](https://github.com/staff0rd/assist/commit/e996044df9acb8e8ca256791b03550b0ed9e4523))
+
 # [0.836.0](https://github.com/staff0rd/assist/compare/v0.835.0...v0.836.0) (2026-10-15)
 
 
