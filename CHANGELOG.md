@@ -1,3 +1,10 @@
+# [0.832.0](https://github.com/staff0rd/assist/compare/v0.831.1...v0.832.0) (2026-10-15)
+
+
+### Features
+
+* link parent issue in preview pane ([0eb7a3b](https://github.com/staff0rd/assist/commit/0eb7a3b8290d5b1f0c3415e77aef06c2a6029fc9))
+
 ## [0.831.1](https://github.com/staff0rd/assist/compare/v0.831.0...v0.831.1) (2026-10-15)
 
 
