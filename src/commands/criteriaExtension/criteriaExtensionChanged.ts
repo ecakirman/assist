@@ -6,6 +6,7 @@ import { latestUpdate } from "./latestUpdate";
 const entryPoints = [
 	"src/commands/criteriaExtension/criteriaContentScript.ts",
 	"src/commands/criteriaExtension/sendToAssist/assistBackground.ts",
+	"src/commands/criteriaExtension/sendToAssist/assistOptions.ts",
 ];
 
 function lastSignedVersion(): string | undefined {

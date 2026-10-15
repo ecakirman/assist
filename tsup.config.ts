@@ -24,6 +24,7 @@ export default defineConfig({
 				content: "src/commands/criteriaExtension/criteriaContentScript.ts",
 				background:
 					"src/commands/criteriaExtension/sendToAssist/assistBackground.ts",
+				options: "src/commands/criteriaExtension/sendToAssist/assistOptions.ts",
 			},
 			bundle: true,
 			minify: true,

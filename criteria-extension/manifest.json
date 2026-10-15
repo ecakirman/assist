@@ -21,7 +21,11 @@
 			"matches": ["https://github.com/*"]
 		}
 	],
-	"host_permissions": ["http://localhost:3100/*"],
+	"permissions": ["storage"],
+	"host_permissions": ["http://localhost/*", "http://127.0.0.1/*"],
+	"options_ui": {
+		"page": "options.html"
+	},
 	"background": {
 		"scripts": ["background.js"]
 	},

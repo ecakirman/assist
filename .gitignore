@@ -12,4 +12,5 @@ assist-test.txt
 .assist/backlog.db
 criteria-extension/content.js
 criteria-extension/background.js
+criteria-extension/options.js
 claude/skills/review-ci/scripts/
