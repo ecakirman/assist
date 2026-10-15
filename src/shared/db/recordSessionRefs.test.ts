@@ -30,17 +30,21 @@ afterEach(() => {
 
 describe("recordSessionRefs", () => {
 	it("does nothing outside a run (no session item id)", async () => {
-		await recordSessionRefs([{ kind: "branch", ref: "feature" }]);
+		await expect(
+			recordSessionRefs([{ kind: "branch", ref: "feature" }]),
+		).resolves.toEqual({ status: "no-session" });
 		expect(mockGetDb).not.toHaveBeenCalled();
 		expect(mockRecordGitRef).not.toHaveBeenCalled();
 	});
 
 	it("records each ref against the session item and closes the db", async () => {
 		process.env[ENV] = "611";
-		await recordSessionRefs([
-			{ kind: "branch", ref: "feature" },
-			{ kind: "commit", ref: "abc" },
-		]);
+		await expect(
+			recordSessionRefs([
+				{ kind: "branch", ref: "feature" },
+				{ kind: "commit", ref: "abc" },
+			]),
+		).resolves.toEqual({ status: "recorded", itemId: 611 });
 		expect(mockRecordGitRef).toHaveBeenCalledTimes(2);
 		expect(mockRecordGitRef).toHaveBeenCalledWith({}, 611, {
 			kind: "branch",
@@ -49,12 +53,13 @@ describe("recordSessionRefs", () => {
 		expect(mockCloseDb).toHaveBeenCalled();
 	});
 
-	it("swallows recording failures without throwing", async () => {
+	it("reports recording failures without throwing", async () => {
 		process.env[ENV] = "611";
-		mockRecordGitRef.mockRejectedValueOnce(new Error("db down"));
+		const error = new Error("db down");
+		mockRecordGitRef.mockRejectedValueOnce(error);
 		await expect(
 			recordSessionRefs([{ kind: "commit", ref: "abc" }]),
-		).resolves.toBeUndefined();
+		).resolves.toEqual({ status: "failed", itemId: 611, error });
 		expect(mockCloseDb).toHaveBeenCalled();
 	});
 });
