@@ -1,3 +1,10 @@
+# [0.842.0](https://github.com/staff0rd/assist/compare/v0.841.0...v0.842.0) (2026-10-15)
+
+
+### Features
+
+* count open/collapsed diffs on bulk buttons ([fbecfc8](https://github.com/staff0rd/assist/commit/fbecfc872cf467058974aa19eb00015786d16b6f))
+
 # [0.841.0](https://github.com/staff0rd/assist/compare/v0.840.1...v0.841.0) (2026-10-15)
 
 
