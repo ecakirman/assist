@@ -1,3 +1,10 @@
+# [0.847.0](https://github.com/staff0rd/assist/compare/v0.846.0...v0.847.0) (2026-10-15)
+
+
+### Features
+
+* approval body lists review comments ([4d44839](https://github.com/staff0rd/assist/commit/4d4483903386273ccca644eba02fe5d959a67b2c))
+
 # [0.846.0](https://github.com/staff0rd/assist/compare/v0.845.1...v0.846.0) (2026-10-15)
 
 
