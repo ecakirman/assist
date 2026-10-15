@@ -46,6 +46,11 @@ describe("runAndSynthesise", () => {
 
 		expect(outcome.ok).toBe(true);
 		expect(synthesise).toHaveBeenCalled();
+		expect(outcome.slots.map((s) => s.name)).toEqual([
+			"claude",
+			"codex",
+			"synthesis",
+		]);
 	});
 
 	it("skips synthesis when any reviewer failed in strict mode", async () => {

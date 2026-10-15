@@ -3,6 +3,7 @@ import { attachLineParser } from "./attachLineParser";
 import { attachStderrCollector } from "./attachStderrCollector";
 import { attachStdoutTail } from "./attachStdoutTail";
 import { reviewerLabel } from "./reviewerLabel";
+import type { TokenUsage } from "./TokenUsage";
 import { type ExitResult, waitForChildExit } from "./waitForChildExit";
 
 type StreamingChildSpec = {
@@ -25,6 +26,7 @@ export type ReviewerResult = {
 	stderr: string;
 	stdout?: string;
 	elapsedMs?: number;
+	usage?: TokenUsage;
 };
 
 function writeStdinSafely(child: ChildProcess, payload: string): void {

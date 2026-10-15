@@ -55,6 +55,37 @@ describe("parseClaudeEvent", () => {
 		});
 	});
 
+	it("extracts usage from result events", () => {
+		const line = JSON.stringify({
+			type: "result",
+			result: "done",
+			usage: {
+				input_tokens: 12,
+				output_tokens: 340,
+				cache_creation_input_tokens: 5000,
+				cache_read_input_tokens: 80000,
+			},
+		});
+		expect(parseClaudeEvent(line)).toEqual({
+			kind: "final",
+			text: "done",
+			usage: { input: 12, output: 340, cacheRead: 80000, cacheWrite: 5000 },
+		});
+	});
+
+	it("treats missing usage counts as zero", () => {
+		const line = JSON.stringify({
+			type: "result",
+			result: "done",
+			usage: { input_tokens: 7 },
+		});
+		expect(parseClaudeEvent(line)).toEqual({
+			kind: "final",
+			text: "done",
+			usage: { input: 7, output: 0, cacheRead: 0, cacheWrite: 0 },
+		});
+	});
+
 	it("ignores result events without string result", () => {
 		const line = JSON.stringify({ type: "result", subtype: "error" });
 		expect(parseClaudeEvent(line)).toEqual({ kind: "ignore" });

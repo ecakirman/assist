@@ -1,4 +1,3 @@
-import { existsSync, unlinkSync } from "node:fs";
 import { buildReviewerStdin } from "./buildReviewerStdin";
 import type { ReviewPaths } from "./buildReviewPaths";
 import type { MultiSpinner } from "./MultiSpinner";
@@ -6,7 +5,7 @@ import type { CodexPlan } from "./planCodexReviewer";
 import type { ReviewerModels } from "./ReviewerModels";
 import { runReviewers } from "./runReviewers";
 import type { ReviewerResult } from "./runStreamingChild";
-import { synthesise } from "./synthesise";
+import { synthesiseAfterReviewers } from "./synthesiseAfterReviewers";
 import { skipReason } from "./skipReason";
 
 type Args = {
@@ -21,6 +20,7 @@ type Args = {
 export type AndSynthesiseOutcome = {
 	ok: boolean;
 	failures: ReviewerResult[];
+	slots: ReviewerResult[];
 };
 
 function failed(results: ReviewerResult[]): ReviewerResult[] {
@@ -47,15 +47,14 @@ export async function runAndSynthesise(
 	const reason = skipReason(results, failures, args.strict);
 	if (reason) {
 		console.error(reason);
-		return { ok: false, failures };
+		return { ok: false, failures, slots: results };
 	}
-	if (anyFresh && existsSync(paths.synthesisPath)) {
-		unlinkSync(paths.synthesisPath);
-	}
-	const synthesisResult = await synthesise(paths, {
+	return synthesiseAfterReviewers({
+		paths,
+		results,
+		failures,
+		anyFresh,
 		multi,
 		slot: args.models.synthesis,
 	});
-	if (synthesisResult.exitCode !== 0) failures.push(synthesisResult);
-	return { ok: synthesisResult.exitCode === 0, failures };
 }

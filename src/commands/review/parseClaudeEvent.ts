@@ -1,10 +1,12 @@
 import { formatToolSummary } from "./formatToolSummary";
+import { parseClaudeUsage } from "./parseClaudeUsage";
+import type { TokenUsage } from "./TokenUsage";
 
 type ClaudeToolUse = { tool: string; summary: string };
 
 type ClaudeEvent =
 	| { kind: "tool_uses"; toolUses: ClaudeToolUse[] }
-	| { kind: "final"; text: string }
+	| { kind: "final"; text: string; usage?: TokenUsage }
 	| { kind: "ignore" };
 
 type ContentBlock =
@@ -19,6 +21,7 @@ type AssistantEvent = {
 type ResultEvent = {
 	type: "result";
 	result?: unknown;
+	usage?: unknown;
 };
 
 function isAssistantEvent(value: unknown): value is AssistantEvent {
@@ -61,7 +64,10 @@ export function parseClaudeEvent(line: string): ClaudeEvent {
 		if (toolUses.length > 0) return { kind: "tool_uses", toolUses };
 	}
 	if (isResultEvent(event) && typeof event.result === "string") {
-		return { kind: "final", text: event.result };
+		const usage = parseClaudeUsage(event.usage);
+		return usage
+			? { kind: "final", text: event.result, usage }
+			: { kind: "final", text: event.result };
 	}
 	return { kind: "ignore" };
 }

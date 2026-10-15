@@ -23,7 +23,12 @@ export async function reviewPr(
 	if (!synthesisOk && options.ci)
 		exitFailedCiReview(outcome.failures, options.ci);
 	if (synthesisOk && options.ci)
-		writeJobSummary(paths.synthesisPath, context, options.ci.summaryPath);
+		writeJobSummary(
+			paths.synthesisPath,
+			context,
+			options.ci.summaryPath,
+			outcome.slots,
+		);
 	if (synthesisOk)
 		await runPostSynthesis(paths.synthesisPath, context, options);
 	console.log(`Done. Review folder: ${paths.reviewDir}`);
