@@ -1,3 +1,15 @@
+# [0.840.0](https://github.com/staff0rd/assist/compare/v0.839.0...v0.840.0) (2026-10-15)
+
+
+### Bug Fixes
+
+* drop criteria outliner naming ([3604d90](https://github.com/staff0rd/assist/commit/3604d900bb65983018afe64c603c46a22e428aa3))
+
+
+### Features
+
+* jump strip counts and narrow layout ([bce62cb](https://github.com/staff0rd/assist/commit/bce62cbad426f609fb0f42f198681c24b355ec2d))
+
 # [0.839.0](https://github.com/staff0rd/assist/compare/v0.838.0...v0.839.0) (2026-10-15)
 
 
