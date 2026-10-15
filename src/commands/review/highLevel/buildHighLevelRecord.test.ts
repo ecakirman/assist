@@ -16,6 +16,7 @@ const checks: HighLevelCheckResult[] = [
 		id: "structure-sensible",
 		kind: "manual",
 		title: "The structure of the change is sensible",
+		short: "Structure",
 		backing: "The changed-file tree",
 		status: "manual",
 		reason: "The changed-file tree",

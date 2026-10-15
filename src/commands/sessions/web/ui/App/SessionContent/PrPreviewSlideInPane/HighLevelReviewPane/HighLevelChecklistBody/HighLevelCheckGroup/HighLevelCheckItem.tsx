@@ -1,6 +1,7 @@
 import { Box, Stack, TextField } from "@mui/material";
 import type { ReactNode } from "react";
 import type { HighLevelCheckResult } from "../../../../../../../../../review/highLevel/types";
+import { highLevelCheckDomId } from "../highLevelCheckDomId";
 import { HighLevelCheckMarker } from "./HighLevelCheckItem/HighLevelCheckMarker";
 import { HighLevelCheckText } from "./HighLevelCheckItem/HighLevelCheckText";
 import { highLevelItemSx } from "./HighLevelCheckItem/highLevelItemSx";
@@ -22,7 +23,7 @@ export function HighLevelCheckItem({
 }) {
 	const failed = check.status === "fail";
 	return (
-		<Box sx={highLevelItemSx(failed)}>
+		<Box id={highLevelCheckDomId(check.id)} sx={highLevelItemSx(failed)}>
 			<Stack direction="row" spacing={1} sx={{ alignItems: "flex-start" }}>
 				<HighLevelCheckMarker check={check} ticked={ticked} onTick={onTick} />
 				<Box sx={{ flex: 1, minWidth: 0 }}>

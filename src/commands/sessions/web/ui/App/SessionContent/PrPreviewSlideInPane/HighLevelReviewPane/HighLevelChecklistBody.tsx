@@ -1,7 +1,9 @@
 import { Stack } from "@mui/material";
-import type { ReactNode } from "react";
+import { type ReactNode, useRef } from "react";
 import type { HighLevelCheckResult } from "../../../../../../../review/highLevel/types";
 import { HighLevelCheckGroup } from "./HighLevelChecklistBody/HighLevelCheckGroup";
+import { HighLevelJumpStrip } from "./HighLevelChecklistBody/HighLevelJumpStrip";
+import { useHighLevelJumpSpy } from "./HighLevelChecklistBody/useHighLevelJumpSpy";
 import type { useHighLevelChecklist } from "./useHighLevelChecklist";
 
 export function HighLevelChecklistBody({
@@ -13,8 +15,29 @@ export function HighLevelChecklistBody({
 	checklist: ReturnType<typeof useHighLevelChecklist>;
 	details: Record<string, ReactNode>;
 }) {
+	const scrollRef = useRef<HTMLDivElement>(null);
+	const manual = checks.filter((check) => check.kind === "manual");
+	const activeId = useHighLevelJumpSpy(
+		scrollRef,
+		manual.map((check) => check.id),
+	);
 	return (
-		<Stack spacing={2} sx={{ flex: 1, minHeight: 0, overflowY: "auto", py: 2 }}>
+		<Stack
+			ref={scrollRef}
+			spacing={2}
+			sx={{
+				flex: 1,
+				minHeight: 0,
+				overflowY: "auto",
+				pt: manual.length > 0 ? 0 : 2,
+				pb: 2,
+			}}
+		>
+			<HighLevelJumpStrip
+				checks={manual}
+				ticked={checklist.ticked}
+				activeId={activeId}
+			/>
 			<HighLevelCheckGroup
 				heading="Evaluated for you"
 				checks={checks.filter((check) => check.kind === "deterministic")}
@@ -23,7 +46,7 @@ export function HighLevelChecklistBody({
 			/>
 			<HighLevelCheckGroup
 				heading="Yours to judge"
-				checks={checks.filter((check) => check.kind === "manual")}
+				checks={manual}
 				checklist={checklist}
 				details={details}
 			/>

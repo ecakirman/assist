@@ -19,7 +19,13 @@ export type HighLevelCheck =
 			title: string;
 			backing: string;
 	  }
-	| { id: ManualCheckId; kind: "manual"; title: string; backing: string };
+	| {
+			id: ManualCheckId;
+			kind: "manual";
+			title: string;
+			short: string;
+			backing: string;
+	  };
 
 export const highLevelChecklist: HighLevelCheck[] = [
 	{
@@ -53,6 +59,7 @@ export const highLevelChecklist: HighLevelCheck[] = [
 		id: "structure-sensible",
 		kind: "manual",
 		title: "The structure of the change is sensible",
+		short: "Structure",
 		backing:
 			"The changed-file tree with add/delete/modify counts and per-file GitHub diff links",
 	},
@@ -60,12 +67,14 @@ export const highLevelChecklist: HighLevelCheck[] = [
 		id: "critical-diffs-correct",
 		kind: "manual",
 		title: "The critical-file diffs are correct",
+		short: "Critical diffs",
 		backing: "Full diffs of files matching review.highLevel.criticalPaths",
 	},
 	{
 		id: "tests-worth-having",
 		kind: "manual",
 		title: "The tests are worth having",
+		short: "Tests",
 		backing:
 			"The describe/it hierarchy of changed tests in files matching review.highLevel.testPaths",
 	},
@@ -73,6 +82,7 @@ export const highLevelChecklist: HighLevelCheck[] = [
 		id: "backend-pr-linked",
 		kind: "manual",
 		title: "The backend PR is linked, if the change needs backend work",
+		short: "Backend PR",
 		backing: "The PR body",
 	},
 ];
