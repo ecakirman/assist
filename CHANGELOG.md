@@ -1,3 +1,11 @@
+## [0.840.1](https://github.com/staff0rd/assist/compare/v0.840.0...v0.840.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* pin structure toolbar below jump strip ([67684ee](https://github.com/staff0rd/assist/commit/67684eea1eeab53b715a47e78df841fd4fef7b13))
+* pin structure toolbar below jump strip ([1752b36](https://github.com/staff0rd/assist/commit/1752b3695bb8266584ad4e2bc65bf46ee7322122))
+
 # [0.840.0](https://github.com/staff0rd/assist/compare/v0.839.0...v0.840.0) (2026-10-15)
 
 
