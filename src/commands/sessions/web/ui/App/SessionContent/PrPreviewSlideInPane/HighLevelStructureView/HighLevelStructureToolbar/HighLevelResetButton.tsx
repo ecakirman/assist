@@ -1,6 +1,6 @@
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Button } from "@mui/material";
-import { highLevelToolbarButtonSx } from "./highLevelToolbarButtonSx";
+import { highLevelToolbarButtonSx } from "../../highLevelToolbarButtonSx";
 
 export function HighLevelResetButton({
 	changes,

@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { HighLevelGlobInput } from "./HighLevelMatchBar/HighLevelGlobInput";
 import { HighLevelQuickChips } from "./HighLevelMatchBar/HighLevelQuickChips";
-import { highLevelToolbarButtonSx } from "./highLevelToolbarButtonSx";
+import { highLevelToolbarButtonSx } from "../../highLevelToolbarButtonSx";
 
 export function HighLevelMatchBar({
 	glob,

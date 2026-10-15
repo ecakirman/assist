@@ -1,12 +1,11 @@
 import { Box } from "@mui/material";
 import type { HighLevelCriticalDiff } from "../../../../../../../../../review/highLevel/types";
-import { DiffViewTypeToggle } from "../../../../../DiffViewTypeToggle";
-import { HighLevelCriticalDiffHeader } from "../../../HighLevelCriticalDiffHeader";
 import type { HighLevelDiffComments } from "../../../HighLevelDiffComments";
 import { HighLevelDiffNote } from "../../../HighLevelDiffNote";
-import { HighLevelNativeDiff } from "../../../HighLevelNativeDiff";
+import { HighLevelCriticalDiffItem } from "./HighLevelCriticalDiffs/HighLevelCriticalDiffItem";
 import { useDiffViewType } from "../../../../../useDiffViewType";
-import { useHighLevelCollapse } from "../../../useHighLevelCollapse";
+import { useHighLevelCriticalCollapse } from "./HighLevelCriticalDiffs/useHighLevelCriticalCollapse";
+import { HighLevelCriticalToolbar } from "./HighLevelCriticalDiffs/HighLevelCriticalToolbar";
 
 export function HighLevelCriticalDiffs({
 	diffs,
@@ -20,7 +19,10 @@ export function HighLevelCriticalDiffs({
 	comments?: HighLevelDiffComments | undefined;
 }) {
 	const { viewType, onChange } = useDiffViewType();
-	const { collapsed, onToggle } = useHighLevelCollapse(`critical:${subject}`);
+	const { collapsed, onToggle, bulk } = useHighLevelCriticalCollapse(
+		subject,
+		diffs,
+	);
 
 	if (criticalPaths.length === 0)
 		return (
@@ -34,27 +36,20 @@ export function HighLevelCriticalDiffs({
 		);
 	return (
 		<Box sx={{ minWidth: 0 }}>
-			<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-				<DiffViewTypeToggle viewType={viewType} onChange={onChange} />
-			</Box>
+			<HighLevelCriticalToolbar
+				bulk={bulk}
+				viewType={viewType}
+				onChangeViewType={onChange}
+			/>
 			{diffs.map((diff) => (
-				<Box key={diff.path} sx={{ mb: 1, minWidth: 0 }}>
-					<HighLevelCriticalDiffHeader
-						diff={diff}
-						collapsed={collapsed.has(diff.path)}
-						onToggle={() => onToggle(diff.path)}
-					/>
-					{!collapsed.has(diff.path) && (
-						<HighLevelNativeDiff
-							path={diff.path}
-							status={diff.status}
-							patch={diff.patch}
-							truncated={diff.truncated === true}
-							viewType={viewType}
-							comments={comments}
-						/>
-					)}
-				</Box>
+				<HighLevelCriticalDiffItem
+					key={diff.path}
+					diff={diff}
+					collapsed={collapsed.has(diff.path)}
+					onToggle={() => onToggle(diff.path)}
+					viewType={viewType}
+					comments={comments}
+				/>
 			))}
 		</Box>
 	);

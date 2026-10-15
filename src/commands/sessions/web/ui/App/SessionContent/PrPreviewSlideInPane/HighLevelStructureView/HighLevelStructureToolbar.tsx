@@ -1,13 +1,13 @@
 import { Box, Divider } from "@mui/material";
 import type { ViewType } from "react-diff-view";
 import { DiffViewTypeToggle } from "../../../DiffViewTypeToggle";
-import { HighLevelBulkButtons } from "./HighLevelStructureToolbar/HighLevelBulkButtons";
+import { HighLevelBulkButtons } from "../HighLevelBulkButtons";
 import { HighLevelMatchBar } from "./HighLevelStructureToolbar/HighLevelMatchBar";
 import { HighLevelResetButton } from "./HighLevelStructureToolbar/HighLevelResetButton";
 import {
 	highLevelStructureToolbarRowSx,
 	highLevelStructureToolbarSx,
-} from "./HighLevelStructureToolbar/highLevelStructureToolbarSx";
+} from "../highLevelStructureToolbarSx";
 import type { HighLevelStructureBulk } from "./highLevelStructureBulk";
 
 export function HighLevelStructureToolbar({

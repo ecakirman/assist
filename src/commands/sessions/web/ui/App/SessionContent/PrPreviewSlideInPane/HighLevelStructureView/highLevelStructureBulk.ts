@@ -1,8 +1,9 @@
 import type { useHighLevelCollapse } from "../useHighLevelCollapse";
+import type { HighLevelDiffCounts } from "../countHighLevelDiffs";
 
 type Collapse = ReturnType<typeof useHighLevelCollapse>;
 
-export type HighLevelStructureBulk = {
+export type HighLevelStructureBulk = HighLevelDiffCounts & {
 	changes: number;
 	expandAll: () => void;
 	collapseAll: () => void;
@@ -16,8 +17,10 @@ export function highLevelStructureBulk(
 	files: Collapse,
 	dirPaths: string[],
 	filePaths: string[],
+	diffs: HighLevelDiffCounts,
 ): HighLevelStructureBulk {
 	return {
+		...diffs,
 		changes:
 			countIn(dirs.overrides, dirPaths) + countIn(files.overrides, filePaths),
 		expandAll: () => {

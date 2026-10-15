@@ -1,5 +1,11 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+	within,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { HighLevelStructureView } from "./HighLevelStructureView";
 import { highLevelTreeFixture } from "./highLevelTreeFixture";
@@ -187,6 +193,21 @@ function button(name: string | RegExp) {
 	return screen.getByRole("button", { name }) as HTMLButtonElement;
 }
 
+function bulkButton(label: "Expand all" | "Collapse all") {
+	return button(new RegExp(`^${label}`));
+}
+
+function bulkCounts() {
+	const state = (label: "Expand all" | "Collapse all") => {
+		const el = bulkButton(label);
+		return {
+			count: Number(within(el).getByTestId("bulk-count").textContent),
+			disabled: el.disabled,
+		};
+	};
+	return { expand: state("Expand all"), collapse: state("Collapse all") };
+}
+
 function matchGlob(glob: string) {
 	fireEvent.change(screen.getByLabelText("Match changed files"), {
 		target: { value: glob },
@@ -198,12 +219,52 @@ describe("HighLevelStructureView toolbar", () => {
 		const { container } = renderView();
 		fireEvent.click(button("src"));
 
-		fireEvent.click(button("Collapse all"));
+		fireEvent.click(bulkButton("Collapse all"));
 		expect(diffCount(container)).toBe(0);
 
-		fireEvent.click(button("Expand all"));
+		fireEvent.click(bulkButton("Expand all"));
 		expect(button("src").getAttribute("aria-expanded")).toBe("true");
 		expect(diffCount(container)).toBe(3);
+	});
+
+	it("badges the bulk buttons with collapsed and open diff counts", () => {
+		renderView();
+		expect(bulkCounts()).toEqual({
+			expand: { count: 0, disabled: true },
+			collapse: { count: 3, disabled: false },
+		});
+
+		fireEvent.click(fileRow("README.md"));
+		expect(bulkCounts()).toEqual({
+			expand: { count: 1, disabled: false },
+			collapse: { count: 2, disabled: false },
+		});
+
+		fireEvent.click(button("src"));
+		expect(bulkCounts()).toEqual({
+			expand: { count: 3, disabled: false },
+			collapse: { count: 0, disabled: true },
+		});
+
+		fireEvent.click(bulkButton("Expand all"));
+		expect(bulkCounts()).toEqual({
+			expand: { count: 0, disabled: true },
+			collapse: { count: 3, disabled: false },
+		});
+
+		fireEvent.click(bulkButton("Collapse all"));
+		expect(bulkCounts()).toEqual({
+			expand: { count: 3, disabled: false },
+			collapse: { count: 0, disabled: true },
+		});
+	});
+
+	it("names the counts in the bulk button titles", () => {
+		renderView();
+		fireEvent.click(fileRow("README.md"));
+
+		expect(bulkButton("Expand all").title).toBe("Expand the 1 diff collapsed");
+		expect(bulkButton("Collapse all").title).toBe("Collapse the 2 diffs open");
 	});
 
 	it("marks rows matching the glob and counts them", () => {
@@ -252,7 +313,7 @@ describe("HighLevelStructureView toolbar", () => {
 		const { container } = renderView(["**/*.md"]);
 		expect(button("Defaults").disabled).toBe(true);
 
-		fireEvent.click(button("Expand all"));
+		fireEvent.click(bulkButton("Expand all"));
 		fireEvent.click(button("src"));
 		fireEvent.click(button("Reset 2 changes"));
 
@@ -264,7 +325,7 @@ describe("HighLevelStructureView toolbar", () => {
 
 	it("remembers bulk changes for the subject across remounts", () => {
 		const first = renderView();
-		fireEvent.click(button("Collapse all"));
+		fireEvent.click(bulkButton("Collapse all"));
 		first.unmount();
 
 		const { container } = renderView();

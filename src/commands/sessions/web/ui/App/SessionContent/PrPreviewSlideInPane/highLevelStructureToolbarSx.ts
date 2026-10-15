@@ -1,4 +1,4 @@
-import { JUMP_STRIP_HEIGHT } from "../../highLevelCheckDomId";
+import { JUMP_STRIP_HEIGHT } from "./highLevelCheckDomId";
 
 export const highLevelStructureToolbarSx = {
 	position: "sticky",
