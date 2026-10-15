@@ -21,6 +21,8 @@ restructure:
     - PrPreviewSlideInPane
     - ConfigRowValueCell
     - ReleaseQueuedDiff
+    - HighLevelStructureView
+    - HighLevelTestsView
 worktree:
   watcher: true
 run:

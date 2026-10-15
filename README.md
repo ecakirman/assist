@@ -252,7 +252,7 @@ The Config tab of the sessions web dashboard never shows secret values; their fi
 - `assist refactor rename file <source> <destination>` - Rename/move a TypeScript file and update all imports (`--apply` to execute)
 - `assist refactor rename symbol <file> <oldName> <newName>` - Rename a symbol across the project (`--apply` to execute)
 - `assist refactor extract <file> <functionName> <destination>` - Extract a function and its private dependencies to a new file (`--apply` to execute)
-- `assist refactor restructure [root]` - Move files under `root` (default `src`) into folders derived from the import graph (`--apply` to execute, `--check` to fail on drift)
+- `assist refactor restructure [root]` - Move files under `root` (default `src`) into folders derived from the import graph (`--apply` to execute, `--check` to fail on drift or when the plan exceeds `restructure.maxDepth` or `restructure.maxPathLength`)
 
 ### Rules
 

@@ -12,8 +12,8 @@ import { makeSessionInfo } from "../../../../../../../../../test/mothers/makeSes
 import { CommentSentSnackbar } from "../../../../CommentSentSnackbar";
 import type { SessionInfo } from "../../../../../types";
 import { HighLevelCriticalDiffs } from "./highLevelCheckDetails/HighLevelCriticalDiffs";
-import { HighLevelStructureView } from "./highLevelCheckDetails/HighLevelStructureView";
-import { highLevelTreeFixture } from "./highLevelTreeFixture";
+import { HighLevelStructureView } from "../../HighLevelStructureView";
+import { highLevelTreeFixture } from "../../highLevelTreeFixture";
 import { useHighLevelDiffComments } from "./useHighLevelDiffComments";
 
 type CaretDoc = {

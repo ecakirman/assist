@@ -2,7 +2,7 @@ import { useState } from "react";
 import { commentTarget } from "../../../../commentTarget";
 import { diffCommentSender } from "../../../../diffCommentSender";
 import type { SessionInfo } from "../../../../../types";
-import type { HighLevelDiffComments } from "./HighLevelDiffComments";
+import type { HighLevelDiffComments } from "../../HighLevelDiffComments";
 
 export function useHighLevelDiffComments(
 	session: SessionInfo | undefined,

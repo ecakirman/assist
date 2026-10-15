@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import chalk from "chalk";
 import { loadConfig } from "../../shared/loadConfig";
+import { tryGit } from "../../shared/tryGit";
 import { walkSourceFiles } from "../complexity/walkSourceFiles";
 import { buildPlan } from "./restructure/buildPlan";
 import { checkPlan } from "./restructure/checkPlan";
@@ -32,9 +33,19 @@ export async function restructure(
 		return;
 	}
 
-	const { pin = [], maxDepth = 10 } = loadConfig().restructure ?? {};
+	const {
+		pin = [],
+		maxDepth = 10,
+		maxPathLength = 200,
+	} = loadConfig().restructure ?? {};
 	const plan = buildPlan(scopeRoot, scoped, ignored, pin);
-	const limits = checkLayoutLimits(plan, maxDepth);
+	const repoRoot =
+		tryGit(`-C "${scopeRoot}" rev-parse --show-toplevel`) ?? process.cwd();
+	const limits = checkLayoutLimits(plan, {
+		maxDepth,
+		maxPathLength,
+		repoRoot,
+	});
 	if (options.check) return checkPlan(plan, limits);
 	runPlan(plan, limits, options.apply === true);
 }

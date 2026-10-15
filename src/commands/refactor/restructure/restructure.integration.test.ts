@@ -142,6 +142,21 @@ describe("restructure", () => {
 		).toBe(true);
 	});
 
+	it("check fails and lists paths longer than restructure.maxPathLength", async () => {
+		await restructure("src", { apply: true });
+		writeFileSync(
+			join(dir, "assist.yml"),
+			"restructure:\n  maxPathLength: 20\n",
+		);
+		output = [];
+
+		await expect(restructure("src", { check: true })).rejects.toThrow("exit 1");
+
+		expect(output).toContain("  src/app/widget/widgetPart.ts  [28]");
+		expect(output).toContain("  src/app/widget.test.ts  [22]");
+		expect(output.some((line) => line.includes("src/app/util.ts"))).toBe(false);
+	});
+
 	it("never moves files matched by restructure.ignore", async () => {
 		writeFileSync(
 			join(dir, "assist.yml"),

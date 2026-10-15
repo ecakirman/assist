@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import type { HighLevelPreviewPayload } from "../../../../../../../../review/highLevel/types";
-import type { HighLevelDiffComments } from "./HighLevelDiffComments";
+import type { HighLevelDiffComments } from "../../HighLevelDiffComments";
 import { HighLevelCheckDetail } from "./highLevelCheckDetails/HighLevelCheckDetail";
 import { HighLevelCriticalDiffs } from "./highLevelCheckDetails/HighLevelCriticalDiffs";
-import { HighLevelStructureView } from "./highLevelCheckDetails/HighLevelStructureView";
+import { HighLevelStructureView } from "../../HighLevelStructureView";
 import {
 	HighLevelTestsView,
 	type HighLevelTestNotes,
-} from "./highLevelCheckDetails/HighLevelTestsView";
+} from "../../HighLevelTestsView";
 import { highLevelChangedFileCount } from "../../../../../../../../review/highLevel/highLevelChangedFileCount";
 import { highLevelTestCount } from "../../../../../../../../review/highLevel/highLevelTestCount";
 

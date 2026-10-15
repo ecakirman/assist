@@ -99,6 +99,7 @@ const assistConfigShape = {
 			ignore: z.array(z.string()).default([]),
 			pin: z.array(z.string()).default([]),
 			maxDepth: z.number().int().positive().default(10),
+			maxPathLength: z.number().int().positive().default(200),
 		})
 		.optional(),
 	jira: z

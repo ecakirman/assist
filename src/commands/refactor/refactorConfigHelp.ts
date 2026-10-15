@@ -16,4 +16,9 @@ export const refactorConfigHelp: ConfigHelpEntry[] = [
 		setter: "assist config set restructure.maxDepth 10",
 		note: "deepest folder level the plan may place a file at (default 10); deeper plans list their deep chains with pin guidance, and --check fails",
 	},
+	{
+		key: "restructure.maxPathLength",
+		setter: "assist config set restructure.maxPathLength 200",
+		note: "longest repo-relative path the plan may place a file at (default 200), leaving room for a Windows checkout root under MAX_PATH; longer plans list the paths with pin guidance, and --check fails",
+	},
 ];
