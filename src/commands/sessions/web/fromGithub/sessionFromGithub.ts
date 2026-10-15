@@ -4,12 +4,14 @@ import { loadConfig } from "../../../../shared/loadConfig";
 import { respondJson } from "../../../../shared/web";
 import { requestClaudeSession } from "../../shared/requestClaudeSession";
 import { readJsonBody } from "../readJsonBody";
+import { allowExtensionOrigin } from "./allowExtensionOrigin";
 import { planGithubSession } from "./planGithubSession";
 
 export async function sessionFromGithub(
 	req: IncomingMessage,
 	res: ServerResponse,
 ): Promise<void> {
+	allowExtensionOrigin(req, res);
 	let body: unknown;
 	try {
 		body = await readJsonBody(req);
