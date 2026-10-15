@@ -1,3 +1,10 @@
+## [0.828.1](https://github.com/staff0rd/assist/compare/v0.828.0...v0.828.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* review-ci review when comments fail ([b2e12f7](https://github.com/staff0rd/assist/commit/b2e12f7e3078eb8d0da8e3d3d36b87096f1cba10))
+
 # [0.828.0](https://github.com/staff0rd/assist/compare/v0.827.2...v0.828.0) (2026-10-15)
 
 
