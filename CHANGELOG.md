@@ -1,3 +1,10 @@
+# [0.838.0](https://github.com/staff0rd/assist/compare/v0.837.0...v0.838.0) (2026-10-15)
+
+
+### Features
+
+* rainbow pill when usage windows match ([fc1f13d](https://github.com/staff0rd/assist/commit/fc1f13d201fd69eeae0d37a788116a141a559992))
+
 # [0.837.0](https://github.com/staff0rd/assist/compare/v0.836.0...v0.837.0) (2026-10-15)
 
 
