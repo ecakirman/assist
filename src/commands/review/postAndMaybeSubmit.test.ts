@@ -152,6 +152,36 @@ describe("postAndMaybeSubmit", () => {
 
 			expect(mockSubmitPendingReview).toHaveBeenCalledWith("md\n\nfooter");
 		});
+
+		it("should end a body-only review with it", async () => {
+			mockPostFindings.mockReturnValue({ posted: 0, failed: 0 });
+
+			await postAndMaybeSubmit(findings, [carriedFinding], "md", {
+				prompt: false,
+				submit: true,
+				ciFooter: "footer",
+			});
+
+			expect(mockSubmitBodyOnlyReview).toHaveBeenCalledWith("md\n\nfooter");
+		});
+	});
+
+	describe("when no CI footer is given", () => {
+		it("should leave the pending and body-only review bodies unchanged", async () => {
+			mockPostFindings.mockReturnValueOnce({ posted: 1, failed: 0 });
+			await postAndMaybeSubmit(findings, [], "md", {
+				prompt: false,
+				submit: true,
+			});
+			mockPostFindings.mockReturnValueOnce({ posted: 0, failed: 0 });
+			await postAndMaybeSubmit(findings, [carriedFinding], "md", {
+				prompt: false,
+				submit: true,
+			});
+
+			expect(mockSubmitPendingReview).toHaveBeenCalledWith("md");
+			expect(mockSubmitBodyOnlyReview).toHaveBeenCalledWith("md");
+		});
 	});
 
 	describe("when findings could not be anchored", () => {
