@@ -1,4 +1,4 @@
-import { highLevelCheckDomId } from "../highLevelCheckDomId";
+import { highLevelCheckDomId } from "../../../highLevelCheckDomId";
 
 export function jumpToHighLevelCheck(id: string): void {
 	const row = document.getElementById(highLevelCheckDomId(id));

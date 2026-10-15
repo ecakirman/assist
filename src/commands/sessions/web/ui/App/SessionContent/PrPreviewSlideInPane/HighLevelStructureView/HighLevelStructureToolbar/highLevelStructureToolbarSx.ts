@@ -1,6 +1,8 @@
+import { JUMP_STRIP_HEIGHT } from "../../highLevelCheckDomId";
+
 export const highLevelStructureToolbarSx = {
 	position: "sticky",
-	top: -16,
+	top: JUMP_STRIP_HEIGHT,
 	zIndex: 3,
 	bgcolor: "background.paper",
 	py: 1,

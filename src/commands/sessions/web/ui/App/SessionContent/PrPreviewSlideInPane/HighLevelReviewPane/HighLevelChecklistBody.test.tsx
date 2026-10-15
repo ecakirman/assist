@@ -9,7 +9,7 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { HighLevelCheckResult } from "../../../../../../../review/highLevel/types";
 import { HighLevelChecklistBody } from "./HighLevelChecklistBody";
-import { highLevelCheckDomId } from "./HighLevelChecklistBody/highLevelCheckDomId";
+import { highLevelCheckDomId } from "../highLevelCheckDomId";
 import { useHighLevelChecklist } from "./useHighLevelChecklist";
 import { PreviewWidthContext } from "../../usePreviewWidthContext";
 

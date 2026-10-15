@@ -1,14 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import type { HighLevelCheckResult } from "../../../../../../../../review/highLevel/types";
 import { usePreviewWidthContext } from "../../../usePreviewWidthContext";
-import { JUMP_STRIP_HEIGHT } from "./highLevelCheckDomId";
+import { JUMP_STRIP_HEIGHT } from "../../highLevelCheckDomId";
 import { HighLevelJump } from "./HighLevelJumpStrip/HighLevelJump";
 import { jumpToHighLevelCheck } from "./HighLevelJumpStrip/jumpToHighLevelCheck";
 
 const stripSx = {
 	position: "sticky",
 	top: 0,
-	zIndex: 1,
+	zIndex: 4,
 	flexShrink: 0,
 	display: "flex",
 	alignItems: "center",

@@ -1,5 +1,8 @@
 import { type RefObject, useEffect, useState } from "react";
-import { highLevelCheckDomId, JUMP_TARGET_OFFSET } from "./highLevelCheckDomId";
+import {
+	highLevelCheckDomId,
+	JUMP_TARGET_OFFSET,
+} from "../../highLevelCheckDomId";
 
 function atBottom(container: HTMLElement): boolean {
 	const { scrollTop, scrollHeight, clientHeight } = container;
