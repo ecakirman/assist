@@ -32,12 +32,17 @@ function ResumeButton({ onResume }: { onResume: () => void }) {
 
 export function HistoryCard({
 	session,
+	selected = false,
 	onView,
 	onResume,
-}: { session: HistoricalSession } & HistoryCardHandlers) {
+}: { session: HistoricalSession; selected?: boolean } & HistoryCardHandlers) {
 	return (
 		<ApiNodeContext.Provider value={session.node}>
-			<ButtonBase onClick={() => onView(session)} sx={cardSx(false)}>
+			<ButtonBase
+				onClick={() => onView(session)}
+				sx={cardSx(selected)}
+				aria-current={selected || undefined}
+			>
 				<Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
 					<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
 						<HistoryCardChips session={session} />

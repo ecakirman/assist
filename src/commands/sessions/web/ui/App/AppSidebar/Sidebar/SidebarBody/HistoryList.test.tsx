@@ -26,8 +26,12 @@ function session(
 	};
 }
 
-function renderList(sessions: HistoricalSession[], selectedCwd: string) {
-	render(
+function renderList(
+	sessions: HistoricalSession[],
+	selectedCwd: string,
+	viewingId: string | null = null,
+) {
+	return render(
 		<RepoSelectionContext.Provider
 			value={{
 				repos: [],
@@ -38,7 +42,12 @@ function renderList(sessions: HistoricalSession[], selectedCwd: string) {
 				originOf: () => undefined,
 			}}
 		>
-			<HistoryList sessions={sessions} onView={vi.fn()} onResume={vi.fn()} />
+			<HistoryList
+				sessions={sessions}
+				viewingId={viewingId}
+				onView={vi.fn()}
+				onResume={vi.fn()}
+			/>
 		</RepoSelectionContext.Provider>,
 	);
 }
@@ -100,6 +109,25 @@ describe("HistoryList", () => {
 
 		expect(screen.getByText("ungrouped")).toBeTruthy();
 		expect(screen.queryByText("elsewhere")).toBeNull();
+	});
+
+	it("marks only the viewed session's card as current", () => {
+		const sessions = [
+			session("first", "/git/assist", group),
+			session("second", "/git/assist", group),
+		];
+		const current = () =>
+			[...document.querySelectorAll("[aria-current]")].map(
+				(el) => el.textContent,
+			);
+
+		const { unmount } = renderList(sessions, "/git/assist");
+		expect(current()).toEqual([]);
+		unmount();
+
+		renderList(sessions, "/git/assist", "sid-second");
+		expect(current()).toHaveLength(1);
+		expect(current()[0]).toContain("second");
 	});
 
 	it("leaves Tab on a history row native", () => {

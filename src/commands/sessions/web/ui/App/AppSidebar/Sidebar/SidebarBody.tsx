@@ -7,6 +7,7 @@ export function SidebarBody(props: SidebarProps) {
 		return (
 			<HistoryList
 				sessions={props.history}
+				viewingId={props.viewingId}
 				onView={props.onView}
 				onResume={props.onResume}
 			/>

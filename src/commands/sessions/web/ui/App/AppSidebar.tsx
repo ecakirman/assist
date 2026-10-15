@@ -41,6 +41,7 @@ export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
 			pendingLaunches={socket.pendingLaunches}
 			history={socket.history}
 			activeId={socket.activeId}
+			viewingId={socket.viewingTranscriptSessionId}
 			tab={tab}
 			onTabChange={onTabChange}
 			onSelect={handleSelect}

@@ -39,6 +39,7 @@ export type SidebarProps = {
 	pendingLaunches: PendingLaunch[];
 	history: HistoricalSession[];
 	activeId: string | null;
+	viewingId: string | null;
 	tab: SidebarTab;
 	onTabChange: (tab: SidebarTab) => void;
 	onSelect: (id: string) => void;

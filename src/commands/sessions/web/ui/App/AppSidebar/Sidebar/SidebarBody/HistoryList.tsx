@@ -21,17 +21,24 @@ function EmptyState() {
 	);
 }
 
+type HistoryCardsProps = {
+	sessions: HistoricalSession[];
+	viewingId?: string | null;
+} & HistoryCardHandlers;
+
 function HistoryCards({
 	sessions,
+	viewingId,
 	onView,
 	onResume,
-}: { sessions: HistoricalSession[] } & HistoryCardHandlers) {
+}: HistoryCardsProps) {
 	return (
 		<Box sx={{ flex: 1, overflow: "auto", p: 1 }}>
 			{sessions.map((s) => (
 				<HistoryCard
 					key={s.sessionId}
 					session={s}
+					selected={s.sessionId === viewingId}
 					onView={onView}
 					onResume={onResume}
 				/>
@@ -43,9 +50,10 @@ function HistoryCards({
 
 export function HistoryList({
 	sessions,
+	viewingId,
 	onView,
 	onResume,
-}: { sessions: HistoricalSession[] } & HistoryCardHandlers) {
+}: HistoryCardsProps) {
 	const { selectedCwd } = useRepoSelectionContext();
 	const selectedKey = repoKeyForCwd(selectedCwd, sessions);
 	// why: uniqueRepos renders one row per clone even if two groups disagree on origin, so match the clone too or the suppressed group's sessions become unreachable
@@ -65,7 +73,12 @@ export function HistoryList({
 				overflow: "hidden",
 			}}
 		>
-			<HistoryCards sessions={filtered} onView={onView} onResume={onResume} />
+			<HistoryCards
+				sessions={filtered}
+				viewingId={viewingId}
+				onView={onView}
+				onResume={onResume}
+			/>
 		</Box>
 	);
 }
