@@ -1,3 +1,10 @@
+# [0.829.0](https://github.com/staff0rd/assist/compare/v0.828.1...v0.829.0) (2026-10-15)
+
+
+### Features
+
+* send GitHub comments to assist ([5216fd5](https://github.com/staff0rd/assist/commit/5216fd50ef9f59e1d701db8c4e4d30250c28b5fb))
+
 ## [0.828.1](https://github.com/staff0rd/assist/compare/v0.828.0...v0.828.1) (2026-10-15)
 
 
