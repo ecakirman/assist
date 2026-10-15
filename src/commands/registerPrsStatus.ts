@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { prsSlackChannel } from "./prs/prsSlackChannel";
 import { prsStatus } from "./prs/prsStatus";
 
 export function registerPrsStatus(prsCommand: Command): void {
@@ -9,4 +10,11 @@ export function registerPrsStatus(prsCommand: Command): void {
 		)
 		.option("--json", "Output as JSON")
 		.action(prsStatus);
+
+	prsCommand
+		.command("slack-channel")
+		.description(
+			"Print the Slack channel PRs are announced to (prs.slack, else slack.channel)",
+		)
+		.action(prsSlackChannel);
 }

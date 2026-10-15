@@ -54,7 +54,7 @@ After installation, the `assist` command will be available globally. You can als
 - `/fix-rules [dir]` - Put existing rules into the `## Rules` format `assist rules` reads
 - `/forward-comments` - Split a coarse PR comment into per-line review comments, attributed to the original reviewer
 - `/pr` - Raise a PR with a concise description
-- `/prs-slack <number> [--no-confirm]` - Post a PR's title and URL to the `prs.slack` channel; `--no-confirm` skips the confirmation
+- `/prs-slack <number> [--no-confirm]` - Post a PR's title and URL to the `prs.slack` channel (else `slack.channel`); `--no-confirm` skips the confirmation
 - `/prs-status [channel] <owner/repo>...` - Post an overview of the open PRs across the named repos to Slack (default channel `slack.channel`)
 - `/refactor` - Run refactoring checks for code quality
 - `/prompts` - Analyze denied tool calls and suggest settings changes to auto-allow recurring prompts
@@ -117,6 +117,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
 - `assist read-time <target> [--budget <duration>]` - Estimate how long a PR (number or URL), file or stdin (`-`) takes to read, against `--budget` (default 1m)
 - `assist prs` - List pull requests for the current repository
 - `assist prs status <owner/repo>... [--json]` - Report the open pull requests across the named repos and what each is waiting on
+- `assist prs slack-channel` - Print the Slack channel PRs are announced to: `prs.slack`, else `slack.channel`; exits non-zero when neither is set
 - `assist prs raise --title <t> --what <w> --why <y> [--how <h>] [--resolves <ref>] [--screenshot '[Group/]Caption=path']... [--force] [--draft|--no-draft]` - Raise a PR with a What/Why/How body, previewed for approval in a web session; `--draft`/`--no-draft` override `prs.draft`; each `--screenshot` is uploaded via `gh --attach` and rendered under `## Screenshots` as a `### Group` heading with a 2-column captioned table, ungrouped images last as plain images
 - `assist prs edit [--title <t>] [--what <w>] [--why <y>] [--how <h>] [--resolves <ref>] [--screenshot '[Group/]Caption=path']...` - Update the supplied sections of the current PR's body, previewed for approval in a web session; `--screenshot` replaces the existing `## Screenshots` section
 - `assist prs read-time <target> [--budget <duration>]` - Alias of `assist read-time`
@@ -544,7 +545,7 @@ A restart kills every managed session's pty, which also kills any background tas
 
 - `harness.codexModel` — LiteLLM model every non-review Codex launch uses. Unset, Codex uses its own configured provider.
 - `slack.channel` — the Slack channel `assist slack post` and `/slack-post` target when given none.
-- `prs.slack` — the Slack channel `/prs-slack` posts pull requests to.
+- `prs.slack` — the Slack channel `/prs-slack` posts pull requests to. Falls back to `slack.channel` when unset.
 - `prs.required` — cut a fresh branch when `assist backlog run` starts a story with no recorded branch. Defaults to `true`.
 - `prs.promptJira` — have `assist prs raise --help` ask the user for a Jira key to resolve. Defaults to `false`.
 - `prs.promptGithub` — have `assist prs raise --help` ask the user for a GitHub issue to resolve. Defaults to `false`.

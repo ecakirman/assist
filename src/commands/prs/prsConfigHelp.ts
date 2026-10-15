@@ -22,7 +22,7 @@ export const prsConfigHelp: ConfigHelpEntry[] = [
 	{
 		key: "prs.slack",
 		setter: 'assist config set prs.slack "#pull-requests"',
-		note: "Slack channel PRs are announced to (used by /prs-slack)",
+		note: "Slack channel PRs are announced to, falling back to slack.channel (read by 'assist prs slack-channel', used by /prs-slack)",
 	},
 	{
 		key: "prs.required",
