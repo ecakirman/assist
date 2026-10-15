@@ -1,3 +1,10 @@
+# [0.835.0](https://github.com/staff0rd/assist/compare/v0.834.0...v0.835.0) (2026-10-15)
+
+
+### Features
+
+* configurable extension server URL ([2dc7b27](https://github.com/staff0rd/assist/commit/2dc7b273d22d2fa81792abedbb4b56682169f85d))
+
 # [0.834.0](https://github.com/staff0rd/assist/compare/v0.833.0...v0.834.0) (2026-10-15)
 
 
