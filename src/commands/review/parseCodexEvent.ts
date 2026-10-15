@@ -1,7 +1,10 @@
 import { simplifyShellCommand } from "./formatToolSummary";
+import { parseCodexUsage } from "./parseCodexUsage";
+import type { TokenUsage } from "./TokenUsage";
 
 type CodexEvent =
 	| { kind: "tool_use"; tool: string; summary: string }
+	| { kind: "usage"; usage: TokenUsage }
 	| { kind: "ignore" };
 
 type ItemStartedEvent = {
@@ -17,12 +20,24 @@ function isItemStarted(value: unknown): value is ItemStartedEvent {
 	);
 }
 
+function isTurnCompleted(value: unknown): value is { usage?: unknown } {
+	return (
+		typeof value === "object" &&
+		value !== null &&
+		(value as { type?: unknown }).type === "turn.completed"
+	);
+}
+
 export function parseCodexEvent(line: string): CodexEvent {
 	let event: unknown;
 	try {
 		event = JSON.parse(line);
 	} catch {
 		return { kind: "ignore" };
+	}
+	if (isTurnCompleted(event)) {
+		const usage = parseCodexUsage(event.usage);
+		return usage ? { kind: "usage", usage } : { kind: "ignore" };
 	}
 	if (!isItemStarted(event)) return { kind: "ignore" };
 	const item = event.item;

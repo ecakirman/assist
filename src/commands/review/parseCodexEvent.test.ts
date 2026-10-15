@@ -38,6 +38,27 @@ describe("parseCodexEvent", () => {
 		expect(parseCodexEvent(line)).toEqual({ kind: "ignore" });
 	});
 
+	it("extracts usage from turn.completed", () => {
+		const line = JSON.stringify({
+			type: "turn.completed",
+			usage: {
+				input_tokens: 1200,
+				cached_input_tokens: 800,
+				output_tokens: 90,
+			},
+		});
+		expect(parseCodexEvent(line)).toEqual({
+			kind: "usage",
+			usage: { input: 1200, output: 90, cacheRead: 800 },
+		});
+	});
+
+	it("returns ignore for turn.completed without usage", () => {
+		expect(parseCodexEvent(JSON.stringify({ type: "turn.completed" }))).toEqual(
+			{ kind: "ignore" },
+		);
+	});
+
 	it("returns ignore for thread.started", () => {
 		expect(
 			parseCodexEvent(

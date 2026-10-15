@@ -1,9 +1,8 @@
 import { existsSync, unlinkSync } from "node:fs";
 import type { CodexModelOverride } from "../litellm/buildCodexProviderArgs";
+import { createCodexLineHandler } from "./createCodexLineHandler";
 import { finaliseReviewerRun } from "./finaliseReviewerRun";
 import type { SpinnerHandle } from "./MultiSpinner";
-import { parseCodexEvent } from "./parseCodexEvent";
-import { reportReviewerToolUse } from "./reportReviewerToolUse";
 import { type ReviewerResult, runStreamingChild } from "./runStreamingChild";
 
 type CodexReviewerSpec = {
@@ -31,6 +30,11 @@ export async function runCodexReviewer(
 ): Promise<ReviewerResult> {
 	const { spinner, override } = spec;
 	const command = "codex";
+	const { state, onLine } = createCodexLineHandler(
+		spec.name,
+		spinner,
+		override.model,
+	);
 	const result = await runStreamingChild({
 		name: spec.name,
 		command,
@@ -39,16 +43,12 @@ export async function runCodexReviewer(
 		stdin: spec.stdin,
 		quiet: Boolean(spinner),
 		...(override.args.length > 0 ? { env: override.env } : {}),
-		onLine: (line) => {
-			const event = parseCodexEvent(line);
-			if (event.kind !== "tool_use") return;
-			reportReviewerToolUse(spec.name, event, spinner, override.model);
-		},
+		onLine,
 	});
 	if (result.exitCode !== 0 && existsSync(spec.outputPath)) {
 		unlinkSync(spec.outputPath);
 	}
-	return finaliseReviewerRun(
+	const finalised = finaliseReviewerRun(
 		{
 			name: spec.name,
 			command,
@@ -58,4 +58,5 @@ export async function runCodexReviewer(
 		spinner,
 		result,
 	);
+	return state.usage ? { ...finalised, usage: state.usage } : finalised;
 }
