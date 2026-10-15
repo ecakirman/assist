@@ -19,11 +19,13 @@ export function HighLevelReviewActions({
 	outstanding,
 	onApprove,
 	onRequestChanges,
+	onClose,
 }: {
 	failed: number;
 	outstanding: number;
 	onApprove: () => void;
 	onRequestChanges: () => void;
+	onClose: () => void;
 }) {
 	return (
 		<Stack
@@ -34,6 +36,9 @@ export function HighLevelReviewActions({
 			<Typography variant="body2" sx={{ flex: 1, color: "text.secondary" }}>
 				{prompt(failed, outstanding)}
 			</Typography>
+			<Button variant="outlined" onClick={onClose}>
+				Close
+			</Button>
 			<Button color="error" variant="outlined" onClick={onRequestChanges}>
 				Request changes
 			</Button>

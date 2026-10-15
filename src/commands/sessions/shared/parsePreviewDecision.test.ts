@@ -49,6 +49,12 @@ describe("parsePreviewDecision", () => {
 		expect(parsed().autostart).toBe(false);
 	});
 
+	it("reads dismissed only when it is exactly true", () => {
+		expect(parsed({ dismissed: true }).dismissed).toBe(true);
+		expect(parsed({ dismissed: "yes" }).dismissed).toBe(false);
+		expect(parsed().dismissed).toBe(false);
+	});
+
 	describe("the selection field", () => {
 		it("round-trips a picked anchor pair", () => {
 			expect(

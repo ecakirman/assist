@@ -30,6 +30,7 @@ export type PreviewDecisionFields = {
 	autostart?: boolean;
 	selection?: PreviewSelection;
 	checklist?: PreviewChecklistItem[];
+	dismissed?: boolean;
 };
 
 export type PreviewDecision = PreviewDecisionFields & {

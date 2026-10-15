@@ -229,6 +229,29 @@ describe("HighLevelReviewPane", () => {
 		);
 	});
 
+	it("closes without a verdict from a Close button left of Request changes", () => {
+		const onDecision = vi.fn();
+		render(<HighLevelReviewPane preview={preview()} onDecision={onDecision} />);
+
+		const buttons = screen
+			.getAllByRole("button")
+			.map((button) => button.textContent);
+		expect(buttons.indexOf("Close")).toBe(
+			buttons.indexOf("Request changes") - 1,
+		);
+
+		fireEvent.click(
+			screen.getByLabelText("The structure of the change is sensible"),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Close" }));
+
+		expect(onDecision).toHaveBeenCalledOnce();
+		expect(onDecision).toHaveBeenCalledWith(
+			"reject",
+			expect.objectContaining({ dismissed: true }),
+		);
+	});
+
 	it("backs the structure item with the changed-file tree and diff links", () => {
 		render(<HighLevelReviewPane preview={preview()} onDecision={vi.fn()} />);
 

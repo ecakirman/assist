@@ -1,5 +1,5 @@
-import type { PreviewChecklistItem } from "../../../../../../shared/PreviewDecision";
-import type { PrDecisionDetails } from "../../../../PrDecisionDetails";
+import type { PreviewChecklistItem } from "../../../../../../../shared/PreviewDecision";
+import type { PrDecisionDetails } from "../../../../../PrDecisionDetails";
 
 export function highLevelDecisionDetails(
 	checklist: PreviewChecklistItem[],

@@ -4,7 +4,7 @@ import { CommentSentSnackbar } from "../../CommentSentSnackbar";
 import { HighLevelChecklistBody } from "./HighLevelReviewPane/HighLevelChecklistBody";
 import { HighLevelReviewActions } from "./HighLevelReviewPane/HighLevelReviewActions";
 import { PreviewWidthToggle } from "./HighLevelReviewPane/PreviewWidthToggle";
-import { highLevelDecisionDetails } from "./HighLevelReviewPane/highLevelDecisionDetails";
+import { highLevelReviewHandlers } from "./HighLevelReviewPane/highLevelReviewHandlers";
 import type { PrDecisionDetails } from "../../../PrDecisionDetails";
 import { PreviewMetadataList } from "./PreviewMetadataList";
 import { PrPreviewHeader } from "./PrPreviewHeader";
@@ -29,9 +29,6 @@ export function HighLevelReviewPane({
 	const { payload, checklist, details, sentTo, clearSent } =
 		useHighLevelReviewPane(preview, session, sendInput);
 
-	const decide = (decision: "approve" | "reject") =>
-		onDecision(decision, highLevelDecisionDetails(checklist.checklist()));
-
 	return (
 		<Box sx={prPreviewPaneSx}>
 			<PrPreviewHeader
@@ -52,8 +49,7 @@ export function HighLevelReviewPane({
 					payload.checks.filter((check) => check.status === "fail").length
 				}
 				outstanding={checklist.outstanding}
-				onApprove={() => decide("approve")}
-				onRequestChanges={() => decide("reject")}
+				{...highLevelReviewHandlers(checklist.checklist, onDecision)}
 			/>
 			<CommentSentSnackbar sessionName={sentTo} onClose={clearSent} />
 		</Box>

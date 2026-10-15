@@ -13,4 +13,5 @@ export type PrDecisionDetails = PrPreviewChain & {
 	autostart?: boolean;
 	selection?: PreviewSelection;
 	checklist?: PreviewChecklistItem[];
+	dismissed?: boolean;
 };

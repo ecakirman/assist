@@ -10,7 +10,7 @@ import type { HighLevelReviewRecord } from "./types";
 export async function openHighLevelOverlay(
 	sessionId: string,
 	subject: HighLevelOverlaySubject,
-): Promise<HighLevelReviewRecord> {
+): Promise<HighLevelReviewRecord | undefined> {
 	const decision = await awaitPreviewApproval(
 		"High-level review",
 		{
@@ -24,6 +24,10 @@ export async function openHighLevelOverlay(
 		},
 		{ rejectIsOutcome: true },
 	);
+	if (decision.dismissed) {
+		console.log("Review closed without a verdict. Nothing was saved.");
+		return undefined;
+	}
 	const record = buildHighLevelRecord(subject, decision);
 	const path = saveHighLevelReview(record);
 	console.log(`Verdict: ${record.verdict}`);

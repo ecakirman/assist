@@ -40,5 +40,6 @@ export function toPreviewDecision(
 		autostart: msg.autostart === true,
 		selection: toSelection(msg.selection),
 		checklist: toChecklist(msg.checklist),
+		dismissed: msg.dismissed === true,
 	};
 }
