@@ -5,6 +5,7 @@ import { errorSession } from "./errorSession";
 import type { PersistedSession } from "./loadPersistedSessions";
 import type { restoreBase } from "./restoreBase";
 import { restoreCodexSession } from "./restoreCodexSession";
+import { restoreServerRun } from "./restoreServerRun";
 import { unresumableReason } from "./unresumableReason";
 import { resumeViaClaude } from "./resumeViaClaude";
 
@@ -44,6 +45,9 @@ export function restoreInteractiveSession(
 	if (persisted.commandType === "claude") {
 		return unrecoverableClaude(id, persisted);
 	}
+
+	const serverRun = restoreServerRun(id, persisted, base);
+	if (serverRun) return serverRun;
 
 	/* why: run/assist sessions can be re-launched from their stored args, so a
 	 * retryable "done" card is recoverable — only the unrecoverable claude case
