@@ -1,3 +1,10 @@
+# [0.839.0](https://github.com/staff0rd/assist/compare/v0.838.0...v0.839.0) (2026-10-15)
+
+
+### Features
+
+* high-level review jump strip ([c80e834](https://github.com/staff0rd/assist/commit/c80e834c49f48024466dc634293f78767b8cc1ce)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.838.0](https://github.com/staff0rd/assist/compare/v0.837.0...v0.838.0) (2026-10-15)
 
 
