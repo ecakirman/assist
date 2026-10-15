@@ -1,20 +1,12 @@
+import { githubPullNumber } from "../../../shared/githubPullNumber";
+import { assistPopoverContent } from "./assistPopoverContent";
 import { ensureAssistButtonStyles } from "./ensureAssistButtonStyles";
-import { extensionRuntime } from "./extensionRuntime";
 import { sendToAssist } from "./sendToAssist";
 import { showAssistToast } from "./showAssistToast";
 import { toggleAssistPopover } from "./toggleAssistPopover";
+import { assistIcon } from "./assistIcon";
 
 const LABEL = "assist";
-const ICON_PATH = "icons/assist-32.png";
-
-function assistIcon(): HTMLImageElement | undefined {
-	const src = extensionRuntime()?.getURL?.(ICON_PATH);
-	if (!src) return undefined;
-	const icon = document.createElement("img");
-	icon.src = src;
-	icon.alt = "";
-	return icon;
-}
 
 export function assistSendButton(
 	url: () => string,
@@ -34,10 +26,10 @@ export function assistSendButton(
 	if (icon) button.append(icon);
 	button.append(label);
 
-	const send = async (instructions: string) => {
+	const send = async (request: { instructions?: string; args?: string[] }) => {
 		button.disabled = true;
 		label.textContent = "sending…";
-		const result = await sendToAssist(url(), instructions || undefined);
+		const result = await sendToAssist({ url: url(), ...request });
 		showAssistToast(result.message, result.ok);
 		button.disabled = false;
 		label.textContent = LABEL;
@@ -47,7 +39,13 @@ export function assistSendButton(
 	button.addEventListener("click", (event) => {
 		event.preventDefault();
 		event.stopPropagation();
-		toggleAssistPopover(button, send);
+		const reviewMenu = placement === "header" && githubPullNumber(url());
+		toggleAssistPopover(button, (dismiss) =>
+			assistPopoverContent(reviewMenu ? "review" : "instructions", {
+				send,
+				dismiss,
+			}),
+		);
 	});
 	return button;
 }

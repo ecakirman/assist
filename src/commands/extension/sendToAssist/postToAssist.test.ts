@@ -30,6 +30,18 @@ describe("postToAssist", () => {
 		);
 	});
 
+	it("posts args to the review-from-github endpoint", async () => {
+		respond(200, { sessionId: "s1", cwd: "/base/repo" });
+		const PR = "https://github.com/org/repo/pull/1";
+		await postToAssist(SERVER, { ...message, url: PR, args: ["review"] });
+		expect(fetch).toHaveBeenCalledWith(
+			`${SERVER}/api/sessions/review-from-github`,
+			expect.objectContaining({
+				body: JSON.stringify({ url: PR, args: ["review"] }),
+			}),
+		);
+	});
+
 	it("relays the server's error", async () => {
 		respond(404, { error: "org/repo is not cloned under /base" });
 		expect(await postToAssist(SERVER, message)).toEqual({

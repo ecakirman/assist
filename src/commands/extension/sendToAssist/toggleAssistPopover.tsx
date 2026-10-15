@@ -1,5 +1,5 @@
+import type { ReactNode } from "react";
 import { renderInShadow } from "../renderInShadow";
-import { AssistPopover } from "./AssistPopover";
 
 const WIDTH = 320;
 const GUTTER = 16;
@@ -27,7 +27,7 @@ function closeAssistPopover(): void {
 
 export function toggleAssistPopover(
 	anchor: HTMLElement,
-	onSend: (instructions: string) => void,
+	render: (dismiss: (restoreFocus: boolean) => void) => ReactNode,
 ): void {
 	const wasAnchor = open?.anchor;
 	closeAssistPopover();
@@ -49,15 +49,9 @@ export function toggleAssistPopover(
 	const root = renderInShadow(
 		host,
 		"assist-popover",
-		<AssistPopover
-			onSend={(instructions) => {
-				close();
-				onSend(instructions);
-			}}
-			onClose={(restoreFocus) => {
-				close();
-				if (restoreFocus) anchor.focus();
-			}}
-		/>,
+		render((restoreFocus) => {
+			close();
+			if (restoreFocus) anchor.focus();
+		}),
 	);
 }

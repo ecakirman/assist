@@ -5,13 +5,12 @@ import type {
 import { extensionRuntime } from "./extensionRuntime";
 
 export async function sendToAssist(
-	url: string,
-	instructions?: string,
+	request: Omit<AssistSendMessage, "type">,
 ): Promise<AssistSendResult> {
 	const runtime = extensionRuntime();
 	if (!runtime)
 		return { ok: false, message: "assist extension runtime unavailable" };
-	const message: AssistSendMessage = { type: "assist-send", url, instructions };
+	const message: AssistSendMessage = { type: "assist-send", ...request };
 	try {
 		const result = (await runtime.sendMessage(message)) as
 			| AssistSendResult

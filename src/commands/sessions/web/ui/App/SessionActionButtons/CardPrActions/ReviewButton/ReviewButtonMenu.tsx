@@ -1,7 +1,7 @@
 import Divider from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { reviewButtonModes } from "../../../reviewButtonModes";
+import { reviewButtonModes } from "../../../../../../../../shared/reviewButtonModes";
 import { ReviewOptionToggles } from "../../../ReviewOptionToggles";
 import type { useReviewLaunch } from "./useReviewLaunch";
 

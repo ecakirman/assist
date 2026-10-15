@@ -5,14 +5,17 @@ import type {
 
 export async function postToAssist(
 	server: string,
-	{ url, instructions }: AssistSendMessage,
+	{ url, instructions, args }: AssistSendMessage,
 ): Promise<AssistSendResult> {
+	const [endpoint, body] = args
+		? ["review-from-github", { url, args }]
+		: ["from-github", { url, instructions }];
 	let response: Response;
 	try {
-		response = await fetch(`${server}/api/sessions/from-github`, {
+		response = await fetch(`${server}/api/sessions/${endpoint}`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ url, instructions }),
+			body: JSON.stringify(body),
 		});
 	} catch {
 		return { ok: false, message: `assist web server unreachable at ${server}` };

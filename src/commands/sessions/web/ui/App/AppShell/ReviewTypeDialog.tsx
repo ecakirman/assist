@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import type { PrSummary } from "../../../prList";
-import { reviewButtonModes } from "../reviewButtonModes";
+import { reviewButtonModes } from "../../../../../../shared/reviewButtonModes";
 import {
 	reviewOptionArgs,
 	reviewOptionDefaults,
