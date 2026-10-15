@@ -5,7 +5,7 @@ import {
 	type ReviewOptions,
 	reviewOptionArgs,
 	reviewOptionDefaults,
-} from "../../../ReviewOptionToggles";
+} from "../../../../../../../../shared/reviewOptionFlags";
 import { useSessionLaunchContext } from "../../../../useSessionLaunchContext";
 
 export function useReviewLaunch(

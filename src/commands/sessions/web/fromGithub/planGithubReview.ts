@@ -1,5 +1,5 @@
 import { githubPullNumber } from "../../../../shared/githubPullNumber";
-import { isReviewModeArgs } from "../../../../shared/isReviewModeArgs";
+import { isAllowedPrArgs } from "../../../../shared/isAllowedPrArgs";
 import { type GithubPlanError, resolveGithubClone } from "./resolveGithubClone";
 
 export function planGithubReview(
@@ -7,7 +7,7 @@ export function planGithubReview(
 	baseDir: string,
 ): { ok: true; cwd: string; assistArgs: string[] } | GithubPlanError {
 	const { url, args } = (body ?? {}) as Record<string, unknown>;
-	if (!isReviewModeArgs(args))
+	if (!isAllowedPrArgs(args))
 		return { ok: false, status: 400, error: "Unsupported assist args" };
 	const prNumber = typeof url === "string" ? githubPullNumber(url.trim()) : "";
 	if (!prNumber)

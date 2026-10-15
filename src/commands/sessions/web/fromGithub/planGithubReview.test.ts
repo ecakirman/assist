@@ -23,6 +23,16 @@ describe("planGithubReview", () => {
 		});
 	});
 
+	it("accepts toggle flags and PR actions", () => {
+		mockResolve.mockReturnValue({ cwd: "/base/repo" });
+		expect(
+			planGithubReview({ url: URL, args: ["review", "--force"] }, "/base"),
+		).toMatchObject({ assistArgs: ["review", "--force", "12"] });
+		expect(
+			planGithubReview({ url: URL, args: ["fix-conflict"] }, "/base"),
+		).toMatchObject({ assistArgs: ["fix-conflict", "12"] });
+	});
+
 	it.each([
 		[["backlog", "run", "a1"]],
 		[["review", "--refine", "--apply"]],

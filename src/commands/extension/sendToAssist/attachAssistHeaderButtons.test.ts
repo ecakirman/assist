@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
 import { act, fireEvent } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { prActions } from "../../../shared/prActions";
 import { reviewButtonModes } from "../../../shared/reviewButtonModes";
+import { reviewOptionFlags } from "../../../shared/reviewOptionFlags";
 import { attachAssistHeaderButtons } from "./attachAssistHeaderButtons";
 
 const HEADERS = `<div class="gh-header-actions"><button>Edit</button></div><div data-component="PH_Actions"></div>`;
@@ -50,10 +52,10 @@ describe("attachAssistHeaderButtons", () => {
 		expect(buttons()).toHaveLength(0);
 	});
 
-	it("opens a focused review mode menu on a pull request", async () => {
+	it("opens a focused menu of review modes and PR actions on a pull request", async () => {
 		await openOn("/org/repo/pull/3/files");
 		expect(menuItems().map((item) => item.textContent)).toEqual(
-			reviewButtonModes.map((mode) => mode.label),
+			[...reviewButtonModes, ...prActions].map(({ label }) => label),
 		);
 		expect(popover()?.activeElement).toBe(menuItems()[0]);
 		expect(popover()?.querySelector("textarea")).toBeNull();
@@ -72,6 +74,44 @@ describe("attachAssistHeaderButtons", () => {
 			args: refine.args,
 		});
 		expect(popover()).toBeFalsy();
+	});
+
+	it("appends checked toggle flags to the picked mode", async () => {
+		const sendMessage = vi.fn().mockResolvedValue({ ok: true, message: "ok" });
+		vi.stubGlobal("browser", { runtime: { sendMessage } });
+		await openOn("/org/repo/pull/3");
+		const toggles = Array.from(
+			popover()?.querySelectorAll<HTMLElement>('[role="menuitemcheckbox"]') ??
+				[],
+		);
+		expect(toggles.map((item) => item.textContent)).toEqual(
+			reviewOptionFlags.map(({ label }) => label),
+		);
+		await act(async () => toggles[2].click());
+		expect(toggles[2].getAttribute("aria-checked")).toBe("true");
+		await act(async () => menuItems()[0].click());
+		expect(sendMessage).toHaveBeenCalledWith(
+			expect.objectContaining({ args: ["review", "--announce"] }),
+		);
+	});
+
+	it("sends a PR action's args", async () => {
+		const sendMessage = vi.fn().mockResolvedValue({ ok: true, message: "ok" });
+		vi.stubGlobal("browser", { runtime: { sendMessage } });
+		await openOn("/org/repo/pull/3");
+		const item = menuItems().find((el) => el.textContent === "Checkout");
+		await act(async () => item?.click());
+		expect(sendMessage).toHaveBeenCalledWith(
+			expect.objectContaining({ args: ["review", "--checkout-only"] }),
+		);
+	});
+
+	it("moves focus with the arrow keys", async () => {
+		await openOn("/org/repo/pull/3");
+		await act(async () =>
+			fireEvent.keyDown(menuItems()[0], { key: "ArrowDown" }),
+		);
+		expect(popover()?.activeElement).toBe(menuItems()[1]);
 	});
 
 	it("closes the menu on Escape", async () => {

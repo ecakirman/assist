@@ -14,8 +14,8 @@ import { reviewButtonModes } from "../../../../../../shared/reviewButtonModes";
 import {
 	reviewOptionArgs,
 	reviewOptionDefaults,
-	ReviewOptionToggles,
-} from "../ReviewOptionToggles";
+} from "../../../../../../shared/reviewOptionFlags";
+import { ReviewOptionToggles } from "../ReviewOptionToggles";
 import { PrActionItems } from "./ReviewTypeDialog/PrActionItems";
 
 export function ReviewTypeDialog({

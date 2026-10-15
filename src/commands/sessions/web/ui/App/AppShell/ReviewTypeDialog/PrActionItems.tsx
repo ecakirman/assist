@@ -1,4 +1,5 @@
 import { Divider, MenuItem } from "@mui/material";
+import { prActions } from "../../../../../../../shared/prActions";
 import type { PrSummary } from "../../../../prList";
 
 export function PrActionItems({
@@ -12,18 +13,11 @@ export function PrActionItems({
 }) {
 	return (
 		<>
-			<MenuItem onClick={() => onSelect(["review", "--checkout-only"])}>
-				Checkout
-			</MenuItem>
-			<MenuItem onClick={() => onSelect(["review-pr-comments"])}>
-				Address Comments
-			</MenuItem>
-			<MenuItem onClick={() => onSelect(["fix-conflict"])}>
-				Fix conflicts (merge)
-			</MenuItem>
-			<MenuItem onClick={() => onSelect(["fix-conflict", "--rebase"])}>
-				Fix conflicts (rebase)
-			</MenuItem>
+			{prActions.map(({ label, args }) => (
+				<MenuItem key={label} onClick={() => onSelect(args)}>
+					{label}
+				</MenuItem>
+			))}
 			<Divider />
 			<MenuItem
 				onClick={() => {
