@@ -14,6 +14,7 @@ export function issuePreviewMetadata(
 		items.push({
 			label: "Parent",
 			value: `${parent.owner}/${parent.repo}#${parent.number}`,
+			url: `https://github.com/${parent.owner}/${parent.repo}/issues/${parent.number}`,
 		});
 	if (project)
 		items.push({

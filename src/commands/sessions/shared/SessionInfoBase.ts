@@ -29,6 +29,7 @@ export type PreviewItemType = "story" | "bug";
 export type PreviewMetadata = {
 	label: string;
 	value: string;
+	url?: string;
 };
 
 export type PrPreview = {

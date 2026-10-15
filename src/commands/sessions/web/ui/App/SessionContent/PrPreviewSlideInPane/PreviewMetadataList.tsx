@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import type { PreviewMetadata } from "../../../../../shared/SessionInfoBase";
 
 const rowSx = {
@@ -17,9 +17,15 @@ export function PreviewMetadataList({ items }: { items: PreviewMetadata[] }) {
 			{items.map((item) => (
 				<Typography key={item.label} variant="body2" color="text.secondary">
 					{item.label}:{" "}
-					<Box component="span" sx={{ color: "text.primary" }}>
-						{item.value}
-					</Box>
+					{item.url ? (
+						<Link href={item.url} target="_blank" rel="noopener noreferrer">
+							{item.value}
+						</Link>
+					) : (
+						<Box component="span" sx={{ color: "text.primary" }}>
+							{item.value}
+						</Box>
+					)}
 				</Typography>
 			))}
 		</Box>

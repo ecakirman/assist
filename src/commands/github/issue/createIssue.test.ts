@@ -695,7 +695,11 @@ describe("createIssue --parent", () => {
 		expect(request?.body).toBe("Details");
 		expect(request?.metadata).toEqual([
 			{ label: "Repository", value: "acme/widgets" },
-			{ label: "Parent", value: "other/tools#3" },
+			{
+				label: "Parent",
+				value: "other/tools#3",
+				url: "https://github.com/other/tools/issues/3",
+			},
 		]);
 	});
 
