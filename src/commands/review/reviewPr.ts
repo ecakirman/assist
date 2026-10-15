@@ -1,41 +1,11 @@
 import { writeJobSummary } from "./ci/writeJobSummary";
-import { handlePostSynthesis } from "./handlePostSynthesis";
-import type { PrDiffRef } from "./postReviewToPr";
-import type { ReviewerModels } from "./ReviewerModels";
+import { exitFailedCiReview } from "./exitFailedCiReview";
+import type { ReviewPrOptions } from "./ReviewPrOptions";
 import { runReviewPipeline } from "./runReviewPipeline";
 import { attachReviewLog } from "./startReviewLog";
 import { setupReviewDir } from "./setupReviewDir";
 import { gatherChangedContext } from "./gatherChangedContext";
-
-type ReviewPrOptions = {
-	prompt?: boolean;
-	submit?: boolean;
-	force?: boolean;
-	refine?: boolean;
-	apply?: boolean;
-	backlog?: boolean;
-	verbose?: boolean;
-	addressComments?: boolean;
-	announce?: boolean;
-	ci?: { models: ReviewerModels; summaryPath?: string; footer: string };
-};
-
-function runPostSynthesis(
-	synthesisPath: string,
-	prInfo: PrDiffRef,
-	options: ReviewPrOptions,
-): Promise<void> {
-	return handlePostSynthesis(synthesisPath, prInfo, {
-		refine: options.refine ?? false,
-		apply: options.apply ?? false,
-		backlog: options.backlog ?? false,
-		prompt: options.prompt ?? true,
-		submit: options.submit ?? false,
-		addressComments: options.addressComments ?? false,
-		announce: options.announce ?? false,
-		ciFooter: options.ci?.footer,
-	});
-}
+import { runPostSynthesis } from "./runPostSynthesis";
 
 export async function reviewPr(
 	repoRoot: string,
@@ -44,15 +14,14 @@ export async function reviewPr(
 	const context = gatherChangedContext();
 	const paths = setupReviewDir(repoRoot, context, options.force ?? false);
 	attachReviewLog(paths.reviewDir);
-	const synthesisOk = await runReviewPipeline(paths, {
+	const outcome = await runReviewPipeline(paths, {
 		verbose: options.verbose ?? false,
 		models: options.ci?.models,
 		strict: options.ci !== undefined,
 	});
-	if (!synthesisOk && options.ci) {
-		console.error("Review failed; nothing was posted.");
-		process.exit(1);
-	}
+	const synthesisOk = outcome.ok;
+	if (!synthesisOk && options.ci)
+		exitFailedCiReview(outcome.failures, options.ci);
 	if (synthesisOk && options.ci)
 		writeJobSummary(paths.synthesisPath, context, options.ci.summaryPath);
 	if (synthesisOk)

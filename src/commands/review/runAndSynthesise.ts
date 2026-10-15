@@ -18,7 +18,7 @@ type Args = {
 	strict: boolean;
 };
 
-type AndSynthesiseOutcome = {
+export type AndSynthesiseOutcome = {
 	ok: boolean;
 	failures: ReviewerResult[];
 };

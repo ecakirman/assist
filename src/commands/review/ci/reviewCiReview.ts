@@ -2,6 +2,7 @@ import { checkCliAvailable } from "../../../shared/checkCliAvailable";
 import { pinCurrentPr } from "../../prs/pinCurrentPr";
 import { reviewPr } from "../reviewPr";
 import { buildCiFooter } from "./buildCiFooter";
+import { buildCiRunUrl } from "./buildCiRunUrl";
 import { buildCiReviewerModels } from "./buildCiReviewerModels";
 import { deriveEndpoints } from "./deriveEndpoints";
 import { readEventPrNumber } from "./readEventPrNumber";
@@ -28,6 +29,7 @@ export async function reviewCiReview(env: NodeJS.ProcessEnv): Promise<void> {
 			models: buildCiReviewerModels(config, endpoints, token),
 			summaryPath: env.GITHUB_STEP_SUMMARY,
 			footer: buildCiFooter(config.slots),
+			runUrl: buildCiRunUrl(env),
 		},
 	});
 }
