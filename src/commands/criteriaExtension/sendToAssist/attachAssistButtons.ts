@@ -19,6 +19,11 @@ export function attachAssistButtons(): void {
 	)) {
 		if (!isCommentTimestamp(anchor)) continue;
 		if (anchor.nextElementSibling?.hasAttribute("data-assist-send")) continue;
-		anchor.after(assistSendButton(anchor.href));
+		anchor.after(
+			assistSendButton(
+				() => anchor.href,
+				"Start an assist session from this comment",
+			),
+		);
 	}
 }
