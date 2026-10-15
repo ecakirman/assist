@@ -1,3 +1,10 @@
+# [0.831.0](https://github.com/staff0rd/assist/compare/v0.830.0...v0.831.0) (2026-10-15)
+
+
+### Features
+
+* assist icon button ([7a2f3c1](https://github.com/staff0rd/assist/commit/7a2f3c10d0570d4f9067ea2d05f83eeec0fec0d8))
+
 # [0.830.0](https://github.com/staff0rd/assist/compare/v0.829.0...v0.830.0) (2026-10-15)
 
 
