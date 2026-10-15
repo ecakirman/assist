@@ -45,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - name: Sign criteria extension if it changed
+      - name: Sign extension if it changed
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

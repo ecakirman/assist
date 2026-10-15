@@ -332,7 +332,7 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 
 - `assist netcap [-p, --port <port>] [-o, --out <dir>] [-f, --filter <pattern>]` - Capture browser network traffic under `--out` (default `~/.assist/netcap`), paired with the [netcap browser extension](#netcap-browser-extension)
 - `assist netcap extract-linkedin-posts [file]` - Parse a netcap capture into structured LinkedIn posts
-- `assist extension [--sign] [--url]` - Locate the [acceptance criteria outliner extension](#acceptance-criteria-outliner-extension) to load unpacked; `--sign` signs it for a permanent Firefox install; `--url` prints the latest signed build's download URL
+- `assist extension [--sign] [--url]` - Locate the [assist browser extension](#assist-browser-extension) to load unpacked; `--sign` signs it for a permanent Firefox install; `--url` prints the latest signed build's download URL
 - `assist screenshot <process>` - Capture a screenshot of a running application window (`screenshot.outputDir`, default `./screenshots`)
 - `assist mermaid export [file.md]` - Render each fenced mermaid block to SVG via [Kroki](https://kroki.io) (`--out`, `--index`, `mermaid.krokiUrl`)
 - `assist prompts` - Show the most frequently denied tool calls
@@ -558,7 +558,7 @@ A restart kills every managed session's pty, which also kills any background tas
 - `releases.streams` — the release promotion streams the [Releases page](#releases) draws.
 - `cliHook.blockNpmRun` — deny `npm run` in favour of `assist run`. Defaults to `true`.
 
-## Acceptance criteria outliner extension
+## assist browser extension
 
 `assist extension` prints the directory to load unpacked. The extension is a Manifest V3 content script scoped to `https://github.com/*`, plus a background script and an options page, built by `npm run build` from `src/commands/extension/` into `extension/content.js`, `background.js` and `options.js` (gitignored). It adds an **Outline criteria** toggle to the markdown toolbar of an issue's body editor and the new-issue form, re-attaching after client-side navigation; pressing it hides the textarea and mounts the same `AcceptanceCriteriaOutline` control the web preview panel uses, in a shadow root with its own emotion cache and MUI theme. A body whose acceptance criteria are bullets, checkboxes or prose gets a **Convert to outline** button instead, and a body with no acceptance criteria heading gets **Add acceptance criteria**. Each edit is written back through `writeAcceptanceCriteria` into the textarea and dispatched as an `input` event, so GitHub's own Save pushes it.
 

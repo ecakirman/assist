@@ -7,7 +7,7 @@ export function registerExtension(program: Command): void {
 	program
 		.command("extension")
 		.description(
-			"Print the directory to load the acceptance criteria outliner browser extension from (load unpacked)",
+			"Print the directory to load the assist browser extension from (load unpacked)",
 		)
 		.option(
 			"--sign",
