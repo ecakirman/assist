@@ -27,7 +27,7 @@ describe("copySignedXpi", () => {
 
 		const fixed = await copySignedXpi(source, dir);
 
-		expect(fixed).toBe(join(dir, "criteria-extension.xpi"));
+		expect(fixed).toBe(join(dir, "assist-extension.xpi"));
 		expect(readFileSync(fixed, "utf8")).toBe("signed");
 	});
 
@@ -41,7 +41,7 @@ describe("copySignedXpi", () => {
 	});
 
 	it("returns the path when the add-on already carries the fixed name", async () => {
-		const source = join(dir, "criteria-extension.xpi");
+		const source = join(dir, "assist-extension.xpi");
 		writeFileSync(source, "signed");
 
 		expect(await copySignedXpi(source, dir)).toBe(source);

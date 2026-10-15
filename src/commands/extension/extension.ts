@@ -25,8 +25,6 @@ async function loadPath(source: string): Promise<string> {
 
 export async function extension(): Promise<void> {
 	const path = await loadPath(extensionDir());
-	console.log(
-		chalk.bold("acceptance criteria outliner — GitHub browser extension"),
-	);
+	console.log(chalk.bold("assist — GitHub browser extension"));
 	console.log(chalk.dim(`load the unpacked extension from ${path}`));
 }

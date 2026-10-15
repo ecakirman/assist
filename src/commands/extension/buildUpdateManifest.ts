@@ -14,7 +14,7 @@ export function buildUpdateManifest(manifest: string, version: string): string {
 				updates: [
 					{
 						version,
-						update_link: `${RELEASE_DOWNLOAD_URL}/v${version}/criteria-extension.xpi`,
+						update_link: `${RELEASE_DOWNLOAD_URL}/v${version}/assist-extension.xpi`,
 					},
 				],
 			},

@@ -4,7 +4,7 @@ import { stampManifestVersion } from "./stampManifestVersion";
 const manifest = JSON.stringify(
 	{
 		manifest_version: 3,
-		name: "assist criteria outliner",
+		name: "assist",
 		version: "1.0.0",
 		browser_specific_settings: { gecko: { id: "criteria@example.com" } },
 	},
@@ -25,7 +25,7 @@ describe("stampManifestVersion", () => {
 			name: string;
 			browser_specific_settings: { gecko: { id: string } };
 		};
-		expect(stamped.name).toBe("assist criteria outliner");
+		expect(stamped.name).toBe("assist");
 		expect(stamped.browser_specific_settings.gecko.id).toBe(
 			"criteria@example.com",
 		);

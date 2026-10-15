@@ -62,7 +62,7 @@ jobs:
         if: steps.changes.outputs.changed != 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "v${{ steps.version.outputs.version }}" ~/.assist/extension/criteria-extension.xpi --clobber
+        run: gh release upload "v${{ steps.version.outputs.version }}" ~/.assist/extension/assist-extension.xpi --clobber
 
       - name: Commit update manifest
         if: steps.changes.outputs.changed != 'false'

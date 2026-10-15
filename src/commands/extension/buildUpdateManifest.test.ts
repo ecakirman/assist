@@ -16,7 +16,7 @@ describe("buildUpdateManifest", () => {
 						{
 							version: "0.749.0",
 							update_link:
-								"https://github.com/staff0rd/assist/releases/download/v0.749.0/criteria-extension.xpi",
+								"https://github.com/staff0rd/assist/releases/download/v0.749.0/assist-extension.xpi",
 						},
 					],
 				},

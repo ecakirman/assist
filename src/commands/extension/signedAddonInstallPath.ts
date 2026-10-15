@@ -2,8 +2,8 @@ import { cp } from "node:fs/promises";
 import chalk from "chalk";
 import { detectPlatform } from "../../lib/detectPlatform";
 
-const WSL_WINDOWS_XPI = "/mnt/c/tools/criteria-extension.xpi";
-const WSL_WINDOWS_PATH = String.raw`C:\tools\criteria-extension.xpi`;
+const WSL_WINDOWS_XPI = "/mnt/c/tools/assist-extension.xpi";
+const WSL_WINDOWS_PATH = String.raw`C:\tools\assist-extension.xpi`;
 
 export async function signedAddonInstallPath(xpi: string): Promise<string> {
 	if (detectPlatform() !== "wsl") return xpi;

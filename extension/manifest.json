@@ -1,13 +1,13 @@
 {
 	"manifest_version": 3,
-	"name": "assist criteria outliner",
+	"name": "assist",
 	"version": "1.0.0",
-	"description": "Adds an Outline criteria toggle to GitHub's issue editor, backed by assist's acceptance criteria outliner, and an assist button that starts a session from a GitHub comment.",
+	"description": "Brings assist to GitHub: an Outline criteria toggle that edits an issue's acceptance criteria as an outline, and an assist button that sends a comment, PR or issue to assist to start a session.",
 	"browser_specific_settings": {
 		"gecko": {
-			"id": "criteria-outliner@staff0rd.github.io",
+			"id": "assist@staff0rd.github.io",
 			"strict_min_version": "109.0",
-			"update_url": "https://raw.githubusercontent.com/staff0rd/assist/main/criteria-extension/updates.json"
+			"update_url": "https://raw.githubusercontent.com/staff0rd/assist/main/extension/updates.json"
 		}
 	},
 	"icons": {
