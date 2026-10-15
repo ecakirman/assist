@@ -1,3 +1,10 @@
+# [0.841.0](https://github.com/staff0rd/assist/compare/v0.840.1...v0.841.0) (2026-10-15)
+
+
+### Features
+
+* PR-page menu toggles and PR actions ([f1087c3](https://github.com/staff0rd/assist/commit/f1087c30dc7d3659a49b30377488a43cec465cb5))
+
 ## [0.840.1](https://github.com/staff0rd/assist/compare/v0.840.0...v0.840.1) (2026-10-15)
 
 
