@@ -1,3 +1,10 @@
+## [0.845.1](https://github.com/staff0rd/assist/compare/v0.845.0...v0.845.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* skip diff tokenizing for long lines ([1ce1c39](https://github.com/staff0rd/assist/commit/1ce1c3933f8304f8281a83956b0a0654e0f471be))
+
 # [0.845.0](https://github.com/staff0rd/assist/compare/v0.844.0...v0.845.0) (2026-10-15)
 
 
