@@ -1,3 +1,10 @@
+## [0.831.1](https://github.com/staff0rd/assist/compare/v0.831.0...v0.831.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* accept extension requests via CORS ([2a1b1c7](https://github.com/staff0rd/assist/commit/2a1b1c786e025f282fc126f514274112465104c7))
+
 # [0.831.0](https://github.com/staff0rd/assist/compare/v0.830.0...v0.831.0) (2026-10-15)
 
 
