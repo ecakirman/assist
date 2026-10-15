@@ -10,6 +10,13 @@ vi.mock("../../sessions/shared/awaitPreviewApproval", () => ({
 	awaitPreviewApproval: () => mockAwaitPreviewApproval(),
 }));
 
+const mockPostHighLevelApproval = vi.fn();
+
+vi.mock("./postHighLevelApproval", () => ({
+	postHighLevelApproval: (...args: unknown[]) =>
+		mockPostHighLevelApproval(...args),
+}));
+
 vi.mock("./saveHighLevelReview", () => ({
 	saveHighLevelReview: (...args: unknown[]) =>
 		mockSaveHighLevelReview(...(args as [])),
@@ -38,15 +45,24 @@ const subject: HighLevelOverlaySubject = {
 };
 
 let log: ReturnType<typeof vi.spyOn>;
+let error: ReturnType<typeof vi.spyOn>;
+let exit: ReturnType<typeof vi.spyOn>;
 
 beforeEach(() => {
 	mockAwaitPreviewApproval.mockReset();
 	mockSaveHighLevelReview.mockClear();
+	mockPostHighLevelApproval.mockReset();
 	log = vi.spyOn(console, "log").mockImplementation(() => {});
+	error = vi.spyOn(console, "error").mockImplementation(() => {});
+	exit = vi.spyOn(process, "exit").mockImplementation((code) => {
+		throw new Error(`exit ${code}`);
+	});
 });
 
 afterEach(() => {
 	log.mockRestore();
+	error.mockRestore();
+	exit.mockRestore();
 });
 
 describe("openHighLevelOverlay", () => {
@@ -61,8 +77,41 @@ describe("openHighLevelOverlay", () => {
 
 		expect(record).toBeUndefined();
 		expect(mockSaveHighLevelReview).not.toHaveBeenCalled();
+		expect(mockPostHighLevelApproval).not.toHaveBeenCalled();
 		expect(log).toHaveBeenCalledWith(
 			"Review closed without a verdict. Nothing was saved.",
+		);
+	});
+
+	it("saves the record and approves the PR on GitHub when approved", async () => {
+		mockAwaitPreviewApproval.mockResolvedValue({
+			decision: "approve",
+			checklist: [],
+		});
+
+		const record = await openHighLevelOverlay("s1", subject);
+
+		expect(record?.verdict).toBe("approve");
+		expect(mockSaveHighLevelReview).toHaveBeenCalledWith(record);
+		expect(mockPostHighLevelApproval).toHaveBeenCalledWith("org/repo", 42);
+		expect(log).toHaveBeenCalledWith("Approval posted to org/repo#42.");
+		expect(log).not.toHaveBeenCalledWith("Nothing was posted to GitHub.");
+	});
+
+	it("keeps the saved record, prints the gh error and exits non-zero when the approval fails", async () => {
+		mockAwaitPreviewApproval.mockResolvedValue({
+			decision: "approve",
+			checklist: [],
+		});
+		mockPostHighLevelApproval.mockImplementation(() => {
+			throw new Error("Can not approve your own pull request");
+		});
+
+		await expect(openHighLevelOverlay("s1", subject)).rejects.toThrow("exit 1");
+
+		expect(mockSaveHighLevelReview).toHaveBeenCalled();
+		expect(error).toHaveBeenCalledWith(
+			"Could not post the approval to org/repo#42: Can not approve your own pull request",
 		);
 	});
 
@@ -76,5 +125,7 @@ describe("openHighLevelOverlay", () => {
 
 		expect(record?.verdict).toBe("request-changes");
 		expect(mockSaveHighLevelReview).toHaveBeenCalledWith(record);
+		expect(mockPostHighLevelApproval).not.toHaveBeenCalled();
+		expect(log).toHaveBeenCalledWith("Nothing was posted to GitHub.");
 	});
 });

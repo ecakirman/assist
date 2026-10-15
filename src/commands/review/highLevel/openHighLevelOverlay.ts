@@ -4,6 +4,7 @@ import { buildHighLevelRecord } from "./buildHighLevelRecord";
 import { highLevelPreviewMetadata } from "./highLevelPreviewMetadata";
 import { highLevelPreviewPayload } from "./highLevelPreviewPayload";
 import type { HighLevelOverlaySubject } from "./HighLevelOverlaySubject";
+import { postHighLevelApproval } from "./postHighLevelApproval";
 import { saveHighLevelReview } from "./saveHighLevelReview";
 import type { HighLevelReviewRecord } from "./types";
 
@@ -32,6 +33,20 @@ export async function openHighLevelOverlay(
 	const path = saveHighLevelReview(record);
 	console.log(`Verdict: ${record.verdict}`);
 	console.log(`Saved ${path}`);
-	console.log("Nothing was posted to GitHub.");
+	if (record.verdict === "approve") approveOnGitHub(subject);
+	else console.log("Nothing was posted to GitHub.");
 	return record;
+}
+
+function approveOnGitHub(subject: HighLevelOverlaySubject): void {
+	const target = `${subject.repo}#${subject.prNumber}`;
+	try {
+		postHighLevelApproval(subject.repo, subject.prNumber);
+	} catch (error) {
+		console.error(
+			`Could not post the approval to ${target}: ${(error as Error).message}`,
+		);
+		process.exit(1);
+	}
+	console.log(`Approval posted to ${target}.`);
 }
