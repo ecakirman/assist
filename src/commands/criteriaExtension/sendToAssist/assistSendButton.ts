@@ -1,42 +1,46 @@
+import { ensureAssistButtonStyles } from "./ensureAssistButtonStyles";
+import { extensionRuntime } from "./extensionRuntime";
 import { sendToAssist } from "./sendToAssist";
 import { showAssistToast } from "./showAssistToast";
 import { toggleAssistPopover } from "./toggleAssistPopover";
 
-const BUTTON_STYLE = [
-	"font: inherit",
-	"font-size: 12px",
-	"line-height: 18px",
-	"padding: 0 6px",
-	"margin-left: 6px",
-	"border-radius: 6px",
-	"border: 1px solid var(--borderColor-default, #d0d7de)",
-	"background: var(--bgColor-muted, transparent)",
-	"color: var(--fgColor-muted, inherit)",
-	"cursor: pointer",
-	"vertical-align: middle",
-	"align-self: center",
-].join(";");
-
 const LABEL = "assist";
+const ICON_PATH = "icons/assist-32.png";
+
+function assistIcon(): HTMLImageElement | undefined {
+	const src = extensionRuntime()?.getURL?.(ICON_PATH);
+	if (!src) return undefined;
+	const icon = document.createElement("img");
+	icon.src = src;
+	icon.alt = "";
+	return icon;
+}
 
 export function assistSendButton(
 	url: () => string,
 	title: string,
+	placement: "comment" | "header" = "comment",
 ): HTMLButtonElement {
+	ensureAssistButtonStyles();
 	const button = document.createElement("button");
 	button.type = "button";
 	button.setAttribute("data-assist-send", "");
+	button.className =
+		placement === "header" ? "assist-send assist-send--header" : "assist-send";
 	button.title = title;
-	button.style.cssText = BUTTON_STYLE;
-	button.textContent = LABEL;
+	const label = document.createElement("span");
+	label.textContent = LABEL;
+	const icon = assistIcon();
+	if (icon) button.append(icon);
+	button.append(label);
 
 	const send = async (instructions: string) => {
 		button.disabled = true;
-		button.textContent = "sending…";
+		label.textContent = "sending…";
 		const result = await sendToAssist(url(), instructions || undefined);
 		showAssistToast(result.message, result.ok);
 		button.disabled = false;
-		button.textContent = LABEL;
+		label.textContent = LABEL;
 	};
 
 	button.addEventListener("mousedown", (event) => event.preventDefault());

@@ -14,6 +14,7 @@ export function attachAssistHeaderButtons(): void {
 			assistSendButton(
 				() => githubItemUrl(location) ?? location.href,
 				"Start an assist session from this page",
+				"header",
 			),
 		);
 	}
