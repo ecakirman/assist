@@ -3,8 +3,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("./spawnRun", () => ({ spawnRun: vi.fn(() => "run-pty") }));
 vi.mock("./serverRunMeta", () => ({ serverRunMeta: vi.fn() }));
 vi.mock("./daemonLog", () => ({ daemonLog: vi.fn() }));
+vi.mock("./findPortHolderPid", () => ({ findPortHolderPid: vi.fn() }));
 
 import { daemonLog } from "./daemonLog";
+import { findPortHolderPid } from "./findPortHolderPid";
 import type { PersistedSession } from "./loadPersistedSessions";
 import { restoreBase } from "./restoreBase";
 import { restoreInteractiveSession } from "./restoreInteractiveSession";
@@ -63,6 +65,20 @@ describe("restoring a run session", () => {
 		});
 		expect(daemonLog).toHaveBeenCalledWith(
 			'relaunching server run session 7 ("run: dev") for gh/o/r (web)',
+		);
+	});
+
+	it("holds the relaunch while the server's port is still held", () => {
+		meta.mockReturnValue({ server: true, group: "web", port: 3000 });
+		vi.mocked(findPortHolderPid).mockReturnValue(4242);
+
+		const session = restore(persistedRun());
+
+		expect(spawnRun).not.toHaveBeenCalled();
+		expect(session).toMatchObject({ status: "running", pty: null });
+		expect(session.pendingStart?.()).toBe("run-pty");
+		expect(daemonLog).toHaveBeenCalledWith(
+			'session 7 ("run: dev") waiting for port 3000 (held by pid 4242) to free before relaunching',
 		);
 	});
 

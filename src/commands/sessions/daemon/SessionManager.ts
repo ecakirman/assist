@@ -93,7 +93,12 @@ export class SessionManager {
 	}
 
 	restore(): string[] {
-		return restoreAllSessions(this.spawner, this.sessions, this.notify);
+		return restoreAllSessions(this.spawner, {
+			sessions: this.sessions,
+			clients: this.clients,
+			onStatusChange: this.onStatusChange,
+			notify: this.notify,
+		});
 	}
 
 	drain = (): number => drainSessions(this.sessions, this.notify);

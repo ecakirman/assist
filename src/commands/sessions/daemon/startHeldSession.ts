@@ -11,6 +11,7 @@ export function startHeldSession(
 	clients: Set<SessionClient>,
 	onStatusChange: OnStatusChange,
 	notify: () => void,
+	trigger?: string,
 ): void {
 	const start = session.pendingStart;
 	if (!start) return;
@@ -37,7 +38,7 @@ export function startHeldSession(
 		} catch {}
 	wirePtyEvents(session, clients, onStatusChange);
 	daemonLog(
-		`session ${session.id} started once worktree ${session.worktree?.path ?? session.cwd} finished seeding`,
+		`session ${session.id} started once ${trigger ?? `worktree ${session.worktree?.path ?? session.cwd} finished seeding`}`,
 	);
 	notify();
 }

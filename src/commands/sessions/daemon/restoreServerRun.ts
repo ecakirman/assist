@@ -1,10 +1,12 @@
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
+import { findPortHolderPid } from "./findPortHolderPid";
 import type { PersistedSession } from "./loadPersistedSessions";
 import type { restoreBase } from "./restoreBase";
 import { runningSession } from "./runningSession";
 import { serverRunMeta } from "./serverRunMeta";
 import { spawnRun } from "./spawnRun";
+import { startOrHoldPty } from "./startOrHoldPty";
 
 type RestoreBase = ReturnType<typeof restoreBase>;
 
@@ -13,20 +15,31 @@ export function restoreServerRun(
 	persisted: PersistedSession,
 	base: RestoreBase,
 ): Session | null {
-	if (persisted.commandType !== "run" || !persisted.runName) return null;
-	const meta = serverRunMeta(persisted.runName, persisted.cwd);
+	const { runName } = persisted;
+	if (persisted.commandType !== "run" || !runName) return null;
+	const meta = serverRunMeta(runName, persisted.cwd);
 	if (!meta.server) return null;
 	daemonLog(
 		`relaunching server run session ${id} ("${persisted.name}") for ${meta.origin} (${meta.group})`,
 	);
-	const pty = spawnRun({
-		name: persisted.runName,
-		args: persisted.runArgs,
-		cwd: persisted.cwd,
-	});
+	const holder = meta.port ? findPortHolderPid(meta.port) : undefined;
+	if (holder !== undefined)
+		daemonLog(
+			`session ${id} ("${persisted.name}") waiting for port ${meta.port} (held by pid ${holder}) to free before relaunching`,
+		);
+	const { pty, pendingStart } = startOrHoldPty(
+		() =>
+			spawnRun({ name: runName, args: persisted.runArgs, cwd: persisted.cwd }),
+		holder !== undefined,
+	);
 	return {
 		...runningSession(base, persisted, pty),
-		runName: persisted.runName,
+		pendingStart,
+		scrollback:
+			holder === undefined
+				? base.scrollback
+				: `Waiting for port ${meta.port} (held by pid ${holder}) to free…\r\n`,
+		runName,
 		runArgs: persisted.runArgs,
 		server: true,
 		serverPort: meta.port,
