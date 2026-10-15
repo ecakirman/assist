@@ -1,3 +1,10 @@
+# [0.833.0](https://github.com/staff0rd/assist/compare/v0.832.0...v0.833.0) (2026-10-15)
+
+
+### Features
+
+* close high-level review w/o verdict ([9471597](https://github.com/staff0rd/assist/commit/94715976295b2efaf077a4faac1524d3abf1d6c8)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.832.0](https://github.com/staff0rd/assist/compare/v0.831.1...v0.832.0) (2026-10-15)
 
 
