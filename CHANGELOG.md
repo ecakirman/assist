@@ -1,3 +1,10 @@
+## [0.827.1](https://github.com/staff0rd/assist/compare/v0.827.0...v0.827.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* answer pane questions mid-review ([cea1e65](https://github.com/staff0rd/assist/commit/cea1e6526fd7a0bf1de020f7fdd888f7b5677b19))
+
 # [0.827.0](https://github.com/staff0rd/assist/compare/v0.826.0...v0.827.0) (2026-10-15)
 
 
