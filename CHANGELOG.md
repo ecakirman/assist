@@ -1,3 +1,10 @@
+# [0.843.0](https://github.com/staff0rd/assist/compare/v0.842.0...v0.843.0) (2026-10-15)
+
+
+### Features
+
+* review-ci comment on failed review ([30edeb2](https://github.com/staff0rd/assist/commit/30edeb2d1e4359614712dab750110c8773536699))
+
 # [0.842.0](https://github.com/staff0rd/assist/compare/v0.841.0...v0.842.0) (2026-10-15)
 
 
