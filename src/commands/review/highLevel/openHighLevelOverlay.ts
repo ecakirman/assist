@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { awaitPreviewApproval } from "../../sessions/shared/awaitPreviewApproval";
 import { buildHighLevelRecord } from "./buildHighLevelRecord";
+import { formatHighLevelApprovalBody } from "./formatHighLevelApprovalBody";
 import { highLevelPreviewMetadata } from "./highLevelPreviewMetadata";
 import { highLevelPreviewPayload } from "./highLevelPreviewPayload";
 import type { HighLevelOverlaySubject } from "./HighLevelOverlaySubject";
@@ -33,15 +34,19 @@ export async function openHighLevelOverlay(
 	const path = saveHighLevelReview(record);
 	console.log(`Verdict: ${record.verdict}`);
 	console.log(`Saved ${path}`);
-	if (record.verdict === "approve") approveOnGitHub(subject);
+	if (record.verdict === "approve") approveOnGitHub(record);
 	else console.log("Nothing was posted to GitHub.");
 	return record;
 }
 
-function approveOnGitHub(subject: HighLevelOverlaySubject): void {
-	const target = `${subject.repo}#${subject.prNumber}`;
+function approveOnGitHub(record: HighLevelReviewRecord): void {
+	const target = `${record.repo}#${record.prNumber}`;
 	try {
-		postHighLevelApproval(subject.repo, subject.prNumber);
+		postHighLevelApproval(
+			record.repo,
+			record.prNumber,
+			formatHighLevelApprovalBody(record.items),
+		);
 	} catch (error) {
 		console.error(
 			`Could not post the approval to ${target}: ${(error as Error).message}`,

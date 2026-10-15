@@ -93,7 +93,7 @@ describe("openHighLevelOverlay", () => {
 
 		expect(record?.verdict).toBe("approve");
 		expect(mockSaveHighLevelReview).toHaveBeenCalledWith(record);
-		expect(mockPostHighLevelApproval).toHaveBeenCalledWith("org/repo", 42);
+		expect(mockPostHighLevelApproval).toHaveBeenCalledWith("org/repo", 42, "");
 		expect(log).toHaveBeenCalledWith("Approval posted to org/repo#42.");
 		expect(log).not.toHaveBeenCalledWith("Nothing was posted to GitHub.");
 	});

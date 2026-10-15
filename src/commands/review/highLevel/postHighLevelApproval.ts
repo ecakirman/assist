@@ -1,18 +1,11 @@
-import { execFileSync } from "node:child_process";
+import { runGhOrThrow } from "../../../shared/runGhOrThrow";
 
-export function postHighLevelApproval(repo: string, prNumber: number): void {
-	try {
-		execFileSync(
-			"gh",
-			["pr", "review", String(prNumber), "--repo", repo, "--approve"],
-			{ stdio: ["ignore", "ignore", "pipe"], encoding: "utf8" },
-		);
-	} catch (error) {
-		const stderr = (error as { stderr?: unknown }).stderr;
-		throw new Error(
-			typeof stderr === "string" && stderr.trim()
-				? stderr.trim()
-				: `Could not approve ${repo}#${prNumber}`,
-		);
-	}
+export function postHighLevelApproval(
+	repo: string,
+	prNumber: number,
+	body: string,
+): void {
+	const args = ["pr", "review", String(prNumber), "--repo", repo, "--approve"];
+	if (body) args.push("--body", body);
+	runGhOrThrow(args, `Could not approve ${repo}#${prNumber}`);
 }
