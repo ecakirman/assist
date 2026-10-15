@@ -164,6 +164,18 @@ describe("postAndMaybeSubmit", () => {
 
 			expect(mockSubmitBodyOnlyReview).toHaveBeenCalledWith("md\n\nfooter");
 		});
+
+		it("should submit a body-only review when every line comment failed", async () => {
+			mockPostFindings.mockReturnValue({ posted: 0, failed: 2 });
+
+			await postAndMaybeSubmit(findings, [], "md", {
+				prompt: false,
+				submit: true,
+				ciFooter: "footer",
+			});
+
+			expect(mockSubmitBodyOnlyReview).toHaveBeenCalledWith("md\n\nfooter");
+		});
 	});
 
 	describe("when no CI footer is given", () => {

@@ -45,7 +45,7 @@ export async function postAndMaybeSubmit(
 	const failedSuffix = result.failed > 0 ? `, ${result.failed} failed` : "";
 	console.log(`Posted ${result.posted} comment(s)${failedSuffix}.`);
 	const carried = carriedUnanchoredFindings(unanchored);
-	if (result.posted === 0 && carried.length === 0)
+	if (result.posted === 0 && carried.length === 0 && !options.ciFooter)
 		return { posted: 0, submitted: false };
 	const shouldSubmit = await decideSubmit(options);
 	if (shouldSubmit) {
