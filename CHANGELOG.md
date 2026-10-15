@@ -1,3 +1,10 @@
+# [0.834.0](https://github.com/staff0rd/assist/compare/v0.833.0...v0.834.0) (2026-10-15)
+
+
+### Features
+
+* web favicon from extension icons ([cd51b30](https://github.com/staff0rd/assist/commit/cd51b302f4e54157c9f6da3c0351fdf3b52cb0e8))
+
 # [0.833.0](https://github.com/staff0rd/assist/compare/v0.832.0...v0.833.0) (2026-10-15)
 
 
