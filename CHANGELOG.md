@@ -1,3 +1,11 @@
+# [0.846.0](https://github.com/staff0rd/assist/compare/v0.845.1...v0.846.0) (2026-10-15)
+
+
+### Features
+
+* high-level Approve posts approval ([933ebf0](https://github.com/staff0rd/assist/commit/933ebf05e3978d934f321209defe2bc3a2c8ef67)), closes [hi#level](https://github.com/hi/issues/level)
+* prs slack-channel with fallback ([e5930fb](https://github.com/staff0rd/assist/commit/e5930fb1b3a88c6a75d655ca12efe617f1a6f918))
+
 ## [0.845.1](https://github.com/staff0rd/assist/compare/v0.845.0...v0.845.1) (2026-10-15)
 
 
