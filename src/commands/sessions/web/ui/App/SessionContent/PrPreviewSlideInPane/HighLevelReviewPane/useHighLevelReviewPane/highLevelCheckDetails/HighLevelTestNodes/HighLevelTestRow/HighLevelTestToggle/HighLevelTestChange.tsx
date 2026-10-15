@@ -17,8 +17,12 @@ export function HighLevelTestChange({
 			<Typography
 				component="span"
 				aria-label={change}
-				sx={{ ...highLevelTreeNameSx, flexShrink: 0, fontWeight: 700 }}
-				color={HIGH_LEVEL_STATUS_COLOURS[change]}
+				sx={{
+					...highLevelTreeNameSx,
+					flexShrink: 0,
+					fontWeight: 700,
+					color: HIGH_LEVEL_STATUS_COLOURS[change],
+				}}
 			>
 				{HIGH_LEVEL_STATUS_LETTERS[change]}
 			</Typography>

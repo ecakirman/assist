@@ -54,6 +54,21 @@ describe("HighLevelStructureView tree", () => {
 		expect(screen.getByText("2 files hidden")).toBeTruthy();
 		expect(screen.queryByRole("button", { name: /src\/app\.ts/ })).toBeNull();
 	});
+
+	it("colours the status letter and line counts", () => {
+		renderView();
+		const row = fileRow("README.md");
+		const colourOf = (text: string) =>
+			getComputedStyle(
+				[...row.querySelectorAll("span")].find(
+					(span) => span.textContent === text,
+				) as HTMLElement,
+			).color;
+
+		expect(colourOf("M")).toBe("rgb(237, 108, 2)");
+		expect(colourOf("+1")).toBe("rgb(46, 125, 50)");
+		expect(colourOf("−1")).toBe("rgb(211, 47, 47)");
+	});
 });
 
 describe("HighLevelStructureView inline diffs", () => {
@@ -113,11 +128,13 @@ describe("HighLevelStructureView inline diffs", () => {
 const GLOB_TAG_TITLE = "Collapsed by review.highLevel.collapsedPaths";
 
 describe("HighLevelStructureView collapsedPaths defaults", () => {
-	it("starts matching files collapsed, tagged with their glob", () => {
+	it("starts matching files collapsed, marked ignored with their glob", () => {
 		const { container } = renderView(["**/*.md"]);
 
 		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
-		expect(screen.getByTitle(GLOB_TAG_TITLE).textContent).toBe("**/*.md");
+		expect(screen.getByTitle(GLOB_TAG_TITLE).textContent).toBe(
+			"ignored**/*.md",
+		);
 		expect(fileRow("src/app.ts").getAttribute("aria-expanded")).toBe("true");
 		expect(diffCount(container)).toBe(2);
 	});
@@ -131,7 +148,7 @@ describe("HighLevelStructureView collapsedPaths defaults", () => {
 		expect(screen.queryByTitle(GLOB_TAG_TITLE)).toBeNull();
 	});
 
-	it("starts a directory collapsed when all its files match", () => {
+	it("starts a directory collapsed and ignored when all its files match", () => {
 		renderView(["src/lib/**"]);
 
 		expect(
@@ -139,7 +156,10 @@ describe("HighLevelStructureView collapsedPaths defaults", () => {
 				.getByRole("button", { name: "src/lib" })
 				.getAttribute("aria-expanded"),
 		).toBe("false");
-		expect(screen.getByText("1 file hidden")).toBeTruthy();
+		expect(screen.getByTitle(GLOB_TAG_TITLE).textContent).toBe(
+			"1 ignoredsrc/lib/**",
+		);
+		expect(screen.queryByText(/hidden/)).toBeNull();
 		expect(
 			screen.getByRole("button", { name: "src" }).getAttribute("aria-expanded"),
 		).toBe("true");

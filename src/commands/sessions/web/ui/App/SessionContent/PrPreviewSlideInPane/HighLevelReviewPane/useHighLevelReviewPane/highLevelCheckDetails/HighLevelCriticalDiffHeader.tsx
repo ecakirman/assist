@@ -43,8 +43,7 @@ export function HighLevelCriticalDiffHeader({
 			</Link>
 			<Typography
 				variant="caption"
-				sx={{ flexShrink: 0 }}
-				color={HIGH_LEVEL_STATUS_COLOURS[diff.status]}
+				sx={{ flexShrink: 0, color: HIGH_LEVEL_STATUS_COLOURS[diff.status] }}
 			>
 				{diff.status}
 			</Typography>

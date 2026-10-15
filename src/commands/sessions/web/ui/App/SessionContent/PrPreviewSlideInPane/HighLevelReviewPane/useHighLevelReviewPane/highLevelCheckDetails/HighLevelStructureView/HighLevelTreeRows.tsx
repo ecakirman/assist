@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { HighLevelTreeDirRow } from "./HighLevelTreeRows/HighLevelTreeDirRow";
 import { HighLevelTreeFileNode } from "./HighLevelTreeRows/HighLevelTreeFileNode";
 import { HIGH_LEVEL_TREE_INDENT } from "../highLevelTreeRowSx";
-import { flattenHighLevelTree } from "./flattenHighLevelTree";
+import { highLevelDirRowState } from "./HighLevelTreeRows/highLevelDirRowState";
 import type { HighLevelTreeRowsProps } from "./HighLevelTreeRows/HighLevelTreeRowsProps";
 
 export function HighLevelTreeRows(props: HighLevelTreeRowsProps) {
@@ -26,13 +26,7 @@ export function HighLevelTreeRows(props: HighLevelTreeRowsProps) {
 			<Box key={node.path} sx={{ minWidth: 0 }}>
 				<HighLevelTreeDirRow
 					dir={node}
-					collapsed={collapsed.has(node.path)}
-					matched={
-						collapsed.has(node.path) &&
-						flattenHighLevelTree(node.children).some((file) =>
-							props.matches.has(file.path),
-						)
-					}
+					{...highLevelDirRowState(node, props)}
 					indent={indent}
 					onToggle={() => onToggleDir(node.path)}
 				/>

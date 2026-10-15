@@ -22,12 +22,14 @@ export function HighLevelLineCounts({
 		>
 			<Typography
 				component="span"
-				sx={highLevelTreeCountSx}
-				color="success.main"
+				sx={{ ...highLevelTreeCountSx, color: "success.main" }}
 			>
 				+{additions}
 			</Typography>
-			<Typography component="span" sx={highLevelTreeCountSx} color="error.main">
+			<Typography
+				component="span"
+				sx={{ ...highLevelTreeCountSx, color: "error.main" }}
+			>
 				−{deletions}
 			</Typography>
 		</Box>

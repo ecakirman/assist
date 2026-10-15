@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import type { HighLevelTreeDir } from "../../../../../../../../../../../../review/highLevel/types";
-import { flattenHighLevelTree } from "../../flattenHighLevelTree";
+import type { HighLevelTreeDir } from "../../../../../../../../../../../../../review/highLevel/types";
+import { flattenHighLevelTree } from "../../../flattenHighLevelTree";
 
 export function HighLevelTreeHiddenCount({ dir }: { dir: HighLevelTreeDir }) {
 	const hidden = flattenHighLevelTree(dir.children).length;
