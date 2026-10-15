@@ -1,3 +1,10 @@
+# [0.844.0](https://github.com/staff0rd/assist/compare/v0.843.0...v0.844.0) (2026-10-15)
+
+
+### Features
+
+* token usage in review-ci summary ([38e8320](https://github.com/staff0rd/assist/commit/38e832077b34726861dbe088bd996c5d84fe0fa7))
+
 # [0.843.0](https://github.com/staff0rd/assist/compare/v0.842.0...v0.843.0) (2026-10-15)
 
 
