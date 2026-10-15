@@ -1,3 +1,10 @@
+# [0.845.0](https://github.com/staff0rd/assist/compare/v0.844.0...v0.845.0) (2026-10-15)
+
+
+### Features
+
+* codex token usage in review-ci ([7c50df9](https://github.com/staff0rd/assist/commit/7c50df91e9a8bd6464ac257a1c8b40c16f09dada))
+
 # [0.844.0](https://github.com/staff0rd/assist/compare/v0.843.0...v0.844.0) (2026-10-15)
 
 
