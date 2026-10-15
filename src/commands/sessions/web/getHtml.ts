@@ -5,6 +5,10 @@ export function getHtml(): string {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Assist</title>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
+<link rel="apple-touch-icon" href="/favicon-128.png">
 <link rel="stylesheet" href="/xterm.css">
 <link rel="stylesheet" href="/bundle.css">
 <style>

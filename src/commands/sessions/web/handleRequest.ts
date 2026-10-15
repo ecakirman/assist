@@ -56,6 +56,13 @@ import { createCssHandler } from "./createCssHandler";
 
 const htmlHandler = createHtmlHandler(getHtml);
 
+const faviconHandler = (size: number) =>
+	createBundleHandler(
+		import.meta.url,
+		`commands/criteriaExtension/criteria-extension/icons/assist-${size}.png`,
+		"image/png",
+	);
+
 const routes: Record<string, Handler> = {
 	"GET /": htmlHandler,
 	"GET /bundle.js": createBundleHandler(
@@ -81,6 +88,9 @@ const routes: Record<string, Handler> = {
 		"commands/sessions/web/monaco.css",
 		"text/css",
 	),
+	"GET /favicon-16.png": faviconHandler(16),
+	"GET /favicon-32.png": faviconHandler(32),
+	"GET /favicon-128.png": faviconHandler(128),
 	"GET /api/health": health,
 	"GET /api/daemon-log": daemonLogTail,
 	"GET /api/items": listItems,

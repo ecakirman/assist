@@ -10,11 +10,11 @@ export function createBundleHandler(
 	contentType = "application/javascript",
 ): Handler {
 	const file = join(dirname(fileURLToPath(importMetaUrl)), bundlePath);
-	let cache: { body: string; etag: string; mtimeMs: number } | undefined;
+	let cache: { body: Buffer; etag: string; mtimeMs: number } | undefined;
 	return (req, res) => {
 		const mtimeMs = statSync(file).mtimeMs;
 		if (cache?.mtimeMs !== mtimeMs) {
-			const body = readFileSync(file, "utf8");
+			const body = readFileSync(file);
 			const etag = `"${createHash("sha256").update(body).digest("hex").slice(0, 16)}"`;
 			cache = { body, etag, mtimeMs };
 		}
