@@ -1,3 +1,10 @@
+## [0.825.2](https://github.com/staff0rd/assist/compare/v0.825.1...v0.825.2) (2026-10-15)
+
+
+### Bug Fixes
+
+* legible ignored chip, coloured counts ([9432c55](https://github.com/staff0rd/assist/commit/9432c5510c17a8354d3aa798758e52478c82dc7f))
+
 ## [0.825.1](https://github.com/staff0rd/assist/compare/v0.825.0...v0.825.1) (2026-10-14)
 
 
