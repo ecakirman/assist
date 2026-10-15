@@ -6,6 +6,9 @@ import {
 	SEVEN_DAY_SECONDS,
 } from "../../../../../../../../shared/rateLimitLevel";
 import { LimitChip } from "./RateLimitChips/LimitChip";
+import { limitChipTimeLabel } from "./RateLimitChips/limitChipTimeLabel";
+import { RainbowPill } from "./RateLimitChips/RainbowPill";
+import { rateLimitWindowsMatch } from "./RateLimitChips/rateLimitWindowsMatch";
 import { useNowSeconds } from "../../../useNowSeconds";
 
 /** Comma-separated 5h/7d usage chips; renders the windows that carry a percentage. */
@@ -23,24 +26,27 @@ export function RateLimitChips({ rateLimits }: { rateLimits: RateLimits }) {
 			fallbackLabel: "7d",
 		},
 	].filter((w) => w.window?.used_percentage != null);
-
-	return (
-		<>
-			{windows.map((w, i) => (
-				<Fragment key={w.fallbackLabel}>
-					{i > 0 ? (
-						<Box component="span" sx={{ color: "text.secondary", mr: 0.5 }}>
-							,
-						</Box>
-					) : null}
-					<LimitChip
-						window={w.window}
-						windowSeconds={w.windowSeconds}
-						fallbackLabel={w.fallbackLabel}
-						now={now}
-					/>
-				</Fragment>
-			))}
-		</>
+	const matched = rateLimitWindowsMatch(
+		windows.map((w) => ({
+			pct: w.window?.used_percentage ?? 0,
+			timeLabel: limitChipTimeLabel(w.window?.resets_at, w.fallbackLabel, now),
+		})),
 	);
+
+	const chips = windows.map((w, i) => (
+		<Fragment key={w.fallbackLabel}>
+			{i > 0 ? (
+				<Box component="span" sx={{ color: "text.secondary", mr: 0.5 }}>
+					,
+				</Box>
+			) : null}
+			<LimitChip
+				window={w.window}
+				windowSeconds={w.windowSeconds}
+				fallbackLabel={w.fallbackLabel}
+				now={now}
+			/>
+		</Fragment>
+	));
+	return matched ? <RainbowPill>{chips}</RainbowPill> : <>{chips}</>;
 }
