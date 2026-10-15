@@ -2,13 +2,17 @@
 	"manifest_version": 3,
 	"name": "assist criteria outliner",
 	"version": "1.0.0",
-	"description": "Adds an Outline criteria toggle to GitHub's issue editor, backed by assist's acceptance criteria outliner.",
+	"description": "Adds an Outline criteria toggle to GitHub's issue editor, backed by assist's acceptance criteria outliner, and an assist button that starts a session from a GitHub comment.",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "criteria-outliner@staff0rd.github.io",
 			"strict_min_version": "109.0",
 			"update_url": "https://raw.githubusercontent.com/staff0rd/assist/main/criteria-extension/updates.json"
 		}
+	},
+	"host_permissions": ["http://localhost:3100/*"],
+	"background": {
+		"scripts": ["background.js"]
 	},
 	"content_scripts": [
 		{

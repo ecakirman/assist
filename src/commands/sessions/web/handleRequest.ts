@@ -9,6 +9,7 @@ import { daemonLogTail } from "./daemonLogTail";
 import { diff } from "./diff";
 import { diffScopes } from "./diffScopes";
 import { fileContent } from "./fileContent";
+import { sessionFromGithub } from "./fromGithub/sessionFromGithub";
 import { getBackups } from "./getBackups";
 import { getConfig } from "./getConfig";
 import { getHtml } from "./getHtml";
@@ -84,6 +85,7 @@ const routes: Record<string, Handler> = {
 	"GET /api/items": listItems,
 	"GET /api/backlog/summary": getBacklogSummary,
 	"GET /api/repo-location": getRepoLocation,
+	"POST /api/sessions/from-github": sessionFromGithub,
 	"POST /api/open-in-code": openInCode,
 	"POST /api/pr-preview/upload-image": uploadPrImage,
 	"GET /api/pr-preview/image": previewImage,

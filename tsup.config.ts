@@ -20,12 +20,16 @@ export default defineConfig({
 			recursive: true,
 		});
 		await build({
-			entryPoints: ["src/commands/criteriaExtension/criteriaContentScript.ts"],
+			entryPoints: {
+				content: "src/commands/criteriaExtension/criteriaContentScript.ts",
+				background:
+					"src/commands/criteriaExtension/sendToAssist/assistBackground.ts",
+			},
 			bundle: true,
 			minify: true,
 			format: "iife",
 			target: "es2020",
-			outfile: "criteria-extension/content.js",
+			outdir: "criteria-extension",
 			jsx: "automatic",
 			jsxImportSource: "react",
 			define: { "process.env.NODE_ENV": '"production"' },

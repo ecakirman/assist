@@ -3,7 +3,10 @@ import { appendFileSync, readFileSync } from "node:fs";
 import { bundledSources } from "./bundledSources";
 import { latestUpdate } from "./latestUpdate";
 
-const contentScript = "src/commands/criteriaExtension/criteriaContentScript.ts";
+const entryPoints = [
+	"src/commands/criteriaExtension/criteriaContentScript.ts",
+	"src/commands/criteriaExtension/sendToAssist/assistBackground.ts",
+];
 
 function lastSignedVersion(): string | undefined {
 	const updates = execFileSync(
@@ -27,7 +30,7 @@ export async function criteriaExtensionChanged(): Promise<boolean> {
 	const paths = [
 		"criteria-extension",
 		"src/commands/criteriaExtension",
-		...(await bundledSources(contentScript)),
+		...(await Promise.all(entryPoints.map(bundledSources))).flat(),
 		":!criteria-extension/updates.json",
 	];
 	const { status } = spawnSync("git", ["diff", "--quiet", ...range, ...paths]);

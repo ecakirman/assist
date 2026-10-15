@@ -1,12 +1,6 @@
 import { attachCriteriaEditors } from "./attachCriteriaEditors";
+import { watchGithubPage } from "./watchGithubPage";
 
 export function watchCriteriaEditors(): void {
-	attachCriteriaEditors();
-	new MutationObserver(attachCriteriaEditors).observe(
-		document.documentElement,
-		{
-			childList: true,
-			subtree: true,
-		},
-	);
+	watchGithubPage(attachCriteriaEditors);
 }
