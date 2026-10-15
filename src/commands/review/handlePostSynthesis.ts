@@ -12,6 +12,7 @@ type PostSynthesisOptions = {
 	submit: boolean;
 	addressComments: boolean;
 	announce: boolean;
+	ciFooter?: string;
 };
 
 type SessionRunner = (synthesisPath: string) => Promise<void>;
@@ -37,6 +38,7 @@ export async function handlePostSynthesis(
 			submit: options.submit,
 			addressComments: options.addressComments,
 			announce: options.announce,
+			ciFooter: options.ciFooter,
 		});
 		return;
 	}

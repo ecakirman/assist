@@ -9,6 +9,7 @@ const mockChainAfterReview = vi.fn();
 const mockSelectPostableFindings = vi.fn();
 const mockPromptConfirm = vi.fn();
 const mockStillOnReviewedPr = vi.fn();
+const mockSubmitNoFindingsReview = vi.fn();
 
 vi.mock("node:fs", async () =>
 	(
@@ -27,6 +28,11 @@ vi.mock("./selectPostableFindings", () => ({
 
 vi.mock("./postAndMaybeSubmit", () => ({
 	postAndMaybeSubmit: (...args: unknown[]) => mockPostAndMaybeSubmit(...args),
+}));
+
+vi.mock("./submitNoFindingsReview", () => ({
+	submitNoFindingsReview: (...args: unknown[]) =>
+		mockSubmitNoFindingsReview(...args),
 }));
 
 vi.mock("./chainAfterReview", () => ({
@@ -101,6 +107,38 @@ describe("postReviewToPr", () => {
 				42,
 				{ posted: 0, submitted: false },
 				options,
+			);
+		});
+
+		it("should submit no review outside CI", async () => {
+			mockSelectPostableFindings.mockReturnValue({
+				inDiff: [],
+				unanchored: [],
+			});
+
+			await postReviewToPr("synthesis.md", prInfo, options);
+
+			expect(mockSubmitNoFindingsReview).not.toHaveBeenCalled();
+		});
+
+		it("should submit a no-findings review in CI", async () => {
+			mockSelectPostableFindings.mockReturnValue({
+				inDiff: [],
+				unanchored: [{ title: "covered", source: "already-raised" }],
+			});
+			const ciOptions = { ...options, ciFooter: "footer" };
+
+			await postReviewToPr("synthesis.md", prInfo, ciOptions);
+
+			expect(mockPostAndMaybeSubmit).not.toHaveBeenCalled();
+			expect(mockSubmitNoFindingsReview).toHaveBeenCalledWith(
+				"synthesis markdown",
+				"footer",
+			);
+			expect(mockChainAfterReview).toHaveBeenCalledWith(
+				42,
+				{ posted: 0, submitted: true },
+				ciOptions,
 			);
 		});
 

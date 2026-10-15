@@ -5,12 +5,15 @@ import { chainAfterReview } from "./chainAfterReview";
 import { type PostOutcome, postAndMaybeSubmit } from "./postAndMaybeSubmit";
 import { selectPostableFindings } from "./selectPostableFindings";
 import { stillOnReviewedPr } from "./stillOnReviewedPr";
+import { submitNoFindingsReview } from "./submitNoFindingsReview";
+import { describeWork } from "./describeWork";
 
 type PostReviewOptions = {
 	prompt: boolean;
 	submit: boolean;
 	addressComments: boolean;
 	announce: boolean;
+	ciFooter?: string;
 };
 
 export type PrDiffRef = {
@@ -20,13 +23,6 @@ export type PrDiffRef = {
 };
 
 const NOTHING_POSTED: PostOutcome = { posted: 0, submitted: false };
-
-function describeWork(comments: number, carried: number): string {
-	const parts: string[] = [];
-	if (comments > 0) parts.push(`${comments} line comment(s)`);
-	if (carried > 0) parts.push(`${carried} finding(s) in the review body`);
-	return parts.join(" and ");
-}
 
 async function confirmPost(
 	prNumber: number,
@@ -45,7 +41,11 @@ async function postFindingsToPr(
 	const markdown = readFileSync(synthesisPath, "utf8");
 	const { inDiff, unanchored } = selectPostableFindings(markdown, prInfo);
 	const carried = carriedUnanchoredFindings(unanchored);
-	if (inDiff.length === 0 && carried.length === 0) return NOTHING_POSTED;
+	if (inDiff.length === 0 && carried.length === 0) {
+		if (!options.ciFooter) return NOTHING_POSTED;
+		submitNoFindingsReview(markdown, options.ciFooter);
+		return { posted: 0, submitted: true };
+	}
 	const work = describeWork(inDiff.length, carried.length);
 	console.log(`Found PR #${prInfo.prNumber} with ${work} to post.`);
 	const confirmed = await confirmPost(prInfo.prNumber, work, options);

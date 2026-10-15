@@ -140,6 +140,20 @@ describe("postAndMaybeSubmit", () => {
 		});
 	});
 
+	describe("when a CI footer is given", () => {
+		it("should end the submitted review body with it", async () => {
+			mockPostFindings.mockReturnValue({ posted: 1, failed: 0 });
+
+			await postAndMaybeSubmit(findings, [], "md", {
+				prompt: false,
+				submit: true,
+				ciFooter: "footer",
+			});
+
+			expect(mockSubmitPendingReview).toHaveBeenCalledWith("md\n\nfooter");
+		});
+	});
+
 	describe("when findings could not be anchored", () => {
 		it("should hand them to the review body builder", async () => {
 			mockPostFindings.mockReturnValue({ posted: 1, failed: 0 });

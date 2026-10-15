@@ -17,7 +17,7 @@ type ReviewPrOptions = {
 	verbose?: boolean;
 	addressComments?: boolean;
 	announce?: boolean;
-	ci?: { models: ReviewerModels; summaryPath?: string };
+	ci?: { models: ReviewerModels; summaryPath?: string; footer: string };
 };
 
 function runPostSynthesis(
@@ -33,6 +33,7 @@ function runPostSynthesis(
 		submit: options.submit ?? false,
 		addressComments: options.addressComments ?? false,
 		announce: options.announce ?? false,
+		ciFooter: options.ci?.footer,
 	});
 }
 

@@ -1,29 +1,22 @@
 import { promptConfirm } from "../../shared/promptConfirm";
 import { setSessionStatus } from "../sessions/setSessionStatus";
-import { buildReviewSummary } from "./buildReviewSummary";
 import { carriedUnanchoredFindings } from "./carriedUnanchoredFindings";
 import type { LineBoundFinding, UnanchoredFinding } from "./partitionFindings";
 import { postFindings } from "./postFindings";
-import { sanitiseReviewerNames } from "./sanitiseReviewerNames";
 import { submitBodyOnlyReview } from "./submitBodyOnlyReview";
 import { submitPendingReview } from "./submitPendingReview";
+import { buildReviewBody } from "./buildReviewBody";
 
 type PostAndMaybeSubmitOptions = {
 	prompt: boolean;
 	submit: boolean;
+	ciFooter?: string;
 };
 
 export type PostOutcome = {
 	posted: number;
 	submitted: boolean;
 };
-
-function buildReviewBody(
-	markdown: string,
-	unanchored: UnanchoredFinding[],
-): string {
-	return sanitiseReviewerNames(buildReviewSummary(markdown, unanchored));
-}
 
 function submitReview(body: string, posted: number): void {
 	if (posted > 0) submitPendingReview(body);
@@ -56,7 +49,10 @@ export async function postAndMaybeSubmit(
 		return { posted: 0, submitted: false };
 	const shouldSubmit = await decideSubmit(options);
 	if (shouldSubmit) {
-		submitReview(buildReviewBody(markdown, unanchored), result.posted);
+		submitReview(
+			buildReviewBody(markdown, unanchored, options.ciFooter),
+			result.posted,
+		);
 		return { posted: result.posted, submitted: true };
 	}
 	console.log("Leaving the review unsubmitted.");
