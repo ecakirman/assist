@@ -1,7 +1,12 @@
 {
 	"addons": {
 		"assist@staff0rd.github.io": {
-			"updates": []
+			"updates": [
+				{
+					"version": "0.836.0",
+					"update_link": "https://github.com/staff0rd/assist/releases/download/v0.836.0/assist-extension.xpi"
+				}
+			]
 		}
 	}
 }
