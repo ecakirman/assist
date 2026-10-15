@@ -1,3 +1,16 @@
+# [0.836.0](https://github.com/staff0rd/assist/compare/v0.835.0...v0.836.0) (2026-10-15)
+
+
+### Bug Fixes
+
+* release on feat! commits ([492eede](https://github.com/staff0rd/assist/commit/492eede1baa4ba3a8e4e7354758aff5b5cd75e2d))
+
+
+### Features
+
+* rebrand extension as assist ([104bcac](https://github.com/staff0rd/assist/commit/104bcac5f5014a9209db87906b2bd79a0859a3a2))
+* rename criteria extension ([fe74733](https://github.com/staff0rd/assist/commit/fe747332028d63fb1d76febd597cbcb54de35ffa))
+
 # [0.835.0](https://github.com/staff0rd/assist/compare/v0.834.0...v0.835.0) (2026-10-15)
 
 
