@@ -1,3 +1,10 @@
+## [0.827.2](https://github.com/staff0rd/assist/compare/v0.827.1...v0.827.2) (2026-10-15)
+
+
+### Bug Fixes
+
+* cap restructure path length at 200 ([9813f7d](https://github.com/staff0rd/assist/commit/9813f7d1ff32cbfabbd0b61f0ffba75b54edb3a6))
+
 ## [0.827.1](https://github.com/staff0rd/assist/compare/v0.827.0...v0.827.1) (2026-10-15)
 
 
