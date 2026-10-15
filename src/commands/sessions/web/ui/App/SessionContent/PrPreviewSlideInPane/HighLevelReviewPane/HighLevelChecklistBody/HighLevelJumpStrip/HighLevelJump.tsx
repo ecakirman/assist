@@ -29,13 +29,21 @@ function dotSx(ticked: boolean) {
 	} as const;
 }
 
+const countSx = {
+	color: "text.disabled",
+	fontWeight: 400,
+	textTransform: "none",
+} as const;
+
 export function HighLevelJump({
 	label,
+	count,
 	ticked,
 	active,
 	onJump,
 }: {
 	label: string;
+	count: string | undefined;
 	ticked: boolean;
 	active: boolean;
 	onJump: () => void;
@@ -49,6 +57,11 @@ export function HighLevelJump({
 		>
 			<Box component="span" sx={dotSx(ticked)} />
 			{label}
+			{count && (
+				<Box component="span" sx={countSx}>
+					{count}
+				</Box>
+			)}
 		</ButtonBase>
 	);
 }

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import type { PrPreview } from "../../../../../../shared/SessionInfoBase";
 import type { SessionInfo } from "../../../../types";
 import { highLevelCheckDetails } from "./useHighLevelReviewPane/highLevelCheckDetails";
+import { highLevelJumpCounts } from "./useHighLevelReviewPane/highLevelJumpCounts";
 import { parseHighLevelPreview } from "./useHighLevelReviewPane/parseHighLevelPreview";
 import { useHighLevelChecklist } from "./useHighLevelChecklist";
 import { useHighLevelDiffComments } from "./useHighLevelReviewPane/useHighLevelDiffComments";
@@ -31,5 +32,7 @@ export function useHighLevelReviewPane(
 		comments,
 	);
 
-	return { payload, checklist, details, sentTo, clearSent };
+	const counts = useMemo(() => highLevelJumpCounts(payload), [payload]);
+
+	return { payload, checklist, details, counts, sentTo, clearSent };
 }

@@ -11,6 +11,7 @@ import type { HighLevelCheckResult } from "../../../../../../../review/highLevel
 import { HighLevelChecklistBody } from "./HighLevelChecklistBody";
 import { highLevelCheckDomId } from "./HighLevelChecklistBody/highLevelCheckDomId";
 import { useHighLevelChecklist } from "./useHighLevelChecklist";
+import { PreviewWidthContext } from "../../usePreviewWidthContext";
 
 const deterministic: HighLevelCheckResult = {
 	id: "description-what-why",
@@ -47,16 +48,34 @@ const manualChecks = [
 	manual("tests-worth-having", "The tests are worth having", "Tests"),
 ];
 
-function Body({ checks }: { checks: HighLevelCheckResult[] }) {
+function Body({
+	checks,
+	counts = {},
+	full = false,
+}: {
+	checks: HighLevelCheckResult[];
+	counts?: Record<string, string>;
+	full?: boolean;
+}) {
 	const checklist = useHighLevelChecklist(checks);
 	return (
-		<HighLevelChecklistBody
-			checks={checks}
-			checklist={checklist}
-			details={{}}
-		/>
+		<PreviewWidthContext.Provider
+			value={{ mode: full ? "full" : "half", full }}
+		>
+			<HighLevelChecklistBody
+				checks={checks}
+				checklist={checklist}
+				details={{}}
+				counts={counts}
+			/>
+		</PreviewWidthContext.Provider>
 	);
 }
+
+const counts = {
+	"structure-sensible": "12 files",
+	"tests-worth-having": "6 tests",
+};
 
 function strip() {
 	return screen.getByRole("navigation", { name: "Judge" });
@@ -155,5 +174,27 @@ describe("HighLevelChecklistBody jump strip", () => {
 		fireEvent.scroll(container);
 
 		expect(jumps()[2]?.getAttribute("aria-current")).toBe("true");
+	});
+
+	it("shows the label and counts in a wide pane", () => {
+		render(<Body checks={manualChecks} counts={counts} full />);
+
+		expect(within(strip()).getByText("Judge")).toBeTruthy();
+		expect(jumps().map((jump) => jump.textContent)).toEqual([
+			"Structure12 files",
+			"Critical diffs",
+			"Tests6 tests",
+		]);
+	});
+
+	it("hides the label and counts in a narrow pane", () => {
+		render(<Body checks={manualChecks} counts={counts} />);
+
+		expect(within(strip()).queryByText("Judge")).toBeNull();
+		expect(jumps().map((jump) => jump.textContent)).toEqual([
+			"Structure",
+			"Critical diffs",
+			"Tests",
+		]);
 	});
 });

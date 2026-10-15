@@ -26,7 +26,7 @@ export function HighLevelReviewPane({
 		details: PrDecisionDetails,
 	) => void;
 }) {
-	const { payload, checklist, details, sentTo, clearSent } =
+	const { payload, checklist, details, counts, sentTo, clearSent } =
 		useHighLevelReviewPane(preview, session, sendInput);
 
 	return (
@@ -42,6 +42,7 @@ export function HighLevelReviewPane({
 				checks={payload.checks}
 				checklist={checklist}
 				details={details}
+				counts={counts}
 			/>
 			<Divider />
 			<HighLevelReviewActions

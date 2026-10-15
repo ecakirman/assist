@@ -10,10 +10,12 @@ export function HighLevelChecklistBody({
 	checks,
 	checklist,
 	details,
+	counts,
 }: {
 	checks: HighLevelCheckResult[];
 	checklist: ReturnType<typeof useHighLevelChecklist>;
 	details: Record<string, ReactNode>;
+	counts: Record<string, string>;
 }) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const manual = checks.filter((check) => check.kind === "manual");
@@ -36,6 +38,7 @@ export function HighLevelChecklistBody({
 			<HighLevelJumpStrip
 				checks={manual}
 				ticked={checklist.ticked}
+				counts={counts}
 				activeId={activeId}
 			/>
 			<HighLevelCheckGroup
