@@ -5,6 +5,27 @@ import type { PrSummary } from "../../../../prList";
 import { ReviewButton } from "./ReviewButton";
 import { reviewButtonModes } from "../../../../../../../shared/reviewButtonModes";
 import { SessionLaunchContext } from "../../../useSessionLaunchContext";
+import { makeSessionInfo } from "../../../../../../../test/mothers/makeSessionInfo";
+import type { PrPreview } from "../../../../../shared/SessionInfoBase";
+import type { SessionInfo } from "../../../types";
+
+const highLevelPreview: PrPreview = {
+	requestId: "r1",
+	title: "High-level review",
+	body: "",
+	prNumber: 42,
+	kind: "high-level-review",
+};
+
+function highLevelSession(overrides: Partial<SessionInfo> = {}): SessionInfo {
+	return makeSessionInfo({
+		id: "7",
+		commandType: "assist",
+		assistArgs: ["review", "--high-level", "42"],
+		pendingPrPreview: highLevelPreview,
+		...overrides,
+	});
+}
 
 const pr: PrSummary = {
 	number: 42,
@@ -15,7 +36,11 @@ const pr: PrSummary = {
 	isDraft: false,
 };
 
-function renderButton(launchAssist: () => void, launchedFrom?: string) {
+function renderButton(
+	launchAssist: () => void,
+	session?: SessionInfo,
+	activateSession: (id: string) => void = () => {},
+) {
 	render(
 		<SessionLaunchContext.Provider
 			value={{
@@ -23,9 +48,10 @@ function renderButton(launchAssist: () => void, launchedFrom?: string) {
 				launchAgentInStream: () => {},
 				resumeSession: () => {},
 				armUpdateReload: () => {},
+				activateSession,
 			}}
 		>
-			<ReviewButton cwd="/git/repo" pr={pr} launchedFrom={launchedFrom} />
+			<ReviewButton cwd="/git/repo" pr={pr} session={session} />
 		</SessionLaunchContext.Provider>,
 	);
 	fireEvent.click(screen.getByRole("button", { name: "Review PR" }));
@@ -135,7 +161,7 @@ describe("ReviewButton", () => {
 
 	it("tags a review with the card it was launched from", () => {
 		const launchAssist = vi.fn();
-		renderButton(launchAssist, "7");
+		renderButton(launchAssist, makeSessionInfo({ id: "7" }));
 
 		fireEvent.click(screen.getByText(reviewButtonModes[0].label));
 
@@ -148,7 +174,7 @@ describe("ReviewButton", () => {
 
 	it("tags Address Comments with the card it was launched from", () => {
 		const launchAssist = vi.fn();
-		renderButton(launchAssist, "7");
+		renderButton(launchAssist, makeSessionInfo({ id: "7" }));
 
 		fireEvent.click(screen.getByText("Address Comments"));
 
@@ -169,6 +195,71 @@ describe("ReviewButton", () => {
 			["review-pr-comments", "42"],
 			"/git/repo",
 			expect.objectContaining({ launchedFrom: undefined }),
+		);
+	});
+});
+
+describe("ReviewButton on the high-level review session", () => {
+	const panes: HTMLElement[] = [];
+
+	function previewPane(id: string): HTMLElement {
+		const pane = document.createElement("div");
+		pane.tabIndex = -1;
+		pane.setAttribute("data-preview-session-id", id);
+		document.body.appendChild(pane);
+		panes.push(pane);
+		return pane;
+	}
+
+	afterEach(() => {
+		for (const pane of panes.splice(0)) pane.remove();
+	});
+
+	it("opens the pending high-level review pane instead of launching", () => {
+		const launchAssist = vi.fn();
+		const activateSession = vi.fn();
+		const pane = previewPane("7");
+		renderButton(launchAssist, highLevelSession(), activateSession);
+
+		expect(screen.queryByText("High-level review")).toBeNull();
+		fireEvent.click(screen.getByText("Open high-level review"));
+
+		expect(launchAssist).not.toHaveBeenCalled();
+		expect(activateSession).toHaveBeenCalledWith("7");
+		expect(document.activeElement).toBe(pane);
+	});
+
+	it.each([
+		["has no pending preview", { pendingPrPreview: undefined }],
+		[
+			"has a pending preview of another kind",
+			{ pendingPrPreview: { ...highLevelPreview, kind: "pr" as const } },
+		],
+		[
+			"has a pending preview for another PR",
+			{ pendingPrPreview: { ...highLevelPreview, prNumber: 7 } },
+		],
+		[
+			"is a different review of the PR",
+			{ assistArgs: ["review", "--refine", "42"] },
+		],
+		[
+			"is the high-level review of another PR",
+			{ assistArgs: ["review", "--high-level", "41"] },
+		],
+	])("launches a new high-level review when the session %s", (_, overrides) => {
+		const launchAssist = vi.fn();
+		const activateSession = vi.fn();
+		renderButton(launchAssist, highLevelSession(overrides), activateSession);
+
+		expect(screen.queryByText("Open high-level review")).toBeNull();
+		fireEvent.click(screen.getByText("High-level review"));
+
+		expect(activateSession).not.toHaveBeenCalled();
+		expect(launchAssist).toHaveBeenCalledWith(
+			["review", "--high-level", "42"],
+			"/git/repo",
+			expect.objectContaining({ inPlace: true, launchedFrom: "7" }),
 		);
 	});
 });

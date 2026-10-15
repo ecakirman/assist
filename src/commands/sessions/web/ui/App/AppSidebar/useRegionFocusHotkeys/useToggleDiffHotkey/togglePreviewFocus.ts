@@ -1,5 +1,5 @@
 import { focusRegion } from "../../../focusRegion";
-import { sessionRegion } from "../sessionRegion";
+import { sessionRegion } from "../../../sessionRegion";
 import { isRegionFocused } from "./isRegionFocused";
 
 export function togglePreviewFocus(

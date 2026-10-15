@@ -5,7 +5,7 @@ import { useShortcut } from "../../useShortcut";
 import { useDiffPanels } from "../../useDiffPanels";
 import { focusRegion } from "../../focusRegion";
 import { isRegionFocused } from "./useToggleDiffHotkey/isRegionFocused";
-import { sessionRegion } from "./sessionRegion";
+import { sessionRegion } from "../../sessionRegion";
 import { togglePreviewFocus } from "./useToggleDiffHotkey/togglePreviewFocus";
 
 export function useToggleDiffHotkey({

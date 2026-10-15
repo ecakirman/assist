@@ -6,7 +6,7 @@ import { useCaptureHotkey } from "../useCaptureHotkey";
 import { useShortcut } from "../useShortcut";
 import { focusRegion } from "../focusRegion";
 import { backlogRegion } from "./useRegionFocusHotkeys/backlogRegion";
-import { sessionRegion } from "./useRegionFocusHotkeys/sessionRegion";
+import { sessionRegion } from "../sessionRegion";
 import { useFocusSidebarHotkey } from "./useRegionFocusHotkeys/useFocusSidebarHotkey";
 import { useToggleDiffHotkey } from "./useRegionFocusHotkeys/useToggleDiffHotkey";
 import { useTopBarActionHotkey } from "./useRegionFocusHotkeys/useTopBarActionHotkey";

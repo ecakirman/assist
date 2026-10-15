@@ -5,7 +5,7 @@ import { useCaptureHotkey } from "../../useCaptureHotkey";
 import { useShortcut } from "../../useShortcut";
 import { useSidebarCollapsedContext } from "../../useSidebarCollapsedContext";
 import { focusRegion, type Region } from "../../focusRegion";
-import { sessionRegion } from "./sessionRegion";
+import { sessionRegion } from "../../sessionRegion";
 import { sidebarCardRegion } from "./useFocusSidebarHotkey/sidebarCardRegion";
 import { useLastActiveId } from "./useFocusSidebarHotkey/useLastActiveId";
 

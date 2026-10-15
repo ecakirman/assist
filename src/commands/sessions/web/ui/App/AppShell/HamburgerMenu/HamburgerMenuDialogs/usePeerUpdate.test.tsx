@@ -58,6 +58,7 @@ function render(initial: Props) {
 					launchAgentInStream: () => {},
 					resumeSession: () => {},
 					armUpdateReload: () => {},
+					activateSession: () => {},
 				}}
 			>
 				{children}

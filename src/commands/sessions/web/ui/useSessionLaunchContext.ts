@@ -20,6 +20,7 @@ type SessionLaunch = {
 		harness?: HarnessKind,
 	) => void;
 	armUpdateReload: () => void;
+	activateSession: (id: string) => void;
 };
 
 export const SessionLaunchContext = createContext<SessionLaunch>({
@@ -27,6 +28,7 @@ export const SessionLaunchContext = createContext<SessionLaunch>({
 	launchAgentInStream: () => {},
 	resumeSession: () => {},
 	armUpdateReload: () => {},
+	activateSession: () => {},
 });
 
 export function useSessionLaunchContext(): SessionLaunch {

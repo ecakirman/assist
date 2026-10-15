@@ -23,6 +23,7 @@ function renderButton(
 				) => void,
 				resumeSession: () => {},
 				armUpdateReload: () => {},
+				activateSession: () => {},
 			}}
 		>
 			<AddAgentButton

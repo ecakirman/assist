@@ -144,6 +144,7 @@ function renderView(
 						launchAgentInStream: () => {},
 						resumeSession: () => {},
 						armUpdateReload: () => {},
+						activateSession: () => {},
 					}}
 				>
 					<NextView sessions={sessions} selectSession={selectSession} />

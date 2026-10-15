@@ -9,10 +9,12 @@ export function ReviewButtonMenu({
 	anchorEl,
 	onClose,
 	review,
+	openHighLevel,
 }: {
 	anchorEl: HTMLElement | null;
 	onClose: () => void;
 	review: ReturnType<typeof useReviewLaunch>;
+	openHighLevel?: () => void;
 }) {
 	const pick = (e: { stopPropagation: () => void }, run: () => void) => {
 		e.stopPropagation();
@@ -27,14 +29,20 @@ export function ReviewButtonMenu({
 			onClose={onClose}
 			onClick={(e) => e.stopPropagation()}
 		>
-			{reviewButtonModes.map((mode) => (
-				<MenuItem
-					key={mode.label}
-					onClick={(e) => pick(e, () => review.launchMode(mode.args))}
-				>
-					{mode.label}
-				</MenuItem>
-			))}
+			{reviewButtonModes.map((mode) =>
+				openHighLevel && mode.args.includes("--high-level") ? (
+					<MenuItem key={mode.label} onClick={(e) => pick(e, openHighLevel)}>
+						Open high-level review
+					</MenuItem>
+				) : (
+					<MenuItem
+						key={mode.label}
+						onClick={(e) => pick(e, () => review.launchMode(mode.args))}
+					>
+						{mode.label}
+					</MenuItem>
+				),
+			)}
 			<Divider />
 			<ReviewOptionToggles
 				value={review.options}

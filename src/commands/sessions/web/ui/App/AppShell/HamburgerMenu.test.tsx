@@ -46,6 +46,7 @@ function renderMenu(
 						launchAgentInStream: () => {},
 						resumeSession: () => {},
 						armUpdateReload,
+						activateSession: () => {},
 					}}
 				>
 					<HamburgerMenu

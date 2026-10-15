@@ -19,6 +19,7 @@ function renderRefine(launchAssist: () => void) {
 					launchAgentInStream: () => {},
 					resumeSession: () => {},
 					armUpdateReload: () => {},
+					activateSession: () => {},
 				}}
 			>
 				<RefineAction itemId={279} />

@@ -36,6 +36,7 @@ function renderChips(
 					launchAgentInStream: () => {},
 					resumeSession: () => {},
 					armUpdateReload: () => {},
+					activateSession: () => {},
 				}}
 			>
 				<RepoSummaryChips sessions={sessions} />
@@ -168,6 +169,7 @@ describe("RepoSummaryChips clone-on-select", () => {
 						launchAgentInStream: () => {},
 						resumeSession: () => {},
 						armUpdateReload: () => {},
+						activateSession: () => {},
 					}}
 				>
 					<RepoSummaryChips sessions={sessions} />
@@ -214,6 +216,7 @@ describe("RepoSummaryChips clone-on-select", () => {
 						launchAgentInStream: () => {},
 						resumeSession: () => {},
 						armUpdateReload: () => {},
+						activateSession: () => {},
 					}}
 				>
 					<RepoSummaryChips sessions={sessions} />

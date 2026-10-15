@@ -119,6 +119,7 @@ describe("ActivitySection", () => {
 					launchAgentInStream: () => {},
 					resumeSession,
 					armUpdateReload: () => {},
+					activateSession: () => {},
 				}}
 			>
 				<ActivitySection gitRefs={[]} conversations={conversations} />

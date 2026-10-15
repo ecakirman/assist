@@ -1,6 +1,6 @@
-import { holdSessionCardFocus } from "../holdSessionCardFocus";
-import type { Region } from "../../focusRegion";
-import { previewPrimaryActionFocusEvent } from "../../usePreviewPrimaryAction";
+import { holdSessionCardFocus } from "./holdSessionCardFocus";
+import type { Region } from "./focusRegion";
+import { previewPrimaryActionFocusEvent } from "./usePreviewPrimaryAction";
 
 export type RegionKind = "card" | "terminal" | "diff" | "preview";
 

@@ -1,20 +1,23 @@
 import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
 import { useState } from "react";
 import type { PrSummary } from "../../../../prList";
+import type { SessionInfo } from "../../../types";
 import { ActionButton } from "../../ActionButton";
 import { ReviewButtonMenu } from "./ReviewButton/ReviewButtonMenu";
+import { useOpenHighLevelReview } from "./ReviewButton/useOpenHighLevelReview";
 import { useReviewLaunch } from "./ReviewButton/useReviewLaunch";
 
 export function ReviewButton({
 	cwd,
 	pr,
-	launchedFrom,
+	session,
 }: {
 	cwd: string;
 	pr: PrSummary;
-	launchedFrom?: string;
+	session?: SessionInfo;
 }) {
-	const review = useReviewLaunch(cwd, pr, launchedFrom);
+	const review = useReviewLaunch(cwd, pr, session?.id);
+	const openHighLevel = useOpenHighLevelReview(session, pr);
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
 	return (
@@ -33,6 +36,7 @@ export function ReviewButton({
 				anchorEl={anchorEl}
 				onClose={() => setAnchorEl(null)}
 				review={review}
+				openHighLevel={openHighLevel}
 			/>
 		</>
 	);

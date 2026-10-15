@@ -37,6 +37,7 @@ function renderPlay(
 							launchAgentInStream: () => {},
 							resumeSession: () => {},
 							armUpdateReload: () => {},
+							activateSession: () => {},
 						}}
 					>
 						<div onClick={onCardClick}>

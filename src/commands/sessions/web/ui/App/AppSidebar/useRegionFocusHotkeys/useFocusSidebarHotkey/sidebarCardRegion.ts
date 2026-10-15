@@ -1,5 +1,5 @@
 import type { Region } from "../../../focusRegion";
-import { sessionRegion } from "../sessionRegion";
+import { sessionRegion } from "../../../sessionRegion";
 
 const firstCardRegion: Region = {
 	locate: () =>

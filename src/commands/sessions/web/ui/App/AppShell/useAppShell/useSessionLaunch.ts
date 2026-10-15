@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router";
+import { useActivateSession } from "../../../useActivateSession";
 import type { useSessionSocket } from "../../../useSessionSocket";
 import { useUpdateReload } from "./useSessionLaunch/useUpdateReload";
 
@@ -10,18 +11,21 @@ export function useSessionLaunch(socket: ReturnType<typeof useSessionSocket>) {
 		socket.setSuccess,
 		socket.setError,
 	);
+	const activateSession = useActivateSession(socket.selectSession);
 	const launch = useMemo(
 		() => ({
 			launchAssist: socket.createAssistSession,
 			launchAgentInStream: socket.createSessionInStream,
 			resumeSession: socket.resumeSession,
 			armUpdateReload,
+			activateSession,
 		}),
 		[
 			socket.createAssistSession,
 			socket.createSessionInStream,
 			socket.resumeSession,
 			armUpdateReload,
+			activateSession,
 		],
 	);
 	const navigate = useNavigate();

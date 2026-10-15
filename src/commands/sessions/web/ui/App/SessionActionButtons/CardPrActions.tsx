@@ -12,9 +12,7 @@ export function CardPrActions({ session }: { session: SessionInfo }) {
 	return (
 		<>
 			{pr && cwd && <OpenPrButton pr={pr} />}
-			{pr && cwd && (
-				<ReviewButton cwd={cwd} pr={pr} launchedFrom={session.id} />
-			)}
+			{pr && cwd && <ReviewButton cwd={cwd} pr={pr} session={session} />}
 			<ViewReviewButton session={session} />
 		</>
 	);
