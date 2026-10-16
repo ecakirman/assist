@@ -1,3 +1,10 @@
+## [0.851.1](https://github.com/staff0rd/assist/compare/v0.851.0...v0.851.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* write saveJson via temp file rename ([1f6d4ca](https://github.com/staff0rd/assist/commit/1f6d4cad2b5432f94e47a632c65f923f6816f43c))
+
 # [0.851.0](https://github.com/staff0rd/assist/compare/v0.850.0...v0.851.0) (2026-10-16)
 
 
