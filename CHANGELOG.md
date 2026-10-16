@@ -1,3 +1,10 @@
+# [0.851.0](https://github.com/staff0rd/assist/compare/v0.850.0...v0.851.0) (2026-10-16)
+
+
+### Features
+
+* trim daemon.log in place at 50 MB ([449679c](https://github.com/staff0rd/assist/commit/449679c8dd63d17e32dd25b0f32c9d490d99dac4))
+
 # [0.850.0](https://github.com/staff0rd/assist/compare/v0.849.0...v0.850.0) (2026-10-16)
 
 
