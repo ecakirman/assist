@@ -1,5 +1,6 @@
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
+import { rememberSessionTitle } from "./rememberSessionTitle";
 import type { OnStatusChange } from "./types";
 import { watchTranscript } from "./watchTranscript";
 
@@ -20,5 +21,6 @@ export function rebindClaudeSession(
 		`session ${session.id} claude session moved: ${session.claudeSessionId ?? "none"} -> ${claudeSessionId}`,
 	);
 	session.claudeSessionId = claudeSessionId;
+	rememberSessionTitle(session);
 	watchTranscript(session, notify, onStatusChange);
 }

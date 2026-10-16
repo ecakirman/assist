@@ -1,12 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeSession } from "../../../test/mothers/makeSession";
 import { rebindClaudeSession } from "./rebindClaudeSession";
+import { rememberSessionTitle } from "./rememberSessionTitle";
 import { watchTranscript } from "./watchTranscript";
 
 vi.mock("./watchTranscript", () => ({ watchTranscript: vi.fn() }));
 vi.mock("./daemonLog", () => ({ daemonLog: vi.fn() }));
+vi.mock("./rememberSessionTitle", () => ({ rememberSessionTitle: vi.fn() }));
 
 const watchMock = watchTranscript as unknown as ReturnType<typeof vi.fn>;
+const rememberMock = rememberSessionTitle as unknown as ReturnType<
+	typeof vi.fn
+>;
 
 describe("rebindClaudeSession", () => {
 	beforeEach(() => {
@@ -22,6 +27,14 @@ describe("rebindClaudeSession", () => {
 
 		expect(s.claudeSessionId).toBe("after-clear");
 		expect(watchMock).toHaveBeenCalledWith(s, notify, onStatusChange);
+	});
+
+	it("keeps the card title for the transcript /clear started", () => {
+		const s = makeSession({ claudeSessionId: "before-clear" });
+
+		rebindClaudeSession(s, "after-clear", vi.fn(), vi.fn());
+
+		expect(rememberMock).toHaveBeenCalledWith(s);
 	});
 
 	it("leaves the binding alone when the conversation has not moved", () => {

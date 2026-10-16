@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { Session } from "./createSession";
+import { rememberSessionTitle } from "./rememberSessionTitle";
 import { spawnClaude } from "./spawnClaude";
 
 export type RespawnPlan = {
@@ -39,6 +40,7 @@ function freshClaudePlan(
 	return {
 		spawn: () => {
 			session.claudeSessionId = claudeSessionId;
+			rememberSessionTitle(session);
 			return spawnClaude({
 				prompt,
 				cwd,
