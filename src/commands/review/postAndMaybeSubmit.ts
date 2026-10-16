@@ -3,9 +3,8 @@ import { setSessionStatus } from "../sessions/setSessionStatus";
 import { carriedUnanchoredFindings } from "./carriedUnanchoredFindings";
 import type { LineBoundFinding, UnanchoredFinding } from "./partitionFindings";
 import { postFindings } from "./postFindings";
-import { submitBodyOnlyReview } from "./submitBodyOnlyReview";
-import { submitPendingReview } from "./submitPendingReview";
 import { buildReviewBody } from "./buildReviewBody";
+import { submitReview } from "./submitReview";
 
 type PostAndMaybeSubmitOptions = {
 	prompt: boolean;
@@ -17,11 +16,6 @@ export type PostOutcome = {
 	posted: number;
 	submitted: boolean;
 };
-
-function submitReview(body: string, posted: number): void {
-	if (posted > 0) submitPendingReview(body);
-	else submitBodyOnlyReview(body);
-}
 
 async function decideSubmit(
 	options: PostAndMaybeSubmitOptions,
@@ -49,11 +43,13 @@ export async function postAndMaybeSubmit(
 		return { posted: 0, submitted: false };
 	const shouldSubmit = await decideSubmit(options);
 	if (shouldSubmit) {
-		submitReview(
+		const submitted = submitReview(
 			buildReviewBody(markdown, unanchored, options.ciFooter),
-			result.posted,
+			result,
 		);
-		return { posted: result.posted, submitted: true };
+		if (!submitted && options.ciFooter)
+			throw new Error("the review could not be submitted to the PR");
+		return { posted: result.posted, submitted };
 	}
 	console.log("Leaving the review unsubmitted.");
 	return { posted: result.posted, submitted: false };

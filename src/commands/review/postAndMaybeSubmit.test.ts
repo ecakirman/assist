@@ -55,6 +55,8 @@ beforeEach(() => {
 	vi.clearAllMocks();
 	vi.spyOn(console, "log").mockImplementation(() => {});
 	mockBuildReviewSummary.mockImplementation((markdown: string) => markdown);
+	mockSubmitPendingReview.mockReturnValue(true);
+	mockSubmitBodyOnlyReview.mockReturnValue(true);
 });
 
 describe("postAndMaybeSubmit", () => {
@@ -165,8 +167,24 @@ describe("postAndMaybeSubmit", () => {
 			expect(mockSubmitBodyOnlyReview).toHaveBeenCalledWith("md\n\nfooter");
 		});
 
-		it("should submit a body-only review when every line comment failed", async () => {
+		it("should submit the pending review a failed line comment left behind", async () => {
 			mockPostFindings.mockReturnValue({ posted: 0, failed: 2 });
+			mockSubmitPendingReview.mockReturnValue(true);
+
+			await postAndMaybeSubmit(findings, [], "md", {
+				prompt: false,
+				submit: true,
+				ciFooter: "footer",
+			});
+
+			expect(mockSubmitPendingReview).toHaveBeenCalledWith("md\n\nfooter");
+			expect(mockSubmitBodyOnlyReview).not.toHaveBeenCalled();
+		});
+
+		it("should submit a body-only review when failed line comments left no pending review", async () => {
+			mockPostFindings.mockReturnValue({ posted: 0, failed: 2 });
+			mockSubmitPendingReview.mockReturnValue(false);
+			mockSubmitBodyOnlyReview.mockReturnValue(true);
 
 			await postAndMaybeSubmit(findings, [], "md", {
 				prompt: false,
@@ -175,6 +193,20 @@ describe("postAndMaybeSubmit", () => {
 			});
 
 			expect(mockSubmitBodyOnlyReview).toHaveBeenCalledWith("md\n\nfooter");
+		});
+
+		it("should throw when the review could not be submitted", async () => {
+			mockPostFindings.mockReturnValue({ posted: 0, failed: 1 });
+			mockSubmitPendingReview.mockReturnValue(false);
+			mockSubmitBodyOnlyReview.mockReturnValue(false);
+
+			await expect(
+				postAndMaybeSubmit(findings, [], "md", {
+					prompt: false,
+					submit: true,
+					ciFooter: "footer",
+				}),
+			).rejects.toThrow("could not be submitted");
 		});
 	});
 
