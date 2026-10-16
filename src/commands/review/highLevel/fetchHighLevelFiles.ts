@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import type { HighLevelFile, HighLevelFileStatus } from "./types";
 
@@ -27,8 +27,9 @@ export function fetchHighLevelFiles(
 	prNumber: number,
 	repo: string,
 ): HighLevelFile[] {
-	const out = execSync(
-		`gh api repos/${repo}/pulls/${prNumber}/files --paginate --jq '${JQ}'`,
+	const out = execFileSync(
+		"gh",
+		["api", `repos/${repo}/pulls/${prNumber}/files`, "--paginate", "--jq", JQ],
 		{ encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
 	);
 	return out

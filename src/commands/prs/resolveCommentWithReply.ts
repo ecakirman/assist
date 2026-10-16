@@ -1,7 +1,4 @@
-import { execSync } from "node:child_process";
-import { unlinkSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { execFileSync } from "node:child_process";
 import { deleteCommentsCache, loadCommentsCache } from "./loadCommentsCache";
 import { getCurrentPrNumber, getRepoInfo } from "./shared";
 import type { PrComment } from "./types";
@@ -9,17 +6,11 @@ import { replyToComment } from "./replyToComment";
 
 function resolveThread(threadId: string): void {
 	const mutation = `mutation($threadId: ID!) { resolveReviewThread(input: {threadId: $threadId}) { thread { isResolved } } }`;
-	const queryFile = join(tmpdir(), `gh-mutation-${Date.now()}.graphql`);
-	writeFileSync(queryFile, mutation);
-
-	try {
-		execSync(
-			`gh api graphql -F query=@${queryFile} -f threadId="${threadId}"`,
-			{ stdio: ["inherit", "pipe", "inherit"] },
-		);
-	} finally {
-		unlinkSync(queryFile);
-	}
+	execFileSync(
+		"gh",
+		["api", "graphql", "-f", `query=${mutation}`, "-f", `threadId=${threadId}`],
+		{ stdio: ["inherit", "pipe", "inherit"] },
+	);
 }
 
 function requireCache(org: string, repo: string, prNumber: number) {

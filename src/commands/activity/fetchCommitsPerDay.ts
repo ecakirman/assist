@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 
 type DayCount = { date: string; count: number };
 
@@ -7,9 +7,11 @@ function fetchContributions(from: string, to: string): DayCount[] {
 	const jq =
 		".data.viewer.contributionsCollection.contributionCalendar.weeks[].contributionDays[]";
 
-	const raw = execSync(`gh api graphql -f query='${query}' --jq '${jq}'`, {
-		encoding: "utf8",
-	}).trim();
+	const raw = execFileSync(
+		"gh",
+		["api", "graphql", "-f", `query=${query}`, "--jq", jq],
+		{ encoding: "utf8" },
+	).trim();
 
 	if (!raw) return [];
 
