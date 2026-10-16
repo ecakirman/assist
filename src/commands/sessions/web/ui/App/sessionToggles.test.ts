@@ -9,13 +9,41 @@ const backlogActivity = {
 	totalPhases: 3,
 };
 
-describe("sessionToggles draft", () => {
-	it("offers no toggle on a draft session", () => {
+describe("sessionToggles auto-start", () => {
+	it.each(["draft", "bug", "refine"])(
+		"offers an auto-start toggle, off by default, on a %s session",
+		(command) => {
+			expect(
+				sessionToggles(
+					makeSessionInfo({ commandType: "assist", assistArgs: [command] }),
+				),
+			).toEqual([{ key: "autoStart", label: "Auto-start", checked: false }]);
+		},
+	);
+
+	it("captions auto-start when it is switched on", () => {
 		expect(
 			sessionToggles(
-				makeSessionInfo({ commandType: "assist", assistArgs: ["draft"] }),
+				makeSessionInfo({
+					commandType: "assist",
+					assistArgs: ["draft"],
+					autoStart: true,
+				}),
 			),
-		).toEqual([]);
+		).toEqual([
+			{
+				key: "autoStart",
+				label: "Auto-start",
+				checked: true,
+				caption: "will auto-start",
+			},
+		]);
+	});
+
+	it("offers no auto-start toggle on other sessions", () => {
+		expect(sessionToggles(makeSessionInfo({ commandType: "claude" }))).toEqual(
+			[],
+		);
 	});
 });
 

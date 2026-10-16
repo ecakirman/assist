@@ -58,6 +58,7 @@ export type SessionLifecycleHandlers = {
 };
 
 export type SessionListHandlers = SessionLifecycleHandlers & {
+	onSetAutoStart: (id: string, enabled: boolean) => void;
 	onSetAutoAdvance: (id: string, enabled: boolean) => void;
 };
 
@@ -66,6 +67,7 @@ export type SessionControlHandlers = {
 	onRestart?: () => void;
 	onDismiss: () => void;
 	childDismiss?: ChildDismiss;
+	onSetAutoStart: (enabled: boolean) => void;
 	onSetAutoAdvance: (enabled: boolean) => void;
 };
 

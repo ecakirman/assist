@@ -147,6 +147,45 @@ describe("PrPreviewCoordinator", () => {
 		expect(client.sent.at(-1)).toMatchObject({ autostart: true });
 	});
 
+	it("approves a startable backlog-item preview at once with autostart when the session auto-starts", () => {
+		const sessions = new Map([
+			["1", makeSession({ id: "1", autoStart: true })],
+		]);
+		const notify = vi.fn();
+		const coord = new PrPreviewCoordinator(sessions, notify);
+		const client = makeClient();
+
+		coord.set(client, {
+			...previewMsg("1", "r1"),
+			kind: "backlog-item",
+			canStart: true,
+		});
+
+		expect(client.sent.at(-1)).toMatchObject({
+			type: "pr-decision",
+			requestId: "r1",
+			decision: "approve",
+			autostart: true,
+		});
+		expect(sessions.get("1")?.pendingPrPreview).toBeUndefined();
+		expect(notify).toHaveBeenCalled();
+	});
+
+	it.each([
+		["a startable preview while auto-start is off", false, "backlog-item"],
+		["a non-startable preview while auto-start is on", true, "backlog-comment"],
+		["a PR preview while auto-start is on", true, "pr"],
+	])("waits for the user on %s", (_label, autoStart, kind) => {
+		const sessions = new Map([["1", makeSession({ id: "1", autoStart })]]);
+		const coord = new PrPreviewCoordinator(sessions, vi.fn());
+		const client = makeClient();
+
+		coord.set(client, { ...previewMsg("1", "r1"), kind, canStart: true });
+
+		expect(client.sent).toEqual([]);
+		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r1");
+	});
+
 	it("forwards inline comments to the waiting client on rejection", () => {
 		const sessions = makeSessions("1");
 		const coord = new PrPreviewCoordinator(sessions, vi.fn());

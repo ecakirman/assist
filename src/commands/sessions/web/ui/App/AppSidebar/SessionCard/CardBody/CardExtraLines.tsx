@@ -5,6 +5,7 @@ import { displayStatus } from "../../../displayStatus";
 import { sessionPhaseCaption } from "../../../sessionPhaseCaption";
 import { SessionStatusCaptions } from "./CardExtraLines/SessionStatusCaptions";
 import { sessionToggles } from "../../../sessionToggles";
+import { toggleSetter } from "../../../toggleSetter";
 import type { SessionInfo } from "../../../../types";
 
 const rowSx = {
@@ -23,9 +24,11 @@ const captionSx = {
 
 export function CardExtraLines({
 	session,
+	onSetAutoStart,
 	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
+	onSetAutoStart: (enabled: boolean) => void;
 	onSetAutoAdvance: (enabled: boolean) => void;
 }) {
 	const caption = sessionPhaseCaption(session);
@@ -53,7 +56,10 @@ export function CardExtraLines({
 							key={toggle.key}
 							label={toggle.label}
 							checked={toggle.checked}
-							onChange={onSetAutoAdvance}
+							onChange={toggleSetter(toggle.key, {
+								onSetAutoStart,
+								onSetAutoAdvance,
+							})}
 						/>
 					))}
 				</Box>

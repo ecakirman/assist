@@ -53,6 +53,7 @@ function renderTopBar(
 		onRetry?: () => void;
 		onRestart?: () => void;
 		onDismiss?: () => void;
+		onSetAutoStart?: (enabled: boolean) => void;
 		onSetAutoAdvance?: (enabled: boolean) => void;
 	} = {},
 ) {
@@ -64,6 +65,7 @@ function renderTopBar(
 					onRetry={handlers.onRetry}
 					onRestart={handlers.onRestart}
 					onDismiss={handlers.onDismiss ?? (() => {})}
+					onSetAutoStart={handlers.onSetAutoStart ?? (() => {})}
 					onSetAutoAdvance={handlers.onSetAutoAdvance ?? (() => {})}
 				/>
 			</StarredSessionsProvider>
@@ -580,6 +582,22 @@ describe("SessionTopBar toggles", () => {
 		fireEvent.click(screen.getByRole("switch"));
 
 		expect(onSetAutoAdvance).toHaveBeenCalledWith(false);
+	});
+
+	it("carries the draft session's auto-start switch", () => {
+		const onSetAutoStart = vi.fn();
+		const onSetAutoAdvance = vi.fn();
+		renderTopBar(
+			makeSessionInfo({ commandType: "assist", assistArgs: ["draft"] }),
+			{ onSetAutoStart, onSetAutoAdvance },
+		);
+
+		expect(screen.getByText("Auto-start")).toBeTruthy();
+
+		fireEvent.click(screen.getByRole("switch"));
+
+		expect(onSetAutoStart).toHaveBeenCalledWith(true);
+		expect(onSetAutoAdvance).not.toHaveBeenCalled();
 	});
 
 	it("offers no switch for a session with nothing to advance", () => {

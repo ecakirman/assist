@@ -51,7 +51,12 @@ function renderBody(
 	const body = (
 		<MemoryRouter>
 			<DiffPanelsProvider sessionIds={[]} onActivateSession={onActivateSession}>
-				<CardBody session={s} loading={loading} onSetAutoAdvance={vi.fn()} />
+				<CardBody
+					session={s}
+					loading={loading}
+					onSetAutoStart={vi.fn()}
+					onSetAutoAdvance={vi.fn()}
+				/>
 			</DiffPanelsProvider>
 		</MemoryRouter>
 	);
@@ -209,6 +214,7 @@ describe("CardBody top bar layout", () => {
 								restored: true,
 							})}
 							loading={false}
+							onSetAutoStart={vi.fn()}
 							onSetAutoAdvance={vi.fn()}
 						/>
 					</DiffPanelsProvider>

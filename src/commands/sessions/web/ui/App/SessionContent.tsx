@@ -9,12 +9,14 @@ export function SessionContent({ socket }: { socket: SessionSocket }) {
 			onRetry: socket.retrySession,
 			onRestart: socket.restartSession,
 			onDismiss: socket.dismissSession,
+			onSetAutoStart: socket.setAutoStart,
 			onSetAutoAdvance: socket.setAutoAdvance,
 		}),
 		[
 			socket.retrySession,
 			socket.restartSession,
 			socket.dismissSession,
+			socket.setAutoStart,
 			socket.setAutoAdvance,
 		],
 	);

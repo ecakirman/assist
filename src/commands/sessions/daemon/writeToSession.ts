@@ -54,3 +54,15 @@ export function setAutoAdvance(
 	daemonLog(`session ${id} autoadvance ${enabled ? "on" : "off"}`);
 	return true;
 }
+
+export function setAutoStart(
+	sessions: Map<string, Session>,
+	id: string,
+	enabled: boolean,
+): boolean {
+	const s = sessions.get(id);
+	if (!s) return false;
+	s.autoStart = enabled;
+	daemonLog(`session ${id} autostart ${enabled ? "on" : "off"}`);
+	return true;
+}

@@ -68,6 +68,7 @@ export type SessionInfoBase = {
 	error?: string;
 	activity?: Activity;
 	autoAdvance?: boolean;
+	autoStart?: boolean;
 	starred?: boolean;
 	usedPct?: number;
 	design?: boolean;

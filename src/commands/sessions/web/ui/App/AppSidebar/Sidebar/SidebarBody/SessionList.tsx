@@ -18,6 +18,7 @@ export function SessionList({
 	onRetry,
 	onRestart,
 	onDismiss,
+	onSetAutoStart,
 	onSetAutoAdvance,
 	isFloatingWaiter,
 }: {
@@ -53,6 +54,7 @@ export function SessionList({
 				onRetry={onRetry}
 				onRestart={onRestart}
 				onDismiss={onDismiss}
+				onSetAutoStart={onSetAutoStart}
 				onSetAutoAdvance={onSetAutoAdvance}
 			/>
 			{sessions.length === 0 && pendingLaunches.length === 0 && (

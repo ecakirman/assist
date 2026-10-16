@@ -304,7 +304,7 @@ describe("persistLiveSessions", () => {
 		expect(restoreBase("1", parsed).starred).toBe(true);
 	});
 
-	it("round-trips the auto-advance and review-started toggles", () => {
+	it("round-trips the auto-advance, auto-start and review-started toggles", () => {
 		const sessions = new Map<string, Session>([
 			[
 				"1",
@@ -313,6 +313,7 @@ describe("persistLiveSessions", () => {
 					id: "1",
 					claudeSessionId: "abc",
 					autoAdvance: false,
+					autoStart: true,
 					reviewStarted: true,
 				}),
 			],
@@ -326,6 +327,7 @@ describe("persistLiveSessions", () => {
 		];
 		expect(persisted[0]).toMatchObject({
 			autoAdvance: false,
+			autoStart: true,
 			reviewStarted: true,
 		});
 
@@ -334,6 +336,7 @@ describe("persistLiveSessions", () => {
 
 		expect(restoreBase("1", parsed)).toMatchObject({
 			autoAdvance: false,
+			autoStart: true,
 			reviewStarted: true,
 		});
 	});
@@ -357,6 +360,7 @@ describe("persistLiveSessions", () => {
 		const restored = restoreBase("1", parsed);
 
 		expect(restored.autoAdvance).toBeUndefined();
+		expect(restored.autoStart).toBeUndefined();
 		expect(restored.reviewStarted).toBeUndefined();
 	});
 

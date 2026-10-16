@@ -14,6 +14,7 @@ export function SessionListCard({
 	onRetry,
 	onRestart,
 	onDismiss,
+	onSetAutoStart,
 	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
@@ -37,6 +38,7 @@ export function SessionListCard({
 			onRestart={actions.onRestart}
 			onDismiss={actions.onDismiss}
 			childDismiss={childDismissFor(session, nestedSessions, onDismiss)}
+			onSetAutoStart={(enabled) => onSetAutoStart(session.id, enabled)}
 			onSetAutoAdvance={(enabled) => onSetAutoAdvance(session.id, enabled)}
 		/>
 	);

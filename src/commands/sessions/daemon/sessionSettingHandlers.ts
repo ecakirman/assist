@@ -12,6 +12,15 @@ export const sessionSettingHandlers = {
 			),
 		),
 	),
+	"set-autostart": routed((_client, m, d) =>
+		m.update((sessions) =>
+			sessionIo.setAutoStart(
+				sessions,
+				d.sessionId as string,
+				d.enabled as boolean,
+			),
+		),
+	),
 	rename: routed((_client, m, d) =>
 		m.setTitle(d.sessionId as string, (d.title as string) ?? ""),
 	),

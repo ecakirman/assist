@@ -14,6 +14,7 @@ export function SessionGroups({
 	onRetry,
 	onRestart,
 	onDismiss,
+	onSetAutoStart,
 	onSetAutoAdvance,
 }: {
 	groups: ReturnType<typeof groupSessionsByRepo>;
@@ -28,6 +29,7 @@ export function SessionGroups({
 		onRetry,
 		onRestart,
 		onDismiss,
+		onSetAutoStart,
 		onSetAutoAdvance,
 	};
 	const allSessions = flattenSessionGroups(groups);

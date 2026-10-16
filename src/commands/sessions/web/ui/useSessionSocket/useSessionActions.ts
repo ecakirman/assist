@@ -4,6 +4,7 @@ import {
 	inputAction,
 	resizeAction,
 	setAutoAdvanceAction,
+	setAutoStartAction,
 	setStarredAction,
 	stopSessionAction,
 } from "../createSessionAction";
@@ -25,6 +26,7 @@ export function useSessionActions(
 		sendInput: useMemo(() => inputAction(send), [send]),
 		sendResize: useMemo(() => resizeAction(send), [send]),
 		sendPrDecision: useMemo(() => prDecisionAction(send), [send]),
+		setAutoStart: useMemo(() => setAutoStartAction(send), [send]),
 		setAutoAdvance: useMemo(() => setAutoAdvanceAction(send), [send]),
 		setStarred: useMemo(() => setStarredAction(send), [send]),
 		stopSession: useMemo(() => stopSessionAction(send), [send]),
