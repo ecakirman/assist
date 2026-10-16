@@ -173,17 +173,14 @@ describe("HighLevelReviewPane", () => {
 		expect(screen.getByText(/1 deterministic check failing/)).toBeTruthy();
 	});
 
-	it("holds Approve back until every manual item is ticked", () => {
-		render(<HighLevelReviewPane preview={preview()} onDecision={vi.fn()} />);
+	it("allows Approve while manual items are unticked", () => {
+		const onDecision = vi.fn();
+		render(<HighLevelReviewPane preview={preview()} onDecision={onDecision} />);
 
-		const approve = screen.getByRole("button", { name: "Approve" });
-		expect((approve as HTMLButtonElement).disabled).toBe(true);
+		expect(screen.getByText(/1 manual item left to tick/)).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Approve" }));
 
-		fireEvent.click(
-			screen.getByLabelText("The structure of the change is sensible"),
-		);
-
-		expect((approve as HTMLButtonElement).disabled).toBe(false);
+		expect(onDecision).toHaveBeenCalledWith("approve", expect.anything());
 	});
 
 	it("approves with every item's state and comment", () => {

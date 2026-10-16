@@ -42,12 +42,7 @@ export function HighLevelReviewActions({
 			<Button color="error" variant="outlined" onClick={onRequestChanges}>
 				Request changes
 			</Button>
-			<Button
-				color="success"
-				variant="contained"
-				disabled={outstanding > 0}
-				onClick={onApprove}
-			>
+			<Button color="success" variant="contained" onClick={onApprove}>
 				Approve
 			</Button>
 		</Stack>
