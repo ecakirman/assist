@@ -1,3 +1,10 @@
+# [0.853.0](https://github.com/staff0rd/assist/compare/v0.852.0...v0.853.0) (2026-10-16)
+
+
+### Features
+
+* keep generated titles on History ([9a0d0da](https://github.com/staff0rd/assist/commit/9a0d0da24c3308ed2d3cf9af04d6e07f2cb24535))
+
 # [0.852.0](https://github.com/staff0rd/assist/compare/v0.851.1...v0.852.0) (2026-10-16)
 
 
