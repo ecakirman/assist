@@ -1,3 +1,10 @@
+# [0.852.0](https://github.com/staff0rd/assist/compare/v0.851.1...v0.852.0) (2026-10-16)
+
+
+### Features
+
+* search History by transcript text ([84aa5f7](https://github.com/staff0rd/assist/commit/84aa5f72ce326618b79b282fb5a26e1ff6d21bf0))
+
 ## [0.851.1](https://github.com/staff0rd/assist/compare/v0.851.0...v0.851.1) (2026-10-16)
 
 
