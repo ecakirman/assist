@@ -1,6 +1,7 @@
 import type { HarnessKind } from "../../../../shared/harnesses";
 import type { NodesMessage } from "../../daemon/links/LinkStatus";
 import type { SessionType } from "../../shared/deriveHistoryFields";
+import type { HistorySnippet } from "../../shared/HistorySnippet";
 import type { SessionOrigin } from "../../shared/parseSessionFile";
 import type { RepoGroup } from "../../shared/RepoGroup";
 import type { SessionInfoBase } from "../../shared/SessionInfoBase";
@@ -85,6 +86,7 @@ export type HistoricalSession = {
 	prompt?: string;
 	harness?: HarnessKind;
 	node?: string;
+	snippet?: HistorySnippet;
 };
 
 export type NodesState = Pick<NodesMessage, "local" | "links">;

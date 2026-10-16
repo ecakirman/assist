@@ -1,8 +1,8 @@
 import * as path from "node:path";
 import { discoverCodexRolloutPaths } from "./codex/discoverCodexRolloutPaths";
 import { parseCodexSessionFile } from "./codex/parseCodexSessionFile";
-import { discoverSessionJsonlPaths } from "./discoverSessions";
 import { type HistoricalSession, parseSessionFile } from "./parseSessionFile";
+import { discoverSessionJsonlPaths } from "./discoverSessionJsonlPaths";
 
 const CODEX_ROLLOUT_ID_LENGTH = 36;
 

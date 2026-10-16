@@ -1,4 +1,3 @@
-import { createBundleHandler } from "../../../shared/createBundleHandler";
 import { createFallbackHandler } from "../../../shared/createFallbackHandler";
 import { createHtmlHandler, type Handler } from "../../../shared/web";
 import { getBacklogSummary } from "../../backlog/web/getBacklogSummary";
@@ -21,6 +20,7 @@ import { githubUrl } from "./githubUrl";
 import { gitStatus } from "./gitStatus";
 import { harnessCapabilities } from "./harnessCapabilities";
 import { health } from "./health";
+import { historySearch } from "./historySearch";
 import { hotkeyBindings } from "./hotkeyBindings";
 import { jiraSite } from "./jiraSite";
 import { listFiles } from "./listFiles";
@@ -53,45 +53,13 @@ import { updates } from "./updates/updates";
 import { updatesControl } from "./updates/updatesControl";
 import { uploadPrImage } from "./uploadPrImage";
 import { writeFileContent } from "./writeFileContent";
-import { createCssHandler } from "./createCssHandler";
+import { staticRoutes } from "./staticRoutes";
 
 const htmlHandler = createHtmlHandler(getHtml);
 
-const faviconHandler = (size: number) =>
-	createBundleHandler(
-		import.meta.url,
-		`commands/extension/extension/icons/assist-${size}.png`,
-		"image/png",
-	);
-
 const routes: Record<string, Handler> = {
 	"GET /": htmlHandler,
-	"GET /bundle.js": createBundleHandler(
-		import.meta.url,
-		"commands/sessions/web/bundle.js",
-	),
-	"GET /xterm.css": createCssHandler("@xterm/xterm/css/xterm.css"),
-	"GET /bundle.css": createBundleHandler(
-		import.meta.url,
-		"commands/sessions/web/bundle.css",
-		"text/css",
-	),
-	"GET /monaco.js": createBundleHandler(
-		import.meta.url,
-		"commands/sessions/web/monaco.js",
-	),
-	"GET /monaco.worker.js": createBundleHandler(
-		import.meta.url,
-		"commands/sessions/web/monaco.worker.js",
-	),
-	"GET /monaco.css": createBundleHandler(
-		import.meta.url,
-		"commands/sessions/web/monaco.css",
-		"text/css",
-	),
-	"GET /favicon-16.png": faviconHandler(16),
-	"GET /favicon-32.png": faviconHandler(32),
-	"GET /favicon-128.png": faviconHandler(128),
+	...staticRoutes,
 	"GET /api/health": health,
 	"GET /api/daemon-log": daemonLogTail,
 	"GET /api/items": listItems,
@@ -116,6 +84,7 @@ const routes: Record<string, Handler> = {
 	"GET /api/file": fileContent,
 	"POST /api/file": writeFileContent,
 	"GET /api/files": listFiles,
+	"GET /api/history/search": historySearch,
 	"GET /api/rules": listScopedRules,
 	"GET /api/jira-site": jiraSite,
 	"GET /api/harness": harnessCapabilities,

@@ -8,7 +8,9 @@ const { discoverSessionJsonlPaths, discoverCodexRolloutPaths } = vi.hoisted(
 	}),
 );
 
-vi.mock("./discoverSessions", () => ({ discoverSessionJsonlPaths }));
+vi.mock("./discoverSessionJsonlPaths", () => ({
+	discoverSessionJsonlPaths,
+}));
 vi.mock("./codex/discoverCodexRolloutPaths", () => ({
 	discoverCodexRolloutPaths,
 }));

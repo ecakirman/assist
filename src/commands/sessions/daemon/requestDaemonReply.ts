@@ -6,6 +6,7 @@ const QUERY_TIMEOUT_MS = 3_000;
 export async function requestDaemonReply<T>(
 	request: Record<string, unknown>,
 	replyType: string,
+	timeoutMs = QUERY_TIMEOUT_MS,
 ): Promise<T | undefined> {
 	let socket: Awaited<ReturnType<typeof connectToDaemon>>;
 	try {
@@ -19,7 +20,7 @@ export async function requestDaemonReply<T>(
 			socket.destroy();
 			resolve(result);
 		};
-		const timer = setTimeout(() => finish(undefined), QUERY_TIMEOUT_MS);
+		const timer = setTimeout(() => finish(undefined), timeoutMs);
 		const lines = createInterface({ input: socket });
 		lines.on("error", () => {});
 		lines.on("line", (line) => {

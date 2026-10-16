@@ -1,12 +1,12 @@
 import Chip from "@mui/material/Chip";
-import { ItemTrackerLink } from "../../../../../../../../../backlog/web/ui/components/ItemTrackerLink";
-import { BacklogItemChip } from "../../../../../BacklogItemChip";
-import { HarnessBadge } from "../../../../HarnessBadge";
-import { isRepoScoped } from "../../../../../isRepoScoped";
-import { repoLabel } from "../../../../../repoLabel";
-import type { HistoricalSession } from "../../../../../../types";
-import { useItemTrackers } from "../../../../useItemTrackers";
-import { NodeBadge } from "../../../../NodeBadge";
+import { ItemTrackerLink } from "../../../../../../../../../../backlog/web/ui/components/ItemTrackerLink";
+import { BacklogItemChip } from "../../../../../../BacklogItemChip";
+import { HarnessBadge } from "../../../../../HarnessBadge";
+import { isRepoScoped } from "../../../../../../isRepoScoped";
+import { repoLabel } from "../../../../../../repoLabel";
+import type { HistoricalSession } from "../../../../../../../types";
+import { useItemTrackers } from "../../../../../useItemTrackers";
+import { NodeBadge } from "../../../../../NodeBadge";
 
 const chipSx = { height: 18, fontSize: "0.65rem" };
 

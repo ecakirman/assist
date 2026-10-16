@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { respondJson } from "../../../shared/web";
 import { execGit } from "./execGit";
-import { getCwdParam } from "./getCwdParam";
+import { getCwdAndQuery } from "./getCwdAndQuery";
 import { rankFilePaths } from "./rankFilePaths";
 
 const MAX_RESULTS = 20;
@@ -29,10 +29,9 @@ export async function listFiles(
 	req: IncomingMessage,
 	res: ServerResponse,
 ): Promise<void> {
-	const cwd = getCwdParam(req, res);
-	if (!cwd) return;
-	const query =
-		new URL(req.url ?? "/", "http://localhost").searchParams.get("q") ?? "";
+	const params = getCwdAndQuery(req, res);
+	if (!params) return;
+	const { cwd, query } = params;
 	try {
 		const files = await repoFiles(cwd);
 		respondJson(res, 200, { files: rankFilePaths(files, query, MAX_RESULTS) });

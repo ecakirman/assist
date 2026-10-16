@@ -1,6 +1,6 @@
 import * as path from "node:path";
-import { discoverSessionJsonlPaths } from "./discoverSessions";
 import { parseSessionFile } from "./parseSessionFile";
+import { discoverSessionJsonlPaths } from "./discoverSessionJsonlPaths";
 
 /**
  * Locate the JSONL file backing a session. Files are named <sessionId>.jsonl,

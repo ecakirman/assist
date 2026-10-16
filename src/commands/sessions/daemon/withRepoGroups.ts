@@ -3,14 +3,14 @@ import type { RepoGroup } from "../shared/RepoGroup";
 import { repoDirExists } from "./repoDirExists";
 import { repoGroupForCwd } from "./repoGroupForCwd";
 
-type GroupedHistoricalSession = HistoricalSession & {
+type Grouped<T extends HistoricalSession> = T & {
 	repoGroup?: RepoGroup;
 	cwdMissing?: boolean;
 };
 
-export function withRepoGroups(
-	sessions: HistoricalSession[],
-): GroupedHistoricalSession[] {
+export function withRepoGroups<T extends HistoricalSession>(
+	sessions: T[],
+): Grouped<T>[] {
 	const existence = new Map<string, boolean>();
 	const exists = (dir: string): boolean => {
 		const cached = existence.get(dir);

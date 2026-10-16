@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { formatRelativeTime } from "../../../../../../formatRelativeTime";
-import type { HistoricalSession } from "../../../../../../types";
+import { formatRelativeTime } from "../../../../../../../formatRelativeTime";
+import type { HistoricalSession } from "../../../../../../../types";
 import { SessionIdCaption } from "./HistoryCardFooter/SessionIdCaption";
 
 export function HistoryCardFooter({ session }: { session: HistoricalSession }) {

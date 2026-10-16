@@ -3,16 +3,17 @@ import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { cardSx } from "../cardSx";
+import { cardSx } from "../../cardSx";
 import { HistoryCardChips } from "./HistoryCard/HistoryCardChips";
 import { HistoryCardFooter } from "./HistoryCard/HistoryCardFooter";
+import { HistoryCardSnippet } from "./HistoryCard/HistoryCardSnippet";
 import { historyTitle } from "./HistoryCard/historyTitle";
-import { StopCardActivation } from "../../../../StopCardActivation";
+import { StopCardActivation } from "../../../../../StopCardActivation";
 import type {
 	HistoricalSession,
 	HistoryCardHandlers,
-} from "../../../../../types";
-import { ApiNodeContext } from "../../../../../useApiNode";
+} from "../../../../../../types";
+import { ApiNodeContext } from "../../../../../../useApiNode";
 
 function ResumeButton({ onResume }: { onResume: () => void }) {
 	return (
@@ -57,6 +58,7 @@ export function HistoryCard({
 					>
 						{historyTitle(session)}
 					</Typography>
+					{session.snippet && <HistoryCardSnippet snippet={session.snippet} />}
 					<HistoryCardFooter session={session} />
 				</Box>
 			</ButtonBase>

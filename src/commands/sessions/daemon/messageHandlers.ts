@@ -4,6 +4,7 @@ import { autoUpdateReply } from "./autoUpdate/autoUpdateReply";
 import { handleAutoUpdateControl } from "./autoUpdate/handleAutoUpdateControl";
 import { sendTo } from "./broadcast";
 import { handleHelloRequest } from "./handleHelloRequest";
+import { handleSearchHistory } from "./historySearch/handleSearchHistory";
 import { creator } from "./creator";
 import { daemonLog } from "./daemonLog";
 import { handleCodexUsage } from "./handleCodexUsage";
@@ -28,6 +29,7 @@ export const messageHandlers: Record<string, Handler> = {
 	nodes: (client, m) => m.links.sendNodes(client),
 	"auto-update": (client) => sendTo(client, autoUpdateReply()),
 	"auto-update-control": handleAutoUpdateControl,
+	"search-history": (client, _m, d) => handleSearchHistory(client, d),
 	"reload-links": (client, m) => {
 		daemonLog("reload-links received");
 		m.links.reload();
