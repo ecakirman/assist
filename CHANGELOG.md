@@ -1,3 +1,10 @@
+# [0.850.0](https://github.com/staff0rd/assist/compare/v0.849.0...v0.850.0) (2026-10-16)
+
+
+### Features
+
+* auto-start toggle for draft sessions ([dfab24f](https://github.com/staff0rd/assist/commit/dfab24f8e92342d8346cb01796fda918e4d6747e))
+
 # [0.849.0](https://github.com/staff0rd/assist/compare/v0.848.0...v0.849.0) (2026-10-16)
 
 
