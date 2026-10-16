@@ -1,4 +1,11 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	renameSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
@@ -27,5 +34,14 @@ export function saveJson<T extends object>(filename: string, data: T): void {
 	if (!existsSync(dir)) {
 		mkdirSync(dir, { recursive: true });
 	}
-	writeFileSync(getStorePath(filename), JSON.stringify(data, null, 2));
+	const path = getStorePath(filename);
+	// why: write-then-rename so a failed write (e.g. disk full) never truncates the existing file.
+	const tmp = `${path}.${process.pid}.tmp`;
+	try {
+		writeFileSync(tmp, JSON.stringify(data, null, 2));
+		renameSync(tmp, path);
+	} catch (error) {
+		rmSync(tmp, { force: true });
+		throw error;
+	}
 }
