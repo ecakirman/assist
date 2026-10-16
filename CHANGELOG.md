@@ -1,3 +1,17 @@
+# [0.849.0](https://github.com/staff0rd/assist/compare/v0.848.0...v0.849.0) (2026-10-16)
+
+
+### Bug Fixes
+
+* allow Approve with unticked items ([4dbc101](https://github.com/staff0rd/assist/commit/4dbc1010e446c9ea26208140a4c1964309feafc9))
+* submit pending review on failed thread ([19f0226](https://github.com/staff0rd/assist/commit/19f02267fe0dcc0db34997380897d4e3b606c727))
+* wire high-level review reopen ([10adb86](https://github.com/staff0rd/assist/commit/10adb866e75b36c5818c4cb92e813f39bc39885b)), closes [hi#level](https://github.com/hi/issues/level)
+
+
+### Features
+
+* reopen high-level review in session ([b352d2c](https://github.com/staff0rd/assist/commit/b352d2c54010d92fb1d40ed92e3c67e8748b2c57)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.848.0](https://github.com/staff0rd/assist/compare/v0.847.0...v0.848.0) (2026-10-15)
 
 
