@@ -38,6 +38,7 @@ function renderPlay(
 							resumeSession: () => {},
 							armUpdateReload: () => {},
 							activateSession: () => {},
+							sendInput: () => {},
 						}}
 					>
 						<div onClick={onCardClick}>

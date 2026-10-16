@@ -4,7 +4,7 @@ import type { PrSummary } from "../../../../prList";
 import type { SessionInfo } from "../../../types";
 import { ActionButton } from "../../ActionButton";
 import { ReviewButtonMenu } from "./ReviewButton/ReviewButtonMenu";
-import { useOpenHighLevelReview } from "./ReviewButton/useOpenHighLevelReview";
+import { useHighLevelReviewAction } from "./ReviewButton/useHighLevelReviewAction";
 import { useReviewLaunch } from "./ReviewButton/useReviewLaunch";
 
 export function ReviewButton({
@@ -17,7 +17,7 @@ export function ReviewButton({
 	session?: SessionInfo;
 }) {
 	const review = useReviewLaunch(cwd, pr, session?.id);
-	const openHighLevel = useOpenHighLevelReview(session, pr);
+	const highLevel = useHighLevelReviewAction(session, pr, review.options);
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
 	return (
@@ -36,7 +36,7 @@ export function ReviewButton({
 				anchorEl={anchorEl}
 				onClose={() => setAnchorEl(null)}
 				review={review}
-				openHighLevel={openHighLevel}
+				highLevel={highLevel}
 			/>
 		</>
 	);

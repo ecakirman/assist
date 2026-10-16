@@ -59,6 +59,7 @@ function render(initial: Props) {
 					resumeSession: () => {},
 					armUpdateReload: () => {},
 					activateSession: () => {},
+					sendInput: () => {},
 				}}
 			>
 				{children}

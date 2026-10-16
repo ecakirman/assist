@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PrSummary } from "../../../../prList";
 import { ReviewButton } from "./ReviewButton";
 import { reviewButtonModes } from "../../../../../../../shared/reviewButtonModes";
@@ -8,6 +8,7 @@ import { SessionLaunchContext } from "../../../useSessionLaunchContext";
 import { makeSessionInfo } from "../../../../../../../test/mothers/makeSessionInfo";
 import type { PrPreview } from "../../../../../shared/SessionInfoBase";
 import type { SessionInfo } from "../../../types";
+import { bracketedPaste, SUBMIT } from "../../pasteAndSubmit/bracketedPaste";
 
 const highLevelPreview: PrPreview = {
 	requestId: "r1",
@@ -40,6 +41,7 @@ function renderButton(
 	launchAssist: () => void,
 	session?: SessionInfo,
 	activateSession: (id: string) => void = () => {},
+	sendInput: (sessionId: string, data: string) => void = () => {},
 ) {
 	render(
 		<SessionLaunchContext.Provider
@@ -49,6 +51,7 @@ function renderButton(
 				resumeSession: () => {},
 				armUpdateReload: () => {},
 				activateSession,
+				sendInput,
 			}}
 		>
 			<ReviewButton cwd="/git/repo" pr={pr} session={session} />
@@ -229,16 +232,65 @@ describe("ReviewButton on the high-level review session", () => {
 		expect(document.activeElement).toBe(pane);
 	});
 
+	describe("without a pending high-level preview", () => {
+		beforeEach(() => vi.useFakeTimers());
+		afterEach(() => vi.useRealTimers());
+
+		it.each([
+			["has no pending preview", { pendingPrPreview: undefined }],
+			[
+				"has a pending preview of another kind",
+				{ pendingPrPreview: { ...highLevelPreview, kind: "pr" as const } },
+			],
+			[
+				"has a pending preview for another PR",
+				{ pendingPrPreview: { ...highLevelPreview, prNumber: 7 } },
+			],
+		])("reruns the review in the session when it %s", (_, overrides) => {
+			const launchAssist = vi.fn();
+			const activateSession = vi.fn();
+			const sendInput = vi.fn();
+			renderButton(
+				launchAssist,
+				highLevelSession(overrides),
+				activateSession,
+				sendInput,
+			);
+
+			expect(screen.queryByText("High-level review")).toBeNull();
+			expect(screen.queryByText("Open high-level review")).toBeNull();
+			fireEvent.click(screen.getByText("Reopen high-level review"));
+			vi.runAllTimers();
+
+			expect(launchAssist).not.toHaveBeenCalled();
+			expect(activateSession).not.toHaveBeenCalled();
+			expect(sendInput.mock.calls).toEqual([
+				["7", bracketedPaste("/review-high-level 42")],
+				["7", SUBMIT],
+			]);
+		});
+
+		it("passes --force when Force re-run is toggled", () => {
+			const sendInput = vi.fn();
+			renderButton(
+				vi.fn(),
+				highLevelSession({ pendingPrPreview: undefined }),
+				() => {},
+				sendInput,
+			);
+
+			fireEvent.click(checkbox("Force re-run"));
+			fireEvent.click(checkbox("Announce to Slack after"));
+			fireEvent.click(screen.getByText("Reopen high-level review"));
+
+			expect(sendInput).toHaveBeenCalledWith(
+				"7",
+				bracketedPaste("/review-high-level 42 --force"),
+			);
+		});
+	});
+
 	it.each([
-		["has no pending preview", { pendingPrPreview: undefined }],
-		[
-			"has a pending preview of another kind",
-			{ pendingPrPreview: { ...highLevelPreview, kind: "pr" as const } },
-		],
-		[
-			"has a pending preview for another PR",
-			{ pendingPrPreview: { ...highLevelPreview, prNumber: 7 } },
-		],
 		[
 			"is a different review of the PR",
 			{ assistArgs: ["review", "--refine", "42"] },
@@ -250,12 +302,20 @@ describe("ReviewButton on the high-level review session", () => {
 	])("launches a new high-level review when the session %s", (_, overrides) => {
 		const launchAssist = vi.fn();
 		const activateSession = vi.fn();
-		renderButton(launchAssist, highLevelSession(overrides), activateSession);
+		const sendInput = vi.fn();
+		renderButton(
+			launchAssist,
+			highLevelSession(overrides),
+			activateSession,
+			sendInput,
+		);
 
 		expect(screen.queryByText("Open high-level review")).toBeNull();
+		expect(screen.queryByText("Reopen high-level review")).toBeNull();
 		fireEvent.click(screen.getByText("High-level review"));
 
 		expect(activateSession).not.toHaveBeenCalled();
+		expect(sendInput).not.toHaveBeenCalled();
 		expect(launchAssist).toHaveBeenCalledWith(
 			["review", "--high-level", "42"],
 			"/git/repo",

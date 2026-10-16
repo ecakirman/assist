@@ -19,6 +19,7 @@ export function useSessionLaunch(socket: ReturnType<typeof useSessionSocket>) {
 			resumeSession: socket.resumeSession,
 			armUpdateReload,
 			activateSession,
+			sendInput: socket.sendInput,
 		}),
 		[
 			socket.createAssistSession,
@@ -26,6 +27,7 @@ export function useSessionLaunch(socket: ReturnType<typeof useSessionSocket>) {
 			socket.resumeSession,
 			armUpdateReload,
 			activateSession,
+			socket.sendInput,
 		],
 	);
 	const navigate = useNavigate();

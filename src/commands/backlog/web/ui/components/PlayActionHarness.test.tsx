@@ -31,6 +31,7 @@ function renderPlay(launchAssist: () => void, compact = false) {
 					resumeSession: () => {},
 					armUpdateReload: () => {},
 					activateSession: () => {},
+					sendInput: () => {},
 				}}
 			>
 				<PlayAction itemId={775} compact={compact} />

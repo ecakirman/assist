@@ -47,6 +47,7 @@ function renderMenu(
 						resumeSession: () => {},
 						armUpdateReload,
 						activateSession: () => {},
+						sendInput: () => {},
 					}}
 				>
 					<HamburgerMenu

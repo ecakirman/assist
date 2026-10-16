@@ -24,6 +24,7 @@ function renderButton(
 				resumeSession: () => {},
 				armUpdateReload: () => {},
 				activateSession: () => {},
+				sendInput: () => {},
 			}}
 		>
 			<AddAgentButton

@@ -3,18 +3,19 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { reviewButtonModes } from "../../../../../../../../shared/reviewButtonModes";
 import { ReviewOptionToggles } from "../../../ReviewOptionToggles";
+import type { HighLevelReviewAction } from "./useHighLevelReviewAction";
 import type { useReviewLaunch } from "./useReviewLaunch";
 
 export function ReviewButtonMenu({
 	anchorEl,
 	onClose,
 	review,
-	openHighLevel,
+	highLevel,
 }: {
 	anchorEl: HTMLElement | null;
 	onClose: () => void;
 	review: ReturnType<typeof useReviewLaunch>;
-	openHighLevel?: () => void;
+	highLevel?: HighLevelReviewAction | undefined;
 }) {
 	const pick = (e: { stopPropagation: () => void }, run: () => void) => {
 		e.stopPropagation();
@@ -30,9 +31,9 @@ export function ReviewButtonMenu({
 			onClick={(e) => e.stopPropagation()}
 		>
 			{reviewButtonModes.map((mode) =>
-				openHighLevel && mode.args.includes("--high-level") ? (
-					<MenuItem key={mode.label} onClick={(e) => pick(e, openHighLevel)}>
-						Open high-level review
+				highLevel && mode.args.includes("--high-level") ? (
+					<MenuItem key={mode.label} onClick={(e) => pick(e, highLevel.run)}>
+						{highLevel.label}
 					</MenuItem>
 				) : (
 					<MenuItem

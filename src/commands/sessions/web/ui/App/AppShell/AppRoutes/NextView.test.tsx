@@ -145,6 +145,7 @@ function renderView(
 						resumeSession: () => {},
 						armUpdateReload: () => {},
 						activateSession: () => {},
+						sendInput: () => {},
 					}}
 				>
 					<NextView sessions={sessions} selectSession={selectSession} />

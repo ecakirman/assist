@@ -21,6 +21,7 @@ type SessionLaunch = {
 	) => void;
 	armUpdateReload: () => void;
 	activateSession: (id: string) => void;
+	sendInput: (sessionId: string, data: string) => void;
 };
 
 export const SessionLaunchContext = createContext<SessionLaunch>({
@@ -29,6 +30,7 @@ export const SessionLaunchContext = createContext<SessionLaunch>({
 	resumeSession: () => {},
 	armUpdateReload: () => {},
 	activateSession: () => {},
+	sendInput: () => {},
 });
 
 export function useSessionLaunchContext(): SessionLaunch {

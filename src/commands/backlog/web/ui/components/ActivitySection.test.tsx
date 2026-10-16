@@ -120,6 +120,7 @@ describe("ActivitySection", () => {
 					resumeSession,
 					armUpdateReload: () => {},
 					activateSession: () => {},
+					sendInput: () => {},
 				}}
 			>
 				<ActivitySection gitRefs={[]} conversations={conversations} />
