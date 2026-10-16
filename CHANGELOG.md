@@ -1,3 +1,10 @@
+## [0.853.1](https://github.com/staff0rd/assist/compare/v0.853.0...v0.853.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* keep title when transcript id moves ([0b9256f](https://github.com/staff0rd/assist/commit/0b9256fbe0ef3d23dc65c1476238bf90e158b6e0))
+
 # [0.853.0](https://github.com/staff0rd/assist/compare/v0.852.0...v0.853.0) (2026-10-16)
 
 
