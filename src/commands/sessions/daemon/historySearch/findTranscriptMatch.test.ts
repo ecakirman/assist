@@ -2,7 +2,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { findTranscriptMatch } from "./findTranscriptMatch";
+import { findTitleMatch, findTranscriptMatch } from "./findTranscriptMatch";
 
 function transcript(lines: unknown[]): string {
 	const dir = mkdtempSync(join(tmpdir(), "history-search-"));
@@ -135,5 +135,20 @@ describe("findTranscriptMatch", () => {
 		expect(
 			await findTranscriptMatch("/nonexistent/x.jsonl", undefined, "a"),
 		).toBeNull();
+	});
+});
+
+describe("findTitleMatch", () => {
+	it("matches the kept title case-insensitively", () => {
+		expect(findTitleMatch("Fix the Flaky build", "flaky")).toEqual({
+			before: "Fix the ",
+			match: "Flaky",
+			after: " build",
+		});
+	});
+
+	it("returns null without a title or a match", () => {
+		expect(findTitleMatch(undefined, "flaky")).toBeNull();
+		expect(findTitleMatch("Tidy docs", "flaky")).toBeNull();
 	});
 });

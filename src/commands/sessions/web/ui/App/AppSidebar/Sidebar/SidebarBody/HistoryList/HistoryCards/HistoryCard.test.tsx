@@ -49,6 +49,32 @@ describe("HistoryCard ripple", () => {
 	});
 });
 
+describe("HistoryCard title", () => {
+	it("shows the kept title above the prompt", () => {
+		render(
+			<HistoryCard
+				session={{ ...session, prompt: "fix the build", title: "Build fix" }}
+				onView={() => {}}
+				onResume={() => {}}
+			/>,
+		);
+
+		const title = screen.getByText("Build fix");
+		const prompt = screen.getByText("fix the build");
+		expect(
+			title.compareDocumentPosition(prompt) & Node.DOCUMENT_POSITION_FOLLOWING,
+		).toBeTruthy();
+	});
+
+	it("keeps the prompt as the headline when no title was kept", () => {
+		render(
+			<HistoryCard session={session} onView={() => {}} onResume={() => {}} />,
+		);
+
+		expect(screen.getByText("my session").className).toContain("body2");
+	});
+});
+
 describe("HistoryCard harness", () => {
 	function renderCard(harness?: HistoricalSession["harness"]) {
 		return render(

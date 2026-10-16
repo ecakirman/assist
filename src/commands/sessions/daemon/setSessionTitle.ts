@@ -1,5 +1,6 @@
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
+import { rememberSessionTitle } from "./rememberSessionTitle";
 import { singleLineTitle } from "./singleLineTitle";
 
 export function setSessionTitle(
@@ -12,5 +13,6 @@ export function setSessionTitle(
 	if (!s || !normalised) return false;
 	s.title = normalised;
 	daemonLog(`session ${id} renamed: ${normalised}`);
+	rememberSessionTitle(s);
 	return true;
 }

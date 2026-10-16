@@ -3,7 +3,7 @@ import type { HistorySnippet } from "../../shared/HistorySnippet";
 import type { HistoricalSession } from "../../shared/parseSessionFile";
 import { repoGroupForCwd } from "../repoGroupForCwd";
 import { withRepoGroups } from "../withRepoGroups";
-import { findTranscriptMatch } from "./findTranscriptMatch";
+import { findTitleMatch, findTranscriptMatch } from "./findTranscriptMatch";
 import { discoverHistoryEntries } from "../../shared/discoverHistoryEntries";
 
 const BATCH_SIZE = 16;
@@ -26,11 +26,9 @@ async function matchBatch(
 ): Promise<HistorySearchHit[]> {
 	const matches = await Promise.all(
 		batch.map(async ({ session, filePath }) => {
-			const snippet = await findTranscriptMatch(
-				filePath,
-				session.harness,
-				query,
-			);
+			const snippet =
+				findTitleMatch(session.title, query) ??
+				(await findTranscriptMatch(filePath, session.harness, query));
 			return snippet ? { ...session, snippet } : null;
 		}),
 	);

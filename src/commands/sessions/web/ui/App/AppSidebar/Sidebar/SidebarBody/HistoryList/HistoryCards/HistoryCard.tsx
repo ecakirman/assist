@@ -2,12 +2,11 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import { cardSx } from "../../cardSx";
 import { HistoryCardChips } from "./HistoryCard/HistoryCardChips";
 import { HistoryCardFooter } from "./HistoryCard/HistoryCardFooter";
 import { HistoryCardSnippet } from "./HistoryCard/HistoryCardSnippet";
-import { historyTitle } from "./HistoryCard/historyTitle";
+import { HistoryCardHeading } from "./HistoryCard/HistoryCardHeading";
 import { StopCardActivation } from "../../../../../StopCardActivation";
 import type {
 	HistoricalSession,
@@ -52,12 +51,7 @@ export function HistoryCard({
 							<ResumeButton onResume={() => onResume(session)} />
 						</StopCardActivation>
 					</Box>
-					<Typography
-						variant="body2"
-						sx={{ color: "text.primary", overflowWrap: "anywhere" }}
-					>
-						{historyTitle(session)}
-					</Typography>
+					<HistoryCardHeading session={session} />
 					{session.snippet && <HistoryCardSnippet snippet={session.snippet} />}
 					<HistoryCardFooter session={session} />
 				</Box>

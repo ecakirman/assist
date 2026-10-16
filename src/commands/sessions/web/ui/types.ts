@@ -84,6 +84,7 @@ export type HistoricalSession = {
 	sessionType?: SessionType;
 	itemId?: number;
 	prompt?: string;
+	title?: string;
 	harness?: HarnessKind;
 	node?: string;
 	snippet?: HistorySnippet;

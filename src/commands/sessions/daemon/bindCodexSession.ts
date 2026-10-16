@@ -1,6 +1,7 @@
 import { resolveCodexSessionId } from "../shared/codex/resolveCodexSessionId";
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
+import { rememberSessionTitle } from "./rememberSessionTitle";
 
 const POLL_MS = 1000;
 const MAX_ATTEMPTS = 120;
@@ -23,6 +24,7 @@ export function bindCodexSession(session: Session, notify: () => void): void {
 		}
 		session.harnessSessionId = sessionId;
 		daemonLog(`session ${session.id} bound to codex conversation ${sessionId}`);
+		rememberSessionTitle(session);
 		notify();
 	};
 

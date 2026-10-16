@@ -27,12 +27,16 @@ function matchTexts(texts: string[], pattern: RegExp): HistorySnippet | null {
 	return null;
 }
 
+function queryPattern(query: string): RegExp {
+	return new RegExp(escapeRegExp(query), "i");
+}
+
 export async function findTranscriptMatch(
 	filePath: string,
 	harness: HarnessKind | undefined,
 	query: string,
 ): Promise<HistorySnippet | null> {
-	const pattern = new RegExp(escapeRegExp(query), "i");
+	const pattern = queryPattern(query);
 	const mayMatch = rawLinePrefilter(query);
 	const stream = fs.createReadStream(filePath, { encoding: "utf8" });
 	const reader = readline.createInterface({
@@ -52,4 +56,11 @@ export async function findTranscriptMatch(
 		reader.close();
 		stream.destroy();
 	}
+}
+
+export function findTitleMatch(
+	title: string | undefined,
+	query: string,
+): HistorySnippet | null {
+	return title ? matchTexts([title], queryPattern(query)) : null;
 }

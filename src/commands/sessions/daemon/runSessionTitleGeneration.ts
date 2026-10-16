@@ -1,5 +1,6 @@
 import { daemonLog } from "./daemonLog";
 import { generateSessionTitle } from "./generateSessionTitle";
+import { rememberSessionTitle } from "./rememberSessionTitle";
 import type { Session } from "./types";
 
 export function runSessionTitleGeneration(
@@ -25,6 +26,7 @@ export function runSessionTitleGeneration(
 					? `session ${session.id} generated title: ${generated}`
 					: `session ${session.id} title generation failed; falling back to "${title}"`,
 			);
+			rememberSessionTitle(session);
 			notify();
 		})
 		.catch((error) => {
