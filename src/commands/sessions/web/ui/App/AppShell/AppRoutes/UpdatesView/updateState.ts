@@ -7,6 +7,8 @@ import type { UpdateState } from "./UpdateStateKind";
 
 export function updateState(entry: NodeUpdateEntry): UpdateState {
 	const { status } = entry;
+	if (entry.loading)
+		return { kind: "loading", label: "Checking", line: "waiting for node" };
 	if (!status)
 		return {
 			kind: "unavailable",

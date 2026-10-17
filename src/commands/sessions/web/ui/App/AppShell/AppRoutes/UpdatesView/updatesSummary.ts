@@ -10,6 +10,7 @@ export function updatesSummary(entries: NodeUpdateEntry[]): string {
 		ready ? `${ready} ready to restart` : "all running their latest build",
 	);
 	if (count("diverged")) parts.push(`${count("diverged")} diverged`);
+	if (count("loading")) parts.push(`${count("loading")} checking`);
 	if (count("unavailable")) parts.push(`${count("unavailable")} unavailable`);
 	return parts.join(" · ");
 }

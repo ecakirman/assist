@@ -1,6 +1,7 @@
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import CheckIcon from "@mui/icons-material/Check";
 import CloudOffIcon from "@mui/icons-material/CloudOff";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import PauseIcon from "@mui/icons-material/Pause";
 import PowerOffIcon from "@mui/icons-material/PowerSettingsNew";
 import ReplayIcon from "@mui/icons-material/Replay";
@@ -19,6 +20,7 @@ const look: Record<UpdateStateKind, { tone: Tone; icon: ReactNode }> = {
 	retrying: { tone: "warning", icon: <ReplayIcon /> },
 	paused: { tone: "neutral", icon: <PauseIcon /> },
 	off: { tone: "neutral", icon: <PowerOffIcon /> },
+	loading: { tone: "neutral", icon: <HourglassEmptyIcon /> },
 	unavailable: { tone: "neutral", icon: <CloudOffIcon /> },
 };
 

@@ -5,6 +5,7 @@ export type NodeUpdateEntry = {
 	local: boolean;
 	status?: NodeUpdateStatus;
 	error?: string;
+	loading?: boolean;
 };
 
 export type NodeUpdates = {

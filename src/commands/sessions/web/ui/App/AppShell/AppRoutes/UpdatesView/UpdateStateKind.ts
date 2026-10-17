@@ -5,6 +5,7 @@ export type UpdateStateKind =
 	| "retrying"
 	| "paused"
 	| "off"
+	| "loading"
 	| "unavailable";
 
 export type UpdateState = {
