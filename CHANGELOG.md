@@ -1,3 +1,10 @@
+## [0.853.2](https://github.com/staff0rd/assist/compare/v0.853.1...v0.853.2) (2026-10-17)
+
+
+### Bug Fixes
+
+* avoid shell quoting in queries ([ef55391](https://github.com/staff0rd/assist/commit/ef5539190f21d7e823d9c08f72714a34682d5d4a))
+
 ## [0.853.1](https://github.com/staff0rd/assist/compare/v0.853.0...v0.853.1) (2026-10-16)
 
 
