@@ -171,6 +171,35 @@ describe("PrPreviewCoordinator", () => {
 		expect(notify).toHaveBeenCalled();
 	});
 
+	it("approves a refine session's startable plan update with autostart", () => {
+		const sessions = new Map([
+			[
+				"1",
+				makeSession({
+					id: "1",
+					commandType: "assist",
+					assistArgs: ["refine", "--once", "254"],
+					autoStart: true,
+				}),
+			],
+		]);
+		const coord = new PrPreviewCoordinator(sessions, vi.fn());
+		const client = makeClient();
+
+		coord.set(client, {
+			...previewMsg("1", "r1"),
+			title: "Update the plan for a254: Thing",
+			kind: "backlog-item",
+			canStart: true,
+		});
+
+		expect(client.sent.at(-1)).toMatchObject({
+			type: "pr-decision",
+			decision: "approve",
+			autostart: true,
+		});
+	});
+
 	it.each([
 		["a startable preview while auto-start is off", false, "backlog-item"],
 		["a non-startable preview while auto-start is on", true, "backlog-comment"],

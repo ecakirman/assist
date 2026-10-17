@@ -25,6 +25,13 @@ vi.mock("./shared", () => ({
 	findOneItem: vi.fn(),
 }));
 
+const mockRequestAssistSession = vi.fn();
+
+vi.mock("../sessions/shared/requestAssistSession", () => ({
+	requestAssistSession: (...args: unknown[]) =>
+		mockRequestAssistSession(...args),
+}));
+
 vi.mock("../sessions/shared/requestPreviewDecision", () => ({
 	requestPreviewDecision: (...args: unknown[]) =>
 		mockRequestPreviewDecision(...args),
@@ -115,6 +122,7 @@ const restructured = {
 beforeEach(async () => {
 	({ orm, close } = await createTestDb());
 	mockRequestPreviewDecision.mockReset();
+	mockRequestAssistSession.mockReset();
 	mockFindOneItem.mockReset();
 	logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 	delete process.env.ASSIST_SESSION;
@@ -167,6 +175,7 @@ describe("update-plan inside a web session", () => {
 				title: "Update the plan for a1: Bulk plan changes",
 				kind: "backlog-item",
 				prNumber: null,
+				canStart: true,
 			}),
 		);
 		const body = mockRequestPreviewDecision.mock.calls[0][0].body as string;
@@ -202,6 +211,38 @@ describe("update-plan inside a web session", () => {
 			{ phaseIdx: 1, idx: 0, task: "Render the phases" },
 			{ phaseIdx: 1, idx: 1, task: "Await approval" },
 		]);
+	});
+
+	it("starts no run on a plain approval", async () => {
+		await seedItem();
+		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
+
+		await updatePlan("a1", { json: writePayload(restructured) });
+
+		expect(mockRequestAssistSession).not.toHaveBeenCalled();
+	});
+
+	it("replaces the plan and starts a backlog run on Approve & start", async () => {
+		await seedItem();
+		mockRequestPreviewDecision.mockResolvedValue({
+			decision: "approve",
+			autostart: true,
+		});
+		mockRequestAssistSession.mockResolvedValue("8");
+
+		await updatePlan("a1", { json: writePayload(restructured) });
+
+		expect((await getPhases()).map((p) => p.name)).toEqual([
+			"Wire the command",
+			"Preview the plan",
+		]);
+		expect(mockRequestAssistSession).toHaveBeenCalledWith(
+			["backlog", "run", "a1"],
+			process.cwd(),
+		);
+		expect(logSpy.mock.calls.map((c) => c.join(" ")).join("\n")).toContain(
+			"Started a backlog run session for a1.",
+		);
 	});
 
 	it("adds a single phase through the same call", async () => {

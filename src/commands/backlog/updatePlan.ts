@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { formatItemId } from "./formatItemId";
+import { startProposedRun } from "./propose/startProposedRun";
 import { findOneItem } from "./shared";
 import { readPlanUpdate } from "./updatePlan/readPlanUpdate";
 import { replacePlan } from "./updatePlan/replacePlan";
@@ -15,7 +16,7 @@ export async function updatePlan(
 	if (!found) return;
 	const { orm, item } = found;
 
-	await reviewPlanUpdate(item, phases);
+	const approval = await reviewPlanUpdate(item, phases);
 
 	await replacePlan(orm, item.id, phases, item.currentPhase);
 
@@ -24,4 +25,5 @@ export async function updatePlan(
 			`Replaced the plan on item ${formatItemId(item.id)} with ${phases.length} phase${phases.length === 1 ? "" : "s"}.`,
 		),
 	);
+	if (approval.autostart) await startProposedRun(item.id);
 }
