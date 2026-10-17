@@ -1,3 +1,10 @@
+## [0.855.1](https://github.com/staff0rd/assist/compare/v0.855.0...v0.855.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* render each node's update row alone ([6a6d0d0](https://github.com/staff0rd/assist/commit/6a6d0d011a35cdc869371bf332bd15ae6d32adfc))
+
 # [0.855.0](https://github.com/staff0rd/assist/compare/v0.854.0...v0.855.0) (2026-10-17)
 
 
