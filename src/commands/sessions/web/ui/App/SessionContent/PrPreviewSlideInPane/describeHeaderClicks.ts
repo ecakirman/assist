@@ -1,19 +1,9 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { describeStuckHeaderCollapse } from "./describeHeaderClicks/describeStuckHeaderCollapse";
+import { headerQueries } from "./describeHeaderClicks/headerQueries";
 
-function chevron(path: string) {
-	return screen.getByRole("button", { name: new RegExp(` ${path}$`) });
-}
-
-function expanded(path: string) {
-	return chevron(path).getAttribute("aria-expanded") === "true";
-}
-
-function row(path: string) {
-	const el = chevron(path).parentElement;
-	if (!el) throw new Error(`no header row for ${path}`);
-	return el;
-}
+const { chevron, expanded, row } = headerQueries;
 
 export function describeHeaderClicks(name: string, renderView: () => void) {
 	describe(`${name} file header clicks`, () => {
@@ -52,4 +42,5 @@ export function describeHeaderClicks(name: string, renderView: () => void) {
 			expect(expanded("b.graphql")).toBe(true);
 		});
 	});
+	describeStuckHeaderCollapse(name, renderView);
 }

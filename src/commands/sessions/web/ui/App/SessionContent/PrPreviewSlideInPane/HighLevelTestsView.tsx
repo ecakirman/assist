@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import type { HighLevelTestFile } from "../../../../../../review/highLevel/types";
 import { HighLevelCriticalDiffHeader } from "./HighLevelCriticalDiffHeader";
+import { highLevelDiffFileSx } from "./highLevelDiffFileSx";
 import { HighLevelDiffNote } from "./HighLevelDiffNote";
 import { HighLevelTestNodes } from "./HighLevelTestNodes";
 import { highLevelTestChangeSummary } from "./HighLevelTestsView/highLevelTestChangeSummary";
@@ -38,7 +39,7 @@ export function HighLevelTestsView({
 				{highLevelTestChangeSummary(files)}
 			</Typography>
 			{files.map((file) => (
-				<Box key={file.path} sx={{ mb: 1, minWidth: 0 }}>
+				<Box key={file.path} sx={highLevelDiffFileSx}>
 					<HighLevelCriticalDiffHeader
 						diff={file}
 						collapsed={collapsed.has(file.path)}

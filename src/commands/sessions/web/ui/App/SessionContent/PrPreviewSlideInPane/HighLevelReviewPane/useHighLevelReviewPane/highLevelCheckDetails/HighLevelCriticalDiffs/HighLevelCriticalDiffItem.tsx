@@ -3,6 +3,7 @@ import type { ViewType } from "react-diff-view";
 import type { HighLevelCriticalDiff } from "../../../../../../../../../../review/highLevel/types";
 import { HighLevelCriticalDiffHeader } from "../../../../HighLevelCriticalDiffHeader";
 import type { HighLevelDiffComments } from "../../../../HighLevelDiffComments";
+import { highLevelDiffFileSx } from "../../../../highLevelDiffFileSx";
 import { HighLevelNativeDiff } from "../../../../HighLevelNativeDiff";
 
 export function HighLevelCriticalDiffItem({
@@ -19,7 +20,7 @@ export function HighLevelCriticalDiffItem({
 	comments?: HighLevelDiffComments | undefined;
 }) {
 	return (
-		<Box sx={{ mb: 1, minWidth: 0 }}>
+		<Box sx={highLevelDiffFileSx}>
 			<HighLevelCriticalDiffHeader
 				diff={diff}
 				collapsed={collapsed}
