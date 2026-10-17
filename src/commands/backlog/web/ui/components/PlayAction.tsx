@@ -6,7 +6,7 @@ import { CloneOnNodeButton } from "./CloneOnNodeButton";
 import { CompactPlaySplitButton } from "./CompactPlaySplitButton";
 import { InFlightSessionButton } from "./InFlightSessionButton";
 import { launchBuild } from "./launchBuild";
-import type { MarkDoneTarget } from "./MarkDoneDialog";
+import type { CloseItemTarget } from "./CloseItemDialog";
 import { runInFlightSession } from "./runInFlightSession";
 import { useStartTarget } from "./useStartTarget";
 import { playTooltip } from "./playTooltip";
@@ -16,7 +16,7 @@ export function PlayAction({
 	compact,
 }: {
 	itemId: number;
-	compact?: MarkDoneTarget;
+	compact?: CloseItemTarget;
 }) {
 	const { launchAssist } = useSessionLaunchContext();
 	const target = useStartTarget();
@@ -42,7 +42,7 @@ export function PlayAction({
 				tooltip={tooltip}
 				disabled={disabled}
 				onBuild={() => launch([])}
-				markDone={compact}
+				closeTarget={compact}
 			/>
 		);
 	return (

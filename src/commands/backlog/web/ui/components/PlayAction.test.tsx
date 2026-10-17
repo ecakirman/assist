@@ -45,9 +45,7 @@ function renderPlay(
 							<PlayAction
 								itemId={775}
 								compact={
-									compact
-										? { onMarkedDone: () => Promise.resolve() }
-										: undefined
+									compact ? { onClosed: () => Promise.resolve() } : undefined
 								}
 							/>
 						</div>

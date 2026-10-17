@@ -36,9 +36,7 @@ function renderPlay(launchAssist: () => void, compact = false) {
 			>
 				<PlayAction
 					itemId={775}
-					compact={
-						compact ? { onMarkedDone: () => Promise.resolve() } : undefined
-					}
+					compact={compact ? { onClosed: () => Promise.resolve() } : undefined}
 				/>
 			</SessionLaunchContext.Provider>
 		</MemoryRouter>,

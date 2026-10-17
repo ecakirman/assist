@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import {
+	act,
 	cleanup,
 	fireEvent,
 	render,
@@ -33,7 +34,7 @@ const repoSelection: RepoSelection = {
 
 function renderCompact({
 	launchAssist = vi.fn(),
-	onMarkedDone = vi.fn(() => Promise.resolve()),
+	onClosed = vi.fn(() => Promise.resolve()),
 	onCardClick = vi.fn(),
 } = {}) {
 	render(
@@ -53,7 +54,7 @@ function renderCompact({
 						<div onClick={onCardClick}>
 							<PlayAction
 								itemId={775}
-								compact={{ currentPhase: 2, totalPhases: 3, onMarkedDone }}
+								compact={{ currentPhase: 2, totalPhases: 3, onClosed }}
 							/>
 						</div>
 					</SessionLaunchContext.Provider>
@@ -61,12 +62,12 @@ function renderCompact({
 			</RepoSelectionContext.Provider>
 		</MemoryRouter>,
 	);
-	return { launchAssist, onMarkedDone, onCardClick };
+	return { launchAssist, onClosed, onCardClick };
 }
 
-function openMarkDone() {
+function openMarkDone(option = "Mark done") {
 	fireEvent.click(screen.getByRole("button", { name: "More actions" }));
-	fireEvent.click(screen.getByRole("menuitem", { name: "Mark done" }));
+	fireEvent.click(screen.getByRole("menuitem", { name: option }));
 }
 
 beforeEach(() => {
@@ -101,14 +102,61 @@ describe("compact play split button", () => {
 		);
 	});
 
-	it("offers only Mark done in the dropdown", () => {
+	it("offers Mark done and Won't do in the dropdown", () => {
 		renderCompact();
 
 		fireEvent.click(screen.getByRole("button", { name: "More actions" }));
 
 		expect(
 			screen.getAllByRole("menuitem").map((item) => item.textContent),
-		).toEqual(["Mark done"]);
+		).toEqual(["Mark done", "Won't do"]);
+	});
+
+	it("disables the dropdown once a build has launched", () => {
+		renderCompact();
+
+		fireEvent.click(screen.getByRole("button", { name: "Build" }));
+
+		const more = screen.getByRole("button", { name: "More actions" });
+		expect((more as HTMLButtonElement).disabled).toBe(true);
+	});
+
+	it("marks the item won't do after confirming", async () => {
+		updateItemStatus.mockResolvedValue({});
+		const { onClosed } = renderCompact();
+
+		openMarkDone("Won't do");
+		const dialog = screen.getByRole("dialog");
+		expect(dialog.textContent).toContain("Mark a775 won't do");
+		expect(dialog.textContent).toContain(
+			"2 of 3 phases completed. Mark this backlog item as won't do?",
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Won't do" }));
+
+		await waitFor(() => expect(onClosed).toHaveBeenCalled());
+		expect(updateItemStatus).toHaveBeenCalledWith(
+			775,
+			"wontdo",
+			"/repo",
+			"peer",
+		);
+	});
+
+	it("sends one update when confirm is double-clicked", async () => {
+		updateItemStatus.mockReturnValue(new Promise(() => {}));
+		renderCompact();
+
+		openMarkDone();
+		const confirm = screen.getByRole("button", { name: "Mark done" });
+		act(() => {
+			confirm.click();
+			confirm.click();
+		});
+
+		await waitFor(() =>
+			expect((confirm as HTMLButtonElement).disabled).toBe(true),
+		);
+		expect(updateItemStatus).toHaveBeenCalledTimes(1);
 	});
 
 	it("confirms with the phase count before marking done", () => {
@@ -126,25 +174,25 @@ describe("compact play split button", () => {
 	});
 
 	it("leaves the item alone when cancelled", async () => {
-		const { onMarkedDone, onCardClick } = renderCompact();
+		const { onClosed, onCardClick } = renderCompact();
 
 		openMarkDone();
 		fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
 
 		await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 		expect(updateItemStatus).not.toHaveBeenCalled();
-		expect(onMarkedDone).not.toHaveBeenCalled();
+		expect(onClosed).not.toHaveBeenCalled();
 		expect(onCardClick).not.toHaveBeenCalled();
 	});
 
 	it("marks the item done in the repo and node, then reloads", async () => {
 		updateItemStatus.mockResolvedValue({});
-		const { onMarkedDone, onCardClick } = renderCompact();
+		const { onClosed, onCardClick } = renderCompact();
 
 		openMarkDone();
 		fireEvent.click(screen.getByRole("button", { name: "Mark done" }));
 
-		await waitFor(() => expect(onMarkedDone).toHaveBeenCalled());
+		await waitFor(() => expect(onClosed).toHaveBeenCalled());
 		expect(updateItemStatus).toHaveBeenCalledWith(775, "done", "/repo", "peer");
 		await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 		expect(onCardClick).not.toHaveBeenCalled();
@@ -152,7 +200,7 @@ describe("compact play split button", () => {
 
 	it("shows an error and keeps the dialog usable when the update fails", async () => {
 		updateItemStatus.mockRejectedValue(new Error("boom"));
-		const { onMarkedDone } = renderCompact();
+		const { onClosed } = renderCompact();
 
 		openMarkDone();
 		fireEvent.click(screen.getByRole("button", { name: "Mark done" }));
@@ -162,6 +210,6 @@ describe("compact play split button", () => {
 		).toBeTruthy();
 		const confirm = screen.getByRole("button", { name: "Mark done" });
 		expect((confirm as HTMLButtonElement).disabled).toBe(false);
-		expect(onMarkedDone).not.toHaveBeenCalled();
+		expect(onClosed).not.toHaveBeenCalled();
 	});
 });

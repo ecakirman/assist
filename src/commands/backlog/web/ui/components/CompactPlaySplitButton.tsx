@@ -1,66 +1,60 @@
-import { ButtonGroup } from "@mui/material";
 import { type MouseEvent, useRef, useState } from "react";
-import { BuildSegment } from "./BuildSegment";
-import { MarkDoneDialog, type MarkDoneTarget } from "./MarkDoneDialog";
-import { MarkDoneMenu } from "./MarkDoneMenu";
-import { MoreActionsSegment } from "./MoreActionsSegment";
+import {
+	CloseItemDialog,
+	type CloseItemTarget,
+	type ClosingStatus,
+} from "./CloseItemDialog";
+import { CloseItemMenu } from "./CloseItemMenu";
+import { CompactPlayButtonGroup } from "./CompactPlayButtonGroup";
 
 export function CompactPlaySplitButton({
 	itemId,
 	tooltip,
 	disabled,
 	onBuild,
-	markDone,
+	closeTarget,
 }: {
 	itemId: number;
 	tooltip: string;
 	disabled: boolean;
 	onBuild: () => void;
-	markDone: MarkDoneTarget;
+	closeTarget: CloseItemTarget;
 }) {
 	const anchorRef = useRef<HTMLDivElement>(null);
 	const [open, setOpen] = useState(false);
-	const [confirming, setConfirming] = useState(false);
+	const [closing, setClosing] = useState<ClosingStatus | null>(null);
 	const stop = (event: MouseEvent) => event.stopPropagation();
 	return (
 		<>
-			<ButtonGroup
-				ref={anchorRef}
-				variant="contained"
-				color="success"
-				size="small"
-			>
-				<BuildSegment
-					compact
-					tooltip={tooltip}
-					disabled={disabled}
-					onClick={(event) => {
-						stop(event);
-						onBuild();
-					}}
-				/>
-				<MoreActionsSegment
-					onClick={(event) => {
-						stop(event);
-						setOpen(true);
-					}}
-				/>
-			</ButtonGroup>
-			<MarkDoneMenu
+			<CompactPlayButtonGroup
+				anchorRef={anchorRef}
+				tooltip={tooltip}
+				disabled={disabled}
+				onBuild={(event) => {
+					stop(event);
+					onBuild();
+				}}
+				onMore={(event) => {
+					stop(event);
+					setOpen(true);
+				}}
+			/>
+			<CloseItemMenu
 				anchorEl={anchorRef.current}
 				open={open}
 				onClose={() => setOpen(false)}
-				onMarkDone={() => {
+				onSelect={(status) => {
 					setOpen(false);
-					setConfirming(true);
+					setClosing(status);
 				}}
 				stop={stop}
 			/>
-			{confirming && (
-				<MarkDoneDialog
+			{closing && (
+				<CloseItemDialog
 					itemId={itemId}
-					target={markDone}
-					onClose={() => setConfirming(false)}
+					status={closing}
+					target={closeTarget}
+					onClose={() => setClosing(null)}
 				/>
 			)}
 		</>

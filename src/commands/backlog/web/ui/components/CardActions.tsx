@@ -27,7 +27,7 @@ export function CardActions({
 					compact={{
 						currentPhase: item.currentPhase,
 						totalPhases: item.totalPhases,
-						onMarkedDone: onReload,
+						onClosed: onReload,
 					}}
 				/>
 			)}
