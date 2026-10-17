@@ -1,7 +1,6 @@
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, IconButton, Link, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import type { HighLevelCriticalDiff } from "../../../../../../review/highLevel/types";
+import { HighLevelDiffChevron } from "./HighLevelCriticalDiffHeader/HighLevelDiffChevron";
 import { HighLevelLineCounts } from "./HighLevelLineCounts";
 import {
 	HIGH_LEVEL_STATUS_COLOURS,
@@ -20,22 +19,29 @@ export function HighLevelCriticalDiffHeader({
 	collapsed: boolean;
 	onToggle: () => void;
 }) {
-	const Chevron = collapsed ? ChevronRightIcon : ExpandMoreIcon;
 	return (
-		<Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 0 }}>
-			<IconButton
-				size="small"
-				onClick={onToggle}
-				aria-expanded={!collapsed}
-				aria-label={`${collapsed ? "Expand" : "Collapse"} ${diff.path}`}
-				sx={{ p: 0.25, flexShrink: 0 }}
-			>
-				<Chevron sx={{ fontSize: 16 }} />
-			</IconButton>
+		<Box
+			onClick={onToggle}
+			sx={{
+				display: "flex",
+				alignItems: "center",
+				gap: 1,
+				minWidth: 0,
+				cursor: "pointer",
+				borderRadius: 0.5,
+				"&:hover": { bgcolor: "action.hover" },
+			}}
+		>
+			<HighLevelDiffChevron
+				path={diff.path}
+				collapsed={collapsed}
+				onToggle={onToggle}
+			/>
 			<Link
 				href={diff.diffUrl}
 				target="_blank"
 				rel="noreferrer"
+				onClick={(event) => event.stopPropagation()}
 				sx={{ ...highLevelTreeNameSx, fontWeight: 600 }}
 				title={diff.path}
 			>

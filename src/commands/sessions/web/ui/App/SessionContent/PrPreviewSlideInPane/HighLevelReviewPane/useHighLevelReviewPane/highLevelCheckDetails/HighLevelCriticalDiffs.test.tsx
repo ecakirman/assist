@@ -8,6 +8,7 @@ import {
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { HighLevelCriticalDiff } from "../../../../../../../../../review/highLevel/types";
+import { describeHeaderClicks } from "../../../describeHeaderClicks";
 import { HighLevelCriticalDiffs } from "./HighLevelCriticalDiffs";
 
 beforeEach(() => localStorage.clear());
@@ -79,4 +80,8 @@ describe("HighLevelCriticalDiffs bulk buttons", () => {
 			collapse: { count: 2, disabled: false },
 		});
 	});
+});
+
+describeHeaderClicks("HighLevelCriticalDiffs", () => {
+	renderDiffs();
 });
