@@ -20,6 +20,10 @@ vi.mock("./spawnPty", async () => {
 	return { spawnPty: vi.fn(() => makePty().pty) };
 });
 
+vi.mock("./hasTranscriptOnDisk", () => ({
+	hasTranscriptOnDisk: vi.fn(() => true),
+}));
+
 const spawnClaudeMock = spawnClaude as unknown as ReturnType<typeof vi.fn>;
 const spawnPtyMock = spawnPty as unknown as ReturnType<typeof vi.fn>;
 

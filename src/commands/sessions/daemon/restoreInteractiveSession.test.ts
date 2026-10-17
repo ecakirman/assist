@@ -16,6 +16,7 @@ vi.mock("../../backlog/buildResumePrompt", () => ({
 	buildResumePrompt: vi.fn(() => "resume nudge"),
 }));
 
+import { hasTranscriptOnDisk } from "./hasTranscriptOnDisk";
 import type { PersistedSession } from "./loadPersistedSessions";
 import { restoreBase } from "./restoreBase";
 import { restoreInteractiveSession } from "./restoreInteractiveSession";
@@ -24,6 +25,7 @@ import { spawnCodex } from "./spawnCodex";
 
 const mockSpawnClaude = spawnClaude as unknown as MockInstance;
 const mockSpawnCodex = spawnCodex as unknown as MockInstance;
+const mockHasTranscriptOnDisk = hasTranscriptOnDisk as unknown as MockInstance;
 
 function persistedSession(
 	overrides: Partial<PersistedSession> = {},
@@ -58,6 +60,32 @@ describe("restoreInteractiveSession", () => {
 			expect(session.status).toBe("running");
 			expect(mockSpawnClaude).toHaveBeenCalledWith(
 				expect.objectContaining({ resumeSessionId: "conv-1" }),
+			);
+		});
+	});
+
+	describe("for a claude session restored before its transcript was written", () => {
+		it("relaunches it with its initial prompt", () => {
+			mockHasTranscriptOnDisk.mockReturnValueOnce(false);
+			const session = restoreInteractiveSession(
+				"1",
+				persistedSession({
+					claudeSessionId: "conv-1",
+					initialPrompt: "fix the bug",
+				}),
+				restoreBase("1", persistedSession()),
+				"waiting",
+			);
+
+			expect(session.status).toBe("running");
+			expect(mockSpawnClaude).toHaveBeenCalledWith(
+				expect.objectContaining({
+					claudeSessionId: "conv-1",
+					prompt: "fix the bug",
+				}),
+			);
+			expect(mockSpawnClaude).not.toHaveBeenCalledWith(
+				expect.objectContaining({ resumeSessionId: expect.anything() }),
 			);
 		});
 	});

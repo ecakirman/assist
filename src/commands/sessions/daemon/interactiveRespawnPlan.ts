@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { Session } from "./createSession";
+import { hasTranscriptOnDisk } from "./hasTranscriptOnDisk";
 import { rememberSessionTitle } from "./rememberSessionTitle";
 import { spawnClaude } from "./spawnClaude";
 
@@ -14,7 +15,7 @@ export function interactiveRespawnPlan(
 ): RespawnPlan | null {
 	const { claudeSessionId, cwd, initialPrompt, design, auto } = session;
 	if (!resumes) return null;
-	if (claudeSessionId)
+	if (claudeSessionId && hasTranscriptOnDisk(session))
 		return {
 			spawn: () =>
 				spawnClaude({

@@ -12,7 +12,11 @@ vi.mock("node:crypto", () => ({ randomUUID: vi.fn(() => "fresh-uuid") }));
 vi.mock("./spawnClaude", () => ({ spawnClaude: vi.fn(() => "claude-pty") }));
 vi.mock("./spawnPty", () => ({ spawnPty: vi.fn(() => "assist-pty") }));
 vi.mock("./spawnCodex", () => ({ spawnCodex: vi.fn(() => "codex-pty") }));
+vi.mock("./hasTranscriptOnDisk", () => ({
+	hasTranscriptOnDisk: vi.fn(() => true),
+}));
 
+import { hasTranscriptOnDisk } from "./hasTranscriptOnDisk";
 import { respawnPlan } from "./respawnPlan";
 import { spawnClaude } from "./spawnClaude";
 import { spawnCodex } from "./spawnCodex";
@@ -21,6 +25,7 @@ import { spawnPty } from "./spawnPty";
 const mockSpawnClaude = spawnClaude as unknown as MockInstance;
 const mockSpawnPty = spawnPty as unknown as MockInstance;
 const mockSpawnCodex = spawnCodex as unknown as MockInstance;
+const mockHasTranscriptOnDisk = hasTranscriptOnDisk as unknown as MockInstance;
 
 describe("respawnPlan", () => {
 	beforeEach(() => {
@@ -44,6 +49,28 @@ describe("respawnPlan", () => {
 				resumeSessionId: "conv-1",
 				cwd: "/repo",
 				sessionId: "1",
+			});
+		});
+
+		it("relaunches with its initial prompt when the transcript was never written", () => {
+			mockHasTranscriptOnDisk.mockReturnValueOnce(false);
+			const plan = respawnPlan(
+				makeSession({
+					id: "1",
+					commandType: "claude",
+					cwd: "/repo",
+					claudeSessionId: "conv-1",
+					initialPrompt: "fix the bug",
+				}),
+			) as NonNullable<ReturnType<typeof respawnPlan>>;
+			plan.spawn();
+
+			expect(plan.status).toBe("running");
+			expect(mockSpawnClaude).toHaveBeenCalledWith({
+				prompt: "fix the bug",
+				cwd: "/repo",
+				sessionId: "1",
+				claudeSessionId: "fresh-uuid",
 			});
 		});
 

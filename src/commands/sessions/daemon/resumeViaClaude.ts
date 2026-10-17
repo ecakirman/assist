@@ -17,8 +17,9 @@ export function resumeViaClaude(
 ): Session {
 	const mode = { design: persisted.design, auto: persisted.auto };
 	const plan = restoreResumePlan(persisted, status);
+	const resumes = hasTranscriptOnDisk(persisted);
 	const pty = spawnClaude(
-		hasTranscriptOnDisk(persisted)
+		resumes
 			? {
 					resumeSessionId: persisted.claudeSessionId,
 					prompt: resumePrompt(plan),
@@ -28,12 +29,14 @@ export function resumeViaClaude(
 				}
 			: {
 					claudeSessionId: persisted.claudeSessionId,
+					prompt: persisted.initialPrompt,
 					cwd: persisted.cwd,
 					sessionId: id,
 					...mode,
 				},
 	);
-	return plan.idle
+	const idle = resumes || !persisted.initialPrompt ? plan.idle : false;
+	return idle
 		? waitingSession(base, persisted, pty)
 		: runningSession(base, persisted, pty);
 }

@@ -1,9 +1,12 @@
 import { findTranscriptPathSync } from "../shared/findTranscriptPathSync";
-import type { PersistedSession } from "./loadPersistedSessions";
 
-export function hasTranscriptOnDisk(persisted: PersistedSession): boolean {
+export function hasTranscriptOnDisk(session: {
+	cwd?: string;
+	claudeSessionId?: string;
+}): boolean {
 	return (
-		!!persisted.claudeSessionId &&
-		!!findTranscriptPathSync(persisted.cwd, persisted.claudeSessionId)
+		!!session.cwd &&
+		!!session.claudeSessionId &&
+		!!findTranscriptPathSync(session.cwd, session.claudeSessionId)
 	);
 }
