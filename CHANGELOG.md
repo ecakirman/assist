@@ -1,3 +1,16 @@
+# [0.857.0](https://github.com/staff0rd/assist/compare/v0.856.0...v0.857.0) (2026-10-17)
+
+
+### Bug Fixes
+
+* relaunch untranscribed session prompt ([9df0dba](https://github.com/staff0rd/assist/commit/9df0dba98597011ab2726e7de4c722d12b546c5a))
+
+
+### Features
+
+* approve & start on refine plan update ([fbbf73c](https://github.com/staff0rd/assist/commit/fbbf73cb57f32974f9d49b9f4a6bb2a1225d3166))
+* won't do option in list play menu ([2f63e85](https://github.com/staff0rd/assist/commit/2f63e857c75cc3dda058c417de8edea870291dd2))
+
 # [0.856.0](https://github.com/staff0rd/assist/compare/v0.855.1...v0.856.0) (2026-10-17)
 
 
