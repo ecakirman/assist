@@ -1,3 +1,10 @@
+# [0.855.0](https://github.com/staff0rd/assist/compare/v0.854.0...v0.855.0) (2026-10-17)
+
+
+### Features
+
+* stick diff file headers while scrolling ([8d41801](https://github.com/staff0rd/assist/commit/8d418019e7203a47fbb995683ad1b6119ecbad77))
+
 # [0.854.0](https://github.com/staff0rd/assist/compare/v0.853.2...v0.854.0) (2026-10-17)
 
 
