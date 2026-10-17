@@ -245,6 +245,7 @@ describe("ItemCard row link", () => {
 			`a:${base.name}`,
 			"button:Star",
 			"button:Build",
+			"button:More actions",
 		]);
 		for (const stop of stops) {
 			stop.focus();

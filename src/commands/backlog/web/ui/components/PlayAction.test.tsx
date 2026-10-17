@@ -42,7 +42,14 @@ function renderPlay(
 						}}
 					>
 						<div onClick={onCardClick}>
-							<PlayAction itemId={775} compact={compact} />
+							<PlayAction
+								itemId={775}
+								compact={
+									compact
+										? { onMarkedDone: () => Promise.resolve() }
+										: undefined
+								}
+							/>
 						</div>
 						<LocationProbe />
 					</SessionLaunchContext.Provider>

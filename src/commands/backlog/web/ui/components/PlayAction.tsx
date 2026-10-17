@@ -3,19 +3,20 @@ import { useLiveSessionsContext } from "../../../../sessions/web/ui/useLiveSessi
 import { useSessionLaunchContext } from "../../../../sessions/web/ui/useSessionLaunchContext";
 import { BuildSplitButton } from "./BuildSplitButton";
 import { CloneOnNodeButton } from "./CloneOnNodeButton";
+import { CompactPlaySplitButton } from "./CompactPlaySplitButton";
 import { InFlightSessionButton } from "./InFlightSessionButton";
 import { launchBuild } from "./launchBuild";
-import { PlayButton } from "./PlayButton";
+import type { MarkDoneTarget } from "./MarkDoneDialog";
 import { runInFlightSession } from "./runInFlightSession";
 import { useStartTarget } from "./useStartTarget";
 import { playTooltip } from "./playTooltip";
 
 export function PlayAction({
 	itemId,
-	compact = false,
+	compact,
 }: {
 	itemId: number;
-	compact?: boolean;
+	compact?: MarkDoneTarget;
 }) {
 	const { launchAssist } = useSessionLaunchContext();
 	const target = useStartTarget();
@@ -36,13 +37,12 @@ export function PlayAction({
 	const tooltip = playTooltip(unavailableOn);
 	if (compact)
 		return (
-			<PlayButton
+			<CompactPlaySplitButton
+				itemId={itemId}
 				tooltip={tooltip}
 				disabled={disabled}
-				onClick={(event) => {
-					event.stopPropagation();
-					launch([]);
-				}}
+				onBuild={() => launch([])}
+				markDone={compact}
 			/>
 		);
 	return (

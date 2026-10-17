@@ -21,7 +21,16 @@ export function CardActions({
 				starred={item.starred}
 				onToggled={onReload}
 			/>
-			{canPlay(item) && <PlayAction itemId={item.id} compact />}
+			{canPlay(item) && (
+				<PlayAction
+					itemId={item.id}
+					compact={{
+						currentPhase: item.currentPhase,
+						totalPhases: item.totalPhases,
+						onMarkedDone: onReload,
+					}}
+				/>
+			)}
 		</>
 	);
 }
