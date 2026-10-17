@@ -1,3 +1,10 @@
+# [0.856.0](https://github.com/staff0rd/assist/compare/v0.855.1...v0.856.0) (2026-10-17)
+
+
+### Features
+
+* mark done from backlog list play menu ([3d94c07](https://github.com/staff0rd/assist/commit/3d94c076bda803211ede0b675541e1a75eb1bd92))
+
 ## [0.855.1](https://github.com/staff0rd/assist/compare/v0.855.0...v0.855.1) (2026-10-17)
 
 
