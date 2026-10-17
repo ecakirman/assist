@@ -1,3 +1,10 @@
+# [0.854.0](https://github.com/staff0rd/assist/compare/v0.853.2...v0.854.0) (2026-10-17)
+
+
+### Features
+
+* toggle diff file on header row click ([3287cd7](https://github.com/staff0rd/assist/commit/3287cd7cb849992cbf767987bd436f10c8029371))
+
 ## [0.853.2](https://github.com/staff0rd/assist/compare/v0.853.1...v0.853.2) (2026-10-17)
 
 
