@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { minimatch } from "minimatch";
 import { loadConfig } from "../../shared/loadConfig";
 
@@ -8,8 +8,9 @@ export function hardcodedColors(): void {
 	const ignoreGlobs = loadConfig().hardcodedColors?.ignore ?? [];
 
 	try {
-		const output = execSync(`grep -rEnH '${pattern}' src/`, {
+		const output = execFileSync("grep", ["-rEnH", "-f", "-", "src/"], {
 			encoding: "utf8",
+			input: `${pattern}\n`,
 		});
 
 		const lines = output

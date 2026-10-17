@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 
 type ReviewThread = { isResolved: boolean };
 
@@ -9,8 +9,20 @@ export function fetchReviewThreads(
 	repo: string,
 	prNumber: number,
 ): ReviewThread[] {
-	const output = execSync(
-		`gh api graphql -f query='${THREAD_QUERY}' -F owner=${org} -F repo=${repo} -F prNumber=${prNumber}`,
+	const output = execFileSync(
+		"gh",
+		[
+			"api",
+			"graphql",
+			"-f",
+			`query=${THREAD_QUERY}`,
+			"-F",
+			`owner=${org}`,
+			"-F",
+			`repo=${repo}`,
+			"-F",
+			`prNumber=${prNumber}`,
+		],
 		{ encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
 	);
 
