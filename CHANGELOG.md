@@ -1,3 +1,10 @@
+## [0.858.1](https://github.com/staff0rd/assist/compare/v0.858.0...v0.858.1) (2026-10-18)
+
+
+### Bug Fixes
+
+* rename autoStart toggle to autoApprove ([1f2d044](https://github.com/staff0rd/assist/commit/1f2d044766b724aa2b71de557703f51ad3116a82))
+
 # [0.858.0](https://github.com/staff0rd/assist/compare/v0.857.0...v0.858.0) (2026-10-18)
 
 
