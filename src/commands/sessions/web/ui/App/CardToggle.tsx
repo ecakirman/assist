@@ -1,6 +1,6 @@
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { StopCardActivation } from "./StopCardActivation";
+import { StopCardActivation } from "../StopCardActivation";
 
 export function CardToggle({
 	label,

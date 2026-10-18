@@ -1,5 +1,5 @@
 import { CommentSentSnackbar } from "../../../CommentSentSnackbar";
-import { ErrorSnackbar } from "../../../ErrorSnackbar";
+import { ErrorSnackbar } from "../../../../ErrorSnackbar";
 import { FileViewBody } from "./FileView/FileViewBody";
 import { FileViewHeader } from "./FileView/FileViewHeader";
 import { fileViewMessage } from "./FileView/fileViewMessage";

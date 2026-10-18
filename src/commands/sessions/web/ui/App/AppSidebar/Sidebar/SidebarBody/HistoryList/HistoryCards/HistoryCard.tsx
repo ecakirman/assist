@@ -7,7 +7,7 @@ import { HistoryCardChips } from "./HistoryCard/HistoryCardChips";
 import { HistoryCardFooter } from "./HistoryCard/HistoryCardFooter";
 import { HistoryCardSnippet } from "./HistoryCard/HistoryCardSnippet";
 import { HistoryCardHeading } from "./HistoryCard/HistoryCardHeading";
-import { StopCardActivation } from "../../../../../StopCardActivation";
+import { StopCardActivation } from "../../../../../../StopCardActivation";
 import type {
 	HistoricalSession,
 	HistoryCardHandlers,

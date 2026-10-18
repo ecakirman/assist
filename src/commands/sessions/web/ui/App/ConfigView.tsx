@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router";
 import { ConfigGroupCard } from "./ConfigView/ConfigGroupCard";
 import { ConfigKeySearchInput } from "./ConfigView/ConfigKeySearchInput";
-import { ErrorSnackbar } from "./ErrorSnackbar";
+import { ErrorSnackbar } from "../ErrorSnackbar";
 import { filterConfigEntries } from "./ConfigView/filterConfigEntries";
 import { groupConfigEntries } from "./ConfigView/groupConfigEntries";
 import { PageShell } from "./PageShell";

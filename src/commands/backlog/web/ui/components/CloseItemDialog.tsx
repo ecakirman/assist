@@ -1,6 +1,6 @@
 import { formatItemId } from "../../../formatItemId";
-import { ErrorSnackbar } from "../../../../sessions/web/ui/App/ErrorSnackbar";
-import { StopCardActivation } from "../../../../sessions/web/ui/App/StopCardActivation";
+import { ErrorSnackbar } from "../../../../sessions/web/ui/ErrorSnackbar";
+import { StopCardActivation } from "../../../../sessions/web/ui/StopCardActivation";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { useCloseItem } from "./useCloseItem";
 

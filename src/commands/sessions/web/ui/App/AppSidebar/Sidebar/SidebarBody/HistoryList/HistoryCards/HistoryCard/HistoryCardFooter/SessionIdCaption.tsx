@@ -3,7 +3,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import type { HarnessKind } from "../../../../../../../../../../../../shared/harnesses";
 import { harnessLabel } from "../../../../../../../../../../../../shared/harnessLabel";
-import { StopCardActivation } from "../../../../../../../StopCardActivation";
+import { StopCardActivation } from "../../../../../../../../StopCardActivation";
 import { useCopyFeedback } from "../../../../../../../useCopyFeedback";
 
 export function SessionIdCaption({

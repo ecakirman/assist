@@ -1,6 +1,6 @@
 import { CardCloseActions } from "./CardActionButtons/CardCloseActions";
 import { SessionActionButtons } from "../../../../SessionActionButtons";
-import { StopCardActivation } from "../../../../StopCardActivation";
+import { StopCardActivation } from "../../../../../StopCardActivation";
 import type { CardHeaderProps } from "../../../../../types";
 import { useTopBarLayoutContext } from "../../../../useTopBarLayoutContext";
 

@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { ConfirmDialog } from "../../../../backlog/web/ui/components/ConfirmDialog";
 import { ChildDismissDialog } from "./DismissButton/ChildDismissDialog";
-import { StopCardActivation } from "./StopCardActivation";
+import { StopCardActivation } from "../StopCardActivation";
 import type { ChildDismiss, SessionStatus } from "../types";
 
 export function DismissButton({

@@ -1,6 +1,6 @@
 import { StartServerButton } from "./ServerRunControls/StartServerButton";
 import { ServerRunDropdown } from "../ServerRunDropdown";
-import { StopCardActivation } from "../StopCardActivation";
+import { StopCardActivation } from "../../StopCardActivation";
 import type { SessionInfo } from "../../types";
 import { useServerActionsContext } from "../useServerActionsContext";
 import { useServerRuns } from "../useServerRuns";

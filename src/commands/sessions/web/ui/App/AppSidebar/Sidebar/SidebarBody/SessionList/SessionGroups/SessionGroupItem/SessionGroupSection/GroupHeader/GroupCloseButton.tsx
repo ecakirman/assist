@@ -2,7 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { ConfirmDialog } from "../../../../../../../../../../../../backlog/web/ui/components/ConfirmDialog";
-import { StopCardActivation } from "../../../../../../../../StopCardActivation";
+import { StopCardActivation } from "../../../../../../../../../StopCardActivation";
 
 export const groupCloseClassName = "group-close";
 

@@ -1,7 +1,7 @@
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 import { ActionButton } from "./ActionButton";
-import { ErrorSnackbar } from "./ErrorSnackbar";
+import { ErrorSnackbar } from "../ErrorSnackbar";
 import { requestOpenInCode } from "./OpenInCodeButton/requestOpenInCode";
 import { VsCodeIcon } from "./OpenInCodeButton/VsCodeIcon";
 import type { ShortcutName } from "./shortcutRegistry";

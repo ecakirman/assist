@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { CountsLink } from "./GitStatusLink/CountsLink";
 import type { StatusGroup } from "./GitStatusChips";
-import { StopCardActivation } from "../StopCardActivation";
+import { StopCardActivation } from "../../StopCardActivation";
 
 const rowSx = {
 	display: "flex",

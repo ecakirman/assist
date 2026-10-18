@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ActionButton } from "../../ActionButton";
 import { ReviewSynthesisDialog } from "./ViewReviewButton/ReviewSynthesisDialog";
 import { sessionType } from "../../sessionType";
-import { StopCardActivation } from "../../StopCardActivation";
+import { StopCardActivation } from "../../../StopCardActivation";
 import type { SessionInfo } from "../../../types";
 import { useReviewSynthesis } from "./ViewReviewButton/useReviewSynthesis";
 

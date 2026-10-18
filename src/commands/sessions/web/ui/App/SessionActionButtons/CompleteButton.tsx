@@ -5,9 +5,9 @@ import { updateItemStatus } from "../../../../../backlog/web/ui/api";
 import { ConfirmDialog } from "../../../../../backlog/web/ui/components/ConfirmDialog";
 import { ActionButton } from "../ActionButton";
 import type { BacklogTarget } from "../../backlogTarget";
-import { ErrorSnackbar } from "../ErrorSnackbar";
+import { ErrorSnackbar } from "../../ErrorSnackbar";
 import type { ShortcutName } from "../shortcutRegistry";
-import { StopCardActivation } from "../StopCardActivation";
+import { StopCardActivation } from "../../StopCardActivation";
 
 export function CompleteButton({
 	target,
