@@ -88,18 +88,17 @@ describe("compact play split button", () => {
 		expect(onCardClick).not.toHaveBeenCalled();
 	});
 
-	it("joins the dropdown to the play segment", () => {
+	it("separates the ellipsis from a green play button", () => {
 		renderCompact();
 
-		expect(
-			screen
-				.getByRole("button", { name: "More actions" })
-				.closest(".MuiButtonGroup-root"),
-		).toBe(
-			screen
-				.getByRole("button", { name: "Build" })
-				.closest(".MuiButtonGroup-root"),
-		);
+		const build = screen.getByRole("button", { name: "Build" });
+		const more = screen.getByRole("button", { name: "More actions" });
+		expect(build.closest(".MuiButtonGroup-root")).toBeNull();
+		expect(build.className).toContain("MuiButton-contained");
+		expect(build.className).toContain("MuiButton-colorSuccess");
+		expect(more.className).toContain("MuiIconButton-root");
+		expect(more.className).not.toContain("Success");
+		expect(more.querySelector('[data-testid="MoreVertIcon"]')).toBeTruthy();
 	});
 
 	it("offers Mark done and Won't do in the dropdown", () => {
@@ -112,13 +111,18 @@ describe("compact play split button", () => {
 		).toEqual(["Mark done", "Won't do"]);
 	});
 
-	it("disables the dropdown once a build has launched", () => {
-		renderCompact();
+	it("keeps the ellipsis enabled once a build has launched", () => {
+		const { onCardClick } = renderCompact();
 
 		fireEvent.click(screen.getByRole("button", { name: "Build" }));
 
+		const build = screen.getByRole("button", { name: "Build" });
+		expect((build as HTMLButtonElement).disabled).toBe(true);
 		const more = screen.getByRole("button", { name: "More actions" });
-		expect((more as HTMLButtonElement).disabled).toBe(true);
+		expect((more as HTMLButtonElement).disabled).toBe(false);
+		fireEvent.click(more);
+		expect(screen.getAllByRole("menuitem")).toHaveLength(2);
+		expect(onCardClick).not.toHaveBeenCalled();
 	});
 
 	it("marks the item won't do after confirming", async () => {

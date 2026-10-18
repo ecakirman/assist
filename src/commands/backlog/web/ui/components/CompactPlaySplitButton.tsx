@@ -20,7 +20,7 @@ export function CompactPlaySplitButton({
 	onBuild: () => void;
 	closeTarget: CloseItemTarget;
 }) {
-	const anchorRef = useRef<HTMLDivElement>(null);
+	const anchorRef = useRef<HTMLButtonElement>(null);
 	const [open, setOpen] = useState(false);
 	const [closing, setClosing] = useState<ClosingStatus | null>(null);
 	const stop = (event: MouseEvent) => event.stopPropagation();

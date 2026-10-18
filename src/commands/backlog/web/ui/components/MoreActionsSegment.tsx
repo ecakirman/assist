@@ -1,23 +1,22 @@
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { Button } from "@mui/material";
-import type { MouseEvent } from "react";
-import { compactSegmentSx } from "./BuildSegment";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IconButton } from "@mui/material";
+import type { MouseEvent, Ref } from "react";
 
 export function MoreActionsSegment({
-	disabled,
+	anchorRef,
 	onClick,
 }: {
-	disabled: boolean;
+	anchorRef: Ref<HTMLButtonElement>;
 	onClick: (event: MouseEvent) => void;
 }) {
 	return (
-		<Button
+		<IconButton
+			ref={anchorRef}
 			aria-label="More actions"
-			sx={compactSegmentSx}
-			disabled={disabled}
+			size="small"
 			onClick={onClick}
 		>
-			<ArrowDropDownIcon fontSize="small" />
-		</Button>
+			<MoreVertIcon fontSize="small" />
+		</IconButton>
 	);
 }

@@ -1,4 +1,4 @@
-import { ButtonGroup } from "@mui/material";
+import { Box } from "@mui/material";
 import type { MouseEvent, Ref } from "react";
 import { BuildSegment } from "./BuildSegment";
 import { MoreActionsSegment } from "./MoreActionsSegment";
@@ -10,26 +10,21 @@ export function CompactPlayButtonGroup({
 	onBuild,
 	onMore,
 }: {
-	anchorRef: Ref<HTMLDivElement>;
+	anchorRef: Ref<HTMLButtonElement>;
 	tooltip: string;
 	disabled: boolean;
 	onBuild: (event: MouseEvent) => void;
 	onMore: (event: MouseEvent) => void;
 }) {
 	return (
-		<ButtonGroup
-			ref={anchorRef}
-			variant="contained"
-			color="success"
-			size="small"
-		>
+		<Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
 			<BuildSegment
 				compact
 				tooltip={tooltip}
 				disabled={disabled}
 				onClick={onBuild}
 			/>
-			<MoreActionsSegment disabled={disabled} onClick={onMore} />
-		</ButtonGroup>
+			<MoreActionsSegment anchorRef={anchorRef} onClick={onMore} />
+		</Box>
 	);
 }
