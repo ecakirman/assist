@@ -1,3 +1,15 @@
+# [0.858.0](https://github.com/staff0rd/assist/compare/v0.857.0...v0.858.0) (2026-10-18)
+
+
+### Bug Fixes
+
+* label auto-start toggle Auto-approve ([aefacb7](https://github.com/staff0rd/assist/commit/aefacb7d8331fb2e47f35bd38b6f008965494f43))
+
+
+### Features
+
+* separate ellipsis from start button ([eb647da](https://github.com/staff0rd/assist/commit/eb647da29ad876f150ee4dc969e0752010098c4e))
+
 # [0.857.0](https://github.com/staff0rd/assist/compare/v0.856.0...v0.857.0) (2026-10-17)
 
 
