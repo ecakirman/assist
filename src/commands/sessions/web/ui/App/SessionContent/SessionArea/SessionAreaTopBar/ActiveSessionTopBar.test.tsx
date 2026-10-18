@@ -51,7 +51,7 @@ function renderTopBar(session: SessionInfo, onDismiss: (id: string) => void) {
 						onRetry: () => {},
 						onRestart: () => {},
 						onDismiss,
-						onSetAutoStart: () => {},
+						onSetAutoApprove: () => {},
 						onSetAutoAdvance: () => {},
 					}}
 				/>

@@ -29,7 +29,7 @@ function renderListCard(session: SessionInfo) {
 			onRetry={() => {}}
 			onRestart={() => {}}
 			onDismiss={() => {}}
-			onSetAutoStart={() => {}}
+			onSetAutoApprove={() => {}}
 			onSetAutoAdvance={() => {}}
 		/>,
 		{ wrapper: Stars },
@@ -61,7 +61,7 @@ describe("SessionListCard nested dismiss", () => {
 				onRetry={() => {}}
 				onRestart={() => {}}
 				onDismiss={onDismiss}
-				onSetAutoStart={() => {}}
+				onSetAutoApprove={() => {}}
 				onSetAutoAdvance={() => {}}
 			/>,
 			{ wrapper: Stars },

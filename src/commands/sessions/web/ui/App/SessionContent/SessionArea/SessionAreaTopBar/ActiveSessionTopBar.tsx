@@ -22,8 +22,8 @@ export function ActiveSessionTopBar({
 			session={session}
 			{...sessionActionHandlers(session, lifecycle)}
 			childDismiss={childDismissFor(session, children, lifecycle.onDismiss)}
-			onSetAutoStart={(enabled) =>
-				lifecycle.onSetAutoStart(session.id, enabled)
+			onSetAutoApprove={(enabled) =>
+				lifecycle.onSetAutoApprove(session.id, enabled)
 			}
 			onSetAutoAdvance={(enabled) =>
 				lifecycle.onSetAutoAdvance(session.id, enabled)

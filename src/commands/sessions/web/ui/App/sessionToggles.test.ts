@@ -17,22 +17,24 @@ describe("sessionToggles auto-approve", () => {
 				sessionToggles(
 					makeSessionInfo({ commandType: "assist", assistArgs: [command] }),
 				),
-			).toEqual([{ key: "autoStart", label: "Auto-approve", checked: false }]);
+			).toEqual([
+				{ key: "autoApprove", label: "Auto-approve", checked: false },
+			]);
 		},
 	);
 
-	it("captions auto-start when it is switched on", () => {
+	it("captions auto-approve when it is switched on", () => {
 		expect(
 			sessionToggles(
 				makeSessionInfo({
 					commandType: "assist",
 					assistArgs: ["draft"],
-					autoStart: true,
+					autoApprove: true,
 				}),
 			),
 		).toEqual([
 			{
-				key: "autoStart",
+				key: "autoApprove",
 				label: "Auto-approve",
 				checked: true,
 				caption: "will auto-approve",
@@ -40,7 +42,7 @@ describe("sessionToggles auto-approve", () => {
 		]);
 	});
 
-	it("offers no auto-start toggle on other sessions", () => {
+	it("offers no auto-approve toggle on other sessions", () => {
 		expect(sessionToggles(makeSessionInfo({ commandType: "claude" }))).toEqual(
 			[],
 		);

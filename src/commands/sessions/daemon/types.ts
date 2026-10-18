@@ -79,7 +79,7 @@ export type Session = {
 	lastUserMessage?: string;
 	permissionActive?: boolean;
 	autoAdvance?: boolean;
-	autoStart?: boolean;
+	autoApprove?: boolean;
 	starred?: boolean;
 	divergenceEscalation?: boolean;
 	design?: boolean;

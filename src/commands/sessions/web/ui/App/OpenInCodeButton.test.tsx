@@ -36,7 +36,7 @@ function renderCard(onClick: () => void) {
 			loading={false}
 			onClick={onClick}
 			onDismiss={() => {}}
-			onSetAutoStart={() => {}}
+			onSetAutoApprove={() => {}}
 			onSetAutoAdvance={() => {}}
 		/>,
 		{ wrapper: Stars },

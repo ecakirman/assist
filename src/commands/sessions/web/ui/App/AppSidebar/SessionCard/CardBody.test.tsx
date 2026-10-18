@@ -54,7 +54,7 @@ function renderBody(
 				<CardBody
 					session={s}
 					loading={loading}
-					onSetAutoStart={vi.fn()}
+					onSetAutoApprove={vi.fn()}
 					onSetAutoAdvance={vi.fn()}
 				/>
 			</DiffPanelsProvider>
@@ -214,7 +214,7 @@ describe("CardBody top bar layout", () => {
 								restored: true,
 							})}
 							loading={false}
-							onSetAutoStart={vi.fn()}
+							onSetAutoApprove={vi.fn()}
 							onSetAutoAdvance={vi.fn()}
 						/>
 					</DiffPanelsProvider>

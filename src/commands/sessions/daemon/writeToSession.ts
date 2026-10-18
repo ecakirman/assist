@@ -55,14 +55,14 @@ export function setAutoAdvance(
 	return true;
 }
 
-export function setAutoStart(
+export function setAutoApprove(
 	sessions: Map<string, Session>,
 	id: string,
 	enabled: boolean,
 ): boolean {
 	const s = sessions.get(id);
 	if (!s) return false;
-	s.autoStart = enabled;
-	daemonLog(`session ${id} autostart ${enabled ? "on" : "off"}`);
+	s.autoApprove = enabled;
+	daemonLog(`session ${id} auto-approve ${enabled ? "on" : "off"}`);
 	return true;
 }

@@ -5,11 +5,11 @@ import type { SessionInfo } from "../../../../../../../types";
 
 export function SessionTopBarToggles({
 	session,
-	onSetAutoStart,
+	onSetAutoApprove,
 	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
-	onSetAutoStart: (enabled: boolean) => void;
+	onSetAutoApprove: (enabled: boolean) => void;
 	onSetAutoAdvance: (enabled: boolean) => void;
 }) {
 	return (
@@ -21,7 +21,7 @@ export function SessionTopBarToggles({
 					label={toggle.label}
 					checked={toggle.checked}
 					onChange={toggleSetter(toggle.key, {
-						onSetAutoStart,
+						onSetAutoApprove,
 						onSetAutoAdvance,
 					})}
 				/>

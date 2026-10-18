@@ -147,9 +147,9 @@ describe("PrPreviewCoordinator", () => {
 		expect(client.sent.at(-1)).toMatchObject({ autostart: true });
 	});
 
-	it("approves a startable backlog-item preview at once with autostart when the session auto-starts", () => {
+	it("approves a startable backlog-item preview at once with autostart when the session auto-approves", () => {
 		const sessions = new Map([
-			["1", makeSession({ id: "1", autoStart: true })],
+			["1", makeSession({ id: "1", autoApprove: true })],
 		]);
 		const notify = vi.fn();
 		const coord = new PrPreviewCoordinator(sessions, notify);
@@ -179,7 +179,7 @@ describe("PrPreviewCoordinator", () => {
 					id: "1",
 					commandType: "assist",
 					assistArgs: ["refine", "--once", "254"],
-					autoStart: true,
+					autoApprove: true,
 				}),
 			],
 		]);
@@ -201,11 +201,15 @@ describe("PrPreviewCoordinator", () => {
 	});
 
 	it.each([
-		["a startable preview while auto-start is off", false, "backlog-item"],
-		["a non-startable preview while auto-start is on", true, "backlog-comment"],
-		["a PR preview while auto-start is on", true, "pr"],
-	])("waits for the user on %s", (_label, autoStart, kind) => {
-		const sessions = new Map([["1", makeSession({ id: "1", autoStart })]]);
+		["a startable preview while auto-approve is off", false, "backlog-item"],
+		[
+			"a non-startable preview while auto-approve is on",
+			true,
+			"backlog-comment",
+		],
+		["a PR preview while auto-approve is on", true, "pr"],
+	])("waits for the user on %s", (_label, autoApprove, kind) => {
+		const sessions = new Map([["1", makeSession({ id: "1", autoApprove })]]);
 		const coord = new PrPreviewCoordinator(sessions, vi.fn());
 		const client = makeClient();
 

@@ -7,12 +7,12 @@ import { useTopBarLayoutContext } from "../../useTopBarLayoutContext";
 export function CardBody({
 	session,
 	loading,
-	onSetAutoStart,
+	onSetAutoApprove,
 	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
 	loading: boolean;
-	onSetAutoStart: (enabled: boolean) => void;
+	onSetAutoApprove: (enabled: boolean) => void;
 	onSetAutoAdvance: (enabled: boolean) => void;
 }) {
 	const topBar = useTopBarLayoutContext();
@@ -26,7 +26,7 @@ export function CardBody({
 			{!topBar && (
 				<CardExtraLines
 					session={session}
-					onSetAutoStart={onSetAutoStart}
+					onSetAutoApprove={onSetAutoApprove}
 					onSetAutoAdvance={onSetAutoAdvance}
 				/>
 			)}

@@ -43,7 +43,7 @@ function socketStub(selectSession: (id: string) => void): SessionSocket {
 		retrySession: () => {},
 		restartSession: () => {},
 		dismissSession: () => {},
-		setAutoStart: () => {},
+		setAutoApprove: () => {},
 		setAutoAdvance: () => {},
 	} as unknown as SessionSocket;
 }

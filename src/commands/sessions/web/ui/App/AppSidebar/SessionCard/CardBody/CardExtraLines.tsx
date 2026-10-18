@@ -24,11 +24,11 @@ const captionSx = {
 
 export function CardExtraLines({
 	session,
-	onSetAutoStart,
+	onSetAutoApprove,
 	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
-	onSetAutoStart: (enabled: boolean) => void;
+	onSetAutoApprove: (enabled: boolean) => void;
 	onSetAutoAdvance: (enabled: boolean) => void;
 }) {
 	const caption = sessionPhaseCaption(session);
@@ -57,7 +57,7 @@ export function CardExtraLines({
 							label={toggle.label}
 							checked={toggle.checked}
 							onChange={toggleSetter(toggle.key, {
-								onSetAutoStart,
+								onSetAutoApprove,
 								onSetAutoAdvance,
 							})}
 						/>

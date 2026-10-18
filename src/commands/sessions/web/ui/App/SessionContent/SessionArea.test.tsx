@@ -64,7 +64,7 @@ function renderArea(
 					onRetry: () => {},
 					onRestart: () => {},
 					onDismiss: () => {},
-					onSetAutoStart: () => {},
+					onSetAutoApprove: () => {},
 					onSetAutoAdvance: () => {},
 				}}
 				viewingTranscriptSessionId={null}
@@ -119,7 +119,7 @@ describe("SessionArea transcript view", () => {
 					onRetry: () => {},
 					onRestart: () => {},
 					onDismiss: () => {},
-					onSetAutoStart: () => {},
+					onSetAutoApprove: () => {},
 					onSetAutoAdvance: () => {},
 				}}
 				transcript={{
@@ -153,7 +153,7 @@ describe("SessionArea transcript view", () => {
 					onRetry: () => {},
 					onRestart: () => {},
 					onDismiss: () => {},
-					onSetAutoStart: () => {},
+					onSetAutoApprove: () => {},
 					onSetAutoAdvance: () => {},
 				}}
 				transcript={null}
@@ -225,7 +225,7 @@ function renderWithTopBar(
 							onRetry: vi.fn(),
 							onRestart: vi.fn(),
 							onDismiss: vi.fn(),
-							onSetAutoStart: vi.fn(),
+							onSetAutoApprove: vi.fn(),
 							onSetAutoAdvance: vi.fn(),
 							...lifecycle,
 						}}

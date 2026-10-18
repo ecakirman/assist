@@ -53,7 +53,7 @@ function List({
 				onRetry={() => {}}
 				onRestart={() => {}}
 				onDismiss={() => {}}
-				onSetAutoStart={() => {}}
+				onSetAutoApprove={() => {}}
 				onSetAutoAdvance={() => {}}
 			/>
 		</StarredSessionsProvider>

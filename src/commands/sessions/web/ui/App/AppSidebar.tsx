@@ -51,7 +51,7 @@ export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
 			onRetry={socket.retrySession}
 			onRestart={socket.restartSession}
 			onDismiss={socket.dismissSession}
-			onSetAutoStart={socket.setAutoStart}
+			onSetAutoApprove={socket.setAutoApprove}
 			onSetAutoAdvance={socket.setAutoAdvance}
 			initialized={socket.initialized}
 			isFloatingWaiter={isFloatingWaiter}

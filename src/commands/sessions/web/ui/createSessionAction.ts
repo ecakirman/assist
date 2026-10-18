@@ -85,9 +85,9 @@ export function createRunAction(send: SendFn) {
 	) => send({ type: "create-run", runName, cwd, replace, launchedFrom, node });
 }
 
-export function setAutoStartAction(send: SendFn) {
+export function setAutoApproveAction(send: SendFn) {
 	return (id: string, enabled: boolean) =>
-		send({ type: "set-autostart", sessionId: id, enabled });
+		send({ type: "set-autoapprove", sessionId: id, enabled });
 }
 
 export function setAutoAdvanceAction(send: SendFn) {

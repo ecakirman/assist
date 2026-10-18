@@ -12,9 +12,9 @@ export const sessionSettingHandlers = {
 			),
 		),
 	),
-	"set-autostart": routed((_client, m, d) =>
+	"set-autoapprove": routed((_client, m, d) =>
 		m.update((sessions) =>
-			sessionIo.setAutoStart(
+			sessionIo.setAutoApprove(
 				sessions,
 				d.sessionId as string,
 				d.enabled as boolean,

@@ -20,7 +20,7 @@ export function restoreBase(id: string, persisted: PersistedSession) {
 		design: persisted.design,
 		auto: persisted.auto,
 		autoAdvance: restoredAutoAdvance(id, persisted),
-		autoStart: persisted.autoStart,
+		autoApprove: persisted.autoApprove,
 		reviewStarted: persisted.reviewStarted,
 		launchedFrom: persisted.launchedFrom,
 	};

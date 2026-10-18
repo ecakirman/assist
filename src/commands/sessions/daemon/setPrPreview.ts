@@ -1,4 +1,4 @@
-import { autoStartPreview } from "./autoStartPreview";
+import { autoApprovePreview } from "./autoApprovePreview";
 import { type SessionClient, sendTo } from "./broadcast";
 import { buildPrPreview } from "./buildPrPreview";
 import type { Session } from "./createSession";
@@ -42,6 +42,6 @@ export function setPrPreview(
 	daemonLog(
 		`pr-preview set: id=${id} requestId=${d.requestId} kind=${kind} target=${target} screenshots=${session.pendingPrPreview.screenshots?.length ?? 0}`,
 	);
-	if (autoStartPreview(sessions, waiters, notify, session)) return;
+	if (autoApprovePreview(sessions, waiters, notify, session)) return;
 	notify();
 }

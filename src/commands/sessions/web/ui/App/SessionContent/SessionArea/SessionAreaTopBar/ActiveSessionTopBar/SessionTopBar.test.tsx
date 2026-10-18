@@ -53,7 +53,7 @@ function renderTopBar(
 		onRetry?: () => void;
 		onRestart?: () => void;
 		onDismiss?: () => void;
-		onSetAutoStart?: (enabled: boolean) => void;
+		onSetAutoApprove?: (enabled: boolean) => void;
 		onSetAutoAdvance?: (enabled: boolean) => void;
 	} = {},
 ) {
@@ -65,7 +65,7 @@ function renderTopBar(
 					onRetry={handlers.onRetry}
 					onRestart={handlers.onRestart}
 					onDismiss={handlers.onDismiss ?? (() => {})}
-					onSetAutoStart={handlers.onSetAutoStart ?? (() => {})}
+					onSetAutoApprove={handlers.onSetAutoApprove ?? (() => {})}
 					onSetAutoAdvance={handlers.onSetAutoAdvance ?? (() => {})}
 				/>
 			</StarredSessionsProvider>
@@ -584,19 +584,19 @@ describe("SessionTopBar toggles", () => {
 		expect(onSetAutoAdvance).toHaveBeenCalledWith(false);
 	});
 
-	it("carries the draft session's auto-start switch", () => {
-		const onSetAutoStart = vi.fn();
+	it("carries the draft session's auto-approve switch", () => {
+		const onSetAutoApprove = vi.fn();
 		const onSetAutoAdvance = vi.fn();
 		renderTopBar(
 			makeSessionInfo({ commandType: "assist", assistArgs: ["draft"] }),
-			{ onSetAutoStart, onSetAutoAdvance },
+			{ onSetAutoApprove, onSetAutoAdvance },
 		);
 
 		expect(screen.getByText("Auto-approve")).toBeTruthy();
 
 		fireEvent.click(screen.getByRole("switch"));
 
-		expect(onSetAutoStart).toHaveBeenCalledWith(true);
+		expect(onSetAutoApprove).toHaveBeenCalledWith(true);
 		expect(onSetAutoAdvance).not.toHaveBeenCalled();
 	});
 
