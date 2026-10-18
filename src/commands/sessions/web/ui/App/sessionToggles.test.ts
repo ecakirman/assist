@@ -9,15 +9,15 @@ const backlogActivity = {
 	totalPhases: 3,
 };
 
-describe("sessionToggles auto-start", () => {
+describe("sessionToggles auto-approve", () => {
 	it.each(["draft", "bug", "refine"])(
-		"offers an auto-start toggle, off by default, on a %s session",
+		"offers an auto-approve toggle, off by default, on a %s session",
 		(command) => {
 			expect(
 				sessionToggles(
 					makeSessionInfo({ commandType: "assist", assistArgs: [command] }),
 				),
-			).toEqual([{ key: "autoStart", label: "Auto-start", checked: false }]);
+			).toEqual([{ key: "autoStart", label: "Auto-approve", checked: false }]);
 		},
 	);
 
@@ -33,9 +33,9 @@ describe("sessionToggles auto-start", () => {
 		).toEqual([
 			{
 				key: "autoStart",
-				label: "Auto-start",
+				label: "Auto-approve",
 				checked: true,
-				caption: "will auto-start",
+				caption: "will auto-approve",
 			},
 		]);
 	});

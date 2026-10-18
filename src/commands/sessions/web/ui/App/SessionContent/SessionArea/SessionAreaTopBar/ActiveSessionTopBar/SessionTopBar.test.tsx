@@ -592,7 +592,7 @@ describe("SessionTopBar toggles", () => {
 			{ onSetAutoStart, onSetAutoAdvance },
 		);
 
-		expect(screen.getByText("Auto-start")).toBeTruthy();
+		expect(screen.getByText("Auto-approve")).toBeTruthy();
 
 		fireEvent.click(screen.getByRole("switch"));
 
