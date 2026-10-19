@@ -15,9 +15,13 @@ export type HighLevelCheckResult = HighLevelCheck & {
 	reason: string;
 };
 
+export type PrMergeable = "MERGEABLE" | "CONFLICTING" | "UNKNOWN";
+
 export type HighLevelSubject = {
 	body: string;
 	linkedIssues: string[];
+	mergeable: PrMergeable;
+	baseRef: string;
 	changedFiles: string[];
 	config: HighLevelConfig;
 };

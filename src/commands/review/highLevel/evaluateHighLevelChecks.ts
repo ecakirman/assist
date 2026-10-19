@@ -1,6 +1,7 @@
 import { checkDescriptionLinksIssue } from "./checkDescriptionLinksIssue";
 import { checkDescriptionSections } from "./checkDescriptionSections";
 import { checkDescriptionWordCap } from "./checkDescriptionWordCap";
+import { checkNoMergeConflicts } from "./checkNoMergeConflicts";
 import { checkUiEvidence } from "./checkUiEvidence";
 import {
 	type DeterministicCheckId,
@@ -23,6 +24,8 @@ const evaluators: Record<
 		checkDescriptionLinksIssue(subject.body, subject.linkedIssues),
 	"ui-evidence": (subject) =>
 		checkUiEvidence(subject.body, subject.changedFiles, subject.config.uiPaths),
+	"no-merge-conflicts": (subject) =>
+		checkNoMergeConflicts(subject.mergeable, subject.baseRef),
 };
 
 export function evaluateHighLevelChecks(

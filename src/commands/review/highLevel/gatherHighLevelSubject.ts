@@ -35,6 +35,8 @@ export function gatherHighLevelSubject(
 		checks: evaluateHighLevelChecks({
 			body: pr.body,
 			linkedIssues: pr.linkedIssues,
+			mergeable: pr.mergeable,
+			baseRef: pr.baseRef,
 			changedFiles: files.map((file) => file.path),
 			config,
 		}),

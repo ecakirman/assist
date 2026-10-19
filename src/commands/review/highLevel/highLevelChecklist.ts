@@ -2,7 +2,8 @@ export type DeterministicCheckId =
 	| "description-what-why"
 	| "description-word-cap"
 	| "description-links-issue"
-	| "ui-evidence";
+	| "ui-evidence"
+	| "no-merge-conflicts";
 
 type ManualCheckId =
 	| "structure-sensible"
@@ -54,6 +55,12 @@ export const highLevelChecklist: HighLevelCheck[] = [
 		title: "UI changes are evidenced by a screenshot or video",
 		backing:
 			"Images and videos in the PR body, when a changed file matches review.highLevel.uiPaths",
+	},
+	{
+		id: "no-merge-conflicts",
+		kind: "deterministic",
+		title: "No merge conflicts",
+		backing: "GitHub's mergeable state for the PR against its base branch",
 	},
 	{
 		id: "structure-sensible",

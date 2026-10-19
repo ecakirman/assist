@@ -15,6 +15,8 @@ function subject(overrides: Partial<HighLevelSubject> = {}): HighLevelSubject {
 	return {
 		body: BODY,
 		linkedIssues: [],
+		mergeable: "MERGEABLE",
+		baseRef: "main",
 		changedFiles: ["src/orders/filter.ts"],
 		config: {
 			criticalPaths: [],
@@ -201,5 +203,26 @@ describe("evaluateHighLevelChecks", () => {
 			},
 		});
 		expect(result.status).toBe("pass");
+	});
+
+	it("passes a PR GitHub reports as mergeable", () => {
+		const result = check("no-merge-conflicts");
+		expect(result.status).toBe("pass");
+		expect(result.reason).toBe("merges cleanly into main");
+	});
+
+	it("fails a PR GitHub reports as conflicting, naming the base", () => {
+		const result = check("no-merge-conflicts", {
+			mergeable: "CONFLICTING",
+			baseRef: "develop",
+		});
+		expect(result.status).toBe("fail");
+		expect(result.reason).toBe("branch has merge conflicts with develop");
+	});
+
+	it("fails a PR whose mergeability is still unknown", () => {
+		const result = check("no-merge-conflicts", { mergeable: "UNKNOWN" });
+		expect(result.status).toBe("fail");
+		expect(result.reason).toContain("could not determine");
 	});
 });
