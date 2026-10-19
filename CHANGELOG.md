@@ -1,3 +1,10 @@
+# [0.865.0](https://github.com/staff0rd/assist/compare/v0.864.0...v0.865.0) (2026-10-19)
+
+
+### Features
+
+* match box filters structure tree ([985e6e8](https://github.com/staff0rd/assist/commit/985e6e8366992e00cd56574946f711032c9a44e6))
+
 # [0.864.0](https://github.com/staff0rd/assist/compare/v0.863.0...v0.864.0) (2026-10-19)
 
 
