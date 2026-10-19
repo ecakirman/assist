@@ -1,3 +1,10 @@
+# [0.860.0](https://github.com/staff0rd/assist/compare/v0.859.2...v0.860.0) (2026-10-19)
+
+
+### Features
+
+* queue test comments for PR review ([20d3a67](https://github.com/staff0rd/assist/commit/20d3a67a7ab1da97218377061c8e1dac9b130ef2))
+
 ## [0.859.2](https://github.com/staff0rd/assist/compare/v0.859.1...v0.859.2) (2026-10-19)
 
 
