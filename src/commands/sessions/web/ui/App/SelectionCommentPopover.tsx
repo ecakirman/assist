@@ -14,7 +14,8 @@ export type SelectionAnchor = {
 
 const boxSx = {
 	p: 1.5,
-	width: 340,
+	width: 460,
+	maxWidth: "calc(100vw - 32px)",
 	display: "flex",
 	flexDirection: "column",
 	gap: 1,

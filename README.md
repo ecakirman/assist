@@ -135,7 +135,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
   - `--apply` - Skip posting; walk through each finding asking apply/skip
   - `--backlog` - Skip posting; file all findings as a single bug backlog item with one phase per finding
   - `--checkout-only` - Skip the review; check the PR out and leave an idle Claude session in it
-  - `--high-level` - Open the high-level review checklist in the web preview pane and post it to the PR as an Approve, Comment or Request changes review. Test and diff comments are either sent to the agent or added to the review, where those on diff lines post as line-level comments. See [docs/high-level-review.md](docs/high-level-review.md)
+  - `--high-level` - Open the high-level review checklist in the web preview pane and post it to the PR as an Approve, Comment or Request changes review. Comments on lines selected in a diff or a test's source are either sent to the agent or added to the review, where those on lines in the PR diff post as line-level comments. See [docs/high-level-review.md](docs/high-level-review.md)
   - `--configure` - With `--high-level`: configure the checklist's `review.highLevel.*` keys instead of reviewing
   - `--scope <repo|project>` - With `--configure`: write to this repo's override in the shared assist database or the project `assist.yml` instead of asking
   - `--answer <key=value>` - With `--configure`: answer one key without prompting, repeatable; an empty value leaves the key unset
@@ -146,7 +146,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
   - `review.highLevel.criticalPaths` - Globs of files whose diffs back the critical-diff checklist item; unset, no file is critical
   - `review.highLevel.uiPaths` - Globs that make a change a UI change, requiring a screenshot or video; unset, the check passes
   - `review.highLevel.descriptionWordCap` - Word cap for the PR description; defaults to 300
-  - `review.highLevel.testPaths` - Globs of test files whose changed tests back the tests checklist item as a file > describe > it hierarchy, each test's source a click away and each open to its own comment; defaults to `**/*.{test,spec}.{ts,tsx,js,jsx}`
+  - `review.highLevel.testPaths` - Globs of test files whose changed tests back the tests checklist item as a file > describe > it hierarchy, each test's source a click away and open to line comments; defaults to `**/*.{test,spec}.{ts,tsx,js,jsx}`
   - `review.highLevel.collapsedPaths` - Globs of files that start collapsed in the changed-files tree, each tagged with the glob it matched; a directory whose files all match starts collapsed; defaults to `**/*.test.*` and `**/generated/**`
 - `assist github commits <org> [--since <date>] [--top <n>] [--json]` - Report commit activity across a GitHub organisation
 - `assist github issue create --title <title> --body <body> [-R <owner>/<repo>] [--type <name>] [--parent <issue>] [--project <number>] [--status <name>] [--label <name>]` - Create a GitHub issue on the current repo (or `-R`'s), previewed for approval in a web session; the options set its issue type, parent issue, project, project status and labels

@@ -1,51 +1,39 @@
 import { Box } from "@mui/material";
 import type { HighLevelTestCase } from "../../../../../../../../../review/highLevel/types";
-import { syntaxTokenSx } from "../../../../../syntaxTokenSx";
+import type { HighLevelDiffComments } from "../../../HighLevelDiffComments";
 import { HighLevelDiffNote } from "../../../HighLevelDiffNote";
-import { useHighlightedSource } from "./HighLevelTestSource/useHighlightedSource";
+import { HighLevelNativeDiff } from "../../../HighLevelNativeDiff";
+import { testSourcePatch } from "./HighLevelTestSource/testSourcePatch";
 
 export function HighLevelTestSource({
 	test,
 	path,
 	indent,
+	comments,
 }: {
 	test: HighLevelTestCase;
 	path: string;
 	indent: string;
+	comments?: HighLevelDiffComments | undefined;
 }) {
 	const { source } = test;
-	const highlighted = useHighlightedSource(source, path);
-
-	if (source === undefined)
-		return (
-			<Box sx={{ pl: `calc(${indent} + 20px)` }}>
+	return (
+		<Box sx={{ pl: `calc(${indent} + 20px)`, minWidth: 0 }}>
+			{source === undefined ? (
 				<HighLevelDiffNote>
 					{test.truncated
 						? "Too long to show here — open the file on GitHub."
 						: "No source available."}
 				</HighLevelDiffNote>
-			</Box>
-		);
-	return (
-		<Box
-			component="pre"
-			sx={[
-				syntaxTokenSx,
-				{
-					m: 0,
-					my: 0.5,
-					ml: `calc(${indent} + 20px)`,
-					p: 1,
-					fontSize: 12,
-					fontFamily: "monospace",
-					tabSize: 2,
-					overflowX: "auto",
-					borderRadius: 1,
-					bgcolor: "action.hover",
-				},
-			]}
-		>
-			{highlighted}
+			) : (
+				<HighLevelNativeDiff
+					path={path}
+					status="modified"
+					patch={testSourcePatch(source, test.line)}
+					viewType="unified"
+					comments={comments}
+				/>
+			)}
 		</Box>
 	);
 }

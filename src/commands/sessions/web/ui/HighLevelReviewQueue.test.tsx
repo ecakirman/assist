@@ -1,5 +1,12 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+	waitFor,
+} from "@testing-library/react";
+import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type {
 	HighLevelPreviewPayload,
@@ -9,6 +16,32 @@ import { makeSessionInfo } from "../../../../test/mothers/makeSessionInfo";
 import type { PrPreview } from "../../shared/SessionInfoBase";
 import type { SessionInfo } from "./types";
 import { HighLevelReviewPane } from "./App/SessionContent/PrPreviewSlideInPane/HighLevelReviewPane";
+
+vi.mock("./App/DiffCommentLayer/useDiffSelection", () => ({
+	useDiffSelection: () => {
+		const [pending, setPending] = useState<object | null>({
+			quote: "starts",
+			top: 0,
+			left: 0,
+			startLine: 4,
+			endLine: 4,
+			startSide: "RIGHT",
+			side: "RIGHT",
+			changes: [],
+			moved: false,
+			origin: null,
+			rects: [],
+		});
+		return {
+			wrapperRef: { current: null },
+			contentRef: { current: null },
+			pending,
+			rects: null,
+			onMouseDown: () => {},
+			clear: () => setPending(null),
+		};
+	},
+}));
 
 const payload: HighLevelPreviewPayload = {
 	repo: "org/repo",
@@ -41,7 +74,15 @@ const payload: HighLevelPreviewPayload = {
 			additions: 4,
 			deletions: 0,
 			diffUrl: "https://github.com/org/repo/pull/42/files#diff-ghi",
-			tests: [{ kind: "it", id: "src/app.test.ts:4", name: "starts", line: 4 }],
+			tests: [
+				{
+					kind: "it",
+					id: "src/app.test.ts:4",
+					name: "starts",
+					line: 4,
+					source: 'it("starts", () => {});',
+				},
+			],
 		},
 	],
 	testPaths: ["**/*.test.ts"],
@@ -52,9 +93,11 @@ const queued = {
 	path: "src/app.test.ts",
 	startLine: 4,
 	endLine: 4,
+	startSide: "RIGHT",
+	side: "RIGHT",
 	quote: "starts",
 	note: "asserts nothing useful",
-};
+} as const;
 
 const liveSession = makeSessionInfo({
 	id: "daemon-1",
@@ -91,8 +134,8 @@ function renderPane({
 }
 
 function writeTestComment(note: string) {
-	fireEvent.click(screen.getByLabelText("Comment on the test starts"));
-	fireEvent.change(screen.getByLabelText("Comment for starts"), {
+	fireEvent.click(screen.getByLabelText("Show the source of starts"));
+	fireEvent.change(screen.getByPlaceholderText("Add a note…"), {
 		target: { value: note },
 	});
 }
@@ -108,13 +151,15 @@ afterEach(() => {
 });
 
 describe("high-level review queue", () => {
-	it("queues a test comment, clears the box and lists it with a count", () => {
+	it("queues a comment on a test's source, clears the box and lists it with a count", async () => {
 		const { onDecision, sendInput } = renderPane();
 
 		writeTestComment("asserts nothing useful");
 		fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
 
-		expect(screen.queryByLabelText("Comment for starts")).toBeNull();
+		await waitFor(() =>
+			expect(screen.queryByPlaceholderText("Add a note…")).toBeNull(),
+		);
 		expect(screen.getByText("Queued for review (1)")).toBeTruthy();
 		expect(screen.getByText("asserts nothing useful")).toBeTruthy();
 		expect(sendInput).not.toHaveBeenCalled();
@@ -124,7 +169,7 @@ describe("high-level review queue", () => {
 		});
 	});
 
-	it("sends a test comment to the agent instead of queueing it", () => {
+	it("sends a comment on a test's source to the agent instead of queueing it", async () => {
 		const { onDecision, sendInput } = renderPane();
 
 		writeTestComment("why this?");
@@ -134,7 +179,9 @@ describe("high-level review queue", () => {
 		expect(sessionId).toBe("daemon-1");
 		expect(data).toContain("src/app.test.ts:4");
 		expect(data).toContain("why this?");
-		expect(screen.queryByLabelText("Comment for starts")).toBeNull();
+		await waitFor(() =>
+			expect(screen.queryByPlaceholderText("Add a note…")).toBeNull(),
+		);
 		expect(screen.queryByText(/Queued for review/)).toBeNull();
 		expect(lastDecision(onDecision)).toMatchObject({ reviewComments: [] });
 	});

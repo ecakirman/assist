@@ -1,10 +1,8 @@
-import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
-import { Box, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import { useState } from "react";
 import type { HighLevelTestCase } from "../../../../../../../../review/highLevel/types";
 import type { HighLevelDiffComments } from "../../HighLevelDiffComments";
 import { highLevelTreeRowSx } from "../../highLevelTreeRowSx";
-import { HighLevelTestNote } from "./HighLevelTestRow/HighLevelTestNote";
 import { HighLevelTestSource } from "./HighLevelTestRow/HighLevelTestSource";
 import { HighLevelTestToggle } from "./HighLevelTestRow/HighLevelTestToggle";
 
@@ -20,7 +18,6 @@ export function HighLevelTestRow({
 	comments?: HighLevelDiffComments | undefined;
 }) {
 	const [open, setOpen] = useState(false);
-	const [commenting, setCommenting] = useState(false);
 	return (
 		<Box sx={{ minWidth: 0 }}>
 			<Box sx={{ ...highLevelTreeRowSx, pl: indent }}>
@@ -30,30 +27,15 @@ export function HighLevelTestRow({
 					open={open}
 					onToggle={() => setOpen(!open)}
 				/>
-				<IconButton
-					size="small"
-					onClick={() => setCommenting(!commenting)}
-					aria-label={`Comment on the test ${test.name}`}
-					color={commenting ? "primary" : "default"}
-					sx={{ p: 0.25, flexShrink: 0 }}
-				>
-					<ModeCommentOutlinedIcon sx={{ fontSize: 14 }} />
-				</IconButton>
 			</Box>
-			{commenting && (
-				<HighLevelTestNote
-					comment={{
-						path,
-						startLine: test.line,
-						endLine: test.line,
-						quote: test.name,
-					}}
+			{open && (
+				<HighLevelTestSource
+					test={test}
+					path={path}
 					indent={indent}
 					comments={comments}
-					onDone={() => setCommenting(false)}
 				/>
 			)}
-			{open && <HighLevelTestSource test={test} path={path} indent={indent} />}
 		</Box>
 	);
 }

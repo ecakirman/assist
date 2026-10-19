@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { CommentSendButtons } from "../../../CommentSendButtons";
+import { CommentSendButtons } from "./CommentNoteActions/CommentSendButtons";
 
 export function CommentNoteActions({
 	disabled,
