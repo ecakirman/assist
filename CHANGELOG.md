@@ -1,3 +1,10 @@
+# [0.864.0](https://github.com/staff0rd/assist/compare/v0.863.0...v0.864.0) (2026-10-19)
+
+
+### Features
+
+* match box accepts plain text ([79c07f2](https://github.com/staff0rd/assist/commit/79c07f20ee70ad66b132846112f3de18316d0cd5))
+
 # [0.863.0](https://github.com/staff0rd/assist/compare/v0.862.0...v0.863.0) (2026-10-19)
 
 
