@@ -1,3 +1,10 @@
+## [0.859.2](https://github.com/staff0rd/assist/compare/v0.859.1...v0.859.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* ack every session set-status hook ([88ba1ea](https://github.com/staff0rd/assist/commit/88ba1eafb02aee809a15a2a54fa90ed465cc4801))
+
 ## [0.859.1](https://github.com/staff0rd/assist/compare/v0.859.0...v0.859.1) (2026-10-19)
 
 
