@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router";
 import type { HistoricalSession, SidebarTab } from "../../types";
 import type { useSessionSocket } from "../../useSessionSocket";
+import { useHistorySearchQuery } from "../useHistorySearchQuery";
 
 export function useSidebarNavigation(
 	socket: ReturnType<typeof useSessionSocket>,
@@ -9,6 +10,7 @@ export function useSidebarNavigation(
 ) {
 	const navigate = useNavigate();
 	const { selectSession, resumeSession, viewTranscript } = socket;
+	const { setViewedTerm } = useHistorySearchQuery();
 
 	const handleSelect = useCallback(
 		(id: string) => {
@@ -34,11 +36,12 @@ export function useSidebarNavigation(
 	);
 
 	const handleView = useCallback(
-		(session: HistoricalSession) => {
+		(session: HistoricalSession, searchTerm = "") => {
+			setViewedTerm(searchTerm);
 			viewTranscript(session.sessionId);
 			navigate("/sessions");
 		},
-		[viewTranscript, navigate],
+		[setViewedTerm, viewTranscript, navigate],
 	);
 
 	return { handleSelect, handleResume, handleView };

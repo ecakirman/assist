@@ -10,6 +10,7 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { HistoryList } from "./HistoryList";
 import type { HistoricalSession } from "../../../../types";
+import { HistorySearchQueryProvider } from "../../../useHistorySearchQuery";
 import {
 	type RepoSelection,
 	RepoSelectionContext,
@@ -56,12 +57,14 @@ function renderList(
 				...selection,
 			}}
 		>
-			<HistoryList
-				sessions={sessions}
-				viewingId={viewingId}
-				onView={onView}
-				onResume={vi.fn()}
-			/>
+			<HistorySearchQueryProvider>
+				<HistoryList
+					sessions={sessions}
+					viewingId={viewingId}
+					onView={onView}
+					onResume={vi.fn()}
+				/>
+			</HistorySearchQueryProvider>
 		</RepoSelectionContext.Provider>,
 	);
 	return { ...rendered, onView };
@@ -292,6 +295,34 @@ describe("HistoryList search", () => {
 		]);
 		expect(onView).toHaveBeenCalledWith(
 			expect.objectContaining({ sessionId: "sid-remote", node: "win" }),
+			"needle",
 		);
+	});
+
+	it("passes the trimmed search term when opening a result", async () => {
+		vi.stubGlobal(
+			"fetch",
+			vi.fn().mockResolvedValue(respond({ sessions: [hit("hit")] })),
+		);
+		const { onView } = renderSearchable();
+
+		search("  needle ");
+		fireEvent.click(await screen.findByText("hit"));
+
+		expect(onView).toHaveBeenCalledWith(
+			expect.objectContaining({ sessionId: "sid-hit" }),
+			"needle",
+		);
+	});
+
+	it("opens a card without a search term when no search is active", () => {
+		const { onView } = renderSearchable();
+
+		fireEvent.click(screen.getByText("listed session"));
+
+		expect(onView).toHaveBeenCalledWith(
+			expect.objectContaining({ sessionId: "sid-listed session" }),
+		);
+		expect(onView.mock.calls[0]).toHaveLength(1);
 	});
 });

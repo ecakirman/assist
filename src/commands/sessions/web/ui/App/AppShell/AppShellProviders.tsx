@@ -7,6 +7,7 @@ import { useNodeUpdates } from "./AppShellProviders/useNodeUpdates";
 import { NodeUpdatesContext } from "./useNodeUpdatesContext";
 import { SidebarCollapsedContext } from "../useSidebarCollapsedContext";
 import { TopBarLayoutContext } from "../useTopBarLayoutContext";
+import { HistorySearchQueryProvider } from "../useHistorySearchQuery";
 import type { useAppShell } from "./useAppShell";
 
 export function AppShellProviders({
@@ -26,7 +27,9 @@ export function AppShellProviders({
 						<NodeSelectionContext.Provider value={socket.nodeSelection}>
 							<ApiNodeContext.Provider value={selection.selectedNode}>
 								<SessionLaunchContext.Provider value={launch}>
-									{children}
+									<HistorySearchQueryProvider>
+										{children}
+									</HistorySearchQueryProvider>
 								</SessionLaunchContext.Provider>
 							</ApiNodeContext.Provider>
 						</NodeSelectionContext.Provider>

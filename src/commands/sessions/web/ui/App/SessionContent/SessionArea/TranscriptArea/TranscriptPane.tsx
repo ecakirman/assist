@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { TranscriptRow } from "./TranscriptPane/TranscriptRow";
+import { useScrollToFirstMark } from "./TranscriptPane/useScrollToFirstMark";
 import type { TranscriptMessage } from "../../../../types";
 
 type KeyedMessage = TranscriptMessage & { key: string };
@@ -22,10 +23,14 @@ function withKeys(messages: TranscriptMessage[]): KeyedMessage[] {
 export function TranscriptPane({
 	messages,
 	loading,
+	term,
 }: {
 	messages: TranscriptMessage[];
 	loading: boolean;
+	term: string;
 }) {
+	const scrollRef = useScrollToFirstMark(messages, term);
+
 	if (loading)
 		return (
 			<Box sx={centeredSx}>
@@ -46,10 +51,13 @@ export function TranscriptPane({
 		);
 
 	return (
-		<Box sx={{ position: "absolute", inset: 0, overflowY: "auto", p: 2 }}>
+		<Box
+			ref={scrollRef}
+			sx={{ position: "absolute", inset: 0, overflowY: "auto", p: 2 }}
+		>
 			<Box sx={{ maxWidth: 820, mx: "auto" }}>
 				{withKeys(messages).map((m) => (
-					<TranscriptRow key={m.key} message={m} />
+					<TranscriptRow key={m.key} message={m} term={term} />
 				))}
 			</Box>
 		</Box>

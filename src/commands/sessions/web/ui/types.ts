@@ -45,7 +45,7 @@ export type SidebarProps = {
 	onTabChange: (tab: SidebarTab) => void;
 	onSelect: (id: string) => void;
 	onDismissPending: (id: string) => void;
-	onView: (session: HistoricalSession) => void;
+	onView: (session: HistoricalSession, searchTerm?: string) => void;
 	onResume: (session: HistoricalSession) => void;
 	initialized: Set<string>;
 	isFloatingWaiter?: (session: SessionInfo) => boolean;
@@ -93,7 +93,7 @@ export type HistoricalSession = {
 export type NodesState = Pick<NodesMessage, "local" | "links">;
 
 export type HistoryCardHandlers = {
-	onView: (session: HistoricalSession) => void;
+	onView: (session: HistoricalSession, searchTerm?: string) => void;
 	onResume: (session: HistoricalSession) => void;
 };
 
