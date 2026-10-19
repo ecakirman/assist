@@ -1,3 +1,10 @@
+## [0.858.2](https://github.com/staff0rd/assist/compare/v0.858.1...v0.858.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* round compact start button ([3b6c8fb](https://github.com/staff0rd/assist/commit/3b6c8fb3d07dc91b0e95ac51efdf2adb5cb96a71))
+
 ## [0.858.1](https://github.com/staff0rd/assist/compare/v0.858.0...v0.858.1) (2026-10-18)
 
 
