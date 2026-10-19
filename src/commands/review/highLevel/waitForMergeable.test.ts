@@ -17,6 +17,12 @@ describe("waitForMergeable", () => {
 		expect(refetch).toHaveBeenCalledTimes(2);
 	});
 
+	it("uses a conflicting state reported on a re-poll", () => {
+		const refetch = vi.fn().mockReturnValueOnce("CONFLICTING");
+		expect(waitForMergeable("UNKNOWN", refetch, 0)).toBe("CONFLICTING");
+		expect(refetch).toHaveBeenCalledTimes(1);
+	});
+
 	it("gives up after a bounded number of re-polls", () => {
 		const refetch = vi.fn().mockReturnValue("UNKNOWN");
 		expect(waitForMergeable("UNKNOWN", refetch, 0)).toBe("UNKNOWN");
