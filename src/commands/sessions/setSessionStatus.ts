@@ -1,13 +1,16 @@
 import { appendDaemonLog } from "./daemon/appendDaemonLog";
-import { sendToDaemon } from "./daemon/sendToDaemon";
 import { sendToDaemonAwaitAck } from "./daemon/sendToDaemonAwaitAck";
 import { readHookClaudeSessionId } from "./readHookClaudeSessionId";
 
-const DELIVERY_ATTEMPTS = 3;
+const RELIABLE_ATTEMPTS = 3;
 const RETRY_DELAY_MS = 100;
 
 type SetStatusOptions = { source?: string; ack?: boolean };
 
+// why: every set-status awaits the daemon's ack, even a best-effort hint. The
+// daemon greets each connection with the full scrollback replay, so a
+// fire-and-forget hook that exits right after writing closes its socket with
+// unread data, resetting the daemon's end before it has read the line.
 export async function setSessionStatus(
 	status: string,
 	opts: SetStatusOptions = {},
@@ -18,17 +21,16 @@ export async function setSessionStatus(
 	const payload = buildPayload(
 		sessionId,
 		status,
-		opts,
+		opts.source,
 		await readHookClaudeSessionId(),
 	);
-	if (opts.ack) await deliverReliably(sessionId, status, payload);
-	else await deliverBestEffort(sessionId, status, payload);
+	await deliver(sessionId, status, payload, opts.ack ? RELIABLE_ATTEMPTS : 1);
 }
 
 function buildPayload(
 	sessionId: string,
 	status: string,
-	opts: SetStatusOptions,
+	source: string | undefined,
 	claudeSessionId: string | undefined,
 ): Record<string, unknown> {
 	const payload: Record<string, unknown> = {
@@ -37,41 +39,28 @@ function buildPayload(
 		status,
 	};
 	if (claudeSessionId) payload.claudeSessionId = claudeSessionId;
-	if (opts.source) payload.source = opts.source;
-	if (opts.ack) payload.ack = true;
+	if (source) payload.source = source;
+	payload.ack = true;
 	return payload;
 }
 
-async function deliverBestEffort(
+async function deliver(
 	sessionId: string,
 	status: string,
 	payload: Record<string, unknown>,
+	attempts: number,
 ): Promise<void> {
-	try {
-		await sendToDaemon(payload);
-	} catch (error) {
-		appendDaemonLog(
-			`set-status best-effort send failed: id=${sessionId} status=${status}: ${describeError(error)}`,
-		);
-	}
-}
-
-async function deliverReliably(
-	sessionId: string,
-	status: string,
-	payload: Record<string, unknown>,
-): Promise<void> {
-	for (let attempt = 1; attempt <= DELIVERY_ATTEMPTS; attempt++) {
+	for (let attempt = 1; attempt <= attempts; attempt++) {
 		try {
 			await sendToDaemonAwaitAck(payload);
 			return;
 		} catch (error) {
-			if (attempt < DELIVERY_ATTEMPTS) {
+			if (attempt < attempts) {
 				await sleep(RETRY_DELAY_MS);
 				continue;
 			}
 			appendDaemonLog(
-				`set-status ack'd delivery failed after ${DELIVERY_ATTEMPTS} attempts: id=${sessionId} status=${status}: ${describeError(error)}`,
+				`set-status delivery failed after ${attempts} attempt${attempts === 1 ? "" : "s"}: id=${sessionId} status=${status}${payload.source ? ` source=${payload.source}` : ""}: ${describeError(error)}`,
 			);
 		}
 	}

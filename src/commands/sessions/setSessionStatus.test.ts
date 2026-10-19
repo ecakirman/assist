@@ -1,13 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { appendDaemonLog } from "./daemon/appendDaemonLog";
-import { sendToDaemon } from "./daemon/sendToDaemon";
 import { sendToDaemonAwaitAck } from "./daemon/sendToDaemonAwaitAck";
 import { readHookClaudeSessionId } from "./readHookClaudeSessionId";
 import { setSessionStatus } from "./setSessionStatus";
-
-vi.mock("./daemon/sendToDaemon", () => ({
-	sendToDaemon: vi.fn(),
-}));
 
 vi.mock("./daemon/sendToDaemonAwaitAck", () => ({
 	sendToDaemonAwaitAck: vi.fn(),
@@ -21,7 +16,6 @@ vi.mock("./readHookClaudeSessionId", () => ({
 	readHookClaudeSessionId: vi.fn(async () => undefined),
 }));
 
-const sendMock = sendToDaemon as unknown as ReturnType<typeof vi.fn>;
 const ackMock = sendToDaemonAwaitAck as unknown as ReturnType<typeof vi.fn>;
 const logMock = appendDaemonLog as unknown as ReturnType<typeof vi.fn>;
 const hookIdMock = readHookClaudeSessionId as unknown as ReturnType<
@@ -41,45 +35,33 @@ describe("setSessionStatus", () => {
 		delete process.env.ASSIST_SESSION_ID;
 	});
 
-	it("sends a bare best-effort set-status message to the daemon", async () => {
-		sendMock.mockResolvedValue(undefined);
+	it("awaits the daemon's ack even for a best-effort hint", async () => {
+		ackMock.mockResolvedValue(undefined);
 
 		await setSessionStatus("running");
 
-		expect(sendMock).toHaveBeenCalledOnce();
-		expect(sendMock).toHaveBeenCalledWith({
+		expect(ackMock).toHaveBeenCalledOnce();
+		expect(ackMock).toHaveBeenCalledWith({
 			type: "set-status",
 			sessionId: "s1",
 			status: "running",
+			ack: true,
 		});
-		expect(ackMock).not.toHaveBeenCalled();
 	});
 
 	it("reports the conversation id the hook fired for so a /clear rebinds", async () => {
-		sendMock.mockResolvedValue(undefined);
+		ackMock.mockResolvedValue(undefined);
 		hookIdMock.mockResolvedValue("post-clear-id");
 
 		await setSessionStatus("running", { source: "prompt" });
 
-		expect(sendMock).toHaveBeenCalledWith({
+		expect(ackMock).toHaveBeenCalledWith({
 			type: "set-status",
 			sessionId: "s1",
 			status: "running",
 			claudeSessionId: "post-clear-id",
 			source: "prompt",
-		});
-	});
-
-	it("includes the source but no ack flag for a best-effort hint", async () => {
-		sendMock.mockResolvedValue(undefined);
-
-		await setSessionStatus("running", { source: "pretool" });
-
-		expect(sendMock).toHaveBeenCalledWith({
-			type: "set-status",
-			sessionId: "s1",
-			status: "running",
-			source: "pretool",
+			ack: true,
 		});
 	});
 
@@ -89,28 +71,26 @@ describe("setSessionStatus", () => {
 
 			await setSessionStatus("running");
 
-			expect(sendMock).not.toHaveBeenCalled();
 			expect(ackMock).not.toHaveBeenCalled();
 		});
 	});
 
-	it("does not retry a best-effort hint that fails to send", async () => {
-		sendMock.mockRejectedValue(new Error("ECONNREFUSED"));
+	it("does not retry a best-effort hint but logs that it never arrived", async () => {
+		ackMock.mockRejectedValue(new Error("timed out awaiting daemon ack"));
 
 		await setSessionStatus("running", { source: "posttool" });
 
-		expect(sendMock).toHaveBeenCalledOnce();
+		expect(ackMock).toHaveBeenCalledOnce();
 		expect(logMock).toHaveBeenCalledWith(
-			expect.stringContaining("best-effort send failed"),
+			"set-status delivery failed after 1 attempt: id=s1 status=running source=posttool: timed out awaiting daemon ack",
 		);
 	});
 
-	it("uses ack'd delivery for the blocking set and marks the payload", async () => {
+	it("uses the same ack'd payload for the blocking set", async () => {
 		ackMock.mockResolvedValue(undefined);
 
 		await setSessionStatus("waiting", { source: "permission", ack: true });
 
-		expect(sendMock).not.toHaveBeenCalled();
 		expect(ackMock).toHaveBeenCalledOnce();
 		expect(ackMock).toHaveBeenCalledWith({
 			type: "set-status",
@@ -130,7 +110,7 @@ describe("setSessionStatus", () => {
 
 		expect(ackMock).toHaveBeenCalledTimes(3);
 		expect(logMock).toHaveBeenCalledWith(
-			expect.stringContaining("ack'd delivery failed after 3 attempts"),
+			expect.stringContaining("delivery failed after 3 attempts"),
 		);
 	});
 

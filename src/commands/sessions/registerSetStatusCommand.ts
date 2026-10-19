@@ -13,7 +13,7 @@ export function registerSetStatusCommand(cmd: Command): void {
 		)
 		.option(
 			"--ack",
-			"Wait for the daemon to acknowledge delivery, retrying on failure",
+			"Retry delivery until the daemon acknowledges it (without it, a single attempt)",
 		)
 		.action((status, options) =>
 			setSessionStatus(status, { source: options.source, ack: options.ack }),
