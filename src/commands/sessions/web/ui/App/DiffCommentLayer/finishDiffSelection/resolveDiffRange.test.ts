@@ -129,6 +129,8 @@ describe("resolveDiffRange", () => {
 		expect(resolveDiffRange(rangeBetween(cell, 6, cell, 11), index)).toEqual({
 			startLine: 14,
 			endLine: 14,
+			startSide: "RIGHT",
+			side: "RIGHT",
 			quote: "d = 5",
 			changes: [{ key: "N13", content: "const d = 5;" }],
 		});
@@ -149,6 +151,8 @@ describe("resolveDiffRange", () => {
 		expect(resolveDiffRange(wholeCells(start, end), index)).toEqual({
 			startLine: 10,
 			endLine: 12,
+			startSide: "RIGHT",
+			side: "RIGHT",
 			quote: [
 				"const a = 1;",
 				"const b = 2;",
@@ -174,6 +178,8 @@ describe("resolveDiffRange", () => {
 		expect(resolveDiffRange(wholeCells(start, end), index)).toEqual({
 			startLine: 11,
 			endLine: 12,
+			startSide: "LEFT",
+			side: "LEFT",
 			quote: "const b = 2;\nconst c = 3;",
 			changes: [
 				{ key: "D11", content: "const b = 2;" },
@@ -190,6 +196,8 @@ describe("resolveDiffRange", () => {
 		expect(resolveDiffRange(wholeCells(start, end), index)).toEqual({
 			startLine: 10,
 			endLine: 13,
+			startSide: "RIGHT",
+			side: "RIGHT",
 			quote: [
 				"const a = 1;",
 				"const b = 3;",
@@ -213,6 +221,8 @@ describe("resolveDiffRange", () => {
 		expect(resolveDiffRange(wholeCells(start, end), index)).toEqual({
 			startLine: 10,
 			endLine: 14,
+			startSide: "RIGHT",
+			side: "RIGHT",
 			quote: [
 				"const a = 1;",
 				"const b = 2;",

@@ -14,12 +14,16 @@ export type PreviewChecklistItem = {
 
 export type PreviewReviewEvent = "APPROVE" | "COMMENT" | "REQUEST_CHANGES";
 
+export type PreviewReviewSide = "LEFT" | "RIGHT";
+
 export type PreviewReviewComment = {
 	path: string;
 	startLine: number;
 	endLine: number;
 	quote: string;
 	note: string;
+	startSide?: PreviewReviewSide;
+	side?: PreviewReviewSide;
 };
 
 export type PreviewDecisionFields = {

@@ -73,10 +73,10 @@ The two structural items carry their evidence in the pane, so the judgement is m
 
 ## Send to agent or add to review
 
-A test comment goes to exactly one place, and either button clears the box:
+A test comment, or a comment on lines selected in any diff in the pane, goes to exactly one place, and either button clears the box:
 
-- **Send to agent** pastes it, with the test's file and line, into the live agent session now — the same target as a diff comment, and unavailable for the same reason once that session has stopped.
-- **Add to review** queues it, with its path, line, quoted test name and note, to post on the PR. Queued comments are listed above the footer with a count, each removable, and are saved in the review record so a reopened review brings them back.
+- **Send to agent** pastes it, with its file and lines, into the live agent session now. It is unavailable once that session has stopped; Add to review still works.
+- **Add to review** queues it, with its path, line range, quote and note, to post on the PR. Queued comments are listed above the footer with a count, each removable, and are saved in the review record so a reopened review brings them back.
 
 Diffs travel with the review rather than being fetched per file, so they are budgeted: a single file is capped at 1500 lines and the whole review at 20000, whole hunks at a time, with critical files served first. Anything past the cap says so and points at GitHub — a lockfile does not get to crowd out the schema. Test sources are budgeted the same way: 200 lines per test and 5000 across the review, in file order, with a test past the cap pointing at GitHub instead.
 
@@ -84,9 +84,9 @@ A review is keyed on the head SHA, so re-running against the same head reopens t
 
 ## Posting the review
 
-The footer offers **Approve**, **Comment** and **Request changes**, recorded as the `approve`, `comment` or `request-changes` verdict and submitted as a GitHub review with the `APPROVE`, `COMMENT` or `REQUEST_CHANGES` event through `gh pr review`. The body is PR-level: each checklist comment under its item's bold title, then the queued comments under **Comments** as `` `path:line` `` + quote + note.
+The footer offers **Approve**, **Comment** and **Request changes**, recorded as the `approve`, `comment` or `request-changes` verdict and submitted as one GitHub review with the `APPROVE`, `COMMENT` or `REQUEST_CHANGES` event through the REST reviews endpoint. The PR's diff is re-read at submit time and the queue split against it: a queued comment whose lines all sit inside one hunk of its file's diff, on the side they were selected from, is posted as a line-level comment carrying just its note; the rest go in the PR-level body. That body holds each checklist comment under its item's bold title, then the remaining queued comments under **Comments** as `` `path:line` `` + quote + note. If the diff can't be read, every queued comment goes in the body.
 
 - **Approve with an empty queue** submits straight away; with no checklist comments the approval has no body.
-- **Otherwise** a second preview pane shows the body that will be posted. Approving it submits the review with the chosen event; rejecting or closing it posts nothing. Comment and Request changes with nothing to say post nothing, since GitHub requires a body for them.
+- **Otherwise** a second preview pane shows what will be posted: the line-level comments, then the PR-level body. Approving it submits the review with the chosen event; rejecting or closing it posts nothing. Comment and Request changes with no body and no line-level comments post nothing.
 
 The record is saved before anything is posted. If `gh` fails — the reviewer authored the PR, or `gh` errors — the record is kept, the `gh` error is printed and the command exits non-zero, so the agent running `/review-high-level` relays it. **Close** saves and posts nothing.

@@ -49,6 +49,7 @@ export function HighLevelNativeDiff({
 				cwd={comments?.cwd}
 				hunks={file.hunks}
 				onComment={comments?.onComment}
+				onQueue={comments?.onQueue}
 				unavailable={comments?.unavailable}
 			>
 				<FileDiffBody file={file} path={path} viewType={viewType} />

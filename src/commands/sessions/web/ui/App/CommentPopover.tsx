@@ -12,6 +12,7 @@ export function CommentPopover({
 	path,
 	unavailable,
 	onAdd,
+	onQueue,
 	onAddRule,
 	onCancel,
 }: {
@@ -21,10 +22,11 @@ export function CommentPopover({
 	path: string;
 	unavailable: string | undefined;
 	onAdd: (note: string) => void;
+	onQueue?: ((note: string) => void) | undefined;
 	onAddRule: ((note: string) => void) | undefined;
 	onCancel: () => void;
 }) {
-	if (unavailable)
+	if (unavailable && !onQueue)
 		return (
 			<CommentUnavailablePopover
 				pending={pending}
@@ -39,8 +41,10 @@ export function CommentPopover({
 			moved={moved}
 			cwd={cwd}
 			path={path}
+			unavailable={unavailable}
 			onAdd={onAdd}
-			onCite={(rule) => onAdd(ruleCitationNote(rule))}
+			onQueue={onQueue}
+			onCite={unavailable ? undefined : (rule) => onAdd(ruleCitationNote(rule))}
 			onAddRule={onAddRule}
 			onCancel={onCancel}
 		/>

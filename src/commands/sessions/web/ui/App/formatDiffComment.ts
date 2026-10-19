@@ -1,12 +1,7 @@
+import type { PreviewReviewComment } from "../../../shared/PreviewDecision";
 import { formatQuotedComment } from "./formatQuotedComment";
 
-export type DiffComment = {
-	path: string;
-	startLine: number;
-	endLine: number;
-	quote: string;
-	note: string;
-};
+export type DiffComment = PreviewReviewComment;
 
 export function formatDiffComment({
 	path,

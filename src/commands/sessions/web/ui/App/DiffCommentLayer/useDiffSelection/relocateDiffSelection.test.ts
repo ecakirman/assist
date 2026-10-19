@@ -27,6 +27,8 @@ const selection: DiffSelection = {
 	left: 48,
 	startLine: 10,
 	endLine: 11,
+	startSide: "RIGHT",
+	side: "RIGHT",
 	moved: false,
 	changes: [
 		{ key: "I10", content: "const a = 1;" },

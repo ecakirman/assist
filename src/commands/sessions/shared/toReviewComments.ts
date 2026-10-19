@@ -1,4 +1,11 @@
-import type { PreviewReviewComment } from "./PreviewDecision";
+import type {
+	PreviewReviewComment,
+	PreviewReviewSide,
+} from "./PreviewDecision";
+
+function isSide(value: unknown): value is PreviewReviewSide {
+	return value === "LEFT" || value === "RIGHT";
+}
 
 function isReviewComment(value: unknown): value is PreviewReviewComment {
 	const comment = value as PreviewReviewComment | undefined;
@@ -18,11 +25,13 @@ export function toReviewComments(
 	if (!Array.isArray(value)) return undefined;
 	return value
 		.filter(isReviewComment)
-		.map(({ path, startLine, endLine, quote, note }) => ({
+		.map(({ path, startLine, endLine, quote, note, startSide, side }) => ({
 			path,
 			startLine,
 			endLine,
 			quote,
 			note,
+			...(isSide(startSide) ? { startSide } : {}),
+			...(isSide(side) ? { side } : {}),
 		}));
 }

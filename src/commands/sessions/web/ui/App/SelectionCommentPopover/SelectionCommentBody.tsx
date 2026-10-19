@@ -10,7 +10,9 @@ export type SelectionCommentBodyProps = {
 	editable?: boolean;
 	cwd?: string | undefined;
 	path?: string | undefined;
+	unavailable?: string | undefined;
 	onAdd: (note: string) => void;
+	onQueue?: ((note: string) => void) | undefined;
 	onCite?: ((rule: ScopedRule) => void) | undefined;
 	onAddRule?: ((note: string) => void) | undefined;
 	onCancel: () => void;
@@ -24,7 +26,9 @@ export function SelectionCommentBody({
 	editable,
 	cwd,
 	path,
+	unavailable,
 	onAdd,
+	onQueue,
 	onCite,
 	onAddRule,
 	onCancel,
@@ -46,7 +50,9 @@ export function SelectionCommentBody({
 			)}
 			<CommentNoteForm
 				key={quote}
+				unavailable={unavailable}
 				onAdd={onAdd}
+				onQueue={onQueue}
 				onAddRule={onAddRule}
 				onCancel={onCancel}
 				onCollapse={editable ? onCollapse : undefined}

@@ -1,3 +1,4 @@
+import type { PreviewReviewSide } from "../../../../shared/PreviewDecision";
 import type { DiffChangeIndex } from "./buildChangeIndex";
 import { type Caret, type OverlayRect, overlayRects } from "../caretFromPoint";
 import { type CellOrigin, cellOrigin } from "./cellOrigin";
@@ -9,6 +10,8 @@ import type { SelectionAnchor } from "../SelectionCommentPopover";
 export type DiffSelection = SelectionAnchor & {
 	startLine: number;
 	endLine: number;
+	startSide: PreviewReviewSide;
+	side: PreviewReviewSide;
 	changes: SelectedChange[];
 	moved: boolean;
 	origin: (CellOrigin & { key: string }) | null;

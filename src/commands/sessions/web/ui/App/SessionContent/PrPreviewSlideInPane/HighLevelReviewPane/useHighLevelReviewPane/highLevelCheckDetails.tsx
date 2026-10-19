@@ -11,7 +11,6 @@ import { highLevelTestCount } from "../../../../../../../../review/highLevel/hig
 export function highLevelCheckDetails(
 	payload: HighLevelPreviewPayload,
 	comments?: HighLevelDiffComments,
-	testComments?: HighLevelDiffComments,
 ): Record<string, ReactNode> {
 	const subject = `${payload.repo}#${payload.prNumber}`;
 	return {
@@ -47,7 +46,7 @@ export function highLevelCheckDetails(
 					files={payload.tests}
 					testPaths={payload.testPaths}
 					subject={subject}
-					comments={testComments}
+					comments={comments}
 				/>
 			</HighLevelCheckDetail>
 		),

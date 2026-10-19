@@ -3,28 +3,26 @@ import { type ReactNode, useMemo } from "react";
 import type { HunkData } from "react-diff-view";
 import { buildChangeIndex } from "./DiffCommentLayer/buildChangeIndex";
 import { commentColor } from "./commentColor";
-import { diffCommentFrom } from "./DiffCommentLayer/diffCommentFrom";
+import { diffCommentActions } from "./DiffCommentLayer/diffCommentActions";
 import { CommentPopover } from "./CommentPopover";
 import { DragOverlay } from "./DragOverlay";
 import type { AddRuleRequest } from "./formatAddRuleCommand";
 import type { DiffComment } from "./formatDiffComment";
-import { selectionActions } from "./selectionActions";
 import { selectionLayerSx } from "./selectionLayerSx";
 import { useDiffSelection } from "./DiffCommentLayer/useDiffSelection";
 
 export function DiffCommentLayer({
-	path,
 	cwd,
 	hunks,
-	onComment,
-	onAddRule,
 	unavailable,
 	children,
+	...targets
 }: {
 	path: string;
 	cwd?: string | undefined;
 	hunks: HunkData[];
 	onComment?: ((comment: DiffComment) => void) | undefined;
+	onQueue?: ((comment: DiffComment) => void) | undefined;
 	onAddRule?: ((request: AddRuleRequest) => void) | undefined;
 	unavailable?: string | undefined;
 	children: ReactNode;
@@ -33,16 +31,10 @@ export function DiffCommentLayer({
 	const { wrapperRef, contentRef, pending, rects, onMouseDown, clear } =
 		useDiffSelection(index);
 
-	if (!onComment && !unavailable) return <>{children}</>;
+	if (!targets.onComment && !targets.onQueue && !unavailable)
+		return <>{children}</>;
 
-	const { add, addRule } = selectionActions({
-		path,
-		pending,
-		clear,
-		onComment,
-		onAddRule,
-		build: (selection, note) => diffCommentFrom(path, selection, note),
-	});
+	const { add, queue, addRule } = diffCommentActions(pending, clear, targets);
 
 	return (
 		<Box ref={wrapperRef} onMouseDown={onMouseDown} sx={selectionLayerSx}>
@@ -52,9 +44,10 @@ export function DiffCommentLayer({
 				pending={pending}
 				moved={pending?.moved}
 				cwd={cwd}
-				path={path}
+				path={targets.path}
 				unavailable={unavailable}
 				onAdd={add}
+				onQueue={queue}
 				onAddRule={addRule}
 				onCancel={clear}
 			/>

@@ -1,4 +1,5 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import { CommentSendButtons } from "../../../../../../CommentSendButtons";
 
 export function HighLevelTestNoteActions({
 	unavailable,
@@ -20,22 +21,7 @@ export function HighLevelTestNoteActions({
 					{unavailable}
 				</Typography>
 			)}
-			<Button
-				size="small"
-				variant="outlined"
-				disabled={!onSend}
-				onClick={onSend}
-			>
-				Send to agent
-			</Button>
-			<Button
-				size="small"
-				variant="contained"
-				disabled={!onQueue}
-				onClick={onQueue}
-			>
-				Add to review
-			</Button>
+			<CommentSendButtons onSend={onSend} onQueue={onQueue} />
 		</Stack>
 	);
 }

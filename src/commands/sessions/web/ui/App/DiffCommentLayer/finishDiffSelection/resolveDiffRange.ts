@@ -3,6 +3,7 @@ import {
 	computeNewLineNumber,
 	computeOldLineNumber,
 } from "react-diff-view";
+import type { PreviewReviewSide } from "../../../../../shared/PreviewDecision";
 import type { DiffChangeIndex } from "../buildChangeIndex";
 import { diffRangeEndpoints } from "./resolveDiffRange/diffRangeEndpoints";
 import {
@@ -15,6 +16,8 @@ import { quoteOf } from "./resolveDiffRange/quoteOf";
 type ResolvedDiffRange = {
 	startLine: number;
 	endLine: number;
+	startSide: PreviewReviewSide;
+	side: PreviewReviewSide;
 	quote: string;
 	changes: SelectedChange[];
 };
@@ -29,6 +32,10 @@ function lineOf(change: ChangeData): number {
 	return change.type === "delete"
 		? computeOldLineNumber(change)
 		: computeNewLineNumber(change);
+}
+
+function sideOf(change: ChangeData): PreviewReviewSide {
+	return change.type === "delete" ? "LEFT" : "RIGHT";
 }
 
 export function resolveDiffRange(
@@ -48,9 +55,13 @@ export function resolveDiffRange(
 	const quote = quoteOf(range, start, end, quoted);
 	if (!quote.trim()) return null;
 
+	const first = quoted[0];
+	const last = quoted[quoted.length - 1];
 	return {
-		startLine: lineOf(quoted[0]),
-		endLine: lineOf(quoted[quoted.length - 1]),
+		startLine: lineOf(first),
+		endLine: lineOf(last),
+		startSide: sideOf(first),
+		side: sideOf(last),
 		quote,
 		changes: selectedChanges(quoted),
 	};

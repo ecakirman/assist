@@ -23,7 +23,7 @@ export function useHighLevelReviewPane(
 		session,
 		sendInput,
 	);
-	const details = highLevelCheckDetails(payload, comments, {
+	const details = highLevelCheckDetails(payload, {
 		...comments,
 		onQueue: queue.onQueue,
 	});
