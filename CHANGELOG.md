@@ -1,3 +1,10 @@
+## [0.858.3](https://github.com/staff0rd/assist/compare/v0.858.2...v0.858.3) (2026-10-19)
+
+
+### Bug Fixes
+
+* drop high-level saved-path echo ([3c64aca](https://github.com/staff0rd/assist/commit/3c64acaa52ea4f2682ec3f92a296fd22ee299b69)), closes [hi#level](https://github.com/hi/issues/level)
+
 ## [0.858.2](https://github.com/staff0rd/assist/compare/v0.858.1...v0.858.2) (2026-10-19)
 
 
