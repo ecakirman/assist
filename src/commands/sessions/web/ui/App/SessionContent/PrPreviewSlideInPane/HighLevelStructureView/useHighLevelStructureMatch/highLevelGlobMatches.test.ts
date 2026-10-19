@@ -17,6 +17,30 @@ describe("highLevelGlobMatches", () => {
 		]);
 	});
 
+	it("matches plain text as a substring of the full path", () => {
+		expect([...highLevelGlobMatches(paths, "app")]).toEqual([
+			"src/app.ts",
+			"src/app.test.ts",
+		]);
+		expect([...highLevelGlobMatches(paths, "docs/gu")]).toEqual([
+			"docs/guide.md",
+		]);
+	});
+
+	it("matches plain text case-insensitively", () => {
+		expect([...highLevelGlobMatches(paths, "readme")]).toEqual(["README.md"]);
+		expect([...highLevelGlobMatches(paths, "GUIDE")]).toEqual([
+			"docs/guide.md",
+		]);
+	});
+
+	it("passes text with glob characters through to minimatch", () => {
+		expect([...highLevelGlobMatches(paths, "app.{ts,js}")]).toEqual([
+			"src/app.ts",
+		]);
+		expect(highLevelGlobMatches(paths, "readme*").size).toBe(0);
+	});
+
 	it("matches nothing for a blank glob", () => {
 		expect(highLevelGlobMatches(paths, "  ").size).toBe(0);
 	});

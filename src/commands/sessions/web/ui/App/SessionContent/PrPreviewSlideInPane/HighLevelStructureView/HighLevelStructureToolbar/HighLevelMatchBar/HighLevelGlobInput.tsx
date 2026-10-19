@@ -22,7 +22,8 @@ export function HighLevelGlobInput({
 			</Typography>
 			<InputBase
 				value={glob}
-				placeholder="**/*.md"
+				placeholder="name or **/*.md"
+				title="File name (case-insensitive) or glob"
 				onChange={(event) => onChangeGlob(event.target.value)}
 				onKeyDown={(event) => {
 					if (event.key === "Enter") onSubmit?.();
