@@ -1,3 +1,10 @@
+# [0.859.0](https://github.com/staff0rd/assist/compare/v0.858.3...v0.859.0) (2026-10-19)
+
+
+### Features
+
+* flag merge conflicts in high-level review ([58d0439](https://github.com/staff0rd/assist/commit/58d0439c17fbcc25388ff2e752961d166e1c04d5)), closes [hi#level](https://github.com/hi/issues/level)
+
 ## [0.858.3](https://github.com/staff0rd/assist/compare/v0.858.2...v0.858.3) (2026-10-19)
 
 
