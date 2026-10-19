@@ -1,3 +1,10 @@
+## [0.859.1](https://github.com/staff0rd/assist/compare/v0.859.0...v0.859.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* launch PR comment sessions in auto ([02003ed](https://github.com/staff0rd/assist/commit/02003edbf8c2fe1348c65c61e12753c3237a638f))
+
 # [0.859.0](https://github.com/staff0rd/assist/compare/v0.858.3...v0.859.0) (2026-10-19)
 
 
