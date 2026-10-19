@@ -40,7 +40,7 @@ export async function reviewPrComments(
 	const { done } = spawnClaude(
 		resumeSessionId ? resumeNudge() : buildPrompt(number, announce),
 		{
-			permissionMode: "acceptEdits",
+			permissionMode: "auto",
 			sessionId: claudeSessionId,
 			resumeSessionId,
 		},

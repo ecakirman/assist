@@ -35,6 +35,15 @@ describe("reviewPrComments", () => {
 			expect(mockCheckoutPr).toHaveBeenCalledWith("123");
 			expect(calls).toEqual(["checkout", "claude"]);
 		});
+
+		it("should start the pass in auto permission mode", async () => {
+			await reviewPrComments("123");
+
+			expect(mockSpawnClaude).toHaveBeenCalledWith(
+				expect.any(String),
+				expect.objectContaining({ permissionMode: "auto" }),
+			);
+		});
 	});
 
 	describe("when no PR number is given", () => {
@@ -77,7 +86,10 @@ describe("reviewPrComments", () => {
 			expect(mockCheckoutPr).not.toHaveBeenCalled();
 			expect(mockSpawnClaude).toHaveBeenCalledWith(
 				expect.stringContaining("Continue from where you left off"),
-				expect.objectContaining({ resumeSessionId: "conv-1" }),
+				expect.objectContaining({
+					resumeSessionId: "conv-1",
+					permissionMode: "auto",
+				}),
 			);
 		});
 	});

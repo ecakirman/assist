@@ -159,13 +159,13 @@ describe("review", () => {
 			expect(mockMoveToPrCheckoutTree).toHaveBeenCalled();
 		});
 
-		it("should start an idle Claude session with no prompt", async () => {
+		it("should start an idle auto-mode Claude session with no prompt", async () => {
 			await review({ checkoutOnly: true, number: "123" });
 
 			const [prompt, options] = mockSpawnClaude.mock.calls[0];
 			expect(prompt).toBe("");
 			expect(options).toMatchObject({
-				permissionMode: "acceptEdits",
+				permissionMode: "auto",
 				sessionId: expect.any(String),
 			});
 		});

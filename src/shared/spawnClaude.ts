@@ -3,7 +3,7 @@ import { type SpawnResult, spawnInherit } from "./spawnInherit";
 
 export type SpawnClaudeOptions = {
 	allowEdits?: boolean;
-	permissionMode?: "auto" | "acceptEdits";
+	permissionMode?: "auto";
 	sessionId?: string;
 	resumeSessionId?: string;
 };
