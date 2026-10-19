@@ -1,3 +1,11 @@
+# [0.861.0](https://github.com/staff0rd/assist/compare/v0.860.0...v0.861.0) (2026-10-19)
+
+
+### Features
+
+* post diff comments as line comments ([2008892](https://github.com/staff0rd/assist/commit/20088921af6025f6e8cd3456d44e177e400efcc0))
+* queue diff comments as line comments ([2a1c123](https://github.com/staff0rd/assist/commit/2a1c123b35730c6c1d076600c47f9626a2e42279))
+
 # [0.860.0](https://github.com/staff0rd/assist/compare/v0.859.2...v0.860.0) (2026-10-19)
 
 
