@@ -15,7 +15,7 @@ Per-file GitHub diff URLs stay available throughout, for when someone does want 
 
 ## The checklist
 
-Deterministic items are evaluated from the PR body and its changed files, and shown as pass or fail with the reason. Manual items are ticked by the reviewer, each backed by a view that makes the judgement possible.
+Deterministic items are evaluated from the PR body, its changed files and GitHub's mergeability, and shown as pass or fail with the reason. Manual items are ticked by the reviewer, each backed by a view that makes the judgement possible.
 
 | Item                                                           | Kind          | Evaluated from                                                                                                            |
 | -------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -23,6 +23,7 @@ Deterministic items are evaluated from the PR body and its changed files, and sh
 | Description is under the word cap                              | deterministic | The PR body's word count against `review.highLevel.descriptionWordCap`                                                    |
 | PR links the GitHub issue it resolves                          | deterministic | An issue linked in the PR's **Development** sidebar, or a `#123`, `owner/repo#123` or github.com issue URL in the PR body |
 | UI changes are evidenced by one or more screenshots or videos  | deterministic | An image, video or attachment in the PR body, required only when a changed file matches `review.highLevel.uiPaths`        |
+| No merge conflicts                                             | deterministic | GitHub's `mergeable` state against the base branch; `UNKNOWN` is re-polled briefly and fails if it never resolves         |
 | The structure of the change is sensible                        | manual        | The changed-file tree with add/delete/modify counts and a per-file GitHub diff link                                       |
 | The critical-file diffs are correct                            | manual        | Full diffs of files matching `review.highLevel.criticalPaths`                                                             |
 | The tests are worth having                                     | manual        | The describe/it hierarchy of changed tests in files matching `review.highLevel.testPaths`                                 |
@@ -36,6 +37,7 @@ The checklist is expected to change. This document carries the rationale and the
 - **A word cap.** Agents write long. A description nobody finishes reading is worse than a short one, so verbosity fails the checklist rather than being tolerated.
 - **A linked issue.** Without it the PR is the only record of why the work happened, and PRs are not where anyone looks a year later.
 - **Screenshots for UI work.** A UI diff does not tell you what the screen looks like. Nothing but a picture does.
+- **No merge conflicts.** A PR that conflicts with its base cannot be merged as reviewed, so approving it is premature.
 - **Tests judged by their names.** Agents write tests freely, and a test that asserts nothing, restates the implementation or tests the framework costs maintenance forever while proving nothing. Whether a test is worth having is mostly visible from what it claims to test and where it sits — the describe/it hierarchy — without reading its body.
 
 ## Configuration
