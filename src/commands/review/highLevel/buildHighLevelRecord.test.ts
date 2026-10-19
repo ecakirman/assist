@@ -105,6 +105,15 @@ describe("buildHighLevelRecord", () => {
 				quote: "adds",
 				note: "tautological",
 			},
+			{
+				path: "src/a.ts",
+				startLine: 5,
+				endLine: 7,
+				quote: "removed",
+				note: "why drop this?",
+				startSide: "LEFT" as const,
+				side: "LEFT" as const,
+			},
 		];
 
 		const record = buildHighLevelRecord(subject, decision({ reviewComments }));
