@@ -2,7 +2,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { Box, Button, Tooltip } from "@mui/material";
 import type { MouseEvent } from "react";
 
-const compactSegmentSx = { minWidth: 0, px: 0.5, py: 0.25 };
+const compactSegmentSx = { minWidth: 0, p: 0.5, borderRadius: "50%" };
 
 export function BuildSegment({
 	tooltip,
