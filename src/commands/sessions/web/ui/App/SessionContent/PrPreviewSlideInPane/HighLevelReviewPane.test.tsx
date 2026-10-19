@@ -212,6 +212,27 @@ describe("HighLevelReviewPane", () => {
 		);
 	});
 
+	it.each([
+		["Approve", "approve", "APPROVE"],
+		["Comment", "approve", "COMMENT"],
+		["Request changes", "reject", "REQUEST_CHANGES"],
+	])(
+		"carries the %s footer button's review event in the decision",
+		(name, decision, reviewEvent) => {
+			const onDecision = vi.fn();
+			render(
+				<HighLevelReviewPane preview={preview()} onDecision={onDecision} />,
+			);
+
+			fireEvent.click(screen.getByRole("button", { name }));
+
+			expect(onDecision).toHaveBeenCalledWith(
+				decision,
+				expect.objectContaining({ reviewEvent, reviewComments: [] }),
+			);
+		},
+	);
+
 	it("requests changes without needing the manual items ticked", () => {
 		const onDecision = vi.fn();
 		render(<HighLevelReviewPane preview={preview()} onDecision={onDecision} />);
@@ -389,75 +410,6 @@ describe("HighLevelReviewPane", () => {
 		fireEvent.click(screen.getByLabelText("Show the source of starts"));
 
 		expect(container.textContent).toContain("expect(start()).toBe(true)");
-	});
-
-	it("carries a comment on an individual test into the decision", () => {
-		const onDecision = vi.fn();
-		render(
-			<HighLevelReviewPane
-				preview={withTestsCheck()}
-				onDecision={onDecision}
-			/>,
-		);
-
-		fireEvent.click(screen.getByLabelText("Comment on the test starts"));
-		fireEvent.change(screen.getByLabelText("Comment for starts"), {
-			target: { value: "asserts nothing useful" },
-		});
-		fireEvent.click(screen.getByRole("button", { name: "Request changes" }));
-
-		expect(onDecision).toHaveBeenCalledWith(
-			"reject",
-			expect.objectContaining({
-				checklist: expect.arrayContaining([
-					{
-						id: "tests-worth-having",
-						ticked: false,
-						notes: [
-							{ id: "src/app.test.ts:4", comment: "asserts nothing useful" },
-						],
-					},
-				]),
-			}),
-		);
-	});
-
-	it("reopens a saved per-test comment", () => {
-		render(
-			<HighLevelReviewPane
-				preview={withTestsCheck({
-					saved: {
-						repo: "org/repo",
-						prNumber: 42,
-						headRef: "feat/thing",
-						headSha: "abc123",
-						verdict: "request-changes",
-						reviewedAt: "2026-01-01T00:00:00.000Z",
-						items: [
-							{
-								...testsCheck,
-								ticked: false,
-								testComments: [
-									{
-										id: "src/app.test.ts:4",
-										path: "src/app.test.ts",
-										line: 4,
-										title: ["app", "starts"],
-										comment: "weak",
-									},
-								],
-							},
-						],
-					},
-				})}
-				onDecision={vi.fn()}
-			/>,
-		);
-
-		expect(
-			(screen.getByLabelText("Comment for starts") as HTMLTextAreaElement)
-				.value,
-		).toBe("weak");
 	});
 
 	it("survives a body that is not a checklist", () => {

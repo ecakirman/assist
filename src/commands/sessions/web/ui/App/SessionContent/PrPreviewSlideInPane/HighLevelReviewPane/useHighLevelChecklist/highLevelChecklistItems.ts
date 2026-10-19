@@ -8,14 +8,10 @@ export function highLevelChecklistItems(
 ): PreviewChecklistItem[] {
 	return checks.map((check) => {
 		const comment = state[check.id]?.comment.trim() ?? "";
-		const notes = Object.entries(state[check.id]?.notes ?? {}).flatMap(
-			([id, note]) => (note.trim() ? [{ id, comment: note.trim() }] : []),
-		);
 		return {
 			id: check.id,
 			ticked: state[check.id]?.ticked === true,
 			...(comment ? { comment } : {}),
-			...(notes.length > 0 ? { notes } : {}),
 		};
 	});
 }

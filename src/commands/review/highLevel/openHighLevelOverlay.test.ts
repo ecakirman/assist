@@ -1,20 +1,27 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { PreviewDecision } from "../../sessions/shared/PreviewDecision";
+import type {
+	PreviewDecision,
+	PreviewReviewComment,
+} from "../../sessions/shared/PreviewDecision";
+import type { PreviewRequest } from "../../sessions/shared/requestPreviewDecision";
 import type { HighLevelOverlaySubject } from "./HighLevelOverlaySubject";
 import { openHighLevelOverlay } from "./openHighLevelOverlay";
 
-const mockAwaitPreviewApproval = vi.fn<() => Promise<PreviewDecision>>();
+const mockAwaitPreviewApproval =
+	vi.fn<
+		(subject: string, request: PreviewRequest) => Promise<PreviewDecision>
+	>();
 const mockSaveHighLevelReview = vi.fn(() => "/store/review.json");
 
 vi.mock("../../sessions/shared/awaitPreviewApproval", () => ({
-	awaitPreviewApproval: () => mockAwaitPreviewApproval(),
+	awaitPreviewApproval: (subject: string, request: PreviewRequest) =>
+		mockAwaitPreviewApproval(subject, request),
 }));
 
-const mockPostHighLevelApproval = vi.fn();
+const mockExecFileSync = vi.fn();
 
-vi.mock("./postHighLevelApproval", () => ({
-	postHighLevelApproval: (...args: unknown[]) =>
-		mockPostHighLevelApproval(...args),
+vi.mock("node:child_process", () => ({
+	execFileSync: (...args: unknown[]) => mockExecFileSync(...args),
 }));
 
 vi.mock("./saveHighLevelReview", () => ({
@@ -28,7 +35,17 @@ const subject: HighLevelOverlaySubject = {
 	title: "A change",
 	headRef: "feat/thing",
 	headSha: "abc123",
-	checks: [],
+	checks: [
+		{
+			id: "structure-sensible",
+			kind: "manual",
+			title: "Structure",
+			short: "Structure",
+			backing: "tree",
+			status: "manual",
+			reason: "tree",
+		},
+	],
 	structure: {
 		tree: [],
 		added: 0,
@@ -44,6 +61,54 @@ const subject: HighLevelOverlaySubject = {
 	collapsedPaths: [],
 };
 
+const queued: PreviewReviewComment = {
+	path: "src/a.test.ts",
+	startLine: 4,
+	endLine: 4,
+	quote: "starts",
+	note: "asserts nothing",
+};
+
+const expectedBody = [
+	"**Structure**",
+	"",
+	"Split it",
+	"",
+	"**Comments**",
+	"",
+	"- `src/a.test.ts:4` starts: asserts nothing",
+].join("\n");
+
+function ghReview(flag: string, body?: string) {
+	return [
+		"gh",
+		[
+			"pr",
+			"review",
+			"42",
+			"--repo",
+			"org/repo",
+			flag,
+			...(body ? ["--body", body] : []),
+		],
+		expect.anything(),
+	];
+}
+
+function queuedDecision(
+	decision: PreviewDecision["decision"],
+	reviewEvent: PreviewDecision["reviewEvent"],
+): PreviewDecision {
+	return {
+		decision,
+		reviewEvent,
+		checklist: [
+			{ id: "structure-sensible", ticked: true, comment: "Split it" },
+		],
+		reviewComments: [queued],
+	};
+}
+
 let log: ReturnType<typeof vi.spyOn>;
 let error: ReturnType<typeof vi.spyOn>;
 let exit: ReturnType<typeof vi.spyOn>;
@@ -51,7 +116,7 @@ let exit: ReturnType<typeof vi.spyOn>;
 beforeEach(() => {
 	mockAwaitPreviewApproval.mockReset();
 	mockSaveHighLevelReview.mockClear();
-	mockPostHighLevelApproval.mockReset();
+	mockExecFileSync.mockReset();
 	log = vi.spyOn(console, "log").mockImplementation(() => {});
 	error = vi.spyOn(console, "error").mockImplementation(() => {});
 	exit = vi.spyOn(process, "exit").mockImplementation((code) => {
@@ -77,15 +142,16 @@ describe("openHighLevelOverlay", () => {
 
 		expect(record).toBeUndefined();
 		expect(mockSaveHighLevelReview).not.toHaveBeenCalled();
-		expect(mockPostHighLevelApproval).not.toHaveBeenCalled();
+		expect(mockExecFileSync).not.toHaveBeenCalled();
 		expect(log).toHaveBeenCalledWith(
 			"Review closed without a verdict. Nothing was saved.",
 		);
 	});
 
-	it("saves the record and approves the PR on GitHub when approved", async () => {
+	it("approves straight away with an empty queue", async () => {
 		mockAwaitPreviewApproval.mockResolvedValue({
 			decision: "approve",
+			reviewEvent: "APPROVE",
 			checklist: [],
 		});
 
@@ -93,29 +159,60 @@ describe("openHighLevelOverlay", () => {
 
 		expect(record?.verdict).toBe("approve");
 		expect(mockSaveHighLevelReview).toHaveBeenCalledWith(record);
-		expect(mockPostHighLevelApproval).toHaveBeenCalledWith("org/repo", 42, "");
-		expect(log).toHaveBeenCalledWith("Approval posted to org/repo#42.");
-		expect(log).not.toHaveBeenCalledWith("Nothing was posted to GitHub.");
+		expect(mockAwaitPreviewApproval).toHaveBeenCalledOnce();
+		expect(mockExecFileSync).toHaveBeenCalledWith(...ghReview("--approve"));
+		expect(log).toHaveBeenCalledWith("Review (APPROVE) posted to org/repo#42.");
 	});
 
-	it("keeps the saved record, prints the gh error and exits non-zero when the approval fails", async () => {
-		mockAwaitPreviewApproval.mockResolvedValue({
-			decision: "approve",
-			checklist: [],
-		});
-		mockPostHighLevelApproval.mockImplementation(() => {
-			throw new Error("Can not approve your own pull request");
-		});
+	it.each([
+		["approve", "APPROVE", "--approve", "Approve org/repo#42"],
+		["approve", "COMMENT", "--comment", "Comment on org/repo#42"],
+		[
+			"reject",
+			"REQUEST_CHANGES",
+			"--request-changes",
+			"Request changes on org/repo#42",
+		],
+	] as const)(
+		"previews the queued %s/%s review and submits it with %s once approved",
+		async (decision, reviewEvent, flag, title) => {
+			mockAwaitPreviewApproval
+				.mockResolvedValueOnce(queuedDecision(decision, reviewEvent))
+				.mockResolvedValueOnce({ decision: "approve" });
 
-		await expect(openHighLevelOverlay("s1", subject)).rejects.toThrow("exit 1");
+			const record = await openHighLevelOverlay("s1", subject);
 
-		expect(mockSaveHighLevelReview).toHaveBeenCalled();
-		expect(error).toHaveBeenCalledWith(
-			"Could not post the approval to org/repo#42: Can not approve your own pull request",
-		);
-	});
+			expect(record?.reviewComments).toEqual([queued]);
+			expect(mockAwaitPreviewApproval).toHaveBeenLastCalledWith(
+				"Review",
+				expect.objectContaining({ title, body: expectedBody }),
+			);
+			expect(mockExecFileSync).toHaveBeenCalledOnce();
+			expect(mockExecFileSync).toHaveBeenCalledWith(
+				...ghReview(flag, expectedBody),
+			);
+		},
+	);
 
-	it("saves a request-changes verdict when changes are requested", async () => {
+	it.each([
+		["rejected", { decision: "reject" }],
+		["closed", { decision: "reject", dismissed: true }],
+	] as const)(
+		"posts nothing when the review preview is %s",
+		async (_label, preview) => {
+			mockAwaitPreviewApproval
+				.mockResolvedValueOnce(queuedDecision("approve", "COMMENT"))
+				.mockResolvedValueOnce(preview);
+
+			const record = await openHighLevelOverlay("s1", subject);
+
+			expect(mockSaveHighLevelReview).toHaveBeenCalledWith(record);
+			expect(mockExecFileSync).not.toHaveBeenCalled();
+			expect(log).toHaveBeenCalledWith("Nothing was posted to GitHub.");
+		},
+	);
+
+	it("posts nothing when changes are requested with nothing to say", async () => {
 		mockAwaitPreviewApproval.mockResolvedValue({
 			decision: "reject",
 			checklist: [],
@@ -124,8 +221,27 @@ describe("openHighLevelOverlay", () => {
 		const record = await openHighLevelOverlay("s1", subject);
 
 		expect(record?.verdict).toBe("request-changes");
-		expect(mockSaveHighLevelReview).toHaveBeenCalledWith(record);
-		expect(mockPostHighLevelApproval).not.toHaveBeenCalled();
+		expect(mockAwaitPreviewApproval).toHaveBeenCalledOnce();
+		expect(mockExecFileSync).not.toHaveBeenCalled();
 		expect(log).toHaveBeenCalledWith("Nothing was posted to GitHub.");
+	});
+
+	it("keeps the saved record, prints the gh error and exits non-zero when the review fails", async () => {
+		mockAwaitPreviewApproval.mockResolvedValue({
+			decision: "approve",
+			checklist: [],
+		});
+		mockExecFileSync.mockImplementation(() => {
+			throw Object.assign(new Error("failed"), {
+				stderr: "Can not approve your own pull request\n",
+			});
+		});
+
+		await expect(openHighLevelOverlay("s1", subject)).rejects.toThrow("exit 1");
+
+		expect(mockSaveHighLevelReview).toHaveBeenCalled();
+		expect(error).toHaveBeenCalledWith(
+			"Could not post the review to org/repo#42: Can not approve your own pull request",
+		);
 	});
 });

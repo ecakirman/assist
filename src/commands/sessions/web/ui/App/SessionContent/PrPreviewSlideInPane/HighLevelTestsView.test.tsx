@@ -25,7 +25,6 @@ describeHeaderClicks("HighLevelTestsView", () => {
 			files={[testFile("a.graphql"), testFile("b.graphql")]}
 			testPaths={["**/*.graphql"]}
 			subject="tests-header-clicks"
-			notes={{ note: () => "", onNote: () => {} }}
 		/>,
 	);
 });

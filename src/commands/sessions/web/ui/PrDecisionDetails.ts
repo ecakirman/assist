@@ -1,5 +1,7 @@
 import type {
 	PreviewChecklistItem,
+	PreviewReviewComment,
+	PreviewReviewEvent,
 	PreviewSelection,
 } from "../../shared/PreviewDecision";
 import type { PreviewAttachment } from "../../shared/PreviewAttachment";
@@ -13,5 +15,7 @@ export type PrDecisionDetails = PrPreviewChain & {
 	autostart?: boolean;
 	selection?: PreviewSelection;
 	checklist?: PreviewChecklistItem[];
+	reviewEvent?: PreviewReviewEvent;
+	reviewComments?: PreviewReviewComment[];
 	dismissed?: boolean;
 };

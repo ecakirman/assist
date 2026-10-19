@@ -1,8 +1,12 @@
-import type { PreviewChecklistItem } from "../../../../../../../shared/PreviewDecision";
+import type {
+	PreviewChecklistItem,
+	PreviewReviewComment,
+} from "../../../../../../../shared/PreviewDecision";
 import type { PrDecisionDetails } from "../../../../../PrDecisionDetails";
 
 export function highLevelDecisionDetails(
 	checklist: PreviewChecklistItem[],
+	reviewComments: PreviewReviewComment[],
 ): PrDecisionDetails {
 	return {
 		comments: [],
@@ -12,5 +16,6 @@ export function highLevelDecisionDetails(
 		draft: false,
 		autoMerge: false,
 		checklist,
+		reviewComments,
 	};
 }

@@ -1,8 +1,8 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Typography } from "@mui/material";
-import { highLevelButtonResetSx } from "../../highLevelTreeRowSx";
-import type { HighLevelTestCase } from "../../../../../../../../review/highLevel/types";
+import { highLevelButtonResetSx } from "../../../highLevelTreeRowSx";
+import type { HighLevelTestCase } from "../../../../../../../../../review/highLevel/types";
 import { highLevelTestNameSx } from "../highLevelTestNameSx";
 import { HighLevelTestChange } from "./HighLevelTestToggle/HighLevelTestChange";
 

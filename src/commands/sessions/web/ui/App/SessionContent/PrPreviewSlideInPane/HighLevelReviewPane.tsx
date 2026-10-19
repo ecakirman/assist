@@ -3,6 +3,7 @@ import type { PrPreview } from "../../../../../shared/SessionInfoBase";
 import { CommentSentSnackbar } from "../../CommentSentSnackbar";
 import { HighLevelChecklistBody } from "./HighLevelReviewPane/HighLevelChecklistBody";
 import { HighLevelReviewActions } from "./HighLevelReviewPane/HighLevelReviewActions";
+import { HighLevelReviewQueue } from "./HighLevelReviewPane/HighLevelReviewQueue";
 import { PreviewWidthToggle } from "./HighLevelReviewPane/PreviewWidthToggle";
 import { highLevelReviewHandlers } from "./HighLevelReviewPane/highLevelReviewHandlers";
 import type { PrDecisionDetails } from "../../../PrDecisionDetails";
@@ -26,7 +27,7 @@ export function HighLevelReviewPane({
 		details: PrDecisionDetails,
 	) => void;
 }) {
-	const { payload, checklist, details, counts, sentTo, clearSent } =
+	const { payload, checklist, queue, details, counts, sentTo, clearSent } =
 		useHighLevelReviewPane(preview, session, sendInput);
 
 	return (
@@ -45,12 +46,17 @@ export function HighLevelReviewPane({
 				counts={counts}
 			/>
 			<Divider />
+			<HighLevelReviewQueue queued={queue.queued} onRemove={queue.onRemove} />
 			<HighLevelReviewActions
 				failed={
 					payload.checks.filter((check) => check.status === "fail").length
 				}
 				outstanding={checklist.outstanding}
-				{...highLevelReviewHandlers(checklist.checklist, onDecision)}
+				{...highLevelReviewHandlers(
+					checklist.checklist,
+					queue.queued,
+					onDecision,
+				)}
 			/>
 			<CommentSentSnackbar sessionName={sentTo} onClose={clearSent} />
 		</Box>

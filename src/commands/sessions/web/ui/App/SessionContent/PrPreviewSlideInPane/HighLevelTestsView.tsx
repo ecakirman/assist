@@ -1,27 +1,23 @@
 import { Box, Typography } from "@mui/material";
 import type { HighLevelTestFile } from "../../../../../../review/highLevel/types";
 import { HighLevelCriticalDiffHeader } from "./HighLevelCriticalDiffHeader";
+import type { HighLevelDiffComments } from "./HighLevelDiffComments";
 import { highLevelDiffFileSx } from "./highLevelDiffFileSx";
 import { HighLevelDiffNote } from "./HighLevelDiffNote";
-import { HighLevelTestNodes } from "./HighLevelTestNodes";
+import { HighLevelTestNodes } from "./HighLevelTestsView/HighLevelTestNodes";
 import { highLevelTestChangeSummary } from "./HighLevelTestsView/highLevelTestChangeSummary";
 import { useHighLevelCollapse } from "./useHighLevelCollapse";
-
-export type HighLevelTestNotes = {
-	note: (testId: string) => string;
-	onNote: (testId: string, note: string) => void;
-};
 
 export function HighLevelTestsView({
 	files,
 	testPaths,
 	subject,
-	notes,
+	comments,
 }: {
 	files: HighLevelTestFile[];
 	testPaths: string[];
 	subject: string;
-	notes: HighLevelTestNotes;
+	comments?: HighLevelDiffComments | undefined;
 }) {
 	const { collapsed, onToggle } = useHighLevelCollapse(`tests:${subject}`);
 
@@ -50,7 +46,7 @@ export function HighLevelTestsView({
 							nodes={file.tests}
 							path={file.path}
 							depth={1}
-							notes={notes}
+							comments={comments}
 						/>
 					)}
 				</Box>

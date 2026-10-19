@@ -6,8 +6,7 @@ import { highLevelJumpCounts } from "./useHighLevelReviewPane/highLevelJumpCount
 import { parseHighLevelPreview } from "./useHighLevelReviewPane/parseHighLevelPreview";
 import { useHighLevelChecklist } from "./useHighLevelChecklist";
 import { useHighLevelDiffComments } from "./useHighLevelReviewPane/useHighLevelDiffComments";
-
-const TESTS_ITEM = "tests-worth-having";
+import { useHighLevelReviewQueue } from "./useHighLevelReviewPane/useHighLevelReviewQueue";
 
 export function useHighLevelReviewPane(
 	preview: PrPreview,
@@ -19,20 +18,17 @@ export function useHighLevelReviewPane(
 		[preview.body],
 	);
 	const checklist = useHighLevelChecklist(payload.checks, payload.saved);
+	const queue = useHighLevelReviewQueue(payload.saved);
 	const { comments, sentTo, clearSent } = useHighLevelDiffComments(
 		session,
 		sendInput,
 	);
-	const details = highLevelCheckDetails(
-		payload,
-		{
-			note: (testId) => checklist.note(TESTS_ITEM, testId),
-			onNote: (testId, note) => checklist.onNote(TESTS_ITEM, testId, note),
-		},
-		comments,
-	);
+	const details = highLevelCheckDetails(payload, comments, {
+		...comments,
+		onQueue: queue.onQueue,
+	});
 
 	const counts = useMemo(() => highLevelJumpCounts(payload), [payload]);
 
-	return { payload, checklist, details, counts, sentTo, clearSent };
+	return { payload, checklist, queue, details, counts, sentTo, clearSent };
 }

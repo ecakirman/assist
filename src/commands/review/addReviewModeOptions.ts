@@ -8,7 +8,7 @@ export function addReviewModeOptions(command: Command): Command {
 		)
 		.option(
 			"--high-level",
-			"Skip the LLM review; check the PR branch out and step through the high-level review checklist in the web UI preview pane. Given a PR number outside a Claude session, it checks the PR out and starts an auto-mode Claude session running /review-high-level <number>, which opens the checklist as a background task so the agent can answer questions while it is open; inside a Claude session it opens the checklist directly. The checklist is backed by the changed-file tree and the diffs of review.highLevel.criticalPaths, writing the verdict, per-item state and comments to ~/.assist/high-level-reviews/. A review already saved for the same head SHA is reopened unless --force is passed. Approve also submits a GitHub approval whose body lists the checklist and test comments; request changes posts nothing. Cannot be combined with --refine, --apply, --backlog, --submit or --checkout-only",
+			"Check the PR out and open the high-level review checklist in the web UI preview pane, then post it to the PR as an Approve, Comment or Request changes review. Outside a Claude session it starts one running /review-high-level <number>. A review saved for the same head SHA is reopened unless --force is passed. Cannot be combined with --refine, --apply, --backlog, --submit or --checkout-only",
 		)
 		.option(
 			"--configure",

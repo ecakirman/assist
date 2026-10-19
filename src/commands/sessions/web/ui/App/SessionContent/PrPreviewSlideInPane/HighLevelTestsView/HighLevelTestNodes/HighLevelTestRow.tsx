@@ -1,8 +1,9 @@
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import { Box, IconButton } from "@mui/material";
 import { useState } from "react";
-import type { HighLevelTestCase } from "../../../../../../../review/highLevel/types";
-import { highLevelTreeRowSx } from "../highLevelTreeRowSx";
+import type { HighLevelTestCase } from "../../../../../../../../review/highLevel/types";
+import type { HighLevelDiffComments } from "../../HighLevelDiffComments";
+import { highLevelTreeRowSx } from "../../highLevelTreeRowSx";
 import { HighLevelTestNote } from "./HighLevelTestRow/HighLevelTestNote";
 import { HighLevelTestSource } from "./HighLevelTestRow/HighLevelTestSource";
 import { HighLevelTestToggle } from "./HighLevelTestRow/HighLevelTestToggle";
@@ -11,14 +12,12 @@ export function HighLevelTestRow({
 	test,
 	path,
 	indent,
-	note,
-	onNote,
+	comments,
 }: {
 	test: HighLevelTestCase;
 	path: string;
 	indent: string;
-	note: string;
-	onNote: (note: string) => void;
+	comments?: HighLevelDiffComments | undefined;
 }) {
 	const [open, setOpen] = useState(false);
 	const [commenting, setCommenting] = useState(false);
@@ -35,19 +34,23 @@ export function HighLevelTestRow({
 					size="small"
 					onClick={() => setCommenting(!commenting)}
 					aria-label={`Comment on the test ${test.name}`}
-					color={note ? "primary" : "default"}
+					color={commenting ? "primary" : "default"}
 					sx={{ p: 0.25, flexShrink: 0 }}
 				>
 					<ModeCommentOutlinedIcon sx={{ fontSize: 14 }} />
 				</IconButton>
 			</Box>
-			{(commenting || note !== "") && (
+			{commenting && (
 				<HighLevelTestNote
-					name={test.name}
-					note={note}
+					comment={{
+						path,
+						startLine: test.line,
+						endLine: test.line,
+						quote: test.name,
+					}}
 					indent={indent}
-					autoFocus={commenting && note === ""}
-					onNote={onNote}
+					comments={comments}
+					onDone={() => setCommenting(false)}
 				/>
 			)}
 			{open && <HighLevelTestSource test={test} path={path} indent={indent} />}

@@ -2,7 +2,7 @@ import { type ReactNode, useMemo } from "react";
 import {
 	languageForPath,
 	refractorHighlighter,
-} from "../../../../../refractorHighlighter";
+} from "../../../../../../refractorHighlighter";
 import { renderHighlighted } from "./useHighlightedSource/renderHighlighted";
 
 export function useHighlightedSource(

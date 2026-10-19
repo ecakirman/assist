@@ -1,9 +1,10 @@
+import type { PreviewReviewComment } from "../../sessions/shared/PreviewDecision";
 import type { HighLevelCheck, HighLevelCheckId } from "./highLevelChecklist";
 import type { HighLevelConfig } from "./resolveHighLevelConfig";
 
 type HighLevelCheckStatus = "pass" | "fail" | "manual";
 
-type HighLevelVerdict = "approve" | "request-changes";
+type HighLevelVerdict = "approve" | "comment" | "request-changes";
 
 export type CheckOutcome = {
 	status: "pass" | "fail";
@@ -95,14 +96,6 @@ export type HighLevelTestFile = Pick<
 	"path" | "status" | "additions" | "deletions" | "diffUrl"
 > & { tests: HighLevelTestNode[] };
 
-export type HighLevelTestComment = {
-	id: string;
-	path: string;
-	line: number;
-	title: string[];
-	comment: string;
-};
-
 export type HighLevelReviewItem = {
 	id: HighLevelCheckId;
 	kind: "deterministic" | "manual";
@@ -111,7 +104,6 @@ export type HighLevelReviewItem = {
 	reason: string;
 	ticked: boolean;
 	comment?: string;
-	testComments?: HighLevelTestComment[];
 };
 
 export type HighLevelReviewRecord = {
@@ -122,6 +114,7 @@ export type HighLevelReviewRecord = {
 	verdict: HighLevelVerdict;
 	reviewedAt: string;
 	items: HighLevelReviewItem[];
+	reviewComments?: PreviewReviewComment[];
 };
 
 export type HighLevelPreviewPayload = {

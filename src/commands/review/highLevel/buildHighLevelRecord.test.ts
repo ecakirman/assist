@@ -29,30 +29,6 @@ const subject = {
 	headRef: "feat/thing",
 	headSha: "abc123",
 	checks,
-	tests: [
-		{
-			path: "src/a.test.ts",
-			status: "added" as const,
-			additions: 3,
-			deletions: 0,
-			diffUrl: "https://github.com/org/repo/pull/42/files#diff-a",
-			tests: [
-				{
-					kind: "describe" as const,
-					name: "a",
-					line: 1,
-					children: [
-						{
-							kind: "it" as const,
-							id: "src/a.test.ts:2",
-							name: "adds",
-							line: 2,
-						},
-					],
-				},
-			],
-		},
-	],
 };
 
 function decision(overrides: Partial<PreviewDecision> = {}): PreviewDecision {
@@ -110,32 +86,33 @@ describe("buildHighLevelRecord", () => {
 		]);
 	});
 
-	it("carries a comment on an individual test with its title path", () => {
-		const record = buildHighLevelRecord(
-			subject,
-			decision({
-				checklist: [
-					{
-						id: "structure-sensible",
-						ticked: true,
-						notes: [
-							{ id: "src/a.test.ts:2", comment: " tautological " },
-							{ id: "src/a.test.ts:99", comment: "gone" },
-						],
-					},
-				],
-			}),
-		);
+	it.each([
+		["APPROVE", "approve"],
+		["COMMENT", "comment"],
+		["REQUEST_CHANGES", "request-changes"],
+	] as const)("records a %s review event as %s", (reviewEvent, verdict) => {
+		expect(
+			buildHighLevelRecord(subject, decision({ reviewEvent })).verdict,
+		).toBe(verdict);
+	});
 
-		expect(record.items[1]?.testComments).toEqual([
+	it("saves the queued review comments", () => {
+		const reviewComments = [
 			{
-				id: "src/a.test.ts:2",
 				path: "src/a.test.ts",
-				line: 2,
-				title: ["a", "adds"],
-				comment: "tautological",
+				startLine: 2,
+				endLine: 2,
+				quote: "adds",
+				note: "tautological",
 			},
-		]);
+		];
+
+		const record = buildHighLevelRecord(subject, decision({ reviewComments }));
+
+		expect(record.reviewComments).toEqual(reviewComments);
+		expect(buildHighLevelRecord(subject, decision())).not.toHaveProperty(
+			"reviewComments",
+		);
 	});
 
 	it("falls back to the evaluated status when the overlay sent no state", () => {

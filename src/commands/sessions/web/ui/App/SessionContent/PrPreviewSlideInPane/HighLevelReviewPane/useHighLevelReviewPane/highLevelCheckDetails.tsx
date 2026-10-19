@@ -4,17 +4,14 @@ import type { HighLevelDiffComments } from "../../HighLevelDiffComments";
 import { HighLevelCheckDetail } from "./highLevelCheckDetails/HighLevelCheckDetail";
 import { HighLevelCriticalDiffs } from "./highLevelCheckDetails/HighLevelCriticalDiffs";
 import { HighLevelStructureView } from "../../HighLevelStructureView";
-import {
-	HighLevelTestsView,
-	type HighLevelTestNotes,
-} from "../../HighLevelTestsView";
+import { HighLevelTestsView } from "../../HighLevelTestsView";
 import { highLevelChangedFileCount } from "../../../../../../../../review/highLevel/highLevelChangedFileCount";
 import { highLevelTestCount } from "../../../../../../../../review/highLevel/highLevelTestCount";
 
 export function highLevelCheckDetails(
 	payload: HighLevelPreviewPayload,
-	notes: HighLevelTestNotes,
 	comments?: HighLevelDiffComments,
+	testComments?: HighLevelDiffComments,
 ): Record<string, ReactNode> {
 	const subject = `${payload.repo}#${payload.prNumber}`;
 	return {
@@ -50,7 +47,7 @@ export function highLevelCheckDetails(
 					files={payload.tests}
 					testPaths={payload.testPaths}
 					subject={subject}
-					notes={notes}
+					comments={testComments}
 				/>
 			</HighLevelCheckDetail>
 		),

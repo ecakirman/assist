@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { postHighLevelApproval } from "./postHighLevelApproval";
+import { postHighLevelReview } from "./postHighLevelReview";
 
 const mockExecFileSync = vi.fn();
 
@@ -7,29 +7,33 @@ vi.mock("node:child_process", () => ({
 	execFileSync: (...args: unknown[]) => mockExecFileSync(...args),
 }));
 
-const approveArgs = ["pr", "review", "42", "--repo", "org/repo", "--approve"];
+const reviewArgs = ["pr", "review", "42", "--repo", "org/repo"];
 
 beforeEach(() => {
 	mockExecFileSync.mockReset();
 });
 
-describe("postHighLevelApproval", () => {
+describe("postHighLevelReview", () => {
 	it("approves without a body when the body is empty", () => {
-		postHighLevelApproval("org/repo", 42, "");
+		postHighLevelReview("org/repo", 42, "APPROVE", "");
 
 		expect(mockExecFileSync).toHaveBeenCalledWith(
 			"gh",
-			approveArgs,
+			[...reviewArgs, "--approve"],
 			expect.anything(),
 		);
 	});
 
-	it("passes a non-empty body to the approval", () => {
-		postHighLevelApproval("org/repo", 42, "**Tests**\n\nGood");
+	it.each([
+		["APPROVE", "--approve"],
+		["COMMENT", "--comment"],
+		["REQUEST_CHANGES", "--request-changes"],
+	] as const)("submits %s with %s and the body", (event, flag) => {
+		postHighLevelReview("org/repo", 42, event, "**Tests**\n\nGood");
 
 		expect(mockExecFileSync).toHaveBeenCalledWith(
 			"gh",
-			[...approveArgs, "--body", "**Tests**\n\nGood"],
+			[...reviewArgs, flag, "--body", "**Tests**\n\nGood"],
 			expect.anything(),
 		);
 	});
@@ -41,7 +45,7 @@ describe("postHighLevelApproval", () => {
 			});
 		});
 
-		expect(() => postHighLevelApproval("org/repo", 42, "")).toThrow(
+		expect(() => postHighLevelReview("org/repo", 42, "APPROVE", "")).toThrow(
 			"Can not approve your own pull request",
 		);
 	});

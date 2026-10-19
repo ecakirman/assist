@@ -135,7 +135,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
   - `--apply` - Skip posting; walk through each finding asking apply/skip
   - `--backlog` - Skip posting; file all findings as a single bug backlog item with one phase per finding
   - `--checkout-only` - Skip the review; check the PR out and leave an idle Claude session in it
-  - `--high-level` - Skip the LLM review; step through the high-level review checklist in the web preview pane; Approve also submits a GitHub approval on the PR, its body listing the checklist and test comments left in the pane (exiting non-zero if `gh` fails). With `[number]` outside a Claude session, check the PR out and start an auto-mode Claude session running `/review-high-level <number>`, which opens the checklist as a background task so the agent can answer questions meanwhile. See [docs/high-level-review.md](docs/high-level-review.md)
+  - `--high-level` - Open the high-level review checklist in the web preview pane and post it to the PR as an Approve, Comment or Request changes review. See [docs/high-level-review.md](docs/high-level-review.md)
   - `--configure` - With `--high-level`: configure the checklist's `review.highLevel.*` keys instead of reviewing
   - `--scope <repo|project>` - With `--configure`: write to this repo's override in the shared assist database or the project `assist.yml` instead of asking
   - `--answer <key=value>` - With `--configure`: answer one key without prompting, repeatable; an empty value leaves the key unset

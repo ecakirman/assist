@@ -18,12 +18,14 @@ export function HighLevelReviewActions({
 	failed,
 	outstanding,
 	onApprove,
+	onComment,
 	onRequestChanges,
 	onClose,
 }: {
 	failed: number;
 	outstanding: number;
 	onApprove: () => void;
+	onComment: () => void;
 	onRequestChanges: () => void;
 	onClose: () => void;
 }) {
@@ -41,6 +43,9 @@ export function HighLevelReviewActions({
 			</Button>
 			<Button color="error" variant="outlined" onClick={onRequestChanges}>
 				Request changes
+			</Button>
+			<Button variant="outlined" onClick={onComment}>
+				Comment
 			</Button>
 			<Button color="success" variant="contained" onClick={onApprove}>
 				Approve

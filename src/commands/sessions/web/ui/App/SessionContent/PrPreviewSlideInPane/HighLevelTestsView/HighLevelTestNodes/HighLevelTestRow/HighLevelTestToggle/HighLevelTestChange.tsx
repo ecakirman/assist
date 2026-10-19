@@ -1,10 +1,10 @@
 import { Tooltip, Typography } from "@mui/material";
-import type { HighLevelTestCase } from "../../../../../../../../../review/highLevel/types";
+import type { HighLevelTestCase } from "../../../../../../../../../../review/highLevel/types";
 import {
 	HIGH_LEVEL_STATUS_COLOURS,
 	HIGH_LEVEL_STATUS_LETTERS,
 	highLevelTreeNameSx,
-} from "../../../highLevelTreeRowSx";
+} from "../../../../highLevelTreeRowSx";
 
 export function HighLevelTestChange({
 	change,

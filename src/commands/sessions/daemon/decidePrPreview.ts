@@ -1,6 +1,7 @@
 import { type SessionClient, sendTo } from "./broadcast";
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
+import { logPrDecision } from "./logPrDecision";
 
 type Msg = Record<string, unknown>;
 
@@ -19,14 +20,7 @@ export function decidePrPreview(
 		);
 		return;
 	}
-	const commentCount = Array.isArray(d.comments) ? d.comments.length : 0;
-	const screenshotCount = Array.isArray(d.screenshots)
-		? d.screenshots.length
-		: 0;
-	const checklistCount = Array.isArray(d.checklist) ? d.checklist.length : 0;
-	daemonLog(
-		`pr-decision received: id=${id} requestId=${requestId} decision=${d.decision} comments=${commentCount} screenshots=${screenshotCount} checklist=${checklistCount} reviewAfter=${d.reviewAfter === true} announceAfter=${d.announceAfter === true} draft=${d.draft} autoMerge=${d.autoMerge === true} autostart=${d.autostart === true}`,
-	);
+	logPrDecision(id, requestId, d);
 	const waiter = waiters.get(id);
 	if (waiter)
 		sendTo(waiter, {
@@ -43,6 +37,8 @@ export function decidePrPreview(
 			autoMerge: d.autoMerge,
 			autostart: d.autostart,
 			checklist: d.checklist,
+			reviewEvent: d.reviewEvent,
+			reviewComments: d.reviewComments,
 			dismissed: d.dismissed,
 		});
 	waiters.delete(id);

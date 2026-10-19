@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import type { HighLevelTestNode } from "../../../../../../review/highLevel/types";
-import type { HighLevelTestNotes } from "./HighLevelTestsView";
-import { HIGH_LEVEL_TREE_INDENT } from "./highLevelTreeRowSx";
+import type { HighLevelTestNode } from "../../../../../../../review/highLevel/types";
+import type { HighLevelDiffComments } from "../HighLevelDiffComments";
+import { HIGH_LEVEL_TREE_INDENT } from "../highLevelTreeRowSx";
 import { HighLevelTestRow } from "./HighLevelTestNodes/HighLevelTestRow";
 import { highLevelTestNameSx } from "./HighLevelTestNodes/highLevelTestNameSx";
 
@@ -9,12 +9,12 @@ export function HighLevelTestNodes({
 	nodes,
 	path,
 	depth,
-	notes,
+	comments,
 }: {
 	nodes: HighLevelTestNode[];
 	path: string;
 	depth: number;
-	notes: HighLevelTestNotes;
+	comments?: HighLevelDiffComments | undefined;
 }) {
 	const indent = `${depth * HIGH_LEVEL_TREE_INDENT}px`;
 	return nodes.map((node) =>
@@ -24,8 +24,7 @@ export function HighLevelTestNodes({
 				test={node}
 				path={path}
 				indent={indent}
-				note={notes.note(node.id)}
-				onNote={(note) => notes.onNote(node.id, note)}
+				comments={comments}
 			/>
 		) : (
 			<Box key={`${node.line}:${node.name}`} sx={{ minWidth: 0 }}>
@@ -40,7 +39,7 @@ export function HighLevelTestNodes({
 					nodes={node.children}
 					path={path}
 					depth={depth + 1}
-					notes={notes}
+					comments={comments}
 				/>
 			</Box>
 		),

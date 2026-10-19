@@ -6,16 +6,20 @@ export type PreviewSelection = {
 	bottomRight: string;
 };
 
-export type PreviewChecklistNote = {
-	id: string;
-	comment: string;
-};
-
 export type PreviewChecklistItem = {
 	id: string;
 	ticked: boolean;
 	comment?: string;
-	notes?: PreviewChecklistNote[];
+};
+
+export type PreviewReviewEvent = "APPROVE" | "COMMENT" | "REQUEST_CHANGES";
+
+export type PreviewReviewComment = {
+	path: string;
+	startLine: number;
+	endLine: number;
+	quote: string;
+	note: string;
 };
 
 export type PreviewDecisionFields = {
@@ -30,6 +34,8 @@ export type PreviewDecisionFields = {
 	autostart?: boolean;
 	selection?: PreviewSelection;
 	checklist?: PreviewChecklistItem[];
+	reviewEvent?: PreviewReviewEvent;
+	reviewComments?: PreviewReviewComment[];
 	dismissed?: boolean;
 };
 

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import type { HighLevelTestCase } from "../../../../../../../../review/highLevel/types";
-import { syntaxTokenSx } from "../../../../syntaxTokenSx";
-import { HighLevelDiffNote } from "../../HighLevelDiffNote";
+import type { HighLevelTestCase } from "../../../../../../../../../review/highLevel/types";
+import { syntaxTokenSx } from "../../../../../syntaxTokenSx";
+import { HighLevelDiffNote } from "../../../HighLevelDiffNote";
 import { useHighlightedSource } from "./HighLevelTestSource/useHighlightedSource";
 
 export function HighLevelTestSource({

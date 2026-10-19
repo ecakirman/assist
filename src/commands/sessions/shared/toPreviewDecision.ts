@@ -1,10 +1,18 @@
 import type {
 	PreviewDecision,
 	PreviewDecisionFields,
+	PreviewReviewEvent,
 	PreviewSelection,
 } from "./PreviewDecision";
 import { toAttachments } from "./toAttachments";
 import { toChecklist } from "./toChecklist";
+import { toReviewComments } from "./toReviewComments";
+
+const REVIEW_EVENTS: PreviewReviewEvent[] = [
+	"APPROVE",
+	"COMMENT",
+	"REQUEST_CHANGES",
+];
 
 export type DecisionMessage = PreviewDecisionFields & {
 	type?: string;
@@ -40,6 +48,8 @@ export function toPreviewDecision(
 		autostart: msg.autostart === true,
 		selection: toSelection(msg.selection),
 		checklist: toChecklist(msg.checklist),
+		reviewEvent: REVIEW_EVENTS.find((event) => event === msg.reviewEvent),
+		reviewComments: toReviewComments(msg.reviewComments),
 		dismissed: msg.dismissed === true,
 	};
 }
