@@ -31,9 +31,8 @@ export async function openHighLevelOverlay(
 		return undefined;
 	}
 	const record = buildHighLevelRecord(subject, decision);
-	const path = saveHighLevelReview(record);
+	saveHighLevelReview(record);
 	console.log(`Verdict: ${record.verdict}`);
-	console.log(`Saved ${path}`);
 	if (record.verdict === "approve") approveOnGitHub(record);
 	else console.log("Nothing was posted to GitHub.");
 	return record;
