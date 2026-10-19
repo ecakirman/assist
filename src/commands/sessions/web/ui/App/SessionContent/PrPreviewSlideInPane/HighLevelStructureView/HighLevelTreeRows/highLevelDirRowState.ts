@@ -1,7 +1,7 @@
 import type { HighLevelTreeDir } from "../../../../../../../../review/highLevel/types";
 import { flattenHighLevelTree } from "../flattenHighLevelTree";
 import { highLevelIgnoredGlobs } from "./highLevelDirRowState/highLevelIgnoredGlobs";
-import type { HighLevelTreeRowsProps } from "./HighLevelTreeRowsProps";
+import type { HighLevelTreeRowsProps } from "../HighLevelTreeRowsProps";
 
 export function highLevelDirRowState(
 	dir: HighLevelTreeDir,

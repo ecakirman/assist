@@ -3,7 +3,7 @@ import { HighLevelTreeDirRow } from "./HighLevelTreeRows/HighLevelTreeDirRow";
 import { HighLevelTreeFileNode } from "./HighLevelTreeRows/HighLevelTreeFileNode";
 import { HIGH_LEVEL_TREE_INDENT } from "../highLevelTreeRowSx";
 import { highLevelDirRowState } from "./HighLevelTreeRows/highLevelDirRowState";
-import type { HighLevelTreeRowsProps } from "./HighLevelTreeRows/HighLevelTreeRowsProps";
+import type { HighLevelTreeRowsProps } from "./HighLevelTreeRowsProps";
 
 export function HighLevelTreeRows(props: HighLevelTreeRowsProps) {
 	const { nodes, depth = 0, collapsed, onToggleDir } = props;

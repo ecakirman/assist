@@ -276,9 +276,52 @@ describe("HighLevelStructureView toolbar", () => {
 		expect(
 			fileRow("src/app.ts").parentElement?.hasAttribute("data-matched"),
 		).toBe(true);
-		expect(
-			fileRow("README.md").parentElement?.hasAttribute("data-matched"),
-		).toBe(false);
+	});
+
+	it("hides files that do not match while the box has text", () => {
+		renderView();
+
+		matchGlob("APP");
+
+		expect(screen.getByText("1 file")).toBeTruthy();
+		expect(fileRow("src/app.ts")).toBeTruthy();
+		expect(screen.queryByRole("button", { name: /README\.md/ })).toBeNull();
+		expect(screen.queryByRole("button", { name: "src/lib" })).toBeNull();
+	});
+
+	it("reveals matches inside a collapsed folder and restores it when cleared", () => {
+		renderView();
+		fireEvent.click(button("src"));
+
+		matchGlob("util");
+		expect(button("src").getAttribute("aria-expanded")).toBe("true");
+		expect(fileRow("src/lib/util.ts")).toBeTruthy();
+
+		matchGlob("");
+		expect(button("src").getAttribute("aria-expanded")).toBe("false");
+		expect(screen.queryByRole("button", { name: /util\.ts/ })).toBeNull();
+		expect(fileRow("README.md")).toBeTruthy();
+	});
+
+	it("says no files match instead of an empty tree", () => {
+		renderView();
+
+		matchGlob("nothing-here");
+
+		expect(screen.getByText("No files match.")).toBeTruthy();
+	});
+
+	it("clears the box on Escape", () => {
+		renderView();
+		const input = screen.getByLabelText(
+			"Match changed files",
+		) as HTMLInputElement;
+		matchGlob("app");
+
+		fireEvent.keyDown(input, { key: "Escape" });
+
+		expect(input.value).toBe("");
+		expect(fileRow("README.md")).toBeTruthy();
 	});
 
 	it("disables Show and Hide until something matches", () => {
@@ -302,8 +345,8 @@ describe("HighLevelStructureView toolbar", () => {
 		expect(fileRow("README.md").getAttribute("aria-expanded")).toBe("false");
 
 		matchGlob("src/lib/**");
-		expect(button("src").hasAttribute("data-matched")).toBe(true);
 		fireEvent.click(button("Show"));
+		matchGlob("");
 		expect(button("src").getAttribute("aria-expanded")).toBe("true");
 		expect(button("src/lib").getAttribute("aria-expanded")).toBe("true");
 		expect(diffCount(container)).toBe(2);

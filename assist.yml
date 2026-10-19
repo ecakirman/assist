@@ -23,6 +23,7 @@ restructure:
     - ReleaseQueuedDiff
     - HighLevelStructureView
     - HighLevelTestsView
+    - HighLevelTreeRows
 worktree:
   watcher: true
 run:

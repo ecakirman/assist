@@ -1,6 +1,6 @@
 import type { ViewType } from "react-diff-view";
-import type { HighLevelTreeNode } from "../../../../../../../../review/highLevel/types";
-import type { HighLevelDiffComments } from "../../HighLevelDiffComments";
+import type { HighLevelTreeNode } from "../../../../../../../review/highLevel/types";
+import type { HighLevelDiffComments } from "../HighLevelDiffComments";
 
 export type HighLevelTreeRowsProps = {
 	nodes: HighLevelTreeNode[];

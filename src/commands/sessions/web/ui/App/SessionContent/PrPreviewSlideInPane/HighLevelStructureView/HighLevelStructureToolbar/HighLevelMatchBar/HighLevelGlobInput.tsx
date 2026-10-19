@@ -27,6 +27,7 @@ export function HighLevelGlobInput({
 				onChange={(event) => onChangeGlob(event.target.value)}
 				onKeyDown={(event) => {
 					if (event.key === "Enter") onSubmit?.();
+					if (event.key === "Escape") onChangeGlob("");
 				}}
 				inputProps={{
 					"aria-label": "Match changed files",

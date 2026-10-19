@@ -2,7 +2,8 @@ import { Box, Typography } from "@mui/material";
 import type { HighLevelStructure } from "../../../../../../review/highLevel/types";
 import type { HighLevelDiffComments } from "./HighLevelDiffComments";
 import { HighLevelStructureToolbar } from "./HighLevelStructureView/HighLevelStructureToolbar";
-import { HighLevelTreeRows } from "./HighLevelStructureView/HighLevelTreeRows";
+import { HighLevelStructureSummary } from "./HighLevelStructureView/HighLevelStructureSummary";
+import { HighLevelStructureTree } from "./HighLevelStructureView/HighLevelStructureTree";
 import { useDiffViewType } from "../../useDiffViewType";
 import { useHighLevelStructureCollapse } from "./HighLevelStructureView/useHighLevelStructureCollapse";
 import { useHighLevelStructureMatch } from "./HighLevelStructureView/useHighLevelStructureMatch";
@@ -32,30 +33,25 @@ export function HighLevelStructureView({
 
 	return (
 		<Box sx={{ minWidth: 0 }}>
-			<Typography variant="caption" sx={{ color: "text.secondary" }}>
-				{structure.added} added · {structure.removed} deleted ·{" "}
-				{structure.modified} modified · +{structure.additions} −
-				{structure.deletions}
-			</Typography>
+			<HighLevelStructureSummary structure={structure} />
 			<HighLevelStructureToolbar
 				bulk={bulk}
 				viewType={viewType}
 				onChangeViewType={onChange}
 				{...match}
 			/>
-			<Box sx={{ mt: 0.5 }}>
-				<HighLevelTreeRows
-					nodes={structure.tree}
-					collapsed={dirs.collapsed}
-					onToggleDir={dirs.onToggle}
-					collapsedFiles={files.collapsed}
-					onToggleFile={files.onToggle}
-					fileGlobs={fileGlobs}
-					matches={match.matches}
-					viewType={viewType}
-					comments={comments}
-				/>
-			</Box>
+			<HighLevelStructureTree
+				glob={match.glob}
+				nodes={structure.tree}
+				collapsed={dirs.collapsed}
+				onToggleDir={dirs.onToggle}
+				collapsedFiles={files.collapsed}
+				onToggleFile={files.onToggle}
+				fileGlobs={fileGlobs}
+				matches={match.matches}
+				viewType={viewType}
+				comments={comments}
+			/>
 		</Box>
 	);
 }
