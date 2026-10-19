@@ -1,3 +1,10 @@
+# [0.862.0](https://github.com/staff0rd/assist/compare/v0.861.0...v0.862.0) (2026-10-19)
+
+
+### Features
+
+* highlight search term in transcript ([7573882](https://github.com/staff0rd/assist/commit/75738825e8e0b6a1bf994bfa45eb581585116772))
+
 # [0.861.0](https://github.com/staff0rd/assist/compare/v0.860.0...v0.861.0) (2026-10-19)
 
 
