@@ -1,3 +1,11 @@
+# [0.863.0](https://github.com/staff0rd/assist/compare/v0.862.0...v0.863.0) (2026-10-19)
+
+
+### Features
+
+* comment on test source by line ([f695343](https://github.com/staff0rd/assist/commit/f69534340d78d91e7f2686bdde756f6c512f03a3))
+* line comments replace test notes ([458e5e2](https://github.com/staff0rd/assist/commit/458e5e294ad121032affa3beec4ab1b4b6fe2cb5))
+
 # [0.862.0](https://github.com/staff0rd/assist/compare/v0.861.0...v0.862.0) (2026-10-19)
 
 
