@@ -1,3 +1,10 @@
+# [0.867.0](https://github.com/staff0rd/assist/compare/v0.866.0...v0.867.0) (2026-10-20)
+
+
+### Features
+
+* add create action to /github skill ([8934cf6](https://github.com/staff0rd/assist/commit/8934cf64c142535b7e72c1513ba8a0c291ebab00))
+
 # [0.866.0](https://github.com/staff0rd/assist/compare/v0.865.1...v0.866.0) (2026-10-20)
 
 
