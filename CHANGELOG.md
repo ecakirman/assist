@@ -1,3 +1,10 @@
+# [0.868.0](https://github.com/staff0rd/assist/compare/v0.867.0...v0.868.0) (2026-10-20)
+
+
+### Features
+
+* expand gaps in high-level diffs ([d557999](https://github.com/staff0rd/assist/commit/d5579992b96cbb2b5d084687372d05c4142b4fa4)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.867.0](https://github.com/staff0rd/assist/compare/v0.866.0...v0.867.0) (2026-10-20)
 
 
