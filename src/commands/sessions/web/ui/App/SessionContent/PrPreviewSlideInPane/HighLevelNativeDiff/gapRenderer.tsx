@@ -1,22 +1,27 @@
-import { getCollapsedLinesCountBetween, type HunkData } from "react-diff-view";
+import { gapAt } from "./gapAt";
 import { HighLevelGapExpander } from "./gapRenderer/HighLevelGapExpander";
 import type { GapExpansion } from "./useGapExpansion";
 
-export function gapRenderer({ hunks, loading, error, expand }: GapExpansion) {
-	return (hunk: HunkData, index: number) => {
-		const previous = hunks[index - 1];
-		if (!previous) return null;
-		const hidden = getCollapsedLinesCountBetween(previous, hunk);
-		if (hidden <= 0) return null;
+export function gapRenderer({
+	hunks,
+	headLength,
+	loading,
+	error,
+	expand,
+}: GapExpansion) {
+	return (index: number) => {
+		const gap = gapAt(hunks, index, headLength);
+		if (!gap) return null;
 		return (
 			<HighLevelGapExpander
-				key={`gap-${hunk.content}`}
-				hidden={hidden}
-				header={hunk.content}
+				key={`gap-${hunks[index]?.content ?? "end"}`}
+				gap={gap}
+				header={hunks[index]?.content}
 				disabled={loading !== null}
 				loading={loading === index}
 				error={error?.index === index ? error.message : undefined}
-				onExpand={() => expand(index)}
+				onExpand={(direction) => expand(index, direction)}
+				onRetry={() => error && expand(error.index, error.direction)}
 			/>
 		);
 	};

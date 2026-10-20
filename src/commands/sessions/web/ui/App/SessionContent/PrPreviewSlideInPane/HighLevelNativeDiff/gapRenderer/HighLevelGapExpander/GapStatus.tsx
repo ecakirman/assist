@@ -7,8 +7,8 @@ export function GapStatus({
 	error,
 	onRetry,
 }: {
-	hidden: number;
-	header: string;
+	hidden: number | null;
+	header: string | undefined;
 	loading: boolean;
 	error: string | undefined;
 	onRetry: () => void;
@@ -31,10 +31,14 @@ export function GapStatus({
 		);
 	return (
 		<>
-			{hidden} hidden line{hidden === 1 ? "" : "s"}{" "}
-			<Box component="span" sx={{ color: "text.disabled" }}>
-				{header}
-			</Box>
+			{hidden === null
+				? "More lines below"
+				: `${hidden} hidden line${hidden === 1 ? "" : "s"}`}{" "}
+			{header && (
+				<Box component="span" sx={{ color: "text.disabled" }}>
+					{header}
+				</Box>
+			)}
 		</>
 	);
 }

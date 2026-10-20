@@ -1,22 +1,25 @@
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
-import { IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import { Decoration } from "react-diff-view";
+import type { Gap, GapDirection } from "../gapAt";
+import { GapButtons } from "./HighLevelGapExpander/GapButtons";
 import { GapStatus } from "./HighLevelGapExpander/GapStatus";
 
 export function HighLevelGapExpander({
-	hidden,
+	gap,
 	header,
 	disabled,
 	loading,
 	error,
 	onExpand,
+	onRetry,
 }: {
-	hidden: number;
-	header: string;
+	gap: Gap;
+	header: string | undefined;
 	disabled: boolean;
 	loading: boolean;
 	error: string | undefined;
-	onExpand: () => void;
+	onExpand: (direction: GapDirection) => void;
+	onRetry: () => void;
 }) {
 	return (
 		<Decoration
@@ -24,20 +27,15 @@ export function HighLevelGapExpander({
 			gutterClassName="high-level-gap-gutter"
 			contentClassName="high-level-gap-content"
 		>
-			<IconButton
-				size="small"
-				disabled={disabled}
-				onClick={onExpand}
-				aria-label={`Show ${hidden} hidden lines`}
-			>
-				<UnfoldMoreIcon fontSize="small" />
-			</IconButton>
+			<Box className="high-level-gap-buttons">
+				<GapButtons gap={gap} disabled={disabled} onExpand={onExpand} />
+			</Box>
 			<GapStatus
-				hidden={hidden}
+				hidden={gap.end === null ? null : gap.end - gap.start}
 				header={header}
 				loading={loading}
 				error={error}
-				onRetry={onExpand}
+				onRetry={onRetry}
 			/>
 		</Decoration>
 	);

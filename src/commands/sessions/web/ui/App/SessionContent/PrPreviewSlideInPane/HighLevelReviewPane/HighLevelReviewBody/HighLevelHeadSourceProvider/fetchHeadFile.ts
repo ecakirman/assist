@@ -13,5 +13,6 @@ export async function fetchHeadFile(
 		throw new Error(
 			typeof body.error === "string" ? body.error : `HTTP ${res.status}`,
 		);
-	return body.content.split("\n");
+	const lines = body.content.split("\n");
+	return lines.at(-1) === "" ? lines.slice(0, -1) : lines;
 }

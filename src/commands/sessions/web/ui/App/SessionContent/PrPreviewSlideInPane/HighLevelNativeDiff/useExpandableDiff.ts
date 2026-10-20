@@ -19,7 +19,11 @@ export function useExpandableDiff(
 			return undefined;
 		}
 	}, [path, status, patch]);
-	const expansion = useGapExpansion(path, parsed?.hunks ?? NO_HUNKS);
+	const expansion = useGapExpansion(
+		path,
+		parsed?.hunks ?? NO_HUNKS,
+		status === "modified",
+	);
 	const file = useMemo<FileData | undefined>(
 		() => parsed && { ...parsed, hunks: expansion.hunks },
 		[parsed, expansion.hunks],
