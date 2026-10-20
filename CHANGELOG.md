@@ -1,3 +1,10 @@
+## [0.869.1](https://github.com/staff0rd/assist/compare/v0.869.0...v0.869.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* review-ci submission failure gaps ([b89d6d6](https://github.com/staff0rd/assist/commit/b89d6d6e6a46f565b5aa78f7420d27ad0d837b5f))
+
 # [0.869.0](https://github.com/staff0rd/assist/compare/v0.868.0...v0.869.0) (2026-10-20)
 
 
