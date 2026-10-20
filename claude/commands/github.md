@@ -1,9 +1,9 @@
 ---
-description: View or act on a GitHub issue (view, edit, associate, update, started, done, help)
+description: View, create or act on a GitHub issue (view, edit, create, associate, update, started, done, help)
 allowed_args: "[action] [owner/repo#number | issue-url] [args]"
 ---
 
-You are the `/github` dispatcher. Parse `$ARGUMENTS` into an **action verb** plus optional issue/args, then run that action. Actions: `view`, `edit`, `associate`, `update`, `started`, `done`, `help`.
+You are the `/github` dispatcher. Parse `$ARGUMENTS` into an **action verb** plus optional issue/args, then run that action. Actions: `view`, `edit`, `create`, `associate`, `update`, `started`, `done`, `help`.
 
 All GitHub operations go through the `gh` CLI. A GitHub issue is referenced as the compact shorthand `owner/repo#number` (e.g. `staff0rd/assist#5`) or a full `https://github.com/owner/repo/issues/N` URL.
 
@@ -12,7 +12,7 @@ All GitHub operations go through the `gh` CLI. A GitHub issue is referenced as t
 Tokenise `$ARGUMENTS` on whitespace.
 
 - No tokens → run **help**.
-- First token is a known action verb (`view`, `edit`, `associate`, `update`, `started`, `done`, `help`) → that is the action; the remaining tokens are its args.
+- First token is a known action verb (`view`, `edit`, `create`, `associate`, `update`, `started`, `done`, `help`) → that is the action; the remaining tokens are its args.
 - First token matches a GitHub issue reference (`owner/repo#number` or a `github.com/.../issues/N` URL) → action is **edit**, issue is that token.
 - Anything else → run **help** (the input was not understood).
 
@@ -61,6 +61,38 @@ Display the output so the user can see what happened. If the command exits non-z
 
 - **Request changes** — the reason and every inline comment, each with the excerpt it was left on. The output names the working file holding the pane's markdown, collapses included. Revise **that file in place** to address the comments — never recompose the body from scratch — then re-run the command, which previews the revised file with the earlier collapses intact. Pass `--fresh` only when the working file should be thrown away and the issue re-fetched.
 - **The issue moved on GitHub** — it names the working file holding the markdown. Someone else edited the issue, so nothing was pushed; tell the user rather than re-running blind.
+
+## Action: create
+
+Create a new issue from a free-form request (e.g. `create bug against owner/repo, Sprint 3 milestone, Roadmap project: login fails on Safari`). Step 2 does not apply — there is no issue yet. Work out from the args:
+
+- **Repo** — an `owner/repo` (or `github.com/owner/repo` URL) named in the request; otherwise the current repo.
+- **Title** and **body** — a concise title and a body describing the problem or ask as the repo's maintainers would expect. There is no template; never author a `## Screenshots` section.
+- **Labels** — each label named (e.g. "bug" in "bug against ..."), checked against `gh label list -R <owner>/<repo> --limit 200`.
+- **Project** — `--project` takes a number. When the project is named by title, look it up among the repo owner's projects:
+
+  ```
+  gh project list --owner <owner> --format json 2>&1
+  ```
+
+  Match the title exactly, then case-insensitively, and pass its `number`. Pass `--status <name>` only if the request names one.
+
+- **Milestone** — the milestone's title, passed as named; the command matches it against the repo's open milestones.
+- **Type** and **parent** — only if the request names them.
+
+If a named project, label or milestone doesn't match, list the available ones and ask the user which they meant (or whether to drop it). Never guess a near match or silently omit it. For a milestone, check `gh api repos/<owner>/<repo>/milestones --jq '.[].title'` before running, or relay the list the command prints when it rejects the name.
+
+Then run the command bare, as a background task, and do no other work until it returns — in a web session it blocks on the preview pane until the user approves or rejects:
+
+```
+assist github issue create -R <owner>/<repo> --title "<title>" --body "<body>" [--label <name>]... [--project <number>] [--status <name>] [--milestone <name>] [--type <name>] [--parent <issue>] 2>&1
+```
+
+Every option is resolved before the preview, so an unknown name creates nothing. Relay the outcome:
+
+- **Created** — the issue URL it prints.
+- **Rejected** — the reason and every inline comment with the excerpt it was left on. Revise the title or body to address them and run it again.
+- **Failed resolution** — relay the error (and the available options it lists) and ask the user, as above.
 
 ## Action: associate
 
@@ -140,6 +172,7 @@ List the available actions and their arguments:
 - `/github view <ref>` — print an issue to chat (ref optional; falls back to the session item's GitHub issue).
 - `/github <owner/repo#number>` — rework that issue in the web preview pane (see `edit`).
 - `/github edit [ref]` — rework the issue body in the web preview pane (what a bare `/github <ref>` runs; the command prints the issue instead when there is no web session).
+- `/github create <request>` — create an issue from a free-form request naming its repo, labels, project and milestone (previewed for approval before creating).
 - `/github associate <ref> [id]` — associate a GitHub issue with a backlog item (id optional; falls back to the session item).
 - `/github update [ref]` — post a concise session-summary comment to the issue (previewed for approval before posting).
 - `/github started [ref]` — assign the issue to yourself and move its project boards to In Progress.

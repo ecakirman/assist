@@ -68,7 +68,7 @@ After installation, the `assist` command will be available globally. You can als
 - `/review-high-level [number]` - Open the high-level review checklist for the current branch's PR, or PR `<number>`, as a background task, answering diff questions while it is open
 - `/review-pr-comments` - Process PR review comments one by one
 - `/jira [action] [KEY] [args]` - Jira actions: `view`, `associate`, `update`, `started`, `done`, `help`. `[KEY]` defaults to the session's backlog item's
-- `/github [action] [ref] [args]` - GitHub issue actions: `view`, `edit`, `associate`, `update`, `started`, `done`, `help`. `[ref]` defaults to the session's backlog item's; a bare `/github <ref>` runs `edit`
+- `/github [action] [ref] [args]` - GitHub issue actions: `view`, `edit`, `create`, `associate`, `update`, `started`, `done`, `help`. `[ref]` defaults to the session's backlog item's; a bare `/github <ref>` runs `edit`
 - `/next [id]` - Signal completion and chain into the next backlog item
 - `/slack-post [channel] [--thread <ts-or-permalink>] <what to say>` - Preview a markdown message, or a thread of them, then post it to a Slack channel (default `slack.channel`); `--thread` replies in that thread
 - `/subtask <text>` - Add a sub-task to the session's current backlog item
