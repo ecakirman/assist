@@ -1,3 +1,10 @@
+## [0.865.1](https://github.com/staff0rd/assist/compare/v0.865.0...v0.865.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* review reuses existing PR checkout ([43a4d3b](https://github.com/staff0rd/assist/commit/43a4d3bdc84ace5fd614a74660100df2f7c96332))
+
 # [0.865.0](https://github.com/staff0rd/assist/compare/v0.864.0...v0.865.0) (2026-10-19)
 
 
