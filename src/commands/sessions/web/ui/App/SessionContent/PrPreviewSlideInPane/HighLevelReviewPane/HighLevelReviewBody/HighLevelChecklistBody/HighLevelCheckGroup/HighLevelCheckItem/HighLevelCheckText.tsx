@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import type { HighLevelCheckResult } from "../../../../../../../../../../review/highLevel/types";
+import type { HighLevelCheckResult } from "../../../../../../../../../../../review/highLevel/types";
 
 export function HighLevelCheckText({
 	check,

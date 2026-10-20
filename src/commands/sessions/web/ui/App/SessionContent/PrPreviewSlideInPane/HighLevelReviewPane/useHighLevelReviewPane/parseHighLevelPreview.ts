@@ -1,11 +1,11 @@
-import type {
-	HighLevelCheckResult,
-	HighLevelPreviewPayload,
-} from "../../../../../../../../review/highLevel/types";
+import type { HighLevelPreviewPayload } from "../../../../../../../../review/highLevel/types";
+import { isCheck } from "./parseHighLevelPreview/isCheck";
+import { asArray } from "./parseHighLevelPreview/asArray";
 
 const EMPTY: HighLevelPreviewPayload = {
 	repo: "",
 	prNumber: 0,
+	headSha: "",
 	checks: [],
 	structure: {
 		tree: [],
@@ -22,22 +22,6 @@ const EMPTY: HighLevelPreviewPayload = {
 	collapsedPaths: [],
 };
 
-function isCheck(value: unknown): value is HighLevelCheckResult {
-	const check = value as HighLevelCheckResult | undefined;
-	return (
-		typeof check?.id === "string" &&
-		typeof check.title === "string" &&
-		typeof check.reason === "string" &&
-		(check.kind === "deterministic" || check.kind === "manual") &&
-		["pass", "fail", "manual"].includes(check.status)
-	);
-}
-
-function asArray<T>(value: unknown, guard?: (item: unknown) => item is T): T[] {
-	if (!Array.isArray(value)) return [];
-	return guard ? value.filter(guard) : (value as T[]);
-}
-
 export function parseHighLevelPreview(body: string): HighLevelPreviewPayload {
 	let parsed: Partial<HighLevelPreviewPayload>;
 	try {
@@ -50,6 +34,8 @@ export function parseHighLevelPreview(body: string): HighLevelPreviewPayload {
 		repo: typeof parsed.repo === "string" ? parsed.repo : EMPTY.repo,
 		prNumber:
 			typeof parsed.prNumber === "number" ? parsed.prNumber : EMPTY.prNumber,
+		headSha:
+			typeof parsed.headSha === "string" ? parsed.headSha : EMPTY.headSha,
 		checks: asArray(parsed.checks, isCheck),
 		structure: { ...EMPTY.structure, ...parsed.structure },
 		criticalDiffs: asArray(parsed.criticalDiffs),

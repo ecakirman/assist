@@ -1,7 +1,7 @@
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Checkbox } from "@mui/material";
-import type { HighLevelCheckResult } from "../../../../../../../../../../review/highLevel/types";
+import type { HighLevelCheckResult } from "../../../../../../../../../../../review/highLevel/types";
 
 export function HighLevelCheckMarker({
 	check,

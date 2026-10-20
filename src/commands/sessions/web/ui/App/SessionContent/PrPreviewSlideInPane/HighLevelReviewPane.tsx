@@ -1,7 +1,7 @@
 import { Box, Divider } from "@mui/material";
 import type { PrPreview } from "../../../../../shared/SessionInfoBase";
 import { CommentSentSnackbar } from "../../CommentSentSnackbar";
-import { HighLevelChecklistBody } from "./HighLevelReviewPane/HighLevelChecklistBody";
+import { HighLevelReviewBody } from "./HighLevelReviewPane/HighLevelReviewBody";
 import { HighLevelReviewActions } from "./HighLevelReviewPane/HighLevelReviewActions";
 import { HighLevelReviewQueue } from "./HighLevelReviewPane/HighLevelReviewQueue";
 import { PreviewWidthToggle } from "./HighLevelReviewPane/PreviewWidthToggle";
@@ -39,8 +39,8 @@ export function HighLevelReviewPane({
 			/>
 			<PreviewMetadataList items={preview.metadata ?? []} />
 			<Divider />
-			<HighLevelChecklistBody
-				checks={payload.checks}
+			<HighLevelReviewBody
+				payload={payload}
 				checklist={checklist}
 				details={details}
 				counts={counts}

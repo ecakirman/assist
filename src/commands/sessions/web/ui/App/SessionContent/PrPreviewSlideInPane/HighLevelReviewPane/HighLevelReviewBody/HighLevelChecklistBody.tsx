@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material";
 import { type ReactNode, useRef } from "react";
-import type { HighLevelCheckResult } from "../../../../../../../review/highLevel/types";
+import type { HighLevelCheckResult } from "../../../../../../../../review/highLevel/types";
 import { HighLevelCheckGroup } from "./HighLevelChecklistBody/HighLevelCheckGroup";
 import { HighLevelJumpStrip } from "./HighLevelChecklistBody/HighLevelJumpStrip";
 import { useHighLevelJumpSpy } from "./HighLevelChecklistBody/useHighLevelJumpSpy";
-import type { useHighLevelChecklist } from "./useHighLevelChecklist";
+import type { useHighLevelChecklist } from "../useHighLevelChecklist";
 
 export function HighLevelChecklistBody({
 	checks,

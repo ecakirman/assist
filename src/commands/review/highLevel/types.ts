@@ -120,6 +120,7 @@ export type HighLevelReviewRecord = {
 export type HighLevelPreviewPayload = {
 	repo: string;
 	prNumber: number;
+	headSha: string;
 	checks: HighLevelCheckResult[];
 	structure: HighLevelStructure;
 	criticalDiffs: HighLevelCriticalDiff[];

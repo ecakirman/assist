@@ -1,0 +1,40 @@
+import { Box, Button, CircularProgress } from "@mui/material";
+
+export function GapStatus({
+	hidden,
+	header,
+	loading,
+	error,
+	onRetry,
+}: {
+	hidden: number;
+	header: string;
+	loading: boolean;
+	error: string | undefined;
+	onRetry: () => void;
+}) {
+	if (loading)
+		return (
+			<Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
+				<CircularProgress size={14} aria-label="Loading" />
+				Loading file from GitHub…
+			</Box>
+		);
+	if (error)
+		return (
+			<Box component="span" sx={{ color: "error.main", whiteSpace: "normal" }}>
+				Couldn't load this file from GitHub: {error}{" "}
+				<Button size="small" onClick={onRetry} sx={{ minWidth: 0, py: 0 }}>
+					Retry
+				</Button>
+			</Box>
+		);
+	return (
+		<>
+			{hidden} hidden line{hidden === 1 ? "" : "s"}{" "}
+			<Box component="span" sx={{ color: "text.disabled" }}>
+				{header}
+			</Box>
+		</>
+	);
+}

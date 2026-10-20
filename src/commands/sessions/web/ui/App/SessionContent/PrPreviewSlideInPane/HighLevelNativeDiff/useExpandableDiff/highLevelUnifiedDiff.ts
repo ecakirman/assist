@@ -1,4 +1,4 @@
-import type { HighLevelFileStatus } from "../../../../../../../review/highLevel/types";
+import type { HighLevelFileStatus } from "../../../../../../../../review/highLevel/types";
 
 const NULL_PATH = "/dev/null";
 

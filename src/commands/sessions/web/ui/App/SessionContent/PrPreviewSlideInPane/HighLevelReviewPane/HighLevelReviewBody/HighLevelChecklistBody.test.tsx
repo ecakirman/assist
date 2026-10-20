@@ -7,11 +7,11 @@ import {
 	within,
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { HighLevelCheckResult } from "../../../../../../../review/highLevel/types";
+import type { HighLevelCheckResult } from "../../../../../../../../review/highLevel/types";
 import { HighLevelChecklistBody } from "./HighLevelChecklistBody";
-import { highLevelCheckDomId } from "../highLevelCheckDomId";
-import { useHighLevelChecklist } from "./useHighLevelChecklist";
-import { PreviewWidthContext } from "../../usePreviewWidthContext";
+import { highLevelCheckDomId } from "../../highLevelCheckDomId";
+import { useHighLevelChecklist } from "../useHighLevelChecklist";
+import { PreviewWidthContext } from "../../../usePreviewWidthContext";
 
 const deterministic: HighLevelCheckResult = {
 	id: "description-what-why",

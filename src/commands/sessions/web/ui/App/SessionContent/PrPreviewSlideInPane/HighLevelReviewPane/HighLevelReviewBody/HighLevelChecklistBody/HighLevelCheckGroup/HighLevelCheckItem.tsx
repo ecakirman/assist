@@ -1,7 +1,7 @@
 import { Box, Stack, TextField } from "@mui/material";
 import type { ReactNode } from "react";
-import type { HighLevelCheckResult } from "../../../../../../../../../review/highLevel/types";
-import { highLevelCheckDomId } from "../../../highLevelCheckDomId";
+import type { HighLevelCheckResult } from "../../../../../../../../../../review/highLevel/types";
+import { highLevelCheckDomId } from "../../../../highLevelCheckDomId";
 import { HighLevelCheckMarker } from "./HighLevelCheckItem/HighLevelCheckMarker";
 import { HighLevelCheckText } from "./HighLevelCheckItem/HighLevelCheckText";
 import { highLevelItemSx } from "./HighLevelCheckItem/highLevelItemSx";

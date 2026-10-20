@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import type { ReactNode } from "react";
-import type { HighLevelCheckResult } from "../../../../../../../../review/highLevel/types";
+import type { HighLevelCheckResult } from "../../../../../../../../../review/highLevel/types";
 import { HighLevelCheckItem } from "./HighLevelCheckGroup/HighLevelCheckItem";
-import type { useHighLevelChecklist } from "../useHighLevelChecklist";
+import type { useHighLevelChecklist } from "../../useHighLevelChecklist";
 
 export function HighLevelCheckGroup({
 	heading,

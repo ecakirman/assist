@@ -7,6 +7,7 @@ export function highLevelPreviewPayload(
 	const {
 		repo,
 		prNumber,
+		headSha,
 		checks,
 		structure,
 		criticalDiffs,
@@ -19,6 +20,7 @@ export function highLevelPreviewPayload(
 	return {
 		repo,
 		prNumber,
+		headSha,
 		checks,
 		structure,
 		criticalDiffs,

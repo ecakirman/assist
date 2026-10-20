@@ -1,23 +1,6 @@
-import type {
-	HighLevelCheckResult,
-	HighLevelCriticalDiff,
-	HighLevelReviewRecord,
-	HighLevelStructure,
-	HighLevelTestFile,
-} from "./types";
+import type { HighLevelPreviewPayload } from "./types";
 
-export type HighLevelOverlaySubject = {
-	repo: string;
-	prNumber: number;
+export type HighLevelOverlaySubject = HighLevelPreviewPayload & {
 	title: string;
 	headRef: string;
-	headSha: string;
-	checks: HighLevelCheckResult[];
-	structure: HighLevelStructure;
-	criticalDiffs: HighLevelCriticalDiff[];
-	criticalPaths: string[];
-	tests: HighLevelTestFile[];
-	testPaths: string[];
-	collapsedPaths: string[];
-	saved?: HighLevelReviewRecord;
 };

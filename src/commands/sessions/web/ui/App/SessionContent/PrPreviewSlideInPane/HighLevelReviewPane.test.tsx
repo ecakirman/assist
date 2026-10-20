@@ -39,6 +39,7 @@ const checks: HighLevelCheckResult[] = [
 const payload: HighLevelPreviewPayload = {
 	repo: "org/repo",
 	prNumber: 42,
+	headSha: "abc1234",
 	checks,
 	structure: {
 		tree: [

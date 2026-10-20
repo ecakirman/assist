@@ -1,13 +1,14 @@
 import { Box } from "@mui/material";
-import { useMemo } from "react";
-import { parseDiff, type ViewType } from "react-diff-view";
+import type { ViewType } from "react-diff-view";
 import type { HighLevelFileStatus } from "../../../../../../review/highLevel/types";
 import { DiffCommentLayer } from "../../DiffCommentLayer";
 import { diffSx } from "../../diffSx";
 import { FileDiffBody } from "../../FileDiffBody";
 import type { HighLevelDiffComments } from "./HighLevelDiffComments";
 import { HighLevelDiffNote } from "./HighLevelDiffNote";
-import { highLevelUnifiedDiff } from "./HighLevelNativeDiff/highLevelUnifiedDiff";
+import { gapRenderer } from "./HighLevelNativeDiff/gapRenderer";
+import { highLevelGapSx } from "./HighLevelNativeDiff/highLevelGapSx";
+import { useExpandableDiff } from "./HighLevelNativeDiff/useExpandableDiff";
 
 export function HighLevelNativeDiff({
 	path,
@@ -24,14 +25,7 @@ export function HighLevelNativeDiff({
 	viewType: ViewType;
 	comments?: HighLevelDiffComments | undefined;
 }) {
-	const file = useMemo(() => {
-		if (!patch) return undefined;
-		try {
-			return parseDiff(highLevelUnifiedDiff(path, status, patch))[0];
-		} catch {
-			return undefined;
-		}
-	}, [path, status, patch]);
+	const { file, expansion } = useExpandableDiff(path, status, patch);
 
 	if (!file)
 		return (
@@ -43,7 +37,7 @@ export function HighLevelNativeDiff({
 		);
 
 	return (
-		<Box sx={[diffSx, { pt: 0.5, minWidth: 0 }]}>
+		<Box sx={[diffSx, highLevelGapSx, { pt: 0.5, minWidth: 0 }]}>
 			<DiffCommentLayer
 				path={path}
 				cwd={comments?.cwd}
@@ -52,7 +46,12 @@ export function HighLevelNativeDiff({
 				onQueue={comments?.onQueue}
 				unavailable={comments?.unavailable}
 			>
-				<FileDiffBody file={file} path={path} viewType={viewType} />
+				<FileDiffBody
+					file={file}
+					path={path}
+					viewType={viewType}
+					renderGap={expansion.expandable ? gapRenderer(expansion) : undefined}
+				/>
 			</DiffCommentLayer>
 			{truncated && (
 				<HighLevelDiffNote>

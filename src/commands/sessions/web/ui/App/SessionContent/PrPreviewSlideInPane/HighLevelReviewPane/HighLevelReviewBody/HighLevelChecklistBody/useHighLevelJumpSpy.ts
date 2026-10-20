@@ -2,7 +2,7 @@ import { type RefObject, useEffect, useState } from "react";
 import {
 	highLevelCheckDomId,
 	JUMP_TARGET_OFFSET,
-} from "../../highLevelCheckDomId";
+} from "../../../highLevelCheckDomId";
 
 function atBottom(container: HTMLElement): boolean {
 	const { scrollTop, scrollHeight, clientHeight } = container;

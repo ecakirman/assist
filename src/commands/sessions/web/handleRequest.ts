@@ -16,6 +16,7 @@ import { getConfig } from "./getConfig";
 import { getHtml } from "./getHtml";
 import { handleServerRuns } from "./handleServerRuns";
 import { getReviewSynthesis } from "./getReviewSynthesis";
+import { githubFileContent } from "./githubFileContent";
 import { githubUrl } from "./githubUrl";
 import { gitStatus } from "./gitStatus";
 import { harnessCapabilities } from "./harnessCapabilities";
@@ -76,6 +77,7 @@ const routes: Record<string, Handler> = {
 	"GET /api/node-doctor": nodeDoctor,
 	"POST /api/self-update": selfUpdate,
 	"GET /api/github-url": githubUrl,
+	"GET /api/github-file": githubFileContent,
 	"GET /api/git-status": gitStatus,
 	"GET /api/diff": diff,
 	"GET /api/diff-scopes": diffScopes,
