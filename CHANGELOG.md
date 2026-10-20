@@ -1,3 +1,10 @@
+# [0.866.0](https://github.com/staff0rd/assist/compare/v0.865.1...v0.866.0) (2026-10-20)
+
+
+### Features
+
+* add --milestone to github issue create ([7aa57ce](https://github.com/staff0rd/assist/commit/7aa57ce6d932aad112440c5ac8144c6b02dbf2e9))
+
 ## [0.865.1](https://github.com/staff0rd/assist/compare/v0.865.0...v0.865.1) (2026-10-20)
 
 
