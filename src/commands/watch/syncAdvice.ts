@@ -8,6 +8,10 @@ const rules = [
 		reason: "claude/skills changed",
 	},
 	{
+		matches: (path: string) => path.startsWith("src/commands/review/"),
+		reason: "review-ci bundle sources changed",
+	},
+	{
 		matches: (path: string) => path === "claude/settings.json",
 		reason: "claude/settings.json changed",
 	},
