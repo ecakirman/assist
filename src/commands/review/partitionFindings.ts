@@ -6,7 +6,7 @@ export type LineBoundFinding = ParsedFinding & {
 	startLine?: number;
 };
 
-export type UnanchorReason = "out-of-diff" | "unlocated";
+export type UnanchorReason = "out-of-diff" | "unlocated" | "comment-rejected";
 
 export type UnanchoredFinding = ParsedFinding & {
 	reason: UnanchorReason;

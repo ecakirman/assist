@@ -5,7 +5,7 @@ import { chainAfterReview } from "./chainAfterReview";
 import { type PostOutcome, postAndMaybeSubmit } from "./postAndMaybeSubmit";
 import { selectPostableFindings } from "./selectPostableFindings";
 import { stillOnReviewedPr } from "./stillOnReviewedPr";
-import { submitNoFindingsReview } from "./submitNoFindingsReview";
+import { postNoFindingsReview } from "./postNoFindingsReview";
 import { describeWork } from "./describeWork";
 
 type PostReviewOptions = {
@@ -41,11 +41,8 @@ async function postFindingsToPr(
 	const markdown = readFileSync(synthesisPath, "utf8");
 	const { inDiff, unanchored } = selectPostableFindings(markdown, prInfo);
 	const carried = carriedUnanchoredFindings(unanchored);
-	if (inDiff.length === 0 && carried.length === 0) {
-		if (!options.ciFooter) return NOTHING_POSTED;
-		submitNoFindingsReview(markdown, options.ciFooter);
-		return { posted: 0, submitted: true };
-	}
+	if (inDiff.length === 0 && carried.length === 0)
+		return postNoFindingsReview(markdown, options.ciFooter);
 	const work = describeWork(inDiff.length, carried.length);
 	console.log(`Found PR #${prInfo.prNumber} with ${work} to post.`);
 	const confirmed = await confirmPost(prInfo.prNumber, work, options);

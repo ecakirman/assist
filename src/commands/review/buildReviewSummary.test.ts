@@ -94,6 +94,18 @@ describe("buildReviewSummary", () => {
 			);
 		});
 
+		it("explains a finding whose line comment GitHub rejected", () => {
+			const section = unanchoredSection(
+				buildReviewSummary(SAMPLE, [
+					unanchored({ reason: "comment-rejected" }),
+				]),
+			);
+
+			expect(section).toContain(
+				"  - Not anchored: GitHub rejected its line comment",
+			);
+		});
+
 		it("marks an unlocated finding as having no location", () => {
 			const section = unanchoredSection(
 				buildReviewSummary(SAMPLE, [

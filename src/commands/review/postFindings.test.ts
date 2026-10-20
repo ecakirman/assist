@@ -71,7 +71,7 @@ describe("postFindings", () => {
 
 		const result = await postFindings([FINDING, SECOND_FINDING]);
 
-		expect(result).toEqual({ posted: 2, failed: 0 });
+		expect(result).toEqual({ posted: 2, failed: [] });
 		expect(mockComment).toHaveBeenNthCalledWith(
 			1,
 			"src/foo.ts",
@@ -103,13 +103,13 @@ describe("postFindings", () => {
 		expect(overlapped).toBe(false);
 	});
 
-	it("counts a rejected post as failed", async () => {
+	it("returns a rejected post's finding as failed", async () => {
 		mockComment
 			.mockRejectedValueOnce(new Error("outside the diff"))
 			.mockResolvedValueOnce(undefined);
 
 		const result = await postFindings([FINDING, SECOND_FINDING]);
 
-		expect(result).toEqual({ posted: 1, failed: 1 });
+		expect(result).toEqual({ posted: 1, failed: [FINDING] });
 	});
 });

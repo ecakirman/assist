@@ -5,6 +5,7 @@ import type { LineBoundFinding, UnanchoredFinding } from "./partitionFindings";
 import { postFindings } from "./postFindings";
 import { buildReviewBody } from "./buildReviewBody";
 import { submitReview } from "./submitReview";
+import { withRejectedFindings } from "./withRejectedFindings";
 
 type PostAndMaybeSubmitOptions = {
 	prompt: boolean;
@@ -35,22 +36,23 @@ export async function postAndMaybeSubmit(
 	markdown: string,
 	options: PostAndMaybeSubmitOptions,
 ): Promise<PostOutcome> {
-	const result = await postFindings(lineBound);
-	const failedSuffix = result.failed > 0 ? `, ${result.failed} failed` : "";
-	console.log(`Posted ${result.posted} comment(s)${failedSuffix}.`);
-	const carried = carriedUnanchoredFindings(unanchored);
-	if (result.posted === 0 && carried.length === 0 && !options.ciFooter)
+	const { posted, failed } = await postFindings(lineBound);
+	const failedSuffix = failed.length > 0 ? `, ${failed.length} failed` : "";
+	console.log(`Posted ${posted} comment(s)${failedSuffix}.`);
+	const withRejected = withRejectedFindings(unanchored, failed);
+	const carried = carriedUnanchoredFindings(withRejected);
+	if (posted === 0 && carried.length === 0 && !options.ciFooter)
 		return { posted: 0, submitted: false };
 	const shouldSubmit = await decideSubmit(options);
 	if (shouldSubmit) {
 		const submitted = submitReview(
-			buildReviewBody(markdown, unanchored, options.ciFooter),
-			result,
+			buildReviewBody(markdown, withRejected, options.ciFooter),
+			{ posted, failed: failed.length },
 		);
 		if (!submitted && options.ciFooter)
 			throw new Error("the review could not be submitted to the PR");
-		return { posted: result.posted, submitted };
+		return { posted, submitted };
 	}
 	console.log("Leaving the review unsubmitted.");
-	return { posted: result.posted, submitted: false };
+	return { posted, submitted: false };
 }

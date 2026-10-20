@@ -27,6 +27,13 @@ describe("submitNoFindingsReview", () => {
 		expect(body.endsWith(footer)).toBe(true);
 	});
 
+	it("returns whether the review was submitted", () => {
+		mockSubmitBodyOnlyReview.mockReturnValueOnce(true);
+		expect(submitNoFindingsReview(markdown, footer)).toBe(true);
+		mockSubmitBodyOnlyReview.mockReturnValueOnce(false);
+		expect(submitNoFindingsReview(markdown, footer)).toBe(false);
+	});
+
 	it("sanitises the summary but not the footer's model names", () => {
 		submitNoFindingsReview(markdown, footer);
 

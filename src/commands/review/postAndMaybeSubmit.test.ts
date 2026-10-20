@@ -51,6 +51,17 @@ const carriedFinding: UnanchoredFinding = {
 	reason: "out-of-diff",
 };
 
+const rejectedFinding: LineBoundFinding = {
+	title: "Unchecked submit result",
+	severity: "major",
+	source: "confirmed",
+	location: "src/review.mjs:441",
+	impact: "impact",
+	recommendation: "recommendation",
+	file: "src/review.mjs",
+	line: 441,
+};
+
 beforeEach(() => {
 	vi.clearAllMocks();
 	vi.spyOn(console, "log").mockImplementation(() => {});
@@ -62,7 +73,7 @@ beforeEach(() => {
 describe("postAndMaybeSubmit", () => {
 	describe("when prompting for confirmation", () => {
 		beforeEach(() => {
-			mockPostFindings.mockReturnValue({ posted: 1, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 1, failed: [] });
 		});
 
 		it("should mark the session waiting while the prompt is open", async () => {
@@ -108,7 +119,7 @@ describe("postAndMaybeSubmit", () => {
 
 	describe("when not prompting", () => {
 		it("should not touch the session status", async () => {
-			mockPostFindings.mockReturnValue({ posted: 1, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 1, failed: [] });
 
 			await postAndMaybeSubmit(findings, [], "md", {
 				prompt: false,
@@ -120,7 +131,7 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should report what was posted and submitted", async () => {
-			mockPostFindings.mockReturnValue({ posted: 3, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 3, failed: [] });
 
 			const outcome = await postAndMaybeSubmit(findings, [], "md", {
 				prompt: false,
@@ -131,7 +142,7 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should report an unsubmitted review", async () => {
-			mockPostFindings.mockReturnValue({ posted: 3, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 3, failed: [] });
 
 			const outcome = await postAndMaybeSubmit(findings, [], "md", {
 				prompt: false,
@@ -144,7 +155,7 @@ describe("postAndMaybeSubmit", () => {
 
 	describe("when a CI footer is given", () => {
 		it("should end the submitted review body with it", async () => {
-			mockPostFindings.mockReturnValue({ posted: 1, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 1, failed: [] });
 
 			await postAndMaybeSubmit(findings, [], "md", {
 				prompt: false,
@@ -156,7 +167,7 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should end a body-only review with it", async () => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 0, failed: [] });
 
 			await postAndMaybeSubmit(findings, [carriedFinding], "md", {
 				prompt: false,
@@ -168,7 +179,10 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should submit the pending review a failed line comment left behind", async () => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 2 });
+			mockPostFindings.mockReturnValue({
+				posted: 0,
+				failed: [rejectedFinding],
+			});
 			mockSubmitPendingReview.mockReturnValue(true);
 
 			await postAndMaybeSubmit(findings, [], "md", {
@@ -182,7 +196,10 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should submit a body-only review when failed line comments left no pending review", async () => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 2 });
+			mockPostFindings.mockReturnValue({
+				posted: 0,
+				failed: [rejectedFinding],
+			});
 			mockSubmitPendingReview.mockReturnValue(false);
 			mockSubmitBodyOnlyReview.mockReturnValue(true);
 
@@ -196,7 +213,10 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should throw when the review could not be submitted", async () => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 1 });
+			mockPostFindings.mockReturnValue({
+				posted: 0,
+				failed: [rejectedFinding],
+			});
 			mockSubmitPendingReview.mockReturnValue(false);
 			mockSubmitBodyOnlyReview.mockReturnValue(false);
 
@@ -212,12 +232,12 @@ describe("postAndMaybeSubmit", () => {
 
 	describe("when no CI footer is given", () => {
 		it("should leave the pending and body-only review bodies unchanged", async () => {
-			mockPostFindings.mockReturnValueOnce({ posted: 1, failed: 0 });
+			mockPostFindings.mockReturnValueOnce({ posted: 1, failed: [] });
 			await postAndMaybeSubmit(findings, [], "md", {
 				prompt: false,
 				submit: true,
 			});
-			mockPostFindings.mockReturnValueOnce({ posted: 0, failed: 0 });
+			mockPostFindings.mockReturnValueOnce({ posted: 0, failed: [] });
 			await postAndMaybeSubmit(findings, [carriedFinding], "md", {
 				prompt: false,
 				submit: true,
@@ -230,7 +250,7 @@ describe("postAndMaybeSubmit", () => {
 
 	describe("when findings could not be anchored", () => {
 		it("should hand them to the review body builder", async () => {
-			mockPostFindings.mockReturnValue({ posted: 1, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 1, failed: [] });
 			const carried = [carriedFinding];
 
 			await postAndMaybeSubmit(findings, carried, "md", {
@@ -242,9 +262,39 @@ describe("postAndMaybeSubmit", () => {
 		});
 	});
 
+	describe("when GitHub rejects a line comment", () => {
+		beforeEach(() => {
+			mockPostFindings.mockReturnValue({
+				posted: 0,
+				failed: [rejectedFinding],
+			});
+		});
+
+		it("should carry its finding into the review body", async () => {
+			await postAndMaybeSubmit(findings, [carriedFinding], "md", {
+				prompt: false,
+				submit: true,
+			});
+
+			expect(mockBuildReviewSummary).toHaveBeenCalledWith("md", [
+				carriedFinding,
+				{ ...rejectedFinding, reason: "comment-rejected" },
+			]);
+		});
+
+		it("should submit the body outside CI", async () => {
+			const outcome = await postAndMaybeSubmit(findings, [], "md", {
+				prompt: false,
+				submit: true,
+			});
+
+			expect(outcome).toEqual({ posted: 0, submitted: true });
+		});
+	});
+
 	describe("when no comments were posted but findings were carried", () => {
 		beforeEach(() => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 0, failed: [] });
 		});
 
 		it("should submit the body as a review of its own", async () => {
@@ -284,7 +334,7 @@ describe("postAndMaybeSubmit", () => {
 
 	describe("when no comments were posted", () => {
 		it("should not prompt or change status", async () => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 0, failed: [] });
 
 			await postAndMaybeSubmit(findings, [], "md", {
 				prompt: true,
@@ -296,7 +346,7 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should report nothing posted or submitted", async () => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 0, failed: [] });
 
 			const outcome = await postAndMaybeSubmit(findings, [], "md", {
 				prompt: true,
@@ -309,7 +359,7 @@ describe("postAndMaybeSubmit", () => {
 		});
 
 		it("should submit nothing when the carried findings were already raised", async () => {
-			mockPostFindings.mockReturnValue({ posted: 0, failed: 0 });
+			mockPostFindings.mockReturnValue({ posted: 0, failed: [] });
 
 			const outcome = await postAndMaybeSubmit(
 				findings,

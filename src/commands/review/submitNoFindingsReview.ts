@@ -6,9 +6,9 @@ import { submitBodyOnlyReview } from "./submitBodyOnlyReview";
 export function submitNoFindingsReview(
 	markdown: string,
 	ciFooter: string,
-): void {
+): boolean {
 	const body = sanitiseReviewerNames(
 		`${buildReviewSummary(markdown)}\n\nNo findings were raised.`,
 	);
-	submitBodyOnlyReview(appendCiFooter(body, ciFooter));
+	return submitBodyOnlyReview(appendCiFooter(body, ciFooter));
 }

@@ -14,14 +14,14 @@ export function buildCommentBody(finding: LineBoundFinding): string {
 
 type PostFindingsResult = {
 	posted: number;
-	failed: number;
+	failed: LineBoundFinding[];
 };
 
 export async function postFindings(
 	findings: LineBoundFinding[],
 ): Promise<PostFindingsResult> {
 	let posted = 0;
-	let failed = 0;
+	const failed: LineBoundFinding[] = [];
 	for (const finding of findings) {
 		const body = buildCommentBody(finding);
 		try {
@@ -31,7 +31,7 @@ export async function postFindings(
 			});
 			posted++;
 		} catch (error) {
-			failed++;
+			failed.push(finding);
 			const message = error instanceof Error ? error.message : String(error);
 			console.error(
 				`Failed to post comment on ${finding.file}:${finding.line}: ${message}`,

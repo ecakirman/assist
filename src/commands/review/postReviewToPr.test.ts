@@ -61,6 +61,7 @@ beforeEach(() => {
 		unanchored: [],
 	});
 	mockPostAndMaybeSubmit.mockResolvedValue({ posted: 1, submitted: true });
+	mockSubmitNoFindingsReview.mockReturnValue(true);
 	mockPromptConfirm.mockResolvedValue(true);
 	mockStillOnReviewedPr.mockReturnValue(true);
 });
@@ -140,6 +141,22 @@ describe("postReviewToPr", () => {
 				{ posted: 0, submitted: true },
 				ciOptions,
 			);
+		});
+
+		it("should throw in CI when the no-findings review could not be submitted", async () => {
+			mockSelectPostableFindings.mockReturnValue({
+				inDiff: [],
+				unanchored: [],
+			});
+			mockSubmitNoFindingsReview.mockReturnValue(false);
+
+			await expect(
+				postReviewToPr("synthesis.md", prInfo, {
+					...options,
+					ciFooter: "footer",
+				}),
+			).rejects.toThrow("could not be submitted");
+			expect(mockChainAfterReview).not.toHaveBeenCalled();
 		});
 
 		it("should not post when the only un-anchorable finding was already raised", async () => {

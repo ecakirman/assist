@@ -9,6 +9,7 @@ import {
 const UNANCHOR_REASONS: Record<UnanchorReason, string> = {
 	"out-of-diff": "its line falls outside the PR diff",
 	unlocated: "it has no parseable file:line",
+	"comment-rejected": "GitHub rejected its line comment",
 };
 
 function formatFindingLine(finding: ParsedFinding): string {
