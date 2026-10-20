@@ -1,3 +1,10 @@
+# [0.869.0](https://github.com/staff0rd/assist/compare/v0.868.0...v0.869.0) (2026-10-20)
+
+
+### Features
+
+* stepped and edge gap expanders ([baa6c2c](https://github.com/staff0rd/assist/commit/baa6c2c420100e6040416b991bf5183658493efe))
+
 # [0.868.0](https://github.com/staff0rd/assist/compare/v0.867.0...v0.868.0) (2026-10-20)
 
 
