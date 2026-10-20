@@ -6,12 +6,13 @@ export function runGhIssueCreate(
 	title: string,
 	body: string,
 	repo: string | undefined,
-	labels: string[] | undefined,
+	metadata: { labels?: string[]; milestone?: string } | undefined,
 	attachments: PreviewAttachment[] = [],
 ): string {
 	const args = ["issue", "create", "--title", title, "--body", body];
 	if (repo) args.push("--repo", repo);
-	for (const label of labels ?? []) args.push("--label", label);
+	for (const label of metadata?.labels ?? []) args.push("--label", label);
+	if (metadata?.milestone) args.push("--milestone", metadata.milestone);
 	args.push(...attachArgs(attachments));
 	return runGhWithAttachments(args, attachments);
 }

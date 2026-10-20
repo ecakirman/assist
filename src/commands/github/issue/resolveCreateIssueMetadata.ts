@@ -6,6 +6,7 @@ import {
 	hasCreateIssueMetadataOptions,
 } from "./hasCreateIssueMetadataOptions";
 import { resolveIssueLabels } from "./resolveIssueLabels";
+import { resolveIssueMilestone } from "./resolveIssueMilestone";
 import {
 	type IssueRepoTarget,
 	resolveIssueRepoTarget,
@@ -25,6 +26,7 @@ export type CreateIssueMetadata = {
 	parent?: CreateIssueParent;
 	project?: CreateIssueProject;
 	labels?: string[];
+	milestone?: string;
 };
 
 export function resolveCreateIssueMetadata(
@@ -45,5 +47,8 @@ export function resolveCreateIssueMetadata(
 			? resolveCreateIssueProject(target.owner, options.project, options.status)
 			: undefined,
 		labels: labels.length ? resolveIssueLabels(target, labels) : undefined,
+		milestone: options.milestone
+			? resolveIssueMilestone(target, options.milestone)
+			: undefined,
 	};
 }

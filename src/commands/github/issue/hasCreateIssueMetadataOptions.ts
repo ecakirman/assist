@@ -5,6 +5,7 @@ export type CreateIssueMetadataOptions = {
 	project?: string;
 	status?: string;
 	label?: string[];
+	milestone?: string;
 };
 
 export function hasCreateIssueMetadataOptions(
@@ -16,6 +17,10 @@ export function hasCreateIssueMetadataOptions(
 		);
 	}
 	return Boolean(
-		options.type || options.parent || options.project || options.label?.length,
+		options.type ||
+		options.parent ||
+		options.project ||
+		options.label?.length ||
+		options.milestone,
 	);
 }

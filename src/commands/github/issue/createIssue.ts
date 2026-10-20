@@ -18,10 +18,11 @@ type CreateIssueOptions = {
 	project?: string;
 	status?: string;
 	label?: string[];
+	milestone?: string;
 };
 
 const USAGE =
-	"Usage: assist github issue create --title <title> --body <body> [-R <owner>/<repo>] [--type <name>] [--parent <issue>] [--project <number>] [--status <name>] [--label <name>]";
+	"Usage: assist github issue create --title <title> --body <body> [-R <owner>/<repo>] [--type <name>] [--parent <issue>] [--project <number>] [--status <name>] [--label <name>] [--milestone <name>]";
 
 function preflight(
 	options: CreateIssueOptions,
@@ -60,7 +61,7 @@ export async function createIssue(options: CreateIssueOptions): Promise<void> {
 		title,
 		appendScreenshots(body, attachments),
 		options.repo,
-		resolved?.labels,
+		resolved,
 		attachments,
 	);
 	console.log(output.trim());

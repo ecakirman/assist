@@ -47,11 +47,24 @@ type GraphqlWorld = {
 	project?: { id: string; title: string; field?: unknown } | null;
 	projectRoot?: "organization" | "user";
 	labels?: string[];
+	milestones?: string[];
 	parentExists?: boolean;
 };
 
 function graphqlReplies(world: GraphqlWorld = {}) {
 	return (query: string, variables?: Record<string, unknown>) => {
+		if (query.includes("milestones(first:")) {
+			return JSON.stringify({
+				data: {
+					repository: {
+						milestones: {
+							nodes: (world.milestones ?? []).map((title) => ({ title })),
+							pageInfo: { hasNextPage: false, endCursor: null },
+						},
+					},
+				},
+			});
+		}
 		if (query.includes("labels(first:")) {
 			return JSON.stringify({
 				data: {
@@ -825,6 +838,70 @@ describe("createIssue --label", () => {
 				"bug",
 				"--label",
 				"needs triage",
+			],
+			expect.anything(),
+		);
+	});
+});
+
+describe("createIssue --milestone", () => {
+	it("aborts before previewing or creating when the repo has no such open milestone", async () => {
+		process.env.ASSIST_SESSION = "1";
+		process.env.ASSIST_SESSION_ID = "s1";
+		const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+		exitThrows();
+		runGhGraphqlJson.mockImplementation(
+			graphqlReplies({ milestones: ["v1.0", "v1.1"] }),
+		);
+
+		await expect(
+			createIssue({
+				title: "Crash on load",
+				body: "Details",
+				repo: "acme/widgets",
+				milestone: "v2.0",
+			}),
+		).rejects.toThrow("process.exit");
+
+		const output = errorSpy.mock.calls.map((c) => c.join(" ")).join("\n");
+		expect(output).toContain("v1.0, v1.1");
+		expect(mockRequestPreviewDecision).not.toHaveBeenCalled();
+		expect(execFileSync).not.toHaveBeenCalled();
+	});
+
+	it("previews the milestone and passes the repo's spelling to gh issue create", async () => {
+		process.env.ASSIST_SESSION = "1";
+		process.env.ASSIST_SESSION_ID = "s1";
+		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
+		runGhGraphqlJson.mockImplementation(
+			graphqlReplies({ milestones: ["Sprint 4"] }),
+		);
+
+		await createIssue({
+			title: "Crash on load",
+			body: "Details",
+			repo: "acme/widgets",
+			milestone: "sprint 4",
+		});
+
+		const request = mockRequestPreviewDecision.mock.calls[0]?.[0];
+		expect(request?.metadata).toEqual([
+			{ label: "Repository", value: "acme/widgets" },
+			{ label: "Milestone", value: "Sprint 4" },
+		]);
+		expect(execFileSync).toHaveBeenCalledWith(
+			"gh",
+			[
+				"issue",
+				"create",
+				"--title",
+				"Crash on load",
+				"--body",
+				"Details",
+				"--repo",
+				"acme/widgets",
+				"--milestone",
+				"Sprint 4",
 			],
 			expect.anything(),
 		);

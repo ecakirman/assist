@@ -5,7 +5,7 @@ export function issuePreviewMetadata(
 	resolved: CreateIssueMetadata | undefined,
 ): PreviewMetadata[] {
 	if (!resolved) return [];
-	const { target, issueType, parent, project, labels } = resolved;
+	const { target, issueType, parent, project, labels, milestone } = resolved;
 	const items: PreviewMetadata[] = [
 		{ label: "Repository", value: `${target.owner}/${target.repo}` },
 	];
@@ -24,5 +24,6 @@ export function issuePreviewMetadata(
 	if (project?.status)
 		items.push({ label: "Status", value: project.status.optionName });
 	if (labels?.length) items.push({ label: "Labels", value: labels.join(", ") });
+	if (milestone) items.push({ label: "Milestone", value: milestone });
 	return items;
 }
