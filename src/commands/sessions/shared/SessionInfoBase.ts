@@ -77,6 +77,7 @@ export type SessionInfoBase = {
 	joinable?: boolean;
 	closing?: boolean;
 	verifying?: boolean;
+	seeding?: string;
 	lastUserMessage?: string;
 	activeViewer?: string;
 	activeViewerNode?: string;

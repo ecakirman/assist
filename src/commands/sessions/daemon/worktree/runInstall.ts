@@ -9,9 +9,10 @@ export function runInstall(
 	clone: string,
 	install: boolean | string | string[],
 	onSeeded: () => void,
+	onInstalling: (path?: string) => void = () => {},
 ): void {
 	if (Array.isArray(install)) {
-		installPaths(worktreePath, install, onSeeded);
+		installPaths(worktreePath, install, onSeeded, onInstalling);
 		return;
 	}
 	const command = resolveInstallCommand(clone, install);
@@ -19,6 +20,7 @@ export function runInstall(
 		onSeeded();
 		return;
 	}
+	onInstalling();
 	spawnInstall(worktreePath, worktreePath, command, "", () => onSeeded());
 }
 
@@ -26,6 +28,7 @@ function installPaths(
 	worktreePath: string,
 	paths: string[],
 	onSeeded: () => void,
+	onInstalling: (path?: string) => void,
 ): void {
 	const next = (index: number): void => {
 		const rel = paths[index];
@@ -42,6 +45,7 @@ function installPaths(
 			onSeeded();
 			return;
 		}
+		onInstalling(rel);
 		spawnInstall(worktreePath, dir, command, ` in ${rel}`, (outcome) => {
 			if (outcome.ok && !outcome.stopped) {
 				next(index + 1);

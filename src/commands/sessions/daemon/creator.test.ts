@@ -36,6 +36,17 @@ describe("creator", () => {
 		]);
 	});
 
+	it("replies once an async spawn resolves", async () => {
+		const { client, manager, sent } = harness();
+
+		creator(true, async () => "8")(client, manager, {});
+		expect(sent()).toEqual([]);
+		await Promise.resolve();
+		await Promise.resolve();
+
+		expect(sent()).toEqual([{ type: "created", sessionId: "8", isNew: true }]);
+	});
+
 	it("sends nothing when the message is routed to the windows daemon", () => {
 		const { client, manager, sent } = harness(true);
 		const spawn = vi.fn(() => "7");

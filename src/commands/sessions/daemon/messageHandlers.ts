@@ -15,7 +15,7 @@ import { lifecycleHandlers } from "./lifecycleHandlers";
 import { type Handler, routed } from "./routed";
 import { viewerHandlers } from "./viewerHandlers";
 import { sessionSettingHandlers } from "./sessionSettingHandlers";
-import { spawnContextFrom } from "./spawnContextFrom";
+import { spawnAssistCreate } from "./spawnAssistCreate";
 import { spawnCreate } from "./spawnCreate";
 
 export type { Msg } from "./routed";
@@ -37,18 +37,7 @@ export const messageHandlers: Record<string, Handler> = {
 	},
 	create: creator(true, spawnCreate),
 	"create-run": handleCreateRun,
-	"create-assist": creator(true, (m, d) =>
-		m.spawnAssist(
-			(d.assistArgs as string[]) ?? [],
-			d.cwd as string | undefined,
-			{
-				title: d.title as string | undefined,
-				subtitle: d.subtitle as string | undefined,
-				inPlace: d.inPlace === true,
-			},
-			spawnContextFrom(d),
-		),
-	),
+	"create-assist": creator(true, spawnAssistCreate),
 	resume: creator(false, (m, d) =>
 		m.resume(
 			d.sessionId as string,

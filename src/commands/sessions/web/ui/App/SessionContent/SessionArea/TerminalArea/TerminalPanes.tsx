@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import type { ResizeFn } from "../../../../ResizeFn";
 import { hasEnded } from "./TerminalPanes/hasEnded";
+import { NoSessionsHint } from "./TerminalPanes/NoSessionsHint";
 import { SessionLoadingOverlay } from "./TerminalPanes/SessionLoadingOverlay";
 import { TerminalPane } from "./TerminalPanes/TerminalPane";
 import type { SessionInfo } from "../../../../types";
@@ -15,14 +15,14 @@ type OutputSubscriber = (
 export function TerminalPanes({
 	sessions,
 	activeId,
-	activeLoading,
+	loadingLabel,
 	onOutput,
 	sendInput,
 	sendResize,
 }: {
 	sessions: SessionInfo[];
 	activeId: string | null;
-	activeLoading: boolean;
+	loadingLabel: string | undefined;
 	onOutput: OutputSubscriber;
 	sendInput: (sessionId: string, data: string) => void;
 	sendResize: ResizeFn;
@@ -42,21 +42,8 @@ export function TerminalPanes({
 					sendResize={sendResize}
 				/>
 			))}
-			{activeLoading && <SessionLoadingOverlay />}
-			{sessions.length === 0 && (
-				<Box
-					sx={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						height: "100%",
-					}}
-				>
-					<Typography variant="body2" color="text.disabled">
-						Create a session to get started
-					</Typography>
-				</Box>
-			)}
+			{loadingLabel && <SessionLoadingOverlay label={loadingLabel} />}
+			{sessions.length === 0 && <NoSessionsHint />}
 		</Box>
 	);
 }

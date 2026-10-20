@@ -4,6 +4,9 @@ import { messageHandlers } from "./messageHandlers";
 import type { SessionManager } from "./SessionManager";
 
 vi.mock("./daemonLog", () => ({ daemonLog: vi.fn() }));
+vi.mock("./worktree/prCheckoutHolder", () => ({
+	prCheckoutHolder: async () => undefined,
+}));
 
 const daemonLogMock = daemonLog as unknown as ReturnType<typeof vi.fn>;
 
@@ -216,13 +219,14 @@ describe("create-assist handler", () => {
 		);
 	});
 
-	it("leaves the launcher unset when the payload carries none", () => {
+	it("leaves the launcher unset when the payload carries none", async () => {
 		const m = assistManager();
 
 		messageHandlers["create-assist"](fakeClient() as never, m, {
 			assistArgs: ["review", "42"],
 			cwd: "/git/repo",
 		});
+		await vi.waitFor(() => expect(m.spawnAssist).toHaveBeenCalled());
 
 		expect(m.spawnAssist).toHaveBeenCalledWith(
 			["review", "42"],

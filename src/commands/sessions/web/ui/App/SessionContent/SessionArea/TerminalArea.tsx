@@ -27,15 +27,16 @@ export function TerminalArea({
 }: TerminalAreaProps) {
 	// why: a new session's terminal is empty until its process emits output, so the previously active pane would otherwise show through
 	const activeSession = sessions.find((s) => s.id === activeId);
-	const activeLoading =
-		activeSession !== undefined &&
-		isSessionStarting(activeSession, initialized);
+	const loadingLabel =
+		activeSession && isSessionStarting(activeSession, initialized)
+			? (activeSession.seeding ?? "Starting session…")
+			: undefined;
 
 	return (
 		<TerminalPanes
 			sessions={sessions}
 			activeId={activeId}
-			activeLoading={activeLoading}
+			loadingLabel={loadingLabel}
 			onOutput={onOutput}
 			sendInput={sendInput}
 			sendResize={sendResize}

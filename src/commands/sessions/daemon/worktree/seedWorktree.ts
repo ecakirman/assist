@@ -8,10 +8,11 @@ export function seedWorktree(
 	worktreePath: string,
 	clone: string,
 	onSeeded: () => void = () => {},
+	onInstalling?: (path?: string) => void,
 ): void {
 	const cfg = worktreeConfigFor(clone);
 	copyConfigFiles(worktreePath, clone, cfg.copy);
-	runInstall(worktreePath, clone, cfg.install, onSeeded);
+	runInstall(worktreePath, clone, cfg.install, onSeeded, onInstalling);
 }
 
 function copyConfigFiles(

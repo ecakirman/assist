@@ -13,7 +13,18 @@ export function bindNewWorktree(
 		return;
 	session.worktree = { path: alloc.cwd, clone: alloc.clone };
 	if (alloc.created)
-		seedWorktree(alloc.cwd, alloc.clone, () => startHeld(session));
+		seedWorktree(
+			alloc.cwd,
+			alloc.clone,
+			() => {
+				session.seeding = undefined;
+				startHeld(session);
+			},
+			(path) => {
+				session.seeding = `Installing dependencies${path ? ` in ${path}` : ""}…`;
+				notify();
+			},
+		);
 	notify();
 }
 

@@ -91,6 +91,7 @@ export type Session = {
 	pendingRestart?: () => void;
 	pendingDismiss?: () => void;
 	pendingStart?: () => Session["pty"];
+	seeding?: string;
 	cols?: number;
 	rows?: number;
 	activeViewer?: string;

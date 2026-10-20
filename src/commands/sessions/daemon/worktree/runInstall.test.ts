@@ -179,6 +179,22 @@ describe("runInstall", () => {
 			);
 		});
 
+		it("reports each path as its install starts", () => {
+			const onInstalling = vi.fn();
+
+			runInstall(
+				tree,
+				"/home/me/git/assist",
+				["a", "b"],
+				() => {},
+				onInstalling,
+			);
+			expect(onInstalling.mock.calls).toEqual([["a"]]);
+			child.emit("close", 0, null);
+
+			expect(onInstalling.mock.calls).toEqual([["a"], ["b"]]);
+		});
+
 		it("detects the package manager in each path", () => {
 			mockDetect.mockImplementation((dir) =>
 				dir.endsWith("ui") ? "pnpm install" : "npm install",

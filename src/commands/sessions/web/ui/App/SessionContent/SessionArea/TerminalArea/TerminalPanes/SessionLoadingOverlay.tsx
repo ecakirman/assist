@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
-export function SessionLoadingOverlay() {
+export function SessionLoadingOverlay({ label }: { label: string }) {
 	return (
 		<Box
 			sx={{
@@ -18,7 +18,7 @@ export function SessionLoadingOverlay() {
 		>
 			<CircularProgress size={28} />
 			<Typography variant="body2" color="text.disabled">
-				Starting session…
+				{label}
 			</Typography>
 		</Box>
 	);
