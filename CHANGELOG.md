@@ -1,3 +1,10 @@
+## [0.869.2](https://github.com/staff0rd/assist/compare/v0.869.1...v0.869.2) (2026-10-20)
+
+
+### Bug Fixes
+
+* sync on review-ci source changes ([2f76a29](https://github.com/staff0rd/assist/commit/2f76a2904c00bdda51dd3c427f4a293834d637c7))
+
 ## [0.869.1](https://github.com/staff0rd/assist/compare/v0.869.0...v0.869.1) (2026-10-20)
 
 
