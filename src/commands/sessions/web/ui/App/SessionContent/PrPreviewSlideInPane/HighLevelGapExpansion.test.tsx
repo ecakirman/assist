@@ -102,6 +102,24 @@ describe("HighLevelNativeDiff gap expansion", () => {
 		expect(screen.queryByRole("button", { name: /hidden lines/ })).toBeNull();
 	});
 
+	it.each(["added", "removed"] as const)(
+		"shows no expanders for a %s file",
+		(status) => {
+			render(
+				<HighLevelHeadSourceProvider repo="acme/app" headSha="abc1234">
+					<HighLevelNativeDiff
+						path="src/app.ts"
+						status={status}
+						patch={patch}
+						viewType="unified"
+					/>
+				</HighLevelHeadSourceProvider>,
+			);
+
+			expect(screen.queryByRole("button", { name: /^Show / })).toBeNull();
+		},
+	);
+
 	it("fetches the file at the PR head and reveals the gap with both line numbers", async () => {
 		const fetchMock = respondWith({ status: 200, body: { content: head } });
 		const { container } = renderDiff();
