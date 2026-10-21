@@ -80,8 +80,15 @@ export function getCurrentPrNodeId(): string {
 }
 
 export function findCurrentPrNumber(): number | null {
+	return findCurrentPr()?.number ?? null;
+}
+
+export function findCurrentPr(): {
+	number: number;
+	state: "OPEN" | "CLOSED" | "MERGED";
+} | null {
 	try {
-		return viewCurrentPr<{ number: number }>("number").number;
+		return viewCurrentPr("number,state");
 	} catch (error) {
 		if (error instanceof Error && error.message.includes("no pull requests")) {
 			return null;

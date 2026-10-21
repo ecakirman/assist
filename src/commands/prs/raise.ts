@@ -5,7 +5,7 @@ import { parseScreenshotSpecs } from "./parseScreenshotSpecs";
 import { placePr } from "./placePr";
 import { previewAndPlace } from "./previewAndPlace";
 import { type DraftOptionSource, resolveDraftState } from "./resolveDraftState";
-import { findCurrentPrNumber } from "./shared";
+import { findCurrentPr } from "./shared";
 
 type RaiseOptions = Omit<CreateOptions, "body"> & {
 	what?: string;
@@ -26,7 +26,7 @@ export async function raise(
 	const screenshots = parseScreenshotSpecs(options.screenshot);
 	const { title, body } = buildValidatedBody(options, USAGE);
 	const resolved = { ...options, draft: resolveDraftState(options, command) };
-	const existing = findCurrentPrNumber();
+	const existing = findOpenPrNumber();
 	const sessionId = process.env.ASSIST_SESSION_ID;
 
 	if (process.env.ASSIST_SESSION === "1" && sessionId) {
@@ -55,4 +55,13 @@ export async function raise(
 		resolved,
 		screenshots,
 	);
+}
+
+function findOpenPrNumber(): number | null {
+	const pr = findCurrentPr();
+	if (pr === null || pr.state === "OPEN") return pr?.number ?? null;
+	console.error(
+		`Error: This branch's pull request #${pr.number} is already ${pr.state.toLowerCase()}. Move the work to a new branch (e.g. 'assist branch') and raise the PR from there.`,
+	);
+	process.exit(1);
 }

@@ -17,9 +17,9 @@ vi.mock("node:child_process", async () =>
 	).childProcessMock(),
 );
 
-const mockFindCurrentPrNumber = vi.fn();
+const mockFindCurrentPr = vi.fn();
 vi.mock("./shared", () => ({
-	findCurrentPrNumber: () => mockFindCurrentPrNumber(),
+	findCurrentPr: () => mockFindCurrentPr(),
 }));
 
 vi.mock("../../shared/loadJson", () => ({
@@ -50,11 +50,12 @@ const mockExit = vi.spyOn(process, "exit").mockImplementation(() => {
 import { raise } from "./raise";
 
 const GH_OPTIONS = { encoding: "utf8", stdio: ["inherit", "pipe", "inherit"] };
+const OPEN_PR = { number: 42, state: "OPEN" };
 
 beforeEach(() => {
 	vi.clearAllMocks();
 	mockExecFileSync.mockReset().mockReturnValue("");
-	mockFindCurrentPrNumber.mockReturnValue(null);
+	mockFindCurrentPr.mockReturnValue(null);
 	mockLoadConfig.mockReturnValue(makeAssistConfig());
 	delete process.env.ASSIST_SESSION;
 	delete process.env.ASSIST_SESSION_ID;
@@ -245,7 +246,7 @@ describe("raise", () => {
 			mockLoadConfig.mockReturnValue(
 				makeAssistConfig({ prs: { draft: true } }),
 			);
-			mockFindCurrentPrNumber.mockReturnValue(42);
+			mockFindCurrentPr.mockReturnValue(OPEN_PR);
 
 			raise({ title: "t", what: "w", why: "y", force: true }, DEFAULTED);
 
@@ -267,7 +268,7 @@ describe("raise", () => {
 
 	describe("when a PR already exists", () => {
 		beforeEach(() => {
-			mockFindCurrentPrNumber.mockReturnValue(42);
+			mockFindCurrentPr.mockReturnValue(OPEN_PR);
 		});
 
 		it("errors without --force", async () => {
@@ -299,6 +300,47 @@ describe("raise", () => {
 				expect.anything(),
 				expect.anything(),
 			);
+		});
+	});
+
+	describe.each(["MERGED", "CLOSED"])("when the branch's PR is %s", (state) => {
+		beforeEach(() => {
+			mockFindCurrentPr.mockReturnValue({ number: 611, state });
+		});
+
+		afterEach(() => {
+			delete process.env.ASSIST_SESSION;
+			delete process.env.ASSIST_SESSION_ID;
+		});
+
+		async function expectRefused(run: () => Promise<void>): Promise<void> {
+			const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+			await expect(run()).rejects.toThrow("process.exit");
+
+			expect(mockExit).toHaveBeenCalledWith(1);
+			expect(mockExecFileSync).not.toHaveBeenCalled();
+			expect(mockRequestPrDecision).not.toHaveBeenCalled();
+			const output = errorSpy.mock.calls.map((c) => c.join(" ")).join("\n");
+			expect(output).toContain(`#611 is already ${state.toLowerCase()}`);
+			expect(output).toContain("new branch");
+			errorSpy.mockRestore();
+		}
+
+		it("refuses even with --force", async () => {
+			await expectRefused(() =>
+				raise({ title: "t", what: "w", why: "y", force: true }),
+			);
+		});
+
+		it("refuses before previewing in a web session", async () => {
+			process.env.ASSIST_SESSION = "1";
+			process.env.ASSIST_SESSION_ID = "7";
+			mockRequestPrDecision.mockResolvedValue({
+				decision: "approve",
+				reviewAfter: true,
+			});
+			await expectRefused(() => raise({ title: "t", what: "w", why: "y" }));
 		});
 	});
 
@@ -378,7 +420,7 @@ describe("raise", () => {
 		});
 
 		it("updates an existing PR after approval without needing --force", async () => {
-			mockFindCurrentPrNumber.mockReturnValue(42);
+			mockFindCurrentPr.mockReturnValue(OPEN_PR);
 			mockRequestPrDecision.mockResolvedValue({ decision: "approve" });
 
 			await raise({ title: "t", what: "w", why: "y" });
