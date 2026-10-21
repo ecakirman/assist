@@ -1,3 +1,10 @@
+## [0.872.3](https://github.com/staff0rd/assist/compare/v0.872.2...v0.872.3) (2026-10-21)
+
+
+### Bug Fixes
+
+* drop duplicate pane assist button ([b774caa](https://github.com/staff0rd/assist/commit/b774caa902fdda4deb031e2f7e4dd29784f9179c))
+
 ## [0.872.2](https://github.com/staff0rd/assist/compare/v0.872.1...v0.872.2) (2026-10-21)
 
 
