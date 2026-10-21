@@ -273,6 +273,17 @@ describe("add", () => {
 		},
 	);
 
+	it("keeps flags inside a quoted command as command args", async () => {
+		setArgv("build", "pnpm --filter web build");
+		mockLoadProjectConfig.mockReturnValue({});
+
+		await add();
+
+		expect(savedRun()).toEqual([
+			{ name: "build", command: "pnpm", args: ["--filter", "web", "build"] },
+		]);
+	});
+
 	it("rejects a non-numeric --port", async () => {
 		setArgv("dev", "vite", "--port", "abc");
 		mockLoadProjectConfig.mockReturnValue({});

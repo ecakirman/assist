@@ -43,6 +43,8 @@ export const runAddHelpText = [
 	"",
 	'Options go after <command>. --server and --repo take the next argument as their value unless it starts with "-", so put them last or before another option:',
 	"  assist run add dev npm run dev --env PORT=3000 --server --port 3000 --repo",
+	"These flags are taken from anywhere after <command>; to pass one to the command itself, quote the whole command:",
+	'  assist run add build "pnpm --filter web build"',
 	"",
 	"--param <spec> appends params in order; each fills the next arg given to assist run:",
 	"  <name>            optional, omitted when not given",
