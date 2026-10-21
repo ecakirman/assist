@@ -1,3 +1,10 @@
+# [0.871.0](https://github.com/staff0rd/assist/compare/v0.870.4...v0.871.0) (2026-10-21)
+
+
+### Features
+
+* add --env and full help to run add ([f364c32](https://github.com/staff0rd/assist/commit/f364c321732b1180b08e37294ab7f03e32f17a10))
+
 ## [0.870.4](https://github.com/staff0rd/assist/compare/v0.870.3...v0.870.4) (2026-10-21)
 
 
