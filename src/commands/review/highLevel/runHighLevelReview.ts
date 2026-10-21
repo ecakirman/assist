@@ -14,12 +14,23 @@ function resolvePrNumber(number: string | undefined): number {
 	return parsed;
 }
 
+function gatherSubject(prNumber: number, force: boolean) {
+	try {
+		return gatherHighLevelSubject(prNumber, force);
+	} catch (error) {
+		console.error(
+			`Error: ${error instanceof Error ? error.message : String(error)}`,
+		);
+		process.exit(1);
+	}
+}
+
 export async function runHighLevelReview(
 	number: string | undefined,
 	options: { force?: boolean } = {},
 ): Promise<void> {
 	const force = options.force === true;
-	const subject = gatherHighLevelSubject(resolvePrNumber(number), force);
+	const subject = gatherSubject(resolvePrNumber(number), force);
 	announceSavedReview(subject, force);
 	const sessionId = process.env.ASSIST_SESSION_ID;
 	if (process.env.ASSIST_SESSION !== "1" || !sessionId)

@@ -1,4 +1,3 @@
-import { findRepoRoot } from "../../../shared/findRepoRoot";
 import { loadConfig } from "../../../shared/loadConfig";
 import { getRepoInfo } from "../../prs/shared";
 import { buildHighLevelStructure } from "./buildHighLevelStructure";
@@ -6,6 +5,7 @@ import { capHighLevelPatches } from "./capHighLevelPatches";
 import { capHighLevelTestSources } from "./capHighLevelTestSources";
 import { collectHighLevelTests } from "./collectHighLevelTests";
 import { evaluateHighLevelChecks } from "./evaluateHighLevelChecks";
+import { fetchFileAtSha } from "./fetchFileAtSha";
 import { fetchHighLevelFiles } from "./fetchHighLevelFiles";
 import { fetchHighLevelPr } from "./fetchHighLevelPr";
 import { loadHighLevelReview } from "./loadHighLevelReview";
@@ -44,10 +44,8 @@ export function gatherHighLevelSubject(
 		criticalDiffs: selectCriticalDiffs(files, config.criticalPaths),
 		criticalPaths: config.criticalPaths,
 		tests: capHighLevelTestSources(
-			collectHighLevelTests(
-				fetched,
-				config.testPaths,
-				findRepoRoot(process.cwd()) ?? process.cwd(),
+			collectHighLevelTests(fetched, config.testPaths, (path) =>
+				fetchFileAtSha(slug, pr.headSha, path),
 			),
 		),
 		testPaths: config.testPaths,

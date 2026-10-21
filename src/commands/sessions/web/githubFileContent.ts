@@ -2,6 +2,7 @@ import { execFile } from "node:child_process";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { promisify } from "node:util";
 import { respondJson } from "../../../shared/web";
+import { ghFailure } from "../../../shared/ghFailure";
 
 const execFileAsync = promisify(execFile);
 
@@ -15,12 +16,6 @@ function validPath(path: string): boolean {
 		!path.startsWith("/") &&
 		path.split("/").every((part) => part !== "" && part !== "..")
 	);
-}
-
-function ghFailure(error: unknown): string {
-	const stderr = (error as { stderr?: unknown }).stderr;
-	if (typeof stderr === "string" && stderr.trim()) return stderr.trim();
-	return error instanceof Error ? error.message : "gh api failed";
 }
 
 export async function githubFileContent(
