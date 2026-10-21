@@ -1,3 +1,10 @@
+## [0.872.2](https://github.com/staff0rd/assist/compare/v0.872.1...v0.872.2) (2026-10-21)
+
+
+### Bug Fixes
+
+* restore sessions mid worktree seeding ([78afa01](https://github.com/staff0rd/assist/commit/78afa01ddcbb07d618c4adf98b49b7a97848e13a))
+
 ## [0.872.1](https://github.com/staff0rd/assist/compare/v0.872.0...v0.872.1) (2026-10-21)
 
 
