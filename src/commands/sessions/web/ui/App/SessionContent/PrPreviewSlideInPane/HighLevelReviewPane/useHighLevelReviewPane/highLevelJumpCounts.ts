@@ -5,21 +5,14 @@ import type { HighLevelPreviewPayload } from "../../../../../../../../review/hig
 export function highLevelJumpCounts(
 	payload: HighLevelPreviewPayload,
 ): Record<string, string> {
-	const counts: [string, number, string][] = [
-		[
-			"structure-sensible",
-			highLevelChangedFileCount(payload.structure),
-			"file",
-		],
-		["critical-diffs-correct", payload.criticalDiffs.length, "diff"],
-		["tests-worth-having", highLevelTestCount(payload.tests), "test"],
+	const counts: [string, number][] = [
+		["structure-sensible", highLevelChangedFileCount(payload.structure)],
+		["critical-diffs-correct", payload.criticalDiffs.length],
+		["tests-worth-having", highLevelTestCount(payload.tests)],
 	];
 	return Object.fromEntries(
 		counts
 			.filter(([, count]) => count > 0)
-			.map(([id, count, noun]) => [
-				id,
-				`${count} ${noun}${count === 1 ? "" : "s"}`,
-			]),
+			.map(([id, count]) => [id, `(${count})`]),
 	);
 }

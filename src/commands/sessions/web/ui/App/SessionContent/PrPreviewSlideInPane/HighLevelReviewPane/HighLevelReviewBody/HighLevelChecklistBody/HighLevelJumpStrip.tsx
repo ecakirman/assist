@@ -49,7 +49,7 @@ export function HighLevelJumpStrip({
 				<HighLevelJump
 					key={check.id}
 					label={(check.kind === "manual" && check.short) || check.title}
-					count={full ? counts[check.id] : undefined}
+					count={counts[check.id]}
 					ticked={ticked(check.id)}
 					active={check.id === activeId}
 					onJump={() => jumpToHighLevelCheck(check.id)}

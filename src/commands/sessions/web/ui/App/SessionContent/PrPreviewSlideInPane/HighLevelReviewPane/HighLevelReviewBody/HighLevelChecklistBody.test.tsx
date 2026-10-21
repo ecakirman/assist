@@ -73,8 +73,8 @@ function Body({
 }
 
 const counts = {
-	"structure-sensible": "12 files",
-	"tests-worth-having": "6 tests",
+	"structure-sensible": "(12)",
+	"tests-worth-having": "(6)",
 };
 
 function strip() {
@@ -181,20 +181,20 @@ describe("HighLevelChecklistBody jump strip", () => {
 
 		expect(within(strip()).getByText("Judge")).toBeTruthy();
 		expect(jumps().map((jump) => jump.textContent)).toEqual([
-			"Structure12 files",
+			"Structure(12)",
 			"Critical diffs",
-			"Tests6 tests",
+			"Tests(6)",
 		]);
 	});
 
-	it("hides the label and counts in a narrow pane", () => {
+	it("hides the label but keeps the counts in a narrow pane", () => {
 		render(<Body checks={manualChecks} counts={counts} />);
 
 		expect(within(strip()).queryByText("Judge")).toBeNull();
 		expect(jumps().map((jump) => jump.textContent)).toEqual([
-			"Structure",
+			"Structure(12)",
 			"Critical diffs",
-			"Tests",
+			"Tests(6)",
 		]);
 	});
 });

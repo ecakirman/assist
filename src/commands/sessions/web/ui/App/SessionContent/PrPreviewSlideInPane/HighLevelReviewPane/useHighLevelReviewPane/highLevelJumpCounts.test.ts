@@ -36,9 +36,9 @@ describe("highLevelJumpCounts", () => {
 		);
 
 		expect(counts).toEqual({
-			"structure-sensible": "12 files",
-			"critical-diffs-correct": "1 diff",
-			"tests-worth-having": "2 tests",
+			"structure-sensible": "(12)",
+			"critical-diffs-correct": "(1)",
+			"tests-worth-having": "(2)",
 		});
 	});
 

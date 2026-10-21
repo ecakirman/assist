@@ -1,5 +1,11 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+	within,
+} from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type {
 	HighLevelCheckResult,
@@ -136,7 +142,7 @@ function preview(overrides: Partial<PrPreview> = {}): PrPreview {
 		body: JSON.stringify(payload),
 		prNumber: 42,
 		kind: "high-level-review",
-		metadata: [{ label: "Changed files", value: "12" }],
+		metadata: [{ label: "Branch", value: "feat/diff-viewer" }],
 		...overrides,
 	};
 }
@@ -279,6 +285,15 @@ describe("HighLevelReviewPane", () => {
 		expect(screen.getByText("Changed files (1)")).toBeTruthy();
 		expect(screen.getByText("src")).toBeTruthy();
 		expect(screen.getByText("app.ts")).toBeTruthy();
+	});
+
+	it("counts changed files in the narrow jump strip, not the metadata line", () => {
+		render(<HighLevelReviewPane preview={preview()} onDecision={vi.fn()} />);
+
+		const strip = screen.getByRole("navigation", { name: "Judge" });
+		expect(within(strip).getByText("(1)")).toBeTruthy();
+		expect(screen.getByText("feat/diff-viewer")).toBeTruthy();
+		expect(screen.queryByText("Changed files")).toBeNull();
 	});
 
 	it("collapses a folder on click and remembers it for the same PR", () => {
