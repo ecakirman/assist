@@ -18,11 +18,12 @@ export function toggleAssistPopover(
 
 	const host = document.createElement("div");
 	host.setAttribute("data-assist-popover", "");
-	mountHost(host, anchor);
+	const unmount = mountHost(host, anchor);
 
 	const close = () => {
 		if (open?.close !== close) return;
 		open = null;
+		unmount();
 		host.remove();
 		queueMicrotask(() => root.unmount());
 	};

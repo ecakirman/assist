@@ -85,6 +85,16 @@ describe("attachAssistHeaderButtons", () => {
 		).not.toBeNull();
 	});
 
+	it("keeps the popover under its button when the window resizes", async () => {
+		await openOn("/org/repo/issues/7");
+		const host = document.querySelector<HTMLElement>("[data-assist-popover]");
+		const button = buttons()[0];
+		button.getBoundingClientRect = () => ({ left: 200, bottom: 50 }) as DOMRect;
+		await act(async () => globalThis.dispatchEvent(new Event("resize")));
+		expect(host?.style.top).toBe("54px");
+		expect(host?.style.left).toBe("200px");
+	});
+
 	it("resolves a pull request in a project pane from its item link", async () => {
 		history.replaceState(
 			null,

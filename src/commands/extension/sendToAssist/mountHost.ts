@@ -2,17 +2,20 @@ const WIDTH = 320;
 
 const GUTTER = 16;
 
-export function mountHost(host: HTMLElement, anchor: HTMLElement): void {
+export function mountHost(host: HTMLElement, anchor: HTMLElement): () => void {
 	const dialog = anchor.closest<HTMLElement>('dialog, [role="dialog"]');
-	if (!dialog) {
-		host.style.cssText = pageHostStyle(anchor);
-		document.body.append(host);
-		return;
-	}
-	host.setAttribute("popover", "manual");
-	host.style.cssText = topLayerHostStyle(anchor);
-	dialog.append(host);
-	host.showPopover?.();
+	const style = dialog ? topLayerHostStyle : pageHostStyle;
+	const place = () => {
+		host.style.cssText = style(anchor);
+	};
+	place();
+	if (dialog) {
+		host.setAttribute("popover", "manual");
+		dialog.append(host);
+		host.showPopover?.();
+	} else document.body.append(host);
+	window.addEventListener("resize", place);
+	return () => window.removeEventListener("resize", place);
 }
 
 function pageHostStyle(anchor: HTMLElement): string {
