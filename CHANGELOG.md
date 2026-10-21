@@ -1,3 +1,10 @@
+## [0.873.1](https://github.com/staff0rd/assist/compare/v0.873.0...v0.873.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* keep assist popover aligned on resize ([121fcb1](https://github.com/staff0rd/assist/commit/121fcb1a64c42c470c09376e710c32c00bc3867a))
+
 # [0.873.0](https://github.com/staff0rd/assist/compare/v0.872.4...v0.873.0) (2026-10-21)
 
 
