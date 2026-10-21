@@ -1,3 +1,15 @@
+# [0.874.0](https://github.com/staff0rd/assist/compare/v0.873.1...v0.874.0) (2026-10-21)
+
+
+### Bug Fixes
+
+* find clones by origin under baseDir ([ef3ebc7](https://github.com/staff0rd/assist/commit/ef3ebc783628f7ca765d9eab52612d0ef185f161))
+
+
+### Features
+
+* outline toggle in project panes ([fbe172c](https://github.com/staff0rd/assist/commit/fbe172c06274eb00edb320cd12b5f66ac731ce20))
+
 ## [0.873.1](https://github.com/staff0rd/assist/compare/v0.873.0...v0.873.1) (2026-10-21)
 
 
