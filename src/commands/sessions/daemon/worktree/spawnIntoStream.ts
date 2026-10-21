@@ -28,6 +28,7 @@ export function spawnIntoStream(
 	);
 	const joined = ctx.sessions.get(id);
 	if (joined && target.worktree) joined.worktree = { ...target.worktree };
+	if (joined && holdUntilSeeded) joined.awaitingSeed = true;
 	daemonLog(
 		`session ${id} added to the stream of session ${target.id} in ${target.cwd}: no workspace allocated${
 			auto ? ", in auto mode" : ""

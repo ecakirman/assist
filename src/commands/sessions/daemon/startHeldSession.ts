@@ -16,6 +16,7 @@ export function startHeldSession(
 	const start = session.pendingStart;
 	if (!start) return;
 	session.pendingStart = undefined;
+	session.awaitingSeed = undefined;
 	if (heldStartBlocked(session, sessions)) return;
 	session.startedAt = Date.now();
 	if (session.status === "running") session.runningSince = session.startedAt;

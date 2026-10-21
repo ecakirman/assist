@@ -3,6 +3,7 @@ import type { Session } from "./createSession";
 import { deriveRestoreStatus } from "./deriveRestoreStatus";
 import { hasTranscriptOnDisk } from "./hasTranscriptOnDisk";
 import type { PersistedSession } from "./loadPersistedSessions";
+import { relaunchHeldSession } from "./relaunchHeldSession";
 import { restoreBase } from "./restoreBase";
 import { restoreInteractiveSession } from "./restoreInteractiveSession";
 import { restoreResumePlan } from "./restoreResumePlan";
@@ -20,6 +21,8 @@ export function restoreSession(
 	id: string,
 	persisted: PersistedSession,
 ): Session {
+	if (persisted.awaitingSeed) return relaunchHeldSession(id, persisted);
+
 	const base = restoreBase(id, persisted);
 
 	if (persisted.status === "stopped") return stoppedSession(base, persisted);

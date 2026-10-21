@@ -3,6 +3,7 @@ import type { SessionSpawner } from "./makeSessionSpawner";
 import { restoreAll } from "./restoreAll";
 import { rearmStoppedSessions } from "./worktree/rearmStoppedSessions";
 import { reconcileWorktreesOnRestore } from "./worktree/reconcileWorktreesOnRestore";
+import { reseedRestoredWorktrees } from "./worktree/reseedRestoredWorktrees";
 
 export function restoreAllSessions(
 	spawner: SessionSpawner,
@@ -10,6 +11,7 @@ export function restoreAllSessions(
 ): string[] {
 	const { sessions, notify } = deps;
 	const names = restoreAll(spawner, sessions);
+	reseedRestoredWorktrees(deps);
 	reconcileWorktreesOnRestore(sessions, spawner.recoveryCard, notify);
 	rearmStoppedSessions(sessions, notify);
 	for (const session of sessions.values())

@@ -12,20 +12,32 @@ export function bindNewWorktree(
 	if (alloc.kind !== "worktree" || !alloc.cwd || !alloc.clone || !session)
 		return;
 	session.worktree = { path: alloc.cwd, clone: alloc.clone };
-	if (alloc.created)
-		seedWorktree(
-			alloc.cwd,
-			alloc.clone,
-			() => {
-				session.seeding = undefined;
-				startHeld(session);
-			},
-			(path) => {
-				session.seeding = `Installing dependencies${path ? ` in ${path}` : ""}…`;
-				notify();
-			},
-		);
+	if (alloc.created) {
+		session.awaitingSeed = true;
+		seedHeldSession(session, alloc.cwd, alloc.clone, notify, startHeld);
+	}
 	notify();
+}
+
+export function seedHeldSession(
+	session: Session,
+	path: string,
+	clone: string,
+	notify: () => void,
+	startHeld: (session: Session) => void,
+): void {
+	seedWorktree(
+		path,
+		clone,
+		() => {
+			session.seeding = undefined;
+			startHeld(session);
+		},
+		(installPath) => {
+			session.seeding = `Installing dependencies${installPath ? ` in ${installPath}` : ""}…`;
+			notify();
+		},
+	);
 }
 
 export function bindRestoredWorktrees(sessions: Map<string, Session>): void {

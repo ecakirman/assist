@@ -31,6 +31,7 @@ export function toPersistedSession(session: Session): PersistedSession {
 		launchedFrom: session.launchedFrom,
 		interrupted: session.interrupted,
 		undurable: session.undurable,
+		awaitingSeed: session.awaitingSeed,
 	};
 }
 
