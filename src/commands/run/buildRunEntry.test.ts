@@ -41,6 +41,24 @@ describe("buildRunEntry", () => {
 		});
 	});
 
+	it("includes pre, filter, quiet and params when provided", () => {
+		const entry = buildRunEntry("verify:test", "vitest", ["run"], {
+			pre: ["npm run build", "npm run seed"],
+			filter: "src/**/*.ts",
+			quiet: true,
+			params: [{ name: "pattern", required: true }],
+		});
+		expect(entry).toEqual({
+			name: "verify:test",
+			command: "vitest",
+			args: ["run"],
+			pre: ["npm run build", "npm run seed"],
+			filter: "src/**/*.ts",
+			quiet: true,
+			params: [{ name: "pattern", required: true }],
+		});
+	});
+
 	it("omits cwd when not provided", () => {
 		const entry = buildRunEntry("lint", "eslint", []);
 		expect(entry).not.toHaveProperty("cwd");

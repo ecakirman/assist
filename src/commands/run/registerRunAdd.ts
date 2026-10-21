@@ -24,6 +24,16 @@ export function registerRunAdd(runCommand: Command): void {
 			"--env <KEY=VALUE>",
 			"Environment variable for the command (repeatable)",
 		)
+		.option("--pre <command>", "Shell command run first (repeatable)")
+		.option(
+			"--filter <glob>",
+			"Only run a verify: entry when a changed file matches",
+		)
+		.option("--quiet", "Suppress output unless the command fails")
+		.option(
+			"--param <spec>",
+			"Positional param: <name>, <name>! (required) or <name>=<default> (repeatable)",
+		)
 		.option(
 			"--repo [name]",
 			"Write to a repo's override in the shared db, seen by every node, instead of assist.yml (defaults to the current repo; no command file is created)",

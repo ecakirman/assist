@@ -203,6 +203,76 @@ describe("add", () => {
 		expect(mockWriteFileSync).not.toHaveBeenCalled();
 	});
 
+	it("writes repeated --pre, --filter and --quiet", async () => {
+		setArgv(
+			"verify:test",
+			"vitest",
+			"run",
+			"--pre",
+			"npm run build",
+			"--pre",
+			"npm run seed",
+			"--filter",
+			"src/**/*.ts",
+			"--quiet",
+		);
+		mockLoadProjectConfig.mockReturnValue({});
+
+		await add();
+
+		expect(savedRun()).toEqual([
+			{
+				name: "verify:test",
+				command: "vitest",
+				args: ["run"],
+				pre: ["npm run build", "npm run seed"],
+				filter: "src/**/*.ts",
+				quiet: true,
+			},
+		]);
+	});
+
+	it("writes repeated --param specs in order", async () => {
+		setArgv(
+			"deploy",
+			"./deploy.sh",
+			"--param",
+			"env!",
+			"--param",
+			"tag=latest",
+			"--param",
+			"region",
+		);
+		mockLoadProjectConfig.mockReturnValue({});
+
+		await add();
+
+		expect(savedRun()).toEqual([
+			{
+				name: "deploy",
+				command: "./deploy.sh",
+				params: [
+					{ name: "env", required: true },
+					{ name: "tag", default: "latest" },
+					{ name: "region" },
+				],
+			},
+		]);
+	});
+
+	it.each(["", "!", "=x", "env!=x"])(
+		"rejects a malformed --param %j",
+		async (spec) => {
+			setArgv("deploy", "./deploy.sh", "--param", spec);
+			mockLoadProjectConfig.mockReturnValue({});
+
+			await expect(add()).rejects.toThrow("process.exit(1)");
+
+			expect(errorOutput[0]).toContain("--param must be");
+			expect(mockSaveConfig).not.toHaveBeenCalled();
+		},
+	);
+
 	it("rejects a non-numeric --port", async () => {
 		setArgv("dev", "vite", "--port", "abc");
 		mockLoadProjectConfig.mockReturnValue({});
@@ -233,6 +303,35 @@ describe("add", () => {
 			expect(await listRepoConfigs(orm)).toEqual({
 				[ORIGIN]: {
 					run: [{ name: "dev", command: "vite", env: { FOO: "bar" } }],
+				},
+			});
+		});
+
+		it("writes --pre, --quiet and --param to the shared override", async () => {
+			setArgv(
+				"dev",
+				"vite",
+				"--pre",
+				"npm ci",
+				"--quiet",
+				"--param",
+				"mode=dev",
+				"--repo",
+			);
+
+			await add();
+
+			expect(await listRepoConfigs(orm)).toEqual({
+				[ORIGIN]: {
+					run: [
+						{
+							name: "dev",
+							command: "vite",
+							pre: ["npm ci"],
+							quiet: true,
+							params: [{ name: "mode", default: "dev" }],
+						},
+					],
 				},
 			});
 		});

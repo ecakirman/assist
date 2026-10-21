@@ -21,7 +21,7 @@ Run `assist run add <name> <command> [args...]` with the flags from the help. Fo
 assist run add dev npm run dev --cwd web --env API_URL=http://localhost:3000 --server --port 3000
 ```
 
-For properties the help marks "set in config", edit the entry in `assist.yml` directly after adding it.
+Every property has a flag; only a param's `description` has to be edited in `assist.yml` after adding the entry.
 
 ## Step 4: Verify
 

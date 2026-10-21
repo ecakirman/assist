@@ -1,6 +1,9 @@
 import type { RunConfig } from "../../shared/types";
 
-type RunEntryOptions = Pick<RunConfig, "cwd" | "server" | "port" | "env">;
+type RunEntryOptions = Pick<
+	RunConfig,
+	"cwd" | "server" | "port" | "env" | "pre" | "filter" | "quiet" | "params"
+>;
 
 export function buildRunEntry(
 	name: string,
@@ -23,5 +26,9 @@ export function buildRunEntry(
 	if (options?.server !== undefined) entry.server = options.server;
 	if (options?.port !== undefined) entry.port = options.port;
 	if (options?.env) entry.env = options.env;
+	if (options?.pre) entry.pre = options.pre;
+	if (options?.filter) entry.filter = options.filter;
+	if (options?.quiet) entry.quiet = true;
+	if (options?.params) entry.params = options.params;
 	return entry;
 }
