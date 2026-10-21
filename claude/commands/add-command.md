@@ -1,27 +1,27 @@
 ---
-description: Add a new run command to assist.yml
+description: Add a new run command via assist run add
 allowed_args: "[description of the command to add]"
 ---
 
-The user wants to register a new run command via `assist run add`. This command adds a named entry to the `run` section of `assist.yml` so it can be invoked with `assist run <name>`.
+The user wants to register a new run command via `assist run add`. This adds a named entry to the repo's `run` list — in `assist.yml`, or with `--repo [name]` in the repo's override in the shared db (seen by every node, no command file created) — so it can be invoked with `assist run <name>`.
 
 ## Step 1: Understand the request
 
 If the user provided a description via $ARGUMENTS, use that as a starting point. Otherwise, ask what command they want to add.
 
-## Step 2: Determine the correct syntax
+## Step 2: Read the reference
 
-Run `assist run add --help` to see the current CLI usage and options. Use the output to construct the correct command.
+Run `assist run add --help` before anything else. It lists every run entry property with its flag and is the complete reference: if a property is listed there, `assist run` supports it — don't work around it (e.g. with `cross-env` or a shell wrapper) or tell the user it's unsupported. Commands are spawned without a shell, so use `--env KEY=VALUE` for environment variables rather than `FOO=bar cmd`.
 
 ## Step 3: Add the command
 
-Run `assist run add <name> <command> [args...]` with the appropriate arguments. For example:
+Run `assist run add <name> <command> [args...]` with the flags from the help. For example:
 
 ```
-assist run add lint oxlint --fix
+assist run add dev npm run dev --cwd web --env API_URL=http://localhost:3000 --server --port 3000
 ```
 
-If the command needs a working directory, use `--cwd <dir>`. For a dev server, add `--server [group]` and optionally `--port <port>`. To share the entry across every node without touching the repo's `assist.yml`, add `--repo [name]` (writes the repo's shared db override; defaults to the current repo).
+For properties the help marks "set in config", edit the entry in `assist.yml` directly after adding it.
 
 ## Step 4: Verify
 

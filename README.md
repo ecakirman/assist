@@ -40,7 +40,7 @@ After installation, the `assist` command will be available globally. You can als
 
 ## Claude Commands
 
-- `/add-command` - Add a new run command to assist.yml
+- `/add-command` - Add a new run command via `assist run add`
 - `/add-rule` - Capture a new `CLAUDE.md` rule from a review comment
 - `/branch <description> [--jira KEY]` - Create a branch off the fresh remote default
 - `/bug` - File a bug with reproduction steps, expected and actual behavior
@@ -214,7 +214,7 @@ Backlog item ids are written in an `a`-prefixed form (e.g. item 555 is `a555`) t
 ### Config and run commands
 
 - `assist run <name> [params...]` - Run a configured command from assist.yml, or a backlog item (`a555` / `555`) when no command matches
-- `assist run add <name> <command> [args...] [--cwd <dir>] [--server [group]] [--port <port>] [--repo [name]]` - Add a new run configuration to assist.yml and create a Claude command file; `--server`/`--port` mark it as a dev server, and `--repo` writes it to the repo's shared db override instead (no command file)
+- `assist run add <name> <command> [args...] [--cwd <dir>] [--server [group]] [--port <port>] [--env KEY=VALUE]... [--repo [name]]` - Add a new run configuration to assist.yml and create a Claude command file; `--server`/`--port` mark it as a dev server, `--env` sets an environment variable (repeatable), `--help` lists every run entry property, and `--repo` writes it to the repo's shared db override instead (no command file)
 - `assist run link <path> --prefix <prefix>` - Link run configurations from another project's assist.yml
 - `assist run remove <name> [--repo [name]]` - Remove a run configuration and delete its Claude command file; `--repo` removes it from the repo's shared db override instead
 

@@ -156,6 +156,53 @@ describe("add", () => {
 		]);
 	});
 
+	it("writes repeated --env pairs", async () => {
+		setArgv(
+			"dev",
+			"npm",
+			"run",
+			"dev",
+			"--cwd",
+			"web",
+			"--env",
+			"API_PROXY_TARGET=https://dev.example",
+			"--env",
+			"VITE_API_BASE_URL=http://localhost:3000?a=b",
+			"--server",
+			"--port",
+			"3000",
+		);
+		mockLoadProjectConfig.mockReturnValue({});
+
+		await add();
+
+		expect(savedRun()).toEqual([
+			{
+				name: "dev",
+				command: "npm",
+				args: ["run", "dev"],
+				cwd: "web",
+				env: {
+					API_PROXY_TARGET: "https://dev.example",
+					VITE_API_BASE_URL: "http://localhost:3000?a=b",
+				},
+				server: true,
+				port: 3000,
+			},
+		]);
+	});
+
+	it("rejects an --env without =", async () => {
+		setArgv("dev", "vite", "--env", "FOO");
+		mockLoadProjectConfig.mockReturnValue({});
+
+		await expect(add()).rejects.toThrow("process.exit(1)");
+
+		expect(errorOutput).toContain('--env must be KEY=VALUE, got "FOO"');
+		expect(mockSaveConfig).not.toHaveBeenCalled();
+		expect(mockWriteFileSync).not.toHaveBeenCalled();
+	});
+
 	it("rejects a non-numeric --port", async () => {
 		setArgv("dev", "vite", "--port", "abc");
 		mockLoadProjectConfig.mockReturnValue({});
@@ -176,6 +223,18 @@ describe("add", () => {
 			});
 			expect(mockSaveConfig).not.toHaveBeenCalled();
 			expect(mockWriteFileSync).not.toHaveBeenCalled();
+		});
+
+		it("writes --env to the shared override", async () => {
+			setArgv("dev", "vite", "--env", "FOO=bar", "--repo");
+
+			await add();
+
+			expect(await listRepoConfigs(orm)).toEqual({
+				[ORIGIN]: {
+					run: [{ name: "dev", command: "vite", env: { FOO: "bar" } }],
+				},
+			});
 		});
 
 		it("appends to a named repo's existing run list", async () => {

@@ -1,5 +1,7 @@
 import { extractOption } from "./extractOption";
 import { extractOptionalValueFlag } from "./extractOptionalValueFlag";
+import { extractRepeatedOption } from "./extractRepeatedOption";
+import { parseEnvPairs } from "./parseEnvPairs";
 
 function findAddIndex(): number {
 	const addIndex = process.argv.indexOf("add");
@@ -19,7 +21,8 @@ function parsePort(raw: string | undefined): number | undefined {
 
 function extractAddArgs(addIndex: number) {
 	const rawArgs = process.argv.slice(addIndex + 3);
-	const cwd = extractOption(rawArgs, "--cwd");
+	const env = extractRepeatedOption(rawArgs, "--env");
+	const cwd = extractOption(env.remaining, "--cwd");
 	const port = extractOption(cwd.remaining, "--port");
 	const server = extractOptionalValueFlag(port.remaining, "--server");
 	const repo = extractOptionalValueFlag(server.remaining, "--repo");
@@ -31,6 +34,7 @@ function extractAddArgs(addIndex: number) {
 			cwd: cwd.value,
 			server: server.value,
 			port: parsePort(port.value),
+			env: parseEnvPairs(env.values),
 		},
 		repo: repo.value,
 	};
