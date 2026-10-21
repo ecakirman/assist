@@ -1,11 +1,8 @@
 import { assistSendButton } from "./assistSendButton";
 import { githubItemUrl } from "./githubItemUrl";
 
-const HEADER_ACTIONS_SELECTOR = [
-	".gh-header-actions",
-	'[data-component="PH_Actions"]',
-	':has(> [role="group"][aria-label="Side panel controls"])',
-].join(", ");
+const HEADER_ACTIONS_SELECTOR =
+	'.gh-header-actions, [data-component="PH_Actions"]';
 
 export function attachAssistHeaderButtons(): void {
 	if (!githubItemUrl(location)) {

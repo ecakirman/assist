@@ -8,7 +8,7 @@ import { attachAssistHeaderButtons } from "./attachAssistHeaderButtons";
 
 const HEADERS = `<div class="gh-header-actions"><button>Edit</button></div><div data-component="PH_Actions"></div>`;
 
-const PANE = `<div class="pane-actions"><div role="group" aria-label="Side panel controls"></div><button>Close panel</button></div>`;
+const PANE = `<div data-component="PH_Actions" class="pane-actions"><div><div role="group" aria-label="Side panel controls"></div><button>Close panel</button></div></div>`;
 
 function buttons(): HTMLButtonElement[] {
 	return Array.from(document.querySelectorAll("[data-assist-send]"));
