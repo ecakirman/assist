@@ -1,3 +1,10 @@
+## [0.870.4](https://github.com/staff0rd/assist/compare/v0.870.3...v0.870.4) (2026-10-21)
+
+
+### Bug Fixes
+
+* show review counts in jump strip only ([7795eaa](https://github.com/staff0rd/assist/commit/7795eaa1ab6379fef97ee756bb269ee3dd63088b))
+
 ## [0.870.3](https://github.com/staff0rd/assist/compare/v0.870.2...v0.870.3) (2026-10-21)
 
 
