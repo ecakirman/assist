@@ -1,3 +1,10 @@
+## [0.870.3](https://github.com/staff0rd/assist/compare/v0.870.2...v0.870.3) (2026-10-21)
+
+
+### Bug Fixes
+
+* show pane assist popover in top layer ([a23c62e](https://github.com/staff0rd/assist/commit/a23c62e75218e3f777394d7fdf7b00d3d4cd9ec1))
+
 ## [0.870.2](https://github.com/staff0rd/assist/compare/v0.870.1...v0.870.2) (2026-10-21)
 
 
