@@ -1,3 +1,10 @@
+## [0.870.1](https://github.com/staff0rd/assist/compare/v0.870.0...v0.870.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* open assist popover inside dialogs ([b743811](https://github.com/staff0rd/assist/commit/b743811792666f4e9e8b064e4cb32e6a3834c568))
+
 # [0.870.0](https://github.com/staff0rd/assist/compare/v0.869.2...v0.870.0) (2026-10-21)
 
 
