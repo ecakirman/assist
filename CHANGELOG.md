@@ -1,3 +1,10 @@
+# [0.873.0](https://github.com/staff0rd/assist/compare/v0.872.4...v0.873.0) (2026-10-21)
+
+
+### Features
+
+* redirect extension issue sends ([4c46234](https://github.com/staff0rd/assist/commit/4c462347fb781faa131f326a32e134ef077cc3b5))
+
 ## [0.872.4](https://github.com/staff0rd/assist/compare/v0.872.3...v0.872.4) (2026-10-21)
 
 
