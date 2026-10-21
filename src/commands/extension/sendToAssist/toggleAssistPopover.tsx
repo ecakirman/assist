@@ -18,14 +18,9 @@ function positionHost(host: HTMLElement, anchor: HTMLElement): void {
 		GUTTER,
 		Math.min(rect.left, window.innerWidth - WIDTH - GUTTER),
 	);
-	const parent = host.offsetParent;
-	const origin =
-		parent && parent !== document.body
-			? {
-					top: parent.getBoundingClientRect().top - parent.scrollTop,
-					left: parent.getBoundingClientRect().left - parent.scrollLeft,
-				}
-			: { top: -window.scrollY, left: -window.scrollX };
+	host.style.top = "0px";
+	host.style.left = "0px";
+	const origin = host.getBoundingClientRect();
 	host.style.top = `${rect.bottom - origin.top + 4}px`;
 	host.style.left = `${left - origin.left}px`;
 }
