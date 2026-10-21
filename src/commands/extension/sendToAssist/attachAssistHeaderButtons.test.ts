@@ -8,6 +8,8 @@ import { attachAssistHeaderButtons } from "./attachAssistHeaderButtons";
 
 const HEADERS = `<div class="gh-header-actions"><button>Edit</button></div><div data-component="PH_Actions"></div>`;
 
+const PANE = `<div class="pane-actions"><div role="group" aria-label="Side panel controls"></div><button>Close panel</button></div>`;
+
 function buttons(): HTMLButtonElement[] {
 	return Array.from(document.querySelectorAll("[data-assist-send]"));
 }
@@ -48,6 +50,48 @@ describe("attachAssistHeaderButtons", () => {
 	it("skips other pages", () => {
 		history.replaceState(null, "", "/org/repo/pulls");
 		document.body.innerHTML = HEADERS;
+		attachAssistHeaderButtons();
+		expect(buttons()).toHaveLength(0);
+	});
+
+	it("adds a button to a project side pane and sends the canonical item URL", async () => {
+		const sendMessage = vi.fn().mockResolvedValue({ ok: true, message: "ok" });
+		vi.stubGlobal("browser", { runtime: { sendMessage } });
+		history.replaceState(
+			null,
+			"",
+			"/orgs/acme/projects/6/views/1?pane=issue&issue=acme%7Crepo%7C497",
+		);
+		document.body.innerHTML = PANE;
+		attachAssistHeaderButtons();
+		expect(buttons()).toHaveLength(1);
+		expect(buttons()[0].parentElement?.className).toBe("pane-actions");
+		await act(async () => buttons()[0].click());
+		const textarea = popover()?.querySelector("textarea");
+		expect(textarea).not.toBeNull();
+	});
+
+	it("resolves a pull request in a project pane from its item link", async () => {
+		history.replaceState(
+			null,
+			"",
+			"/orgs/acme/projects/6/views/1?pane=issue&issue=acme%7Crepo%7C12",
+		);
+		document.body.innerHTML = `${PANE}<a href="https://github.com/acme/repo/pull/12">#12</a>`;
+		attachAssistHeaderButtons();
+		await act(async () => buttons()[0].click());
+		expect(menuItems().length).toBeGreaterThan(0);
+	});
+
+	it("removes the button when the pane no longer shows an item", () => {
+		history.replaceState(
+			null,
+			"",
+			"/orgs/acme/projects/6/views/1?pane=issue&issue=acme%7Crepo%7C497",
+		);
+		document.body.innerHTML = PANE;
+		attachAssistHeaderButtons();
+		history.replaceState(null, "", "/orgs/acme/projects/6/views/1");
 		attachAssistHeaderButtons();
 		expect(buttons()).toHaveLength(0);
 	});
