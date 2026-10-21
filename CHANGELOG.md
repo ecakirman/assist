@@ -1,3 +1,10 @@
+# [0.870.0](https://github.com/staff0rd/assist/compare/v0.869.2...v0.870.0) (2026-10-21)
+
+
+### Features
+
+* assist button in project side panes ([4fff61c](https://github.com/staff0rd/assist/commit/4fff61c56ef48406b42bb91bf1f8023d57c1d35a))
+
 ## [0.869.2](https://github.com/staff0rd/assist/compare/v0.869.1...v0.869.2) (2026-10-20)
 
 
