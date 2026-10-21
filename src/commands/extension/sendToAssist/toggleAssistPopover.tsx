@@ -1,29 +1,8 @@
 import type { ReactNode } from "react";
 import { renderInShadow } from "../renderInShadow";
-
-const WIDTH = 320;
-const GUTTER = 16;
+import { mountHost } from "./mountHost";
 
 let open: { anchor: HTMLElement; close: () => void } | null = null;
-
-function modalPopoverContainer(anchor: HTMLElement): HTMLElement {
-	return (
-		anchor.closest<HTMLElement>('dialog, [role="dialog"]') ?? document.body
-	);
-}
-
-function positionHost(host: HTMLElement, anchor: HTMLElement): void {
-	const rect = anchor.getBoundingClientRect();
-	const left = Math.max(
-		GUTTER,
-		Math.min(rect.left, window.innerWidth - WIDTH - GUTTER),
-	);
-	host.style.top = "0px";
-	host.style.left = "0px";
-	const origin = host.getBoundingClientRect();
-	host.style.top = `${rect.bottom - origin.top + 4}px`;
-	host.style.left = `${left - origin.left}px`;
-}
 
 function closeAssistPopover(): void {
 	open?.close();
@@ -39,9 +18,7 @@ export function toggleAssistPopover(
 
 	const host = document.createElement("div");
 	host.setAttribute("data-assist-popover", "");
-	host.style.cssText = `position: absolute; width: ${WIDTH}px; z-index: 2147483646`;
-	modalPopoverContainer(anchor).append(host);
-	positionHost(host, anchor);
+	mountHost(host, anchor);
 
 	const close = () => {
 		if (open?.close !== close) return;
