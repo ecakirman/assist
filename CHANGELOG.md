@@ -1,3 +1,10 @@
+## [0.872.1](https://github.com/staff0rd/assist/compare/v0.872.0...v0.872.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* read review tests at PR head sha ([f23e1b5](https://github.com/staff0rd/assist/commit/f23e1b589945ae6ad8da3d5863e687eea04fdab2))
+
 # [0.872.0](https://github.com/staff0rd/assist/compare/v0.871.0...v0.872.0) (2026-10-21)
 
 
