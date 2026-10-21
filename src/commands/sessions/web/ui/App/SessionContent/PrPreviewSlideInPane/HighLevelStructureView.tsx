@@ -7,6 +7,7 @@ import { HighLevelStructureTree } from "./HighLevelStructureView/HighLevelStruct
 import { useDiffViewType } from "../../useDiffViewType";
 import { useHighLevelStructureCollapse } from "./HighLevelStructureView/useHighLevelStructureCollapse";
 import { useHighLevelStructureMatch } from "./HighLevelStructureView/useHighLevelStructureMatch";
+import { useStructureToolbarOffset } from "./HighLevelStructureView/useStructureToolbarOffset";
 
 export function HighLevelStructureView({
 	structure,
@@ -23,6 +24,7 @@ export function HighLevelStructureView({
 		useHighLevelStructureCollapse(subject, structure.tree, collapsedPaths);
 	const { viewType, onChange } = useDiffViewType();
 	const match = useHighLevelStructureMatch(filePaths, collapsedPaths);
+	const { toolbarRef, offsetSx } = useStructureToolbarOffset();
 
 	if (structure.tree.length === 0)
 		return (
@@ -32,9 +34,10 @@ export function HighLevelStructureView({
 		);
 
 	return (
-		<Box sx={{ minWidth: 0 }}>
+		<Box sx={{ minWidth: 0, ...offsetSx }}>
 			<HighLevelStructureSummary structure={structure} />
 			<HighLevelStructureToolbar
+				ref={toolbarRef}
 				bulk={bulk}
 				viewType={viewType}
 				onChangeViewType={onChange}

@@ -3,6 +3,7 @@ import type { ViewType } from "react-diff-view";
 import type { HighLevelTreeFile } from "../../../../../../../../review/highLevel/types";
 import type { HighLevelDiffComments } from "../../HighLevelDiffComments";
 import { HighLevelNativeDiff } from "../../HighLevelNativeDiff";
+import { highLevelStructureStickyTop } from "../../highLevelStructureToolbarSx";
 import { HighLevelTreeFileRow } from "./HighLevelTreeFileNode/HighLevelTreeFileRow";
 
 export function HighLevelTreeFileNode({
@@ -25,7 +26,7 @@ export function HighLevelTreeFileNode({
 	comments?: HighLevelDiffComments | undefined;
 }) {
 	return (
-		<Box sx={{ minWidth: 0 }}>
+		<Box sx={{ minWidth: 0, scrollMarginTop: highLevelStructureStickyTop }}>
 			<HighLevelTreeFileRow
 				file={file}
 				indent={indent}

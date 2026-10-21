@@ -1,4 +1,5 @@
 import { Box, Divider } from "@mui/material";
+import type { Ref } from "react";
 import type { ViewType } from "react-diff-view";
 import { DiffViewTypeToggle } from "../../../DiffViewTypeToggle";
 import { HighLevelBulkButtons } from "../HighLevelBulkButtons";
@@ -11,12 +12,14 @@ import {
 import type { HighLevelStructureBulk } from "./highLevelStructureBulk";
 
 export function HighLevelStructureToolbar({
+	ref,
 	bulk,
 	viewType,
 	onChangeViewType,
 	matches,
 	...match
 }: {
+	ref: Ref<HTMLDivElement>;
 	bulk: HighLevelStructureBulk;
 	viewType: ViewType;
 	onChangeViewType: (viewType: ViewType) => void;
@@ -27,6 +30,7 @@ export function HighLevelStructureToolbar({
 }) {
 	return (
 		<Box
+			ref={ref}
 			role="toolbar"
 			aria-label="Changed files controls"
 			sx={highLevelStructureToolbarSx}

@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { useStuckHeaderToggle } from "../../../useStuckHeaderToggle";
 import type { HighLevelTreeFile } from "../../../../../../../../../review/highLevel/types";
 import { HighLevelLineCounts } from "../../../HighLevelLineCounts";
 import {
@@ -26,9 +27,11 @@ export function HighLevelTreeFileRow({
 	matched: boolean;
 }) {
 	const closedByGlob = !open && glob !== undefined;
+	const { ref, toggle } = useStuckHeaderToggle(open, onToggle);
 	return (
 		<Box
-			onClick={onToggle}
+			ref={ref}
+			onClick={toggle}
 			data-matched={matched || undefined}
 			sx={highLevelTreeFileRowSx(open, matched)}
 		>

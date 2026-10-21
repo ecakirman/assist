@@ -1,9 +1,8 @@
 import { Box, Link, Typography } from "@mui/material";
-import { useRef } from "react";
 import type { HighLevelCriticalDiff } from "../../../../../../review/highLevel/types";
 import { highLevelDiffHeaderSx } from "./HighLevelCriticalDiffHeader/highLevelDiffHeaderSx";
 import { HighLevelDiffChevron } from "./HighLevelCriticalDiffHeader/HighLevelDiffChevron";
-import { scrollStuckHeaderIntoView } from "./HighLevelCriticalDiffHeader/scrollStuckHeaderIntoView";
+import { useStuckHeaderToggle } from "./useStuckHeaderToggle";
 import { HighLevelLineCounts } from "./HighLevelLineCounts";
 import {
 	HIGH_LEVEL_STATUS_COLOURS,
@@ -22,11 +21,7 @@ export function HighLevelCriticalDiffHeader({
 	collapsed: boolean;
 	onToggle: () => void;
 }) {
-	const ref = useRef<HTMLDivElement>(null);
-	const toggle = () => {
-		if (!collapsed && ref.current) scrollStuckHeaderIntoView(ref.current);
-		onToggle();
-	};
+	const { ref, toggle } = useStuckHeaderToggle(!collapsed, onToggle);
 	return (
 		<Box ref={ref} onClick={toggle} sx={highLevelDiffHeaderSx}>
 			<HighLevelDiffChevron
