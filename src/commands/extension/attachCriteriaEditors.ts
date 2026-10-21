@@ -1,9 +1,9 @@
 import { attachCriteriaToggle } from "./attachCriteriaToggle";
-import { isIssueBodyPath } from "./isIssueBodyPath";
+import { isIssueBodyPage } from "./isIssueBodyPage";
 import { isIssueBodyTextarea } from "./isIssueBodyTextarea";
 
 export function attachCriteriaEditors(): void {
-	if (!isIssueBodyPath(globalThis.location.pathname)) return;
+	if (!isIssueBodyPage(globalThis.location)) return;
 	for (const textarea of document.querySelectorAll("textarea")) {
 		if (isIssueBodyTextarea(textarea)) attachCriteriaToggle(textarea);
 	}
