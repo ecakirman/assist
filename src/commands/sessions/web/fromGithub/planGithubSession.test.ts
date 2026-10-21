@@ -1,12 +1,15 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { resolveRepoLocation } from "../../../backlog/resolveRepoLocation";
+import { findCloneByOrigin } from "./findCloneByOrigin";
 import { planGithubSession } from "./planGithubSession";
 
 vi.mock("../../../backlog/resolveRepoLocation", () => ({
 	resolveRepoLocation: vi.fn(),
 }));
+vi.mock("./findCloneByOrigin", () => ({ findCloneByOrigin: vi.fn() }));
 
 const mockResolve = vi.mocked(resolveRepoLocation);
+const mockFind = vi.mocked(findCloneByOrigin);
 const URL = "https://github.com/org/repo/pull/12#discussion_r34";
 
 afterEach(() => vi.clearAllMocks());
@@ -74,6 +77,17 @@ describe("planGithubSession", () => {
 				undefined,
 				"/base",
 			);
+		});
+
+		it("finds a mapped clone checked out under a different folder name", () => {
+			mockResolve.mockReturnValue({ cloneTarget: "/base/target" });
+			mockFind.mockReturnValueOnce("/base/renamed");
+			expect(planGithubSession({ url: ISSUE }, "/base", redirects)).toEqual({
+				ok: true,
+				cwd: "/base/renamed",
+				prompt: ISSUE,
+			});
+			expect(mockFind).toHaveBeenCalledWith("github.com/other/target", "/base");
 		});
 
 		it("names the mapped repo when it is not cloned", () => {

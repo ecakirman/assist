@@ -1,4 +1,5 @@
 import { resolveRepoLocation } from "../../../backlog/resolveRepoLocation";
+import { findCloneByOrigin } from "./findCloneByOrigin";
 import { parseGithubOrigin } from "./parseGithubOrigin";
 
 export type GithubPlanError = { ok: false; status: number; error: string };
@@ -16,11 +17,10 @@ export function resolveGithubClone(
 		return { ok: false, status: 400, error: `Not a GitHub repo URL: ${url}` };
 	const repo = origin.replace("github.com/", "");
 	const target = redirects[repo] ?? repo;
-	const { cwd } = resolveRepoLocation(
-		`github.com/${target}`,
-		undefined,
-		baseDir,
-	);
+	const targetOrigin = `github.com/${target}`;
+	const cwd =
+		resolveRepoLocation(targetOrigin, undefined, baseDir).cwd ??
+		findCloneByOrigin(targetOrigin, baseDir);
 	if (!cwd)
 		return {
 			ok: false,
