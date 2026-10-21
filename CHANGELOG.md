@@ -1,3 +1,15 @@
+# [0.872.0](https://github.com/staff0rd/assist/compare/v0.871.0...v0.872.0) (2026-10-21)
+
+
+### Bug Fixes
+
+* document quoting clashing flags ([d6d061b](https://github.com/staff0rd/assist/commit/d6d061b2a05700db88afc07a4f36d635c9d705a9))
+
+
+### Features
+
+* add pre/filter/quiet/param flags ([174ef71](https://github.com/staff0rd/assist/commit/174ef71381f91062ee700d5e07e4ccaf413cae4e))
+
 # [0.871.0](https://github.com/staff0rd/assist/compare/v0.870.4...v0.871.0) (2026-10-21)
 
 
