@@ -6,19 +6,28 @@ const GUTTER = 16;
 
 let open: { anchor: HTMLElement; close: () => void } | null = null;
 
-function hostStyle(anchor: HTMLElement): string {
+function modalPopoverContainer(anchor: HTMLElement): HTMLElement {
+	return (
+		anchor.closest<HTMLElement>('dialog, [role="dialog"]') ?? document.body
+	);
+}
+
+function positionHost(host: HTMLElement, anchor: HTMLElement): void {
 	const rect = anchor.getBoundingClientRect();
 	const left = Math.max(
 		GUTTER,
 		Math.min(rect.left, window.innerWidth - WIDTH - GUTTER),
 	);
-	return [
-		"position: absolute",
-		`top: ${rect.bottom + window.scrollY + 4}px`,
-		`left: ${left + window.scrollX}px`,
-		`width: ${WIDTH}px`,
-		"z-index: 2147483646",
-	].join(";");
+	const parent = host.offsetParent;
+	const origin =
+		parent && parent !== document.body
+			? {
+					top: parent.getBoundingClientRect().top - parent.scrollTop,
+					left: parent.getBoundingClientRect().left - parent.scrollLeft,
+				}
+			: { top: -window.scrollY, left: -window.scrollX };
+	host.style.top = `${rect.bottom - origin.top + 4}px`;
+	host.style.left = `${left - origin.left}px`;
 }
 
 function closeAssistPopover(): void {
@@ -35,8 +44,9 @@ export function toggleAssistPopover(
 
 	const host = document.createElement("div");
 	host.setAttribute("data-assist-popover", "");
-	host.style.cssText = hostStyle(anchor);
-	document.body.append(host);
+	host.style.cssText = `position: absolute; width: ${WIDTH}px; z-index: 2147483646`;
+	modalPopoverContainer(anchor).append(host);
+	positionHost(host, anchor);
 
 	const close = () => {
 		if (open?.close !== close) return;

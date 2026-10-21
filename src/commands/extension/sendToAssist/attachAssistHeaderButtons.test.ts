@@ -71,6 +71,20 @@ describe("attachAssistHeaderButtons", () => {
 		expect(textarea).not.toBeNull();
 	});
 
+	it("opens the popover inside the pane's dialog", async () => {
+		history.replaceState(
+			null,
+			"",
+			"/orgs/acme/projects/6/views/1?pane=issue&issue=acme%7Crepo%7C497",
+		);
+		document.body.innerHTML = `<div role="dialog">${PANE}</div>`;
+		attachAssistHeaderButtons();
+		await act(async () => buttons()[0].click());
+		expect(
+			document.querySelector('[role="dialog"] > [data-assist-popover]'),
+		).not.toBeNull();
+	});
+
 	it("resolves a pull request in a project pane from its item link", async () => {
 		history.replaceState(
 			null,
