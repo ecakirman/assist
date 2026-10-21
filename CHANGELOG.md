@@ -1,3 +1,10 @@
+## [0.872.4](https://github.com/staff0rd/assist/compare/v0.872.3...v0.872.4) (2026-10-21)
+
+
+### Bug Fixes
+
+* refuse prs raise on merged/closed PR ([9ccc95f](https://github.com/staff0rd/assist/commit/9ccc95f3f787ebd78c2854d75a0b06761aad56e8))
+
 ## [0.872.3](https://github.com/staff0rd/assist/compare/v0.872.2...v0.872.3) (2026-10-21)
 
 
