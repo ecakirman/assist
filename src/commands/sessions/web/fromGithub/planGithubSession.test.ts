@@ -42,6 +42,50 @@ describe("planGithubSession", () => {
 		});
 	});
 
+	describe("with extension.redirects", () => {
+		const ISSUE = "https://github.com/org/repo/issues/7";
+		const redirects = { "org/repo": "other/target" };
+
+		it("opens a mapped repo's issue in the target clone, keeping the link", () => {
+			mockResolve.mockReturnValue({ cwd: "/base/target" });
+			expect(
+				planGithubSession(
+					{ url: ISSUE, instructions: "go" },
+					"/base",
+					redirects,
+				),
+			).toEqual({ ok: true, cwd: "/base/target", prompt: `${ISSUE}\n\ngo` });
+			expect(mockResolve).toHaveBeenCalledWith(
+				"github.com/other/target",
+				undefined,
+				"/base",
+			);
+		});
+
+		it("opens an unmapped repo in its own clone", () => {
+			mockResolve.mockReturnValue({ cwd: "/base/b" });
+			planGithubSession(
+				{ url: "https://github.com/a/b/issues/1" },
+				"/base",
+				redirects,
+			);
+			expect(mockResolve).toHaveBeenCalledWith(
+				"github.com/a/b",
+				undefined,
+				"/base",
+			);
+		});
+
+		it("names the mapped repo when it is not cloned", () => {
+			mockResolve.mockReturnValue({ cloneTarget: "/base/target" });
+			expect(planGithubSession({ url: ISSUE }, "/base", redirects)).toEqual({
+				ok: false,
+				status: 404,
+				error: "other/target is not cloned under /base",
+			});
+		});
+	});
+
 	it("reports 400 for a non-GitHub URL", () => {
 		expect(
 			planGithubSession({ url: "https://example.com/a/b" }, "/base"),

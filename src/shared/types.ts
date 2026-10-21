@@ -69,6 +69,11 @@ const assistConfigShape = {
 			skip: z.record(z.string(), z.array(z.string())).optional(),
 		})
 		.optional(),
+	extension: z
+		.strictObject({
+			redirects: z.record(z.string(), z.string()).optional(),
+		})
+		.optional(),
 	notify: z
 		.strictObject({
 			enabled: z.boolean().default(true),

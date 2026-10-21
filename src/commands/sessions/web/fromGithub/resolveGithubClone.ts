@@ -6,6 +6,7 @@ export type GithubPlanError = { ok: false; status: number; error: string };
 export function resolveGithubClone(
 	url: unknown,
 	baseDir: string,
+	redirects: Record<string, string> = {},
 ): { ok: true; url: string; cwd: string } | GithubPlanError {
 	if (typeof url !== "string" || !url.trim())
 		return { ok: false, status: 400, error: "Missing url" };
@@ -13,12 +14,18 @@ export function resolveGithubClone(
 	const origin = parseGithubOrigin(trimmed);
 	if (!origin)
 		return { ok: false, status: 400, error: `Not a GitHub repo URL: ${url}` };
-	const { cwd } = resolveRepoLocation(origin, undefined, baseDir);
+	const repo = origin.replace("github.com/", "");
+	const target = redirects[repo] ?? repo;
+	const { cwd } = resolveRepoLocation(
+		`github.com/${target}`,
+		undefined,
+		baseDir,
+	);
 	if (!cwd)
 		return {
 			ok: false,
 			status: 404,
-			error: `${origin.replace("github.com/", "")} is not cloned under ${baseDir}`,
+			error: `${target} is not cloned under ${baseDir}`,
 		};
 	return { ok: true, url: trimmed, cwd };
 }
