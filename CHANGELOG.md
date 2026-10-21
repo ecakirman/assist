@@ -1,3 +1,11 @@
+## [0.870.2](https://github.com/staff0rd/assist/compare/v0.870.1...v0.870.2) (2026-10-21)
+
+
+### Bug Fixes
+
+* position assist popover by measuring ([6498258](https://github.com/staff0rd/assist/commit/64982585167a3086050fd049098a3a8b687f7fb8))
+* stick structure file rows below toolbar ([c3a8849](https://github.com/staff0rd/assist/commit/c3a88498947618b0ca4bc3476571c1f606f0f646))
+
 ## [0.870.1](https://github.com/staff0rd/assist/compare/v0.870.0...v0.870.1) (2026-10-21)
 
 
