@@ -1,17 +1,15 @@
 import { Box, Chip, Link, Typography } from "@mui/material";
-import type { ReactNode } from "react";
 import type { PrPreview } from "../../../../../shared/SessionInfoBase";
+import { PreviewWidthToggle } from "./PrPreviewHeader/PreviewWidthToggle";
 import { previewChip } from "./PrPreviewHeader/previewChip";
 import { splitGithubRef } from "./PrPreviewHeader/splitGithubRef";
 
 export function PrPreviewHeader({
 	preview,
 	draft,
-	actions,
 }: {
 	preview: PrPreview;
 	draft: boolean;
-	actions?: ReactNode;
 }) {
 	const chip = previewChip(preview, draft);
 	const titled = splitGithubRef(preview.title);
@@ -36,7 +34,7 @@ export function PrPreviewHeader({
 				)}
 			</Typography>
 			<Chip size="small" label={chip.label} color={chip.color} />
-			{actions}
+			<PreviewWidthToggle />
 		</Box>
 	);
 }

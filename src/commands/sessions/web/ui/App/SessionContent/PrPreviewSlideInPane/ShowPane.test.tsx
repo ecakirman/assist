@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { PreviewWidthContext } from "../usePreviewWidthContext";
 import { ShowPane } from "./ShowPane";
 
 const preview = {
@@ -58,5 +59,21 @@ describe("ShowPane", () => {
 
 		expect(writeText).toHaveBeenNthCalledWith(1, "src/deep/file.ts");
 		expect(writeText).toHaveBeenNthCalledWith(2, "const x = 1;");
+	});
+});
+
+describe("ShowPane width toggle", () => {
+	it("asks the split to fill the window", () => {
+		const onToggleMode = vi.fn();
+		render(
+			<PreviewWidthContext.Provider
+				value={{ mode: "half", full: false, onToggleMode }}
+			>
+				<ShowPane preview={preview} onClose={vi.fn()} />
+			</PreviewWidthContext.Provider>,
+		);
+
+		fireEvent.click(screen.getByLabelText("Fill the window with preview"));
+		expect(onToggleMode).toHaveBeenCalled();
 	});
 });

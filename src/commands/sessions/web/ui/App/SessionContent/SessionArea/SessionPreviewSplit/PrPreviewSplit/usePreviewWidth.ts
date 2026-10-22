@@ -4,7 +4,7 @@ import type { DiffPanelMode } from "../../../../toggleDiffPanel";
 
 export function usePreviewWidth(rendered: PrPreview | null) {
 	const [mode, setMode] = useState<DiffPanelMode>("half");
-	const full = mode === "full" && rendered?.kind === "high-level-review";
+	const full = mode === "full" && rendered !== null;
 	return useMemo(
 		() => ({
 			mode,

@@ -5,6 +5,6 @@ export function PreviewWidthToggle() {
 	const { mode, onToggleMode } = usePreviewWidthContext();
 	if (!onToggleMode) return null;
 	return (
-		<DiffModeToggle mode={mode} onToggleMode={onToggleMode} subject="review" />
+		<DiffModeToggle mode={mode} onToggleMode={onToggleMode} subject="preview" />
 	);
 }

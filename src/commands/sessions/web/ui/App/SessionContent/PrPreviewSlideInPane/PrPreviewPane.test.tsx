@@ -8,6 +8,7 @@ import {
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PrPreview } from "../../../../../shared/SessionInfoBase";
+import { PreviewWidthContext } from "../usePreviewWidthContext";
 import { PrPreviewPane } from "./PrPreviewPane";
 
 if (!Range.prototype.getBoundingClientRect) {
@@ -1639,5 +1640,26 @@ describe("PrPreviewPane inline comments", () => {
 
 		render(<PrPreviewPane preview={preview} onDecision={vi.fn()} />);
 		expect(screen.queryByText("Comments (1)")).toBeNull();
+	});
+});
+
+describe("PrPreviewPane width toggle", () => {
+	it("shows the expanded toggle on an ask preview", () => {
+		render(
+			<PreviewWidthContext.Provider
+				value={{ mode: "full", full: true, onToggleMode: vi.fn() }}
+			>
+				<PrPreviewPane
+					preview={{ ...preview, kind: "ask" }}
+					onDecision={vi.fn()}
+				/>
+			</PreviewWidthContext.Provider>,
+		);
+
+		expect(
+			screen
+				.getByLabelText("Show terminal beside preview")
+				.getAttribute("aria-pressed"),
+		).toBe("true");
 	});
 });

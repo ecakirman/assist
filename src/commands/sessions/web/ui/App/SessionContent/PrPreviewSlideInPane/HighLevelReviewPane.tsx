@@ -4,7 +4,6 @@ import { CommentSentSnackbar } from "../../CommentSentSnackbar";
 import { HighLevelReviewBody } from "./HighLevelReviewPane/HighLevelReviewBody";
 import { HighLevelReviewActions } from "./HighLevelReviewPane/HighLevelReviewActions";
 import { HighLevelReviewQueue } from "./HighLevelReviewPane/HighLevelReviewQueue";
-import { PreviewWidthToggle } from "./HighLevelReviewPane/PreviewWidthToggle";
 import { highLevelReviewHandlers } from "./HighLevelReviewPane/highLevelReviewHandlers";
 import type { PrDecisionDetails } from "../../../PrDecisionDetails";
 import { PreviewMetadataList } from "./PreviewMetadataList";
@@ -32,11 +31,7 @@ export function HighLevelReviewPane({
 
 	return (
 		<Box sx={prPreviewPaneSx}>
-			<PrPreviewHeader
-				preview={preview}
-				draft={false}
-				actions={<PreviewWidthToggle />}
-			/>
+			<PrPreviewHeader preview={preview} draft={false} />
 			<PreviewMetadataList items={preview.metadata ?? []} />
 			<Divider />
 			<HighLevelReviewBody

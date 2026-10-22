@@ -28,26 +28,23 @@ function renderSplit(value: PrPreview) {
 afterEach(cleanup);
 
 describe("PrPreviewSplit", () => {
-	it("fills the window with the high-level pane and returns to half", () => {
-		const terminalWidth = renderSplit(preview());
+	it.each([
+		["high-level-review", preview()],
+		["show", preview({ kind: "show", body: "hi" })],
+		["ask", preview({ kind: "ask", body: "## Plan", prNumber: null })],
+	])("fills the window with the %s pane and returns to half", (_, value) => {
+		const terminalWidth = renderSplit(value);
 		expect(terminalWidth()).toBe("50%");
 
-		fireEvent.click(screen.getByLabelText("Fill the window with review"));
+		fireEvent.click(screen.getByLabelText("Fill the window with preview"));
 		expect(terminalWidth()).toBe("0%");
 		expect(
 			screen
-				.getByLabelText("Show terminal beside review")
+				.getByLabelText("Show terminal beside preview")
 				.getAttribute("aria-pressed"),
 		).toBe("true");
 
-		fireEvent.click(screen.getByLabelText("Show terminal beside review"));
+		fireEvent.click(screen.getByLabelText("Show terminal beside preview"));
 		expect(terminalWidth()).toBe("50%");
-	});
-
-	it("keeps other preview kinds at half with no toggle", () => {
-		const terminalWidth = renderSplit(preview({ kind: "show", body: "hi" }));
-
-		expect(terminalWidth()).toBe("50%");
-		expect(screen.queryByLabelText("Fill the window with review")).toBeNull();
 	});
 });
