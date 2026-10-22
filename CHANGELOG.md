@@ -1,3 +1,10 @@
+## [0.875.1](https://github.com/staff0rd/assist/compare/v0.875.0...v0.875.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* publish extension manifest onto main ([189cb97](https://github.com/staff0rd/assist/commit/189cb976b234c7327c5f2809ca2cbcddeb8e83a1))
+
 # [0.875.0](https://github.com/staff0rd/assist/compare/v0.874.0...v0.875.0) (2026-10-22)
 
 
