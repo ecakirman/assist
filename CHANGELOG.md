@@ -1,3 +1,10 @@
+# [0.875.0](https://github.com/staff0rd/assist/compare/v0.874.0...v0.875.0) (2026-10-22)
+
+
+### Features
+
+* expand toggle on every preview pane ([af9f911](https://github.com/staff0rd/assist/commit/af9f911ae0b273381d62042fa4aa7468ff94ead1))
+
 # [0.874.0](https://github.com/staff0rd/assist/compare/v0.873.1...v0.874.0) (2026-10-21)
 
 
