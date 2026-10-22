@@ -1,3 +1,10 @@
+## [0.875.2](https://github.com/staff0rd/assist/compare/v0.875.1...v0.875.2) (2026-10-22)
+
+
+### Bug Fixes
+
+* stack assist show over pending review ([809a1ff](https://github.com/staff0rd/assist/commit/809a1ff30e561c7e39691db115eb6f7c960c3ac0))
+
 ## [0.875.1](https://github.com/staff0rd/assist/compare/v0.875.0...v0.875.1) (2026-10-22)
 
 
