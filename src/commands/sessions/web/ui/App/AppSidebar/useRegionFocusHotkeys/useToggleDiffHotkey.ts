@@ -24,7 +24,7 @@ export function useToggleDiffHotkey({
 		useCallback(() => {
 			if (!session) return;
 			const { id } = session;
-			if (session.pendingPrPreview) {
+			if (session.pendingPrPreview || session.pendingShow) {
 				togglePreviewFocus(id, showSessions, ringColor);
 				return;
 			}

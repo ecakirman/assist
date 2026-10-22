@@ -1,5 +1,5 @@
-import { DiffModeToggle } from "../../../DiffModeToggle";
-import { usePreviewWidthContext } from "../../usePreviewWidthContext";
+import { DiffModeToggle } from "../../DiffModeToggle";
+import { usePreviewWidthContext } from "../usePreviewWidthContext";
 
 export function PreviewWidthToggle() {
 	const { mode, onToggleMode } = usePreviewWidthContext();

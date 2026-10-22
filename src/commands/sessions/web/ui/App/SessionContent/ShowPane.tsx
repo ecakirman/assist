@@ -1,8 +1,8 @@
 import { Box, Button, Divider, Stack } from "@mui/material";
 import { useMemo } from "react";
-import { MarkdownHtml } from "../../../../../../backlog/web/ui/components/MarkdownHtml";
-import { renderMarkdown } from "../../../../../../backlog/web/ui/components/renderMarkdown";
-import type { PrPreview } from "../../../../../shared/SessionInfoBase";
+import { MarkdownHtml } from "../../../../../backlog/web/ui/components/MarkdownHtml";
+import { renderMarkdown } from "../../../../../backlog/web/ui/components/renderMarkdown";
+import type { PrPreview } from "../../../../shared/SessionInfoBase";
 import { PrPreviewHeader } from "./PrPreviewHeader";
 import { prPreviewPaneSx } from "./prPreviewPaneSx";
 import { addCopyButtons } from "./ShowPane/addCopyButtons";

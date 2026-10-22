@@ -1,14 +1,14 @@
 import { Box, Divider } from "@mui/material";
 import { PrPreviewContent } from "./PrPreviewPane/PrPreviewContent";
 import { PrPreviewFooter } from "./PrPreviewPane/PrPreviewFooter";
-import { PrPreviewHeader } from "./PrPreviewHeader";
+import { PrPreviewHeader } from "../PrPreviewHeader";
 import type { PrPreviewPaneProps } from "./PrPreviewPaneProps";
 import { PreviewMetadataList } from "./PreviewMetadataList";
 import { previewFooterProps } from "./PrPreviewPane/previewFooterProps";
 import { previewPaneOptions } from "./PrPreviewPane/previewPaneOptions";
 import { previewRuleAdder } from "./PrPreviewPane/previewRuleAdder";
 import { previewRuleCiter } from "./PrPreviewPane/previewRuleCiter";
-import { prPreviewPaneSx } from "./prPreviewPaneSx";
+import { prPreviewPaneSx } from "../prPreviewPaneSx";
 import { usePrPane } from "./PrPreviewPane/usePrPane";
 
 export function PrPreviewPane({

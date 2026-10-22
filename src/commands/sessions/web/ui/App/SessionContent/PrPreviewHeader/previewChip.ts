@@ -1,4 +1,4 @@
-import type { PrPreview } from "../../../../../../shared/SessionInfoBase";
+import type { PrPreview } from "../../../../../shared/SessionInfoBase";
 
 type ChipSpec = {
 	label: string;

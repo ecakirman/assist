@@ -1,4 +1,4 @@
-import { githubIssueUrl } from "../../../../../../../../shared/githubIssueUrl";
+import { githubIssueUrl } from "../../../../../../../shared/githubIssueUrl";
 
 type TitleWithRef = {
 	before: string;

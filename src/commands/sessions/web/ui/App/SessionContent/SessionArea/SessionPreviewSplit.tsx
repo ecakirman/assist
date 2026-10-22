@@ -23,7 +23,8 @@ export function SessionPreviewSplit({
 }) {
 	return (
 		<PrPreviewSplit
-			preview={session?.pendingPrPreview ?? null}
+			preview={session?.pendingPrPreview ?? session?.pendingShow ?? null}
+			stackedShow={session?.pendingPrPreview ? session.pendingShow : undefined}
 			session={session}
 			sessionId={session?.id}
 			cwd={session?.cwd}

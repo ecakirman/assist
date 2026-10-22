@@ -318,20 +318,34 @@ describe("PrPreviewCoordinator", () => {
 		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r2");
 	});
 
-	it("refuses a show while an approval preview is pending", () => {
+	it("stacks a show over a pending approval without disturbing it", () => {
 		const sessions = makeSessions("1");
 		const coord = new PrPreviewCoordinator(sessions, vi.fn());
 		const waiter = makeClient();
-		coord.set(waiter, previewMsg("1", "r1"));
+		coord.set(waiter, {
+			...previewMsg("1", "r1"),
+			kind: "high-level-review",
+			prNumber: 7,
+		});
 		const shower = makeClient();
 
 		coord.set(shower, { ...previewMsg("1", "r2"), kind: "show" });
 
 		expect(shower.sent.at(-1)).toMatchObject({
-			type: "show-refused",
+			type: "show-ack",
 			requestId: "r2",
 		});
 		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r1");
+		expect(sessions.get("1")?.pendingShow?.requestId).toBe("r2");
+		coord.decide({
+			type: "pr-decision",
+			sessionId: "1",
+			requestId: "r2",
+			decision: "reject",
+		});
+		expect(sessions.get("1")?.pendingShow).toBeUndefined();
+		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r1");
+		expect(waiter.sent).toHaveLength(0);
 		coord.decide({
 			type: "pr-decision",
 			sessionId: "1",
@@ -339,5 +353,24 @@ describe("PrPreviewCoordinator", () => {
 			decision: "approve",
 		});
 		expect(waiter.sent.at(-1)).toMatchObject({ decision: "approve" });
+	});
+
+	it("resolves an approval decided while a show is stacked over it", () => {
+		const sessions = makeSessions("1");
+		const coord = new PrPreviewCoordinator(sessions, vi.fn());
+		const waiter = makeClient();
+		coord.set(waiter, previewMsg("1", "r1"));
+		coord.set(makeClient(), { ...previewMsg("1", "r2"), kind: "show" });
+
+		coord.decide({
+			type: "pr-decision",
+			sessionId: "1",
+			requestId: "r1",
+			decision: "reject",
+		});
+
+		expect(waiter.sent.at(-1)).toMatchObject({ decision: "reject" });
+		expect(sessions.get("1")?.pendingPrPreview).toBeUndefined();
+		expect(sessions.get("1")?.pendingShow?.requestId).toBe("r2");
 	});
 });

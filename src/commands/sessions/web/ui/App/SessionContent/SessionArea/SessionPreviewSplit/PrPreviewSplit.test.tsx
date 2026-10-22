@@ -47,4 +47,39 @@ describe("PrPreviewSplit", () => {
 		fireEvent.click(screen.getByLabelText("Show terminal beside preview"));
 		expect(terminalWidth()).toBe("50%");
 	});
+
+	it("stacks a show over the review and keeps the review mounted", () => {
+		const onDecision = vi.fn();
+		const review = preview();
+		const show = preview({
+			requestId: "show-1",
+			kind: "show",
+			title: "Stacked",
+			body: "hello",
+		});
+		const tree = (stackedShow?: PrPreview) => (
+			<PrPreviewSplit
+				preview={review}
+				stackedShow={stackedShow}
+				onDecision={onDecision}
+			>
+				<div />
+			</PrPreviewSplit>
+		);
+		const { rerender } = render(tree());
+		const toggle = screen.getByLabelText("Fill the window with preview");
+
+		rerender(tree(show));
+		expect(screen.getByText("hello")).toBeTruthy();
+		fireEvent.click(screen.getAllByText("Close").at(-1) as HTMLElement);
+		expect(onDecision).toHaveBeenCalledWith(
+			"show-1",
+			"reject",
+			expect.anything(),
+		);
+
+		rerender(tree());
+		expect(screen.queryByText("hello")).toBeNull();
+		expect(screen.getByLabelText("Fill the window with preview")).toBe(toggle);
+	});
 });

@@ -3,11 +3,11 @@ import { useMemo } from "react";
 import type { PrPreview } from "../../../../../shared/SessionInfoBase";
 import { MiroBoardActions } from "./MiroBoardPane/MiroBoardActions";
 import { MiroBoardCanvas } from "./MiroBoardPane/MiroBoardCanvas";
-import { miroDecisionDetails } from "./miroDecisionDetails";
+import { miroDecisionDetails } from "../miroDecisionDetails";
 import type { PrDecisionDetails } from "../../../PrDecisionDetails";
 import { parseMiroBoardPreview } from "./MiroBoardPane/parseMiroBoardPreview";
-import { PrPreviewHeader } from "./PrPreviewHeader";
-import { prPreviewPaneSx } from "./prPreviewPaneSx";
+import { PrPreviewHeader } from "../PrPreviewHeader";
+import { prPreviewPaneSx } from "../prPreviewPaneSx";
 import { useMiroAnchorSelection } from "./MiroBoardPane/useMiroAnchorSelection";
 
 export function MiroBoardPane({

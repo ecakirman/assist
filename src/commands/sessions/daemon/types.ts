@@ -88,6 +88,7 @@ export type Session = {
 	reviewStarted?: boolean;
 	usageSeeded?: boolean;
 	pendingPrPreview?: PrPreview;
+	pendingShow?: PrPreview;
 	pendingRestart?: () => void;
 	pendingDismiss?: () => void;
 	pendingStart?: () => Session["pty"];

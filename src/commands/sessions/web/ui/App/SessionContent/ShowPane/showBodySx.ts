@@ -1,5 +1,5 @@
 import type { Theme } from "@mui/material";
-import { markdownContentSx } from "../../../../../../../backlog/web/ui/components/markdownSx";
+import { markdownContentSx } from "../../../../../../backlog/web/ui/components/markdownSx";
 
 export const showBodySx = (theme: Theme) => ({
 	flex: 1,

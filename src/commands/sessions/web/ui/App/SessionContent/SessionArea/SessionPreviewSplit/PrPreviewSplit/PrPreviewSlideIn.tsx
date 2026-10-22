@@ -1,13 +1,14 @@
 import Box from "@mui/material/Box";
-import type { TransitionEvent } from "react";
-import type { PrPreview } from "../../../../../../../shared/SessionInfoBase";
-import type { PrDecisionDetails } from "../../../../../PrDecisionDetails";
 import { PrPreviewSlideInPane } from "../../../PrPreviewSlideInPane";
-import type { SessionInfo } from "../../../../../types";
+import { CoveredPane } from "./PrPreviewSlideIn/CoveredPane";
+import { exitOnSlideOut } from "./PrPreviewSlideIn/exitOnSlideOut";
+import type { PrPreviewSlideInProps } from "./PrPreviewSlideIn/PrPreviewSlideInProps";
+import { StackedShowPane } from "./PrPreviewSlideIn/StackedShowPane";
 import { useSlideInSx } from "./PrPreviewSlideIn/useSlideInSx";
 
 export function PrPreviewSlideIn({
 	rendered,
+	stackedShow,
 	session,
 	sessionId,
 	cwd,
@@ -15,46 +16,34 @@ export function PrPreviewSlideIn({
 	open,
 	onExited,
 	onDecision,
-}: {
-	rendered: PrPreview | null;
-	session?: SessionInfo | undefined;
-	sessionId?: string;
-	cwd?: string;
-	sendInput?: ((sessionId: string, data: string) => void) | undefined;
-	open: boolean;
-	onExited: () => void;
-	onDecision: (
-		requestId: string,
-		decision: "approve" | "reject",
-		details: PrDecisionDetails,
-	) => void;
-}) {
+}: PrPreviewSlideInProps) {
 	const sx = useSlideInSx(open);
-	const handleTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
-		if (!open && e.propertyName === "transform" && e.target === e.currentTarget)
-			onExited();
-	};
 
 	return (
 		<Box
 			aria-hidden={!open}
 			data-preview-session-id={open ? sessionId : undefined}
 			tabIndex={open ? -1 : undefined}
-			onTransitionEnd={handleTransitionEnd}
+			onTransitionEnd={exitOnSlideOut(open, onExited)}
 			sx={sx}
 		>
 			{rendered && (
-				<PrPreviewSlideInPane
-					key={rendered.requestId}
-					preview={rendered}
-					session={session}
-					sessionId={sessionId}
-					cwd={cwd}
-					sendInput={sendInput}
-					onDecision={(decision, details) =>
-						onDecision(rendered.requestId, decision, details)
-					}
-				/>
+				<CoveredPane covered={stackedShow !== undefined}>
+					<PrPreviewSlideInPane
+						key={rendered.requestId}
+						preview={rendered}
+						session={session}
+						sessionId={sessionId}
+						cwd={cwd}
+						sendInput={sendInput}
+						onDecision={(decision, details) =>
+							onDecision(rendered.requestId, decision, details)
+						}
+					/>
+				</CoveredPane>
+			)}
+			{stackedShow && (
+				<StackedShowPane show={stackedShow} onDecision={onDecision} />
 			)}
 		</Box>
 	);

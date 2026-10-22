@@ -1,10 +1,10 @@
 import { HighLevelReviewPane } from "./PrPreviewSlideInPane/HighLevelReviewPane";
 import { MiroBoardPane } from "./PrPreviewSlideInPane/MiroBoardPane";
-import { miroDecisionDetails } from "./PrPreviewSlideInPane/miroDecisionDetails";
+import { miroDecisionDetails } from "./miroDecisionDetails";
 import { PrPreviewPane } from "./PrPreviewSlideInPane/PrPreviewPane";
 import { previewPaneCapabilities } from "./PrPreviewSlideInPane/previewPaneCapabilities";
 import type { PrPreviewPaneProps } from "./PrPreviewSlideInPane/PrPreviewPaneProps";
-import { ShowPane } from "./PrPreviewSlideInPane/ShowPane";
+import { ShowPane } from "./ShowPane";
 
 export function PrPreviewSlideInPane({
 	preview,

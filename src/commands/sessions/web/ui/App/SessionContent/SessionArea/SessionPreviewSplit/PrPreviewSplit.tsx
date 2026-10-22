@@ -17,6 +17,7 @@ type OnDecision = (
 
 export function PrPreviewSplit({
 	preview,
+	stackedShow,
 	session,
 	sessionId,
 	cwd,
@@ -25,6 +26,7 @@ export function PrPreviewSplit({
 	children,
 }: {
 	preview: PrPreview | null;
+	stackedShow?: PrPreview | undefined;
 	session?: SessionInfo | undefined;
 	sessionId?: string;
 	cwd?: string;
@@ -52,6 +54,7 @@ export function PrPreviewSplit({
 			<PreviewWidthContext.Provider value={width}>
 				<PrPreviewSlideIn
 					rendered={rendered}
+					stackedShow={open ? stackedShow : undefined}
 					session={session}
 					sessionId={sessionId}
 					cwd={cwd}

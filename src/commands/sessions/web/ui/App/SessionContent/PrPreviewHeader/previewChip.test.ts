@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { PrPreview } from "../../../../../../shared/SessionInfoBase";
+import type { PrPreview } from "../../../../../shared/SessionInfoBase";
 import { previewChip } from "./previewChip";
 
 function preview(overrides: Partial<PrPreview> = {}): PrPreview {

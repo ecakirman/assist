@@ -14,6 +14,14 @@ export function decidePrPreview(
 	const id = d.sessionId as string;
 	const requestId = d.requestId as string;
 	const session = sessions.get(id);
+	if (session?.pendingShow?.requestId === requestId) {
+		daemonLog(
+			`pr-preview stacked show closed: id=${id} requestId=${requestId}`,
+		);
+		session.pendingShow = undefined;
+		notify();
+		return;
+	}
 	if (!session || session.pendingPrPreview?.requestId !== requestId) {
 		daemonLog(
 			`pr-decision for stale/unknown preview id=${id} requestId=${requestId} (ignoring)`,

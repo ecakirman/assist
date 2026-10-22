@@ -7,8 +7,8 @@ import { HighLevelReviewQueue } from "./HighLevelReviewPane/HighLevelReviewQueue
 import { highLevelReviewHandlers } from "./HighLevelReviewPane/highLevelReviewHandlers";
 import type { PrDecisionDetails } from "../../../PrDecisionDetails";
 import { PreviewMetadataList } from "./PreviewMetadataList";
-import { PrPreviewHeader } from "./PrPreviewHeader";
-import { prPreviewPaneSx } from "./prPreviewPaneSx";
+import { PrPreviewHeader } from "../PrPreviewHeader";
+import { prPreviewPaneSx } from "../prPreviewPaneSx";
 import type { SessionInfo } from "../../../types";
 import { useHighLevelReviewPane } from "./HighLevelReviewPane/useHighLevelReviewPane";
 

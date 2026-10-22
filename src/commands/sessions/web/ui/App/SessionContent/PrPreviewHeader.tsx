@@ -1,5 +1,5 @@
 import { Box, Chip, Link, Typography } from "@mui/material";
-import type { PrPreview } from "../../../../../shared/SessionInfoBase";
+import type { PrPreview } from "../../../../shared/SessionInfoBase";
 import { PreviewWidthToggle } from "./PrPreviewHeader/PreviewWidthToggle";
 import { previewChip } from "./PrPreviewHeader/previewChip";
 import { splitGithubRef } from "./PrPreviewHeader/splitGithubRef";

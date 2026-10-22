@@ -5,7 +5,7 @@ import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
 import { isPreviewKind } from "./isPreviewKind";
 import { previewTargetLabel } from "./previewTargetLabel";
-import { refuseShowOverApproval } from "./refuseShowOverApproval";
+import { placeShowPreview } from "./placeShowPreview";
 
 type Msg = Record<string, unknown>;
 
@@ -28,11 +28,14 @@ export function setPrPreview(
 	}
 	const prNumber = typeof d.prNumber === "number" ? d.prNumber : null;
 	const kind = isPreviewKind(d.kind) ? d.kind : "pr";
-	if (kind === "show" && refuseShowOverApproval(session, client, d)) return;
-	session.pendingPrPreview = buildPrPreview(d, kind, prNumber);
-	if (kind === "show")
+	const preview = buildPrPreview(d, kind, prNumber);
+	if (kind === "show") {
 		sendTo(client, { type: "show-ack", requestId: d.requestId });
-	else waiters.set(id, client);
+		if (placeShowPreview(session, preview)) return notify();
+	} else {
+		session.pendingPrPreview = preview;
+		waiters.set(id, client);
+	}
 	const target = previewTargetLabel(
 		kind,
 		d.itemType === "bug" ? "bug" : "story",
@@ -40,7 +43,7 @@ export function setPrPreview(
 		d.draft === true,
 	);
 	daemonLog(
-		`pr-preview set: id=${id} requestId=${d.requestId} kind=${kind} target=${target} screenshots=${session.pendingPrPreview.screenshots?.length ?? 0}`,
+		`pr-preview set: id=${id} requestId=${d.requestId} kind=${kind} target=${target} screenshots=${preview.screenshots?.length ?? 0}`,
 	);
 	if (autoApprovePreview(sessions, waiters, notify, session)) return;
 	notify();
