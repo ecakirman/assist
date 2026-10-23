@@ -14,10 +14,23 @@ function withoutKeys(value: unknown, keys: string[]): unknown {
 	return rest;
 }
 
+function stripRepos(repos: unknown): unknown {
+	if (!repos || typeof repos !== "object") return repos;
+	return Object.fromEntries(
+		Object.entries(repos as Record<string, unknown>).map(([name, entry]) => [
+			name,
+			entry && typeof entry === "object"
+				? stripLegacyConfigKeys(entry as Record<string, unknown>)
+				: entry,
+		]),
+	);
+}
+
 export function stripLegacyConfigKeys(
 	config: Record<string, unknown>,
 ): Record<string, unknown> {
 	const stripped = { ...config };
+	if (stripped.repos) stripped.repos = stripRepos(stripped.repos);
 	const news = stripped.news;
 	if (news && typeof news === "object" && "feeds" in news) {
 		const { feeds: _feeds, ...rest } = news as Record<string, unknown>;

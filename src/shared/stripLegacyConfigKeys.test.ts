@@ -35,4 +35,23 @@ describe("stripLegacyConfigKeys", () => {
 		expect(stripped).toEqual({ worktree: { enabled: true } });
 		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
 	});
+
+	it("drops retired keys inside repos entries so old global configs still parse", () => {
+		const stripped = stripLegacyConfigKeys({
+			repos: {
+				assist: {
+					worktree: { enabled: true, includeDrafts: true, watcher: true },
+					sessions: { windowsDaemonPort: 51764 },
+					news: { feeds: [] },
+				},
+			},
+		});
+
+		expect(stripped).toEqual({
+			repos: {
+				assist: { worktree: { enabled: true }, sessions: {}, news: {} },
+			},
+		});
+		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
+	});
 });
