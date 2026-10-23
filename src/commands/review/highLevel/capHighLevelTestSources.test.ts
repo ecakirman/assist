@@ -51,4 +51,27 @@ describe("capHighLevelTestSources", () => {
 
 		expect(shipped).toHaveLength(25);
 	});
+
+	it("ships a short test that comes after the budget-consuming tests", () => {
+		const tests = [
+			...Array.from({ length: 30 }, (_, i) => test(i, 200)),
+			test(100, 12),
+		];
+		const [capped] = capHighLevelTestSources([file(tests)]);
+
+		expect(capped?.tests.at(-1)).toEqual(test(100, 12));
+	});
+
+	it("marks a test left out by the budget as over budget, not truncated", () => {
+		const tests = Array.from({ length: 30 }, (_, i) => test(i, 200));
+		const [capped] = capHighLevelTestSources([file(tests)]);
+
+		expect(capped?.tests.at(-1)).toEqual({
+			kind: "it",
+			id: "a.test.ts:29",
+			name: "t29",
+			line: 29,
+			overBudget: true,
+		});
+	});
 });

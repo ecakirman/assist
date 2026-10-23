@@ -23,7 +23,9 @@ export function HighLevelTestSource({
 				<HighLevelDiffNote>
 					{test.truncated
 						? "Too long to show here — open the file on GitHub."
-						: "No source available."}
+						: test.overBudget
+							? "Left out because this PR's tests are too large to show in full — open the file on GitHub."
+							: "No source available."}
 				</HighLevelDiffNote>
 			) : (
 				<HighLevelNativeDiff

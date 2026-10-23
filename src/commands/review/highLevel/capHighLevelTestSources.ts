@@ -7,20 +7,43 @@ import type {
 const MAX_TEST_SOURCE_LINES = 200;
 const MAX_TOTAL_SOURCE_LINES = 5000;
 
+function collectCases(nodes: HighLevelTestNode[]): HighLevelTestCase[] {
+	return nodes.flatMap((node) =>
+		node.kind === "it" ? [node] : collectCases(node.children),
+	);
+}
+
+function shippedCases(files: HighLevelTestFile[]): Set<HighLevelTestCase> {
+	const sized = files
+		.flatMap((file) => collectCases(file.tests))
+		.flatMap((test) =>
+			test.source === undefined
+				? []
+				: [{ test, lines: test.source.split("\n").length }],
+		)
+		.filter(({ lines }) => lines <= MAX_TEST_SOURCE_LINES)
+		.sort((a, b) => a.lines - b.lines);
+	const shipped = new Set<HighLevelTestCase>();
+	let remaining = MAX_TOTAL_SOURCE_LINES;
+	for (const { test, lines } of sized) {
+		if (lines > remaining) break;
+		remaining -= lines;
+		shipped.add(test);
+	}
+	return shipped;
+}
+
 export function capHighLevelTestSources(
 	files: HighLevelTestFile[],
 ): HighLevelTestFile[] {
-	let remaining = MAX_TOTAL_SOURCE_LINES;
+	const shipped = shippedCases(files);
 
 	const capCase = (test: HighLevelTestCase): HighLevelTestCase => {
-		if (test.source === undefined) return test;
-		const lines = test.source.split("\n").length;
-		if (lines <= Math.min(MAX_TEST_SOURCE_LINES, remaining)) {
-			remaining -= lines;
-			return test;
-		}
-		const { source: _dropped, ...rest } = test;
-		return { ...rest, truncated: true };
+		if (test.source === undefined || shipped.has(test)) return test;
+		const { source, ...rest } = test;
+		return source.split("\n").length > MAX_TEST_SOURCE_LINES
+			? { ...rest, truncated: true }
+			: { ...rest, overBudget: true };
 	};
 
 	const capNode = (node: HighLevelTestNode): HighLevelTestNode =>

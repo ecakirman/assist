@@ -82,6 +82,7 @@ export type HighLevelTestCase = HighLevelTestBase & {
 	change?: "added" | "modified";
 	source?: string;
 	truncated?: boolean;
+	overBudget?: boolean;
 };
 
 type HighLevelTestSuite = HighLevelTestBase & {
