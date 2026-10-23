@@ -1,3 +1,10 @@
+## [0.877.1](https://github.com/staff0rd/assist/compare/v0.877.0...v0.877.1) (2026-10-23)
+
+
+### Bug Fixes
+
+* keep synced skill dirs on prune ([86df2ab](https://github.com/staff0rd/assist/commit/86df2ab1d29b8a0aa02579ff264c100dab718bc4))
+
 # [0.877.0](https://github.com/staff0rd/assist/compare/v0.876.0...v0.877.0) (2026-10-23)
 
 
