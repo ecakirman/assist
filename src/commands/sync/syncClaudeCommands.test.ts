@@ -13,7 +13,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { syncClaudeCommands } from "./syncClaudeCommands";
 
-const PR = "---\ndescription: Raise a PR\nskill: true\n---\n\nPR BODY\n";
+const PR = "---\ndescription: Raise a PR\n---\n\nPR BODY\n";
 const COMMIT = "---\ndescription: Commit\n---\n\nCOMMIT BODY\n";
 
 describe("syncClaudeCommands", () => {
@@ -35,57 +35,50 @@ describe("syncClaudeCommands", () => {
 		vi.restoreAllMocks();
 	});
 
-	const skillFile = () => join(targetBase, "skills", "pr", "SKILL.md");
+	const skillFile = (name: string) =>
+		join(targetBase, "skills", name, "SKILL.md");
 
-	it("writes a skill-flagged command as a personal skill", () => {
+	it("writes every command as a personal skill", () => {
 		syncClaudeCommands(claudeDir, targetBase);
 
-		expect(readFileSync(skillFile(), "utf8")).toBe(
+		expect(readFileSync(skillFile("pr"), "utf8")).toBe(
 			'---\nname: pr\ndescription: "Raise a PR"\n---\n\nPR BODY\n',
 		);
-		expect(existsSync(join(targetBase, "commands", "pr.md"))).toBe(false);
+		expect(readFileSync(skillFile("commit"), "utf8")).toBe(
+			'---\nname: commit\ndescription: "Commit"\n---\n\nCOMMIT BODY\n',
+		);
 	});
 
-	it("removes a previously synced command file for a skill-flagged command", () => {
+	it("returns the synced command names, ignoring non-.md files", () => {
+		writeFileSync(join(claudeDir, "commands", "notes.txt"), "x");
+
+		expect(syncClaudeCommands(claudeDir, targetBase).sort()).toEqual([
+			"commit",
+			"pr",
+		]);
+	});
+
+	it("removes a previously synced command file", () => {
 		mkdirSync(join(targetBase, "commands"));
 		writeFileSync(join(targetBase, "commands", "pr.md"), "OLD");
+		writeFileSync(join(targetBase, "commands", "mine.md"), "MINE");
 
 		syncClaudeCommands(claudeDir, targetBase);
 
 		expect(existsSync(join(targetBase, "commands", "pr.md"))).toBe(false);
+		expect(existsSync(join(targetBase, "commands", "mine.md"))).toBe(true);
 	});
 
 	it("replaces a symlinked SKILL.md without touching its target", () => {
 		const linkTarget = join(targetBase, "elsewhere.md");
 		writeFileSync(linkTarget, "ORIGINAL");
 		mkdirSync(join(targetBase, "skills", "pr"), { recursive: true });
-		symlinkSync(linkTarget, skillFile());
+		symlinkSync(linkTarget, skillFile("pr"));
 
 		syncClaudeCommands(claudeDir, targetBase);
 
-		expect(lstatSync(skillFile()).isSymbolicLink()).toBe(false);
-		expect(readFileSync(skillFile(), "utf8")).toContain("name: pr");
+		expect(lstatSync(skillFile("pr")).isSymbolicLink()).toBe(false);
+		expect(readFileSync(skillFile("pr"), "utf8")).toContain("name: pr");
 		expect(readFileSync(linkTarget, "utf8")).toBe("ORIGINAL");
-	});
-
-	it("copies unflagged commands to the commands directory unchanged", () => {
-		syncClaudeCommands(claudeDir, targetBase);
-
-		expect(
-			readFileSync(join(targetBase, "commands", "commit.md"), "utf8"),
-		).toBe(COMMIT);
-		expect(existsSync(join(targetBase, "skills", "commit"))).toBe(false);
-	});
-
-	it("ignores skill: true outside the frontmatter", () => {
-		writeFileSync(
-			join(claudeDir, "commands", "pr.md"),
-			"---\ndescription: Raise a PR\n---\n\nskill: true\n",
-		);
-
-		syncClaudeCommands(claudeDir, targetBase);
-
-		expect(existsSync(join(targetBase, "commands", "pr.md"))).toBe(true);
-		expect(existsSync(skillFile())).toBe(false);
 	});
 });

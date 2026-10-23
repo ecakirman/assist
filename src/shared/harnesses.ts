@@ -19,7 +19,7 @@ export const harnesses: Record<HarnessKind, Harness> = {
 		command: "claude",
 		homeDir: path.join(os.homedir(), ".claude"),
 		sync: {
-			commandDest: (name) => path.join("commands", `${name}.md`),
+			commandDest: (name) => path.join("skills", name, "SKILL.md"),
 		},
 	},
 	codex: {

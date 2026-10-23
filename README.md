@@ -105,7 +105,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
 
 ### Git and GitHub
 
-- `assist sync [--prune] [--force]` - Copy commands, settings and design assets to `~/.claude` (plus `~/.codex` and `~/.pi` when those CLIs are installed); `--prune` lists commands sync did not write and `--prune --force` removes them
+- `assist sync [--prune] [--force]` - Copy commands (as `~/.claude/skills/<name>/SKILL.md`, so they override a project skill of the same name), settings and design assets to `~/.claude` (plus `~/.codex` and `~/.pi` when those CLIs are installed); `--prune` lists commands sync did not write and `--prune --force` removes them
 - `assist activity [--since <date>]` - Chart GitHub commit activity per day (defaults to last 30 days)
 - `assist commit status` - Show git status and diff
 - `assist commit <message> [files...] [--ref <ref>]` - Stage files and create a validated single-line commit; each `--ref` (free text containing a URL) adds a `Ref:` trailer

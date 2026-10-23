@@ -39,7 +39,8 @@ vi.mock("node:fs", async () =>
 );
 
 import { harnesses } from "../../shared/harnesses";
-import { commandToSkill, syncCodex } from "./syncCodex";
+import { syncCodex } from "./syncCodex";
+import { commandToSkill } from "./commandToSkill";
 
 describe("commandToSkill", () => {
 	it("rewrites command frontmatter to a name + description SKILL header", () => {

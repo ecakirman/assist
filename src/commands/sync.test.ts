@@ -8,6 +8,7 @@ import type * as loadConfigMockModule from "../test/mocks/loadConfigMock";
 const mockSyncSettings = vi.fn();
 const mockSyncDesign = vi.fn();
 const mockPruneCommands = vi.fn();
+const mockPruneSkills = vi.fn();
 const mockSyncCodex = vi.fn();
 const mockSyncPi = vi.fn();
 const mockLoadConfig = vi.mocked(loadConfig);
@@ -40,6 +41,10 @@ vi.mock("./sync/pruneCommands", () => ({
 	pruneCommands: (...args: unknown[]) => mockPruneCommands(...args),
 }));
 
+vi.mock("./sync/pruneSkills", () => ({
+	pruneSkills: (...args: unknown[]) => mockPruneSkills(...args),
+}));
+
 vi.mock("node:fs", async () =>
 	(await vi.importActual<typeof fsMockModule>("../test/mocks/fsMock")).fsMock(),
 );
@@ -55,25 +60,23 @@ describe("sync", () => {
 		mockLoadConfig.mockReturnValue(
 			makeAssistConfig({ sync: { autoConfirm: false } }),
 		);
-		mockPruneCommands.mockReturnValue({
-			orphans: [],
-			removed: [],
-			skipped: [],
-			unmanaged: [],
-		});
+		const emptyPrune = { orphans: [], removed: [], skipped: [], unmanaged: [] };
+		mockPruneCommands.mockReturnValue(emptyPrune);
+		mockPruneSkills.mockReturnValue(emptyPrune);
 	});
 
 	it("should not prune when --prune is not passed", async () => {
 		await sync();
 
 		expect(mockPruneCommands).not.toHaveBeenCalled();
+		expect(mockPruneSkills).not.toHaveBeenCalled();
 	});
 
-	it("should prune the claude commands dir against the synced command names", async () => {
+	it("should prune the claude skills dir against the synced command names", async () => {
 		await sync({ prune: true });
 
-		expect(mockPruneCommands).toHaveBeenCalledWith(
-			expect.stringContaining("commands"),
+		expect(mockPruneSkills).toHaveBeenCalledWith(
+			expect.stringContaining("skills"),
 			["commit", "verify"],
 			{ force: false },
 		);
@@ -87,19 +90,34 @@ describe("sync", () => {
 
 		await sync({ prune: true });
 
-		expect(mockPruneCommands).toHaveBeenCalledWith(
-			expect.stringContaining("commands"),
+		expect(mockPruneSkills).toHaveBeenCalledWith(
+			expect.stringContaining("skills"),
 			["commit"],
 			{ force: false },
 		);
 	});
 
-	it("should forward --force to the prune", async () => {
-		await sync({ prune: true, force: true });
+	it("should treat every claude command file as unwritten by sync", async () => {
+		await sync({ prune: true });
 
 		expect(mockPruneCommands).toHaveBeenCalledWith(
 			expect.stringContaining("commands"),
+			[],
+			{ force: false },
+		);
+	});
+
+	it("should forward --force to the prunes", async () => {
+		await sync({ prune: true, force: true });
+
+		expect(mockPruneSkills).toHaveBeenCalledWith(
+			expect.stringContaining("skills"),
 			["commit", "verify"],
+			{ force: true },
+		);
+		expect(mockPruneCommands).toHaveBeenCalledWith(
+			expect.stringContaining("commands"),
+			[],
 			{ force: true },
 		);
 	});

@@ -1,11 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { commandToSkill } from "./syncCodex";
-
-function isSkillFlagged(content: string): boolean {
-	const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-	return match ? /^skill:\s*true\s*$/m.test(match[1]) : false;
-}
+import { commandToSkill } from "./commandToSkill";
 
 function replaceFileWithoutFollowingSymlink(
 	file: string,
@@ -23,7 +18,6 @@ function writeSkill(targetBase: string, name: string, content: string): void {
 		commandToSkill(name, content),
 	);
 	fs.rmSync(path.join(targetBase, "commands", `${name}.md`), { force: true });
-	console.log(`Wrote ${name} as a skill to ${skillDir}`);
 }
 
 export function syncClaudeCommands(
@@ -31,25 +25,19 @@ export function syncClaudeCommands(
 	targetBase: string,
 ): string[] {
 	const sourceDir = path.join(claudeDir, "commands");
-	const targetDir = path.join(targetBase, "commands");
+	const names = fs
+		.readdirSync(sourceDir)
+		.filter((file) => file.endsWith(".md"))
+		.map((file) => path.basename(file, ".md"));
 
-	fs.mkdirSync(targetDir, { recursive: true });
-
-	const files = fs.readdirSync(sourceDir);
-	for (const file of files) {
-		const source = path.join(sourceDir, file);
-		if (file.endsWith(".md")) {
-			const content = fs.readFileSync(source, "utf8");
-			if (isSkillFlagged(content)) {
-				writeSkill(targetBase, path.basename(file, ".md"), content);
-				continue;
-			}
-		}
-		fs.copyFileSync(source, path.join(targetDir, file));
-		console.log(`Copied ${file} to ${targetDir}`);
+	for (const name of names) {
+		const content = fs.readFileSync(path.join(sourceDir, `${name}.md`), "utf8");
+		writeSkill(targetBase, name, content);
 	}
 
-	console.log(`Synced ${files.length} command(s) to ~/.claude`);
+	console.log(
+		`Synced ${names.length} skill(s) to ${path.join(targetBase, "skills")}`,
+	);
 
-	return files;
+	return names;
 }

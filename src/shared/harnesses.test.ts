@@ -20,12 +20,12 @@ describe("harnesses registry", () => {
 		vi.clearAllMocks();
 	});
 
-	it("maps claude to ~/.claude with commands/*.md", () => {
+	it("maps claude to ~/.claude with skills/<name>/SKILL.md", () => {
 		const claude: Harness = harnesses.claude;
 		expect(claude.command).toBe("claude");
 		expect(claude.homeDir).toBe(path.join(os.homedir(), ".claude"));
 		expect(claude.sync.commandDest("refine")).toBe(
-			path.join("commands", "refine.md"),
+			path.join("skills", "refine", "SKILL.md"),
 		);
 	});
 

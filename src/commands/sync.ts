@@ -3,6 +3,7 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "../shared/loadConfig";
 import { pruneCommands } from "./sync/pruneCommands";
+import { pruneSkills } from "./sync/pruneSkills";
 import type { PruneOptions } from "./sync/pruneTarget";
 import { reportPrune } from "./sync/reportPrune";
 import { syncClaudeCommands } from "./sync/syncClaudeCommands";
@@ -25,7 +26,7 @@ export async function sync(
 	const claudeDir = path.join(__dirname, "..", "claude");
 	const targetBase = path.join(os.homedir(), ".claude");
 
-	const commandFiles = syncClaudeCommands(claudeDir, targetBase);
+	const commandNames = syncClaudeCommands(claudeDir, targetBase);
 	syncDesign(claudeDir, targetBase);
 	await syncSettings(claudeDir, targetBase, { yes });
 	syncCodex(claudeDir, prune);
@@ -34,14 +35,16 @@ export async function sync(
 
 	if (!options?.prune) return;
 
-	const commandNames = commandFiles
-		.filter((file) => file.endsWith(".md"))
-		.map((file) => path.basename(file, ".md"));
 	const force = options.force ?? false;
 
 	reportPrune(
+		"~/.claude/skills",
+		pruneSkills(path.join(targetBase, "skills"), commandNames, { force }),
+		force,
+	);
+	reportPrune(
 		"~/.claude/commands",
-		pruneCommands(path.join(targetBase, "commands"), commandNames, { force }),
+		pruneCommands(path.join(targetBase, "commands"), [], { force }),
 		force,
 	);
 }
