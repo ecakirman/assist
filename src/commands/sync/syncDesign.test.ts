@@ -60,7 +60,7 @@ describe("syncDesign", () => {
 		mkdirSync(target, { recursive: true });
 		writeFileSync(join(target, "stale.mjs"), "OLD");
 
-		syncDesign(claudeDir, targetBase);
+		expect(syncDesign(claudeDir, targetBase)).toEqual(["review-ci"]);
 
 		expect(readFileSync(join(target, "SKILL.md"), "utf8")).toBe("SKILL");
 		expect(readFileSync(join(target, "review-ci.yml"), "utf8")).toBe(

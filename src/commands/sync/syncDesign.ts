@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-export function syncDesign(claudeDir: string, targetBase: string): void {
+export function syncDesign(claudeDir: string, targetBase: string): string[] {
 	const systemPromptSource = path.join(claudeDir, "design-system-prompt.md");
 	const systemPromptTarget = path.join(targetBase, "design-system-prompt.md");
 	fs.copyFileSync(systemPromptSource, systemPromptTarget);
@@ -26,4 +26,8 @@ export function syncDesign(claudeDir: string, targetBase: string): void {
 	}
 
 	console.log(`Synced ${entries.length} skill(s) to ~/.claude/skills`);
+
+	return entries
+		.filter((entry) => entry.isDirectory())
+		.map((entry) => entry.name);
 }

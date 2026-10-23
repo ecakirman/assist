@@ -27,7 +27,7 @@ export async function sync(
 	const targetBase = path.join(os.homedir(), ".claude");
 
 	const commandNames = syncClaudeCommands(claudeDir, targetBase);
-	syncDesign(claudeDir, targetBase);
+	const skillDirNames = syncDesign(claudeDir, targetBase);
 	await syncSettings(claudeDir, targetBase, { yes });
 	syncCodex(claudeDir, prune);
 	syncPi(claudeDir, prune);
@@ -39,7 +39,11 @@ export async function sync(
 
 	reportPrune(
 		"~/.claude/skills",
-		pruneSkills(path.join(targetBase, "skills"), commandNames, { force }),
+		pruneSkills(
+			path.join(targetBase, "skills"),
+			[...commandNames, ...skillDirNames],
+			{ force },
+		),
 		force,
 	);
 	reportPrune(

@@ -63,6 +63,7 @@ describe("sync", () => {
 		const emptyPrune = { orphans: [], removed: [], skipped: [], unmanaged: [] };
 		mockPruneCommands.mockReturnValue(emptyPrune);
 		mockPruneSkills.mockReturnValue(emptyPrune);
+		mockSyncDesign.mockReturnValue([]);
 	});
 
 	it("should not prune when --prune is not passed", async () => {
@@ -78,6 +79,18 @@ describe("sync", () => {
 		expect(mockPruneSkills).toHaveBeenCalledWith(
 			expect.stringContaining("skills"),
 			["commit", "verify"],
+			{ force: false },
+		);
+	});
+
+	it("should keep the skill directories synced from claude/skills", async () => {
+		mockSyncDesign.mockReturnValue(["review-ci"]);
+
+		await sync({ prune: true });
+
+		expect(mockPruneSkills).toHaveBeenCalledWith(
+			expect.stringContaining("skills"),
+			["commit", "verify", "review-ci"],
 			{ force: false },
 		);
 	});
