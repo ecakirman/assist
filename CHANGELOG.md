@@ -1,3 +1,10 @@
+## [0.875.3](https://github.com/staff0rd/assist/compare/v0.875.2...v0.875.3) (2026-10-23)
+
+
+### Bug Fixes
+
+* show short tests past source budget ([826d19a](https://github.com/staff0rd/assist/commit/826d19a6f4603229f94bb17403ba95daf5f2780e))
+
 ## [0.875.2](https://github.com/staff0rd/assist/compare/v0.875.1...v0.875.2) (2026-10-22)
 
 
