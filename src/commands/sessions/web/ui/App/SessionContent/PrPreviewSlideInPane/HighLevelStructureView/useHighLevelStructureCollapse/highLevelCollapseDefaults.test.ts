@@ -6,12 +6,15 @@ import type {
 } from "../../../../../../../../review/highLevel/types";
 import { highLevelCollapseDefaults } from "./highLevelCollapseDefaults";
 
-function file(path: string): HighLevelTreeFile {
+function file(
+	path: string,
+	status: HighLevelTreeFile["status"] = "modified",
+): HighLevelTreeFile {
 	return {
 		kind: "file",
 		name: path.split("/").at(-1) ?? path,
 		path,
-		status: "modified",
+		status,
 		additions: 1,
 		deletions: 1,
 		diffUrl: "",
@@ -73,9 +76,30 @@ describe("highLevelCollapseDefaults", () => {
 	});
 
 	it("collapses nothing without globs", () => {
-		const { dirs, fileGlobs } = highLevelCollapseDefaults(tree, []);
+		const { dirs, files, fileGlobs } = highLevelCollapseDefaults(tree, []);
 
 		expect(dirs.size).toBe(0);
+		expect(files.size).toBe(0);
 		expect(fileGlobs.size).toBe(0);
+	});
+
+	it("default-collapses glob-matched files", () => {
+		const { files, fileGlobs } = highLevelCollapseDefaults(tree, globs);
+
+		expect(files).toEqual(new Set(fileGlobs.keys()));
+	});
+
+	it("default-collapses removed files without a glob or collapsing their dir", () => {
+		const { dirs, files, fileGlobs } = highLevelCollapseDefaults(
+			[
+				dir("old", [file("old/a.ts", "removed"), file("old/b.ts", "removed")]),
+				file("kept.ts"),
+			],
+			globs,
+		);
+
+		expect([...files].sort()).toEqual(["old/a.ts", "old/b.ts"]);
+		expect(fileGlobs.size).toBe(0);
+		expect(dirs.size).toBe(0);
 	});
 });

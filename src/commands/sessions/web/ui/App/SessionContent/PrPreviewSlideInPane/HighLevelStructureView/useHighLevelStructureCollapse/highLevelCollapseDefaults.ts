@@ -4,6 +4,7 @@ import { flattenHighLevelTree } from "../flattenHighLevelTree";
 
 type HighLevelCollapseDefaults = {
 	dirs: Set<string>;
+	files: Set<string>;
 	fileGlobs: Map<string, string>;
 };
 
@@ -11,14 +12,16 @@ export function highLevelCollapseDefaults(
 	tree: HighLevelTreeNode[],
 	collapsedPaths: string[],
 ): HighLevelCollapseDefaults {
+	const files = new Set<string>();
 	const fileGlobs = new Map<string, string>();
 	for (const file of flattenHighLevelTree(tree)) {
 		const glob = collapsedPaths.find((pattern) =>
 			minimatch(file.path, pattern),
 		);
 		if (glob) fileGlobs.set(file.path, glob);
+		if (glob || file.status === "removed") files.add(file.path);
 	}
-	return { dirs: collapsedDirs(tree, fileGlobs), fileGlobs };
+	return { dirs: collapsedDirs(tree, fileGlobs), files, fileGlobs };
 }
 
 function collapsedDirs(
