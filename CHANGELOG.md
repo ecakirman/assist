@@ -1,3 +1,10 @@
+# [0.877.0](https://github.com/staff0rd/assist/compare/v0.876.0...v0.877.0) (2026-10-23)
+
+
+### Features
+
+* sync every command as a skill ([8f4c23c](https://github.com/staff0rd/assist/commit/8f4c23ccca8380cba9be90fc463904805dc90000))
+
 # [0.876.0](https://github.com/staff0rd/assist/compare/v0.875.3...v0.876.0) (2026-10-23)
 
 
