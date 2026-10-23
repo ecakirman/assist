@@ -1,3 +1,10 @@
+## [0.877.2](https://github.com/staff0rd/assist/compare/v0.877.1...v0.877.2) (2026-10-23)
+
+
+### Bug Fixes
+
+* strip legacy keys in repos entries ([363c9b7](https://github.com/staff0rd/assist/commit/363c9b792517ac0a8415202781a9e9b665c07a9d))
+
 ## [0.877.1](https://github.com/staff0rd/assist/compare/v0.877.0...v0.877.1) (2026-10-23)
 
 
