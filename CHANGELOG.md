@@ -1,3 +1,10 @@
+# [0.876.0](https://github.com/staff0rd/assist/compare/v0.875.3...v0.876.0) (2026-10-23)
+
+
+### Features
+
+* collapse deleted files by default ([78a94e0](https://github.com/staff0rd/assist/commit/78a94e093ed3b4bc0d5c42db895d2481af0c4be3))
+
 ## [0.875.3](https://github.com/staff0rd/assist/compare/v0.875.2...v0.875.3) (2026-10-23)
 
 
