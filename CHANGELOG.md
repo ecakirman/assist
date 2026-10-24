@@ -1,3 +1,15 @@
+# [0.880.0](https://github.com/staff0rd/assist/compare/v0.879.0...v0.880.0) (2026-10-24)
+
+
+### Bug Fixes
+
+* pin platform in isAppHotkey test ([bb42d82](https://github.com/staff0rd/assist/commit/bb42d82e5a7ac0c15736f992ed047c1be7f93e72))
+
+
+### Features
+
+* user docs pipeline and coverage ([e0b94ff](https://github.com/staff0rd/assist/commit/e0b94ff2472bf0ede683c4089d3baf75546f25aa))
+
 # [0.879.0](https://github.com/staff0rd/assist/compare/v0.878.0...v0.879.0) (2026-10-24)
 
 
