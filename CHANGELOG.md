@@ -1,3 +1,16 @@
+# [0.879.0](https://github.com/staff0rd/assist/compare/v0.878.0...v0.879.0) (2026-10-24)
+
+
+### Bug Fixes
+
+* keep high-level review on close ([7f4dc70](https://github.com/staff0rd/assist/commit/7f4dc70d8697c577f5eea56ed257574f90d99166)), closes [hi#level](https://github.com/hi/issues/level)
+* restore high-level draft on reopen ([ff2b321](https://github.com/staff0rd/assist/commit/ff2b321c7398b07795ce3f0d4259cf078963ff17)), closes [hi#level](https://github.com/hi/issues/level)
+
+
+### Features
+
+* show prompt PR token on cards ([a28c7c5](https://github.com/staff0rd/assist/commit/a28c7c50357572c6c956d9fc55011d4f717cc9ed))
+
 # [0.878.0](https://github.com/staff0rd/assist/compare/v0.877.2...v0.878.0) (2026-10-24)
 
 
