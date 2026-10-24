@@ -1,6 +1,9 @@
 import { randomUUID } from "node:crypto";
 import { awaitPreviewApproval } from "../../sessions/shared/awaitPreviewApproval";
+import { buildHighLevelDraft } from "./buildHighLevelDraft";
 import { buildHighLevelRecord } from "./buildHighLevelRecord";
+import { clearHighLevelDraft } from "./clearHighLevelDraft";
+import { saveHighLevelDraft } from "./saveHighLevelDraft";
 import { highLevelPreviewMetadata } from "./highLevelPreviewMetadata";
 import { highLevelPreviewPayload } from "./highLevelPreviewPayload";
 import type { HighLevelOverlaySubject } from "./HighLevelOverlaySubject";
@@ -26,11 +29,15 @@ export async function openHighLevelOverlay(
 		{ rejectIsOutcome: true },
 	);
 	if (decision.dismissed) {
-		console.log("Review closed without a verdict. Nothing was saved.");
+		saveHighLevelDraft(buildHighLevelDraft(subject, decision));
+		console.log(
+			"Review closed without a verdict. Your progress is kept for when you reopen it; nothing was posted.",
+		);
 		return undefined;
 	}
 	const record = buildHighLevelRecord(subject, decision);
 	saveHighLevelReview(record);
+	clearHighLevelDraft(record.repo, record.headRef, record.headSha);
 	console.log(`Verdict: ${record.verdict}`);
 	await submitHighLevelReview(sessionId, record);
 	return record;

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import type { HighLevelReviewRecord } from "../../../../../../../../review/highLevel/types";
+import type { HighLevelReviewProgress } from "../../../../../../../../review/highLevel/types";
 import type { PreviewReviewComment } from "../../../../../../../shared/PreviewDecision";
 
-export function useHighLevelReviewQueue(saved?: HighLevelReviewRecord) {
+export function useHighLevelReviewQueue(saved?: HighLevelReviewProgress) {
 	const [queued, setQueued] = useState<PreviewReviewComment[]>(
 		() => saved?.reviewComments ?? [],
 	);

@@ -16,6 +16,7 @@ export function highLevelPreviewPayload(
 		testPaths,
 		collapsedPaths,
 		saved,
+		draft,
 	} = subject;
 	return {
 		repo,
@@ -29,5 +30,6 @@ export function highLevelPreviewPayload(
 		testPaths,
 		collapsedPaths,
 		...(saved ? { saved } : {}),
+		...(draft ? { draft } : {}),
 	};
 }

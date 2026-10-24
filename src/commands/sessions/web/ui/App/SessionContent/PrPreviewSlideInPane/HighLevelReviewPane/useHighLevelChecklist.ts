@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type {
 	HighLevelCheckResult,
-	HighLevelReviewRecord,
+	HighLevelReviewProgress,
 } from "../../../../../../../review/highLevel/types";
 import type { HighLevelItemState } from "./useHighLevelChecklist/initialHighLevelState";
 import { initialHighLevelState } from "./useHighLevelChecklist/initialHighLevelState";
@@ -9,7 +9,7 @@ import { highLevelChecklistItems } from "./useHighLevelChecklist/highLevelCheckl
 
 export function useHighLevelChecklist(
 	checks: HighLevelCheckResult[],
-	saved?: HighLevelReviewRecord,
+	saved?: HighLevelReviewProgress,
 ) {
 	const [state, setState] = useState(() =>
 		initialHighLevelState(checks, saved),

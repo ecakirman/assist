@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from "node:fs";
 import { highLevelReviewPath } from "./highLevelReviewPath";
+import { readJsonFile } from "./readJsonFile";
 import type { HighLevelReviewRecord } from "./types";
 
 export function loadHighLevelReview(
@@ -7,11 +7,5 @@ export function loadHighLevelReview(
 	headRef: string,
 	headSha: string,
 ): HighLevelReviewRecord | undefined {
-	const path = highLevelReviewPath(repo, headRef, headSha);
-	if (!existsSync(path)) return undefined;
-	try {
-		return JSON.parse(readFileSync(path, "utf8")) as HighLevelReviewRecord;
-	} catch {
-		return undefined;
-	}
+	return readJsonFile(highLevelReviewPath(repo, headRef, headSha));
 }

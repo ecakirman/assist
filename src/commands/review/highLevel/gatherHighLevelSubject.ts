@@ -8,8 +8,8 @@ import { evaluateHighLevelChecks } from "./evaluateHighLevelChecks";
 import { fetchFileAtSha } from "./fetchFileAtSha";
 import { fetchHighLevelFiles } from "./fetchHighLevelFiles";
 import { fetchHighLevelPr } from "./fetchHighLevelPr";
-import { loadHighLevelReview } from "./loadHighLevelReview";
 import type { HighLevelOverlaySubject } from "./HighLevelOverlaySubject";
+import { loadReopenedReview } from "./loadReopenedReview";
 import { resolveHighLevelConfig } from "./resolveHighLevelConfig";
 import { selectCriticalDiffs } from "./selectCriticalDiffs";
 
@@ -23,9 +23,6 @@ export function gatherHighLevelSubject(
 	const config = resolveHighLevelConfig(loadConfig());
 	const fetched = fetchHighLevelFiles(prNumber, slug);
 	const files = capHighLevelPatches(fetched, config.criticalPaths);
-	const saved = force
-		? undefined
-		: loadHighLevelReview(slug, pr.headRef, pr.headSha);
 	return {
 		repo: slug,
 		prNumber,
@@ -50,6 +47,6 @@ export function gatherHighLevelSubject(
 		),
 		testPaths: config.testPaths,
 		collapsedPaths: config.collapsedPaths,
-		...(saved ? { saved } : {}),
+		...(force ? {} : loadReopenedReview(slug, pr.headRef, pr.headSha)),
 	};
 }

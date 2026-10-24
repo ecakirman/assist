@@ -10,6 +10,7 @@ import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type {
 	HighLevelPreviewPayload,
+	HighLevelReviewDraft,
 	HighLevelReviewRecord,
 } from "../../../review/highLevel/types";
 import { makeSessionInfo } from "../../../../test/mothers/makeSessionInfo";
@@ -107,11 +108,20 @@ const liveSession = makeSessionInfo({
 	status: "running",
 });
 
-function preview(saved?: HighLevelReviewRecord): PrPreview {
+type Reopened = {
+	saved?: HighLevelReviewRecord;
+	draft?: HighLevelReviewDraft;
+};
+
+function preview({ saved, draft }: Reopened): PrPreview {
 	return {
 		requestId: "req-1",
 		title: "org/repo#42 — A change",
-		body: JSON.stringify({ ...payload, ...(saved ? { saved } : {}) }),
+		body: JSON.stringify({
+			...payload,
+			...(saved ? { saved } : {}),
+			...(draft ? { draft } : {}),
+		}),
 		prNumber: 42,
 		kind: "high-level-review",
 	};
@@ -119,13 +129,14 @@ function preview(saved?: HighLevelReviewRecord): PrPreview {
 
 function renderPane({
 	saved,
+	draft,
 	session = liveSession,
-}: { saved?: HighLevelReviewRecord; session?: SessionInfo } = {}) {
+}: Reopened & { session?: SessionInfo } = {}) {
 	const onDecision = vi.fn();
 	const sendInput = vi.fn();
 	render(
 		<HighLevelReviewPane
-			preview={preview(saved)}
+			preview={preview({ saved, draft })}
 			session={session}
 			sendInput={sendInput}
 			onDecision={onDecision}
@@ -245,6 +256,47 @@ describe("high-level review queue", () => {
 
 		expect(screen.getByText("Queued for review (1)")).toBeTruthy();
 		expect(lastDecision(onDecision)).toMatchObject({
+			reviewComments: [queued],
+		});
+	});
+
+	it("restores the queue and checklist left by a close without a verdict over the saved review", () => {
+		const { onDecision } = renderPane({
+			saved: {
+				repo: "org/repo",
+				prNumber: 42,
+				headRef: "feat/thing",
+				headSha: "abc123",
+				verdict: "comment",
+				reviewedAt: "2026-01-01T00:00:00.000Z",
+				items: [],
+			},
+			draft: {
+				repo: "org/repo",
+				prNumber: 42,
+				headRef: "feat/thing",
+				headSha: "abc123",
+				savedAt: "2026-01-02T00:00:00.000Z",
+				items: [
+					{
+						id: "tests-worth-having",
+						kind: "manual",
+						title: "The tests are worth having",
+						status: "manual",
+						reason: "The describe/it hierarchy of changed tests",
+						ticked: true,
+						comment: "mostly fine",
+					},
+				],
+				reviewComments: [queued],
+			},
+		});
+
+		expect(screen.getByText("Queued for review (1)")).toBeTruthy();
+		expect(lastDecision(onDecision)).toMatchObject({
+			checklist: [
+				{ id: "tests-worth-having", ticked: true, comment: "mostly fine" },
+			],
 			reviewComments: [queued],
 		});
 	});

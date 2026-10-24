@@ -107,16 +107,26 @@ export type HighLevelReviewItem = {
 	comment?: string;
 };
 
-export type HighLevelReviewRecord = {
+export type HighLevelReviewProgress = {
+	items: HighLevelReviewItem[];
+	reviewComments?: PreviewReviewComment[];
+};
+
+type HighLevelReviewHead = {
 	repo: string;
 	prNumber: number;
 	headRef: string;
 	headSha: string;
-	verdict: HighLevelVerdict;
-	reviewedAt: string;
-	items: HighLevelReviewItem[];
-	reviewComments?: PreviewReviewComment[];
 };
+
+export type HighLevelReviewRecord = HighLevelReviewHead &
+	HighLevelReviewProgress & {
+		verdict: HighLevelVerdict;
+		reviewedAt: string;
+	};
+
+export type HighLevelReviewDraft = HighLevelReviewHead &
+	HighLevelReviewProgress & { savedAt: string };
 
 export type HighLevelPreviewPayload = {
 	repo: string;
@@ -130,4 +140,5 @@ export type HighLevelPreviewPayload = {
 	testPaths: string[];
 	collapsedPaths: string[];
 	saved?: HighLevelReviewRecord;
+	draft?: HighLevelReviewDraft;
 };

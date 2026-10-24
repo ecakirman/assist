@@ -30,6 +30,17 @@ vi.mock("./saveHighLevelReview", () => ({
 		mockSaveHighLevelReview(...(args as [])),
 }));
 
+const mockSaveHighLevelDraft = vi.fn();
+const mockClearHighLevelDraft = vi.fn();
+
+vi.mock("./saveHighLevelDraft", () => ({
+	saveHighLevelDraft: (...args: unknown[]) => mockSaveHighLevelDraft(...args),
+}));
+
+vi.mock("./clearHighLevelDraft", () => ({
+	clearHighLevelDraft: (...args: unknown[]) => mockClearHighLevelDraft(...args),
+}));
+
 const mockFetchHighLevelFiles = vi.fn<() => HighLevelFile[]>();
 
 vi.mock("./fetchHighLevelFiles", () => ({
@@ -128,6 +139,8 @@ let exit: ReturnType<typeof vi.spyOn>;
 beforeEach(() => {
 	mockAwaitPreviewApproval.mockReset();
 	mockSaveHighLevelReview.mockClear();
+	mockSaveHighLevelDraft.mockClear();
+	mockClearHighLevelDraft.mockClear();
 	mockExecFileSync.mockReset();
 	mockFetchHighLevelFiles.mockReset().mockReturnValue([]);
 	log = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -144,20 +157,47 @@ afterEach(() => {
 });
 
 describe("openHighLevelOverlay", () => {
-	it("saves nothing when the review is closed without a verdict", async () => {
+	it("keeps the progress as a draft and posts nothing when the review is closed without a verdict", async () => {
 		mockAwaitPreviewApproval.mockResolvedValue({
-			decision: "reject",
+			...queuedDecision("reject", undefined),
 			dismissed: true,
-			checklist: [],
 		});
 
 		const record = await openHighLevelOverlay("s1", subject);
 
 		expect(record).toBeUndefined();
 		expect(mockSaveHighLevelReview).not.toHaveBeenCalled();
+		expect(mockClearHighLevelDraft).not.toHaveBeenCalled();
 		expect(mockExecFileSync).not.toHaveBeenCalled();
-		expect(log).toHaveBeenCalledWith(
-			"Review closed without a verdict. Nothing was saved.",
+		expect(mockSaveHighLevelDraft).toHaveBeenCalledWith(
+			expect.objectContaining({
+				repo: "org/repo",
+				headRef: "feat/thing",
+				headSha: "abc123",
+				items: [
+					expect.objectContaining({
+						id: "structure-sensible",
+						ticked: true,
+						comment: "Split it",
+					}),
+				],
+				reviewComments: [queued],
+			}),
+		);
+	});
+
+	it("clears the draft once a verdict is saved", async () => {
+		mockAwaitPreviewApproval.mockResolvedValue({
+			decision: "approve",
+			checklist: [],
+		});
+
+		await openHighLevelOverlay("s1", subject);
+
+		expect(mockClearHighLevelDraft).toHaveBeenCalledWith(
+			"org/repo",
+			"feat/thing",
+			"abc123",
 		);
 	});
 

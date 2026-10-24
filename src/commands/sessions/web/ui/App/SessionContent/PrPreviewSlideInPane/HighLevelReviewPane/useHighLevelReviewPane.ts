@@ -17,8 +17,9 @@ export function useHighLevelReviewPane(
 		() => parseHighLevelPreview(preview.body),
 		[preview.body],
 	);
-	const checklist = useHighLevelChecklist(payload.checks, payload.saved);
-	const queue = useHighLevelReviewQueue(payload.saved);
+	const progress = payload.draft ?? payload.saved;
+	const checklist = useHighLevelChecklist(payload.checks, progress);
+	const queue = useHighLevelReviewQueue(progress);
 	const { comments, sentTo, clearSent } = useHighLevelDiffComments(
 		session,
 		sendInput,

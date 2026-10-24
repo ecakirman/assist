@@ -1,6 +1,6 @@
 import type {
 	HighLevelCheckResult,
-	HighLevelReviewRecord,
+	HighLevelReviewProgress,
 } from "../../../../../../../../review/highLevel/types";
 
 export type HighLevelItemState = {
@@ -10,7 +10,7 @@ export type HighLevelItemState = {
 
 export function initialHighLevelState(
 	checks: HighLevelCheckResult[],
-	saved: HighLevelReviewRecord | undefined,
+	saved: HighLevelReviewProgress | undefined,
 ): Record<string, HighLevelItemState> {
 	return Object.fromEntries(
 		checks.map((check) => {
