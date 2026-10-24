@@ -83,5 +83,6 @@ export type SessionInfoBase = {
 	activeViewer?: string;
 	activeViewerNode?: string;
 	promptIssue?: string;
+	promptPr?: number;
 	node?: string;
 };

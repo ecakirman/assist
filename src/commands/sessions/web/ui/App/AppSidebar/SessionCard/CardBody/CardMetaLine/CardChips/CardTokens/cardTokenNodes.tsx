@@ -31,7 +31,7 @@ export function cardTokenNodes(
 		tokens.push({ key: "type", node: type });
 	}
 
-	const targetPr = reviewTargetPr(session);
+	const targetPr = reviewTargetPr(session) ?? session.promptPr;
 	if (targetPr !== undefined)
 		tokens.push({
 			key: "pr",

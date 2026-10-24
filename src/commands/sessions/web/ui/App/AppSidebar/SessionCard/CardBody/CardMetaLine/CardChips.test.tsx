@@ -304,6 +304,24 @@ describe("CardChips PR number token", () => {
 		});
 	}
 
+	it("shows the number of the PR a session's prompt names", async () => {
+		stubPrStatus(prUrl);
+		renderClickableCard(
+			makeSessionInfo({ cwd: "/home/me/assist", promptPr: 12 }),
+		);
+
+		const link = await screen.findByRole("link", { name: "#12" });
+		expect(link.getAttribute("href")).toBe(prUrl);
+	});
+
+	it("prefers the review target PR over the prompt PR", async () => {
+		stubPrStatus(prUrl);
+		renderClickableCard({ ...reviewSession, promptPr: 34 });
+
+		expect(await screen.findByRole("link", { name: "#12" })).toBeTruthy();
+		expect(screen.queryByText("#34")).toBeNull();
+	});
+
 	it("renders no PR token for a session with no target PR", async () => {
 		stubPrStatus(prUrl);
 		renderClickableCard(session);
