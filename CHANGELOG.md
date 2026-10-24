@@ -1,3 +1,10 @@
+# [0.881.0](https://github.com/staff0rd/assist/compare/v0.880.0...v0.881.0) (2026-10-24)
+
+
+### Features
+
+* capture docs screenshots in sandbox ([2ea5d98](https://github.com/staff0rd/assist/commit/2ea5d98c121cd1875c980b2a9214f8b2547d7b61))
+
 # [0.880.0](https://github.com/staff0rd/assist/compare/v0.879.0...v0.880.0) (2026-10-24)
 
 
