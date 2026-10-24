@@ -22,6 +22,7 @@ export default defineConfig({
 		await build({
 			entryPoints: {
 				content: "src/commands/extension/criteriaContentScript.ts",
+				docs: "src/commands/extension/docsFeedback/docsContentScript.ts",
 				background: "src/commands/extension/sendToAssist/assistBackground.ts",
 				options: "src/commands/extension/sendToAssist/assistOptions.ts",
 			},
