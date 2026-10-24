@@ -4,6 +4,7 @@ import { BacklogItemLink } from "./cardTokenNodes/BacklogItemLink";
 import type { CardToken } from "./cardTokenNodes/CardToken";
 import { PrNumberLink } from "./cardTokenNodes/PrNumberLink";
 import { repoToken } from "./cardTokenNodes/repoToken";
+import { promptIssueToken } from "./cardTokenNodes/promptIssueToken";
 import { reviewTargetPr } from "../../../../../../reviewTargetPr";
 import { sessionType } from "../../../../../../sessionType";
 import type { SessionInfo } from "../../../../../../../types";
@@ -48,6 +49,9 @@ export function cardTokenNodes(
 			key: "tracker",
 			node: <ItemTrackerLink tracker={tracker} variant="token" />,
 		});
+
+	const issue = promptIssueToken(session.promptIssue, tracker);
+	if (issue) tokens.push(issue);
 
 	return tokens;
 }

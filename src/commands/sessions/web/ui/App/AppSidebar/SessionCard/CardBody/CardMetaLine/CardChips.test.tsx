@@ -312,3 +312,55 @@ describe("CardChips PR number token", () => {
 		expect(screen.queryByText("#12")).toBeNull();
 	});
 });
+
+describe("CardChips prompt issue token", () => {
+	const issueUrl = "https://github.com/acme/widgets/issues/548";
+
+	it("links the issue a session's prompt names in a new tab", () => {
+		renderClickableCard(
+			makeSessionInfo({
+				cwd: "/home/me/assist",
+				promptIssue: "acme/widgets#548",
+			}),
+		);
+
+		const link = screen.getByRole("link", { name: "#548" });
+		expect(link.getAttribute("href")).toBe(issueUrl);
+		expect(link.getAttribute("target")).toBe("_blank");
+	});
+
+	it("renders no issue token for a session with no prompt issue", () => {
+		renderClickableCard(session);
+
+		expect(screen.queryByRole("link", { name: /^#/ })).toBeNull();
+	});
+
+	it("skips the issue token when the item tracker already shows it", async () => {
+		vi.stubGlobal(
+			"fetch",
+			vi.fn(() =>
+				Promise.resolve({
+					json: () =>
+						Promise.resolve([
+							makeBacklogItemSummary({
+								id: 7,
+								githubIssue: "acme/widgets#548",
+							}),
+						]),
+				}),
+			),
+		);
+		await act(async () => {
+			renderClickableCard(
+				makeSessionInfo({
+					cwd: "/home/me/prompt-dup",
+					activity: { kind: "backlog", itemId: 7, startedAt: 0 },
+					promptIssue: "Acme/Widgets#548",
+				}),
+			);
+		});
+
+		await screen.findByTitle("acme/widgets#548");
+		expect(screen.getAllByRole("link", { name: "#548" })).toHaveLength(1);
+	});
+});
