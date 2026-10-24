@@ -1,0 +1,18 @@
+autoUpdate:
+  enabled: false
+sessions:
+  tailscaleServe: false
+run:
+  - name: dev
+    command: sh
+    args:
+      - -c
+      - |
+        echo "> sandbox@1.0.0 dev"
+        echo "> vite"
+        echo
+        echo "  VITE v7.1.4  ready in 312 ms"
+        echo
+        echo "  ➜  Local:   http://localhost:5173/"
+        echo "  ➜  Network: use --host to expose"
+        sleep 3600

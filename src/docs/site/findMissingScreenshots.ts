@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import type { DocsPage } from "../docsPageSchema";
+import { screenshotVariants } from "../screenshotVariants";
 
 export function findMissingScreenshots(
 	pages: DocsPage[],
@@ -9,9 +10,8 @@ export function findMissingScreenshots(
 	return pages.flatMap((page) =>
 		page.sections
 			.flatMap((section) => section.screenshots ?? [])
-			.filter(
-				(screenshot) => !existsSync(join(screenshotsDir, screenshot.file)),
-			)
-			.map((screenshot) => `${page.id}: ${screenshot.file}`),
+			.flatMap(screenshotVariants)
+			.filter((variant) => !existsSync(join(screenshotsDir, variant.file)))
+			.map((variant) => `${page.id}: ${variant.file}`),
 	);
 }

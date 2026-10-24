@@ -71,7 +71,31 @@ describe("renderDocsSite", () => {
 			"<p>Use <code>assist sync</code> and <strong>then</strong> go.</p>",
 		);
 		expect(html).toContain(
-			'<img src="/assist/screenshots/dash.png" alt="The &quot;dashboard&quot;"',
+			'<picture><source srcset="/assist/screenshots/dash-dark.png" media="(prefers-color-scheme: dark)"><img src="/assist/screenshots/dash.png" alt="The &quot;dashboard&quot;"',
+		);
+		expect(html).toContain(
+			"<figcaption>The &quot;dashboard&quot;</figcaption>",
+		);
+	});
+
+	it("renders a themed screenshot as a single image", () => {
+		const html =
+			renderDocsSite(
+				[
+					page("themed", "Sessions", 0, [
+						{
+							heading: "Dark",
+							markdown: "Text",
+							screenshots: [
+								{ file: "a.png", alt: "A", route: "/", theme: "dark" },
+							],
+						},
+					]),
+				],
+				"/",
+			)[0].content ?? "";
+		expect(html).toContain(
+			'<figure><img src="/screenshots/a.png" alt="A" loading="lazy">',
 		);
 	});
 });

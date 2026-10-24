@@ -10,6 +10,11 @@ export const docsNavGroups = [
 	"Integrations",
 ] as const;
 
+const setupStepSchema = z.union([
+	z.strictObject({ assist: z.array(z.string().min(1)).min(1) }),
+	z.strictObject({ run: z.string().min(1) }),
+]);
+
 const screenshotSchema = z.strictObject({
 	file: z.string().regex(/^[a-z0-9-]+\.png$/),
 	alt: z.string().min(1),
@@ -23,6 +28,7 @@ const screenshotSchema = z.strictObject({
 	theme: z.enum(["light", "dark"]).optional(),
 	waitFor: z.string().min(1).optional(),
 	crop: z.string().min(1).optional(),
+	setup: z.array(setupStepSchema).optional(),
 });
 
 const sectionSchema = z.strictObject({
@@ -41,3 +47,7 @@ export const docsPageSchema = z.strictObject({
 });
 
 export type DocsPage = z.infer<typeof docsPageSchema>;
+export type DocsScreenshot = NonNullable<
+	DocsPage["sections"][number]["screenshots"]
+>[number];
+export type DocsSetupStep = NonNullable<DocsScreenshot["setup"]>[number];

@@ -38,7 +38,15 @@ npm install -g .
 
 After installation, the `assist` command will be available globally. You can also use the shorter `ast` alias.
 
-The user guide is authored as JSON pages in `docs/guide/pages/`. `npm run docs:build [-- --base <path>]` renders it into `.docs-site/`, and `npm run docs:preview` builds and serves it on port 4173. `npx tsx src/docs/docsCoverage.ts --report` lists the commands, skills, config keys and routes still pending documentation, by area.
+## User guide
+
+The user guide is a static site built from JSON pages in `docs/guide/pages/` and PNGs in `docs/guide/screenshots/`.
+
+- **Add a page** — add `docs/guide/pages/<id>.json` with `id`, `title`, `group` (a nav group from `src/docs/docsPageSchema.ts`), `order`, `covers` and `sections` (`heading`, `markdown`, optional `screenshots`). `covers` lists the inventory ids the page documents (`cli:<command path>`, `claude:<name>`, `config:<key>`, `route:<path>`); delete each one from `src/docs/pendingUserDocumentation.ts`. Unknown keys, unknown ids and missing screenshots fail the build.
+- **Coverage report** — `npx tsx src/docs/docsCoverage.ts --report` lists the commands, skills, config keys and routes still pending documentation, by area. `verify:docs-coverage` fails when an item is neither covered nor pending, or is both.
+- **Screenshots** — each screenshot declares a `route`, and optionally `viewport` (default 1280×800), `theme`, `waitFor` and `crop` selectors, and `setup` steps run before capture: `{ "assist": [args] }` runs an assist command in the sandbox, `{ "run": "<name>" }` starts a run session from `docs/guide/capture/assist.yml`. Without a `theme`, it is captured as `<file>` (light) and `<file>-dark.png`, and the site shows the one matching the reader's colour scheme.
+- **Recapture** — `npm run docs:capture [-- <file.png>...] [--skip-build] [--keep-home]` builds assist, starts a throwaway Postgres container (Docker required), clones `staff0rd/sandbox` into a temporary `HOME`, runs the real daemon and web server there on a free port, captures the screenshots with Playwright (`npx playwright install chromium` once) and tears everything down. Commit the changed PNGs.
+- **Preview** — `npm run docs:build [-- --base <path>]` renders the site into `.docs-site/`, and `npm run docs:preview` builds and serves it on port 4173.
 
 ## Claude Commands
 

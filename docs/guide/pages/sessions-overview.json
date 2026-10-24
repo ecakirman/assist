@@ -1,0 +1,22 @@
+{
+	"id": "sessions-overview",
+	"title": "Sessions overview",
+	"group": "Sessions",
+	"order": 0,
+	"covers": ["route:/sessions"],
+	"sections": [
+		{
+			"heading": "The sessions dashboard",
+			"markdown": "`/sessions` is the dashboard's home. The sidebar on the left lists every session the daemon owns as a card, grouped by repo, and the session area on the right shows the selected session's terminal.\n\nA session is either an agent harness (Claude, Codex or pi) or a run session that executes one of the repo's `run` entries, such as a dev server. Sessions belong to the daemon rather than the browser tab, so closing the tab or restarting the web server leaves them running.",
+			"screenshots": [
+				{
+					"file": "sessions-overview.png",
+					"alt": "The sessions dashboard with a dev server running in the sandbox repo",
+					"route": "/sessions",
+					"waitFor": ".xterm",
+					"setup": [{ "run": "dev" }]
+				}
+			]
+		}
+	]
+}

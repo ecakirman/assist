@@ -16,8 +16,9 @@ afterEach(() => {
 });
 
 describe("findMissingScreenshots", () => {
-	it("lists screenshots whose png is not on disk", () => {
-		writeFileSync(join(dir, "present.png"), "");
+	it("lists screenshot variants whose png is not on disk", () => {
+		for (const file of ["present.png", "present-dark.png", "light.png"])
+			writeFileSync(join(dir, file), "");
 		const page: DocsPage = {
 			id: "sessions",
 			title: "Sessions",
@@ -31,6 +32,7 @@ describe("findMissingScreenshots", () => {
 					screenshots: [
 						{ file: "present.png", alt: "a", route: "/sessions" },
 						{ file: "absent.png", alt: "b", route: "/sessions" },
+						{ file: "light.png", alt: "c", route: "/sessions", theme: "light" },
 					],
 				},
 				{ heading: "Text only", markdown: "Text" },
@@ -38,6 +40,7 @@ describe("findMissingScreenshots", () => {
 		};
 		expect(findMissingScreenshots([page], dir)).toEqual([
 			"sessions: absent.png",
+			"sessions: absent-dark.png",
 		]);
 	});
 });

@@ -1,5 +1,6 @@
 import { Marked } from "marked";
-import type { DocsPage } from "../docsPageSchema";
+import type { DocsPage, DocsScreenshot } from "../docsPageSchema";
+import { darkVariantFile } from "../screenshotVariants";
 import { escapeHtml } from "./escapeHtml";
 import type { DocsNavGroup } from "./orderDocsPages";
 import { renderDocsNav } from "./renderDocsNav";
@@ -9,11 +10,16 @@ type Section = DocsPage["sections"][number];
 const marked = new Marked({ gfm: true });
 
 function renderScreenshot(
-	screenshot: NonNullable<Section["screenshots"]>[number],
+	screenshot: DocsScreenshot,
 	basePath: string,
 ): string {
 	const alt = escapeHtml(screenshot.alt);
-	return `<figure><img src="${basePath}screenshots/${screenshot.file}" alt="${alt}" loading="lazy"><figcaption>${alt}</figcaption></figure>`;
+	const src = `${basePath}screenshots/`;
+	const img = `<img src="${src}${screenshot.file}" alt="${alt}" loading="lazy">`;
+	const image = screenshot.theme
+		? img
+		: `<picture><source srcset="${src}${darkVariantFile(screenshot.file)}" media="(prefers-color-scheme: dark)">${img}</picture>`;
+	return `<figure>${image}<figcaption>${alt}</figcaption></figure>`;
 }
 
 function renderSection(section: Section, basePath: string): string {

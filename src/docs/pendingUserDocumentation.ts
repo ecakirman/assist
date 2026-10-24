@@ -52,7 +52,6 @@ export const pendingUserDocumentation: Partial<Record<DocsArea, string[]>> = {
 		"config:worktree.install",
 		"config:worktree.root",
 		"config:worktree.trunk",
-		"route:/sessions",
 	],
 	"sessions-diff": [
 		"config:sessions.includeCommittedChanges",

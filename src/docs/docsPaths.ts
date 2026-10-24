@@ -13,5 +13,7 @@ export const docsPaths = {
 	pagesDir: join(repoRoot, "docs/guide/pages"),
 	screenshotsDir: join(repoRoot, "docs/guide/screenshots"),
 	stylesheet: join(repoRoot, "docs/guide/styles.css"),
+	captureConfig: join(repoRoot, "docs/guide/capture/assist.yml"),
+	distEntry: join(repoRoot, "dist/index.js"),
 	outDir: join(repoRoot, ".docs-site"),
 };
