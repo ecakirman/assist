@@ -1,7 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { defaultHotkeys } from "../../../../../../../../../../../../shared/hotkeys/defaultHotkeys";
 import { hotkeyBindingsStore } from "../../../../../../../hotkeyBindingsStore";
 import { isAppHotkey } from "./isAppHotkey";
+
+vi.mock("../../../../../../../isMacPlatform", () => ({
+	isMacPlatform: () => false,
+}));
 
 function event(overrides: Partial<KeyboardEvent>): KeyboardEvent {
 	return {
