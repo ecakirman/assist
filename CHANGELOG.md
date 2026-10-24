@@ -1,3 +1,10 @@
+## [0.883.1](https://github.com/staff0rd/assist/compare/v0.883.0...v0.883.1) (2026-10-24)
+
+
+### Bug Fixes
+
+* bundle docs.js into the extension ([038855d](https://github.com/staff0rd/assist/commit/038855d4e024867b3f6c491f4b33a305fcda5df2))
+
 # [0.883.0](https://github.com/staff0rd/assist/compare/v0.882.0...v0.883.0) (2026-10-24)
 
 
