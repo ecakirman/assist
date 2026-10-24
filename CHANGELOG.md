@@ -1,3 +1,10 @@
+# [0.883.0](https://github.com/staff0rd/assist/compare/v0.882.0...v0.883.0) (2026-10-24)
+
+
+### Features
+
+* docs feedback from the extension ([1953d02](https://github.com/staff0rd/assist/commit/1953d0200362bbf5a923666ad863a8ab7e9daa6f))
+
 # [0.882.0](https://github.com/staff0rd/assist/compare/v0.881.0...v0.882.0) (2026-10-24)
 
 
