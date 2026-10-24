@@ -1,3 +1,10 @@
+# [0.882.0](https://github.com/staff0rd/assist/compare/v0.881.0...v0.882.0) (2026-10-24)
+
+
+### Features
+
+* inline docs screenshots ([5dab167](https://github.com/staff0rd/assist/commit/5dab167c1388b7e2d09e302853e8ca571c32b217))
+
 # [0.881.0](https://github.com/staff0rd/assist/compare/v0.880.0...v0.881.0) (2026-10-24)
 
 
