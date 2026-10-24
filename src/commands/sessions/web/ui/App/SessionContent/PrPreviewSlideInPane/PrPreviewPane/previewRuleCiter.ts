@@ -1,6 +1,6 @@
 import type { ScopedRule } from "../../../../../../../rules/types";
 import { formatQuotedComment } from "../../../formatQuotedComment";
-import { pasteAndSubmit } from "../../../pasteAndSubmit";
+import { pasteAndSubmit } from "../../../../../../shared/pasteAndSubmit";
 import { ruleCitationNote } from "../../../ruleCitationNote";
 
 export function previewRuleCiter(

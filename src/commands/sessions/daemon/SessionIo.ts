@@ -4,6 +4,7 @@ import type { NodeLinks } from "./links/NodeLinks";
 import { releaseViewer } from "./releaseViewer";
 import type { OnStatusChange, Session } from "./types";
 import { type ResizeViewer, resizeSession } from "./resizeSession";
+import { typePromptIntoSession } from "./typePromptIntoSession";
 import { ViewerConnections } from "./ViewerConnections";
 import { writeToSession } from "./writeToSession";
 
@@ -37,6 +38,12 @@ export class SessionIo {
 			...viewer,
 			onClaim: this.notify,
 		});
+	}
+
+	typePrompt(id: string, text: string): string | undefined {
+		return typePromptIntoSession(this.sessions, id, text, (target, data) =>
+			this.write(target, data, {}),
+		);
 	}
 
 	resize(id: string, cols: number, rows: number, viewer?: ResizeViewer): void {

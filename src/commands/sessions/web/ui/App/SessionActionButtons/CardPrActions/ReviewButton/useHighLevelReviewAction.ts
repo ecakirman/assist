@@ -5,7 +5,7 @@ import type { SessionInfo } from "../../../../types";
 import { useSessionLaunchContext } from "../../../../useSessionLaunchContext";
 import { sessionRegion } from "../../../sessionRegion";
 import { focusRegion } from "../../../focusRegion";
-import { pasteAndSubmit } from "../../../pasteAndSubmit";
+import { pasteAndSubmit } from "../../../../../../shared/pasteAndSubmit";
 import { hasPendingHighLevelReview } from "./useHighLevelReviewAction/hasPendingHighLevelReview";
 import { isHighLevelReviewSession } from "./useHighLevelReviewAction/isHighLevelReviewSession";
 

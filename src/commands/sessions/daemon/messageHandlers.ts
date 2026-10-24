@@ -11,6 +11,7 @@ import { handleCodexUsage } from "./handleCodexUsage";
 import { handleCreateRun } from "./handleCreateRun";
 import { handleOutputRequest } from "./handleOutputRequest";
 import { handleSetStatus } from "./handleSetStatus";
+import { handleTypePrompt } from "./handleTypePrompt";
 import { lifecycleHandlers } from "./lifecycleHandlers";
 import { type Handler, routed } from "./routed";
 import { viewerHandlers } from "./viewerHandlers";
@@ -57,6 +58,7 @@ export const messageHandlers: Record<string, Handler> = {
 		),
 	"codex-usage": handleCodexUsage,
 	...viewerHandlers,
+	"type-prompt": handleTypePrompt,
 	retry: routed((client, m, d) => {
 		const conflict = m.retrySession(d.sessionId as string, d.replace === true);
 		if (conflict)

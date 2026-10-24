@@ -4,6 +4,7 @@ import { docsPaths } from "../docsPaths";
 import { findUnknownCovers } from "../findUnknownCovers";
 import { collectDocsInventory } from "../inventory/collectDocsInventory";
 import { loadDocsPages } from "../loadDocsPages";
+import type { DocsPreviewStamp } from "./DocsPreviewStamp";
 import { findMissingScreenshots } from "./findMissingScreenshots";
 import { normalizeBasePath } from "./normalizeBasePath";
 import { renderDocsSite } from "./renderDocsSite";
@@ -13,7 +14,11 @@ function failOn(label: string, problems: string[]): void {
 		throw new Error(`${label}:\n${problems.map((p) => `  ${p}`).join("\n")}`);
 }
 
-export function buildDocsSite(basePath: string, outDir: string): number {
+export function buildDocsSite(
+	basePath: string,
+	outDir: string,
+	stamp?: DocsPreviewStamp,
+): number {
 	const pages = loadDocsPages(docsPaths.pagesDir);
 	const inventory = new Set(collectDocsInventory().map((item) => item.id));
 	failOn(
@@ -26,7 +31,11 @@ export function buildDocsSite(basePath: string, outDir: string): number {
 	);
 
 	rmSync(outDir, { recursive: true, force: true });
-	for (const file of renderDocsSite(pages, normalizeBasePath(basePath))) {
+	for (const file of renderDocsSite(
+		pages,
+		normalizeBasePath(basePath),
+		stamp,
+	)) {
 		const target = join(outDir, file.path);
 		mkdirSync(dirname(target), { recursive: true });
 		writeFileSync(target, file.content);

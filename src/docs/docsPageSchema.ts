@@ -61,7 +61,7 @@ export const docsPageSchema = z.strictObject({
 	sections: z.array(sectionSchema).min(1),
 });
 
-export type DocsPage = z.infer<typeof docsPageSchema>;
+export type DocsPage = z.infer<typeof docsPageSchema> & { source?: string };
 export type DocsScreenshot = NonNullable<
 	DocsPage["sections"][number]["screenshots"]
 >[number];

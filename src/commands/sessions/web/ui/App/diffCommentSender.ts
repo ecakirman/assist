@@ -1,5 +1,5 @@
 import { type DiffComment, formatDiffComment } from "./formatDiffComment";
-import { pasteAndSubmit } from "./pasteAndSubmit";
+import { pasteAndSubmit } from "../../../shared/pasteAndSubmit";
 import type { SessionInfo } from "../types";
 
 export function diffCommentSender(

@@ -2,7 +2,7 @@ import {
 	type AddRuleRequest,
 	formatAddRuleCommand,
 } from "./formatAddRuleCommand";
-import { pasteAndSubmit } from "./pasteAndSubmit";
+import { pasteAndSubmit } from "../../../shared/pasteAndSubmit";
 import type { SessionInfo } from "../types";
 
 export function addRuleSender(

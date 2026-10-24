@@ -4,9 +4,11 @@ import { type KeyboardEvent, useState } from "react";
 export function AssistPopover({
 	onSend,
 	onClose,
+	placeholder = "Instructions (optional)",
 }: {
 	onSend: (instructions: string) => void;
 	onClose: (restoreFocus: boolean) => void;
+	placeholder?: string;
 }) {
 	const [instructions, setInstructions] = useState("");
 
@@ -36,7 +38,7 @@ export function AssistPopover({
 				multiline
 				maxRows={6}
 				size="small"
-				placeholder="Instructions (optional)"
+				placeholder={placeholder}
 				value={instructions}
 				onChange={(event) => setInstructions(event.target.value)}
 				onKeyDown={onKeyDown}

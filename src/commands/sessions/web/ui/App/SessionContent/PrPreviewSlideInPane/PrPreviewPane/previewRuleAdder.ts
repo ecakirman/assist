@@ -1,5 +1,5 @@
 import { formatAddRuleCommand } from "../../../formatAddRuleCommand";
-import { pasteAndSubmit } from "../../../pasteAndSubmit";
+import { pasteAndSubmit } from "../../../../../../shared/pasteAndSubmit";
 
 export function previewRuleAdder(
 	sessionId: string | undefined,

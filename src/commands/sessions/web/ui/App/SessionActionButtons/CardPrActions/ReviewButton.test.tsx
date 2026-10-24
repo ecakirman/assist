@@ -8,7 +8,10 @@ import { SessionLaunchContext } from "../../../useSessionLaunchContext";
 import { makeSessionInfo } from "../../../../../../../test/mothers/makeSessionInfo";
 import type { PrPreview } from "../../../../../shared/SessionInfoBase";
 import type { SessionInfo } from "../../../types";
-import { bracketedPaste, SUBMIT } from "../../pasteAndSubmit/bracketedPaste";
+import {
+	bracketedPaste,
+	SUBMIT,
+} from "../../../../../shared/pasteAndSubmit/bracketedPaste";
 
 const highLevelPreview: PrPreview = {
 	requestId: "r1",

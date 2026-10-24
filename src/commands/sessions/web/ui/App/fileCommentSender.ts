@@ -1,5 +1,5 @@
 import { type FileComment, formatFileComment } from "./formatFileComment";
-import { pasteAndSubmit } from "./pasteAndSubmit";
+import { pasteAndSubmit } from "../../../shared/pasteAndSubmit";
 import type { SessionInfo } from "../types";
 
 export function fileCommentSender(

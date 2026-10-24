@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "assist",
 	"version": "1.0.0",
-	"description": "Brings assist to GitHub: an Outline criteria toggle that edits an issue's acceptance criteria as an outline, and an assist button that sends a comment, PR or issue to assist to start a session.",
+	"description": "Brings assist to GitHub: an Outline criteria toggle that edits an issue's acceptance criteria as an outline, and an assist button that sends a comment, PR or issue to assist to start a session, plus feedback on selected text in a local assist docs preview.",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "assist@staff0rd.github.io",
@@ -18,7 +18,11 @@
 	"web_accessible_resources": [
 		{
 			"resources": ["icons/assist-32.png"],
-			"matches": ["https://github.com/*"]
+			"matches": [
+				"https://github.com/*",
+				"http://localhost/*",
+				"http://127.0.0.1/*"
+			]
 		}
 	],
 	"permissions": ["storage"],
@@ -33,6 +37,11 @@
 		{
 			"matches": ["https://github.com/*"],
 			"js": ["content.js"],
+			"run_at": "document_idle"
+		},
+		{
+			"matches": ["http://localhost/*", "http://127.0.0.1/*"],
+			"js": ["docs.js"],
 			"run_at": "document_idle"
 		}
 	]

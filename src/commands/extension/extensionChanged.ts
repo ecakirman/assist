@@ -5,6 +5,7 @@ import { latestUpdate } from "./latestUpdate";
 
 const entryPoints = [
 	"src/commands/extension/criteriaContentScript.ts",
+	"src/commands/extension/docsFeedback/docsContentScript.ts",
 	"src/commands/extension/sendToAssist/assistBackground.ts",
 	"src/commands/extension/sendToAssist/assistOptions.ts",
 ];

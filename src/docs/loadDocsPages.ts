@@ -1,7 +1,8 @@
 import { readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 import { z } from "zod";
 import { type DocsPage, docsPageSchema } from "./docsPageSchema";
+import { docsPaths } from "./docsPaths";
 
 function parsePage(file: string, text: string): DocsPage {
 	let json: unknown;
@@ -20,9 +21,11 @@ export function loadDocsPages(pagesDir: string): DocsPage[] {
 	const files = readdirSync(pagesDir)
 		.filter((name) => name.endsWith(".json"))
 		.sort();
-	const pages = files.map((name) =>
-		parsePage(name, readFileSync(join(pagesDir, name), "utf8")),
-	);
+	const pages = files.map((name) => {
+		const path = join(pagesDir, name);
+		const page = parsePage(name, readFileSync(path, "utf8"));
+		return { ...page, source: relative(docsPaths.repoRoot, path) };
+	});
 	const seen = new Set<string>();
 	for (const page of pages) {
 		if (seen.has(page.id))

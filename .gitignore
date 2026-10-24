@@ -15,4 +15,5 @@ assist-test.txt
 extension/content.js
 extension/background.js
 extension/options.js
+extension/docs.js
 claude/skills/review-ci/scripts/

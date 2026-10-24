@@ -5,6 +5,7 @@
 		"src/commands/sessions/web/ui/App.tsx",
 		"src/commands/sessions/web/ui/installMonacoGlobal.ts",
 		"src/commands/extension/criteriaContentScript.ts",
+		"src/commands/extension/docsFeedback/docsContentScript.ts",
 		"src/commands/extension/sendToAssist/assistBackground.ts",
 		"src/commands/extension/sendToAssist/assistOptions.ts",
 		"src/commands/extension/extensionChanged.ts",

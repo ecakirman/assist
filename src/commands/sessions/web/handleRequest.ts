@@ -7,6 +7,7 @@ import { listItems } from "../../backlog/web/shared";
 import { daemonLogTail } from "./daemonLogTail";
 import { diff } from "./diff";
 import { diffScopes } from "./diffScopes";
+import { docsFeedback } from "./docsFeedback/docsFeedback";
 import { fileContent } from "./fileContent";
 import { reviewFromGithub } from "./fromGithub/reviewFromGithub";
 import { sessionFromGithub } from "./fromGithub/sessionFromGithub";
@@ -70,6 +71,8 @@ const routes: Record<string, Handler> = {
 	"OPTIONS /api/sessions/from-github": sessionFromGithubPreflight,
 	"POST /api/sessions/review-from-github": reviewFromGithub,
 	"OPTIONS /api/sessions/review-from-github": sessionFromGithubPreflight,
+	"POST /api/sessions/docs-feedback": docsFeedback,
+	"OPTIONS /api/sessions/docs-feedback": sessionFromGithubPreflight,
 	"POST /api/open-in-code": openInCode,
 	"POST /api/pr-preview/upload-image": uploadPrImage,
 	"GET /api/pr-preview/image": previewImage,
