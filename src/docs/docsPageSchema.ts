@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { screenshotPlaceholderPattern } from "./screenshotPlaceholder";
 
 export const docsNavGroups = [
 	"Getting started",
@@ -8,6 +9,7 @@ export const docsNavGroups = [
 	"Git and GitHub",
 	"Repo tooling",
 	"Integrations",
+	"Contributing",
 ] as const;
 
 const setupStepSchema = z.union([
@@ -31,11 +33,24 @@ const screenshotSchema = z.strictObject({
 	setup: z.array(setupStepSchema).optional(),
 });
 
-const sectionSchema = z.strictObject({
-	heading: z.string().min(1),
-	markdown: z.string().min(1),
-	screenshots: z.array(screenshotSchema).optional(),
-});
+const sectionSchema = z
+	.strictObject({
+		heading: z.string().min(1),
+		markdown: z.string().min(1),
+		screenshots: z.array(screenshotSchema).optional(),
+	})
+	.superRefine((section, ctx) => {
+		const declared = new Set(section.screenshots?.map((s) => s.file));
+		for (const [, file] of section.markdown.matchAll(
+			screenshotPlaceholderPattern,
+		))
+			if (!declared.has(file))
+				ctx.addIssue({
+					code: "custom",
+					path: ["markdown"],
+					message: `Placeholder for undeclared screenshot ${file}`,
+				});
+	});
 
 export const docsPageSchema = z.strictObject({
 	id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),

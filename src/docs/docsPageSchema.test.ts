@@ -64,6 +64,16 @@ describe("docsPageSchema", () => {
 		).toBe(valid);
 	});
 
+	it.each([
+		["{{screenshot:sessions-dashboard.png}}", true],
+		["{{screenshot:other.png}}", false],
+	])("validates the screenshot placeholder %s", (markdown, valid) => {
+		const section = { ...validPage.sections[0], markdown };
+		expect(
+			docsPageSchema.safeParse({ ...validPage, sections: [section] }).success,
+		).toBe(valid);
+	});
+
 	it("rejects a nav group that is not declared", () => {
 		expect(
 			docsPageSchema.safeParse({ ...validPage, group: "Misc" }).success,

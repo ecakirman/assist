@@ -1,5 +1,6 @@
 import { Marked } from "marked";
 import type { DocsPage, DocsScreenshot } from "../docsPageSchema";
+import { screenshotPlaceholder } from "../screenshotPlaceholder";
 import { darkVariantFile } from "../screenshotVariants";
 import { escapeHtml } from "./escapeHtml";
 import type { DocsNavGroup } from "./orderDocsPages";
@@ -23,10 +24,17 @@ function renderScreenshot(
 }
 
 function renderSection(section: Section, basePath: string): string {
-	const body = marked.parse(section.markdown, { async: false });
-	const screenshots = (section.screenshots ?? [])
-		.map((screenshot) => renderScreenshot(screenshot, basePath))
-		.join("");
+	let markdown = section.markdown;
+	const trailing: string[] = [];
+	for (const screenshot of section.screenshots ?? []) {
+		const figure = renderScreenshot(screenshot, basePath);
+		const placeholder = screenshotPlaceholder(screenshot.file);
+		if (markdown.includes(placeholder))
+			markdown = markdown.replace(placeholder, `\n\n${figure}\n\n`);
+		else trailing.push(figure);
+	}
+	const body = marked.parse(markdown, { async: false });
+	const screenshots = trailing.join("");
 	return `<section><h2>${escapeHtml(section.heading)}</h2>${body}${screenshots}</section>`;
 }
 

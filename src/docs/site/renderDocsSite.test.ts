@@ -78,6 +78,28 @@ describe("renderDocsSite", () => {
 		);
 	});
 
+	it("renders a screenshot at its placeholder instead of after the text", () => {
+		const html =
+			renderDocsSite(
+				[
+					page("placed", "Sessions", 0, [
+						{
+							heading: "Placed",
+							markdown: "Before\n\n{{screenshot:a.png}}\n\nAfter",
+							screenshots: [
+								{ file: "a.png", alt: "A", route: "/", theme: "dark" },
+							],
+						},
+					]),
+				],
+				"/",
+			)[0].content ?? "";
+		expect(html).toMatch(
+			/<p>Before<\/p>\s*<figure>.*<\/figure>\s*<p>After<\/p>/s,
+		);
+		expect(html).not.toContain("{{screenshot");
+	});
+
 	it("renders a themed screenshot as a single image", () => {
 		const html =
 			renderDocsSite(
