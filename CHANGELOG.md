@@ -1,3 +1,10 @@
+# [0.878.0](https://github.com/staff0rd/assist/compare/v0.877.2...v0.878.0) (2026-10-24)
+
+
+### Features
+
+* show prompt issue token on cards ([bde6ef3](https://github.com/staff0rd/assist/commit/bde6ef35caa2709b30c20e4ca0be9f056aa6bffe))
+
 ## [0.877.2](https://github.com/staff0rd/assist/compare/v0.877.1...v0.877.2) (2026-10-23)
 
 
