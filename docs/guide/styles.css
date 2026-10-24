@@ -1,0 +1,144 @@
+:root {
+	--bg: #ffffff;
+	--fg: #1f2328;
+	--muted: #59636e;
+	--border: #d1d9e0;
+	--accent: #0969da;
+	--code-bg: #f6f8fa;
+	--nav-bg: #f6f8fa;
+	color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0d1117;
+		--fg: #e6edf3;
+		--muted: #9198a1;
+		--border: #3d444d;
+		--accent: #4493f8;
+		--code-bg: #151b23;
+		--nav-bg: #010409;
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--fg);
+	font:
+		16px/1.6 system-ui,
+		-apple-system,
+		"Segoe UI",
+		sans-serif;
+}
+
+.layout {
+	display: grid;
+	grid-template-columns: 260px minmax(0, 1fr);
+	min-height: 100vh;
+}
+
+nav {
+	background: var(--nav-bg);
+	border-right: 1px solid var(--border);
+	padding: 24px 16px;
+}
+
+nav .brand {
+	display: block;
+	font-weight: 700;
+	font-size: 1.2rem;
+	color: var(--fg);
+	text-decoration: none;
+	margin-bottom: 16px;
+}
+
+nav h2 {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--muted);
+	margin: 20px 0 6px;
+}
+
+nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+nav a {
+	display: block;
+	padding: 4px 8px;
+	border-radius: 6px;
+	color: var(--fg);
+	text-decoration: none;
+}
+
+nav a[aria-current="page"] {
+	background: var(--border);
+	font-weight: 600;
+}
+
+main {
+	max-width: 860px;
+	padding: 32px 40px 64px;
+}
+
+main a {
+	color: var(--accent);
+}
+
+pre,
+code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.9em;
+}
+
+pre {
+	background: var(--code-bg);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 12px 16px;
+	overflow-x: auto;
+}
+
+:not(pre) > code {
+	background: var(--code-bg);
+	padding: 0.1em 0.35em;
+	border-radius: 4px;
+}
+
+figure {
+	margin: 24px 0;
+}
+
+figure img {
+	max-width: 100%;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+}
+
+figcaption {
+	color: var(--muted);
+	font-size: 0.9rem;
+}
+
+@media (max-width: 720px) {
+	.layout {
+		grid-template-columns: 1fr;
+	}
+
+	nav {
+		border-right: none;
+		border-bottom: 1px solid var(--border);
+	}
+
+	main {
+		padding: 24px 16px 48px;
+	}
+}

@@ -110,6 +110,11 @@ run:
       - src/index.ts
       - verify
       - config-keys
+  - name: verify:docs-coverage
+    command: npx
+    args:
+      - tsx
+      - src/docs/docsCoverage.ts
   - name: verify:advice-fragments
     command: npx
     args:

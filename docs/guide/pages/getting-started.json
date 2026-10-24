@@ -1,0 +1,39 @@
+{
+	"id": "getting-started",
+	"title": "Getting started",
+	"group": "Getting started",
+	"order": 0,
+	"covers": [
+		"cli:sync",
+		"claude:sync",
+		"config:sync.autoConfirm",
+		"cli:update",
+		"config:autoUpdate.enabled",
+		"cli:watch wait",
+		"cli:watch loop",
+		"cli:watch simulate-divergence",
+		"cli:watch report"
+	],
+	"sections": [
+		{
+			"heading": "Install",
+			"markdown": "assist is published to npm. Install it globally, then sync its commands and settings into your coding harness:\n\n```bash\nnpm install -g @staff0rd/assist\nassist sync\n```\n\nThe CLI is available as `assist`, and also as the shorter aliases `ast` and `a`.\n\n`assist sync` installs every assist Claude command as `~/.claude/skills/<name>/SKILL.md`, so it takes precedence over a project skill of the same name, and copies assist's `settings.json` into `~/.claude`. When the Codex or pi CLIs are installed it also installs the commands and permission hooks for them. Inside Claude Code, `/sync` does the same thing.\n\nSync asks before overwriting an existing `settings.json`. Pass `--yes` to skip the prompt once, or make it permanent with:\n\n```bash\nassist config set sync.autoConfirm true --global\n```\n\n`assist sync --prune` lists commands in those directories that assist did not write, and `--prune --force` removes them."
+		},
+		{
+			"heading": "Open the dashboard",
+			"markdown": "Run `assist` with no arguments to start the sessions web dashboard on port 3100 and open it in your browser (`--no-open` skips the browser). The dashboard starts the sessions daemon on demand; the daemon keeps your sessions running when the web server stops."
+		},
+		{
+			"heading": "Update",
+			"markdown": "```bash\nassist update\n```\n\n`assist update` detects how assist was installed:\n\n- **Global npm install** — installs `@staff0rd/assist@latest`, then runs `assist sync`.\n- **Git clone** — pulls, runs `npm i` and `npm run build` in the clone, then runs `assist sync`.\n\nWhen the sessions daemon is running, `assist update` restarts it so it loads the new build. Restart the web server yourself, then reload the browser tab."
+		},
+		{
+			"heading": "Run from a clone",
+			"markdown": "To work on assist itself, install it from a clone instead of npm:\n\n```bash\ngit clone git@github.com:staff0rd/assist.git\ncd assist\nnpm install\nnpm run build\nnpm install -g .\n```\n\nAfter a change, web server code only needs the `assist` process restarted, and sessions survive. Daemon and session code needs `assist daemon restart`: Claude sessions resume with `claude --resume`, and run sessions reappear as tiles you can retry.\n\nThis guide is built from the clone too. `npm run docs:build` renders it into `.docs-site/`, and `npm run docs:preview` builds it and serves it on http://localhost:4173. Both take `--base <path>` to build for a site hosted under a sub-path."
+		},
+		{
+			"heading": "Keep a clone up to date",
+			"markdown": "When assist is installed from a git clone, the sessions daemon keeps the clone current in the background. Lap after lap it runs `assist watch wait --pull --build` in the clone and logs each lap to `daemon.log` (prefixed `auto-update:`) and to `~/.assist/watchers/`. If the clone cannot fast-forward, the daemon starts one Claude session in it to rebase or merge onto the upstream, push and rebuild. The loop pauses until that session closes. A rebuilt version takes effect once the daemon and web server restart.\n\nTo turn background updates off:\n\n```bash\nassist config set autoUpdate.enabled false -g\n```\n\nThe `watch` commands that drive the loop can also be run by hand in any repo:\n\n- `assist watch wait [--interval <d>] [--timeout <d>|none] [--pull] [--build [entry]]` blocks until the current branch's upstream gains commits. `--pull` fast-forwards to them, and `--build` then runs the `auto-build` run entry (or `[entry]`), plus `assist sync --yes` when the pulled commits touched files that sync installs. It exits 0 on movement, 2 on timeout, 3 on genuine divergence, 4 when the build or sync fails, and 1 when it cannot wait.\n- `assist watch loop` runs `assist watch wait --pull --build` as a fresh child process lap after lap. It relaunches after a 0, 2 or 4 exit, and stops on 1, 3 or an interrupt.\n- `assist watch report [--from <sha>]` prints the built version and the last 10 commits as a markdown table. With `--from`, it marks the commits since `<sha>` as new and says which restarts they need and whether `~/.claude` needs a sync.\n- `assist watch simulate-divergence` makes the next `assist watch wait` poll in this repo exit 3, so you can test how divergence is handled."
+		}
+	]
+}

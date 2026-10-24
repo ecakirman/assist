@@ -1,0 +1,39 @@
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { collectClaudeCommands } from "./collectClaudeCommands";
+
+let dir: string;
+
+beforeEach(() => {
+	dir = mkdtempSync(join(tmpdir(), "claude-dir-"));
+	mkdirSync(join(dir, "commands"));
+	mkdirSync(join(dir, "skills", "review-ci"), { recursive: true });
+	mkdirSync(join(dir, "skills", "empty"));
+});
+
+afterEach(() => {
+	rmSync(dir, { recursive: true, force: true });
+});
+
+describe("collectClaudeCommands", () => {
+	it("lists commands, flat skills and directory skills with descriptions", () => {
+		writeFileSync(
+			join(dir, "commands", "commit.md"),
+			"---\ndescription: Commit relevant files\n---\n\nBody",
+		);
+		writeFileSync(join(dir, "commands", "notes.txt"), "ignored");
+		writeFileSync(join(dir, "skills", "wireframe.md"), "# Wireframe\n");
+		writeFileSync(
+			join(dir, "skills", "review-ci", "SKILL.md"),
+			"---\nname: review-ci\ndescription: Install a review workflow\n---\n",
+		);
+
+		expect(collectClaudeCommands(dir)).toEqual([
+			{ id: "claude:commit", description: "Commit relevant files" },
+			{ id: "skill:review-ci", description: "Install a review workflow" },
+			{ id: "skill:wireframe", description: "" },
+		]);
+	});
+});

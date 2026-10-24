@@ -38,6 +38,8 @@ npm install -g .
 
 After installation, the `assist` command will be available globally. You can also use the shorter `ast` alias.
 
+The user guide is authored as JSON pages in `docs/guide/pages/`. `npm run docs:build [-- --base <path>]` renders it into `.docs-site/`, and `npm run docs:preview` builds and serves it on port 4173. `npx tsx src/docs/docsCoverage.ts --report` lists the commands, skills, config keys and routes still pending documentation, by area.
+
 ## Claude Commands
 
 - `/add-command` - Add a new run command via `assist run add`
