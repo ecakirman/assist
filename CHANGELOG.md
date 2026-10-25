@@ -1,3 +1,10 @@
+## [0.886.6](https://github.com/staff0rd/assist/compare/v0.886.5...v0.886.6) (2026-10-25)
+
+
+### Bug Fixes
+
+* defer docs reload while feedback open ([de1f7f1](https://github.com/staff0rd/assist/commit/de1f7f128941f7bd8843cdccdb68f5e271c37148))
+
 ## [0.886.5](https://github.com/staff0rd/assist/compare/v0.886.4...v0.886.5) (2026-10-25)
 
 
