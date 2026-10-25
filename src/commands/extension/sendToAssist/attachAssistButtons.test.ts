@@ -47,6 +47,24 @@ describe("attachAssistButtons", () => {
 		);
 	});
 
+	it("adds a canonical-url button to React comment headers in a project pane", async () => {
+		const sendMessage = stubSend();
+		const permalink = "https://github.com/org/repo/issues/497#issuecomment-5";
+		globalThis.history.replaceState(
+			null,
+			"",
+			"/orgs/org/projects/6/views/1?pane=issue&issue=org%7Crepo%7C497",
+		);
+		document.body.innerHTML = `<div role="dialog"><div id="issuecomment-5" data-testid="comment-header"><h3 class="sr-only">me commented <relative-time></relative-time></h3><span><a href="${permalink}" data-turbo="true"><relative-time></relative-time></a></span></div></div>`;
+		attachAssistButtons();
+		expect(buttons()).toHaveLength(1);
+		const field = await openPopover();
+		await act(async () => fireEvent.keyDown(field, { key: "Enter" }));
+		expect(sendMessage).toHaveBeenCalledWith(
+			expect.objectContaining({ url: permalink }),
+		);
+	});
+
 	it("ignores comment links in markdown bodies", () => {
 		document.body.innerHTML = `<p><a href="${PERMALINK}">see here</a></p>`;
 		attachAssistButtons();
