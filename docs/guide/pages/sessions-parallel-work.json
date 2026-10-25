@@ -1,0 +1,29 @@
+{
+	"id": "sessions-parallel-work",
+	"title": "Parallel work",
+	"group": "Sessions",
+	"order": 4,
+	"covers": [
+		"config:worktree.enabled",
+		"config:worktree.trunk",
+		"config:worktree.root",
+		"config:worktree.install",
+		"config:worktree.copy",
+		"config:worktree.commitBeforePhaseEnd",
+		"config:worktree.commitBeforeManualChecks"
+	],
+	"sections": [
+		{
+			"heading": "Several sessions on one repo",
+			"markdown": "By default every session in a repo shares the clone's working copy, so two agents editing the same repo see each other's changes. Turn on parallel work for a repo to give each session its own git worktree instead:\n\n```bash\nassist config set worktree.enabled true -g --repo\n```\n\nWith it on:\n\n- The first prompt session uses the clone itself. A second concurrent one lands in `<repo>-2`, a third in `<repo>-3`, and so on. You never choose or name these.\n- Every assist-command session (draft, bug, backlog run, review and so on) gets a fresh worktree off the freshly fetched remote default branch, so it never works against whatever branch the clone is on.\n- The repo picker and the History tab still show the repo once, covering the clone and all its worktrees.\n- A worktree is reused once nothing live works in it and it holds nothing unpushed.\n- Asking to run a backlog item that already has a live run is refused, pointing at the run that holds it.\n\nThe card's clone badge shows which working copy a session is in.\n\nTurning parallel work off leaves the repo as it was; nothing permanent is written to the clone."
+		},
+		{
+			"heading": "Work is never lost",
+			"markdown": "A worktree is removed only when the last session holding it is done or closed, and only when nothing in it is unpushed. Closing a session that still holds unpushed changes stops it instead: the card stays on the board as **stopped**, and the only actions are resume, restart or an explicit discard. Discard always asks first and names what it is about to destroy.\n\nThe same applies to a session in the clone's own working copy, though the clone itself is never removed. When several agents share a worktree, only the last one to leave triggers this.\n\nAfter a crash, kill or reboot, the daemon cleans up stray worktrees itself; you never prune them by hand."
+		},
+		{
+			"heading": "Worktree settings",
+			"markdown": "All of these are per repo, so set them with `--repo`:\n\n- `worktree.trunk` — trunk-based work. A spilled worktree's branch tracks `origin/<trunk>` so commits land on the mainline, and jobs that commit (`backlog run`, PR checkouts, reviews) always run in a worktree, never the clone. Off (the default), a worktree starts off the remote default branch with no upstream, and the session raises its own branch and PR.\n- `worktree.root` — the parent directory for `<repo>-N` worktrees. Defaults to the clone's parent.\n- `worktree.install` — how a new worktree installs its dependencies. `true` (the default) detects pnpm, yarn, bun or npm; a string is the install command to run; `false` skips it; a JSON list of paths installs in each in order, stopping at the first failure:\n\n  ```bash\n  assist config set worktree.install '[\".\",\"packages/ui\"]' -g --repo\n  ```\n\n- `worktree.copy` — gitignored files to copy into each new worktree so it can build and run, such as `.env`:\n\n  ```bash\n  assist config set worktree.copy .env,.claude/settings.local.json -g --repo\n  ```\n\n- `worktree.commitBeforePhaseEnd` — makes each backlog phase run `/commit` once verify passes, before it asks you to perform manual checks or marks the phase done, so a phase's work is never left uncommitted in a worktree that may be reaped. Off by default. `worktree.commitBeforeManualChecks` is its older name and is still read when `commitBeforePhaseEnd` is unset."
+		}
+	]
+}

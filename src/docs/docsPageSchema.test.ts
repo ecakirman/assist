@@ -56,8 +56,40 @@ describe("docsPageSchema", () => {
 		[[{ assist: [] }], false],
 		[[{ run: "dev", assist: ["x"] }], false],
 		[[{ click: "#add" }], false],
+		[
+			[
+				{
+					session: {
+						repo: "api",
+						prompt: "Add pagination",
+						title: "Paginate",
+						status: "waiting",
+						reply: ["Done."],
+					},
+				},
+			],
+			true,
+		],
+		[[{ session: { repo: "elsewhere", prompt: "x" } }], false],
+		[[{ session: { repo: "api", prompt: "x", status: "error" } }], false],
 	])("validates setup steps %j", (setup, valid) => {
 		const screenshot = { ...validPage.sections[0].screenshots[0], setup };
+		const section = { ...validPage.sections[0], screenshots: [screenshot] };
+		expect(
+			docsPageSchema.safeParse({ ...validPage, sections: [section] }).success,
+		).toBe(valid);
+	});
+
+	it.each([
+		[[{ click: "text=Dark mode toggle" }, { press: "Escape" }], true],
+		[[{ hover: "#add" }], false],
+		[[{ click: "#add", press: "Enter" }], false],
+	])("validates actions %j", (actions, valid) => {
+		const screenshot = {
+			...validPage.sections[0].screenshots[0],
+			scene: "dashboard",
+			actions,
+		};
 		const section = { ...validPage.sections[0], screenshots: [screenshot] };
 		expect(
 			docsPageSchema.safeParse({ ...validPage, sections: [section] }).success,

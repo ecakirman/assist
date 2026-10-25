@@ -3,16 +3,29 @@ import { mkdirSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { captureScreenshots } from "./capture/captureScreenshots";
 import { withCaptureEnvironment } from "./capture/withCaptureEnvironment";
+import type { DocsScreenshot } from "./docsPageSchema";
 import { docsPaths } from "./docsPaths";
+import { findUnknownScenes } from "./findUnknownScenes";
+import { type CaptureScenes, loadCaptureScenes } from "./loadCaptureScenes";
 import { loadDocsPages } from "./loadDocsPages";
 
-function selectScreenshots(only: string[]) {
-	const screenshots = loadDocsPages(docsPaths.pagesDir).flatMap((page) =>
+function selectScreenshots(only: string[], scenes: CaptureScenes) {
+	const pages = loadDocsPages(docsPaths.pagesDir);
+	const unknown = findUnknownScenes(pages, scenes);
+	if (unknown.length > 0)
+		throw new Error(`Unknown capture scenes:\n  ${unknown.join("\n  ")}`);
+	const screenshots = pages.flatMap((page) =>
 		page.sections.flatMap((section) => section.screenshots ?? []),
 	);
-	return only.length === 0
-		? screenshots
-		: screenshots.filter((screenshot) => only.includes(screenshot.file));
+	const selected =
+		only.length === 0
+			? screenshots
+			: screenshots.filter((screenshot) => only.includes(screenshot.file));
+	return selected.sort((a, b) => stateKey(a).localeCompare(stateKey(b)));
+}
+
+function stateKey(screenshot: DocsScreenshot): string {
+	return JSON.stringify([screenshot.scene ?? "", screenshot.setup ?? []]);
 }
 
 function build(): void {
@@ -33,7 +46,8 @@ export async function captureDocs(argv: string[]): Promise<void> {
 			"keep-home": { type: "boolean", default: false },
 		},
 	});
-	const screenshots = selectScreenshots(positionals);
+	const scenes = loadCaptureScenes(docsPaths.captureScenes);
+	const screenshots = selectScreenshots(positionals, scenes);
 	if (screenshots.length === 0) {
 		console.log("No screenshots declared to capture");
 		return;
@@ -42,7 +56,7 @@ export async function captureDocs(argv: string[]): Promise<void> {
 	mkdirSync(docsPaths.screenshotsDir, { recursive: true });
 
 	await withCaptureEnvironment(values["keep-home"], ({ capture, url }) =>
-		captureScreenshots(capture, url, screenshots),
+		captureScreenshots(capture, url, screenshots, scenes),
 	);
 }
 

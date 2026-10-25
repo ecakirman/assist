@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { captureSetupStepSchema } from "./captureSetupStepSchema";
 import { screenshotPlaceholderPattern } from "./screenshotPlaceholder";
 
 export const docsNavGroups = [
@@ -12,9 +13,9 @@ export const docsNavGroups = [
 	"Contributing",
 ] as const;
 
-const setupStepSchema = z.union([
-	z.strictObject({ assist: z.array(z.string().min(1)).min(1) }),
-	z.strictObject({ run: z.string().min(1) }),
+const actionSchema = z.union([
+	z.strictObject({ click: z.string().min(1) }),
+	z.strictObject({ press: z.string().min(1) }),
 ]);
 
 const screenshotSchema = z.strictObject({
@@ -30,7 +31,9 @@ const screenshotSchema = z.strictObject({
 	theme: z.enum(["light", "dark"]).optional(),
 	waitFor: z.string().min(1).optional(),
 	crop: z.string().min(1).optional(),
-	setup: z.array(setupStepSchema).optional(),
+	scene: z.string().min(1).optional(),
+	setup: z.array(captureSetupStepSchema).optional(),
+	actions: z.array(actionSchema).optional(),
 });
 
 const sectionSchema = z
@@ -65,4 +68,6 @@ export type DocsPage = z.infer<typeof docsPageSchema> & { source?: string };
 export type DocsScreenshot = NonNullable<
 	DocsPage["sections"][number]["screenshots"]
 >[number];
-export type DocsSetupStep = NonNullable<DocsScreenshot["setup"]>[number];
+export type DocsScreenshotAction = NonNullable<
+	DocsScreenshot["actions"]
+>[number];

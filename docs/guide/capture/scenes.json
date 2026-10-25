@@ -1,0 +1,57 @@
+{
+	"dashboard": [
+		{ "run": "dev" },
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "Add a dark mode toggle to the settings page",
+				"title": "Dark mode toggle",
+				"status": "waiting",
+				"reply": [
+					"I'll add the toggle next to the existing theme settings.",
+					"Read(src/settings/SettingsPage.tsx)",
+					"⎿  Read 84 lines",
+					"Update(src/settings/SettingsPage.tsx)",
+					"⎿  Updated src/settings/SettingsPage.tsx with 18 additions",
+					"The toggle is in place and persists the choice to localStorage. Should it also follow the operating system's colour scheme until the user picks one?"
+				]
+			}
+		},
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "Fix the flaky date formatting test",
+				"title": "Fix flaky date test",
+				"reply": [
+					"The test formats dates in the machine's local timezone, so it fails west of UTC.",
+					"Read(src/format/formatDate.test.ts)",
+					"⎿  Read 37 lines",
+					"Bash(npm test -- formatDate)"
+				]
+			}
+		},
+		{
+			"session": {
+				"repo": "api",
+				"prompt": "Add pagination to the orders endpoint",
+				"title": "Paginate orders endpoint",
+				"status": "waiting",
+				"reply": [
+					"Added `page` and `pageSize` query parameters to `GET /orders` with a default page size of 50.",
+					"Bash(npm test)",
+					"⎿  42 passed",
+					"Ready for review."
+				]
+			}
+		},
+		{
+			"session": {
+				"repo": "website",
+				"prompt": "Update the pricing page copy",
+				"title": "Pricing page copy",
+				"status": "done",
+				"reply": ["Updated the copy on the pricing page."]
+			}
+		}
+	]
+}

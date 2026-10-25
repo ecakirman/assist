@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+// Stand-in for the claude CLI during docs capture, so no real harness runs in
+// the isolated HOME. It renders a scripted transcript for the session's prompt
+// (from $HOME/.fake-claude.json, written by the capture's session steps) and
+// answers `claude -p` title requests from the same script.
+(async () => {
+	const { existsSync, readFileSync } = await import("node:fs");
+	const { join } = await import("node:path");
+
+	const scriptsFile = join(process.env.HOME ?? "", ".fake-claude.json");
+	const scripts = existsSync(scriptsFile)
+		? JSON.parse(readFileSync(scriptsFile, "utf8"))
+		: {};
+	const args = process.argv.slice(2);
+	const prompt = args.at(-1)?.startsWith("-") ? undefined : args.at(-1);
+
+	if (args.includes("-p")) {
+		const task = prompt?.split("Task: ").at(-1)?.trim() ?? "";
+		const script = scripts[task];
+		console.log(script?.title ?? task.split(/\s+/).slice(0, 4).join(" "));
+		return;
+	}
+
+	const width = Math.min(process.stdout.columns || 100, 100);
+	const accent = (text) => `\x1b[38;5;174m${text}\x1b[0m`;
+	const box = (lines) => [
+		accent(`╭${"─".repeat(width - 2)}╮`),
+		...lines.map((line) => `${accent("│")} ${line.padEnd(width - 4)} ${accent("│")}`),
+		accent(`╰${"─".repeat(width - 2)}╯`),
+	];
+	const reply = (prompt && scripts[prompt]?.reply) ?? [];
+	const out = [
+		...box(["✻ Welcome to Claude Code!", ""]),
+		"",
+		...(prompt ? [`\x1b[2m>\x1b[0m ${prompt}`] : []),
+		...reply.flatMap((line) =>
+			line.startsWith("⎿")
+				? [`  \x1b[2m${line}\x1b[0m`]
+				: ["", `${accent("●")} ${line}`],
+		),
+		"",
+		...box([">"]),
+		"\x1b[2m  ? for shortcuts\x1b[0m",
+	];
+	process.stdout.write(`${out.join("\r\n")}\r\n`);
+	setInterval(() => {}, 60_000);
+})();

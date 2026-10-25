@@ -1,11 +1,19 @@
 import { join } from "node:path";
-import type { Browser } from "playwright";
-import type { DocsScreenshot } from "../docsPageSchema";
+import type { Browser, Page } from "playwright";
+import type { DocsScreenshot, DocsScreenshotAction } from "../docsPageSchema";
 import { docsPaths } from "../docsPaths";
 import { screenshotVariants } from "../screenshotVariants";
 
 const DEFAULT_VIEWPORT = { width: 1280, height: 800 };
 const SETTLE_MS = 750;
+
+async function performAction(
+	page: Page,
+	action: DocsScreenshotAction,
+): Promise<void> {
+	if ("click" in action) await page.locator(action.click).first().click();
+	else await page.keyboard.press(action.press);
+}
 
 export async function captureScreenshot(
 	browser: Browser,
@@ -24,6 +32,8 @@ export async function captureScreenshot(
 		const page = await context.newPage();
 		await page.goto(`${baseUrl}${screenshot.route}`, { waitUntil: "load" });
 		if (screenshot.waitFor) await page.waitForSelector(screenshot.waitFor);
+		for (const action of screenshot.actions ?? [])
+			await performAction(page, action);
 		await page.waitForTimeout(SETTLE_MS);
 		const target = screenshot.crop ? page.locator(screenshot.crop) : page;
 		await target.screenshot({

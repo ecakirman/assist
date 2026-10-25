@@ -113,6 +113,25 @@ pre {
 	border-radius: 4px;
 }
 
+table {
+	border-collapse: collapse;
+	margin: 16px 0;
+	display: block;
+	overflow-x: auto;
+}
+
+th,
+td {
+	border: 1px solid var(--border);
+	padding: 6px 12px;
+	text-align: left;
+	vertical-align: top;
+}
+
+th {
+	background: var(--code-bg);
+}
+
 figure {
 	margin: 24px 0;
 }

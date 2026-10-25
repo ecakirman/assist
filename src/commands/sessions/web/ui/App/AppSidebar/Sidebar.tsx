@@ -16,7 +16,7 @@ const collapsedSx = { display: "none" } as const;
 
 export function Sidebar(props: SidebarProps) {
 	return (
-		<Box sx={props.collapsed ? collapsedSx : sidebarSx}>
+		<Box data-testid="sidebar" sx={props.collapsed ? collapsedSx : sidebarSx}>
 			<SidebarTabs
 				tab={props.tab}
 				activeCount={props.sessions.length}

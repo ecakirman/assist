@@ -2,6 +2,8 @@ import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { docsPaths } from "../docsPaths";
 import { findUnknownCovers } from "../findUnknownCovers";
+import { findUnknownScenes } from "../findUnknownScenes";
+import { loadCaptureScenes } from "../loadCaptureScenes";
 import { collectDocsInventory } from "../inventory/collectDocsInventory";
 import { loadDocsPages } from "../loadDocsPages";
 import type { DocsPreviewStamp } from "./DocsPreviewStamp";
@@ -24,6 +26,10 @@ export function buildDocsSite(
 	failOn(
 		"Docs pages cover ids that are not in the inventory",
 		findUnknownCovers(pages, inventory),
+	);
+	failOn(
+		`Screenshots use scenes not declared in ${docsPaths.captureScenes}`,
+		findUnknownScenes(pages, loadCaptureScenes(docsPaths.captureScenes)),
 	);
 	failOn(
 		`Screenshots missing from ${docsPaths.screenshotsDir}`,
