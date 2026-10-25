@@ -11,7 +11,6 @@ vi.mock("../../daemon/requestDaemonReply", () => ({
 const requestDaemonReplyMock = vi.mocked(requestDaemonReply);
 
 const feedback = {
-	sessionId: "s3",
 	pageId: "getting-started",
 	heading: "Install",
 	source: "docs/guide/pages/getting-started.json",
@@ -47,7 +46,7 @@ async function post(body: unknown) {
 describe("docsFeedback", () => {
 	beforeEach(() => vi.clearAllMocks());
 
-	it("types the feedback into the docs session as a prompt", async () => {
+	it("types the feedback into the session that last wrote the page", async () => {
 		requestDaemonReplyMock.mockResolvedValue({
 			ok: true,
 			message: "Sent to assist session s3",
@@ -58,34 +57,24 @@ describe("docsFeedback", () => {
 		expect(headers["Access-Control-Allow-Origin"]).toBe("moz-extension://abc");
 		expect(requestDaemonReplyMock).toHaveBeenCalledWith(
 			{
-				type: "type-prompt",
-				sessionId: "s3",
+				type: "type-prompt-to-writer",
+				file: "docs/guide/pages/getting-started.json",
+				within: "docs/guide/",
 				text: expect.stringContaining("> npm install -g"),
 			},
 			"type-prompt-result",
 		);
 	});
 
-	it("reports a missing or ended session", async () => {
+	it("reports when no live session wrote the docs", async () => {
 		requestDaemonReplyMock.mockResolvedValue({
 			ok: false,
-			message: "assist session s3 has ended",
+			message: "No live Claude session has written it",
 		});
 		expect(await post(feedback)).toMatchObject({
 			status: 404,
-			body: { error: "assist session s3 has ended" },
+			body: { error: "No live Claude session has written it" },
 		});
-	});
-
-	it("refuses a preview that was not started from a session", async () => {
-		const { sessionId: _sessionId, ...rest } = feedback;
-		expect(await post(rest)).toMatchObject({
-			status: 404,
-			body: {
-				error: "This docs preview was not started from an assist session",
-			},
-		});
-		expect(requestDaemonReplyMock).not.toHaveBeenCalled();
 	});
 
 	it("rejects a body without a prompt", async () => {

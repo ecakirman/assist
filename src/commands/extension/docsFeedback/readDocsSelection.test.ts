@@ -8,11 +8,10 @@ const PAGE = `
 </section>
 <p id="outside">Not in a section</p>`;
 
-function render(meta = true, session = true) {
-	document.head.innerHTML = [
-		meta ? '<meta name="assist-docs-page" content="start">' : "",
-		session ? '<meta name="assist-session-id" content="s9">' : "",
-	].join("");
+function render(meta = true) {
+	document.head.innerHTML = meta
+		? '<meta name="assist-docs-page" content="start">'
+		: "";
 	document.body.innerHTML = PAGE;
 }
 
@@ -33,22 +32,14 @@ afterEach(() => {
 });
 
 describe("readDocsSelection", () => {
-	it("reads the page, session, section and selected text", () => {
+	it("reads the page, section and selected text", () => {
 		render();
 		expect(readDocsSelection(document, select("text", 4, 15))).toMatchObject({
-			sessionId: "s9",
 			pageId: "start",
 			heading: "Install",
 			source: "docs/guide/pages/start.json",
 			selection: "npm install",
 		});
-	});
-
-	it("leaves the session out when the preview has none", () => {
-		render(true, false);
-		expect(
-			readDocsSelection(document, select("text", 4, 15))?.sessionId,
-		).toBeUndefined();
 	});
 
 	it("ignores pages that are not a docs preview", () => {

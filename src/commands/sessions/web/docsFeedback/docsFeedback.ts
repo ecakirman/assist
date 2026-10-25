@@ -8,6 +8,8 @@ import { docsFeedbackSchema } from "./docsFeedbackSchema";
 
 type TypePromptReply = { ok: boolean; message: string };
 
+const DOCS_DIR = "docs/guide/";
+
 export async function docsFeedback(
 	req: IncomingMessage,
 	res: ServerResponse,
@@ -20,15 +22,13 @@ export async function docsFeedback(
 		respondJson(res, 400, { error: "Invalid docs feedback body" });
 		return;
 	}
-	const { sessionId } = parsed.data;
-	if (!sessionId) {
-		respondJson(res, 404, {
-			error: "This docs preview was not started from an assist session",
-		});
-		return;
-	}
 	const reply = await requestDaemonReply<TypePromptReply>(
-		{ type: "type-prompt", sessionId, text: docsFeedbackPrompt(parsed.data) },
+		{
+			type: "type-prompt-to-writer",
+			file: parsed.data.source,
+			within: DOCS_DIR,
+			text: docsFeedbackPrompt(parsed.data),
+		},
 		"type-prompt-result",
 	);
 	if (!reply) {

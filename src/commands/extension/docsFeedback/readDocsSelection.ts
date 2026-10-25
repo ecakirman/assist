@@ -27,7 +27,6 @@ export function readDocsSelection(
 	const section = sectionOf(range.startContainer);
 	if (!section) return undefined;
 	return {
-		sessionId: metaContent(doc, docsFeedbackMarkers.sessionMeta),
 		pageId,
 		heading: section.getAttribute(docsFeedbackMarkers.headingAttribute) ?? "",
 		source: section.getAttribute(docsFeedbackMarkers.sourceAttribute) ?? "",

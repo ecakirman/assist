@@ -7,19 +7,13 @@ import { watchDocsSources } from "./site/watchDocsSources";
 
 export function previewDocs(argv: string[]): void {
 	const { basePath, outDir, port } = readDocsSiteArgs(argv);
-	const sessionId = process.env.ASSIST_SESSION_ID;
-	const build = () => buildDocsSite(basePath, outDir, { sessionId });
+	const build = () => buildDocsSite(basePath, outDir, true);
 	try {
 		build();
 	} catch (error) {
 		console.error((error as Error).message);
 		process.exit(1);
 	}
-	console.log(
-		sessionId
-			? `Docs feedback from the assist extension goes to session ${sessionId}`
-			: "Not started from an assist session; docs feedback has nowhere to go",
-	);
 	const liveReload = createLiveReload();
 	watchDocsSources((change) => {
 		try {

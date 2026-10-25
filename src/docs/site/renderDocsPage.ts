@@ -1,7 +1,6 @@
 import { Marked } from "marked";
 import type { DocsPage } from "../docsPageSchema";
 import { screenshotPlaceholder } from "../screenshotPlaceholder";
-import type { DocsPreviewStamp } from "./DocsPreviewStamp";
 import { escapeHtml } from "./escapeHtml";
 import type { DocsNavGroup } from "./orderDocsPages";
 import { renderDocsNav } from "./renderDocsNav";
@@ -36,7 +35,7 @@ export function renderDocsPage(
 	page: DocsPage,
 	nav: DocsNavGroup[],
 	basePath: string,
-	stamp?: DocsPreviewStamp,
+	preview = false,
 ): string {
 	const title = escapeHtml(page.title);
 	const sections = page.sections
@@ -44,7 +43,7 @@ export function renderDocsPage(
 			renderSection(
 				section,
 				basePath,
-				stamp && sectionAttributes(section, page.source),
+				preview ? sectionAttributes(section, page.source) : undefined,
 			),
 		)
 		.join("");
@@ -53,7 +52,7 @@ export function renderDocsPage(
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-${stamp ? previewMeta(page, stamp) : ""}<title>${title} · assist</title>
+${preview ? previewMeta(page) : ""}<title>${title} · assist</title>
 <link rel="stylesheet" href="${basePath}styles.css">
 </head>
 <body>

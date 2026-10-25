@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const docsFeedbackSchema = z.object({
-	sessionId: z.string().optional(),
 	pageId: z.string().min(1),
 	heading: z.string().min(1),
 	source: z.string().min(1),

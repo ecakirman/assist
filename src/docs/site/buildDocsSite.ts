@@ -6,7 +6,6 @@ import { findUnknownScenes } from "../findUnknownScenes";
 import { loadCaptureScenes } from "../loadCaptureScenes";
 import { collectDocsInventory } from "../inventory/collectDocsInventory";
 import { loadDocsPages } from "../loadDocsPages";
-import type { DocsPreviewStamp } from "./DocsPreviewStamp";
 import { findMissingScreenshots } from "./findMissingScreenshots";
 import { normalizeBasePath } from "./normalizeBasePath";
 import { renderDocsSite } from "./renderDocsSite";
@@ -19,7 +18,7 @@ function failOn(label: string, problems: string[]): void {
 export function buildDocsSite(
 	basePath: string,
 	outDir: string,
-	stamp?: DocsPreviewStamp,
+	preview = false,
 ): number {
 	const pages = loadDocsPages(docsPaths.pagesDir);
 	const inventory = new Set(collectDocsInventory().map((item) => item.id));
@@ -40,7 +39,7 @@ export function buildDocsSite(
 	for (const file of renderDocsSite(
 		pages,
 		normalizeBasePath(basePath),
-		stamp,
+		preview,
 	)) {
 		const target = join(outDir, file.path);
 		mkdirSync(dirname(target), { recursive: true });

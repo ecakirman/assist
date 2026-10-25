@@ -127,25 +127,17 @@ describe("renderDocsSite", () => {
 		expect(html).not.toContain("data-docs-heading");
 	});
 
-	it("stamps a preview with the page, session, section heading and source", () => {
+	it("stamps a preview with the page, section heading and source", () => {
 		const sourced = {
 			...page("install", "Getting started", 0, [
 				{ heading: 'Say "hi"', markdown: "Text" },
 			]),
 			source: "docs/guide/pages/install.json",
 		};
-		const html =
-			renderDocsSite([sourced], "/", { sessionId: "s7" })[0].content ?? "";
+		const html = renderDocsSite([sourced], "/", true)[0].content ?? "";
 		expect(html).toContain('<meta name="assist-docs-page" content="install">');
-		expect(html).toContain('<meta name="assist-session-id" content="s7">');
 		expect(html).toContain(
 			'<section data-docs-heading="Say &quot;hi&quot;" data-docs-source="docs/guide/pages/install.json">',
 		);
-	});
-
-	it("omits the session meta when the preview has no session", () => {
-		const html = renderDocsSite(pages, "/", {})[0].content ?? "";
-		expect(html).toContain('<meta name="assist-docs-page"');
-		expect(html).not.toContain("assist-session-id");
 	});
 });

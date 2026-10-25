@@ -4,7 +4,6 @@ import { postDocsFeedback } from "./postDocsFeedback";
 
 const SERVER = "http://localhost:3100";
 const feedback = {
-	sessionId: "s9",
 	pageId: "start",
 	heading: "Install",
 	source: "docs/guide/pages/start.json",

@@ -1,5 +1,7 @@
 import type { SessionClient } from "./broadcast";
 import type { ViewerClaim } from "./claimViewer";
+import { findLastWriter } from "./findLastWriter";
+import type { WriteTarget } from "./lastWriteTimes";
 import type { NodeLinks } from "./links/NodeLinks";
 import { releaseViewer } from "./releaseViewer";
 import type { OnStatusChange, Session } from "./types";
@@ -44,6 +46,19 @@ export class SessionIo {
 		return typePromptIntoSession(this.sessions, id, text, (target, data) =>
 			this.write(target, data, {}),
 		);
+	}
+
+	async typePromptToLastWriter(
+		target: WriteTarget,
+		text: string,
+	): Promise<string | { refused: string }> {
+		const id = await findLastWriter(this.sessions, target);
+		if (!id)
+			return {
+				refused: `No live Claude session has written ${target.file} or anything in ${target.within}`,
+			};
+		const refused = this.typePrompt(id, text);
+		return refused ? { refused } : id;
 	}
 
 	resize(id: string, cols: number, rows: number, viewer?: ResizeViewer): void {

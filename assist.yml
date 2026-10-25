@@ -27,6 +27,13 @@ restructure:
 worktree:
   watcher: true
 run:
+  - name: docs
+    command: npx
+    args:
+      - tsx
+      - src/docs/previewDocs.ts
+    server: docs
+    port: 4173
   - name: verify:lint
     command: npx
     filter: "{src/**,*.ts}"
