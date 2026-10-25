@@ -3,7 +3,6 @@
 }
 
 .sl-markdown-content figure img {
-	display: block;
 	border: 1px solid var(--sl-color-hairline);
 	border-radius: 0.5rem;
 }
