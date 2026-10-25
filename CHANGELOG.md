@@ -1,3 +1,10 @@
+# [0.885.0](https://github.com/staff0rd/assist/compare/v0.884.0...v0.885.0) (2026-10-25)
+
+
+### Features
+
+* live reload for docs preview ([f75e472](https://github.com/staff0rd/assist/commit/f75e472ab68771c7a52473147f58797035d5f46c))
+
 # [0.884.0](https://github.com/staff0rd/assist/compare/v0.883.2...v0.884.0) (2026-10-25)
 
 
