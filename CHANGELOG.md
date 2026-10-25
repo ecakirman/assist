@@ -1,3 +1,10 @@
+# [0.890.0](https://github.com/staff0rd/assist/compare/v0.889.4...v0.890.0) (2026-10-25)
+
+
+### Features
+
+* remove sessions.topBar toggle ([7ebffe0](https://github.com/staff0rd/assist/commit/7ebffe03d242bd7bb9b539d0597dcb0537b537e4))
+
 ## [0.889.4](https://github.com/staff0rd/assist/compare/v0.889.3...v0.889.4) (2026-10-25)
 
 
