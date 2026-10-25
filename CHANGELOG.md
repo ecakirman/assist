@@ -1,3 +1,10 @@
+# [0.892.0](https://github.com/staff0rd/assist/compare/v0.891.1...v0.892.0) (2026-10-25)
+
+
+### Features
+
+* internal command badge, drop summarise ([71d9628](https://github.com/staff0rd/assist/commit/71d9628726da60980f588d4b3a9fff2b2c619b07))
+
 ## [0.891.1](https://github.com/staff0rd/assist/compare/v0.891.0...v0.891.1) (2026-10-25)
 
 
