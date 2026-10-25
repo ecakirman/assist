@@ -7,6 +7,11 @@
 				"prompt": "Add a dark mode toggle to the settings page",
 				"title": "Dark mode toggle",
 				"status": "waiting",
+				"edits": {
+					"README.md": "# sandbox\n\nSettings include a dark mode toggle.\n",
+					"src/settings/DarkModeToggle.tsx": "export function DarkModeToggle() {\n\treturn null;\n}\n",
+					"src/settings/useColourScheme.ts": "export function useColourScheme() {\n\treturn \"light\";\n}\n"
+				},
 				"reply": [
 					"I'll add the toggle next to the existing theme settings.",
 					"Read(src/settings/SettingsPage.tsx)",

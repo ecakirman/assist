@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { CardToggle } from "../../../CardToggle";
-import { displayStatus } from "../../../displayStatus";
+import { displayStatus } from "../../../../displayStatus";
 import { sessionPhaseCaption } from "../../../sessionPhaseCaption";
 import { SessionStatusCaptions } from "./CardExtraLines/SessionStatusCaptions";
 import { sessionToggles } from "../../../sessionToggles";

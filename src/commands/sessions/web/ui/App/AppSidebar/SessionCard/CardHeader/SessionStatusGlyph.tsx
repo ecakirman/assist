@@ -2,8 +2,8 @@ import { keyframes } from "@emotion/react";
 import Typography from "@mui/material/Typography";
 import { SessionRunningDot } from "../../../SessionRunningDot";
 import { statusColors } from "../../../statusColors";
-import { statusGlyph } from "./SessionStatusGlyph/statusGlyph";
-import type { DisplayStatus } from "../../../displayStatus";
+import { statusGlyph } from "../../../../statusGlyph";
+import type { DisplayStatus } from "../../../../displayStatus";
 
 const pulse = keyframes`
 	0%, 100% { opacity: 1; }

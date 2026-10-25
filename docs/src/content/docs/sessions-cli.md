@@ -1,6 +1,6 @@
 ---
 id: sessions-cli
-title: Sessions from the CLI
+title: Session commands
 group: Sessions
 order: 7
 covers:
@@ -21,11 +21,11 @@ covers:
   - claude:run-logs
 ---
 
-The dashboard is the main way to run sessions. The commands below are what it, and the agents inside it, call underneath; you can also run them yourself from a terminal in the repo.
+Sessions are started from the dashboard. These are the commands it, and the agents inside its sessions, run underneath.
 
-## Launching sessions
+## Launchers
 
-Each of these starts an agent in the current terminal, in the same mode the dashboard would:
+The dashboard starts each agent mode by running one of these inside a session. Run from a terminal, they start the agent right there in the terminal instead; it isn't a session, so it has no card on the dashboard.
 
 - `assist draft [description]` (alias `feat`) starts Claude in `/draft` mode.
 - `assist bug [description]` starts Claude in `/bug` mode.

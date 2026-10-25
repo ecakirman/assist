@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { displayStatus } from "./displayStatus";
-import type { SessionStatus } from "../types";
-import { makeSessionInfo } from "../../../../../test/mothers/makeSessionInfo";
+import type { SessionStatus } from "./types";
+import { makeSessionInfo } from "../../../../test/mothers/makeSessionInfo";
 
 const preview = {
 	requestId: "req-1",

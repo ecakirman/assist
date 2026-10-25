@@ -1,4 +1,4 @@
-import { displayStatus } from "../../displayStatus";
+import { displayStatus } from "../../../displayStatus";
 import type { SessionInfo } from "../../../types";
 
 export function nextWaitingSessionId(

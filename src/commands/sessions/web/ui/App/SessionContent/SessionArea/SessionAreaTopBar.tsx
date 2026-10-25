@@ -17,7 +17,7 @@ export function SessionAreaTopBar({
 }) {
 	if (!shown || session === undefined) return null;
 	return (
-		<Box sx={topBarSx}>
+		<Box data-testid="session-top-bar" sx={topBarSx}>
 			<ActiveSessionTopBar
 				session={session}
 				sessions={sessions}

@@ -1,4 +1,4 @@
-import { statusGlyph } from "../../commands/sessions/web/ui/App/AppSidebar/SessionCard/CardHeader/SessionStatusGlyph/statusGlyph";
+import { statusGlyph } from "../../commands/sessions/web/ui/statusGlyph";
 
 const glyphStatuses = ["waiting", "done", "error", "stopped"] as const;
 const dotStatuses = ["running", "verifying"] as const;

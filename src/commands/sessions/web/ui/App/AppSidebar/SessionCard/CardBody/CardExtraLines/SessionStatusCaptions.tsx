@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { SessionMetaCaptions } from "../SessionMetaCaptions";
 import { SessionStatusDot } from "../../../../SessionStatusDot";
-import type { DisplayStatus } from "../../../../displayStatus";
+import type { DisplayStatus } from "../../../../../displayStatus";
 
 export function SessionStatusCaptions({
 	status,

@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from "@mui/material";
-import type { DisplayStatus } from "../../displayStatus";
+import type { DisplayStatus } from "../../../displayStatus";
 
 const attentionBg: Partial<Record<DisplayStatus, string>> = {
 	waiting: "rgba(255, 167, 38, 0.09)",

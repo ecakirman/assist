@@ -1,7 +1,7 @@
 import { keyframes } from "@emotion/react";
 import Typography from "@mui/material/Typography";
 import { statusColors } from "./statusColors";
-import type { DisplayStatus } from "./displayStatus";
+import type { DisplayStatus } from "../displayStatus";
 
 const pulse = keyframes`
 	0%, 100% { opacity: 1; transform: scale(1); }

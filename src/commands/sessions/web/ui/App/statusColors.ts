@@ -1,6 +1,6 @@
 import { contextLevel } from "../../../../../shared/contextLevel";
 import type { HarnessKind } from "../../../../../shared/harnesses";
-import type { DisplayStatus } from "./displayStatus";
+import type { DisplayStatus } from "../displayStatus";
 
 export const statusColors: Record<DisplayStatus, string> = {
 	running: "success.main",

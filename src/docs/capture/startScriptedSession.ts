@@ -9,7 +9,11 @@ function scriptFakeClaude(home: string, step: CaptureSessionStep): void {
 	const scripts = existsSync(file)
 		? JSON.parse(readFileSync(file, "utf8"))
 		: {};
-	scripts[step.prompt] = { title: step.title, reply: step.reply };
+	scripts[step.prompt] = {
+		title: step.title,
+		reply: step.reply,
+		edits: step.edits,
+	};
 	writeFileSync(file, JSON.stringify(scripts, null, 2));
 }
 

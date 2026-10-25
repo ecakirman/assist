@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { displayStatus } from "../../../../../../displayStatus";
+import { displayStatus } from "../../../../../../../displayStatus";
 import { isVerifying } from "../../../../../../isVerifying";
 import { SessionRunningDot } from "../../../../../../SessionRunningDot";
 import { SessionStatusDot } from "../../../../../../SessionStatusDot";

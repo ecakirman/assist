@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { areChipsLoading } from "./areChipsLoading";
 import { CardHeaderActions } from "./CardHeader/CardHeaderActions";
-import { displayStatus } from "../../displayStatus";
+import { displayStatus } from "../../../displayStatus";
 import { isVerifying } from "../../isVerifying";
 import { SessionStatusGlyph } from "./CardHeader/SessionStatusGlyph";
 import { SessionVerifyRing } from "./CardHeader/SessionVerifyRing";

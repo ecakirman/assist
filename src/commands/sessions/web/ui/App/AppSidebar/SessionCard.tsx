@@ -1,7 +1,7 @@
 import ButtonBase from "@mui/material/ButtonBase";
 import { CardBody } from "./SessionCard/CardBody";
 import { CardHeader } from "./SessionCard/CardHeader";
-import { displayStatus } from "../displayStatus";
+import { displayStatus } from "../../displayStatus";
 import { sessionCardSx } from "./SessionCard/sessionCardSx";
 import type { SessionControlHandlers, SessionInfo } from "../../types";
 import { ApiNodeContext } from "../../useApiNode";

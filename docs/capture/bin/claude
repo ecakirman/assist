@@ -2,10 +2,13 @@
 // Stand-in for the claude CLI during docs capture, so no real harness runs in
 // the isolated HOME. It renders a scripted transcript for the session's prompt
 // (from $HOME/.fake-claude.json, written by the capture's session steps) and
-// answers `claude -p` title requests from the same script.
+// answers `claude -p` title requests from the same script. A script's `edits`
+// are written into the session's working copy so its git counts show.
 (async () => {
-	const { existsSync, readFileSync } = await import("node:fs");
-	const { join } = await import("node:path");
+	const { existsSync, mkdirSync, readFileSync, writeFileSync } = await import(
+		"node:fs"
+	);
+	const { dirname, join } = await import("node:path");
 
 	const scriptsFile = join(process.env.HOME ?? "", ".fake-claude.json");
 	const scripts = existsSync(scriptsFile)
@@ -19,6 +22,13 @@
 		const script = scripts[task];
 		console.log(script?.title ?? task.split(/\s+/).slice(0, 4).join(" "));
 		return;
+	}
+
+	for (const [path, content] of Object.entries(
+		(prompt && scripts[prompt]?.edits) ?? {},
+	)) {
+		mkdirSync(dirname(path), { recursive: true });
+		writeFileSync(path, content);
 	}
 
 	const width = Math.min(process.stdout.columns || 100, 100);

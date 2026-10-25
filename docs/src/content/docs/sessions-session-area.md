@@ -3,8 +3,7 @@ id: sessions-session-area
 title: The session area
 group: Sessions
 order: 3
-covers:
-  - config:sessions.topBar
+covers: []
 screenshots:
   - file: sessions-top-bar.png
     alt: The top bar of a waiting session
@@ -16,6 +15,7 @@ screenshots:
       height: 400
     actions:
       - click: text=Dark mode toggle
+    crop: "[data-testid=session-top-bar]"
 ---
 
 ## The top bar
@@ -24,7 +24,7 @@ Above the terminal, the top bar names the selected session: its repo, its number
 
 ::screenshot{file="sessions-top-bar.png"}
 
-On the right are its git change counts (which open the diff), how long it has been running and its toggles, such as **Auto-approve** for draft, bug and refine sessions. Then its actions, shown only when they apply:
+On the right are its git change counts (which open the [diff](../sessions-diff/)), how long it has been running and its toggles, such as **Auto-approve** for draft, bug and refine sessions. Then its actions, shown only when they apply:
 
 - **Add agent** (:kbd[Alt+Z]) starts another agent in the same working copy, with a prompt you type, so it picks up the work in progress. It is offered while the session is still working.
 - **VS Code** (:kbd[Alt+X]) opens the session's working copy in VS Code.
@@ -33,12 +33,6 @@ On the right are its git change counts (which open the diff), how long it has be
 - **Done** (:kbd[Alt+C]), on a backlog item's session, marks the item done and ends the session after asking.
 - **×** closes the session, as on its card.
 
-Pull request, review and server buttons appear for sessions that have them.
+[Pull request](../pull-requests/), [review](../sessions-preview-panes/) and [server](../sessions-creating/#run-sessions) buttons appear for sessions that have them.
 
-To keep all of this on the cards instead, turn the top bar off:
-
-```bash
-assist config set sessions.topBar false -g
-```
-
-Commands an agent runs to act on its own card, such as `/close` and `/rename`, are on [Sessions from the CLI](../sessions-cli/#from-inside-a-session).
+Commands an agent runs to act on its own card, such as `/close` and `/rename`, are on [Session commands](../sessions-cli/#from-inside-a-session).

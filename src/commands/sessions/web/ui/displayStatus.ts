@@ -1,4 +1,4 @@
-import type { SessionInfo, SessionStatus } from "../types";
+import type { SessionInfo, SessionStatus } from "./types";
 
 export type DisplayStatus = SessionStatus | "idle";
 
