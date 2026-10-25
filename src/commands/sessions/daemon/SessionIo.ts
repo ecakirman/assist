@@ -1,6 +1,6 @@
 import type { SessionClient } from "./broadcast";
 import type { ViewerClaim } from "./claimViewer";
-import { findLastWriter } from "./findLastWriter";
+import { findDocsSession } from "./findDocsSession";
 import type { WriteTarget } from "./lastWriteTimes";
 import type { NodeLinks } from "./links/NodeLinks";
 import { releaseViewer } from "./releaseViewer";
@@ -52,10 +52,10 @@ export class SessionIo {
 		target: WriteTarget,
 		text: string,
 	): Promise<string | { refused: string }> {
-		const id = await findLastWriter(this.sessions, target);
+		const id = await findDocsSession(this.sessions, target);
 		if (!id)
 			return {
-				refused: `No live Claude session has written ${target.file} or anything in ${target.within}`,
+				refused: `No live Claude session shares a directory with the server for ${target.file} or has written anything in ${target.within}`,
 			};
 		const refused = this.typePrompt(id, text);
 		return refused ? { refused } : id;

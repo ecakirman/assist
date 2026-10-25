@@ -1,4 +1,5 @@
 import { daemonLog } from "./daemonLog";
+import { isLiveAgent } from "./findServerParents";
 import { lastWriteTimes, type WriteTarget } from "./lastWriteTimes";
 import { resolveTranscriptPath } from "./resolveTranscriptPath";
 import type { Session } from "./types";
@@ -15,12 +16,10 @@ function newest(
 }
 
 export async function findLastWriter(
-	sessions: Map<string, Session>,
+	sessions: Iterable<Session>,
 	target: WriteTarget,
 ): Promise<string | undefined> {
-	const live = [...sessions.values()].filter(
-		(s) => s.pty && s.status !== "done" && s.commandType !== "run",
-	);
+	const live = [...sessions].filter(isLiveAgent);
 	const candidates = await Promise.all(
 		live.map(async (session): Promise<Candidate> => {
 			const transcript = await resolveTranscriptPath(session);

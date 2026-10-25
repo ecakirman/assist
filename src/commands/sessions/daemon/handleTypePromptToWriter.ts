@@ -13,7 +13,7 @@ export const handleTypePromptToWriter: Handler = (client, m, d) => {
 			ok: typeof result === "string",
 			message:
 				typeof result === "string"
-					? `Sent to assist session ${result}, the last to write ${target.file}`
+					? `Sent to assist session ${result}`
 					: result.refused,
 		});
 	});
