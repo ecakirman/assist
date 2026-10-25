@@ -1,3 +1,10 @@
+## [0.889.1](https://github.com/staff0rd/assist/compare/v0.889.0...v0.889.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* docs build revalidates every page ([7430c44](https://github.com/staff0rd/assist/commit/7430c4413740bab46e5dc55d821a762d625ea3c5))
+
 # [0.889.0](https://github.com/staff0rd/assist/compare/v0.888.1...v0.889.0) (2026-10-25)
 
 
