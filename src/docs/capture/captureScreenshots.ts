@@ -1,3 +1,5 @@
+import { rmSync } from "node:fs";
+import { join } from "node:path";
 import { chromium } from "playwright";
 import type { CaptureSetupStep } from "../captureSetupStepSchema";
 import type { DocsScreenshot } from "../docsPageSchema";
@@ -20,7 +22,13 @@ function sessionStateTracker(capture: CaptureHome) {
 	return async (steps: CaptureSetupStep[]) => {
 		const next = JSON.stringify(steps);
 		if (next === current) return;
-		if (current !== "[]") runAssist(capture, ["daemon", "drain", "--yes"]);
+		if (current !== "[]") {
+			runAssist(capture, ["daemon", "drain", "--yes"]);
+			rmSync(join(capture.home, ".claude", "projects"), {
+				recursive: true,
+				force: true,
+			});
+		}
 		for (const step of steps) await runSetupStep(capture, step);
 		current = next;
 	};

@@ -63,6 +63,22 @@ describe("docsPageSchema", () => {
 		],
 		[[{ session: { repo: "elsewhere", prompt: "x" } }], false],
 		[[{ session: { repo: "api", prompt: "x", status: "error" } }], false],
+		[
+			[
+				{
+					transcript: {
+						repo: "sandbox",
+						prompt: "Fix the build",
+						title: "Fix build",
+						reply: ["Fixed."],
+						ageMinutes: 90,
+					},
+				},
+			],
+			true,
+		],
+		[[{ transcript: { repo: "sandbox", prompt: "x", ageMinutes: -1 } }], false],
+		[[{ transcript: { repo: "sandbox", prompt: "x", status: "done" } }], false],
 	])("validates setup steps %j", (setup, valid) => {
 		expect(docsPageSchema.safeParse(withScreenshot({ setup })).success).toBe(
 			valid,

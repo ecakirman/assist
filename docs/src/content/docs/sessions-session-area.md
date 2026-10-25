@@ -5,13 +5,6 @@ group: Sessions
 order: 3
 covers:
   - config:sessions.topBar
-  - cli:sessions close
-  - cli:sessions rename
-  - cli:sessions output
-  - cli:sessions set-status
-  - claude:close
-  - claude:rename
-  - claude:run-logs
 screenshots:
   - file: sessions-top-bar.png
     alt: The top bar of a waiting session
@@ -48,11 +41,4 @@ To keep all of this on the cards instead, turn the top bar off:
 assist config set sessions.topBar false -g
 ```
 
-## From inside a session
-
-Every session's process gets `ASSIST_SESSION_ID` in its environment, so commands run inside it, by you or the agent, can act on their own card:
-
-- `assist sessions rename <title>` retitles the card. It beats both the generated title and the backlog item's name for the rest of the session's life. Inside Claude, `/rename [title]` does it, inferring a title from the conversation when you give none.
-- `assist sessions close` ends the session and reaps its worktree, subject to the unpushed-work rule. `/close` asks the agent to judge whether its work is finished and, only if so, run it.
-- `assist sessions output [session-id]` prints the recent output of a session on this machine with colour codes stripped (`-n <count>` lines, default 200). `--server [group]` reads the current repo's live dev server instead. `/run-logs [session-id|group]` has the agent read a run's output and summarise its errors, warnings and state.
-- `assist sessions set-status <status>` reports `running` or `waiting` to the daemon. assist's Claude hooks call it to drive the card's status; you don't run it yourself.
+Commands an agent runs to act on its own card, such as `/close` and `/rename`, are on [Sessions from the CLI](../sessions-cli/#from-inside-a-session).

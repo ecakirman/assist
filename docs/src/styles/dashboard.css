@@ -1,0 +1,130 @@
+/* MUI default palette, which the dashboard's status and badge colours resolve to */
+:root {
+	--assist-success: #66bb6a;
+	--assist-warning: #ffa726;
+	--assist-info: #29b6f6;
+	--assist-error: #f44336;
+	--assist-secondary: #ce93d8;
+	--assist-text-secondary: rgba(255, 255, 255, 0.7);
+	--assist-on-filled: rgba(0, 0, 0, 0.87);
+}
+
+:root[data-theme="light"] {
+	--assist-success: #2e7d32;
+	--assist-warning: #ed6c02;
+	--assist-info: #0288d1;
+	--assist-error: #d32f2f;
+	--assist-secondary: #9c27b0;
+	--assist-text-secondary: rgba(0, 0, 0, 0.6);
+	--assist-on-filled: #fff;
+}
+
+.assist-status {
+	display: inline-block;
+	min-width: 16px;
+	font-size: 0.85em;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.assist-status > svg {
+	display: block;
+}
+
+.assist-status-running,
+.assist-status-verifying {
+	color: var(--assist-success);
+}
+
+.assist-status-waiting {
+	color: var(--assist-warning);
+	animation: assist-status-pulse 1.4s ease-in-out infinite;
+}
+
+.assist-status-done {
+	color: var(--assist-info);
+}
+
+.assist-status-error {
+	color: var(--assist-error);
+}
+
+.assist-status-stopped {
+	color: var(--assist-text-secondary);
+}
+
+.assist-status-ring {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.5;
+	stroke-dasharray: 70 30;
+	opacity: 0.45;
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: assist-status-spin 1.1s linear infinite;
+}
+
+.assist-badge {
+	display: inline-flex;
+	align-items: center;
+	vertical-align: middle;
+}
+
+.assist-badge-clone {
+	color: var(--assist-info);
+}
+
+.assist-chip {
+	height: 18px;
+	padding: 0 6px;
+	border: 1px solid var(--assist-chip-color);
+	border-radius: 9px;
+	font-size: 0.65rem;
+	line-height: 1;
+	white-space: nowrap;
+	color: var(--assist-chip-color);
+}
+
+.assist-chip-filled {
+	background-color: var(--assist-chip-color);
+	color: var(--assist-on-filled);
+}
+
+.assist-chip-success {
+	--assist-chip-color: var(--assist-success);
+}
+
+.assist-chip-info {
+	--assist-chip-color: var(--assist-info);
+}
+
+.assist-chip-secondary {
+	--assist-chip-color: var(--assist-secondary);
+}
+
+@keyframes assist-status-pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.35;
+	}
+}
+
+@keyframes assist-status-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.assist-status-waiting,
+	.assist-status-ring {
+		animation: none;
+	}
+
+	.assist-status-ring {
+		stroke-dasharray: none;
+	}
+}

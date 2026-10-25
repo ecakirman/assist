@@ -53,5 +53,53 @@
 				"reply": ["Updated the copy on the pricing page."]
 			}
 		}
+	],
+	"history": [
+		{
+			"transcript": {
+				"repo": "sandbox",
+				"prompt": "Add a dark mode toggle to the settings page",
+				"title": "Dark mode toggle",
+				"ageMinutes": 42,
+				"reply": [
+					"I'll add the toggle next to the existing theme settings.",
+					"The toggle is in place and persists the choice to localStorage."
+				]
+			}
+		},
+		{
+			"transcript": {
+				"repo": "sandbox",
+				"prompt": "Fix the flaky date formatting test",
+				"title": "Fix flaky date test",
+				"ageMinutes": 190,
+				"reply": [
+					"The test formatted dates in the machine's local timezone, so it failed west of UTC. It now pins the timezone to UTC."
+				]
+			}
+		},
+		{
+			"transcript": {
+				"repo": "sandbox",
+				"prompt": "Why does the build warn about a circular import in src/store?",
+				"title": "Circular import warning",
+				"ageMinutes": 1500,
+				"reply": [
+					"`store/index.ts` re-exports `useCart`, which imports `store/index.ts` back. Importing `useCart` from its own module breaks the cycle."
+				]
+			}
+		},
+		{
+			"transcript": {
+				"repo": "sandbox",
+				"prompt": "Bump vite to v7 and fix anything that breaks",
+				"title": "Upgrade to Vite 7",
+				"ageMinutes": 4400,
+				"reply": [
+					"Upgraded vite and @vitejs/plugin-react, and moved the removed `build.polyfillModulePreload` option to `build.modulePreload`.",
+					"All 42 tests pass."
+				]
+			}
+		}
 	]
 }
