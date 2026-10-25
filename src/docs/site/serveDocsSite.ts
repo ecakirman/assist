@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
+import type { LiveReload } from "./createLiveReload";
 
 const contentTypes: Record<string, string> = {
 	".html": "text/html; charset=utf-8",
@@ -20,8 +21,10 @@ export function serveDocsSite(
 	outDir: string,
 	basePath: string,
 	port: number,
+	liveReload?: LiveReload,
 ): void {
 	createServer((req, res) => {
+		if (liveReload?.handle(req, res)) return;
 		const pathname = decodeURIComponent(
 			new URL(req.url ?? "/", "http://localhost").pathname,
 		);
@@ -33,10 +36,16 @@ export function serveDocsSite(
 			res.end(`Not found: ${pathname} (site is served under ${basePath})`);
 			return;
 		}
+		const extension = extname(file);
 		res.writeHead(200, {
-			"content-type": contentTypes[extname(file)] ?? "application/octet-stream",
+			"content-type": contentTypes[extension] ?? "application/octet-stream",
+			"cache-control": "no-store",
 		});
-		res.end(readFileSync(file));
+		res.end(
+			liveReload && extension === ".html"
+				? liveReload.inject(readFileSync(file, "utf8"))
+				: readFileSync(file),
+		);
 	}).listen(port, () => {
 		console.log(`Previewing docs at http://localhost:${port}${basePath}`);
 	});
