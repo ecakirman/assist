@@ -9,7 +9,6 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { SessionGroupSection } from "./SessionGroupSection";
 import { useInRepoGroupContext } from "../../../../../useInRepoGroupContext";
-import { TopBarLayoutContext } from "../../../../../../useTopBarLayoutContext";
 
 afterEach(cleanup);
 
@@ -18,20 +17,17 @@ function Probe() {
 }
 
 function renderSection(
-	topBar: boolean,
 	sessionIds = ["run", "review"],
 	onDismiss: (id: string) => void = () => {},
 ) {
 	render(
-		<TopBarLayoutContext.Provider value={topBar}>
-			<SessionGroupSection
-				label="assist"
-				sessionIds={sessionIds}
-				onDismiss={onDismiss}
-			>
-				<Probe />
-			</SessionGroupSection>
-		</TopBarLayoutContext.Provider>,
+		<SessionGroupSection
+			label="assist"
+			sessionIds={sessionIds}
+			onDismiss={onDismiss}
+		>
+			<Probe />
+		</SessionGroupSection>,
 	);
 }
 
@@ -50,32 +46,26 @@ function header() {
 
 describe("SessionGroupSection", () => {
 	it("tells its cards they are named by the group header", () => {
-		renderSection(true);
+		renderSection();
 
 		expect(screen.getByTestId("probe").textContent).toBe("true");
 		expect(screen.getByText("assist")).toBeTruthy();
 	});
 
 	it("counts the sessions beside the group name", () => {
-		renderSection(true);
+		renderSection();
 
 		expect(header().textContent).toContain("2");
 	});
 
 	it("sticks the group name while the group is in view", () => {
-		renderSection(true);
+		renderSection();
 
 		expect(getComputedStyle(header()).position).toBe("sticky");
 	});
 
-	it("leaves the header static in the default layout", () => {
-		renderSection(false);
-
-		expect(getComputedStyle(header()).position).not.toBe("sticky");
-	});
-
 	it("asks before closing, naming the group and how many sessions close", () => {
-		renderSection(false, ["run", "review", "fix"]);
+		renderSection(["run", "review", "fix"]);
 
 		const dialog = openCloseDialog();
 
@@ -84,7 +74,7 @@ describe("SessionGroupSection", () => {
 
 	it("dismisses every session in the group, nested children included, on confirm", () => {
 		const onDismiss = vi.fn();
-		renderSection(false, ["run", "review", "fix"], onDismiss);
+		renderSection(["run", "review", "fix"], onDismiss);
 
 		const dialog = openCloseDialog();
 		fireEvent.click(within(dialog).getByRole("button", { name: "Close 3" }));
@@ -94,7 +84,7 @@ describe("SessionGroupSection", () => {
 
 	it("dismisses nothing when the close is cancelled", () => {
 		const onDismiss = vi.fn();
-		renderSection(false, ["run", "review"], onDismiss);
+		renderSection(["run", "review"], onDismiss);
 
 		const dialog = openCloseDialog();
 		fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));

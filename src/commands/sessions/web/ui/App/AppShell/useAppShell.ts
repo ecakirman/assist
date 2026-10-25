@@ -6,7 +6,6 @@ import { useSessionLaunch } from "./useAppShell/useSessionLaunch";
 import { useSessionSocket } from "../../useSessionSocket";
 import { useSidebarCollapsed } from "./useAppShell/useSidebarCollapsed";
 import { useLoadHotkeyBindings } from "./useAppShell/useLoadHotkeyBindings";
-import { useTopBarLayout } from "./useAppShell/useTopBarLayout";
 
 export function useAppShell() {
 	const socket = useSessionSocket();
@@ -27,14 +26,12 @@ export function useAppShell() {
 		onSelect: socket.selectSession,
 	});
 	const { launch, viewLaunchedSession } = useSessionLaunch(socket);
-	const topBar = useTopBarLayout();
 	useLoadHotkeyBindings();
 	const sidebarCollapse = useSidebarCollapsed();
 	trackChangedValues("shell", {
 		...socket,
 		selection,
 		launch,
-		topBar,
 		sidebarCollapse,
 	});
 
@@ -43,7 +40,6 @@ export function useAppShell() {
 		selection,
 		launch,
 		viewLaunchedSession,
-		topBar,
 		sidebarCollapse,
 	};
 }

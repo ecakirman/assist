@@ -1,6 +1,6 @@
-import { CardToggle } from "../../../../../../CardToggle";
+import { CardToggle } from "./SessionTopBarToggles/CardToggle";
 import { sessionToggles } from "../../../../../../sessionToggles";
-import { toggleSetter } from "../../../../../../toggleSetter";
+import { toggleSetter } from "./SessionTopBarToggles/toggleSetter";
 import type { SessionInfo } from "../../../../../../../types";
 
 export function SessionTopBarToggles({

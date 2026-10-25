@@ -14,7 +14,6 @@ import { cloneBadgeSessionIds } from "../../../Sidebar/SidebarBody/SessionList/S
 import type { SessionInfo } from "../../../../../types";
 import { CloneBadgeContext } from "../../../useCloneBadgeContext";
 import { InRepoGroupContext } from "../../../useInRepoGroupContext";
-import { TopBarLayoutContext } from "../../../../useTopBarLayoutContext";
 import { makeBacklogItemSummary } from "../../../../../../../../../test/mothers/makeBacklogItemSummary";
 import { makeSessionInfo } from "../../../../../../../../../test/mothers/makeSessionInfo";
 
@@ -31,33 +30,25 @@ afterEach(cleanup);
 
 const session = makeSessionInfo({ cwd: "/home/me/assist" });
 
-function renderChips(topBar: boolean, grouped: boolean) {
+function renderChips(grouped: boolean) {
 	render(
 		<MemoryRouter>
-			<TopBarLayoutContext.Provider value={topBar}>
-				<InRepoGroupContext.Provider value={grouped}>
-					<CardChips session={session} />
-				</InRepoGroupContext.Provider>
-			</TopBarLayoutContext.Provider>
+			<InRepoGroupContext.Provider value={grouped}>
+				<CardChips session={session} />
+			</InRepoGroupContext.Provider>
 		</MemoryRouter>,
 	);
 }
 
 describe("CardChips repo chip", () => {
 	it("drops the repo chip when the group header already names it", () => {
-		renderChips(true, true);
+		renderChips(true);
 
 		expect(screen.queryByText("assist")).toBeNull();
 	});
 
 	it("keeps the repo chip on an ungrouped card", () => {
-		renderChips(true, false);
-
-		expect(screen.getByText("assist")).toBeTruthy();
-	});
-
-	it("keeps the repo chip in the default layout even inside a group", () => {
-		renderChips(false, true);
+		renderChips(false);
 
 		expect(screen.getByText("assist")).toBeTruthy();
 	});
@@ -71,13 +62,11 @@ const repoGroup = {
 function renderBadgeCard(visible: SessionInfo[], subject: SessionInfo) {
 	render(
 		<MemoryRouter>
-			<TopBarLayoutContext.Provider value>
-				<InRepoGroupContext.Provider value>
-					<CloneBadgeContext.Provider value={cloneBadgeSessionIds(visible)}>
-						<CardChips session={subject} />
-					</CloneBadgeContext.Provider>
-				</InRepoGroupContext.Provider>
-			</TopBarLayoutContext.Provider>
+			<InRepoGroupContext.Provider value>
+				<CloneBadgeContext.Provider value={cloneBadgeSessionIds(visible)}>
+					<CardChips session={subject} />
+				</CloneBadgeContext.Provider>
+			</InRepoGroupContext.Provider>
 		</MemoryRouter>,
 	);
 }
@@ -137,11 +126,9 @@ async function renderTrackerCard(
 	await act(async () => {
 		render(
 			<MemoryRouter>
-				<TopBarLayoutContext.Provider value={false}>
-					<InRepoGroupContext.Provider value={false}>
-						<CardChips session={trackerSession} />
-					</InRepoGroupContext.Provider>
-				</TopBarLayoutContext.Provider>
+				<InRepoGroupContext.Provider value={false}>
+					<CardChips session={trackerSession} />
+				</InRepoGroupContext.Provider>
 			</MemoryRouter>,
 		);
 	});
@@ -246,13 +233,11 @@ function stubPrStatus(url: string | null) {
 function renderClickableCard(subject: SessionInfo, onClick = () => {}) {
 	render(
 		<MemoryRouter>
-			<TopBarLayoutContext.Provider value={false}>
-				<InRepoGroupContext.Provider value={false}>
-					<button type="button" onClick={onClick}>
-						<CardChips session={subject} />
-					</button>
-				</InRepoGroupContext.Provider>
-			</TopBarLayoutContext.Provider>
+			<InRepoGroupContext.Provider value={false}>
+				<button type="button" onClick={onClick}>
+					<CardChips session={subject} />
+				</button>
+			</InRepoGroupContext.Provider>
 		</MemoryRouter>,
 	);
 }

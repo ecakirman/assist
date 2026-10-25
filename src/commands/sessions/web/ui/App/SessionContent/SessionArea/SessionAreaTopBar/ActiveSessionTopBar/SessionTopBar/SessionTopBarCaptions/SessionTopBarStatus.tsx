@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import { displayStatus } from "../../../../../../../displayStatus";
 import { isVerifying } from "../../../../../../isVerifying";
 import { SessionRunningDot } from "../../../../../../SessionRunningDot";
-import { SessionStatusDot } from "../../../../../../SessionStatusDot";
+import { SessionStatusDot } from "./SessionTopBarStatus/SessionStatusDot";
 import { statusColors } from "../../../../../../statusColors";
 import type { SessionInfo } from "../../../../../../../types";
 

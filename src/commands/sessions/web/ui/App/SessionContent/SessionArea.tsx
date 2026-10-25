@@ -7,7 +7,6 @@ import type { TerminalAreaProps } from "./SessionArea/TerminalArea";
 import { TranscriptArea } from "./SessionArea/TranscriptArea";
 import type { SessionListHandlers, Transcript } from "../../types";
 import { ApiNodeContext } from "../../useApiNode";
-import { useTopBarLayoutContext } from "../useTopBarLayoutContext";
 
 const areaSx = {
 	flex: 1,
@@ -28,8 +27,6 @@ export function SessionArea({
 	sendPrDecision: SendPrDecision;
 	lifecycle: SessionListHandlers;
 }) {
-	const topBar = useTopBarLayoutContext();
-
 	if (viewingTranscriptSessionId !== null)
 		return (
 			<TranscriptArea
@@ -46,7 +43,6 @@ export function SessionArea({
 		<ApiNodeContext.Provider value={activeSession?.node}>
 			<Box sx={areaSx}>
 				<SessionAreaTopBar
-					shown={topBar}
 					session={activeSession}
 					sessions={terminal.sessions}
 					lifecycle={lifecycle}
@@ -60,7 +56,6 @@ export function SessionArea({
 						{...terminal}
 						activeSession={activeSession}
 						sendPrDecision={sendPrDecision}
-						showLastMessage={topBar}
 					/>
 				</SessionDiffSplit>
 			</Box>

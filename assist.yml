@@ -24,6 +24,7 @@ restructure:
     - HighLevelStructureView
     - HighLevelTestsView
     - HighLevelTreeRows
+    - SessionActionButtons
 worktree:
   watcher: true
 run:

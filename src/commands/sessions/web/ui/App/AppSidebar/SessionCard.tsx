@@ -15,8 +15,6 @@ export function SessionCard({
 	onRestart,
 	onDismiss,
 	childDismiss,
-	onSetAutoApprove,
-	onSetAutoAdvance,
 }: {
 	session: SessionInfo;
 	active: boolean;
@@ -38,12 +36,7 @@ export function SessionCard({
 					onDismiss={onDismiss}
 					childDismiss={childDismiss}
 				/>
-				<CardBody
-					session={session}
-					loading={loading}
-					onSetAutoApprove={onSetAutoApprove}
-					onSetAutoAdvance={onSetAutoAdvance}
-				/>
+				<CardBody session={session} loading={loading} />
 			</ButtonBase>
 		</ApiNodeContext.Provider>
 	);

@@ -482,7 +482,6 @@ A config still holding a retired ssh link (`ssh:` / `port:` / `localPort:`) fail
 - `sessions.nodeName` — this install's node label. Defaults to the OS hostname, suffixed `-wsl` under WSL.
 - `sessions.tailscaleServe` — expose the web server on the tailnet. Defaults to **true**.
 - `sessions.includeCommittedChanges` — include the commits recorded against the session's backlog item, not just uncommitted work, in its change counts and diff. Defaults to **true**.
-- `sessions.topBar` — show the session's details and actions in a top bar inside the terminal panel instead of on the card. Defaults to **true**.
 - `sessions.floatWaiting` — float sessions waiting on input above the other cards. Defaults to **true**.
 - `sessions.floatWaitingAfterMs` — how long a session must wait on input before it floats. Defaults to **5000**.
 - `sessions.newSessionMode` — the mode pre-selected in the new session dialog: `draft`, `bug`, `prompt` or `design`. Defaults to **draft**.

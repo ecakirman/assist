@@ -294,7 +294,6 @@ const assistConfigShape = {
 			linkVersionCheck: z.enum(["block", "warn", "off"]).default("block"),
 			tailscaleServe: z.boolean().default(true),
 			includeCommittedChanges: z.boolean().default(true),
-			topBar: z.boolean().default(true),
 			floatWaiting: z.boolean().default(true),
 			floatWaitingAfterMs: z.number().default(5000),
 			maxLive: z.number().default(24),

@@ -19,12 +19,10 @@ const columnSx = {
 export function SessionTerminalColumn({
 	activeSession,
 	sendPrDecision,
-	showLastMessage,
 	...terminal
 }: TerminalAreaProps & {
 	activeSession: SessionInfo | undefined;
 	sendPrDecision: SendPrDecision;
-	showLastMessage: boolean;
 }) {
 	const { history, onFetchHistory } = useLastMessageHistory(activeSession?.id);
 
@@ -37,7 +35,7 @@ export function SessionTerminalColumn({
 			>
 				<TerminalArea {...terminal} />
 			</SessionPreviewSplit>
-			{showLastMessage && activeSession !== undefined && (
+			{activeSession !== undefined && (
 				<SessionLastMessage
 					message={activeSession.lastUserMessage}
 					history={history}

@@ -4,9 +4,7 @@ import type { ReactNode } from "react";
 import { afterEach, describe, expect, it } from "vitest";
 import { makeSessionInfo } from "../../../../../../../../../test/mothers/makeSessionInfo";
 import { CardActionButtons } from "./CardActionButtons";
-import type { SessionInfo } from "../../../../../types";
 import { StarredSessionsProvider } from "../../../../useStarredSessions";
-import { TopBarLayoutContext } from "../../../../useTopBarLayoutContext";
 
 afterEach(cleanup);
 
@@ -135,51 +133,25 @@ describe("CardActionButtons dismiss visibility", () => {
 	});
 });
 
-describe("CardActionButtons under the top bar layout", () => {
-	function renderButtons(topBar: boolean, session: SessionInfo) {
+describe("CardActionButtons beside the top bar", () => {
+	it("leaves the session actions to the top bar", () => {
 		render(
-			<TopBarLayoutContext.Provider value={topBar}>
-				<CardActionButtons
-					session={session}
-					loading={false}
-					onRetry={() => {}}
-					onRestart={() => {}}
-					onDismiss={() => {}}
-				/>
-			</TopBarLayoutContext.Provider>,
+			<CardActionButtons
+				session={makeSessionInfo({
+					id: "3",
+					status: "waiting",
+					commandType: "run",
+				})}
+				loading={false}
+				onRetry={() => {}}
+				onRestart={() => {}}
+				onDismiss={() => {}}
+			/>,
 			{ wrapper: Stars },
-		);
-	}
-
-	it("drops the moving actions from the card when the flag is on", () => {
-		renderButtons(
-			true,
-			makeSessionInfo({ id: "3", status: "waiting", commandType: "run" }),
 		);
 
 		expect(screen.queryByTitle("Restart session 3")).toBeNull();
 		expect(screen.queryByTitle("Retry session 3")).toBeNull();
 		expect(screen.queryByLabelText("Star")).toBeNull();
-	});
-
-	it("keeps dismiss on the card when the flag is on", () => {
-		renderButtons(true, makeSessionInfo({ id: "3", status: "waiting" }));
-
-		expect(screen.queryByTitle("Dismiss session 3")).not.toBeNull();
-	});
-
-	it("keeps restart on a stopped card when the flag is on", () => {
-		renderButtons(true, makeSessionInfo({ id: "3", status: "stopped" }));
-
-		expect(screen.queryByTitle("Restart session 3")).not.toBeNull();
-	});
-
-	it("keeps the moving actions on the card when the flag is off", () => {
-		renderButtons(
-			false,
-			makeSessionInfo({ id: "3", status: "waiting", commandType: "run" }),
-		);
-
-		expect(screen.queryByTitle("Retry session 3")).not.toBeNull();
 	});
 });

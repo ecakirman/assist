@@ -12,11 +12,6 @@ export const sessionsConfigHelp: ConfigHelpEntry[] = [
 		note: "default on: session card counts, /diff and the diff scope picker span the commits recorded against the session's backlog item as well as uncommitted work, so they survive the agent committing. Set false to show only uncommitted changes",
 	},
 	{
-		key: "sessions.topBar",
-		setter: "assist config set sessions.topBar false -g",
-		note: "set false to keep the active session's phase, elapsed, restored indicator, toggles and actions on its card instead of a sticky top bar above the terminal (default on)",
-	},
-	{
 		key: "sessions.floatWaiting",
 		setter: "assist config set sessions.floatWaiting false -g",
 		note: "set false to stop the sidebar floating sessions that have been waiting on input for a few seconds above the other unstarred cards (default on)",

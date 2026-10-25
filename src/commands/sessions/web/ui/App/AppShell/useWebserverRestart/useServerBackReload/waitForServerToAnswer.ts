@@ -1,6 +1,6 @@
 const POLL_INTERVAL_MS = 300;
 const REQUIRED_OK_POLLS = 2;
-const PROBE_URL = "/api/session-layout";
+const PROBE_URL = "/api/health";
 
 async function serverAnswers(): Promise<boolean> {
 	try {

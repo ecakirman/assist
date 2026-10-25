@@ -4,7 +4,6 @@ import {
 	GroupCloseButton,
 	groupCloseClassName,
 } from "./GroupHeader/GroupCloseButton";
-import { useTopBarLayoutContext } from "../../../../../../../useTopBarLayoutContext";
 
 const headerSx = {
 	display: "flex",
@@ -14,14 +13,10 @@ const headerSx = {
 	pt: 1,
 	pb: 0.5,
 	bgcolor: "background.paper",
-	[`&:hover .${groupCloseClassName}`]: { opacity: 1 },
-} as const;
-
-const stickyHeaderSx = {
-	...headerSx,
 	position: "sticky",
 	top: 0,
 	zIndex: 1,
+	[`&:hover .${groupCloseClassName}`]: { opacity: 1 },
 } as const;
 
 const labelSx = {
@@ -50,9 +45,8 @@ export function GroupHeader({
 	sessionIds: string[];
 	onDismiss: (id: string) => void;
 }) {
-	const topBar = useTopBarLayoutContext();
 	return (
-		<Box sx={topBar ? stickyHeaderSx : headerSx}>
+		<Box sx={headerSx}>
 			<Typography variant="caption" sx={caretSx}>
 				▾
 			</Typography>

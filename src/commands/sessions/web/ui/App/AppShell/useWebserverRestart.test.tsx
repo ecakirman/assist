@@ -69,7 +69,7 @@ describe("useWebserverRestart", () => {
 		rerender({ target: "both", reconnecting: false });
 		await settle(1_000);
 
-		expect(probe).toHaveBeenCalledWith("/api/session-layout", {
+		expect(probe).toHaveBeenCalledWith("/api/health", {
 			cache: "no-store",
 		});
 		expect(reload).toHaveBeenCalledTimes(1);

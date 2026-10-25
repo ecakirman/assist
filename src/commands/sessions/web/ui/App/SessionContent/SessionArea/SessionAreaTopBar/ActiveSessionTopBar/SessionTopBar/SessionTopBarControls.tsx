@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { useRef } from "react";
-import { SessionActionButtons } from "../../../../../SessionActionButtons";
+import { SessionActionButtons } from "../../../../SessionActionButtons";
 import { SessionTopBarDiff } from "./SessionTopBarControls/SessionTopBarDiff";
 import { SessionTopBarDismiss } from "./SessionTopBarControls/SessionTopBarDismiss";
 import { SessionTopBarElapsed } from "./SessionTopBarControls/SessionTopBarElapsed";
@@ -57,7 +57,6 @@ export function SessionTopBarControls({
 					onRetry={onRetry}
 					onRestart={onRestart}
 					onDismiss={onDismiss}
-					topBar
 				/>
 			</LabelledActionsContext.Provider>
 			<SessionTopBarDismiss

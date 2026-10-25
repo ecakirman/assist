@@ -4,7 +4,6 @@ import { CardChips } from "./CardMetaLine/CardChips";
 import { CardToggleCaptions } from "./CardMetaLine/CardToggleCaptions";
 import { sessionToggles } from "../../../sessionToggles";
 import type { SessionInfo } from "../../../../types";
-import { useTopBarLayoutContext } from "../../../useTopBarLayoutContext";
 
 const metaSx = {
 	gridColumn: 2,
@@ -20,14 +19,12 @@ const metaSx = {
 } as const;
 
 export function CardMetaLine({ session }: { session: SessionInfo }) {
-	const topBar = useTopBarLayoutContext();
-
 	if (areChipsLoading(session, false)) return null;
 
 	return (
 		<Box sx={metaSx}>
 			<CardChips session={session} />
-			{topBar && <CardToggleCaptions toggles={sessionToggles(session)} />}
+			<CardToggleCaptions toggles={sessionToggles(session)} />
 		</Box>
 	);
 }

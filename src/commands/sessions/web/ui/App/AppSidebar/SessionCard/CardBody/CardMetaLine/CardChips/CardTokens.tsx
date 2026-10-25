@@ -4,17 +4,15 @@ import { cardTokenNodes } from "./CardTokens/cardTokenNodes";
 import type { SessionInfo } from "../../../../../../types";
 import { useInRepoGroupContext } from "../../../../useInRepoGroupContext";
 import { useItemTrackers } from "../../../../useItemTrackers";
-import { useTopBarLayoutContext } from "../../../../../useTopBarLayoutContext";
 
 const sepSx = { opacity: 0.35, mx: 0.5 } as const;
 
 export function CardTokens({ session }: { session: SessionInfo }) {
-	const topBar = useTopBarLayoutContext();
 	const grouped = useInRepoGroupContext();
 	const trackerFor = useItemTrackers(session.cwd);
 	const tokens = cardTokenNodes(
 		session,
-		topBar && grouped,
+		grouped,
 		trackerFor(session.activity?.itemId),
 	);
 

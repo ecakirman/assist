@@ -45,13 +45,13 @@ describe("SessionCard loading state", () => {
 		renderCard(true);
 		expect(screen.getByText("Starting…")).toBeTruthy();
 		expect(screen.getAllByRole("progressbar").length).toBe(1);
-		expect(screen.queryByText(/● running/)).toBeNull();
+		expect(screen.queryByTitle("running")).toBeNull();
 	});
 
 	it("shows its own detail once initialized", () => {
 		renderCard(false);
 		expect(screen.queryByText("Starting…")).toBeNull();
-		expect(screen.getByText(/● running/)).toBeTruthy();
+		expect(screen.getByTitle("running")).toBeTruthy();
 		expect(screen.getByText("my session")).toBeTruthy();
 	});
 
@@ -74,7 +74,7 @@ describe("SessionCard loading state", () => {
 			{ wrapper: Stars },
 		);
 		expect(screen.queryByText("Starting…")).toBeNull();
-		expect(screen.getByText(/● error/)).toBeTruthy();
+		expect(screen.getByTitle("error")).toBeTruthy();
 		expect(screen.queryByText("the conversation cannot be resumed")).toBeNull();
 	});
 });

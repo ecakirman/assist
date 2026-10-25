@@ -12,7 +12,6 @@ import { makeSessionInfo } from "../../../../../../../test/mothers/makeSessionIn
 import { CardBody } from "./CardBody";
 import type { SessionInfo } from "../../../types";
 import { DiffPanelsProvider } from "../../useDiffPanels";
-import { TopBarLayoutContext } from "../../useTopBarLayoutContext";
 
 beforeEach(() => {
 	vi.stubGlobal(
@@ -46,25 +45,13 @@ function renderBody(
 	s: SessionInfo,
 	loading: boolean,
 	onActivateSession: (id: string) => void = vi.fn(),
-	topBar?: boolean,
 ) {
-	const body = (
+	return render(
 		<MemoryRouter>
 			<DiffPanelsProvider sessionIds={[]} onActivateSession={onActivateSession}>
-				<CardBody
-					session={s}
-					loading={loading}
-					onSetAutoApprove={vi.fn()}
-					onSetAutoAdvance={vi.fn()}
-				/>
+				<CardBody session={s} loading={loading} />
 			</DiffPanelsProvider>
-		</MemoryRouter>
-	);
-	if (topBar === undefined) return render(body);
-	return render(
-		<TopBarLayoutContext.Provider value={topBar}>
-			{body}
-		</TopBarLayoutContext.Provider>,
+		</MemoryRouter>,
 	);
 }
 
@@ -108,45 +95,16 @@ describe("CardBody meta line", () => {
 		expect(screen.queryByText("repo-2")).toBeNull();
 	});
 
-	const phased = () =>
-		makeSessionInfo({
-			...draft,
-			activity: { kind: "backlog", startedAt: 0, phaseName: "Phase 1: flag" },
-		});
-
-	it("shows the phase caption in the default layout", () => {
-		renderBody(phased(), false, vi.fn(), false);
-
-		expect(screen.getByText("Phase 1: flag")).toBeTruthy();
-	});
-
-	it("drops the phase caption when the top bar owns it", () => {
-		renderBody(phased(), false, vi.fn(), true);
+	it("leaves the phase caption to the top bar", () => {
+		renderBody(
+			makeSessionInfo({
+				...draft,
+				activity: { kind: "backlog", startedAt: 0, phaseName: "Phase 1: flag" },
+			}),
+			false,
+		);
 
 		expect(screen.queryByText("Phase 1: flag")).toBeNull();
-	});
-});
-
-describe("CardBody status caption", () => {
-	const preview = {
-		requestId: "req-1",
-		title: "Bug title",
-		body: "body",
-		prNumber: null,
-		kind: "backlog-item" as const,
-	};
-
-	it("says waiting while a proposed item sits in the preview pane", () => {
-		renderBody(makeSessionInfo({ ...draft, pendingPrPreview: preview }), false);
-
-		expect(screen.getByText("● waiting")).toBeTruthy();
-		expect(screen.queryByText("● running")).toBeNull();
-	});
-
-	it("says running once the preview has been decided", () => {
-		renderBody(draft, false);
-
-		expect(screen.getByText("● running")).toBeTruthy();
 	});
 });
 
@@ -202,38 +160,11 @@ describe("CardBody review button", () => {
 });
 
 describe("CardBody top bar layout", () => {
-	function renderWithTopBar(topBar: boolean) {
-		render(
-			<MemoryRouter>
-				<TopBarLayoutContext.Provider value={topBar}>
-					<DiffPanelsProvider sessionIds={[]} onActivateSession={vi.fn()}>
-						<CardBody
-							session={makeSessionInfo({
-								...draft,
-								runningMs: 65_000,
-								restored: true,
-							})}
-							loading={false}
-							onSetAutoApprove={vi.fn()}
-							onSetAutoAdvance={vi.fn()}
-						/>
-					</DiffPanelsProvider>
-				</TopBarLayoutContext.Provider>
-			</MemoryRouter>,
+	it("keeps only the diff counts, leaving the rest to the top bar", async () => {
+		renderBody(
+			makeSessionInfo({ ...draft, runningMs: 65_000, restored: true }),
+			false,
 		);
-	}
-
-	it("keeps the elapsed time and status words in the default layout", async () => {
-		renderWithTopBar(false);
-
-		expect(screen.getByText("1m 5s")).toBeTruthy();
-		expect(screen.getByText("restored")).toBeTruthy();
-		expect(screen.getByText("● running")).toBeTruthy();
-		expect(await screen.findByText("+1")).toBeTruthy();
-	});
-
-	it("keeps only the diff counts when the top bar owns the rest", async () => {
-		renderWithTopBar(true);
 
 		expect(await screen.findByText("+1")).toBeTruthy();
 		expect(screen.queryByText("1m 5s")).toBeNull();

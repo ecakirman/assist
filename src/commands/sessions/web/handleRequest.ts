@@ -45,7 +45,6 @@ import { restartWeb } from "./restartWeb";
 import { revertDiffFile } from "./revertDiffFile";
 import { selfUpdate } from "./selfUpdate";
 import { revertDiffPaths } from "./revertDiffPaths";
-import { sessionLayout } from "./sessionLayout";
 import { newSessionDefaults } from "./newSessionDefaults";
 import { nodeDoctor } from "./nodeDoctor";
 import { sessionView } from "./sessionView";
@@ -93,7 +92,6 @@ const routes: Record<string, Handler> = {
 	"GET /api/rules": listScopedRules,
 	"GET /api/jira-site": jiraSite,
 	"GET /api/harness": harnessCapabilities,
-	"GET /api/session-layout": sessionLayout,
 	"GET /api/session-view": sessionView,
 	"GET /api/hotkeys": hotkeyBindings,
 	"GET /api/new-session-defaults": newSessionDefaults,

@@ -1,10 +1,7 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { GitStatusCounts } from "../../../GitStatusCounts";
-import { SessionMetaCaptions } from "./SessionMetaCaptions";
+import { SessionMetaCaptions } from "./CardDataLine/SessionMetaCaptions";
 import type { SessionInfo } from "../../../../types";
-import { useElapsed } from "../../../useElapsed";
-import { useTopBarLayoutContext } from "../../../useTopBarLayoutContext";
 
 const dataSx = {
 	gridColumn: 3,
@@ -16,16 +13,7 @@ const dataSx = {
 	minWidth: 0,
 } as const;
 
-const elapsedSx = {
-	color: "text.disabled",
-	whiteSpace: "nowrap",
-	fontVariantNumeric: "tabular-nums",
-} as const;
-
 export function CardDataLine({ session }: { session: SessionInfo }) {
-	const topBar = useTopBarLayoutContext();
-	const elapsed = useElapsed(session.runningMs, session.runningSince);
-
 	return (
 		<Box sx={dataSx}>
 			<SessionMetaCaptions
@@ -39,11 +27,6 @@ export function CardDataLine({ session }: { session: SessionInfo }) {
 					cwd={session.cwd}
 					sessionId={session.claudeSessionId}
 				/>
-			)}
-			{!topBar && (
-				<Typography variant="caption" sx={elapsedSx}>
-					{elapsed}
-				</Typography>
 			)}
 		</Box>
 	);

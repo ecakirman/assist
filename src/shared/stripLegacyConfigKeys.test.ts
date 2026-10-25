@@ -18,6 +18,15 @@ describe("stripLegacyConfigKeys", () => {
 		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
 	});
 
+	it("drops the retired sessions.topBar key so old configs still parse", () => {
+		const stripped = stripLegacyConfigKeys({
+			sessions: { nodeName: "pc-wsl", topBar: false },
+		});
+
+		expect(stripped).toEqual({ sessions: { nodeName: "pc-wsl" } });
+		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
+	});
+
 	it("drops the retired worktree.watcher key so old configs still parse", () => {
 		const stripped = stripLegacyConfigKeys({
 			worktree: { enabled: true, watcher: true },

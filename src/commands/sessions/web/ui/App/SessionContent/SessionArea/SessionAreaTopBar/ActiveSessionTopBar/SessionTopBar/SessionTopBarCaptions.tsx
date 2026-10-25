@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect, useRef } from "react";
-import { sessionPhaseCaption } from "../../../../../sessionPhaseCaption";
+import { sessionPhaseCaption } from "./SessionTopBarCaptions/sessionPhaseCaption";
 import { SessionTopBarIds } from "./SessionTopBarCaptions/SessionTopBarIds";
 import { SessionTopBarStatus } from "./SessionTopBarCaptions/SessionTopBarStatus";
 import { SessionTopBarTitle } from "./SessionTopBarCaptions/SessionTopBarTitle";

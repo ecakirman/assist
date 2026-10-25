@@ -8,7 +8,6 @@ import { CardHeader } from "./CardHeader";
 import type { SessionInfo } from "../../../types";
 import { DiffPanelsProvider } from "../../useDiffPanels";
 import { StarredSessionsProvider } from "../../useStarredSessions";
-import { TopBarLayoutContext } from "../../useTopBarLayoutContext";
 
 afterEach(cleanup);
 
@@ -267,33 +266,31 @@ describe("CardHeader status glyph", () => {
 
 	afterEach(() => vi.unstubAllGlobals());
 
-	function renderHeader(topBar: boolean, loading = false) {
+	function renderHeader(loading = false) {
 		render(
 			<MemoryRouter>
-				<TopBarLayoutContext.Provider value={topBar}>
-					<CardHeader session={busy} loading={loading} onDismiss={() => {}} />
-				</TopBarLayoutContext.Provider>
+				<CardHeader session={busy} loading={loading} onDismiss={() => {}} />
 			</MemoryRouter>,
 			{ wrapper: Stars },
 		);
 	}
 
 	it("keeps the status wordless, leaving the name to the top bar", () => {
-		renderHeader(true);
+		renderHeader();
 
 		expect(screen.queryByText("● running")).toBeNull();
 		expect(screen.getByTitle("running")).toBeTruthy();
 	});
 
 	it("leaves context and counts to the body", () => {
-		renderHeader(true);
+		renderHeader();
 
 		expect(screen.queryByText("42%")).toBeNull();
 		expect(fetch).not.toHaveBeenCalled();
 	});
 
 	it("orders the row glyph, then title, then actions", () => {
-		renderHeader(true);
+		renderHeader();
 
 		const glyph = screen.getByTitle("running");
 		const title = screen.getByText("my session");
@@ -308,7 +305,7 @@ describe("CardHeader status glyph", () => {
 	});
 
 	it("holds the status back while the card is still starting", () => {
-		renderHeader(true, true);
+		renderHeader(true);
 
 		expect(screen.getByRole("progressbar")).toBeTruthy();
 		expect(screen.queryByTitle("running")).toBeNull();

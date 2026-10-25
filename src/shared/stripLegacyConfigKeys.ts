@@ -3,6 +3,7 @@ const LEGACY_SESSIONS_KEYS = [
 	"windowsDaemonHost",
 	"windowsDaemonPort",
 	"windowsVersionCheck",
+	"topBar",
 ];
 
 const LEGACY_WORKTREE_KEYS = ["watcher", "includeDrafts"];

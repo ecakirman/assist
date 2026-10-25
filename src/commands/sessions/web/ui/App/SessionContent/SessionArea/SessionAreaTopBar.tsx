@@ -5,17 +5,15 @@ import { ActiveSessionTopBar } from "./SessionAreaTopBar/ActiveSessionTopBar";
 const topBarSx = { flexShrink: 0 } as const;
 
 export function SessionAreaTopBar({
-	shown,
 	session,
 	sessions,
 	lifecycle,
 }: {
-	shown: boolean;
 	session: SessionInfo | undefined;
 	sessions: SessionInfo[];
 	lifecycle: SessionListHandlers;
 }) {
-	if (!shown || session === undefined) return null;
+	if (session === undefined) return null;
 	return (
 		<Box data-testid="session-top-bar" sx={topBarSx}>
 			<ActiveSessionTopBar
