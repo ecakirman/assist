@@ -1,3 +1,10 @@
+## [0.893.4](https://github.com/staff0rd/assist/compare/v0.893.3...v0.893.4) (2026-10-25)
+
+
+### Bug Fixes
+
+* scope item route cwd to its node ([b0278a8](https://github.com/staff0rd/assist/commit/b0278a890711234f0e30256275b96e80bc0089a4))
+
 ## [0.893.3](https://github.com/staff0rd/assist/compare/v0.893.2...v0.893.3) (2026-10-25)
 
 
