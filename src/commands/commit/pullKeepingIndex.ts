@@ -24,7 +24,7 @@ export function pullKeepingIndex(): void {
 	const paths = git("diff --cached --name-only -z --no-renames")
 		.split("\0")
 		.filter(Boolean);
-	const patch = git("diff --cached --binary --no-renames");
+	const patch = git("diff-index --cached -p --binary --no-renames HEAD");
 	execSync("git pull --autostash", { stdio: "inherit" });
 	if (paths.length === 0 || findUnmergedPaths().length > 0) return;
 	restoreIndex(paths, patch);

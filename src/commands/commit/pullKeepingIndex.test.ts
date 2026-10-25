@@ -70,6 +70,18 @@ describe("pullKeepingIndex", () => {
 		expect(sh("git diff --name-only", local)).toBe("");
 	});
 
+	it("restores only the staged hunks when diff config changes porcelain output", () => {
+		sh("git config diff.noprefix true && git config color.diff always", local);
+		writeFileSync(join(local, "partial.txt"), "a\nb\n");
+		sh("git add partial.txt", local);
+		writeFileSync(join(local, "partial.txt"), "a\nb\nc\n");
+
+		pullKeepingIndex();
+
+		expect(sh("git show :partial.txt", local)).toBe("a\nb\n");
+		expect(sh("git diff --name-only", local)).toBe("partial.txt\n");
+	});
+
 	it("stages the merged file when the pull also changed a staged path", () => {
 		writeFileSync(join(other, "partial.txt"), "upstream\na\n");
 		commitAll(other, "upstream edit");
