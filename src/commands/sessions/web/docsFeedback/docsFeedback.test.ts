@@ -1,11 +1,15 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { Readable } from "node:stream";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { recordPromptJournal } from "../../daemon/recordPromptJournal";
 import { requestDaemonReply } from "../../daemon/requestDaemonReply";
 import { docsFeedback } from "./docsFeedback";
 
 vi.mock("../../daemon/requestDaemonReply", () => ({
 	requestDaemonReply: vi.fn(),
+}));
+vi.mock("../../daemon/recordPromptJournal", () => ({
+	recordPromptJournal: vi.fn(),
 }));
 
 const requestDaemonReplyMock = vi.mocked(requestDaemonReply);
@@ -84,5 +88,15 @@ describe("docsFeedback", () => {
 	it("reports a daemon that does not answer", async () => {
 		requestDaemonReplyMock.mockResolvedValue(undefined);
 		expect((await post(feedback)).status).toBe(504);
+	});
+
+	it("journals the full feedback before and after asking the daemon", async () => {
+		requestDaemonReplyMock.mockResolvedValue(undefined);
+		await post(feedback);
+		const text = expect.stringContaining("Mention the Node version");
+		expect(vi.mocked(recordPromptJournal).mock.calls).toEqual([
+			[{ event: "received", text }],
+			[{ event: "outcome", text, message: "504 assist daemon did not answer" }],
+		]);
 	});
 });

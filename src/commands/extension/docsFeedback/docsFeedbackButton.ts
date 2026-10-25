@@ -1,9 +1,8 @@
 import { assistIcon } from "../sendToAssist/assistIcon";
-import { showAssistToast } from "../sendToAssist/showAssistToast";
 import { toggleAssistPopover } from "../sendToAssist/toggleAssistPopover";
 import { docsFeedbackPopover } from "./docsFeedbackPopover";
+import { docsFeedbackSender } from "./docsFeedbackSender";
 import type { DocsSelection } from "./readDocsSelection";
-import { sendDocsFeedback } from "./sendDocsFeedback";
 
 const SIZE = 24;
 
@@ -44,18 +43,14 @@ export function docsFeedbackButton(
 		button.append(icon);
 	} else button.textContent = "a";
 
-	const send = async (prompt: string) => {
-		button.remove();
-		const result = await sendDocsFeedback(selection, prompt);
-		showAssistToast(result.message, result.ok);
-	};
+	const { send, unsent } = docsFeedbackSender(selection, () => button.remove());
 
 	button.addEventListener("mousedown", (event) => event.preventDefault());
 	button.addEventListener("click", (event) => {
 		event.preventDefault();
 		event.stopPropagation();
 		toggleAssistPopover(button, (dismiss) =>
-			docsFeedbackPopover(send, dismiss),
+			docsFeedbackPopover(send, dismiss, unsent()),
 		);
 	});
 	return button;

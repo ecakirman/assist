@@ -4,6 +4,8 @@ import {
 	SUBMIT,
 } from "../shared/pasteAndSubmit/bracketedPaste";
 import { flushPendingPrompts } from "./flushPendingPrompts";
+import { restoreBase } from "./restoreBase";
+import { toPersistedSession } from "./toPersistedSession";
 import { typePromptIntoSession } from "./typePromptIntoSession";
 import type { Session } from "./types";
 
@@ -58,5 +60,29 @@ describe("typePromptIntoSession", () => {
 		flushPendingPrompts(session, write);
 		expect(write).toHaveBeenCalledWith("s1", bracketedPaste("one\n\ntwo"));
 		expect(session?.pendingPrompts).toBeUndefined();
+	});
+
+	it("keeps queued prompts across a daemon restart", () => {
+		const map = sessions({
+			status: "waiting",
+			permissionActive: true,
+			name: "s",
+			commandType: "claude",
+			startedAt: 1,
+			runningMs: 0,
+			runningSince: null,
+		});
+		typePromptIntoSession(map, "s1", "one", vi.fn());
+		const session = map.get("s1") as Session;
+
+		const restored = restoreBase("s1", toPersistedSession(session));
+		expect(restored.pendingPrompts).toEqual(["one"]);
+
+		const write = vi.fn();
+		flushPendingPrompts(
+			{ ...session, ...restored, permissionActive: undefined },
+			write,
+		);
+		expect(write).toHaveBeenCalledWith("s1", bracketedPaste("one"));
 	});
 });

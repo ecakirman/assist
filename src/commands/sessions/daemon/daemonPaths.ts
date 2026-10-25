@@ -20,4 +20,5 @@ export const daemonPaths = {
 	spawnLock: join(DAEMON_DIR, "spawn.lock"),
 	hooksSettings: join(DAEMON_DIR, "hooks-settings.json"),
 	viewerSize: join(DAEMON_DIR, "viewer-size.json"),
+	promptJournal: join(DAEMON_DIR, "prompt-journal.jsonl"),
 };

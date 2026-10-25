@@ -1,6 +1,8 @@
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
 import { flushPhaseActiveMs } from "./flushPhaseActiveMs";
+import { reportUndeliveredPrompts } from "./reportUndeliveredPrompts";
+import { killedByDaemonRestart } from "./SessionInterruption";
 import { setStatus } from "./setStatus";
 import { shouldAutoDismiss } from "./shouldAutoDismiss";
 import { startTranscriptTitleGeneration } from "./startTranscriptTitleGeneration";
@@ -9,6 +11,13 @@ export type StatusChangeDeps = {
 	dismiss: (id: string) => void;
 	notify: () => void;
 };
+
+function endsWithoutRestart(session: Session, status: Session["status"]) {
+	return (
+		(status === "done" || status === "error") &&
+		!killedByDaemonRestart(session.interrupted)
+	);
+}
 
 export function finishStatusChange(
 	session: Session,
@@ -22,6 +31,8 @@ export function finishStatusChange(
 	if (status === "waiting")
 		startTranscriptTitleGeneration(session, deps.notify);
 	if (status !== "stopped") session.undurable = undefined;
+	if (endsWithoutRestart(session, status))
+		reportUndeliveredPrompts(session, `ended (${status})`);
 	if (shouldAutoDismiss(session, exitCode)) deps.dismiss(session.id);
 	else deps.notify();
 }

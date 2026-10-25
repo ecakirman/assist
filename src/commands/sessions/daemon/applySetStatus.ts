@@ -2,6 +2,11 @@ import type { Session, SessionStatus } from "./createSession";
 import { daemonLog } from "./daemonLog";
 import type { OnStatusChange } from "./types";
 
+function opensPrompt(status: SessionStatus, source: string | undefined) {
+	const askUserQuestion = source === "pretool" && status === "waiting";
+	return source === "permission" || askUserQuestion;
+}
+
 export function applySetStatus(
 	sessions: Map<string, Session>,
 	id: string,
@@ -24,7 +29,7 @@ export function applySetStatus(
 		return;
 	}
 	rebind?.(session);
-	if (source === "permission") session.permissionActive = true;
+	if (opensPrompt(status, source)) session.permissionActive = true;
 	if (status === "running" || source === "stop")
 		session.permissionActive = false;
 	onStatusChange(session, status);

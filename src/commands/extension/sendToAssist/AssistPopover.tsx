@@ -1,33 +1,31 @@
-import { Paper, TextField, Typography } from "@mui/material";
-import { type KeyboardEvent, useState } from "react";
+import { Paper, TextField } from "@mui/material";
+import { useState } from "react";
+import { AssistPopoverFooter } from "./AssistPopoverFooter";
+import { popoverKeyDown } from "./popoverKeyDown";
 
 export function AssistPopover({
 	onSend,
 	onClose,
 	placeholder = "Instructions (optional)",
+	initialText = "",
+	error,
+	busy = false,
 }: {
 	onSend: (instructions: string) => void;
 	onClose: (restoreFocus: boolean) => void;
 	placeholder?: string;
+	initialText?: string;
+	error?: string;
+	busy?: boolean;
 }) {
-	const [instructions, setInstructions] = useState("");
+	const [instructions, setInstructions] = useState(initialText);
 
-	const onKeyDown = (event: KeyboardEvent) => {
-		if (event.key === "Escape") {
-			event.preventDefault();
-			onClose(true);
-		} else if (
-			event.key === "Enter" &&
-			!event.shiftKey &&
-			!event.nativeEvent.isComposing
-		) {
-			event.preventDefault();
-			onSend(instructions);
-		}
-	};
+	const onKeyDown = popoverKeyDown(onClose, () => {
+		if (!busy) onSend(instructions);
+	});
 
 	const closeUnlessWindowBlurred = () => {
-		if (document.hasFocus()) onClose(false);
+		if (document.hasFocus() && !error && !busy) onClose(false);
 	};
 
 	return (
@@ -43,15 +41,10 @@ export function AssistPopover({
 				onChange={(event) => setInstructions(event.target.value)}
 				onKeyDown={onKeyDown}
 				onBlur={closeUnlessWindowBlurred}
+				error={Boolean(error)}
 				slotProps={{ htmlInput: { "aria-label": "Instructions for assist" } }}
 			/>
-			<Typography
-				variant="caption"
-				color="text.secondary"
-				sx={{ display: "block", mt: 0.5 }}
-			>
-				Enter to send · Shift+Enter for a new line · Esc to close
-			</Typography>
+			<AssistPopoverFooter error={error} busy={busy} />
 		</Paper>
 	);
 }

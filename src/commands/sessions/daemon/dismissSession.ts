@@ -3,6 +3,7 @@ import { releaseLock } from "../../backlog/acquireLock";
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
 import { killPtyTree } from "./killPtyTree";
+import { reportUndeliveredPrompts } from "./reportUndeliveredPrompts";
 import { otherTreeHolders } from "./worktree/otherTreeHolders";
 import { reapWorktree } from "./worktree/reapWorktree";
 
@@ -20,6 +21,7 @@ export function dismissSession(
 	s.closeGrace?.cancel();
 	removeActivity(s.id);
 	if (s.activity?.itemId != null) releaseLock(s.activity.itemId);
+	reportUndeliveredPrompts(s, "dismissed");
 	sessions.delete(id);
 	daemonLog(`session ${id} dismissed (${s.name})`);
 	if (!s.worktree) return true;

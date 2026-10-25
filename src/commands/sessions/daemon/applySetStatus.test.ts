@@ -74,4 +74,18 @@ describe("applySetStatus", () => {
 		expect(onStatusChange).not.toHaveBeenCalled();
 		expect(s.status).toBe("stopped");
 	});
+
+	it.each([
+		["a permission prompt", "permission"],
+		["an AskUserQuestion picker", "pretool"],
+	])("marks %s open until the session runs again", (_, source) => {
+		const s = makeSession({ status: "running" });
+		const sessions = new Map([[s.id, s]]);
+
+		applySetStatus(sessions, s.id, "waiting", source, vi.fn());
+		expect(s.permissionActive).toBe(true);
+
+		applySetStatus(sessions, s.id, "running", "posttool", vi.fn());
+		expect(s.permissionActive).toBe(false);
+	});
 });

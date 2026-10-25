@@ -45,10 +45,14 @@ export class SessionIo {
 	}
 
 	typePrompt(id: string, text: string): TypePromptReply {
-		return typePromptReply(
+		const result = typePromptIntoSession(
+			this.sessions,
 			id,
-			typePromptIntoSession(this.sessions, id, text, this.writeAsDaemon),
+			text,
+			this.writeAsDaemon,
 		);
+		if ("queued" in result && result.queued) this.notify();
+		return typePromptReply(id, result);
 	}
 
 	async typePromptToLastWriter(
@@ -65,7 +69,8 @@ export class SessionIo {
 	}
 
 	flushPendingPrompts(id: string): void {
-		flushPendingPrompts(this.sessions.get(id), this.writeAsDaemon);
+		if (flushPendingPrompts(this.sessions.get(id), this.writeAsDaemon))
+			this.notify();
 	}
 
 	private readonly writeAsDaemon = (id: string, data: string) =>

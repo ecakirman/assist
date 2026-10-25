@@ -29,6 +29,7 @@ export function toPersistedSession(session: Session): PersistedSession {
 		autoApprove: session.autoApprove,
 		reviewStarted: session.reviewStarted,
 		launchedFrom: session.launchedFrom,
+		pendingPrompts: session.pendingPrompts,
 		interrupted: session.interrupted,
 		undurable: session.undurable,
 		awaitingSeed: session.awaitingSeed,

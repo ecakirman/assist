@@ -23,5 +23,6 @@ export function restoreBase(id: string, persisted: PersistedSession) {
 		autoApprove: persisted.autoApprove,
 		reviewStarted: persisted.reviewStarted,
 		launchedFrom: persisted.launchedFrom,
+		pendingPrompts: persisted.pendingPrompts,
 	};
 }
