@@ -18,12 +18,13 @@ Sessions are started from the dashboard, which runs a [launcher](../launchers/) 
 
 ## From inside a session
 
-Every session's process gets `ASSIST_SESSION_ID` in its environment, so commands run inside it, by you or the agent, can act on their own card:
+Ask the agent in a session to act on its own card with these slash commands:
 
-- `assist sessions rename <title>` retitles the card. It beats both the generated title and the backlog item's name for the rest of the session's life. Inside Claude, `/rename [title]` does it, inferring a title from the conversation when you give none.
-- `assist sessions close` ends the session and reaps its worktree, subject to the unpushed-work rule. `/close` asks the agent to judge whether its work is finished and, only if so, run it.
-- `assist sessions output [session-id]` prints the recent output of a session on this machine with colour codes stripped (`-n <count>` lines, default 200). `--server [group]` reads the current repo's live dev server instead. `/run-logs [session-id|group]` has the agent read a run's output and summarise its errors, warnings and state.
-- `assist sessions set-status <status>` reports `running` or `waiting` to the daemon. assist's Claude hooks call it to drive the card's status; you don't run it yourself.
+- `/rename [title]` retitles the card, inferring a title from the conversation when you give none. The new title beats both the generated title and the backlog item's name for the rest of the session's life.
+- `/close` has the agent judge whether its work is finished and, only if so, end the session and reap its worktree, subject to the unpushed-work rule.
+- `/run-logs [session-id|group]` has the agent read a run's output, such as the repo's dev server, and summarise its errors, warnings and state.
+
+Underneath, they run `assist sessions rename <title>`, `assist sessions close` and `assist sessions output [session-id]`, which find their card through the `ASSIST_SESSION_ID` every session's process gets. `sessions output` prints a session's recent output with colour codes stripped (`-n <count>` lines, default 200), or the current repo's live dev server with `--server [group]`. assist's Claude hooks also call `assist sessions set-status <running|waiting>` to drive the card's status.
 
 ## Transcript summaries
 
