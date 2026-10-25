@@ -1,3 +1,10 @@
+## [0.891.1](https://github.com/staff0rd/assist/compare/v0.891.0...v0.891.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* keep docs selection highlighted ([2eb283f](https://github.com/staff0rd/assist/commit/2eb283f32d43522d828c2eccab3ef4f92c403a47))
+
 # [0.891.0](https://github.com/staff0rd/assist/compare/v0.890.0...v0.891.0) (2026-10-25)
 
 
