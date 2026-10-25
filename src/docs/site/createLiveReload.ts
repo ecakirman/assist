@@ -6,21 +6,34 @@ const endpoint = "/__reload";
 const clientScript = `<script>
 const source = new EventSource("${endpoint}");
 let connected = false;
+let deferred = false;
+const writingFeedback = () =>
+	document.querySelector("[data-assist-popover]") !== null;
+const reload = () => {
+	if (!writingFeedback()) return location.reload();
+	if (deferred) return;
+	deferred = true;
+	new MutationObserver((_, observer) => {
+		if (writingFeedback()) return;
+		observer.disconnect();
+		location.reload();
+	}).observe(document.documentElement, { childList: true, subtree: true });
+};
 source.onopen = () => {
-	if (connected) location.reload();
+	if (connected) reload();
 	connected = true;
 };
 source.onerror = () => {
 	if (source.readyState !== EventSource.CLOSED) return;
 	const retry = () =>
 		fetch(location.href, { method: "HEAD" }).then(
-			() => location.reload(),
+			() => reload(),
 			() => setTimeout(retry, 1000),
 		);
 	setTimeout(retry, 1000);
 };
 source.onmessage = (event) => {
-	if (event.data !== "css") return location.reload();
+	if (event.data !== "css") return reload();
 	for (const link of document.querySelectorAll('link[rel="stylesheet"]')) {
 		const url = new URL(link.href);
 		url.searchParams.set("t", Date.now());
