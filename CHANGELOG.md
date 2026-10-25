@@ -1,3 +1,11 @@
+## [0.886.4](https://github.com/staff0rd/assist/compare/v0.886.3...v0.886.4) (2026-10-25)
+
+
+### Bug Fixes
+
+* docs nav drawer and preview reload ([bd2968f](https://github.com/staff0rd/assist/commit/bd2968fd96d36c296245f09533fccea886d47ad7))
+* hold docs feedback behind open prompts ([aaa4026](https://github.com/staff0rd/assist/commit/aaa4026af852b4155df8ef4098bd6c43d1ea4299))
+
 ## [0.886.3](https://github.com/staff0rd/assist/compare/v0.886.2...v0.886.3) (2026-10-25)
 
 
