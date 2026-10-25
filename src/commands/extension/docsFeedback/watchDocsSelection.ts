@@ -1,4 +1,4 @@
-import { docsFeedbackButton } from "./docsFeedbackButton";
+import { openDocsFeedback } from "./openDocsFeedback";
 import { readDocsSelection } from "./readDocsSelection";
 
 const OWN_UI = "[data-assist-docs-feedback], [data-assist-popover]";
@@ -12,22 +12,12 @@ function popoverOpen(): boolean {
 }
 
 export function watchDocsSelection(): void {
-	let button: HTMLButtonElement | undefined;
-	const clear = () => {
-		button?.remove();
-		button = undefined;
-	};
-	const show = (event: Event) => {
+	let anchor: HTMLElement | undefined;
+	document.addEventListener("mouseup", (event) => {
 		if (isOwnUi(event.target) || popoverOpen()) return;
-		clear();
+		anchor?.remove();
+		anchor = undefined;
 		const selection = readDocsSelection(document, globalThis.getSelection());
-		if (!selection) return;
-		button = docsFeedbackButton(selection);
-		document.body.append(button);
-	};
-	document.addEventListener("mouseup", show);
-	document.addEventListener("keyup", show);
-	document.addEventListener("selectionchange", () => {
-		if (globalThis.getSelection()?.isCollapsed && !popoverOpen()) clear();
+		if (selection) anchor = openDocsFeedback(selection);
 	});
 }
