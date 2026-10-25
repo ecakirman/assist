@@ -75,14 +75,6 @@ The menu shows this machine's node name and has **Toggle dark mode**, **Show ren
 
 ::screenshot{file="sessions-menu.png"}
 
-## Notifications
-
-Notices appear at the bottom of the page:
-
-- **Started …** when a session starts. A session you start while another is selected stays in the background; **View** switches to it.
-- **Reconnecting…** while the page has lost its connection to the web server, such as during a restart. Sessions keep running, and the page catches up when it reconnects.
-- An error when something you asked for fails, such as a session that couldn't start.
-
 ## Releases and News
 
 The [Releases](../releases/) and [News](../news/) tabs appear only once they're set up, so they aren't in the screenshot. They take :kbd[Alt+4] and :kbd[Alt+5].
