@@ -1,3 +1,16 @@
+# [0.893.0](https://github.com/staff0rd/assist/compare/v0.892.0...v0.893.0) (2026-10-25)
+
+
+### Bug Fixes
+
+* centre docs screenshots ([7c18b68](https://github.com/staff0rd/assist/commit/7c18b68272bd5a13bf1b622ca18056fefe053a97))
+* drop unused popover draft props ([62d2ac8](https://github.com/staff0rd/assist/commit/62d2ac8d82c81fe5f068394e7409c08264626784))
+
+
+### Features
+
+* keep docs feedback drafts and copy ([6217cf0](https://github.com/staff0rd/assist/commit/6217cf095fa4b63c9de228c95a47d8d4b88a5fb0))
+
 # [0.892.0](https://github.com/staff0rd/assist/compare/v0.891.1...v0.892.0) (2026-10-25)
 
 
