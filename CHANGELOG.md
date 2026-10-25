@@ -1,3 +1,10 @@
+## [0.885.1](https://github.com/staff0rd/assist/compare/v0.885.0...v0.885.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* show printed high-level checklist ([788fc35](https://github.com/staff0rd/assist/commit/788fc35ab77b24300d3dfd4c366769eaf2fcc4c1)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.885.0](https://github.com/staff0rd/assist/compare/v0.884.0...v0.885.0) (2026-10-25)
 
 
