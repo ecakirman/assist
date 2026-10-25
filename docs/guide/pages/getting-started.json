@@ -17,7 +17,7 @@
 		},
 		{
 			"heading": "Open the dashboard",
-			"markdown": "Run `assist` with no arguments to start the sessions web dashboard on port 3100 and open it in your browser (`--no-open` skips the browser). The dashboard starts the sessions daemon on demand; the daemon keeps your sessions running when the web server stops."
+			"markdown": "Run `assist` with no arguments to start the sessions web dashboard on port 3100 and open it in your browser (`--no-open` skips the browser)."
 		},
 		{
 			"heading": "Update",
