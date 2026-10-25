@@ -18,14 +18,20 @@ function outlinable(body: string): boolean {
 	return acceptanceCriteriaState(body).kind === "outline";
 }
 
+const waitingForBody = new WeakMap<HTMLTextAreaElement, () => void>();
+
 export function attachCriteriaToggle(textarea: HTMLTextAreaElement): void {
-	if (textarea.hasAttribute(ATTACHED)) return;
+	if (textarea.hasAttribute(ATTACHED)) {
+		waitingForBody.get(textarea)?.();
+		return;
+	}
 	textarea.setAttribute(ATTACHED, "");
 
 	const surface = criteriaOutlineSurface(textarea);
 
 	function stopWaitingForBody(): void {
 		textarea.removeEventListener("input", showOutlineWhenBodyArrives);
+		waitingForBody.delete(textarea);
 	}
 
 	function showOutline(): void {
@@ -50,5 +56,8 @@ export function attachCriteriaToggle(textarea: HTMLTextAreaElement): void {
 	placeButton(textarea, toggle.element);
 
 	if (outlinable(textarea.value)) showOutline();
-	else textarea.addEventListener("input", showOutlineWhenBodyArrives);
+	else {
+		textarea.addEventListener("input", showOutlineWhenBodyArrives);
+		waitingForBody.set(textarea, showOutlineWhenBodyArrives);
+	}
 }

@@ -96,6 +96,20 @@ describe("attachCriteriaToggle", () => {
 		expect(rows(field)).toHaveLength(2);
 	});
 
+	it("opens on a later pass when the value arrives without an input event", async () => {
+		const { field } = await setup("");
+		field.value = BODY;
+		await act(async () => attachCriteriaToggle(field));
+		expect(rows(field)).toHaveLength(2);
+	});
+
+	it("stays closed on a later pass after the user toggles it off", async () => {
+		const { field, button } = await setup(BODY);
+		await act(async () => button.click());
+		await act(async () => attachCriteriaToggle(field));
+		expect(field.style.display).toBe("");
+	});
+
 	it("offers the insert button when the toggle is pressed on a bare body", async () => {
 		const { field, button } = await setup("Just prose");
 		await act(async () => button.click());
