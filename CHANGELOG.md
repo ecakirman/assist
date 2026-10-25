@@ -1,3 +1,10 @@
+# [0.884.0](https://github.com/staff0rd/assist/compare/v0.883.2...v0.884.0) (2026-10-25)
+
+
+### Features
+
+* document the sessions dashboard ([02b82b7](https://github.com/staff0rd/assist/commit/02b82b74a28e313baa95dabf4b94de938e66daae))
+
 ## [0.883.2](https://github.com/staff0rd/assist/compare/v0.883.1...v0.883.2) (2026-10-25)
 
 
