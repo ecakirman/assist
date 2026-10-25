@@ -1,9 +1,9 @@
 .sl-markdown-content figure {
 	margin-inline: 0;
-	text-align: center;
 }
 
 .sl-markdown-content figure img {
+	margin-inline: auto;
 	border: 1px solid var(--sl-color-hairline);
 	border-radius: 0.5rem;
 }
