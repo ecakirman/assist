@@ -31,6 +31,7 @@ run:
     command: npx
     args:
       - tsx
+      - watch
       - src/docs/previewDocs.ts
     server: docs
     port: 4173

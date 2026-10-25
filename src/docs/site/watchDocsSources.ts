@@ -1,5 +1,5 @@
 import { existsSync, statSync, watch } from "node:fs";
-import { join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { docsPaths } from "../docsPaths";
 
 export type DocsChange = "css" | "page";
@@ -30,5 +30,8 @@ export function watchDocsSources(onChange: (change: DocsChange) => void): void {
 		);
 	watchDir(docsPaths.pagesDir);
 	if (existsSync(docsPaths.screenshotsDir)) watchDir(docsPaths.screenshotsDir);
-	watch(docsPaths.stylesheet, () => schedule(docsPaths.stylesheet, true));
+	watch(dirname(docsPaths.stylesheet), (_, file) => {
+		if (file === basename(docsPaths.stylesheet))
+			schedule(docsPaths.stylesheet, true);
+	});
 }
