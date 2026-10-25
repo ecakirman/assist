@@ -12,12 +12,12 @@ function popoverOpen(): boolean {
 }
 
 export function watchDocsSelection(): void {
-	let anchor: HTMLElement | undefined;
+	let release: (() => void) | undefined;
 	document.addEventListener("mouseup", (event) => {
 		if (isOwnUi(event.target) || popoverOpen()) return;
-		anchor?.remove();
-		anchor = undefined;
+		release?.();
+		release = undefined;
 		const selection = readDocsSelection(document, globalThis.getSelection());
-		if (selection) anchor = openDocsFeedback(selection);
+		if (selection) release = openDocsFeedback(selection);
 	});
 }

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { act, fireEvent } from "@testing-library/react";
-import { afterEach, beforeAll, describe, expect, it } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { watchDocsSelection } from "./watchDocsSelection";
 
 const PAGE = `
@@ -61,6 +61,30 @@ describe("watchDocsSelection", () => {
 		);
 		expect(anchor?.style.top).toBe("60px");
 		expect(anchor?.style.left).toBe("40px");
+	});
+
+	it("keeps the selected text highlighted until the popover closes", async () => {
+		const highlights = new Map<string, unknown>();
+		vi.stubGlobal("CSS", { highlights });
+		vi.stubGlobal(
+			"Highlight",
+			class {
+				constructor(readonly range: Range) {}
+			},
+		);
+		render();
+		await act(async () => {
+			fireEvent.mouseUp(select("text"));
+		});
+		expect(highlights.has("assist-docs-feedback")).toBe(true);
+		act(() => {
+			fireEvent.keyDown(
+				popover()?.shadowRoot?.querySelector("textarea") as Element,
+				{ key: "Escape" },
+			);
+		});
+		expect(highlights.size).toBe(0);
+		vi.unstubAllGlobals();
 	});
 
 	it("ignores a keyboard selection", () => {

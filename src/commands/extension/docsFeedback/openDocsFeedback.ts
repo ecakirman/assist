@@ -1,6 +1,7 @@
 import { toggleAssistPopover } from "../sendToAssist/toggleAssistPopover";
 import { docsFeedbackPopover } from "./docsFeedbackPopover";
 import { docsFeedbackSender } from "./docsFeedbackSender";
+import { highlightRange } from "./highlightRange";
 import type { DocsSelection } from "./readDocsSelection";
 
 function endOfRange(range: Range): { top: number; left: number } {
@@ -21,15 +22,20 @@ function selectionEndAnchor(range: Range): HTMLElement {
 	return anchor;
 }
 
-export function openDocsFeedback(selection: DocsSelection): HTMLElement {
+export function openDocsFeedback(selection: DocsSelection): () => void {
 	const anchor = selectionEndAnchor(selection.range);
 	document.body.append(anchor);
-	const send = docsFeedbackSender(selection, () => anchor.remove());
+	const unhighlight = highlightRange(selection.range);
+	const release = () => {
+		anchor.remove();
+		unhighlight();
+	};
+	const send = docsFeedbackSender(selection, release);
 	toggleAssistPopover(anchor, (dismiss) =>
 		docsFeedbackPopover(send, (restoreFocus) => {
 			dismiss(restoreFocus);
-			anchor.remove();
+			release();
 		}),
 	);
-	return anchor;
+	return release;
 }
