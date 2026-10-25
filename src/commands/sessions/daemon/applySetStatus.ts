@@ -25,6 +25,7 @@ export function applySetStatus(
 	}
 	rebind?.(session);
 	if (source === "permission") session.permissionActive = true;
-	if (status === "running") session.permissionActive = false;
+	if (status === "running" || source === "stop")
+		session.permissionActive = false;
 	onStatusChange(session, status);
 }

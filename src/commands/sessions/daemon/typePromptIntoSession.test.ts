@@ -3,6 +3,7 @@ import {
 	bracketedPaste,
 	SUBMIT,
 } from "../shared/pasteAndSubmit/bracketedPaste";
+import { flushPendingPrompts } from "./flushPendingPrompts";
 import { typePromptIntoSession } from "./typePromptIntoSession";
 import type { Session } from "./types";
 
@@ -22,7 +23,7 @@ describe("typePromptIntoSession", () => {
 		const write = vi.fn();
 		expect(
 			typePromptIntoSession(sessions({ status: "waiting" }), "s1", "hi", write),
-		).toBeUndefined();
+		).toEqual({ queued: false });
 		expect(write).toHaveBeenCalledWith("s1", bracketedPaste("hi"));
 		vi.runAllTimers();
 		expect(write).toHaveBeenLastCalledWith("s1", SUBMIT);
@@ -30,15 +31,32 @@ describe("typePromptIntoSession", () => {
 
 	it("refuses a session that does not exist", () => {
 		const write = vi.fn();
-		expect(typePromptIntoSession(sessions(), "s1", "hi", write)).toBe(
-			"assist session s1 was not found",
-		);
+		expect(typePromptIntoSession(sessions(), "s1", "hi", write)).toEqual({
+			refused: "assist session s1 was not found",
+		});
 		expect(write).not.toHaveBeenCalled();
 	});
 
 	it("refuses a session that has ended", () => {
 		expect(
 			typePromptIntoSession(sessions({ status: "done" }), "s1", "hi", vi.fn()),
-		).toBe("assist session s1 has ended");
+		).toEqual({ refused: "assist session s1 has ended" });
+	});
+
+	it("queues behind an open permission prompt and types once it closes", () => {
+		const map = sessions({ status: "waiting", permissionActive: true });
+		const write = vi.fn();
+		expect(typePromptIntoSession(map, "s1", "one", write)).toEqual({
+			queued: true,
+		});
+		typePromptIntoSession(map, "s1", "two", write);
+		const session = map.get("s1");
+		flushPendingPrompts(session, write);
+		expect(write).not.toHaveBeenCalled();
+
+		if (session) session.permissionActive = false;
+		flushPendingPrompts(session, write);
+		expect(write).toHaveBeenCalledWith("s1", bracketedPaste("one\n\ntwo"));
+		expect(session?.pendingPrompts).toBeUndefined();
 	});
 });

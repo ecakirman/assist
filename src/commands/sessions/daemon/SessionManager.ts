@@ -214,6 +214,7 @@ export class SessionManager {
 
 	setStatus(report: HookStatusReport): void {
 		setStatusFromHook(this.sessions, report, this.notify, this.onStatusChange);
+		this.io.flushPendingPrompts(report.id);
 	}
 
 	/* why: the status line relays token totals keyed by Claude's session id; join

@@ -6,7 +6,9 @@ import type { NodeLinks } from "./links/NodeLinks";
 import { releaseViewer } from "./releaseViewer";
 import type { OnStatusChange, Session } from "./types";
 import { type ResizeViewer, resizeSession } from "./resizeSession";
+import { flushPendingPrompts } from "./flushPendingPrompts";
 import { typePromptIntoSession } from "./typePromptIntoSession";
+import { type TypePromptReply, typePromptReply } from "./typePromptReply";
 import { ViewerConnections } from "./ViewerConnections";
 import { writeToSession } from "./writeToSession";
 
@@ -42,24 +44,32 @@ export class SessionIo {
 		});
 	}
 
-	typePrompt(id: string, text: string): string | undefined {
-		return typePromptIntoSession(this.sessions, id, text, (target, data) =>
-			this.write(target, data, {}),
+	typePrompt(id: string, text: string): TypePromptReply {
+		return typePromptReply(
+			id,
+			typePromptIntoSession(this.sessions, id, text, this.writeAsDaemon),
 		);
 	}
 
 	async typePromptToLastWriter(
 		target: WriteTarget,
 		text: string,
-	): Promise<string | { refused: string }> {
+	): Promise<TypePromptReply> {
 		const id = await findDocsSession(this.sessions, target);
 		if (!id)
 			return {
-				refused: `No live Claude session shares a directory with the server for ${target.file} or has written anything in ${target.within}`,
+				ok: false,
+				message: `No live Claude session shares a directory with the server for ${target.file} or has written anything in ${target.within}`,
 			};
-		const refused = this.typePrompt(id, text);
-		return refused ? { refused } : id;
+		return this.typePrompt(id, text);
 	}
+
+	flushPendingPrompts(id: string): void {
+		flushPendingPrompts(this.sessions.get(id), this.writeAsDaemon);
+	}
+
+	private readonly writeAsDaemon = (id: string, data: string) =>
+		this.write(id, data, {});
 
 	resize(id: string, cols: number, rows: number, viewer?: ResizeViewer): void {
 		resizeSession(this.sessions, id, cols, rows, {
