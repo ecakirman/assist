@@ -41,7 +41,7 @@ Commands an agent runs to act on its own card, such as `/close` and `/rename`, a
 
 ## The terminal
 
-The terminal is the agent itself, such as Claude Code, running live. You give it prompts, answer its questions and approve its permission requests here, as you would in Claude Code in your own terminal. For a run session, it shows the command's output.
+The terminal is the agent itself, such as Claude Code, running live. You give it prompts, answer its questions and approve its permission requests here, as you would in Claude Code in your own terminal. For a [run session](../sessions-creating/#run-sessions), it shows the command's output.
 
 - :kbd[Mod+C] copies the selected text. With nothing selected, it reaches the session as an interrupt.
 - :kbd[Mod+V] pastes.
