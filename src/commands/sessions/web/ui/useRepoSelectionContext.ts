@@ -6,7 +6,7 @@ export type RepoSelection = {
 	selectedNode?: string;
 	worktreeCwd: string;
 	worktreeNode?: string;
-	setSelectedCwd: (cwd: string, node?: string) => void;
+	setSelectedCwd: (cwd: string, node?: string, origin?: string) => void;
 	cloneOn: (cwd: string, node: string | undefined) => string | undefined;
 	originOf: (cwd: string) => string | undefined;
 };

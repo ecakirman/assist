@@ -204,4 +204,22 @@ describe("useRepoSelection", () => {
 
 		expect(result.current.selection.worktreeCwd).toBe(clone);
 	});
+
+	it("never maps a linked card's clone onto the local node", () => {
+		const windowsClone = String.raw`C:\git\remote`;
+		const linked = makeSessionInfo({
+			id: "pc-windows:1",
+			cwd: windowsClone,
+			node: "pc-windows",
+			repoGroup: { origin: "host/org/remote", clone: windowsClone },
+		});
+		const { result } = renderShell({}, [...sessions, linked]);
+
+		act(() => result.current.selectCard("pc-windows:1"));
+
+		const { cloneOn, originOf } = result.current.selection;
+		expect(cloneOn(windowsClone, undefined)).toBeUndefined();
+		expect(cloneOn(windowsClone, "pc-windows")).toBe(windowsClone);
+		expect(originOf(windowsClone)).toBe("host/org/remote");
+	});
 });

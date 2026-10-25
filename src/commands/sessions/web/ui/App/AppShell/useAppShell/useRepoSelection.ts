@@ -23,15 +23,11 @@ export function useRepoSelection(
 		() => mergeRepos(currentCwd, history),
 		[currentCwd, history],
 	);
-	const { selectedCwd, selectedNode, setSelectedCwd } = useSelectedRepo(
-		currentCwd,
-		merged,
-		machine,
-		localNode,
-	);
+	const { selectedCwd, selectedNode, selectedPick, setSelectedCwd } =
+		useSelectedRepo(currentCwd, merged, machine, localNode);
 	useSyncRepoToActiveCard(activeId, sessions, history, setSelectedCwd);
 	useRetargetOnMachineChange(machine, merged, selectedCwd, setSelectedCwd);
-	const { cloneOn, originOf } = useRepoLookups(merged, localNode);
+	const { cloneOn, originOf } = useRepoLookups(merged, localNode, selectedPick);
 
 	const repos = useMemo(
 		() => merged.map((repo) => preferredClone(repo, machine)),

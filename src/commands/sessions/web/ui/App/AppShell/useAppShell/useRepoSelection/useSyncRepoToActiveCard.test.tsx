@@ -48,7 +48,7 @@ describe("useSyncRepoToActiveCard", () => {
 
 		rerender({ id: "live-1" });
 
-		expect(setSelectedCwd).toHaveBeenCalledWith("/repos/live", "");
+		expect(setSelectedCwd).toHaveBeenCalledWith("/repos/live", "", undefined);
 	});
 
 	it("sets the selector to a clicked history card's cwd", () => {
@@ -57,7 +57,7 @@ describe("useSyncRepoToActiveCard", () => {
 
 		rerender({ id: "hist-1" });
 
-		expect(setSelectedCwd).toHaveBeenCalledWith("/repos/hist", "");
+		expect(setSelectedCwd).toHaveBeenCalledWith("/repos/hist", "", undefined);
 	});
 
 	it("selects the clone when the clicked card runs in one of its worktrees", () => {
@@ -66,7 +66,11 @@ describe("useSyncRepoToActiveCard", () => {
 
 		rerender({ id: "live-worktree" });
 
-		expect(setSelectedCwd).toHaveBeenCalledWith("/repos/live", "");
+		expect(setSelectedCwd).toHaveBeenCalledWith(
+			"/repos/live",
+			"",
+			"host/org/live",
+		);
 	});
 
 	it("pins the selection to a linked card's node", () => {
@@ -78,13 +82,14 @@ describe("useSyncRepoToActiveCard", () => {
 		expect(setSelectedCwd).toHaveBeenCalledWith(
 			String.raw`C:\git\live`,
 			"pc-windows",
+			undefined,
 		);
 	});
 
 	it("leaves the selection unchanged for a card with no cwd", () => {
 		const setSelectedCwd = vi.fn();
 		const { rerender } = renderSync(setSelectedCwd, "live-1");
-		expect(setSelectedCwd).toHaveBeenCalledWith("/repos/live", "");
+		expect(setSelectedCwd).toHaveBeenCalledWith("/repos/live", "", undefined);
 		setSelectedCwd.mockClear();
 
 		rerender({ id: "live-no-cwd" });

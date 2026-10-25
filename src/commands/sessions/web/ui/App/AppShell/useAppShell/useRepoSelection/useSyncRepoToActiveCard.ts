@@ -8,12 +8,13 @@ export function useSyncRepoToActiveCard(
 	activeId: string | null,
 	sessions: SessionInfo[],
 	history: HistoricalSession[],
-	setSelectedCwd: (cwd: string, node?: string) => void,
+	setSelectedCwd: (cwd: string, node?: string, origin?: string) => void,
 ): void {
 	const activeCwd = deriveActiveCwd(activeId, sessions, history);
-	const activeNode =
-		findActiveSession(activeId, sessions, history)?.node ?? LOCAL_NODE;
+	const active = findActiveSession(activeId, sessions, history);
+	const activeNode = active?.node ?? LOCAL_NODE;
+	const activeOrigin = active?.repoGroup?.origin;
 	useEffect(() => {
-		if (activeCwd) setSelectedCwd(activeCwd, activeNode);
-	}, [activeCwd, activeNode, setSelectedCwd]);
+		if (activeCwd) setSelectedCwd(activeCwd, activeNode, activeOrigin);
+	}, [activeCwd, activeNode, activeOrigin, setSelectedCwd]);
 }
