@@ -72,7 +72,7 @@ The button at the left of the tab row hides the sidebar; the same button then ap
 
 ## Closing a session
 
-The × on a card ends the session. A finished session is dismissed straight away; anything still live asks first, because closing kills its process. A card with nested sessions offers to close just itself or all of them. An agent can also close its own session: [`/close`](../sessions-cli/#from-inside-a-session) has it check its work is finished first.
+The × on a card ends the session. A finished session is dismissed straight away; anything still live asks first, because closing kills its process. A card with nested sessions offers to close just itself or all of them. An agent can also close its own session: [`/close`](../sessions-cli/#slash-commands) has it check its work is finished first.
 
 When the session holds unpushed work, closing stops it instead of removing it. The card stays, greyed, with **Restart** and a discard button that either throws the changes away or just drops the card, leaving the files on disk.
 

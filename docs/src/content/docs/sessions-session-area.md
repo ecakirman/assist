@@ -35,4 +35,4 @@ On the right are its git change counts (which open the [diff](../sessions-diff/)
 
 [Pull request](../pull-requests/), [review](../sessions-preview-panes/) and [server](../sessions-creating/#run-sessions) buttons appear for sessions that have them.
 
-Commands an agent runs to act on its own card, such as `/close` and `/rename`, are on [Session commands](../sessions-cli/#from-inside-a-session).
+Commands an agent runs to act on its own card, such as `/close` and `/rename`, are on [Session commands](../sessions-cli/#slash-commands).

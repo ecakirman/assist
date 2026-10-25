@@ -48,6 +48,6 @@ assist config set sessions.newSessionMode prompt -g
 
 A repo's [run commands](../run-commands/) can run as sessions too, so a dev server's output sits next to the agents using it. When the repo has run commands, the toolbar's run menu starts them.
 
-A run command flagged `server:` is a dev server, and only one may be live per server group across a repo's clone and worktrees. Cards in that repo show a start button, the serving card shows :badge[serving] and a stop button, and starting a second one offers to replace the first. Agents can read a run's output with `/run-logs` (see [Session commands](../sessions-cli/#from-inside-a-session)).
+A run command flagged `server:` is a dev server, and only one may be live per server group across a repo's clone and worktrees. Cards in that repo show a start button, the serving card shows :badge[serving] and a stop button, and starting a second one offers to replace the first. Agents can read a run's output with `/run-logs` (see [Session commands](../sessions-cli/#slash-commands)).
 
 ::screenshot{file="sessions-run.png"}

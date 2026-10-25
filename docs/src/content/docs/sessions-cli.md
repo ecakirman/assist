@@ -16,7 +16,7 @@ covers:
 
 Sessions are started from the dashboard, which runs a [launcher](../launchers/) inside each one. These are the commands that act on sessions once they're running.
 
-## From inside a session
+## Slash commands
 
 Ask the agent in a session to act on its own card with these slash commands:
 
