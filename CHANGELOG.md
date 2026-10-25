@@ -1,3 +1,10 @@
+## [0.893.1](https://github.com/staff0rd/assist/compare/v0.893.0...v0.893.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* centre block docs screenshots ([9b0b1ab](https://github.com/staff0rd/assist/commit/9b0b1abe15509a4516bd32f0cbe58552b45c25a6))
+
 # [0.893.0](https://github.com/staff0rd/assist/compare/v0.892.0...v0.893.0) (2026-10-25)
 
 
