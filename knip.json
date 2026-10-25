@@ -17,9 +17,12 @@
 		"src/docs/docsCoverage.ts",
 		"src/docs/printDocsInventory.ts",
 		"src/docs/starlight/createDocsFrontmatterCheck.ts",
+		"src/docs/starlight/docsSectionsPlugin.ts",
 		"src/docs/starlight/docsSidebar.ts",
 		"src/docs/starlight/normalizeBasePath.ts",
-		"src/docs/starlight/screenshotsPlugin.ts"
+		"src/docs/starlight/previewPageMeta.ts",
+		"src/docs/starlight/screenshotsPlugin.ts",
+		"src/docs/starlight/untilFeedbackClosed.ts"
 	],
 	"ignoreDependencies": [
 		"@vitest/coverage-v8",
