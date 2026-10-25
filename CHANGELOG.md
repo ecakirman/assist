@@ -1,3 +1,10 @@
+## [0.886.1](https://github.com/staff0rd/assist/compare/v0.886.0...v0.886.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* keep staged changes across pull ([90c72ba](https://github.com/staff0rd/assist/commit/90c72ba0785ef06b441ab7192391be0023b74216))
+
 # [0.886.0](https://github.com/staff0rd/assist/compare/v0.885.2...v0.886.0) (2026-10-25)
 
 
