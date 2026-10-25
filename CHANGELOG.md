@@ -1,3 +1,10 @@
+# [0.891.0](https://github.com/staff0rd/assist/compare/v0.890.0...v0.891.0) (2026-10-25)
+
+
+### Features
+
+* open docs feedback on mouse select ([6d0ccec](https://github.com/staff0rd/assist/commit/6d0ccec8b5fc2b21ce6dd61dbd5509a08e8051db))
+
 # [0.890.0](https://github.com/staff0rd/assist/compare/v0.889.4...v0.890.0) (2026-10-25)
 
 
