@@ -1,3 +1,10 @@
+## [0.889.3](https://github.com/staff0rd/assist/compare/v0.889.2...v0.889.3) (2026-10-25)
+
+
+### Bug Fixes
+
+* keep screenshot theme hiding ([a0b740f](https://github.com/staff0rd/assist/commit/a0b740fcf4cdc8a3a730986feac8aaf0d445f083))
+
 ## [0.889.2](https://github.com/staff0rd/assist/compare/v0.889.1...v0.889.2) (2026-10-25)
 
 
