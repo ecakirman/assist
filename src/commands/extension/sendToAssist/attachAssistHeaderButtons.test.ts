@@ -68,7 +68,13 @@ describe("attachAssistHeaderButtons", () => {
 		expect(buttons()[0].parentElement?.className).toBe("pane-actions");
 		await act(async () => buttons()[0].click());
 		const textarea = popover()?.querySelector("textarea");
-		expect(textarea).not.toBeNull();
+		if (!textarea) throw new Error("no instructions textarea");
+		await act(async () => fireEvent.keyDown(textarea, { key: "Enter" }));
+		expect(sendMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				url: `${location.origin}/acme/repo/issues/497`,
+			}),
+		);
 	});
 
 	it("opens the popover inside the pane's dialog", async () => {
@@ -96,6 +102,8 @@ describe("attachAssistHeaderButtons", () => {
 	});
 
 	it("resolves a pull request in a project pane from its item link", async () => {
+		const sendMessage = vi.fn().mockResolvedValue({ ok: true, message: "ok" });
+		vi.stubGlobal("browser", { runtime: { sendMessage } });
 		history.replaceState(
 			null,
 			"",
@@ -104,7 +112,10 @@ describe("attachAssistHeaderButtons", () => {
 		document.body.innerHTML = `${PANE}<a href="https://github.com/acme/repo/pull/12">#12</a>`;
 		attachAssistHeaderButtons();
 		await act(async () => buttons()[0].click());
-		expect(menuItems().length).toBeGreaterThan(0);
+		await act(async () => menuItems()[0].click());
+		expect(sendMessage).toHaveBeenCalledWith(
+			expect.objectContaining({ url: `${location.origin}/acme/repo/pull/12` }),
+		);
 	});
 
 	it("removes the button when the pane no longer shows an item", () => {
