@@ -1,5 +1,3 @@
-import { untilFeedbackClosed } from "../../src/docs/starlight/untilFeedbackClosed";
+import { holdReloadsForFeedback } from "../../src/docs/starlight/holdReloadsForFeedback";
 
-import.meta.hot?.on("vite:beforeFullReload", () =>
-	untilFeedbackClosed(document),
-);
+if (import.meta.hot) holdReloadsForFeedback(import.meta.hot, document);
