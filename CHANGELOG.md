@@ -1,3 +1,10 @@
+## [0.893.3](https://github.com/staff0rd/assist/compare/v0.893.2...v0.893.3) (2026-10-25)
+
+
+### Bug Fixes
+
+* keep foreign clone paths off nodes ([d4cad98](https://github.com/staff0rd/assist/commit/d4cad986aeb7a9671584fe5522b8bc395565d184))
+
 ## [0.893.2](https://github.com/staff0rd/assist/compare/v0.893.1...v0.893.2) (2026-10-25)
 
 
