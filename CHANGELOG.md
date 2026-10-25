@@ -1,3 +1,10 @@
+# [0.889.0](https://github.com/staff0rd/assist/compare/v0.888.1...v0.889.0) (2026-10-25)
+
+
+### Features
+
+* OS-aware key caps in docs ([c791157](https://github.com/staff0rd/assist/commit/c7911576ec538e9a434e7687ce2f865d7f25bd3e))
+
 ## [0.888.1](https://github.com/staff0rd/assist/compare/v0.888.0...v0.888.1) (2026-10-25)
 
 
