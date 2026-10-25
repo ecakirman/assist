@@ -16,6 +16,7 @@ export const docsNavGroups = [
 const actionSchema = z.union([
 	z.strictObject({ click: z.string().min(1) }),
 	z.strictObject({ press: z.string().min(1) }),
+	z.strictObject({ type: z.string().min(1) }),
 ]);
 
 const screenshotSchema = z.strictObject({

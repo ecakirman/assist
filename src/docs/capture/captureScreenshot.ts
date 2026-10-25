@@ -12,7 +12,8 @@ async function performAction(
 	action: DocsScreenshotAction,
 ): Promise<void> {
 	if ("click" in action) await page.locator(action.click).first().click();
-	else await page.keyboard.press(action.press);
+	else if ("press" in action) await page.keyboard.press(action.press);
+	else await page.keyboard.type(action.type);
 }
 
 export async function captureScreenshot(
