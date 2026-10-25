@@ -1,3 +1,10 @@
+## [0.889.2](https://github.com/staff0rd/assist/compare/v0.889.1...v0.889.2) (2026-10-25)
+
+
+### Bug Fixes
+
+* style docs screenshot captions ([85fc0ae](https://github.com/staff0rd/assist/commit/85fc0aeba85f0ded7ae950efea4c461ca8e9f368))
+
 ## [0.889.1](https://github.com/staff0rd/assist/compare/v0.889.0...v0.889.1) (2026-10-25)
 
 
