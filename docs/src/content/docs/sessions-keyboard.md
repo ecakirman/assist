@@ -2,7 +2,7 @@
 id: sessions-keyboard
 title: Keyboard shortcuts
 group: Sessions
-order: 5
+order: 6
 covers:
   - config:sessions.hotkeys.navTab
   - config:sessions.hotkeys.focusSidebar

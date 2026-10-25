@@ -2,7 +2,7 @@
 id: sessions-cli
 title: Session commands
 group: Sessions
-order: 7
+order: 4
 covers:
   - claude:close
   - claude:rename

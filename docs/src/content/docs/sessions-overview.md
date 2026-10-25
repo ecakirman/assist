@@ -64,14 +64,13 @@ From left to right:
 - **VS Code** opens the selected repo in VS Code, and **GitHub** opens it on GitHub.
 - **+** (:kbd[Mod+N] or :kbd[Alt+N]) opens the new-session dialog (see [Creating sessions](../sessions-creating/)).
 - A **PRs** menu appears when the repo has open [pull requests](../pull-requests/), and a run menu when the repo has [`run` entries](../run-commands/).
-- **Usage** opens the [Usage](../usage/) page. Once rate-limit data arrives it shows your current limits instead.
-- The **version badge** (:kbd[Alt+Q]) shows how many updates are ready and opens the [Updates](../updating/) page.
+- **Usage** opens the [Usage](../usage/) page.- The **version badge** (:kbd[Alt+Q]) shows how many updates are ready and opens the [Updates](../updating/) page.
 - The **cog** (:kbd[Alt+W]) opens the [Config](../config/) page.
 - The **menu** (:kbd[Alt+E]) holds the rest.
 
 Every shortcut can be changed, see [Keyboard shortcuts](../sessions-keyboard/).
 
-The menu shows this machine's node name and has **Toggle dark mode**, **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting.
+The menu has **Toggle dark mode**, **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting.
 
 ::screenshot{file="sessions-menu.png"}
 

@@ -2,7 +2,7 @@
 id: sessions-parallel-work
 title: Parallel work
 group: Sessions
-order: 4
+order: 5
 covers:
   - config:worktree.enabled
   - config:worktree.trunk
@@ -25,11 +25,6 @@ With it on:
 
 - The first prompt session uses the clone itself. A second concurrent one lands in `<repo>-2`, a third in `<repo>-3`, and so on. You never choose or name these.
 - Every assist-command session (draft, bug, backlog run, review and so on) gets a fresh worktree off the freshly fetched remote default branch, so it never works against whatever branch the clone is on.
-- The repo picker and the History tab still show the repo once, covering the clone and all its worktrees.
-- A worktree is reused once nothing live works in it and it holds nothing unpushed.
-- Asking to run a backlog item that already has a live run is refused, pointing at the run that holds it.
-
-The card's clone badge shows which working copy a session is in.
 
 Turning parallel work off leaves the repo as it was; nothing permanent is written to the clone.
 
@@ -38,7 +33,6 @@ Turning parallel work off leaves the repo as it was; nothing permanent is writte
 A worktree is removed only when the last session holding it is done or closed, and only when nothing in it is unpushed. Closing a session that still holds unpushed changes stops it instead: the card stays on the board as **stopped**, and the only actions are resume, restart or an explicit discard. Discard always asks first and names what it is about to destroy.
 
 The same applies to a session in the clone's own working copy, though the clone itself is never removed.
-After a crash, kill or reboot, the daemon cleans up stray worktrees itself; you never prune them by hand.
 
 ## Worktree settings
 

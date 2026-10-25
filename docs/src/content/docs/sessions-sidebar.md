@@ -44,7 +44,7 @@ Each card shows a status glyph, the session's title and a line of details.
 | :status[error]     | Exited with an error                                                             |
 | :status[stopped]   | Stopped, holding unpushed work (see [Parallel work](../sessions-parallel-work/)) |
 
-A new agent session's title is generated from its prompt. The detail line shows the repo, then the session type or, for a backlog run, the phase it is on, followed by any pull request, backlog item and issue it is linked to, and any badges:
+The detail line shows the repo, then the session type or, for a backlog run, the phase it is on, followed by any pull request, backlog item and issue it is linked to, and any badges:
 
 | Badge           | Shown when                                                      |
 | --------------- | --------------------------------------------------------------- |
@@ -52,8 +52,6 @@ A new agent session's title is generated from its prompt. The detail line shows 
 | :badge[harness] | The session runs a harness other than Claude                    |
 | :badge[serving] | The session is a dev server, linking to its port                |
 | :badge[node]    | The session runs on a linked machine                            |
-
-Below that, a card can show its git change counts, how much of the context window is used, and whether it was restored after a daemon restart.
 
 ## Grouping and order
 

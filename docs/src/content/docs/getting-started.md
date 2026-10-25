@@ -59,8 +59,6 @@ Press **+** in the toolbar (or :kbd[Mod+N]) to open the new-session dialog.
 
 ::screenshot{file="getting-started-first-session.png"}
 
-The session gets a card in the sidebar and a terminal on the right.
-
 The other modes start assist commands rather than a plain prompt: **draft** turns your description into a backlog item and **bug** files a bug report. See [Creating sessions](../sessions-creating/).
 
 ## Next steps
