@@ -9,6 +9,7 @@ export const docsNavGroups = [
 	"Git and GitHub",
 	"Repo tooling",
 	"Integrations",
+	"CLI",
 	"Contributing",
 ] as const;
 
