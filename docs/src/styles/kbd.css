@@ -1,0 +1,30 @@
+.assist-kbd {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.25em;
+	margin: 0;
+	vertical-align: baseline;
+	font: inherit;
+}
+
+.assist-kbd > kbd {
+	display: inline-block;
+	margin: 0;
+	min-width: 1.6em;
+	padding: 0.05em 0.4em;
+	border: 1px solid var(--sl-color-gray-5);
+	border-bottom-width: 2px;
+	border-radius: 0.3em;
+	background-color: var(--sl-color-gray-6);
+	color: var(--sl-color-white);
+	font-family: var(--__sl-font);
+	font-size: 0.85em;
+	line-height: 1.4;
+	text-align: center;
+	white-space: nowrap;
+}
+
+:root[data-os="mac"] .assist-kbd-other,
+:root:not([data-os="mac"]) .assist-kbd-mac {
+	display: none;
+}

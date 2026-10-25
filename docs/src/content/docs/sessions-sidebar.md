@@ -47,7 +47,7 @@ Below that, a card can show its git change counts, how much of the context windo
 
 Cards are grouped by repo. A repo with one session shows a lone card; two or more get a group header with a count, which collapses the group, and an × on hover that closes every session in it. Sessions a backlog run launches nest under that run's card.
 
-Starred sessions come first. Then come sessions that have been waiting on you longest, so whatever needs you floats to the top. Everything else keeps its order. **Mod+.** jumps straight to the next waiting session.
+Starred sessions come first. Then come sessions that have been waiting on you longest, so whatever needs you floats to the top. Everything else keeps its order. :kbd[Mod+.] jumps straight to the next waiting session.
 
 A session floats once it has waited 5 seconds. To change the delay, or stop floating altogether:
 

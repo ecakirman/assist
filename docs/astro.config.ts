@@ -2,6 +2,7 @@ import { satteri } from "@astrojs/markdown-satteri";
 import starlight from "@astrojs/starlight";
 import { defineConfig } from "astro/config";
 import { docsSectionsPlugin } from "../src/docs/starlight/docsSectionsPlugin";
+import { kbdPlugin } from "../src/docs/starlight/kbdPlugin";
 import { docsSidebar } from "../src/docs/starlight/docsSidebar";
 import { normalizeBasePath } from "../src/docs/starlight/normalizeBasePath";
 import { screenshotsPlugin } from "../src/docs/starlight/screenshotsPlugin";
@@ -15,7 +16,7 @@ export default defineConfig({
 	redirects: { "/": `${base}${sidebar[0].items[0]}/` },
 	markdown: {
 		processor: satteri({
-			mdastPlugins: [screenshotsPlugin(base)],
+			mdastPlugins: [screenshotsPlugin(base), kbdPlugin],
 			hastPlugins: preview ? [docsSectionsPlugin()] : [],
 		}),
 	},
@@ -24,6 +25,14 @@ export default defineConfig({
 			title: "assist",
 			sidebar,
 			pagination: false,
+			customCss: ["./src/styles/kbd.css"],
+			head: [
+				{
+					tag: "script",
+					content:
+						"if (/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) document.documentElement.dataset.os = 'mac';",
+				},
+			],
 			routeMiddleware: preview ? "./src/previewRouteData.ts" : [],
 		}),
 		{

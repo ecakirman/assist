@@ -32,7 +32,7 @@ screenshots:
 
 ## The new-session dialog
 
-The **+** button in the toolbar, **Mod+N** or **Alt+N** opens the new-session dialog. Type what you want, pick the repo and a mode, and press **Enter** (**Shift+Enter** adds a newline, **Esc** closes).
+The **+** button in the toolbar, :kbd[Mod+N] or :kbd[Alt+N] opens the new-session dialog. Type what you want, pick the repo and a mode, and press :kbd[Enter] (:kbd[Shift+Enter] adds a newline, :kbd[Esc] closes).
 
 ::screenshot{file="sessions-new.png"}
 

@@ -33,11 +33,11 @@ Above the terminal, the top bar names the selected session: its repo, its number
 
 On the right are its git change counts (which open the diff), how long it has been running and its toggles, such as **Auto-approve** for draft, bug and refine sessions. Then its actions, shown only when they apply:
 
-- **Add agent** (Alt+Z) starts another agent in the same working copy, with a prompt you type, so it picks up the work in progress. It is offered while the session is still working.
-- **VS Code** (Alt+X) opens the session's working copy in VS Code.
+- **Add agent** (:kbd[Alt+Z]) starts another agent in the same working copy, with a prompt you type, so it picks up the work in progress. It is offered while the session is still working.
+- **VS Code** (:kbd[Alt+X]) opens the session's working copy in VS Code.
 - **Restart** ends the agent and resumes its conversation in a fresh process, after asking. **Retry** reruns a run session, or an assist command that couldn't be restored.
 - **Star** pins the session to the top of the sidebar. For a backlog run, the star belongs to the item, so it carries over to the item's next session.
-- **Done** (Alt+C), on a backlog item's session, marks the item done and ends the session after asking.
+- **Done** (:kbd[Alt+C]), on a backlog item's session, marks the item done and ends the session after asking.
 - **×** closes the session, as on its card.
 
 Pull request, review and server buttons appear for sessions that have them.

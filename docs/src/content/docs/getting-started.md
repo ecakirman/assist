@@ -51,11 +51,11 @@ This starts the assist dashboard on port 3100 and opens it in your browser. The 
 
 ## Start your first session
 
-Press **+** in the toolbar (or **Mod+N**) to open the new-session dialog.
+Press **+** in the toolbar (or :kbd[Mod+N]) to open the new-session dialog.
 
 1. Choose **prompt**.
 2. Pick the repo the agent should work in.
-3. Type what you want done and press **Enter**.
+3. Type what you want done and press :kbd[Enter].
 
 ::screenshot{file="getting-started-first-session.png"}
 

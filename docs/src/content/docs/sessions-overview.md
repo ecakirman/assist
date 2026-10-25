@@ -49,22 +49,22 @@ From left to right:
 
 - **Refresh** restarts the web server. Sessions keep running.
 - **Tabs**:
-  - **Sessions** (**Alt+1**) — this page.
-  - [Backlog](../backlog/) (**Alt+2**) — the selected repo's backlog items.
-  - [Next](../next/) (**Alt+3**) — what to pick up next.
-- **Repo picker** (**Alt+R**) chooses the repo the toolbar acts on. It lists the repo the web server started in plus every repo a session has run in; type to filter. Selecting a card switches it to that card's repo.
+  - **Sessions** (:kbd[Alt+1]) — this page.
+  - [Backlog](../backlog/) (:kbd[Alt+2]) — the selected repo's backlog items.
+  - [Next](../next/) (:kbd[Alt+3]) — what to pick up next.
+- **Repo picker** (:kbd[Alt+R]) chooses the repo the toolbar acts on. It lists the repo the web server started in plus every repo a session has run in; type to filter. Selecting a card switches it to that card's repo.
 - **VS Code** opens the selected repo in VS Code, and **GitHub** opens it on GitHub.
-- **+** (**Mod+N** or **Alt+N**) opens the new-session dialog (see [Creating sessions](../sessions-creating/)).
+- **+** (:kbd[Mod+N] or :kbd[Alt+N]) opens the new-session dialog (see [Creating sessions](../sessions-creating/)).
 - A **PRs** menu appears when the repo has open pull requests, and a run menu when the repo has `run` entries.
 - **Usage** opens the [Usage](../usage/) page. Once rate-limit data arrives it shows your current limits instead.
-- The **version badge** (**Alt+Q**) shows how many updates are ready and opens the [Updates](../updating/) page.
-- The **cog** (**Alt+W**) opens the [Config](../config/) page.
-- The **menu** (**Alt+E**) holds the rest.
+- The **version badge** (:kbd[Alt+Q]) shows how many updates are ready and opens the [Updates](../updating/) page.
+- The **cog** (:kbd[Alt+W]) opens the [Config](../config/) page.
+- The **menu** (:kbd[Alt+E]) holds the rest.
 
-`Mod` is Cmd on macOS and Ctrl elsewhere; Alt is Option on macOS. Every shortcut can be changed, see [Keyboard shortcuts](../sessions-keyboard/).
+Every shortcut can be changed, see [Keyboard shortcuts](../sessions-keyboard/).
 
 The menu shows this machine's node name and has **Toggle dark mode**, **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting.
 
 ## Releases and News
 
-The [Releases](../releases/) and [News](../news/) tabs appear only once they're set up, so they aren't in the screenshot. They take **Alt+4** and **Alt+5**.
+The [Releases](../releases/) and [News](../news/) tabs appear only once they're set up, so they aren't in the screenshot. They take :kbd[Alt+4] and :kbd[Alt+5].
