@@ -23,10 +23,8 @@ assist config set worktree.enabled true -g --repo
 
 With it on:
 
-- The first prompt session uses the clone itself. A second concurrent one lands in `<repo>-2`, a third in `<repo>-3`, and so on. You never choose or name these.
+- The first prompt session uses the clone itself. A second concurrent one lands in `<repo>-2`, a third in `<repo>-3`, and so on.
 - Every assist-command session (draft, bug, backlog run, review and so on) gets a fresh worktree off the freshly fetched remote default branch, so it never works against whatever branch the clone is on.
-
-Turning parallel work off leaves the repo as it was; nothing permanent is written to the clone.
 
 ## Work is never lost
 

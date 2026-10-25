@@ -41,11 +41,8 @@ Commands an agent runs to act on its own card, such as `/close` and `/rename`, a
 
 ## The terminal
 
-The terminal is the session's own, so you type into it as you would locally.
-
 - :kbd[Mod+C] copies the selected text. With nothing selected, it reaches the session as an interrupt.
 - :kbd[Mod+V] pastes.
-- Links in the output open in a new tab when clicked, including ones that wrap onto the next line.
 
 A session's terminal is sized to one viewer at a time. In any other tab, or on a linked machine, it reads **Active on … — click to take over**; clicking makes it yours and resizes it to your window.
 

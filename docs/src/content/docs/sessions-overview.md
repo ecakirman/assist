@@ -33,7 +33,7 @@ screenshots:
 
 ## The dashboard
 
-The **Sessions** page is where you run and watch coding agents. The sidebar on the left lists every live session as a card, grouped by repo, and the session area on the right shows the selected session's terminal. You type into that terminal as you would in your own.
+The **Sessions** page is where you run and watch coding agents. The sidebar on the left lists every live session as a card, grouped by repo, and the session area on the right shows the selected session's terminal.
 
 A session is either an agent (Claude, Codex or pi) working on a prompt or an assist command such as `/draft`, or a **run** session that executes one of the repo's `run` entries, such as a dev server.
 
