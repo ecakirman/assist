@@ -48,13 +48,6 @@ describe("docsFeedbackPopover", () => {
 		expect(send).toHaveBeenLastCalledWith("Pin the version");
 	});
 
-	it("reopens with feedback that was not sent", () => {
-		render(
-			docsFeedbackPopover(vi.fn(), vi.fn(), { unsent: "Pin the version" }),
-		);
-		expect(field().value).toBe("Pin the version");
-	});
-
 	it("closes on blur when the textbox is empty", () => {
 		const dismiss = vi.fn();
 		render(docsFeedbackPopover(vi.fn(), dismiss));

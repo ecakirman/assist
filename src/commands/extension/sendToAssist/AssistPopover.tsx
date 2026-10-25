@@ -8,7 +8,6 @@ export function AssistPopover({
 	onSend,
 	onClose,
 	placeholder = "Instructions (optional)",
-	initialText = "",
 	error,
 	busy = false,
 	keepDraftOnBlur = false,
@@ -17,13 +16,12 @@ export function AssistPopover({
 	onSend: (instructions: string) => void;
 	onClose: (restoreFocus: boolean) => void;
 	placeholder?: string;
-	initialText?: string;
 	error?: string;
 	busy?: boolean;
 	keepDraftOnBlur?: boolean;
 	copyWhenEmpty?: string;
 }) {
-	const [instructions, setInstructions] = useState(initialText);
+	const [instructions, setInstructions] = useState("");
 
 	const onKeyDown = copyWhenEmptyKeyDown(
 		copyWhenEmpty,
