@@ -1,3 +1,10 @@
+## [0.886.3](https://github.com/staff0rd/assist/compare/v0.886.2...v0.886.3) (2026-10-25)
+
+
+### Bug Fixes
+
+* send docs feedback to server's session ([b73df5e](https://github.com/staff0rd/assist/commit/b73df5e80dcc645776e3e5aec5abc719e7b6825a))
+
 ## [0.886.2](https://github.com/staff0rd/assist/compare/v0.886.1...v0.886.2) (2026-10-25)
 
 
