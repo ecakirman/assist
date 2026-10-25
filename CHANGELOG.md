@@ -1,3 +1,10 @@
+## [0.889.4](https://github.com/staff0rd/assist/compare/v0.889.3...v0.889.4) (2026-10-25)
+
+
+### Bug Fixes
+
+* hold docs restart reload for feedback ([7a300c7](https://github.com/staff0rd/assist/commit/7a300c73afb3b74cd98e716698475b68584b82ef))
+
 ## [0.889.3](https://github.com/staff0rd/assist/compare/v0.889.2...v0.889.3) (2026-10-25)
 
 
