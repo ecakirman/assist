@@ -1,3 +1,10 @@
+# [0.888.0](https://github.com/staff0rd/assist/compare/v0.887.0...v0.888.0) (2026-10-25)
+
+
+### Features
+
+* docs feedback on Starlight preview ([7183de6](https://github.com/staff0rd/assist/commit/7183de67e3308231d5a9650f432b6f85f14f425d))
+
 # [0.887.0](https://github.com/staff0rd/assist/compare/v0.886.6...v0.887.0) (2026-10-25)
 
 
