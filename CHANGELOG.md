@@ -1,3 +1,10 @@
+## [0.888.1](https://github.com/staff0rd/assist/compare/v0.888.0...v0.888.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* docs preview replaces stale server ([ef61a89](https://github.com/staff0rd/assist/commit/ef61a89fa612b542a00aec12e41549836b2b3978))
+
 # [0.888.0](https://github.com/staff0rd/assist/compare/v0.887.0...v0.888.0) (2026-10-25)
 
 
