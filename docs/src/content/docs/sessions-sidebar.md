@@ -38,7 +38,7 @@ Each card shows a status glyph, the session's title and a line of details.
 | Glyph              | Status                                                                           |
 | ------------------ | -------------------------------------------------------------------------------- |
 | :status[running]   | Running: the agent is working, or the run is live                                |
-| :status[verifying] | Running `assist verify`                                                          |
+| :status[verifying] | Running [`assist verify`](../verify/)                                            |
 | :status[waiting]   | Waiting on you: an answer, a permission prompt or a preview to approve           |
 | :status[done]      | Done                                                                             |
 | :status[error]     | Exited with an error                                                             |
