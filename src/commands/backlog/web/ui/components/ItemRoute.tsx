@@ -3,12 +3,14 @@ import { useCallback, useMemo } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { countRender } from "../../../../sessions/web/ui/renderCounters";
 import { ApiNodeContext } from "../../../../sessions/web/ui/useApiNode";
+import { useNodeSelectionContext } from "../../../../sessions/web/ui/useNodeSelectionContext";
 import {
 	RepoSelectionContext,
 	useRepoSelectionContext,
 } from "../../../../sessions/web/ui/useRepoSelectionContext";
 import { parseItemId } from "../../../formatItemId";
 import { useItem } from "../useItem";
+import { scopeSelectionToRoute } from "./ItemRoute/scopeSelectionToRoute";
 import { ItemDetail } from "./ItemDetail";
 
 const loadingSx = {
@@ -22,12 +24,10 @@ export function ItemRoute({ onReload }: { onReload: () => Promise<void> }) {
 	const cwdParam = searchParams.get("cwd") || undefined;
 	const nodeParam = searchParams.get("node") || undefined;
 	const selection = useRepoSelectionContext();
+	const localNode = useNodeSelectionContext().nodes?.local;
 	const value = useMemo(
-		() =>
-			cwdParam
-				? { ...selection, selectedCwd: cwdParam, selectedNode: nodeParam }
-				: selection,
-		[selection, cwdParam, nodeParam],
+		() => scopeSelectionToRoute(selection, cwdParam, nodeParam, localNode),
+		[selection, cwdParam, nodeParam, localNode],
 	);
 	countRender("ItemRoute");
 
