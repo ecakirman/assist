@@ -76,7 +76,7 @@ The user guide is a static site built from JSON pages in `docs/guide/pages/` and
 - `/restructure` - Analyze and restructure tightly-coupled files
 - `/review-config` - Configure this repo's high-level review checklist keys
 - `/review-ci` - Install a GitHub workflow that reviews new PRs with Claude and Codex through LiteLLM or Azure AI Foundry, without depending on assist
-- `/review-high-level [number]` - Open the high-level review checklist for the current branch's PR, or PR `<number>`, as a background task, answering diff questions while it is open
+- `/review-high-level [number]` - Open the high-level review checklist for the current branch's PR, or PR `<number>`, as a background task, answering diff questions while it is open; outside a web session, show the printed checklist
 - `/review-pr-comments` - Process PR review comments one by one
 - `/jira [action] [KEY] [args]` - Jira actions: `view`, `associate`, `update`, `started`, `done`, `help`. `[KEY]` defaults to the session's backlog item's
 - `/github [action] [ref] [args]` - GitHub issue actions: `view`, `edit`, `create`, `associate`, `update`, `started`, `done`, `help`. `[ref]` defaults to the session's backlog item's; a bare `/github <ref>` runs `edit`
