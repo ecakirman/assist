@@ -14,9 +14,7 @@ function selectScreenshots(only: string[], scenes: CaptureScenes) {
 	const unknown = findUnknownScenes(pages, scenes);
 	if (unknown.length > 0)
 		throw new Error(`Unknown capture scenes:\n  ${unknown.join("\n  ")}`);
-	const screenshots = pages.flatMap((page) =>
-		page.sections.flatMap((section) => section.screenshots ?? []),
-	);
+	const screenshots = pages.flatMap((page) => page.screenshots ?? []);
 	const selected =
 		only.length === 0
 			? screenshots

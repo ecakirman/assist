@@ -17,7 +17,7 @@ const requestDaemonReplyMock = vi.mocked(requestDaemonReply);
 const feedback = {
 	pageId: "getting-started",
 	heading: "Install",
-	source: "docs/guide/pages/getting-started.json",
+	source: "docs/src/content/docs/getting-started.md",
 	selection: "npm install -g",
 	prompt: "Mention the Node version",
 };
@@ -62,8 +62,8 @@ describe("docsFeedback", () => {
 		expect(requestDaemonReplyMock).toHaveBeenCalledWith(
 			{
 				type: "type-prompt-to-writer",
-				file: "docs/guide/pages/getting-started.json",
-				within: "docs/guide/",
+				file: "docs/src/content/docs/getting-started.md",
+				within: "docs/src/",
 				text: expect.stringContaining("> npm install -g"),
 			},
 			"type-prompt-result",

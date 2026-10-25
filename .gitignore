@@ -7,8 +7,8 @@ books
 .assist/handovers/
 .assist/activity-*.json
 screenshots
-!docs/guide/screenshots
-.docs-site
+!docs/public/screenshots
+.astro
 .claude/settings.local.json
 assist-test.txt
 .assist/backlog.db

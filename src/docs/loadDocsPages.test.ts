@@ -6,16 +6,19 @@ import { loadDocsPages } from "./loadDocsPages";
 
 let dir: string;
 
-function page(id: string, extra: Record<string, unknown> = {}) {
-	return JSON.stringify({
-		id,
-		title: id,
-		group: "Getting started",
-		order: 0,
-		covers: [],
-		sections: [{ heading: "Intro", markdown: "Hello" }],
-		...extra,
-	});
+function page(id: string, extra = "") {
+	return `---
+id: ${id}
+title: ${id}
+group: Getting started
+order: 0
+covers: []
+${extra}---
+
+## Intro
+
+Hello
+`;
 }
 
 beforeEach(() => {
@@ -27,26 +30,32 @@ afterEach(() => {
 });
 
 describe("loadDocsPages", () => {
-	it("loads every json page in the directory", () => {
-		writeFileSync(join(dir, "b.json"), page("b"));
-		writeFileSync(join(dir, "a.json"), page("a"));
-		writeFileSync(join(dir, "notes.md"), "ignored");
-		expect(loadDocsPages(dir).map((p) => p.id)).toEqual(["a", "b"]);
+	it("loads the frontmatter of every markdown page in the directory", () => {
+		writeFileSync(join(dir, "b.md"), page("b"));
+		writeFileSync(
+			join(dir, "a.md"),
+			page("a", "screenshots:\n  - file: a.png\n    alt: A\n    route: /a\n"),
+		);
+		writeFileSync(join(dir, "notes.json"), "{}");
+		const pages = loadDocsPages(dir);
+		expect(pages.map((p) => p.id)).toEqual(["a", "b"]);
+		expect(pages[0].screenshots?.[0].file).toBe("a.png");
 	});
 
 	it("names the file when a page has an unknown key", () => {
-		writeFileSync(join(dir, "bad.json"), page("bad", { draft: true }));
-		expect(() => loadDocsPages(dir)).toThrow(/bad\.json/);
+		writeFileSync(join(dir, "bad.md"), page("bad", "draft: true\n"));
+		expect(() => loadDocsPages(dir)).toThrow(/bad\.md/);
 	});
 
-	it("names the file when a page is not valid JSON", () => {
-		writeFileSync(join(dir, "broken.json"), "{");
-		expect(() => loadDocsPages(dir)).toThrow(/broken\.json: invalid JSON/);
+	it("names the file when a page has no frontmatter", () => {
+		writeFileSync(join(dir, "broken.md"), "## Intro\n");
+		expect(() => loadDocsPages(dir)).toThrow(/broken\.md: invalid frontmatter/);
 	});
 
-	it("rejects two pages with the same id", () => {
-		writeFileSync(join(dir, "one.json"), page("same"));
-		writeFileSync(join(dir, "two.json"), page("same"));
-		expect(() => loadDocsPages(dir)).toThrow(/Duplicate docs page id: same/);
+	it("rejects a page whose id does not match its file name", () => {
+		writeFileSync(join(dir, "one.md"), page("two"));
+		expect(() => loadDocsPages(dir)).toThrow(
+			/one\.md: id two does not match file name/,
+		);
 	});
 });

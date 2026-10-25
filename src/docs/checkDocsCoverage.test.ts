@@ -9,7 +9,6 @@ function page(id: string, covers: string[]): DocsPage {
 		group: "Getting started",
 		order: 0,
 		covers,
-		sections: [{ heading: "Intro", markdown: "Hello" }],
 	};
 }
 

@@ -14,7 +14,12 @@
 		"src/commands/review/ci/reviewCiCheck.ts",
 		"src/commands/review/ci/reviewCiReview.ts",
 		"src/test/mocks/*Mock.ts",
-		"src/docs/docsCoverage.ts"
+		"src/docs/docsCoverage.ts",
+		"src/docs/printDocsInventory.ts",
+		"src/docs/starlight/createDocsFrontmatterCheck.ts",
+		"src/docs/starlight/docsSidebar.ts",
+		"src/docs/starlight/normalizeBasePath.ts",
+		"src/docs/starlight/screenshotsPlugin.ts"
 	],
 	"ignoreDependencies": [
 		"@vitest/coverage-v8",
@@ -23,5 +28,11 @@
 		"oxlint",
 		"skott"
 	],
-	"ignore": ["**/.venv/**", "netcap-extension/**", "extension/**", "pi/**"]
+	"ignore": [
+		"**/.venv/**",
+		"netcap-extension/**",
+		"extension/**",
+		"pi/**",
+		"docs/**"
+	]
 }

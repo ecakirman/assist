@@ -6,8 +6,7 @@ export function findUnknownScenes(
 	scenes: CaptureScenes,
 ): string[] {
 	return pages.flatMap((page) =>
-		page.sections
-			.flatMap((section) => section.screenshots ?? [])
+		(page.screenshots ?? [])
 			.filter((screenshot) => screenshot.scene && !scenes[screenshot.scene])
 			.map(
 				(screenshot) => `${page.id}: ${screenshot.file} (${screenshot.scene})`,

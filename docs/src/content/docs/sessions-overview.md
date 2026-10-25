@@ -1,0 +1,70 @@
+---
+id: sessions-overview
+title: Sessions dashboard
+group: Sessions
+order: 0
+covers:
+  - route:/sessions
+  - cli:sessions
+  - cli:sessions web
+screenshots:
+  - file: sessions-dashboard.png
+    alt: The sessions dashboard with agents in three repos and a dev server
+    route: /sessions
+    scene: dashboard
+    waitFor: text=Pricing page copy
+    actions:
+      - click: text=Dark mode toggle
+  - file: sessions-toolbar.png
+    alt: The dashboard toolbar
+    route: /sessions
+    scene: dashboard
+    waitFor: text=Pricing page copy
+    crop: "[data-testid='toolbar']"
+---
+
+## The dashboard
+
+The **Sessions** page is where you run and watch coding agents. The sidebar on the left lists every live session as a card, grouped by repo, and the session area on the right shows the selected session's terminal. You type into that terminal as you would in your own.
+
+A session is either an agent (Claude, Codex or pi) working on a prompt or an assist command such as `/draft`, or a **run** session that executes one of the repo's `run` entries, such as a dev server.
+
+::screenshot{file="sessions-dashboard.png"}
+
+Here the sandbox repo has three sessions, so they share a group: an agent waiting on an answer, a dev server and an agent still working. The `api` and `website` repos have one session each, so their cards stand alone.
+
+## Starting it
+
+```bash
+assist
+```
+
+This starts the web server on port 3100 and opens it in your browser. `assist sessions web --port <n>` picks another port, and `--no-open` skips the browser.
+
+## The toolbar
+
+::screenshot{file="sessions-toolbar.png"}
+
+From left to right:
+
+- **Refresh** restarts the web server. Sessions keep running.
+- **Tabs**:
+  - **Sessions** (**Alt+1**) — this page.
+  - [Backlog](../backlog/) (**Alt+2**) — the selected repo's backlog items.
+  - [Next](../next/) (**Alt+3**) — what to pick up next.
+- **Repo picker** (**Alt+R**) chooses the repo the toolbar acts on. It lists the repo the web server started in plus every repo a session has run in; type to filter. Selecting a card switches it to that card's repo.
+- **VS Code** opens the selected repo in VS Code, and **GitHub** opens it on GitHub.
+- **+** (**Mod+N** or **Alt+N**) opens the new-session dialog (see [Creating sessions](../sessions-creating/)).
+- A **PRs** menu appears when the repo has open pull requests, and a run menu when the repo has `run` entries.
+- **Usage** opens the [Usage](../usage/) page. Once rate-limit data arrives it shows your current limits instead.
+- The **version badge** (**Alt+Q**) shows how many updates are ready and opens the [Updates](../updating/) page.
+- The **cog** (**Alt+W**) opens the [Config](../config/) page.
+- The **menu** (**Alt+E**) holds the rest.
+
+`Mod` is Cmd on macOS and Ctrl elsewhere; Alt is Option on macOS. Every shortcut can be changed, see [Keyboard shortcuts](../sessions-keyboard/).
+
+The menu shows this machine's node name and has **Toggle dark mode**, **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting.
+
+## Releases and News
+
+The [Releases](../releases/) and [News](../news/) tabs appear only once they're set up, so they aren't in the screenshot. They take **Alt+4** and **Alt+5**.

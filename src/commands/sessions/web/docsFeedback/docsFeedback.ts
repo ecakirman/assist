@@ -9,7 +9,7 @@ import { docsFeedbackSchema } from "./docsFeedbackSchema";
 
 type TypePromptReply = { ok: boolean; message: string };
 
-const DOCS_DIR = "docs/guide/";
+const DOCS_DIR = "docs/src/";
 
 function respond(
 	res: ServerResponse,

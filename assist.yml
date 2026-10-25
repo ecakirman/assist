@@ -28,11 +28,10 @@ worktree:
   watcher: true
 run:
   - name: docs
-    command: npx
+    command: npm
     args:
-      - tsx
-      - watch
-      - src/docs/previewDocs.ts
+      - run
+      - docs:preview
     server: docs
     port: 4173
   - name: verify:lint

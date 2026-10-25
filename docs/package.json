@@ -1,0 +1,15 @@
+{
+	"name": "assist-docs",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "astro dev --port 4173",
+		"build": "astro build",
+		"preview": "astro preview --port 4173"
+	},
+	"dependencies": {
+		"@astrojs/markdown-satteri": "^0.4.5",
+		"@astrojs/starlight": "^0.42.7",
+		"astro": "^7.4.2"
+	}
+}
