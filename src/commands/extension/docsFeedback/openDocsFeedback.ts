@@ -32,10 +32,14 @@ export function openDocsFeedback(selection: DocsSelection): () => void {
 	};
 	const send = docsFeedbackSender(selection, release);
 	toggleAssistPopover(anchor, (dismiss) =>
-		docsFeedbackPopover(send, (restoreFocus) => {
-			dismiss(restoreFocus);
-			release();
-		}),
+		docsFeedbackPopover(
+			send,
+			(restoreFocus) => {
+				dismiss(restoreFocus);
+				release();
+			},
+			{ selectedText: selection.range.toString() },
+		),
 	);
 	return release;
 }

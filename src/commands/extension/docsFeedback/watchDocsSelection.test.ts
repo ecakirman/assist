@@ -87,6 +87,26 @@ describe("watchDocsSelection", () => {
 		vi.unstubAllGlobals();
 	});
 
+	it("keeps a popover with typed feedback when the text is reselected", async () => {
+		render();
+		await act(async () => {
+			fireEvent.mouseUp(select("text"));
+		});
+		const textarea = popover()?.shadowRoot?.querySelector(
+			"textarea",
+		) as HTMLTextAreaElement;
+		act(() => {
+			fireEvent.change(textarea, { target: { value: "Pin the version" } });
+			fireEvent.blur(textarea);
+		});
+		await act(async () => {
+			fireEvent.mouseUp(select("text"));
+		});
+		expect(document.querySelectorAll("[data-assist-popover]")).toHaveLength(1);
+		expect(popover()?.shadowRoot?.querySelector("textarea")).toBe(textarea);
+		expect(textarea.value).toBe("Pin the version");
+	});
+
 	it("ignores a keyboard selection", () => {
 		render();
 		fireEvent.keyUp(select("text"), { key: "ArrowRight", shiftKey: true });

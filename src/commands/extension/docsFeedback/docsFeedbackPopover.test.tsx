@@ -49,7 +49,43 @@ describe("docsFeedbackPopover", () => {
 	});
 
 	it("reopens with feedback that was not sent", () => {
-		render(docsFeedbackPopover(vi.fn(), vi.fn(), "Pin the version"));
+		render(
+			docsFeedbackPopover(vi.fn(), vi.fn(), { unsent: "Pin the version" }),
+		);
 		expect(field().value).toBe("Pin the version");
+	});
+
+	it("closes on blur when the textbox is empty", () => {
+		const dismiss = vi.fn();
+		render(docsFeedbackPopover(vi.fn(), dismiss));
+		fireEvent.blur(field());
+		expect(dismiss).toHaveBeenCalledWith(false);
+	});
+
+	it("stays open on blur while feedback is typed", () => {
+		const dismiss = vi.fn();
+		render(docsFeedbackPopover(vi.fn(), dismiss));
+		fireEvent.change(field(), { target: { value: "Pin the version" } });
+		fireEvent.blur(field());
+		expect(dismiss).not.toHaveBeenCalled();
+		fireEvent.keyDown(field(), { key: "Escape" });
+		expect(dismiss).toHaveBeenCalledWith(true);
+	});
+
+	it("copies the selected text when the textbox is empty", () => {
+		const writeText = vi.fn().mockResolvedValue(undefined);
+		Object.assign(navigator, { clipboard: { writeText } });
+		const dismiss = vi.fn();
+		render(
+			docsFeedbackPopover(vi.fn(), dismiss, { selectedText: "npm install" }),
+		);
+		fireEvent.keyDown(field(), { key: "c", ctrlKey: true });
+		fireEvent.keyDown(field(), { key: "c", metaKey: true });
+		expect(writeText).toHaveBeenCalledTimes(2);
+		expect(writeText).toHaveBeenCalledWith("npm install");
+		fireEvent.change(field(), { target: { value: "Pin" } });
+		fireEvent.keyDown(field(), { key: "c", ctrlKey: true });
+		expect(writeText).toHaveBeenCalledTimes(2);
+		expect(dismiss).not.toHaveBeenCalled();
 	});
 });

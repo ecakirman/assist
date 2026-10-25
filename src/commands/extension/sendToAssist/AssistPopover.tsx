@@ -1,6 +1,7 @@
 import { Paper, TextField } from "@mui/material";
 import { useState } from "react";
 import { AssistPopoverFooter } from "./AssistPopoverFooter";
+import { copyWhenEmptyKeyDown } from "./copyWhenEmptyKeyDown";
 import { popoverKeyDown } from "./popoverKeyDown";
 
 export function AssistPopover({
@@ -10,6 +11,8 @@ export function AssistPopover({
 	initialText = "",
 	error,
 	busy = false,
+	keepDraftOnBlur = false,
+	copyWhenEmpty,
 }: {
 	onSend: (instructions: string) => void;
 	onClose: (restoreFocus: boolean) => void;
@@ -17,15 +20,22 @@ export function AssistPopover({
 	initialText?: string;
 	error?: string;
 	busy?: boolean;
+	keepDraftOnBlur?: boolean;
+	copyWhenEmpty?: string;
 }) {
 	const [instructions, setInstructions] = useState(initialText);
 
-	const onKeyDown = popoverKeyDown(onClose, () => {
-		if (!busy) onSend(instructions);
-	});
+	const onKeyDown = copyWhenEmptyKeyDown(
+		copyWhenEmpty,
+		!instructions,
+		popoverKeyDown(onClose, () => {
+			if (!busy) onSend(instructions);
+		}),
+	);
 
 	const closeUnlessWindowBlurred = () => {
-		if (document.hasFocus() && !error && !busy) onClose(false);
+		const hasDraft = keepDraftOnBlur && instructions.trim() !== "";
+		if (document.hasFocus() && !error && !busy && !hasDraft) onClose(false);
 	};
 
 	return (
