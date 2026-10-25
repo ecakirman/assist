@@ -1,0 +1,13 @@
+{
+	"id": "usage",
+	"title": "Usage",
+	"group": "Activity",
+	"order": 3,
+	"covers": [],
+	"sections": [
+		{
+			"heading": "Coming soon",
+			"markdown": "This page hasn't been written yet."
+		}
+	]
+}

@@ -1,0 +1,13 @@
+{
+	"id": "releases",
+	"title": "Releases",
+	"group": "Activity",
+	"order": 1,
+	"covers": [],
+	"sections": [
+		{
+			"heading": "Coming soon",
+			"markdown": "This page hasn't been written yet."
+		}
+	]
+}
