@@ -1,0 +1,24 @@
+{
+	"id": "updating",
+	"title": "Updating assist",
+	"group": "Getting started",
+	"order": 1,
+	"covers": ["cli:update", "config:autoUpdate.enabled"],
+	"sections": [
+		{
+			"heading": "Automatic updates",
+			"markdown": "When assist is installed from a git clone, it keeps itself up to date in the background. It watches the clone's upstream, pulls new commits, rebuilds, and re-runs `assist sync` when the commits change anything sync installs.\n\nWhen a new build is ready, the Updates panel shows **Restart to update** and which part needs restarting, the web server or the daemon. **Restart** does it for you.\n\n{{screenshot:updates-panel.png}}\n\nIf the clone has local commits and cannot fast-forward, assist starts a Claude session in it to rebase or merge onto the upstream, push and rebuild. Updates pause until that session closes.\n\nTo turn automatic updates off:\n\n```bash\nassist config set autoUpdate.enabled false -g\n```\n\nA global npm install is not updated automatically.",
+			"screenshots": [
+				{
+					"file": "updates-panel.png",
+					"alt": "The Updates panel",
+					"route": "/updates"
+				}
+			]
+		},
+		{
+			"heading": "Manual updates",
+			"markdown": "```bash\nassist update\n```\n\n`assist update` detects how assist was installed:\n\n- **Global npm install** — installs `@staff0rd/assist@latest`, then runs `assist sync`.\n- **Git clone** — pulls, runs `npm i` and `npm run build` in the clone, then runs `assist sync`.\n\nWhen the sessions daemon is running, `assist update` restarts it so it loads the new build. Restart the web server yourself, then reload the browser tab."
+		}
+	]
+}
