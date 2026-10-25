@@ -66,7 +66,7 @@ describe("renderDocsSite", () => {
 	it("prefixes assets with the base path and renders markdown and screenshots", () => {
 		const html = fileAt("install/index.html", "/assist/") ?? "";
 		expect(html).toContain('<link rel="stylesheet" href="/assist/styles.css">');
-		expect(html).toContain("<h2>Run &lt;it&gt;</h2>");
+		expect(html).toContain('<h2 id="run-it">Run &lt;it&gt;</h2>');
 		expect(html).toContain(
 			"<p>Use <code>assist sync</code> and <strong>then</strong> go.</p>",
 		);

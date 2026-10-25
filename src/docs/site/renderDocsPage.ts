@@ -2,6 +2,7 @@ import { Marked } from "marked";
 import type { DocsPage } from "../docsPageSchema";
 import { screenshotPlaceholder } from "../screenshotPlaceholder";
 import { escapeHtml } from "./escapeHtml";
+import { headingId } from "./headingId";
 import type { DocsNavGroup } from "./orderDocsPages";
 import { renderDocsNav } from "./renderDocsNav";
 import { previewMeta } from "./previewMeta";
@@ -28,7 +29,7 @@ function renderSection(
 	}
 	const body = marked.parse(markdown, { async: false });
 	const screenshots = trailing.join("");
-	return `<section${attributes}><h2>${escapeHtml(section.heading)}</h2>${body}${screenshots}</section>`;
+	return `<section${attributes}><h2 id="${headingId(section.heading)}">${escapeHtml(section.heading)}</h2>${body}${screenshots}</section>`;
 }
 
 export function renderDocsPage(
