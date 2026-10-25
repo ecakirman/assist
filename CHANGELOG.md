@@ -1,3 +1,10 @@
+## [0.886.5](https://github.com/staff0rd/assist/compare/v0.886.4...v0.886.5) (2026-10-25)
+
+
+### Bug Fixes
+
+* keep docs feedback until delivered ([aaf8f69](https://github.com/staff0rd/assist/commit/aaf8f69d62892d6fc053fc5bab6f3663d2d30e1d))
+
 ## [0.886.4](https://github.com/staff0rd/assist/compare/v0.886.3...v0.886.4) (2026-10-25)
 
 
