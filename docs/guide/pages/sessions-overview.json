@@ -3,17 +3,7 @@
 	"title": "Sessions dashboard",
 	"group": "Sessions",
 	"order": 0,
-	"covers": [
-		"route:/sessions",
-		"cli:sessions",
-		"cli:sessions web",
-		"cli:daemon run",
-		"cli:daemon status",
-		"cli:daemon stop",
-		"cli:daemon restart",
-		"cli:daemon drain",
-		"config:sessions.maxLive"
-	],
+	"covers": ["route:/sessions", "cli:sessions", "cli:sessions web"],
 	"sections": [
 		{
 			"heading": "The dashboard",
@@ -31,15 +21,21 @@
 		},
 		{
 			"heading": "Starting it",
-			"markdown": "```bash\nassist\n```\n\n`assist` with no arguments, `assist sessions` and `assist sessions web` all start the web server on port 3100 and open it in your browser. `assist sessions web --port <n>` picks another port, and `--no-open` skips the browser."
+			"markdown": "```bash\nassist\n```\n\nThis starts the web server on port 3100 and opens it in your browser. `assist sessions web --port <n>` picks another port, and `--no-open` skips the browser."
 		},
 		{
 			"heading": "The toolbar",
-			"markdown": "From left to right:\n\n- **Refresh** restarts the web server. Sessions keep running.\n- **Tabs**: Sessions, Backlog and Next, plus Releases when the selected repo has releases configured and News when you have feeds. Alt+1 to Alt+5 switch between them.\n- **Repo picker** chooses the repo the toolbar acts on. It lists the repo the web server started in plus every repo a session has run in; type to filter. Selecting a card switches it to that card's repo.\n- **VS Code** opens the selected repo in VS Code, and **GitHub** opens it on GitHub.\n- **+** opens the new-session dialog (see [Creating sessions](../sessions-creating/)).\n- A **PRs** menu appears when the repo has open pull requests, and a run menu when the repo has `run` entries.\n- **Usage** opens the Usage page. Once rate-limit data arrives it shows your current limits instead.\n- The **version badge** opens the Updates page and shows how many updates are ready, the **cog** opens the config page and the **menu** holds the rest.\n\nThe menu shows this machine's node name and has **Toggle dark mode**, **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting."
-		},
-		{
-			"heading": "The daemon",
-			"markdown": "Sessions belong to a background daemon, not the web server or the browser tab. Closing the tab or restarting the web server leaves every session running with its scrollback, and any number of browser tabs can watch the same sessions. The web server starts the daemon when it isn't already running, and the daemon exits by itself once it has no sessions and no client has connected for 60 seconds.\n\n- `assist daemon status` shows whether the daemon is running, its live sessions, its links to other machines and any stray daemon processes.\n- `assist daemon restart` restarts it. Claude sessions are resumed with `claude --resume` and their scrollback starts fresh; run sessions come back as not-restored cards you can retry. A session the restart interrupted mid-turn is told so when it resumes.\n- `assist daemon stop` stops it. Running Claude sessions resume the next time it starts.\n- `assist daemon drain` removes every session for a clean slate. It lists the live sessions and asks first (`--yes` skips the question), and a session holding unpushed work is stopped rather than removed.\n- `assist daemon run` runs the daemon in the foreground, which is useful when debugging it.\n\nThe daemon logs to `~/.assist/daemon/daemon.log`.\n\nOne daemon holds at most 24 live sessions, and starting another past that is refused. A restart also brings back at most that many. Change the ceiling with:\n\n```bash\nassist config set sessions.maxLive 32 -g\n```"
+			"markdown": "{{screenshot:sessions-toolbar.png}}\n\nFrom left to right:\n\n- **Refresh** restarts the web server. Sessions keep running.\n- **Tabs**: Sessions, Backlog and Next, plus Releases when the selected repo has releases configured and News when you have feeds. **Alt+1** to **Alt+5** switch between them.\n- **Repo picker** (**Alt+R**) chooses the repo the toolbar acts on. It lists the repo the web server started in plus every repo a session has run in; type to filter. Selecting a card switches it to that card's repo.\n- **VS Code** opens the selected repo in VS Code, and **GitHub** opens it on GitHub.\n- **+** (**Mod+N** or **Alt+N**) opens the new-session dialog (see [Creating sessions](../sessions-creating/)).\n- A **PRs** menu appears when the repo has open pull requests, and a run menu when the repo has `run` entries.\n- **Usage** opens the Usage page. Once rate-limit data arrives it shows your current limits instead.\n- The **version badge** (**Alt+Q**) opens the Updates page and shows how many updates are ready, the **cog** (**Alt+W**) opens the config page and the **menu** (**Alt+E**) holds the rest.\n\n`Mod` is Cmd on macOS and Ctrl elsewhere; Alt is Option on macOS. Every shortcut can be changed, see [Keyboard shortcuts](../sessions-keyboard/).\n\nThe menu shows this machine's node name and has **Toggle dark mode**, **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting.",
+			"screenshots": [
+				{
+					"file": "sessions-toolbar.png",
+					"alt": "The dashboard toolbar",
+					"route": "/sessions",
+					"scene": "dashboard",
+					"waitFor": "text=Pricing page copy",
+					"crop": "[data-testid='toolbar']"
+				}
+			]
 		}
 	]
 }

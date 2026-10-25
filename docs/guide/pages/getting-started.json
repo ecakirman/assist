@@ -15,7 +15,7 @@
 		},
 		{
 			"heading": "Start your first session",
-			"markdown": "Press **+** in the toolbar (or **Mod+N**) to open the new-session dialog.\n\n1. Choose **prompt**.\n2. Pick the repo the agent should work in.\n3. Type what you want done and press **Enter**.\n\n{{screenshot:getting-started-first-session.png}}\n\nThe session appears as a card in the sidebar, and its terminal opens on the right. The agent works there as it would in your own terminal: read what it does, answer its questions and type follow-up prompts into it. The card shows whether the agent is working or waiting on you, so you can start more sessions and come back when one needs you.\n\nThe other modes start assist commands rather than a plain prompt: **draft** turns your description into a backlog item and **bug** files a bug report. See [Creating sessions](../sessions-creating/).",
+			"markdown": "Press **+** in the toolbar (or **Mod+N**) to open the new-session dialog.\n\n1. Choose **prompt**.\n2. Pick the repo the agent should work in.\n3. Type what you want done and press **Enter**.\n\n{{screenshot:getting-started-first-session.png}}\n\nThe session gets a card in the sidebar and a terminal on the right.\n\nThe other modes start assist commands rather than a plain prompt: **draft** turns your description into a backlog item and **bug** files a bug report. See [Creating sessions](../sessions-creating/).",
 			"screenshots": [
 				{
 					"file": "getting-started-first-session.png",

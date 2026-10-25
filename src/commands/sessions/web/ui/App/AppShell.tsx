@@ -33,7 +33,12 @@ export function AppShell({
 					sessions={socket.sessions}
 					reconnecting={socket.reconnecting}
 				/>
-				<AppBar position="fixed" elevation={1} sx={appBarSx}>
+				<AppBar
+					position="fixed"
+					elevation={1}
+					sx={appBarSx}
+					data-testid="toolbar"
+				>
 					<AppToolbar socket={socket} selection={selection} />
 				</AppBar>
 				<Toolbar variant="dense" sx={toolbarSx} />
