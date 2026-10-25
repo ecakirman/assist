@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../../shared/configHelp";
+import { internalCommand } from "../../shared/internalCommand";
 import { closeSession } from "./closeSession";
 import { registerNodes } from "./nodes/registerNodes";
 import { registerOutputCommand } from "./registerOutputCommand";
@@ -7,7 +8,6 @@ import { registerSetStatusCommand } from "./registerSetStatusCommand";
 import { renameSession } from "./renameSession";
 import { nextConfigHelp } from "./nextConfigHelp";
 import { sessionsConfigHelp } from "./sessionsConfigHelp";
-import { summarise } from "./summarise";
 import { web as sessionsWeb } from "./web";
 import { hotkeysConfigHelp } from "./hotkeysConfigHelp";
 import { webConfigHelp } from "./webConfigHelp";
@@ -35,26 +35,25 @@ export function registerSessions(program: Command): void {
 		...hotkeysConfigHelp,
 	]);
 
-	cmd
-		.command("summarise")
-		.description("Generate one-line summaries for Claude sessions")
-		.option("-f, --force", "Re-generate all summaries, even existing ones")
-		.option("-n, --limit <count>", "Maximum number of sessions to summarise")
-		.action(summarise);
+	internalCommand(
+		cmd
+			.command("close")
+			.description(
+				"Dismiss the current daemon-managed session, ending it and reaping its worktree",
+			)
+			.action(closeSession),
+		"/close",
+	);
 
-	cmd
-		.command("close")
-		.description(
-			"Dismiss the current daemon-managed session, ending it and reaping its worktree",
-		)
-		.action(closeSession);
-
-	cmd
-		.command("rename <title>")
-		.description(
-			"Retitle the current daemon-managed session, overriding the generated title for the rest of its life",
-		)
-		.action(renameSession);
+	internalCommand(
+		cmd
+			.command("rename <title>")
+			.description(
+				"Retitle the current daemon-managed session, overriding the generated title for the rest of its life",
+			)
+			.action(renameSession),
+		"/rename",
+	);
 
 	registerOutputCommand(cmd);
 	registerSetStatusCommand(cmd);

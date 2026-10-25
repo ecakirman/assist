@@ -28,7 +28,8 @@ export function loadDocsPages(pagesDir: string): DocsPage[] {
 		.sort()
 		.map((name) => {
 			const path = join(pagesDir, name);
-			const page = parsePage(name, readFileSync(path, "utf8"));
-			return { ...page, source: relative(docsPaths.repoRoot, path) };
+			const body = readFileSync(path, "utf8");
+			const page = parsePage(name, body);
+			return { ...page, source: relative(docsPaths.repoRoot, path), body };
 		});
 }

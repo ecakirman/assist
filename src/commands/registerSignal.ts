@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { internalCommand } from "../shared/internalCommand";
 import { writeSignal } from "./backlog/writeSignal";
 
 export function registerSignal(program: Command): void {
@@ -6,21 +7,27 @@ export function registerSignal(program: Command): void {
 		.command("signal")
 		.description("Write an assist signal file");
 
-	signalCommand
-		.command("next")
-		.argument("[id]", "Backlog item ID to run directly")
-		.description("Write a next signal to chain into assist next")
-		.action((id?: string) => {
-			writeSignal("next", id ? { id } : undefined);
-			console.log("Signal written.");
-		});
+	internalCommand(
+		signalCommand
+			.command("next")
+			.argument("[id]", "Backlog item ID to run directly")
+			.description("Write a next signal to chain into assist next")
+			.action((id?: string) => {
+				writeSignal("next", id ? { id } : undefined);
+				console.log("Signal written.");
+			}),
+		"/next",
+	);
 
-	signalCommand
-		.command("done")
-		.argument("[id]", "Backlog item ID created by the session")
-		.description("Write a done signal to end a --once launch session")
-		.action((id?: string) => {
-			writeSignal("done", id ? { id } : undefined);
-			console.log("Signal written.");
-		});
+	internalCommand(
+		signalCommand
+			.command("done")
+			.argument("[id]", "Backlog item ID created by the session")
+			.description("Write a done signal to end a --once launch session")
+			.action((id?: string) => {
+				writeSignal("done", id ? { id } : undefined);
+				console.log("Signal written.");
+			}),
+		"/draft, /bug, /refine",
+	);
 }

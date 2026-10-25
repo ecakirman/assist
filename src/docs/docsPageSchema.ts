@@ -48,7 +48,10 @@ export const docsPageSchema = z.strictObject({
 	screenshots: docsScreenshotsSchema,
 });
 
-export type DocsPage = z.infer<typeof docsPageSchema> & { source?: string };
+export type DocsPage = z.infer<typeof docsPageSchema> & {
+	source?: string;
+	body?: string;
+};
 export type DocsScreenshot = NonNullable<DocsPage["screenshots"]>[number];
 export type DocsScreenshotAction = NonNullable<
 	DocsScreenshot["actions"]

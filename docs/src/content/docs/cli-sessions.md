@@ -4,9 +4,15 @@ title: assist sessions
 group: CLI
 order: 3
 covers:
-  - cli:sessions summarise
+  - cli:sessions close
+  - cli:sessions rename
+  - cli:sessions output
+  - cli:sessions set-status
 ---
 
-## Transcript summaries
+## Commands
 
-`assist sessions summarise` asks Claude for a one-line summary of each Claude transcript under `~/.claude/projects` that doesn't have one yet, and saves it next to the transcript as a `.summary` file. `--force` regenerates existing summaries and `-n <count>` limits how many it does in one run.
+- `assist sessions rename <title>` :badge[internal] retitles the current session's card. Called by `/rename`.
+- `assist sessions close` :badge[internal] ends the current session and reaps its worktree, subject to the unpushed-work rule. Called by `/close`.
+- `assist sessions output [session-id]` :badge[internal] prints a session's recent output with colour codes stripped (`-n <count>` lines, default 200). `--server [group]` reads the current repo's live dev server instead. Called by `/run-logs`.
+- `assist sessions set-status <running|waiting>` :badge[internal] sets the current session's card status. Called by assist's Claude hooks.

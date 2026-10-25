@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { describe, expect, it } from "vitest";
+import { internalCommand } from "../../shared/internalCommand";
 import { collectCliCommands } from "./collectCliCommands";
 
 describe("collectCliCommands", () => {
@@ -20,6 +21,15 @@ describe("collectCliCommands", () => {
 			{ id: "cli:sessions nodes", description: "List nodes" },
 			{ id: "cli:sessions nodes doctor", description: "Probe links" },
 			{ id: "cli:backup schedule status", description: "Show schedule" },
+		]);
+	});
+
+	it("records what calls an internal command", () => {
+		const program = new Command();
+		internalCommand(program.command("signal").description("Signal"), "/next");
+
+		expect(collectCliCommands(program)).toEqual([
+			{ id: "cli:signal", description: "Signal", internalCalledBy: "/next" },
 		]);
 	});
 });

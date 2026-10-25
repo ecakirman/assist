@@ -8,6 +8,8 @@ const badges: Record<string, string> = {
 	serving:
 		'<span class="assist-badge assist-chip assist-chip-filled assist-chip-success">serving :5173</span>',
 	node: '<span class="assist-badge assist-chip assist-chip-outlined assist-chip-info">laptop</span>',
+	internal:
+		'<span class="assist-badge assist-chip assist-chip-outlined assist-chip-warning" title="Called by assist itself, not run by hand">internal</span>',
 };
 
 export function renderBadge(badge: string): string {

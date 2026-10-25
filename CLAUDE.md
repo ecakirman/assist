@@ -40,4 +40,4 @@ Start with `assist sessions nodes doctor [name]`: it probes each hop and names t
 
 - **R1** — Do not document what is implicit — state only what the reader could not infer.
 
-Directories with their own `## Rules`: `src/commands/extension/`
+Directories with their own `## Rules`: `docs/`, `src/commands/extension/`

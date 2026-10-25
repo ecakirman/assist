@@ -98,6 +98,10 @@
 	--assist-chip-color: var(--assist-info);
 }
 
+.assist-chip-warning {
+	--assist-chip-color: var(--assist-warning);
+}
+
 .assist-chip-secondary {
 	--assist-chip-color: var(--assist-secondary);
 }

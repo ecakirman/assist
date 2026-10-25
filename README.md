@@ -387,7 +387,6 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 
 - `assist sessions` - Start the web dashboard (same as `sessions web`)
 - `assist sessions web [-p, --port <number>] [--no-open]` - Start the web dashboard with Sessions, Backlog and News tabs (default port 3100)
-- `assist sessions summarise [-f, --force] [-n, --limit <count>]` - Generate one-line summaries for unsummarised Claude sessions
 - `assist sessions close` - End the current daemon-managed session
 - `assist sessions rename <title>` - Retitle the current daemon-managed session's dashboard card
 - `assist sessions output [session-id] [--server [group]] [-n, --lines <count>]` - Print the recent output of a session on this node, or with `--server [group]` the current repo's live server run

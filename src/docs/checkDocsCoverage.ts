@@ -1,10 +1,12 @@
 import { verifySection } from "../commands/verify/reportVerifyProblems";
 import type { DocsArea } from "./docsAreas";
 import type { DocsPage } from "./docsPageSchema";
+import { findInternalBadgeProblems } from "./findInternalBadgeProblems";
 import { findUnknownCovers } from "./findUnknownCovers";
 
 type CoverageInput = {
 	inventoryIds: string[];
+	internal?: ReadonlyMap<string, string>;
 	pages: DocsPage[];
 	pending: Partial<Record<DocsArea, string[]>>;
 };
@@ -16,6 +18,7 @@ function duplicates(ids: string[]): string[] {
 
 export function checkDocsCoverage({
 	inventoryIds,
+	internal = new Map(),
 	pages,
 	pending,
 }: CoverageInput): (string | undefined)[] {
@@ -36,6 +39,14 @@ export function checkDocsCoverage({
 		verifySection(
 			"Docs pages cover ids that are not in the inventory",
 			findUnknownCovers(pages, inventory),
+		),
+		verifySection(
+			"Internal commands must be marked :badge[internal], and only they may be",
+			findInternalBadgeProblems(
+				pages,
+				new Set(inventoryIds.filter((id) => id.startsWith("cli:"))),
+				internal,
+			),
 		),
 		verifySection(
 			"pendingUserDocumentation lists ids not in the inventory (remove them)",

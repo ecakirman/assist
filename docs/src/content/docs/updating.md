@@ -16,7 +16,7 @@ screenshots:
 
 When assist is installed from a git clone, it keeps itself up to date in the background. It watches the clone's upstream, pulls new commits, rebuilds, and re-runs `assist sync` when the commits change anything sync installs.
 
-When a new build is ready, the Updates panel shows **Restart to update** and which part needs restarting, the web server or the daemon. **Restart** does it for you.
+The Updates panel opens from the version badge on the dashboard, or with :kbd[Alt+Q]. When a new build is ready, it shows **Restart to update** and which part needs restarting, the web server or the daemon. **Restart** does it for you.
 
 ::screenshot{file="updates-panel.png"}
 

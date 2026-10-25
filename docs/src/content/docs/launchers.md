@@ -29,7 +29,7 @@ Each takes `--resume-session <id>` to resume an interrupted Claude session, whic
 
 A launched session ends by writing a signal that tells its launcher what to do next. Agents write these themselves at the end of the matching slash command; you rarely run them by hand.
 
-- `assist signal done [id]` marks the session's task complete. `/draft` and `/bug` pass the id of the item they created, which then shows on the card.
-- `assist signal next [id]` (what `/next` runs) chains into the next backlog item: item `<id>` when given, otherwise whatever `assist next` picks.
+- `assist signal done [id]` :badge[internal] marks the session's task complete. `/draft` and `/bug` pass the id of the item they created, which then shows on the card. Called by `/draft`, `/bug` and `/refine`.
+- `assist signal next [id]` :badge[internal] chains into the next backlog item: item `<id>` when given, otherwise whatever `assist next` picks. Called by `/next`.
 
 `draft`, `bug` and `refine` follow a `next` signal into the next item. `--once` makes the launcher exit when its initial task completes.

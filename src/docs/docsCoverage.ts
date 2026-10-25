@@ -15,6 +15,11 @@ export function docsCoverage(report: boolean): never {
 	reportVerifyProblems(
 		checkDocsCoverage({
 			inventoryIds: inventory.map((item) => item.id),
+			internal: new Map(
+				inventory.flatMap(({ id, internalCalledBy }) =>
+					internalCalledBy ? [[id, internalCalledBy] as const] : [],
+				),
+			),
 			pages: loadDocsPages(docsPaths.pagesDir),
 			pending: pendingUserDocumentation,
 		}),
