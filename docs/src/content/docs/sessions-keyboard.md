@@ -66,7 +66,7 @@ Each action's chord is the config key `sessions.hotkeys.<action>`:
 assist config set sessions.hotkeys.focusTerminal Ctrl+Alt+J -g
 ```
 
-Restart the web server and reload the page to apply it. A chord is modifiers plus one key joined by `+`, such as `Alt+S`, `Ctrl+Shift+K` or `Mod+/`. The modifiers are `Ctrl`, `Alt` (`Option`), `Shift`, `Meta` (`Cmd`) and `Mod` (Cmd on macOS, Ctrl elsewhere), and at least one must be something other than Shift. The key is a letter, digit, punctuation, `F1`–`F12` or a named key such as `Enter` or `ArrowUp`. Keys match the physical key, so Option chords work on macOS.
+Restart the web server and reload the page to apply it. A chord is modifiers plus one key joined by `+`, such as `Alt+S`, `Ctrl+Shift+K` or `Mod+/`. The modifiers are `Ctrl`, `Alt` (`Option`), `Shift`, `Meta` (`Cmd`) and `Mod` (Cmd on macOS, Ctrl elsewhere), and at least one must be something other than Shift. The key is a letter, digit, punctuation, `F1`–`F12` or a named key such as `Enter` or `ArrowUp`. Option chords work on macOS.
 
 An override replaces all of that action's default chords, and `assist config set` rejects an invalid one. `navTab` takes modifiers only (for example `Ctrl+Alt`); the tab digits stay 1–5. Tab card-cycling can't be changed.
 

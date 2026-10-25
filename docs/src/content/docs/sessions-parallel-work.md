@@ -37,8 +37,7 @@ Turning parallel work off leaves the repo as it was; nothing permanent is writte
 
 A worktree is removed only when the last session holding it is done or closed, and only when nothing in it is unpushed. Closing a session that still holds unpushed changes stops it instead: the card stays on the board as **stopped**, and the only actions are resume, restart or an explicit discard. Discard always asks first and names what it is about to destroy.
 
-The same applies to a session in the clone's own working copy, though the clone itself is never removed. When several agents share a worktree, only the last one to leave triggers this.
-
+The same applies to a session in the clone's own working copy, though the clone itself is never removed.
 After a crash, kill or reboot, the daemon cleans up stray worktrees itself; you never prune them by hand.
 
 ## Worktree settings

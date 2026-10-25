@@ -9,8 +9,6 @@ covers:
   - claude:run-logs
 ---
 
-Sessions are started from the dashboard, which runs a [launcher](../launchers/) inside each one. These are the commands that act on sessions once they're running.
-
 ## Slash commands
 
 Ask the agent in a session to act on its own card with these slash commands:

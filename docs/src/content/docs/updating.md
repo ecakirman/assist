@@ -14,7 +14,7 @@ screenshots:
 
 ## Automatic updates
 
-When assist is installed from a git clone, it keeps itself up to date in the background. It watches the clone's upstream, pulls new commits, rebuilds, and re-runs `assist sync` when the commits change anything sync installs.
+When assist is installed from a git clone, it keeps itself up to date in the background. When the clone's upstream gets new commits, assist pulls and installs them.
 
 The Updates panel opens from the version badge on the dashboard, or with :kbd[Alt+Q]. When a new build is ready, it shows **Restart to update** and which part needs restarting, the web server or the daemon. **Restart** does it for you.
 
@@ -36,9 +36,6 @@ A global npm install is not updated automatically.
 assist update
 ```
 
-`assist update` detects how assist was installed:
-
-- **Global npm install** — installs `@staff0rd/assist@latest`, then runs `assist sync`.
-- **Git clone** — pulls, runs `npm i` and `npm run build` in the clone, then runs `assist sync`.
+`assist update` updates assist, whether it was installed from npm or from a git clone.
 
 When the sessions daemon is running, `assist update` restarts it so it loads the new build. Restart the web server yourself, then reload the browser tab.

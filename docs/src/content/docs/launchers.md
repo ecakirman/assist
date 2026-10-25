@@ -13,7 +13,7 @@ covers:
   - cli:signal done
 ---
 
-The dashboard starts each agent mode by running one of these launchers inside a session. Run from a terminal, they start the agent right there in the terminal instead; it isn't a session, so it has no card on the dashboard.
+Each starts an agent mode in the terminal you run it from, like the matching mode in the dashboard's new-session dialog. It isn't a session, so it has no card on the dashboard.
 
 ## Commands
 
@@ -23,13 +23,9 @@ The dashboard starts each agent mode by running one of these launchers inside a 
 - `assist review-pr-comments [number]` starts Claude working through a pull request's review comments one by one, checking out PR `<number>` first when given. `--announce` posts the PR to Slack once every thread is handled.
 - `assist fix-conflict [number]` starts Claude resolving a pull request's merge conflicts against the remote default branch. `--rebase` rebases instead of merging.
 
-Each takes `--resume-session <id>` to resume an interrupted Claude session, which is what the daemon uses after a restart.
-
 ## Chaining into the next item
-
-A launched session ends by writing a signal that tells its launcher what to do next. Agents write these themselves at the end of the matching slash command; you rarely run them by hand.
 
 - `assist signal done [id]` :badge[internal] marks the session's task complete. `/draft` and `/bug` pass the id of the item they created, which then shows on the card. Called by `/draft`, `/bug` and `/refine`.
 - `assist signal next [id]` :badge[internal] chains into the next backlog item: item `<id>` when given, otherwise whatever `assist next` picks. Called by `/next`.
 
-`draft`, `bug` and `refine` follow a `next` signal into the next item. `--once` makes the launcher exit when its initial task completes.
+After `/next`, `draft`, `bug` and `refine` carry on into the next backlog item.
