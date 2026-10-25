@@ -1,10 +1,10 @@
-import { execSync } from "node:child_process";
 import { recordSessionRefs } from "../../shared/db/recordSessionRefs";
 import { resolveSessionItemId } from "../../shared/resolveSessionItemId";
 import type { AssistConfig } from "../../shared/types";
 import { warnIfUnexpectedBranch } from "../../shared/warnIfUnexpectedBranch";
 import { abortOnConflicts } from "./abortOnConflicts";
 import { collectCommitRefs } from "./collectCommitRefs";
+import { pullKeepingIndex } from "./pullKeepingIndex";
 import { pushCommit } from "./pushCommit";
 import { shouldPull } from "./shouldPull";
 import { commitStaged, stageAndCommit } from "./stageAndCommit";
@@ -18,7 +18,7 @@ export async function execCommit(
 		warnIfUnexpectedBranch(config);
 		const pulled = shouldPull(config);
 		if (pulled) {
-			execSync("git pull --autostash", { stdio: "inherit" });
+			pullKeepingIndex();
 		}
 		abortOnConflicts(files, pulled);
 		const sha =
