@@ -1,3 +1,10 @@
+# [0.887.0](https://github.com/staff0rd/assist/compare/v0.886.6...v0.887.0) (2026-10-25)
+
+
+### Features
+
+* docs site on Astro Starlight ([617d8d4](https://github.com/staff0rd/assist/commit/617d8d40007265df2230ce7bc88ad13ac47ef628))
+
 ## [0.886.6](https://github.com/staff0rd/assist/compare/v0.886.5...v0.886.6) (2026-10-25)
 
 
