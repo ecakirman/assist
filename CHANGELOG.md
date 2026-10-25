@@ -1,3 +1,10 @@
+## [0.883.2](https://github.com/staff0rd/assist/compare/v0.883.1...v0.883.2) (2026-10-25)
+
+
+### Bug Fixes
+
+* shorten extension description ([3641bfe](https://github.com/staff0rd/assist/commit/3641bfe81ab11e7dcc64ceb274f710e87b26dc7d))
+
 ## [0.883.1](https://github.com/staff0rd/assist/compare/v0.883.0...v0.883.1) (2026-10-24)
 
 
