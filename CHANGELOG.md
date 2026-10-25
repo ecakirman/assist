@@ -1,3 +1,10 @@
+## [0.885.2](https://github.com/staff0rd/assist/compare/v0.885.1...v0.885.2) (2026-10-25)
+
+
+### Bug Fixes
+
+* outline criteria filled in late ([9cb704c](https://github.com/staff0rd/assist/commit/9cb704c9259bce58308b3b972a0e6a68ddf93705))
+
 ## [0.885.1](https://github.com/staff0rd/assist/compare/v0.885.0...v0.885.1) (2026-10-25)
 
 
