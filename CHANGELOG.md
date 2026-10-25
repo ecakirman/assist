@@ -1,3 +1,10 @@
+## [0.893.2](https://github.com/staff0rd/assist/compare/v0.893.1...v0.893.2) (2026-10-25)
+
+
+### Bug Fixes
+
+* mark watch commands internal ([929e623](https://github.com/staff0rd/assist/commit/929e623aa9be23022346ced768f014fd8d0b548a))
+
 ## [0.893.1](https://github.com/staff0rd/assist/compare/v0.893.0...v0.893.1) (2026-10-25)
 
 
