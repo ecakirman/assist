@@ -1,3 +1,11 @@
+# [0.886.0](https://github.com/staff0rd/assist/compare/v0.885.2...v0.886.0) (2026-10-25)
+
+
+### Features
+
+* route docs feedback to doc writer ([a1320c5](https://github.com/staff0rd/assist/commit/a1320c50f3e7ea7cb9f584c15135f4077158c9a4))
+* wire docs feedback to doc writer ([956c491](https://github.com/staff0rd/assist/commit/956c491374dd026b527abd1021eda3fea1fd1eb4))
+
 ## [0.885.2](https://github.com/staff0rd/assist/compare/v0.885.1...v0.885.2) (2026-10-25)
 
 
