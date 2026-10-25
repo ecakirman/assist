@@ -25,7 +25,7 @@ export default defineConfig({
 			title: "assist",
 			sidebar,
 			pagination: false,
-			customCss: ["./src/styles/kbd.css"],
+			customCss: ["./src/styles/kbd.css", "./src/styles/screenshot.css"],
 			head: [
 				{
 					tag: "script",

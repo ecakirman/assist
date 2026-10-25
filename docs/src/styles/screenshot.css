@@ -1,0 +1,17 @@
+.sl-markdown-content figure {
+	margin-inline: 0;
+}
+
+.sl-markdown-content figure img {
+	display: block;
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 0.5rem;
+}
+
+.sl-markdown-content figure > figcaption {
+	margin-top: 0.5rem;
+	color: var(--sl-color-gray-3);
+	font-size: var(--sl-text-sm);
+	font-style: italic;
+	text-align: center;
+}
