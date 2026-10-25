@@ -1,3 +1,10 @@
+## [0.886.2](https://github.com/staff0rd/assist/compare/v0.886.1...v0.886.2) (2026-10-25)
+
+
+### Bug Fixes
+
+* build pull patch with plumbing diff ([c9c9d40](https://github.com/staff0rd/assist/commit/c9c9d403caa3d55514c1b4469183803edd752ebd))
+
 ## [0.886.1](https://github.com/staff0rd/assist/compare/v0.886.0...v0.886.1) (2026-10-25)
 
 
