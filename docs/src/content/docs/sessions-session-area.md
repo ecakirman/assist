@@ -44,8 +44,6 @@ Commands an agent runs to act on its own card, such as `/close` and `/rename`, a
 - :kbd[Mod+C] copies the selected text. With nothing selected, it reaches the session as an interrupt.
 - :kbd[Mod+V] pastes.
 
-A session's terminal is sized to one viewer at a time. In any other tab, or on a linked machine, it reads **Active on … — click to take over**; clicking makes it yours and resizes it to your window.
-
 ## Your last message
 
 Your last prompt to the session sits over the top-left of the terminal, cut to one line. Hover to read all of it, or click to pin it open until you press :kbd[Esc] or click elsewhere. Scrolling over it steps back through your earlier prompts, with a counter showing which one you're on.
