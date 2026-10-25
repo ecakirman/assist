@@ -18,6 +18,8 @@ screenshots:
     crop: "[data-testid=session-top-bar]"
 ---
 
+The session area, right of the sidebar, shows the selected session: the top bar, its terminal and your last message to it. The [diff](../sessions-diff/) and [preview panes](../sessions-preview-panes/) open beside the terminal.
+
 ## The top bar
 
 Above the terminal, the top bar names the selected session: its repo, its number, the harness conversation id (click to copy) and its status. Below that are its backlog item, title and current phase.
@@ -36,3 +38,21 @@ On the right are its git change counts (which open the [diff](../sessions-diff/)
 [Pull request](../pull-requests/), [review](../sessions-preview-panes/) and [server](../sessions-creating/#run-sessions) buttons appear for sessions that have them.
 
 Commands an agent runs to act on its own card, such as `/close` and `/rename`, are on [Session commands](../sessions-cli/#slash-commands).
+
+## The terminal
+
+The terminal is the session's own, so you type into it as you would locally. While a new session starts, it shows a spinner and what the session is doing.
+
+- :kbd[Mod+C] copies the selected text. With nothing selected, it reaches the session as an interrupt.
+- :kbd[Mod+V] pastes.
+- Links in the output open in a new tab when clicked, including ones that wrap onto the next line.
+
+A session's terminal is sized to one viewer at a time. In any other tab, or on a linked machine, it reads **Active on … — click to take over**; clicking makes it yours and resizes it to your window. A session nobody is viewing goes to whoever looks at it and interacts first.
+
+## Your last message
+
+Your last prompt to the session sits over the top-left of the terminal, cut to one line. Hover to read all of it, or click to pin it open until you press :kbd[Esc] or click elsewhere. Scrolling over it steps back through your earlier prompts, with a counter showing which one you're on.
+
+## Transcripts
+
+Clicking an entry on the sidebar's [History](../sessions-sidebar/#history) tab shows its transcript here in place of the terminal.
