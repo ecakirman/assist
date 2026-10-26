@@ -1,3 +1,10 @@
+# [0.900.0](https://github.com/staff0rd/assist/compare/v0.899.0...v0.900.0) (2026-10-26)
+
+
+### Features
+
+* terminal follows dashboard mode ([0d89fdb](https://github.com/staff0rd/assist/commit/0d89fdb6e13f220df4184623e0052c88d94f983a))
+
 # [0.899.0](https://github.com/staff0rd/assist/compare/v0.898.2...v0.899.0) (2026-10-26)
 
 
