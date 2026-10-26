@@ -1,3 +1,10 @@
+## [0.895.1](https://github.com/staff0rd/assist/compare/v0.895.0...v0.895.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* redirect docs site root to /assist ([7ba6918](https://github.com/staff0rd/assist/commit/7ba6918b4c3a13544a5915a22c28f040a61c4778))
+
 # [0.895.0](https://github.com/staff0rd/assist/compare/v0.894.1...v0.895.0) (2026-10-26)
 
 
