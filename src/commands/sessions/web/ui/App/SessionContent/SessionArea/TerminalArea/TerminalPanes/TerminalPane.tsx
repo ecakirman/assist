@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import { useRef } from "react";
 import type { Ownership } from "./Ownership";
 import type { ResizeFn } from "../../../../../ResizeFn";
@@ -25,11 +26,13 @@ export function TerminalPane({
 	sendResize: ResizeFn;
 }) {
 	const containerRef = useRef<HTMLDivElement>(null);
+	const { mode } = useTheme().palette;
 	const inactive = ownership === "other";
 	const onPress = useTerminal(containerRef, sessionId, {
 		visible,
 		ownership,
 		ended,
+		mode,
 		sendInput,
 		onOutput,
 		sendResize,

@@ -1,3 +1,4 @@
+import type { PaletteMode } from "@mui/material";
 import { type RefObject, useRef } from "react";
 import type { Ownership } from "../Ownership";
 import type { ResizeFn } from "../../../../../../ResizeFn";
@@ -12,6 +13,7 @@ type TerminalOptions = {
 	visible: boolean;
 	ownership: Ownership;
 	ended: boolean;
+	mode: PaletteMode;
 	sendInput: (sessionId: string, data: string) => void;
 	onOutput: (sessionId: string, handler: (data: string) => void) => () => void;
 	sendResize: ResizeFn;
@@ -24,6 +26,7 @@ export function useTerminal(
 		visible,
 		ownership,
 		ended,
+		mode,
 		sendInput,
 		onOutput,
 		sendResize,
@@ -46,6 +49,7 @@ export function useTerminal(
 		sendResize,
 		staleRef,
 		mayResize: mayResizeRef.current,
+		mode,
 	});
 
 	const refs = { containerRef, handleRef, staleRef };

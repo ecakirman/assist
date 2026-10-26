@@ -1,3 +1,4 @@
+import type { PaletteMode } from "@mui/material";
 import type { ResizeFn } from "../../../../../../../ResizeFn";
 import { createTerminal, type TerminalHandle } from "./createTerminal";
 import { fitTerminal } from "./fitTerminal";
@@ -12,6 +13,7 @@ type TerminalIo = {
 	sendResize: ResizeFn;
 	isStale: () => boolean;
 	mayResize: () => boolean;
+	mode: PaletteMode;
 };
 
 export type SessionTerminal = TerminalHandle & { replayOutput: () => void };
@@ -19,9 +21,9 @@ export type SessionTerminal = TerminalHandle & { replayOutput: () => void };
 export function setupTerminal(
 	el: HTMLElement,
 	sessionId: string,
-	{ sendInput, onOutput, sendResize, isStale, mayResize }: TerminalIo,
+	{ sendInput, onOutput, sendResize, isStale, mayResize, mode }: TerminalIo,
 ): { handle: SessionTerminal; cleanup: () => void } {
-	const terminal = createTerminal(el);
+	const terminal = createTerminal(el, mode);
 	const subscribe = () =>
 		onOutput(sessionId, (data) => {
 			if (!isStale()) terminal.term.write(data);

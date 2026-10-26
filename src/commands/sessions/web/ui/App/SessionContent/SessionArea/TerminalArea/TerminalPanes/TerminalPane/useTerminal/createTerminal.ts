@@ -1,7 +1,9 @@
+import type { PaletteMode } from "@mui/material";
 import { FitAddon } from "@xterm/addon-fit";
 import { WebglAddon } from "@xterm/addon-webgl";
 import { Terminal } from "@xterm/xterm";
 import { createWrappedLinkProvider } from "./createTerminal/createWrappedLinkProvider";
+import { terminalTheme } from "./terminalTheme";
 
 export type TerminalHandle = {
 	term: Terminal;
@@ -9,13 +11,16 @@ export type TerminalHandle = {
 	dispose: () => void;
 };
 
-export function createTerminal(el: HTMLElement): TerminalHandle {
+export function createTerminal(
+	el: HTMLElement,
+	mode: PaletteMode,
+): TerminalHandle {
 	const term = new Terminal({
 		cursorBlink: true,
 		scrollback: 5000,
 		fontSize: 14,
 		fontFamily: "'Cascadia Code', 'Fira Code', Consolas, monospace",
-		theme: { background: "#1e1e1e", foreground: "#d4d4d4" },
+		theme: terminalTheme(mode),
 		linkHandler: {
 			activate: (_event, uri) => {
 				window.open(uri, "_blank");

@@ -48,6 +48,7 @@ function attach(el: HTMLElement, mayResize = true) {
 		sendResize,
 		isStale: () => !mayResize,
 		mayResize: () => mayResize,
+		mode: "dark",
 	});
 	return sendResize;
 }
@@ -130,6 +131,7 @@ describe("setupTerminal output replay", () => {
 			sendResize: vi.fn(),
 			isStale: () => stale,
 			mayResize: () => true,
+			mode: "dark",
 		});
 		expect(handle.term.write).not.toHaveBeenCalled();
 
