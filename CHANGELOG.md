@@ -1,3 +1,10 @@
+## [0.898.1](https://github.com/staff0rd/assist/compare/v0.898.0...v0.898.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* filter unrelated docs search results ([97220b9](https://github.com/staff0rd/assist/commit/97220b90be9b33d868d01ec90963f639679bf1bb))
+
 # [0.898.0](https://github.com/staff0rd/assist/compare/v0.897.0...v0.898.0) (2026-10-26)
 
 
