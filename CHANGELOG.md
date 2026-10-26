@@ -1,3 +1,11 @@
+# [0.899.0](https://github.com/staff0rd/assist/compare/v0.898.2...v0.899.0) (2026-10-26)
+
+
+### Features
+
+* capture linked machines in docs ([df876e6](https://github.com/staff0rd/assist/commit/df876e6a627ae95ebb3c90dad3ba4d1048372d20))
+* mark nodes and review internal ([4518978](https://github.com/staff0rd/assist/commit/4518978ed17498450099dae0c47d70d2fd23979b))
+
 ## [0.898.2](https://github.com/staff0rd/assist/compare/v0.898.1...v0.898.2) (2026-10-26)
 
 
