@@ -1,8 +1,8 @@
 ---
 id: sessions-pr-review
 title: Reviewing pull requests
-group: Sessions
-order: 10
+group: Git and GitHub
+order: 1
 covers:
   - cli:review
   - config:review.codexModel

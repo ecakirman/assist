@@ -1,19 +1,6 @@
 import type { DocsArea } from "./docsAreas";
 
 export const pendingUserDocumentation: Partial<Record<DocsArea, string[]>> = {
-	"linked-nodes": [
-		"cli:sessions nodes",
-		"cli:sessions nodes link",
-		"cli:sessions nodes unlink",
-		"cli:sessions nodes doctor",
-		"cli:sessions nodes logs",
-		"cli:sessions nodes restart",
-		"cli:sessions nodes update",
-		"config:sessions.linkVersionCheck",
-		"config:sessions.links",
-		"config:sessions.nodeName",
-		"config:sessions.tailscaleServe",
-	],
 	backlog: [
 		"cli:backlog",
 		"cli:backlog list",

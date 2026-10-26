@@ -1,8 +1,8 @@
 ---
 id: sessions-high-level-review
 title: High-level review
-group: Sessions
-order: 11
+group: Git and GitHub
+order: 2
 covers:
   - claude:review-high-level
   - claude:review-config
