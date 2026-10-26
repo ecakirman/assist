@@ -45,7 +45,7 @@ jobs:
           npm run docs:build
           mkdir site
           mv docs/dist site/assist
-          echo "/ /assist/ 301" > site/_redirects
+          cp docs/_redirects site/
 
       - name: Deploy to Netlify
         env:
