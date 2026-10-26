@@ -1,3 +1,10 @@
+## [0.898.2](https://github.com/staff0rd/assist/compare/v0.898.1...v0.898.2) (2026-10-26)
+
+
+### Bug Fixes
+
+* drop non-inflected docs search hits ([bc741f3](https://github.com/staff0rd/assist/commit/bc741f3a1c95ee27112bd35e71e2482522f867ba))
+
 ## [0.898.1](https://github.com/staff0rd/assist/compare/v0.898.0...v0.898.1) (2026-10-26)
 
 
