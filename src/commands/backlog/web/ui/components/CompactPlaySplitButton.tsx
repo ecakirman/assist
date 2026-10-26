@@ -6,6 +6,7 @@ import {
 } from "./CloseItemDialog";
 import { CloseItemMenu } from "./CloseItemMenu";
 import { CompactPlayButtonGroup } from "./CompactPlayButtonGroup";
+import { useRefineLaunch } from "./useRefineLaunch";
 
 export function CompactPlaySplitButton({
 	itemId,
@@ -23,6 +24,7 @@ export function CompactPlaySplitButton({
 	const anchorRef = useRef<HTMLButtonElement>(null);
 	const [open, setOpen] = useState(false);
 	const [closing, setClosing] = useState<ClosingStatus | null>(null);
+	const refine = useRefineLaunch(itemId);
 	const stop = (event: MouseEvent) => event.stopPropagation();
 	return (
 		<>
@@ -43,6 +45,10 @@ export function CompactPlaySplitButton({
 				anchorEl={anchorRef.current}
 				open={open}
 				onClose={() => setOpen(false)}
+				onRefine={() => {
+					setOpen(false);
+					refine.launch([]);
+				}}
 				onSelect={(status) => {
 					setOpen(false);
 					setClosing(status);

@@ -7,7 +7,7 @@ import {
 	screen,
 	waitFor,
 } from "@testing-library/react";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, useLocation } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiNodeContext } from "../../../../sessions/web/ui/useApiNode";
 import {
@@ -32,6 +32,10 @@ const repoSelection: RepoSelection = {
 	originOf: () => undefined,
 };
 
+function LocationProbe() {
+	return <span data-testid="location">{useLocation().pathname}</span>;
+}
+
 function renderCompact({
 	launchAssist = vi.fn(),
 	onClosed = vi.fn(() => Promise.resolve()),
@@ -51,6 +55,7 @@ function renderCompact({
 							sendInput: () => {},
 						}}
 					>
+						<LocationProbe />
 						<div onClick={onCardClick}>
 							<PlayAction
 								itemId={775}
@@ -101,14 +106,30 @@ describe("compact play split button", () => {
 		expect(more.querySelector('[data-testid="MoreVertIcon"]')).toBeTruthy();
 	});
 
-	it("offers Mark done and Won't do in the dropdown", () => {
+	it("offers Refine, then Mark done and Won't do in the dropdown", () => {
 		renderCompact();
 
 		fireEvent.click(screen.getByRole("button", { name: "More actions" }));
 
 		expect(
 			screen.getAllByRole("menuitem").map((item) => item.textContent),
-		).toEqual(["Mark done", "Won't do"]);
+		).toEqual(["Refine", "Mark done", "Won't do"]);
+		expect(screen.getByRole("separator")).toBeTruthy();
+	});
+
+	it("launches a refine session in the repo and node without opening the card", () => {
+		const { launchAssist, onCardClick } = renderCompact();
+
+		openMarkDone("Refine");
+
+		expect(launchAssist).toHaveBeenCalledWith(
+			["refine", "--once", "a775"],
+			"/repo",
+			{ node: "peer" },
+		);
+		expect(screen.getByTestId("location").textContent).toBe("/sessions");
+		expect(screen.queryByRole("dialog")).toBeNull();
+		expect(onCardClick).not.toHaveBeenCalled();
 	});
 
 	it("keeps the ellipsis enabled once a build has launched", () => {
@@ -121,7 +142,7 @@ describe("compact play split button", () => {
 		const more = screen.getByRole("button", { name: "More actions" });
 		expect((more as HTMLButtonElement).disabled).toBe(false);
 		fireEvent.click(more);
-		expect(screen.getAllByRole("menuitem")).toHaveLength(2);
+		expect(screen.getAllByRole("menuitem")).toHaveLength(3);
 		expect(onCardClick).not.toHaveBeenCalled();
 	});
 
