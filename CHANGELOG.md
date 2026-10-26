@@ -1,3 +1,10 @@
+# [0.897.0](https://github.com/staff0rd/assist/compare/v0.896.0...v0.897.0) (2026-10-26)
+
+
+### Features
+
+* document session preview panes ([174ec55](https://github.com/staff0rd/assist/commit/174ec55c22f89a4886a0cecb2d3c35a81e838bd4))
+
 # [0.896.0](https://github.com/staff0rd/assist/compare/v0.895.1...v0.896.0) (2026-10-26)
 
 
