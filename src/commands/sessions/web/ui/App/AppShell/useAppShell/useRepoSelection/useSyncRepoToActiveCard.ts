@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { deriveActiveCwd } from "../../../../deriveActiveCwd";
 import { findActiveSession } from "../../../../findActiveSession";
 import type { HistoricalSession, SessionInfo } from "../../../../types";
-import { LOCAL_NODE } from "./mergeRepos";
+import { LOCAL_NODE } from "../../../../mergeRepos";
 
 export function useSyncRepoToActiveCard(
 	activeId: string | null,

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { findRepo, type MergedRepo } from "./mergeRepos";
+import { findRepo, type MergedRepo } from "../../../../mergeRepos";
 
 export function useRetargetOnMachineChange(
 	machine: string,

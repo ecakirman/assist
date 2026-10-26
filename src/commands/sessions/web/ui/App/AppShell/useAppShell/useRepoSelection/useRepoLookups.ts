@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { findRepo, LOCAL_NODE, type MergedRepo } from "./mergeRepos";
-import { nodeKey } from "./nodeKey";
+import { findRepo, LOCAL_NODE, type MergedRepo } from "../../../../mergeRepos";
+import { nodeKey } from "../../../../nodeKey";
 import type { RepoPick } from "./resolveSelectedNode";
 
 export function useRepoLookups(

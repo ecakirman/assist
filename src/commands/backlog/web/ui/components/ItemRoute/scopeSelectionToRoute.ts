@@ -1,4 +1,4 @@
-import { nodeKey } from "../../../../../sessions/web/ui/App/AppShell/useAppShell/useRepoSelection/nodeKey";
+import { nodeKey } from "../../../../../sessions/web/ui/nodeKey";
 import type { RepoSelection } from "../../../../../sessions/web/ui/useRepoSelectionContext";
 
 export function scopeSelectionToRoute(

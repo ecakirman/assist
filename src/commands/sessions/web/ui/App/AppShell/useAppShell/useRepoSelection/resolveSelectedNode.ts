@@ -1,4 +1,4 @@
-import { LOCAL_NODE, type MergedRepo } from "./mergeRepos";
+import { LOCAL_NODE, type MergedRepo } from "../../../../mergeRepos";
 
 export type RepoPick = { cwd: string; node?: string; origin?: string };
 

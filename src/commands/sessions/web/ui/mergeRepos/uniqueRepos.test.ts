@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { HistoricalSession } from "../../../../../types";
+import type { HistoricalSession } from "../types";
 import { uniqueRepos } from "./uniqueRepos";
 
 function session(cwd: string): HistoricalSession {

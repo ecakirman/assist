@@ -1,9 +1,5 @@
-import {
-	repoGroupCwd,
-	repoGroupKey,
-	repoKeyForCwd,
-} from "../../../../../repoGroupKey";
-import type { HistoricalSession } from "../../../../../types";
+import { repoGroupCwd, repoGroupKey, repoKeyForCwd } from "../repoGroupKey";
+import type { HistoricalSession } from "../types";
 
 export function uniqueRepos(
 	currentCwd: string,

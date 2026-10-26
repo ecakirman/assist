@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import type { MergedRepo } from "./mergeRepos";
-import { nodeKey } from "./nodeKey";
+import type { MergedRepo } from "../../../../mergeRepos";
+import { nodeKey } from "../../../../nodeKey";
 import { type RepoPick, resolveSelectedNode } from "./resolveSelectedNode";
 
 export function useSelectedRepo(
