@@ -1,3 +1,10 @@
+# [0.898.0](https://github.com/staff0rd/assist/compare/v0.897.0...v0.898.0) (2026-10-26)
+
+
+### Features
+
+* document linked machines ([d20ef98](https://github.com/staff0rd/assist/commit/d20ef9823987f34c768730c5fbe4934ff525cfd3))
+
 # [0.897.0](https://github.com/staff0rd/assist/compare/v0.896.0...v0.897.0) (2026-10-26)
 
 
