@@ -1,3 +1,10 @@
+# [0.901.0](https://github.com/staff0rd/assist/compare/v0.900.2...v0.901.0) (2026-10-26)
+
+
+### Features
+
+* agent theme follows terminal mode ([5792272](https://github.com/staff0rd/assist/commit/57922722d1be87745613dbdcf2de24a3d2e35c91))
+
 ## [0.900.2](https://github.com/staff0rd/assist/compare/v0.900.1...v0.900.2) (2026-10-26)
 
 
