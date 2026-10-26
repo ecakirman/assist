@@ -1,3 +1,10 @@
+## [0.900.1](https://github.com/staff0rd/assist/compare/v0.900.0...v0.900.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* readable usage colours in light mode ([c5905ad](https://github.com/staff0rd/assist/commit/c5905ad875a5ec2c88392dbdf0c4965c94dbe1d2))
+
 # [0.900.0](https://github.com/staff0rd/assist/compare/v0.899.0...v0.900.0) (2026-10-26)
 
 
