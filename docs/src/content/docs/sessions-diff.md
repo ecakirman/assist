@@ -82,7 +82,7 @@ assist config set sessions.includeCommittedChanges false -g
 
 ## Commenting
 
-Drag across the text in the diff to select it, then type a note and press :kbd[Enter] (:kbd[Shift+Enter] for a new line) or click **Add comment**. The comment, quoting the selected lines with their file and line numbers, is typed straight into the session for the agent to act on.
+Drag across the text in the diff to select it, then type a note and press :kbd[Enter] (:kbd[Shift+Enter] for a new line) or click **Send to agent**. The comment, quoting the selected lines with their file and line numbers, is typed straight into the session for the agent to act on.
 
 The comment box also offers:
 

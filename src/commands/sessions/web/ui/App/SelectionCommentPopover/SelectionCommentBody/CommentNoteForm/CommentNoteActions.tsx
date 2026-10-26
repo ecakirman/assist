@@ -56,7 +56,7 @@ export function CommentNoteActions({
 						disabled={disabled}
 						onClick={onAdd}
 					>
-						Add comment
+						Send to agent
 					</Button>
 				)}
 			</Stack>

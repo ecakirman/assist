@@ -149,7 +149,7 @@ function submitNote(note: string) {
 	fireEvent.change(screen.getByPlaceholderText("Add a note…"), {
 		target: { value: note },
 	});
-	fireEvent.click(screen.getByRole("button", { name: "Add comment" }));
+	fireEvent.click(screen.getByRole("button", { name: "Send to agent" }));
 }
 
 function structureDiff(path: string) {

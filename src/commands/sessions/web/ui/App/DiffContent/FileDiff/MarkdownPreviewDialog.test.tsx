@@ -235,7 +235,7 @@ describe("MarkdownPreviewDialog comments", () => {
 		fireEvent.change(screen.getByPlaceholderText("Add a note…"), {
 			target: { value: "tighten this" },
 		});
-		fireEvent.click(screen.getByRole("button", { name: "Add comment" }));
+		fireEvent.click(screen.getByRole("button", { name: "Send to agent" }));
 
 		const [sessionId, data] = sendInput.mock.calls[0] as [string, string];
 		expect(sessionId).toBe("daemon-1");

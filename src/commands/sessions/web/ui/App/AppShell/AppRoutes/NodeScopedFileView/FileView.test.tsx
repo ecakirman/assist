@@ -569,7 +569,7 @@ describe("FileView comments in rendered mode", () => {
 
 		selectQuote("first paragraph\nwraps");
 		note("tighten this");
-		fireEvent.click(screen.getByRole("button", { name: "Add comment" }));
+		fireEvent.click(screen.getByRole("button", { name: "Send to agent" }));
 
 		const [sessionId, data] = sendInput.mock.calls[0] as [string, string];
 		expect(sessionId).toBe("daemon-1");
@@ -589,7 +589,7 @@ describe("FileView comments in rendered mode", () => {
 
 		selectQuote("first paragraph");
 		note("why");
-		fireEvent.click(screen.getByRole("button", { name: "Add comment" }));
+		fireEvent.click(screen.getByRole("button", { name: "Send to agent" }));
 
 		await waitFor(() =>
 			expect(sendInput).toHaveBeenLastCalledWith("daemon-1", "\r"),
@@ -606,7 +606,7 @@ describe("FileView comments in rendered mode", () => {
 
 		selectQuote("bold claim");
 		note("say which claim");
-		fireEvent.click(screen.getByRole("button", { name: "Add comment" }));
+		fireEvent.click(screen.getByRole("button", { name: "Send to agent" }));
 
 		const data = sendInput.mock.calls[0]?.[1] as string;
 		expect(data).toContain("docs/notes.md\r");

@@ -102,9 +102,23 @@ describe("SelectionCommentPopover", () => {
 				onCancel={vi.fn()}
 			/>,
 		);
-		fireEvent.click(screen.getByText("Add comment"));
+		fireEvent.click(screen.getByText("Send to agent"));
 
 		expect(onAdd).toHaveBeenCalledWith("needs a guard");
+	});
+
+	it("labels the direct-send button Send to agent without a review queue", () => {
+		render(
+			<SelectionCommentPopover
+				pending={anchor}
+				onAdd={vi.fn()}
+				onCancel={vi.fn()}
+			/>,
+		);
+
+		expect(screen.getByRole("button", { name: "Send to agent" })).toBeTruthy();
+		expect(screen.queryByRole("button", { name: "Add to review" })).toBeNull();
+		expect(screen.queryByRole("button", { name: "Add comment" })).toBeNull();
 	});
 
 	it("warns that the lines changed while keeping the original quote", () => {
