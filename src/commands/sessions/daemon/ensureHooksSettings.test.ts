@@ -32,6 +32,13 @@ describe("ensureHooksSettings", () => {
 		});
 	});
 
+	it("starts Claude with the auto theme so it matches the terminal background", () => {
+		ensureHooksSettings();
+
+		const written = JSON.parse(String(writeMock.mock.calls[0][1]));
+		expect(written.theme).toBe("auto");
+	});
+
 	it("maps prompt and tool-use events to running best-effort hints (no ack)", () => {
 		ensureHooksSettings();
 

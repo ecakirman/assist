@@ -23,6 +23,7 @@ const ASK_USER_QUESTION = "AskUserQuestion";
 const NOT_ASK_USER_QUESTION = `^(?!${ASK_USER_QUESTION}$).*`;
 
 const hooksSettings = {
+	theme: "auto",
 	hooks: {
 		UserPromptSubmit: on(running("prompt")),
 		PreToolUse: [

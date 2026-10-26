@@ -7,6 +7,11 @@
 	margin-inline: auto;
 	border: 1px solid var(--sl-color-hairline);
 	border-radius: 0.5rem;
+	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme="dark"] .sl-markdown-content figure img {
+	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.5);
 }
 
 .assist-lightbox {

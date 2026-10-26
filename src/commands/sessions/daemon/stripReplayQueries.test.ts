@@ -18,6 +18,17 @@ describe("stripReplayQueries", () => {
 		expect(stripReplayQueries("\x1b[?1004h\x1b[?1004l")).toBe("");
 	});
 
+	it("removes colour queries with either terminator", () => {
+		expect(
+			stripReplayQueries("a\x1b]11;?\x07b\x1b]10;?\x1b\\c\x1b]12;?\x07"),
+		).toBe("abc");
+	});
+
+	it("preserves colour sets", () => {
+		const output = "\x1b]11;rgb:ffff/ffff/ffff\x07";
+		expect(stripReplayQueries(output)).toBe(output);
+	});
+
 	it("strips the reported #569 startup burst", () => {
 		expect(stripReplayQueries("\x1b[?1004h\x1b[6ndone")).toBe("done");
 	});
