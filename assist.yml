@@ -27,6 +27,9 @@ restructure:
     - SessionActionButtons
 worktree:
   watcher: true
+  install:
+    - .
+    - docs
 run:
   - name: docs
     command: npm
