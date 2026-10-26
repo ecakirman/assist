@@ -35,7 +35,7 @@ On the right, the git change counts open the [diff](../sessions-diff/), and togg
 - **Done** (:kbd[Alt+C]), on a backlog item's session, marks the item done and ends the session after asking.
 - **×** closes the session, as on its card.
 
-[Pull request](../pull-requests/), [review](../sessions-preview-panes/) and [server](../sessions-creating/#run-sessions) buttons appear for sessions that have them.
+[Pull request](../pull-requests/), [review](../sessions-pr-review/) and [server](../sessions-creating/#run-sessions) buttons appear for sessions that have them.
 
 Commands an agent runs to act on its own card, such as `/close` and `/rename`, are on [Session commands](../sessions-cli/#slash-commands).
 

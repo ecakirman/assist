@@ -5,6 +5,7 @@ import type { CaptureSetupStep } from "../captureSetupStepSchema";
 import type { DocsScreenshot } from "../docsPageSchema";
 import type { CaptureScenes } from "../loadCaptureScenes";
 import { captureScreenshot } from "./captureScreenshot";
+import { closePreviews } from "./closePreviews";
 import type { CaptureHome } from "./createCaptureHome";
 import { runAssist } from "./runAssist";
 import { runSetupStep } from "./runSetupStep";
@@ -23,11 +24,13 @@ function sessionStateTracker(capture: CaptureHome) {
 		const next = JSON.stringify(steps);
 		if (next === current) return;
 		if (current !== "[]") {
+			closePreviews(capture);
 			runAssist(capture, ["daemon", "drain", "--yes"]);
 			rmSync(join(capture.home, ".claude", "projects"), {
 				recursive: true,
 				force: true,
 			});
+			rmSync(join(capture.home, ".fake-gh.json"), { force: true });
 		}
 		for (const step of steps) await runSetupStep(capture, step);
 		current = next;
@@ -49,6 +52,7 @@ export async function captureScreenshots(
 			console.log(`Captured ${files.join(", ")}`);
 		}
 	} finally {
+		closePreviews(capture);
 		await browser.close();
 	}
 }

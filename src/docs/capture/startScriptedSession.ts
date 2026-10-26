@@ -31,6 +31,7 @@ export async function startScriptedSession(
 		},
 		"created",
 	);
+	if (sessionId) capture.sessionIds.set(step.prompt, sessionId);
 	if (step.status && step.status !== "running")
 		await requestDaemon(
 			capture.home,

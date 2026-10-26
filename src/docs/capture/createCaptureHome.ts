@@ -2,16 +2,17 @@ import { execFileSync } from "node:child_process";
 import {
 	copyFileSync,
 	cpSync,
-	mkdirSync,
 	mkdtempSync,
 	realpathSync,
 	writeFileSync,
 } from "node:fs";
+import type { Socket } from "node:net";
 import { tmpdir } from "node:os";
 import { delimiter, join } from "node:path";
 import { captureRepos } from "../captureSetupStepSchema";
 import { docsPaths } from "../docsPaths";
 import { isolatedEnv } from "./isolatedEnv";
+import { initLocalRepo } from "./initLocalRepo";
 
 const SANDBOX_REPO = "https://github.com/staff0rd/sandbox.git";
 
@@ -20,22 +21,12 @@ export type CaptureHome = {
 	reposDir: string;
 	sandbox: string;
 	env: NodeJS.ProcessEnv;
+	sessionIds: Map<string, string>;
+	openPreviews: Socket[];
 };
 
 function socketPathSafeTempDir(): string {
 	return process.platform === "win32" ? tmpdir() : "/tmp";
-}
-
-function initLocalRepo(dir: string, env: NodeJS.ProcessEnv): void {
-	const name = dir.split(/[\\/]/).pop();
-	mkdirSync(dir, { recursive: true });
-	writeFileSync(join(dir, "README.md"), `# ${name}\n`);
-	const git = (...args: string[]) =>
-		execFileSync("git", args, { cwd: dir, env, stdio: "ignore" });
-	git("init", "--quiet", "--initial-branch", "main");
-	git("add", ".");
-	git("commit", "--quiet", "--message", "Initial commit");
-	git("remote", "add", "origin", `https://github.com/example/${name}.git`);
 }
 
 export function createCaptureHome(databaseUrl: string): CaptureHome {
@@ -63,5 +54,12 @@ export function createCaptureHome(databaseUrl: string): CaptureHome {
 	});
 	for (const repo of captureRepos)
 		if (repo !== "sandbox") initLocalRepo(join(reposDir, repo), env);
-	return { home, reposDir, sandbox, env };
+	return {
+		home,
+		reposDir,
+		sandbox,
+		env,
+		sessionIds: new Map(),
+		openPreviews: [],
+	};
 }

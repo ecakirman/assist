@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+// Stand-in for the gh CLI during docs capture. It answers `gh pr list` and
+// `gh pr view` with the pull requests the capture's openPr steps wrote to
+// $HOME/.fake-gh.json, matched on the repo's origin, and fails every other
+// call as an unauthenticated gh would.
+(async () => {
+	const { existsSync, readFileSync } = await import("node:fs");
+	const { execFileSync } = await import("node:child_process");
+	const { join } = await import("node:path");
+
+	const file = join(process.env.HOME ?? "", ".fake-gh.json");
+	const prs = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : {};
+	const [group, verb] = process.argv.slice(2);
+	if (group !== "pr" || (verb !== "list" && verb !== "view")) process.exit(1);
+
+	let origin = "";
+	try {
+		origin = execFileSync("git", ["remote", "get-url", "origin"], {
+			encoding: "utf8",
+		}).trim();
+	} catch {
+		process.exit(1);
+	}
+	const repo = origin.replace(/\.git$/, "").split("/").at(-1);
+	const pr = prs[repo];
+	if (!pr) {
+		if (verb === "list") console.log("[]");
+		else process.exit(1);
+		return;
+	}
+	const summary = {
+		number: pr.number,
+		title: pr.title,
+		author: { login: pr.author ?? "sandbox" },
+		createdAt: new Date().toISOString(),
+		url: `https://github.com/staff0rd/${repo}/pull/${pr.number}`,
+		isDraft: false,
+	};
+	console.log(JSON.stringify(verb === "list" ? [summary] : summary));
+})();

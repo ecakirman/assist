@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { proposedItemSchema } from "../commands/backlog/propose/proposedItemSchema";
 
 export const captureRepos = ["sandbox", "api", "website"] as const;
 
@@ -20,13 +21,72 @@ const transcriptStepSchema = z.strictObject({
 	ageMinutes: z.number().int().nonnegative().optional(),
 });
 
+const openPrStepSchema = z.strictObject({
+	repo: z.enum(captureRepos),
+	number: z.number().int().positive(),
+	title: z.string().min(1),
+	author: z.string().min(1).optional(),
+});
+
+const previewTarget = { session: z.string().min(1) };
+
+const markdownPreviewSchema = z.strictObject({
+	...previewTarget,
+	kind: z.enum(["ask", "show"]),
+	title: z.string().min(1),
+	body: z.string().min(1),
+});
+
+const prPreviewSchema = z.strictObject({
+	...previewTarget,
+	title: z.string().min(1),
+	what: z.string().min(1),
+	why: z.string().min(1),
+	how: z.string().min(1).optional(),
+	resolves: z.array(z.string().min(1)).optional(),
+	prNumber: z.number().int().positive().optional(),
+	draft: z.boolean().optional(),
+});
+
+const proposalPreviewSchema = z.strictObject({
+	...previewTarget,
+	item: proposedItemSchema,
+});
+
+const highLevelFileSchema = z.strictObject({
+	path: z.string().min(1),
+	status: z.enum(["added", "removed", "modified"]),
+	content: z.string().optional(),
+	patch: z.string().optional(),
+});
+
+const highLevelReviewSchema = z.strictObject({
+	...previewTarget,
+	prNumber: z.number().int().positive(),
+	title: z.string().min(1),
+	headRef: z.string().min(1),
+	body: z.string(),
+	linkedIssues: z.array(z.string()).optional(),
+	criticalPaths: z.array(z.string().min(1)).optional(),
+	uiPaths: z.array(z.string().min(1)).optional(),
+	files: z.array(highLevelFileSchema).min(1),
+});
+
 export const captureSetupStepSchema = z.union([
 	z.strictObject({ assist: z.array(z.string().min(1)).min(1) }),
 	z.strictObject({ run: z.string().min(1) }),
 	z.strictObject({ session: sessionStepSchema }),
 	z.strictObject({ transcript: transcriptStepSchema }),
+	z.strictObject({ openPr: openPrStepSchema }),
+	z.strictObject({ preview: markdownPreviewSchema }),
+	z.strictObject({ pr: prPreviewSchema }),
+	z.strictObject({ proposal: proposalPreviewSchema }),
+	z.strictObject({ highLevelReview: highLevelReviewSchema }),
 ]);
 
 export type CaptureSetupStep = z.infer<typeof captureSetupStepSchema>;
 export type CaptureSessionStep = z.infer<typeof sessionStepSchema>;
+export type CaptureOpenPrStep = z.infer<typeof openPrStepSchema>;
 export type CaptureTranscriptStep = z.infer<typeof transcriptStepSchema>;
+export type CaptureHighLevelReviewStep = z.infer<typeof highLevelReviewSchema>;
+export type CaptureHighLevelFile = z.infer<typeof highLevelFileSchema>;

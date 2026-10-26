@@ -33,12 +33,14 @@ export default defineConfig({
 		starlight({
 			title: "assist",
 			favicon: "/favicon.png",
+			logo: { src: "../extension/icons/assist-128.png", alt: "" },
 			sidebar,
 			pagination: false,
 			customCss: [
 				"./src/styles/kbd.css",
 				"./src/styles/screenshot.css",
 				"./src/styles/dashboard.css",
+				"./src/styles/header.css",
 			],
 			head: [
 				{

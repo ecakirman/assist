@@ -107,6 +107,73 @@
 			}
 		}
 	],
+	"previews": [
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "Add a dark mode toggle to the settings page",
+				"title": "Dark mode toggle",
+				"status": "waiting",
+				"reply": [
+					"I'll add the toggle next to the existing theme settings.",
+					"Read(src/settings/SettingsPage.tsx)",
+					"⎿  Read 84 lines",
+					"I've put the plan in the preview pane for your sign-off."
+				]
+			}
+		}
+	],
+	"high-level-review": [
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "/review-high-level 14",
+				"title": "High-level review #14",
+				"status": "waiting",
+				"reply": [
+					"The high-level review checklist for #14 is open in the preview pane."
+				]
+			}
+		},
+		{
+			"highLevelReview": {
+				"session": "/review-high-level 14",
+				"prNumber": 14,
+				"title": "Add a dark mode toggle to settings",
+				"headRef": "dark-mode-toggle",
+				"body": "## What\n\nThe settings page has a Dark mode toggle. It follows the operating system's colour scheme until you pick one, then remembers your choice.\n\n## Why\n\nUsers working at night asked for a dark theme.\n\nResolves #12\n",
+				"criticalPaths": ["src/i18n/*.json"],
+				"uiPaths": ["src/settings/**/*.tsx"],
+				"files": [
+					{
+						"path": "src/settings/DarkModeToggle.tsx",
+						"status": "added",
+						"content": "import { useColourScheme } from \"./useColourScheme\";\n\nexport function DarkModeToggle() {\n\tconst [scheme, setScheme] = useColourScheme();\n\treturn (\n\t\t<label>\n\t\t\t<input\n\t\t\t\ttype=\"checkbox\"\n\t\t\t\tchecked={scheme === \"dark\"}\n\t\t\t\tonChange={(event) => setScheme(event.target.checked ? \"dark\" : \"light\")}\n\t\t\t/>\n\t\t\tDark mode\n\t\t</label>\n\t);\n}\n"
+					},
+					{
+						"path": "src/settings/useColourScheme.ts",
+						"status": "added",
+						"content": "import { useEffect, useState } from \"react\";\n\ntype Scheme = \"light\" | \"dark\";\n\nexport function useColourScheme() {\n\tconst [scheme, setScheme] = useState<Scheme>(\n\t\t() => (localStorage.getItem(\"colour-scheme\") as Scheme | null) ?? \"light\",\n\t);\n\tuseEffect(() => {\n\t\tdocument.documentElement.dataset.scheme = scheme;\n\t\tlocalStorage.setItem(\"colour-scheme\", scheme);\n\t}, [scheme]);\n\treturn [scheme, setScheme] as const;\n}\n"
+					},
+					{
+						"path": "src/settings/useColourScheme.test.ts",
+						"status": "added",
+						"content": "import { describe, expect, it } from \"vitest\";\nimport { useColourScheme } from \"./useColourScheme\";\n\ndescribe(\"useColourScheme\", () => {\n\tit(\"starts light when nothing is saved\", () => {\n\t\texpect(useColourScheme).toBeDefined();\n\t});\n\n\tit(\"restores the saved scheme\", () => {\n\t\texpect(useColourScheme).toBeDefined();\n\t});\n});\n"
+					},
+					{
+						"path": "src/settings/SettingsPage.tsx",
+						"status": "modified",
+						"patch": "@@ -1,9 +1,11 @@\n+import { DarkModeToggle } from \"./DarkModeToggle\";\n import { ThemePicker } from \"./ThemePicker\";\n \n export function SettingsPage() {\n \treturn (\n \t\t<section>\n \t\t\t<ThemePicker />\n+\t\t\t<DarkModeToggle />\n \t\t</section>\n \t);\n }"
+					},
+					{
+						"path": "src/i18n/en.json",
+						"status": "modified",
+						"patch": "@@ -2,3 +2,4 @@\n \t\"settings.title\": \"Settings\",\n-\t\"settings.theme\": \"Theme\"\n+\t\"settings.theme\": \"Theme\",\n+\t\"settings.darkMode\": \"Dark mode\"\n }"
+					}
+				]
+			}
+		}
+	],
 	"diff": [
 		{
 			"session": {

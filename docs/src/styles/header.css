@@ -1,0 +1,9 @@
+.site-title {
+	gap: 0.5rem;
+}
+
+/* "assist" has no descenders, so lift it to centre its letters on the icon. */
+.site-title span {
+	line-height: 1;
+	transform: translateY(-0.08em);
+}

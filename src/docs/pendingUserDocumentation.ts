@@ -1,22 +1,6 @@
 import type { DocsArea } from "./docsAreas";
 
 export const pendingUserDocumentation: Partial<Record<DocsArea, string[]>> = {
-	"sessions-preview": [
-		"cli:backlog propose",
-		"cli:review",
-		"cli:show",
-		"cli:ask",
-		"claude:ask",
-		"claude:review-config",
-		"claude:review-high-level",
-		"claude:show",
-		"config:review.codexModel",
-		"config:review.highLevel.collapsedPaths",
-		"config:review.highLevel.criticalPaths",
-		"config:review.highLevel.descriptionWordCap",
-		"config:review.highLevel.testPaths",
-		"config:review.highLevel.uiPaths",
-	],
 	"linked-nodes": [
 		"cli:sessions nodes",
 		"cli:sessions nodes link",

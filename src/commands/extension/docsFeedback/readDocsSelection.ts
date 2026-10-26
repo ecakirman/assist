@@ -1,5 +1,6 @@
 import { docsFeedbackMarkers } from "../../../shared/docsFeedbackMarkers";
 import type { DocsFeedback } from "../../sessions/web/docsFeedback/docsFeedbackSchema";
+import { pageLevelSection } from "./pageLevelSection";
 
 export type DocsSelection = Omit<DocsFeedback, "prompt"> & { range: Range };
 
@@ -10,9 +11,23 @@ function metaContent(doc: Document, name: string): string | undefined {
 	);
 }
 
-function sectionOf(node: Node | null): Element | null | undefined {
+function sectionOf(
+	doc: Document,
+	node: Node | null,
+): { heading: string; source: string } | undefined {
 	const element = node instanceof Element ? node : node?.parentElement;
-	return element?.closest(`section[${docsFeedbackMarkers.headingAttribute}]`);
+	const section = element?.closest(
+		`section[${docsFeedbackMarkers.headingAttribute}]`,
+	);
+	if (!section)
+		return pageLevelSection(element, {
+			title: metaContent(doc, docsFeedbackMarkers.titleMeta),
+			source: metaContent(doc, docsFeedbackMarkers.sourceMeta),
+		});
+	return {
+		heading: section.getAttribute(docsFeedbackMarkers.headingAttribute) ?? "",
+		source: section.getAttribute(docsFeedbackMarkers.sourceAttribute) ?? "",
+	};
 }
 
 export function readDocsSelection(
@@ -24,13 +39,7 @@ export function readDocsSelection(
 	const text = selection.toString().trim();
 	if (!text || selection.rangeCount === 0) return undefined;
 	const range = selection.getRangeAt(0);
-	const section = sectionOf(range.startContainer);
+	const section = sectionOf(doc, range.startContainer);
 	if (!section) return undefined;
-	return {
-		pageId,
-		heading: section.getAttribute(docsFeedbackMarkers.headingAttribute) ?? "",
-		source: section.getAttribute(docsFeedbackMarkers.sourceAttribute) ?? "",
-		selection: text,
-		range,
-	};
+	return { pageId, ...section, selection: text, range };
 }
