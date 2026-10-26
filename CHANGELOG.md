@@ -1,3 +1,10 @@
+# [0.902.0](https://github.com/staff0rd/assist/compare/v0.901.0...v0.902.0) (2026-10-26)
+
+
+### Features
+
+* refine from list card menu ([6469c19](https://github.com/staff0rd/assist/commit/6469c190846afff43a946bdcee01f59e7c6fd2d8))
+
 # [0.901.0](https://github.com/staff0rd/assist/compare/v0.900.2...v0.901.0) (2026-10-26)
 
 
