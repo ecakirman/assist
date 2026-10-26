@@ -1,3 +1,10 @@
+# [0.894.0](https://github.com/staff0rd/assist/compare/v0.893.4...v0.894.0) (2026-10-26)
+
+
+### Features
+
+* send preview comments to agent ([691628d](https://github.com/staff0rd/assist/commit/691628dd203a467c2220eb97cf62de11d99d2764))
+
 ## [0.893.4](https://github.com/staff0rd/assist/compare/v0.893.3...v0.893.4) (2026-10-25)
 
 
