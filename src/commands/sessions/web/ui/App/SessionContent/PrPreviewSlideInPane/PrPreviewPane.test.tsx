@@ -1727,26 +1727,50 @@ describe("PrPreviewPane send to agent", () => {
 		},
 	);
 
-	it("disables Send to agent with the unavailable caption when the session stopped", () => {
+	it("confirms which session the comment was sent to until dismissed", () => {
+		vi.useFakeTimers();
 		const { container } = renderLive(
 			preview,
-			makeSessionInfo({ status: "stopped" }),
+			makeSessionInfo({ name: "review-7" }),
 		);
 		typeNote(container, "say what x is");
 
-		expect(
-			screen
-				.getByRole("button", { name: "Send to agent" })
-				.hasAttribute("disabled"),
-		).toBe(true);
-		expect(
-			screen.getByText(
-				"Comments are unavailable — that session is no longer live.",
-			),
-		).toBeTruthy();
-		fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
-		expect(screen.getByText("Comments (1)")).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Send to agent" }));
+		expect(screen.getByText("Comment sent to review-7")).toBeTruthy();
+
+		fireEvent.click(screen.getByRole("button", { name: "Close" }));
+		act(() => vi.runAllTimers());
+		expect(screen.queryByText("Comment sent to review-7")).toBeNull();
 	});
+
+	it.each([
+		["stopped", makeSessionInfo({ status: "stopped" })],
+		["closing", makeSessionInfo({ closing: true })],
+	])(
+		"disables Send to agent with the unavailable caption when the session is %s",
+		(_, session) => {
+			const { container, sendInput } = renderLive(preview, session);
+			typeNote(container, "say what x is");
+
+			expect(
+				screen
+					.getByRole("button", { name: "Send to agent" })
+					.hasAttribute("disabled"),
+			).toBe(true);
+			expect(
+				screen.getByText(
+					"Comments are unavailable — that session is no longer live.",
+				),
+			).toBeTruthy();
+			fireEvent.keyDown(screen.getByPlaceholderText("Add a note…"), {
+				key: "Enter",
+			});
+			expect(sendInput).not.toHaveBeenCalled();
+			expect(screen.queryByText(/Comment sent to/)).toBeNull();
+			fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
+			expect(screen.getByText("Comments (1)")).toBeTruthy();
+		},
+	);
 });
 
 describe("PrPreviewPane width toggle", () => {
