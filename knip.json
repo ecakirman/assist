@@ -33,6 +33,7 @@
 		"oxlint",
 		"skott"
 	],
+	"ignoreBinaries": ["netlify-cli"],
 	"ignore": [
 		"**/.venv/**",
 		"netcap-extension/**",
