@@ -5,6 +5,7 @@ import { docsSectionsPlugin } from "../src/docs/starlight/docsSectionsPlugin";
 import { kbdPlugin } from "../src/docs/starlight/kbdPlugin";
 import { docsSidebar } from "../src/docs/starlight/docsSidebar";
 import { normalizeBasePath } from "../src/docs/starlight/normalizeBasePath";
+import { patchPagefindBundle } from "../src/docs/starlight/patchPagefindBundle";
 import { badgePlugin } from "../src/docs/starlight/badgePlugin";
 import { iconPlugin } from "../src/docs/starlight/iconPlugin";
 import { screenshotsPlugin } from "../src/docs/starlight/screenshotsPlugin";
@@ -41,6 +42,7 @@ export default defineConfig({
 				"./src/styles/screenshot.css",
 				"./src/styles/dashboard.css",
 				"./src/styles/header.css",
+				"./src/styles/search.css",
 			],
 			head: [
 				{
@@ -58,6 +60,7 @@ export default defineConfig({
 					injectScript("page", 'import "/src/screenshotLightbox.ts";');
 					if (preview) injectScript("page", 'import "/src/previewReload.ts";');
 				},
+				"astro:build:done": ({ dir }) => patchPagefindBundle(dir),
 			},
 		},
 	],

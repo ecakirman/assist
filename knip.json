@@ -22,6 +22,7 @@
 		"src/docs/starlight/iconPlugin.ts",
 		"src/docs/starlight/kbdPlugin.ts",
 		"src/docs/starlight/normalizeBasePath.ts",
+		"src/docs/starlight/patchPagefindBundle.ts",
 		"src/docs/starlight/previewPageMeta.ts",
 		"src/docs/starlight/screenshotsPlugin.ts",
 		"src/docs/starlight/untilFeedbackClosed.ts"
