@@ -1,3 +1,10 @@
+## [0.900.2](https://github.com/staff0rd/assist/compare/v0.900.1...v0.900.2) (2026-10-26)
+
+
+### Bug Fixes
+
+* legible server dropdown in light mode ([efcdf19](https://github.com/staff0rd/assist/commit/efcdf19ebe1c8a5c901ce52a65c2cdb2053981b7))
+
 ## [0.900.1](https://github.com/staff0rd/assist/compare/v0.900.0...v0.900.1) (2026-10-26)
 
 
