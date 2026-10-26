@@ -1,3 +1,10 @@
+# [0.895.0](https://github.com/staff0rd/assist/compare/v0.894.1...v0.895.0) (2026-10-26)
+
+
+### Features
+
+* deploy docs site to /assist ([b272469](https://github.com/staff0rd/assist/commit/b272469f275709a75805d6750fc244782604a4b8))
+
 ## [0.894.1](https://github.com/staff0rd/assist/compare/v0.894.0...v0.894.1) (2026-10-26)
 
 
