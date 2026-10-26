@@ -9,7 +9,9 @@ export function PrPreviewFooter({
 	commentColors,
 	pending,
 	cwd,
+	unavailable,
 	onAdd,
+	onQueue,
 	onCite,
 	onAddRule,
 	onRemove,
@@ -50,7 +52,9 @@ export function PrPreviewFooter({
 				pending={pending}
 				editable={editable}
 				cwd={cwd}
+				unavailable={unavailable}
 				onAdd={onAdd}
+				onQueue={onQueue}
 				onCite={onCite}
 				onAddRule={onAddRule}
 				onCancel={onCancel}

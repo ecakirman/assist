@@ -1,7 +1,7 @@
-import type { ScopedRule } from "../../../../../../../rules/types";
-import { formatQuotedComment } from "../../../formatQuotedComment";
-import { pasteAndSubmit } from "../../../../../../shared/pasteAndSubmit";
-import { ruleCitationNote } from "../../../ruleCitationNote";
+import type { ScopedRule } from "../../../../../../../../rules/types";
+import { formatQuotedComment } from "../../../../formatQuotedComment";
+import { pasteAndSubmit } from "../../../../../../../shared/pasteAndSubmit";
+import { ruleCitationNote } from "../../../../ruleCitationNote";
 
 export function previewRuleCiter(
 	sessionId: string | undefined,

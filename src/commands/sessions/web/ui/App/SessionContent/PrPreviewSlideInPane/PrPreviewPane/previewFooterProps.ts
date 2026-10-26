@@ -2,6 +2,7 @@ import type { ScopedRule } from "../../../../../../../rules/types";
 import type { PrPreview } from "../../../../../../shared/SessionInfoBase";
 import type { PrPreviewFooterProps } from "./PrPreviewFooterProps";
 import type { usePrPane } from "./usePrPane";
+import type { usePreviewCommentSender } from "./usePreviewCommentSender";
 
 export function previewFooterProps({
 	preview,
@@ -9,6 +10,7 @@ export function previewFooterProps({
 	cwd,
 	isPr,
 	editable,
+	sender,
 	onCite,
 	onAddRule,
 }: {
@@ -17,6 +19,7 @@ export function previewFooterProps({
 	cwd: string | undefined;
 	isPr: boolean;
 	editable: boolean;
+	sender: ReturnType<typeof usePreviewCommentSender>;
 	onCite: ((rule: ScopedRule) => void) | undefined;
 	onAddRule: ((note: string) => void) | undefined;
 }): PrPreviewFooterProps {
@@ -25,7 +28,9 @@ export function previewFooterProps({
 		commentColors: pane.commentColors,
 		pending: pane.pending,
 		cwd,
-		onAdd: pane.onAdd,
+		unavailable: sender.unavailable,
+		onAdd: sender.onSend,
+		onQueue: pane.onAdd,
 		onCite,
 		onAddRule,
 		onRemove: pane.remove,

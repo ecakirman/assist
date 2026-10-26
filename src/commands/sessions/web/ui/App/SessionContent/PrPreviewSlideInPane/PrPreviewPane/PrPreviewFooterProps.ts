@@ -9,7 +9,9 @@ export type PrPreviewFooterProps = {
 	commentColors: string[];
 	pending: PendingComment | null;
 	cwd?: string | undefined;
+	unavailable?: string | undefined;
 	onAdd: (note: string) => void;
+	onQueue: (note: string) => void;
 	onCite?: ((rule: ScopedRule) => void) | undefined;
 	onAddRule?: ((note: string) => void) | undefined;
 	onRemove: (id: number) => void;

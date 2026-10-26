@@ -33,5 +33,12 @@ export function PrPreviewSlideInPane({
 			/>
 		);
 
-	return <PrPreviewPane preview={preview} onDecision={onDecision} {...pane} />;
+	return (
+		<PrPreviewPane
+			preview={preview}
+			session={session}
+			onDecision={onDecision}
+			{...pane}
+		/>
+	);
 }

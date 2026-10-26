@@ -8,6 +8,7 @@ import {
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PrPreview } from "../../../../../shared/SessionInfoBase";
+import { makeSessionInfo } from "../../../../../../../test/mothers/makeSessionInfo";
 import { PreviewWidthContext } from "../usePreviewWidthContext";
 import { PrPreviewPane } from "./PrPreviewPane";
 
@@ -95,7 +96,7 @@ function addComment(container: HTMLElement, quote: string, note: string) {
 	fireEvent.change(screen.getByPlaceholderText("Add a note…"), {
 		target: { value: note },
 	});
-	fireEvent.click(screen.getByRole("button", { name: "Add comment" }));
+	fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
 }
 
 describe("PrPreviewPane inline comments", () => {
@@ -1605,7 +1606,9 @@ describe("PrPreviewPane inline comments", () => {
 				<PrPreviewPane preview={p} onDecision={vi.fn()} />,
 			);
 			selectText(container, "Adds x");
-			expect(screen.getByRole("button", { name: "Add comment" })).toBeTruthy();
+			expect(
+				screen.getByRole("button", { name: "Add to review" }),
+			).toBeTruthy();
 			expect(screen.queryByRole("button", { name: "Collapse" })).toBeNull();
 			unmount();
 		};
@@ -1640,6 +1643,109 @@ describe("PrPreviewPane inline comments", () => {
 
 		render(<PrPreviewPane preview={preview} onDecision={vi.fn()} />);
 		expect(screen.queryByText("Comments (1)")).toBeNull();
+	});
+});
+
+describe("PrPreviewPane send to agent", () => {
+	const kinds: PrPreview[] = [
+		{ ...preview, requestId: "s1", kind: "ask" },
+		{ ...preview, requestId: "s2" },
+		{ ...preview, requestId: "s3", kind: "github-issue-edit" },
+	];
+
+	afterEach(() => vi.useRealTimers());
+
+	function renderLive(p: PrPreview, session = makeSessionInfo()) {
+		const sendInput = vi.fn();
+		const onDecision = vi.fn();
+		const { container } = render(
+			<PrPreviewPane
+				preview={p}
+				session={session}
+				sessionId={session.id}
+				sendInput={sendInput}
+				onDecision={onDecision}
+			/>,
+		);
+		return { container, sendInput, onDecision };
+	}
+
+	function typeNote(container: HTMLElement, note: string) {
+		selectText(container, "Adds x");
+		fireEvent.change(screen.getByPlaceholderText("Add a note…"), {
+			target: { value: note },
+		});
+	}
+
+	it.each(kinds)("offers both buttons on a $kind preview", (p) => {
+		const { container } = renderLive(p);
+
+		selectText(container, "Adds x");
+
+		expect(screen.getByRole("button", { name: "Send to agent" })).toBeTruthy();
+		expect(screen.getByRole("button", { name: "Add to review" })).toBeTruthy();
+		expect(screen.queryByRole("button", { name: "Add comment" })).toBeNull();
+	});
+
+	it.each(kinds)(
+		"pastes the quote and note into the session on a $kind preview without deciding",
+		(p) => {
+			vi.useFakeTimers();
+			const { container, sendInput, onDecision } = renderLive(p);
+			typeNote(container, "say what x is");
+
+			fireEvent.click(screen.getByRole("button", { name: "Send to agent" }));
+
+			const [id, pasted] = sendInput.mock.calls[0] as [string, string];
+			expect(id).toBe("1");
+			expect(pasted).toContain("Adds x");
+			expect(pasted).toContain("say what x is");
+			expect(screen.getByText("Comment sent to repo/session")).toBeTruthy();
+			act(() => vi.runAllTimers());
+			expect(sendInput).toHaveBeenLastCalledWith("1", "\r");
+			expect(onDecision).not.toHaveBeenCalled();
+			expect(screen.queryByText("Comments (1)")).toBeNull();
+		},
+	);
+
+	it.each(kinds)(
+		"queues Add to review for Request changes on a $kind preview",
+		(p) => {
+			const { container, sendInput, onDecision } = renderLive(p);
+			typeNote(container, "say what x is");
+
+			fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
+			fireEvent.click(
+				screen.getByRole("button", { name: /Request changes \(1\)/ }),
+			);
+
+			expect(sendInput).not.toHaveBeenCalled();
+			expect(onDecision.mock.calls[0][0]).toBe("reject");
+			expect(onDecision.mock.calls[0][1].comments).toEqual([
+				{ quote: "Adds x", note: "say what x is" },
+			]);
+		},
+	);
+
+	it("disables Send to agent with the unavailable caption when the session stopped", () => {
+		const { container } = renderLive(
+			preview,
+			makeSessionInfo({ status: "stopped" }),
+		);
+		typeNote(container, "say what x is");
+
+		expect(
+			screen
+				.getByRole("button", { name: "Send to agent" })
+				.hasAttribute("disabled"),
+		).toBe(true);
+		expect(
+			screen.getByText(
+				"Comments are unavailable — that session is no longer live.",
+			),
+		).toBeTruthy();
+		fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
+		expect(screen.getByText("Comments (1)")).toBeTruthy();
 	});
 });
 
