@@ -1,11 +1,6 @@
 import type { DocsArea } from "./docsAreas";
 
 export const pendingUserDocumentation: Partial<Record<DocsArea, string[]>> = {
-	"sessions-diff": [
-		"config:sessions.includeCommittedChanges",
-		"route:/diff",
-		"route:/file",
-	],
 	"sessions-preview": [
 		"cli:backlog propose",
 		"cli:review",

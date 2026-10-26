@@ -106,5 +106,28 @@
 				]
 			}
 		}
+	],
+	"diff": [
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "Add a dark mode toggle to the settings page",
+				"title": "Dark mode toggle",
+				"status": "waiting",
+				"edits": {
+					"README.md": "# sandbox\nA sample app for trying out assist.\n\n## Settings\n\nThe settings page has a dark mode toggle. It follows the operating system's colour scheme until you pick one, then remembers your choice.\n",
+					"src/settings/DarkModeToggle.tsx": "import { useColourScheme } from \"./useColourScheme\";\n\nexport function DarkModeToggle() {\n\tconst [scheme, setScheme] = useColourScheme();\n\treturn (\n\t\t<label>\n\t\t\t<input\n\t\t\t\ttype=\"checkbox\"\n\t\t\t\tchecked={scheme === \"dark\"}\n\t\t\t\tonChange={(event) => setScheme(event.target.checked ? \"dark\" : \"light\")}\n\t\t\t/>\n\t\t\tDark mode\n\t\t</label>\n\t);\n}\n",
+					"src/settings/useColourScheme.ts": "import { useEffect, useState } from \"react\";\n\ntype Scheme = \"light\" | \"dark\";\n\nconst KEY = \"colour-scheme\";\n\nfunction systemScheme(): Scheme {\n\treturn matchMedia(\"(prefers-color-scheme: dark)\").matches ? \"dark\" : \"light\";\n}\n\nexport function useColourScheme() {\n\tconst [scheme, setScheme] = useState<Scheme>(\n\t\t() => (localStorage.getItem(KEY) as Scheme | null) ?? systemScheme(),\n\t);\n\tuseEffect(() => {\n\t\tdocument.documentElement.dataset.scheme = scheme;\n\t\tlocalStorage.setItem(KEY, scheme);\n\t}, [scheme]);\n\treturn [scheme, setScheme] as const;\n}\n"
+				},
+				"reply": [
+					"I'll add the toggle next to the existing theme settings.",
+					"Write(src/settings/useColourScheme.ts)",
+					"⎿  Wrote 20 lines",
+					"Write(src/settings/DarkModeToggle.tsx)",
+					"⎿  Wrote 15 lines",
+					"The toggle follows the operating system's colour scheme until the user picks one, then persists the choice to localStorage."
+				]
+			}
+		}
 	]
 }
