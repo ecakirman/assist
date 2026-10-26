@@ -13,7 +13,6 @@ export type PrPreviewComment = {
 export type PreviewKind =
 	| "pr"
 	| "backlog-item"
-	| "backlog-comment"
 	| "pr-comment"
 	| "github-issue"
 	| "github-issue-comment"

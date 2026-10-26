@@ -10,7 +10,6 @@ export const pendingUserDocumentation: Partial<Record<DocsArea, string[]>> = {
 		"claude:review-config",
 		"claude:review-high-level",
 		"claude:show",
-		"config:backlog.previewComments",
 		"config:review.codexModel",
 		"config:review.highLevel.collapsedPaths",
 		"config:review.highLevel.criticalPaths",

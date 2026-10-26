@@ -6,7 +6,6 @@ export function previewTargetLabel(
 	prNumber: number | null,
 	draft: boolean,
 ): string {
-	if (kind === "backlog-comment") return "backlog comment";
 	if (kind === "pr-comment") return "pr comment";
 	if (kind === "github-issue-comment") return "github issue comment";
 	if (kind === "github-issue-edit") return "github issue edit";

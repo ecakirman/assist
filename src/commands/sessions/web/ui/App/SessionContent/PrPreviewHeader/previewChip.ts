@@ -6,11 +6,7 @@ type ChipSpec = {
 };
 
 export function previewChip(preview: PrPreview, draft: boolean): ChipSpec {
-	if (
-		preview.kind === "backlog-comment" ||
-		preview.kind === "pr-comment" ||
-		preview.kind === "github-issue-comment"
-	)
+	if (preview.kind === "pr-comment" || preview.kind === "github-issue-comment")
 		return { label: "Comment", color: "default" };
 
 	if (preview.kind === "github-issue-edit")

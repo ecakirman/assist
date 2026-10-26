@@ -6,7 +6,6 @@ describe("isPreviewKind", () => {
 		for (const kind of [
 			"pr",
 			"backlog-item",
-			"backlog-comment",
 			"pr-comment",
 			"github-issue",
 			"github-issue-comment",

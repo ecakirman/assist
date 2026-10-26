@@ -45,6 +45,16 @@ describe("stripLegacyConfigKeys", () => {
 		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
 	});
 
+	it("drops the retired backlog.previewComments key so old configs still parse", () => {
+		const stripped = stripLegacyConfigKeys({
+			worktree: { enabled: true },
+			backlog: { previewComments: true },
+		});
+
+		expect(stripped).toEqual({ worktree: { enabled: true } });
+		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
+	});
+
 	it("drops retired keys inside repos entries so old global configs still parse", () => {
 		const stripped = stripLegacyConfigKeys({
 			repos: {

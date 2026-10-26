@@ -206,7 +206,7 @@ Backlog item ids are written in an `a`-prefixed form (e.g. item 555 is `a555`) t
 - `assist backlog set-status <id> <status>` - Set status (`todo`, `in-progress`, `done`, `wontdo`)
 - `assist backlog star <id>` / `assist backlog unstar <id>` - Pin an item ahead of unstarred items in the web view
 - `assist backlog delete <id>` - Delete a backlog item
-- `assist backlog comment <id> <text>` - Add a comment to a backlog item, previewed for approval first when `backlog.previewComments` is `true`
+- `assist backlog comment <id> <text>` - Add a comment to a backlog item
 - `assist backlog comments <id>` - List comments and summaries for a backlog item
 - `assist backlog delete-comment <id> <comment-id>` - Delete a comment (summaries cannot be deleted)
 - `assist backlog phase-done <id> <phase> <summary>` - Signal that a plan phase is complete

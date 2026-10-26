@@ -46,12 +46,6 @@ describe("previewTargetLabel", () => {
 		);
 	});
 
-	it("labels a backlog comment", () => {
-		expect(previewTargetLabel("backlog-comment", "story", null, false)).toBe(
-			"backlog comment",
-		);
-	});
-
 	it("labels a pr comment", () => {
 		expect(previewTargetLabel("pr-comment", "story", 42, false)).toBe(
 			"pr comment",

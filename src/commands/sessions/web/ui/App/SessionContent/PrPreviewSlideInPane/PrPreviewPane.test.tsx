@@ -981,72 +981,6 @@ describe("PrPreviewPane inline comments", () => {
 		});
 	});
 
-	describe("backlog comment previews", () => {
-		const comment: PrPreview = {
-			requestId: "c1",
-			title: "Comment on a934: Preview pane for assist backlog comment",
-			body: "Phase 1 landed the gate; the chip is still a Story",
-			prNumber: null,
-			kind: "backlog-comment",
-		};
-
-		it("shows a neutral Comment chip", () => {
-			render(<PrPreviewPane preview={comment} onDecision={vi.fn()} />);
-
-			expect(screen.getByText("Comment")).toBeTruthy();
-			expect(screen.queryByText("Story")).toBeNull();
-			expect(screen.queryByText("New PR")).toBeNull();
-		});
-
-		it("offers no chain toggles", () => {
-			render(<PrPreviewPane preview={comment} onDecision={vi.fn()} />);
-
-			expect(screen.queryByLabelText("Review PR")).toBeNull();
-			expect(screen.queryByLabelText("Post to Slack")).toBeNull();
-			expect(screen.queryByLabelText("Draft")).toBeNull();
-		});
-
-		it("offers no screenshot UI and ignores a pasted image", async () => {
-			const fetchMock = vi.fn();
-			vi.stubGlobal("fetch", fetchMock);
-
-			render(
-				<PrPreviewPane preview={comment} cwd="/repo" onDecision={vi.fn()} />,
-			);
-			expect(screen.queryByText(/attach a screenshot/)).toBeNull();
-
-			pasteImage("shot.png");
-			await Promise.resolve();
-
-			expect(fetchMock).not.toHaveBeenCalled();
-			expect(screen.queryByAltText("screenshot")).toBeNull();
-		});
-
-		it("returns each inline comment with Request changes", () => {
-			const onDecision = vi.fn();
-			const { container } = render(
-				<PrPreviewPane preview={comment} onDecision={onDecision} />,
-			);
-
-			addComment(container, "still a Story", "should read Comment");
-
-			expect(container.querySelector("mark.pr-comment")?.textContent).toBe(
-				"still a Story",
-			);
-			fireEvent.click(
-				screen.getByRole("button", { name: /Request changes \(1\)/ }),
-			);
-			expect(onDecision).toHaveBeenCalledWith("reject", {
-				comments: [{ quote: "still a Story", note: "should read Comment" }],
-				screenshots: [],
-				reviewAfter: false,
-				announceAfter: false,
-				draft: false,
-				autoMerge: false,
-			});
-		});
-	});
-
 	describe("pr comment previews", () => {
 		const prComment: PrPreview = {
 			requestId: "p1",
@@ -1236,7 +1170,6 @@ describe("PrPreviewPane inline comments", () => {
 	describe("previews without screenshot capture", () => {
 		const kinds = [
 			"backlog-item",
-			"backlog-comment",
 			"pr-comment",
 			"github-issue-comment",
 			"github-issue-edit",

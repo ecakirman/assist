@@ -53,13 +53,6 @@ describe("previewChip", () => {
 		});
 	});
 
-	it("labels a backlog comment neutrally", () => {
-		expect(previewChip(preview({ kind: "backlog-comment" }), false)).toEqual({
-			label: "Comment",
-			color: "default",
-		});
-	});
-
 	it("labels a PR comment neutrally", () => {
 		expect(previewChip(preview({ kind: "pr-comment" }), false)).toEqual({
 			label: "Comment",

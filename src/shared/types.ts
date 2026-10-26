@@ -33,11 +33,6 @@ const assistConfigShape = {
 			verify: z.string().optional(),
 		})
 		.optional(),
-	backlog: z
-		.strictObject({
-			previewComments: z.boolean().default(false),
-		})
-		.optional(),
 	backup: z
 		.strictObject({
 			dir: z.string().default(DEFAULT_BACKUP_DIR),

@@ -202,11 +202,7 @@ describe("PrPreviewCoordinator", () => {
 
 	it.each([
 		["a startable preview while auto-approve is off", false, "backlog-item"],
-		[
-			"a non-startable preview while auto-approve is on",
-			true,
-			"backlog-comment",
-		],
+		["a non-startable preview while auto-approve is on", true, "pr-comment"],
 		["a PR preview while auto-approve is on", true, "pr"],
 	])("waits for the user on %s", (_label, autoApprove, kind) => {
 		const sessions = new Map([["1", makeSession({ id: "1", autoApprove })]]);
