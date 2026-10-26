@@ -32,6 +32,7 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: "assist",
+			favicon: "/favicon.png",
 			sidebar,
 			pagination: false,
 			customCss: [
