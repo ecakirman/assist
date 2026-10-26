@@ -1,3 +1,10 @@
+## [0.894.1](https://github.com/staff0rd/assist/compare/v0.894.0...v0.894.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* label direct-send button Send to agent ([258919d](https://github.com/staff0rd/assist/commit/258919d43502b79664f0b0b360efe6c7b4d88033))
+
 # [0.894.0](https://github.com/staff0rd/assist/compare/v0.893.4...v0.894.0) (2026-10-26)
 
 
