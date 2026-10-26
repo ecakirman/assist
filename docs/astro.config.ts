@@ -14,8 +14,11 @@ import { statusPlugin } from "../src/docs/starlight/statusPlugin";
 const base = normalizeBasePath(process.env.DOCS_BASE_PATH ?? "/");
 const sidebar = docsSidebar();
 const preview = process.env.NODE_ENV === "development";
+const site = "https://staffordwilliams.com";
+const ogImage = `${site}${base}og.png`;
 
 export default defineConfig({
+	site,
 	base,
 	redirects: { "/": `${base}${sidebar[0].items[0]}/` },
 	markdown: {
@@ -50,6 +53,18 @@ export default defineConfig({
 					content:
 						"if (/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) document.documentElement.dataset.os = 'mac';",
 				},
+				{ tag: "meta", attrs: { property: "og:image", content: ogImage } },
+				{ tag: "meta", attrs: { property: "og:image:width", content: "1200" } },
+				{ tag: "meta", attrs: { property: "og:image:height", content: "630" } },
+				{
+					tag: "meta",
+					attrs: {
+						property: "og:image:alt",
+						content:
+							"assist: Enforce determinism in LLM development workflows.",
+					},
+				},
+				{ tag: "meta", attrs: { name: "twitter:image", content: ogImage } },
 			],
 			routeMiddleware: preview ? "./src/previewRouteData.ts" : [],
 		}),
