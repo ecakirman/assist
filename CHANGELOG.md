@@ -1,3 +1,10 @@
+# [0.896.0](https://github.com/staff0rd/assist/compare/v0.895.1...v0.896.0) (2026-10-26)
+
+
+### Features
+
+* remove backlog comment preview ([4b92d51](https://github.com/staff0rd/assist/commit/4b92d5129a02e53b93aaae9558a9bd2f0539f918))
+
 ## [0.895.1](https://github.com/staff0rd/assist/compare/v0.895.0...v0.895.1) (2026-10-26)
 
 
