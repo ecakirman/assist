@@ -9,7 +9,8 @@ export function renderScreenshot(
 	const alt = escapeHtml(screenshot.alt);
 	const img = (file: string, hiddenInTheme?: "light" | "dark") => {
 		const hidden = hiddenInTheme ? ` class="${hiddenInTheme}:sl-hidden"` : "";
-		return `<img src="${basePath}screenshots/${file}" alt="${alt}" loading="lazy"${hidden}>`;
+		const src = `${basePath}screenshots/${file}`;
+		return `<a href="${src}" target="_blank" title="Open full size"${hidden}><img src="${src}" alt="${alt}" loading="lazy"></a>`;
 	};
 	const image = screenshot.theme
 		? img(screenshot.file)

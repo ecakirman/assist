@@ -41,7 +41,7 @@ Draft and bug need a repo. When the repo isn't cloned on the machine you picked,
 The dialog opens in `draft` mode. To open it in another mode:
 
 ```bash
-assist config set sessions.newSessionMode prompt -g
+assist config set sessions.newSessionMode prompt
 ```
 
 ## Run sessions

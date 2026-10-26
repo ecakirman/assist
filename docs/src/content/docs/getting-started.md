@@ -36,7 +36,7 @@ The CLI is available as `assist`, and also as the shorter aliases `ast` and `a`.
 Sync asks before overwriting an existing `settings.json`. Pass `--yes` to skip the prompt once, or make it permanent with:
 
 ```bash
-assist config set sync.autoConfirm true --global
+assist config set sync.autoConfirm true
 ```
 
 ## Open the dashboard

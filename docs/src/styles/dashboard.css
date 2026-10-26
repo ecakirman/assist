@@ -31,6 +31,13 @@
 	display: block;
 }
 
+.assist-icon {
+	display: inline-block;
+	font-size: 1.1em;
+	line-height: 1;
+	vertical-align: -0.15em;
+}
+
 .assist-status-running,
 .assist-status-verifying {
 	color: var(--assist-success);

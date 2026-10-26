@@ -9,7 +9,7 @@ describe("renderScreenshot", () => {
 				"/assist/",
 			),
 		).toBe(
-			'<figure><img src="/assist/screenshots/dash.png" alt="The &quot;dashboard&quot;" loading="lazy" class="dark:sl-hidden"><img src="/assist/screenshots/dash-dark.png" alt="The &quot;dashboard&quot;" loading="lazy" class="light:sl-hidden"><figcaption>The &quot;dashboard&quot;</figcaption></figure>',
+			'<figure><a href="/assist/screenshots/dash.png" target="_blank" title="Open full size" class="dark:sl-hidden"><img src="/assist/screenshots/dash.png" alt="The &quot;dashboard&quot;" loading="lazy"></a><a href="/assist/screenshots/dash-dark.png" target="_blank" title="Open full size" class="light:sl-hidden"><img src="/assist/screenshots/dash-dark.png" alt="The &quot;dashboard&quot;" loading="lazy"></a><figcaption>The &quot;dashboard&quot;</figcaption></figure>',
 		);
 	});
 
@@ -20,7 +20,7 @@ describe("renderScreenshot", () => {
 				"/",
 			),
 		).toBe(
-			'<figure><img src="/screenshots/a.png" alt="A" loading="lazy"><figcaption>A</figcaption></figure>',
+			'<figure><a href="/screenshots/a.png" target="_blank" title="Open full size"><img src="/screenshots/a.png" alt="A" loading="lazy"></a><figcaption>A</figcaption></figure>',
 		);
 	});
 });

@@ -63,7 +63,7 @@ The tabs, toolbar buttons and top-bar buttons show their shortcut in their toolt
 Each action's chord is the config key `sessions.hotkeys.<action>`:
 
 ```bash
-assist config set sessions.hotkeys.focusTerminal Ctrl+Alt+J -g
+assist config set sessions.hotkeys.focusTerminal Ctrl+Alt+J
 ```
 
 Restart the web server and reload the page to apply it. A chord is modifiers plus one key joined by `+`, such as `Alt+S`, `Ctrl+Shift+K` or `Mod+/`. The modifiers are `Ctrl`, `Alt` (`Option`), `Shift`, `Meta` (`Cmd`) and `Mod` (Cmd on macOS, Ctrl elsewhere), and at least one must be something other than Shift. The key is a letter, digit, punctuation, `F1`–`F12` or a named key such as `Enter` or `ArrowUp`. Option chords work on macOS.

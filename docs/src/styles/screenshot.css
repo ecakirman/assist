@@ -3,9 +3,40 @@
 }
 
 .sl-markdown-content figure img {
+	cursor: zoom-in;
 	margin-inline: auto;
 	border: 1px solid var(--sl-color-hairline);
 	border-radius: 0.5rem;
+}
+
+.assist-lightbox {
+	max-width: none;
+	max-height: none;
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	padding: 2rem;
+	border: 0;
+	background: transparent;
+	display: none;
+	place-items: center;
+	cursor: zoom-out;
+}
+
+.assist-lightbox[open] {
+	display: grid;
+}
+
+.assist-lightbox::backdrop {
+	background: rgba(0, 0, 0, 0.85);
+}
+
+.assist-lightbox img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	border-radius: 0.5rem;
+	box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
 }
 
 .sl-markdown-content figure > figcaption {

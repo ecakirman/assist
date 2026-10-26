@@ -20,5 +20,5 @@ When a new build is ready, **Restart** on the [Updates panel](../updating/#autom
 One daemon holds at most 24 live sessions, and starting another past that is refused. A restart also brings back at most that many. Change the ceiling with:
 
 ```bash
-assist config set sessions.maxLive 32 -g
+assist config set sessions.maxLive 32
 ```

@@ -62,8 +62,8 @@ Starred sessions come first. Then come sessions that have been waiting on you lo
 A session floats once it has waited 5 seconds. To change the delay, or stop floating altogether:
 
 ```bash
-assist config set sessions.floatWaitingAfterMs 15000 -g
-assist config set sessions.floatWaiting false -g
+assist config set sessions.floatWaitingAfterMs 15000
+assist config set sessions.floatWaiting false
 ```
 
 The button at the left of the tab row hides the sidebar; the same button then appears in the toolbar to bring it back.

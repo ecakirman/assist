@@ -33,7 +33,7 @@ export function GitStatusLink({
 }) {
 	return (
 		<StopCardActivation>
-			<Box sx={rowSx}>
+			<Box sx={rowSx} data-testid="git-status-counts">
 				{groups.length > 0 && (
 					<CountsLink
 						panelSessionId={panelSessionId}

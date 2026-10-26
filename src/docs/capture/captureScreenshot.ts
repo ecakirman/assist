@@ -3,6 +3,8 @@ import type { Browser, Page } from "playwright";
 import type { DocsScreenshot, DocsScreenshotAction } from "../docsPageSchema";
 import { docsPaths } from "../docsPaths";
 import { screenshotVariants } from "../screenshotVariants";
+import { dragBetween } from "./dragBetween";
+import { drawHighlights } from "./drawHighlights";
 
 const DEFAULT_VIEWPORT = { width: 1280, height: 800 };
 const SETTLE_MS = 750;
@@ -13,6 +15,8 @@ async function performAction(
 ): Promise<void> {
 	if ("click" in action) await page.locator(action.click).first().click();
 	else if ("press" in action) await page.keyboard.press(action.press);
+	else if ("drag" in action)
+		await dragBetween(page, action.drag.from, action.drag.to);
 	else await page.keyboard.type(action.type);
 }
 
@@ -36,6 +40,7 @@ export async function captureScreenshot(
 		for (const action of screenshot.actions ?? [])
 			await performAction(page, action);
 		await page.waitForTimeout(SETTLE_MS);
+		await drawHighlights(page, screenshot.highlight ?? []);
 		const target = screenshot.crop ? page.locator(screenshot.crop) : page;
 		await target.screenshot({
 			path: join(docsPaths.screenshotsDir, variant.file),

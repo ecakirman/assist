@@ -18,7 +18,7 @@ covers:
 By default every session in a repo shares the clone's working copy, so two agents editing the same repo see each other's changes. Turn on parallel work for a repo to give each session its own git worktree instead:
 
 ```bash
-assist config set worktree.enabled true -g --repo
+assist config set worktree.enabled true
 ```
 
 With it on:
@@ -34,20 +34,18 @@ The same applies to a session in the clone's own working copy, though the clone 
 
 ## Worktree settings
 
-All of these are per repo, so set them with `--repo`:
-
 - `worktree.trunk` — trunk-based work. A spilled worktree's branch tracks `origin/<trunk>` so commits land on the mainline, and jobs that commit (`backlog run`, PR checkouts, reviews) always run in a worktree, never the clone. Off (the default), a worktree starts off the remote default branch with no upstream, and the session raises its own branch and PR.
 - `worktree.root` — the parent directory for `<repo>-N` worktrees. Defaults to the clone's parent.
 - `worktree.install` — how a new worktree installs its dependencies. `true` (the default) detects pnpm, yarn, bun or npm; a string is the install command to run; `false` skips it; a JSON list of paths installs in each in order, stopping at the first failure:
 
   ```bash
-  assist config set worktree.install '[".","packages/ui"]' -g --repo
+  assist config set worktree.install '[".","packages/ui"]'
   ```
 
 - `worktree.copy` — gitignored files to copy into each new worktree so it can build and run, such as `.env`:
 
   ```bash
-  assist config set worktree.copy .env,.claude/settings.local.json -g --repo
+  assist config set worktree.copy .env,.claude/settings.local.json
   ```
 
 - `worktree.commitBeforePhaseEnd` — makes each backlog phase run `/commit` once verify passes, before it asks you to perform manual checks or marks the phase done, so a phase's work is never left uncommitted in a worktree that may be reaped. Off by default. `worktree.commitBeforeManualChecks` is its older name and is still read when `commitBeforePhaseEnd` is unset.

@@ -25,7 +25,7 @@ If the clone has local commits and cannot fast-forward, assist starts a Claude s
 To turn automatic updates off:
 
 ```bash
-assist config set autoUpdate.enabled false -g
+assist config set autoUpdate.enabled false
 ```
 
 A global npm install is not updated automatically.

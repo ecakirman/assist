@@ -17,6 +17,9 @@ const actionSchema = z.union([
 	z.strictObject({ click: z.string().min(1) }),
 	z.strictObject({ press: z.string().min(1) }),
 	z.strictObject({ type: z.string().min(1) }),
+	z.strictObject({
+		drag: z.strictObject({ from: z.string().min(1), to: z.string().min(1) }),
+	}),
 ]);
 
 const screenshotSchema = z.strictObject({
@@ -35,6 +38,7 @@ const screenshotSchema = z.strictObject({
 	scene: z.string().min(1).optional(),
 	setup: z.array(captureSetupStepSchema).optional(),
 	actions: z.array(actionSchema).optional(),
+	highlight: z.array(z.string().min(1)).optional(),
 });
 
 export const docsScreenshotsSchema = z.array(screenshotSchema).optional();
