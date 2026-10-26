@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import type { RateLimitLevel } from "../../../../../../../../../../shared/rateLimitLevel";
-import { limitLevelColor } from "../../../../../limitLevelColor";
+import { limitLevelOnDarkColor } from "../../limitLevelOnDarkColor";
 
 export function RateLimitThresholdSlot({
 	direction,
@@ -23,7 +23,10 @@ export function RateLimitThresholdSlot({
 		</Box>
 	);
 	const value = (
-		<Box component="span" sx={{ color: limitLevelColor(threshold.level) }}>
+		<Box
+			component="span"
+			sx={{ color: limitLevelOnDarkColor(threshold.level) }}
+		>
 			{Math.round(threshold.pct)}%
 		</Box>
 	);

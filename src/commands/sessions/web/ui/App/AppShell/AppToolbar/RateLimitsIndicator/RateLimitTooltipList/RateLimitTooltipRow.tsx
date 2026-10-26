@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { nextRateLimitStep } from "../../../../../../../../../shared/nextRateLimitStep";
 import { rateLimitLevel } from "../../../../../../../../../shared/rateLimitLevel";
-import { limitLevelColor } from "../../../../limitLevelColor";
+import { limitLevelOnDarkColor } from "../limitLevelOnDarkColor";
 import { rateLimitRecoveryNote } from "./RateLimitTooltipRow/rateLimitRecoveryNote";
 import { RateLimitThresholdSlot } from "./RateLimitTooltipRow/RateLimitThresholdSlot";
 
@@ -35,7 +35,7 @@ export function RateLimitTooltipRow({
 				sx={{
 					minWidth: "4ch",
 					textAlign: "right",
-					color: limitLevelColor(level),
+					color: limitLevelOnDarkColor(level),
 				}}
 			>
 				{Math.round(pct)}%

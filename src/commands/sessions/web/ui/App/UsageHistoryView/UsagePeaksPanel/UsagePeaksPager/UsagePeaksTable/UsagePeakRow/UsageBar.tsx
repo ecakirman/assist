@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import type { RateLimitLevel } from "../../../../../../../../../../shared/rateLimitLevel";
-import { limitLevelColor } from "../../../../../limitLevelColor";
+import { limitLevelColor } from "./UsageBar/limitLevelColor";
 
 const LEVEL_BAR_COLOR: Record<RateLimitLevel, "success" | "warning" | "error"> =
 	{

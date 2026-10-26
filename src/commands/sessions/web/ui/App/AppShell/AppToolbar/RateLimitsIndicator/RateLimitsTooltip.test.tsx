@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
-import { createTheme, hexToRgb } from "@mui/material/styles";
+import { amber, green, red } from "@mui/material/colors";
+import { createTheme, hexToRgb, ThemeProvider } from "@mui/material/styles";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RateLimits } from "../../../../../../../../shared/RateLimits";
@@ -19,15 +20,9 @@ afterEach(() => {
 	vi.useRealTimers();
 });
 
-const { palette } = createTheme();
-
 function levelColor(level: RateLimitLevel): string {
-	const swatch = {
-		ok: palette.success,
-		warn: palette.warning,
-		over: palette.error,
-	};
-	return hexToRgb(swatch[level].main);
+	const tint = { ok: green.A100, warn: amber.A100, over: red[100] };
+	return hexToRgb(tint[level]);
 }
 
 function colorOf(text: string): string {
@@ -99,6 +94,21 @@ describe("RateLimitsTooltip", () => {
 		expect(colorOf("2%")).toBe(levelColor("ok"));
 		expect(screen.getByText("no projection yet")).toBeTruthy();
 		expect(screen.queryByText("→")).toBeNull();
+	});
+
+	it("keeps the theme's level colours in dark mode", () => {
+		const theme = createTheme({ palette: { mode: "dark" } });
+		render(
+			<ThemeProvider theme={theme}>
+				<RateLimitsTooltip
+					rateLimits={{ seven_day: usageWindow(35, 0.4, SEVEN_DAY_SECONDS) }}
+				/>
+			</ThemeProvider>,
+		);
+
+		expect(colorOf("35%")).toBe(hexToRgb(theme.palette.warning.main));
+		expect(colorOf("30%")).toBe(hexToRgb(theme.palette.success.main));
+		expect(colorOf("40%")).toBe(hexToRgb(theme.palette.error.main));
 	});
 
 	it("renders one row per window that carries a percentage", () => {
