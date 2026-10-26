@@ -1,6 +1,6 @@
-import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { useRef, useState } from "react";
 import type { ServerRunInfo } from "../../handleServerRuns";
@@ -18,7 +18,11 @@ export function ServerRunDropdown({
 	const close = () => setOpen(false);
 
 	return (
-		<Box ref={anchorRef} sx={{ display: "inline-flex" }}>
+		<Paper
+			ref={anchorRef}
+			variant="outlined"
+			sx={{ display: "inline-flex", border: "none" }}
+		>
 			<FilterTrigger
 				label="server"
 				open={open}
@@ -48,6 +52,6 @@ export function ServerRunDropdown({
 					</MenuItem>
 				))}
 			</Menu>
-		</Box>
+		</Paper>
 	);
 }
