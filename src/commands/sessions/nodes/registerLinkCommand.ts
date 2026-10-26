@@ -1,8 +1,8 @@
 import type { Command } from "commander";
 import { linkNode } from "./linkNode";
 
-export function registerLinkCommand(nodes: Command): void {
-	nodes
+export function registerLinkCommand(nodes: Command): Command {
+	return nodes
 		.command("link <name> [url]")
 		.description(
 			"Link a peer node by its web server URL or by its Tailscale name with --tailscale and --port (name must match the peer's sessions.nodeName)",

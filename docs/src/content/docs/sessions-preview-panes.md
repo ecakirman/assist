@@ -8,7 +8,7 @@ covers:
   - claude:show
 screenshots:
   - file: sessions-ask.png
-    alt: A plan waiting for sign-off in the preview pane, with a comment added
+    alt: A proposal waiting for approval in the preview pane, with a comment added
     route: /sessions
     scene: previews
     setup:
@@ -106,7 +106,7 @@ screenshots:
       - click: "[aria-label='Fill the window with preview']"
 ---
 
-When an agent has something for you to approve or read, it opens a preview pane beside its terminal: a plan or decision to sign off, a pull request, a backlog item or comment to create, or links and snippets to copy.
+When an agent has something for you to approve or read, it opens a preview pane beside its terminal: a proposal or decision to approve, a pull request, a backlog item or comment to create, or links and snippets to copy.
 
 ## Working in a pane
 
@@ -125,13 +125,13 @@ Drag across text in the pane to select it, type a note, then:
 
 As in the [diff](../sessions-diff/#commenting), **Cite a broken rule** and **Add rule** turn a comment into a [rule](../rules/) fix or a new rule.
 
-## Signing off a plan
+## Getting your approval
 
-Ask the agent to `/ask` about something, such as `/ask the plan before you start`, and it puts a plan, summary or decision in the pane and waits. Approve it and the agent goes ahead, acting on any comments you added; reject it and the agent revises it and asks again.
+Ask the agent to `/ask` about something and it puts a proposal, summary or decision in the pane and waits. Approve it and the agent goes ahead, acting on any comments you added; reject it and the agent revises it and asks again.
 
 ## Showing links and snippets
 
-Long links, paths and commands wrap in the terminal and break when you click or copy them. Ask the agent to `/show` them, or `/show` alone for those in its last reply, and they open whole in the pane. The copy button beside a code block or path copies it, and **Close** dismisses the pane.
+Long links, paths and commands wrap in the terminal and break when you click or copy them. Ask the agent to `/show` them and they open whole in the pane.
 
 ::screenshot{file="sessions-show.png"}
 

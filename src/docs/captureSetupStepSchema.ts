@@ -13,6 +13,7 @@ const scriptedConversation = {
 const sessionStepSchema = z.strictObject({
 	...scriptedConversation,
 	status: z.enum(["running", "waiting", "done"]).optional(),
+	node: z.string().min(1).optional(),
 	edits: z.record(z.string().min(1), z.string()).optional(),
 });
 
@@ -75,6 +76,7 @@ const highLevelReviewSchema = z.strictObject({
 export const captureSetupStepSchema = z.union([
 	z.strictObject({ assist: z.array(z.string().min(1)).min(1) }),
 	z.strictObject({ run: z.string().min(1) }),
+	z.strictObject({ peer: z.string().min(1) }),
 	z.strictObject({ session: sessionStepSchema }),
 	z.strictObject({ transcript: transcriptStepSchema }),
 	z.strictObject({ openPr: openPrStepSchema }),

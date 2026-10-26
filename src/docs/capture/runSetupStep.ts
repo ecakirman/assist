@@ -1,4 +1,5 @@
 import type { CaptureSetupStep } from "../captureSetupStepSchema";
+import { linkPeer } from "./linkPeer";
 import { runAssist } from "./runAssist";
 import type { CaptureHome } from "./createCaptureHome";
 import { requestDaemon } from "./requestDaemon";
@@ -16,6 +17,7 @@ export async function runSetupStep(
 	else if ("session" in step) await startScriptedSession(capture, step.session);
 	else if ("transcript" in step) writeTranscript(capture, step.transcript);
 	else if ("openPr" in step) writeFakePr(capture, step.openPr);
+	else if ("peer" in step) await linkPeer(capture, step.peer);
 	else if ("run" in step)
 		await requestDaemon(
 			capture.home,

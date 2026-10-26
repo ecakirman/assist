@@ -1,4 +1,3 @@
-import { execFileSync } from "node:child_process";
 import {
 	copyFileSync,
 	cpSync,
@@ -9,20 +8,26 @@ import {
 import type { Socket } from "node:net";
 import { tmpdir } from "node:os";
 import { delimiter, join } from "node:path";
-import { captureRepos } from "../captureSetupStepSchema";
 import { docsPaths } from "../docsPaths";
+import { cloneCaptureRepos } from "./cloneCaptureRepos";
 import { isolatedEnv } from "./isolatedEnv";
-import { initLocalRepo } from "./initLocalRepo";
 
-const SANDBOX_REPO = "https://github.com/staff0rd/sandbox.git";
+type CapturePeer = {
+	capture: CaptureHome;
+	url: string;
+	stop: () => Promise<void>;
+};
 
 export type CaptureHome = {
 	home: string;
 	reposDir: string;
 	sandbox: string;
 	env: NodeJS.ProcessEnv;
+	databaseUrl: string;
 	sessionIds: Map<string, string>;
 	openPreviews: Socket[];
+	peers: Map<string, CapturePeer>;
+	linkedPeers: Set<string>;
 };
 
 function socketPathSafeTempDir(): string {
@@ -47,19 +52,16 @@ export function createCaptureHome(databaseUrl: string): CaptureHome {
 		"[user]\n\tname = Sandbox\n\temail = sandbox@example.com\n",
 	);
 	const reposDir = join(home, "repos");
-	const sandbox = join(reposDir, "sandbox");
-	execFileSync("git", ["clone", "--quiet", SANDBOX_REPO, sandbox], {
-		env,
-		stdio: "inherit",
-	});
-	for (const repo of captureRepos)
-		if (repo !== "sandbox") initLocalRepo(join(reposDir, repo), env);
+	const sandbox = cloneCaptureRepos(reposDir, env);
 	return {
 		home,
 		reposDir,
 		sandbox,
 		env,
+		databaseUrl,
 		sessionIds: new Map(),
 		openPreviews: [],
+		peers: new Map(),
+		linkedPeers: new Set(),
 	};
 }

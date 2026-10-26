@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { review } from "./review/review";
 import { addReviewModeOptions } from "./review/addReviewModeOptions";
 import { addReviewRunOptions } from "./review/addReviewRunOptions";
@@ -16,9 +17,12 @@ export function registerReview(program: Command): void {
 			"[number]",
 			"Optional PR number; when provided, runs `gh pr checkout <number>` before reviewing",
 		);
-	addReviewModeOptions(addReviewRunOptions(reviewCommand)).action(
-		(number: string | undefined, options: Required<ReviewOptions>) =>
-			review({ ...options, number }),
+	internalCommand(
+		addReviewModeOptions(addReviewRunOptions(reviewCommand)).action(
+			(number: string | undefined, options: Required<ReviewOptions>) =>
+				review({ ...options, number }),
+		),
+		"the Review menu",
 	);
 
 	configHelp(

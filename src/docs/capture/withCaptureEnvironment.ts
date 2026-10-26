@@ -20,11 +20,16 @@ export async function withCaptureEnvironment(
 		try {
 			await run({ capture, url: server.url });
 		} finally {
+			for (const peer of capture.peers.values()) await peer.stop();
 			await server.stop();
 		}
 	} finally {
 		postgres.stop();
-		if (capture && keepHome) console.log(`Kept ${capture.home}`);
-		else if (capture) rmSync(capture.home, { recursive: true, force: true });
+		const homes = capture
+			? [capture, ...[...capture.peers.values()].map((p) => p.capture)]
+			: [];
+		for (const { home } of homes)
+			if (keepHome) console.log(`Kept ${home}`);
+			else rmSync(home, { recursive: true, force: true });
 	}
 }

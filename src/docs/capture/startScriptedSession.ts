@@ -17,16 +17,24 @@ function scriptFakeClaude(home: string, step: CaptureSessionStep): void {
 	writeFileSync(file, JSON.stringify(scripts, null, 2));
 }
 
+function nodeHome(capture: CaptureHome, node: string | undefined) {
+	if (!node) return capture;
+	const peer = capture.peers.get(node);
+	if (!peer) throw new Error(`Session on node ${node} needs a peer step first`);
+	return peer.capture;
+}
+
 export async function startScriptedSession(
 	capture: CaptureHome,
 	step: CaptureSessionStep,
 ): Promise<void> {
-	scriptFakeClaude(capture.home, step);
+	const target = nodeHome(capture, step.node);
+	scriptFakeClaude(target.home, step);
 	const { sessionId } = await requestDaemon(
-		capture.home,
+		target.home,
 		{
 			type: "create",
-			cwd: join(capture.reposDir, step.repo),
+			cwd: join(target.reposDir, step.repo),
 			prompt: step.prompt,
 		},
 		"created",
@@ -34,7 +42,7 @@ export async function startScriptedSession(
 	if (sessionId) capture.sessionIds.set(step.prompt, sessionId);
 	if (step.status && step.status !== "running")
 		await requestDaemon(
-			capture.home,
+			target.home,
 			{ type: "set-status", sessionId, status: step.status, ack: true },
 			"ack",
 		);

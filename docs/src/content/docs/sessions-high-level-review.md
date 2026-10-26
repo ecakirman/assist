@@ -82,7 +82,7 @@ Reopening a review of the same commit brings back its ticks and comments. Tick *
 
 ## Configuring the checklist
 
-Ask an agent to `/review-config` and it proposes globs for the repo's critical, UI and collapsed files, with the files each one matches, for you to [approve or comment on](../sessions-preview-panes/#signing-off-a-plan) before they're saved. Or set them yourself:
+Ask an agent to `/review-config` and it proposes globs for the repo's critical, UI and collapsed files, with the files each one matches, for you to [approve or comment on](../sessions-preview-panes/#getting-your-approval) before they're saved. Or set them yourself:
 
 ```bash
 assist config set review.highLevel.criticalPaths "**/*.graphql,src/i18n/*.json"

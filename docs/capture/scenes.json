@@ -196,5 +196,26 @@
 				]
 			}
 		}
+	],
+	"linked": [
+		{ "peer": "desktop" },
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "Tighten the pricing page copy",
+				"title": "Pricing page copy",
+				"status": "waiting",
+				"reply": ["I've shortened each tier's description to one line."]
+			}
+		},
+		{
+			"session": {
+				"repo": "api",
+				"node": "desktop",
+				"prompt": "Add rate limiting to the public endpoints",
+				"title": "Rate limit public API",
+				"reply": ["Adding a token bucket per API key."]
+			}
+		}
 	]
 }
