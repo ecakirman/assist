@@ -10,6 +10,17 @@
 	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
+.sl-markdown-content .assist-screenshot-missing {
+	padding: 3rem 1rem;
+	border: 2px dashed var(--sl-color-orange);
+	border-radius: 0.5rem;
+	background: var(--sl-color-orange-low);
+	color: var(--sl-color-orange-high);
+	font-family: var(--sl-font-mono);
+	font-size: var(--sl-text-sm);
+	text-align: center;
+}
+
 :root[data-theme="dark"] .sl-markdown-content figure img {
 	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.5);
 }

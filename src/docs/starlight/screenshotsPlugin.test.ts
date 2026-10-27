@@ -9,8 +9,11 @@ const screenshots = [
 	{ file: "b.png", alt: "B", route: "/b" },
 ];
 
-function pluginFor(path: string) {
-	return screenshotsPlugin("/")({
+function pluginFor(path: string, preview = false) {
+	return screenshotsPlugin(
+		"/",
+		preview,
+	)({
 		fileURL: pathToFileURL(path),
 		data: { astro: { frontmatter: { screenshots } } },
 	});
@@ -38,6 +41,15 @@ describe("screenshotsPlugin", () => {
 			'src="/screenshots/a.png"',
 		);
 		expect(() => plugin?.after()).not.toThrow();
+	});
+
+	it("renders a placeholder for an uncaptured screenshot in preview", () => {
+		const plugin = pluginFor(pagePath, true);
+		const replaceNode = vi.fn();
+		plugin?.leafDirective(directive("a.png"), { replaceNode });
+		expect(replaceNode.mock.calls[0][1].value).toContain(
+			"Screenshot not captured yet: a.png",
+		);
 	});
 
 	it("fails on a directive for an undeclared screenshot", () => {

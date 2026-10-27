@@ -4,8 +4,8 @@ import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 import { createDocsFrontmatterCheck } from "../../src/docs/starlight/createDocsFrontmatterCheck";
 
-const findProblems = createDocsFrontmatterCheck();
 const preview = process.env.NODE_ENV === "development";
+const findProblems = createDocsFrontmatterCheck(preview);
 
 export const collections = {
 	docs: defineCollection({

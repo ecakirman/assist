@@ -24,9 +24,9 @@ function labelled(label: string, problems: string[]): string[] {
 	return problems.map((problem) => `${label}: ${problem}`);
 }
 
-export function createDocsFrontmatterCheck(): (
-	frontmatter: unknown,
-) => string[] {
+export function createDocsFrontmatterCheck(
+	allowMissingScreenshots = false,
+): (frontmatter: unknown) => string[] {
 	const inventory = loadInventory();
 	const scenes = loadCaptureScenes(docsPaths.captureScenes);
 	return (frontmatter) => {
@@ -44,7 +44,9 @@ export function createDocsFrontmatterCheck(): (
 			),
 			...labelled(
 				`Screenshot missing from ${docsPaths.screenshotsDir}`,
-				findMissingScreenshots(pages, docsPaths.screenshotsDir),
+				allowMissingScreenshots
+					? []
+					: findMissingScreenshots(pages, docsPaths.screenshotsDir),
 			),
 		];
 	};

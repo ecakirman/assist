@@ -1,7 +1,8 @@
 import { fileURLToPath } from "node:url";
-import { docsScreenshotsSchema } from "../docsPageSchema";
 import { docsPaths } from "../docsPaths";
 import { renderScreenshot } from "./renderScreenshot";
+import { isCaptured } from "../isCaptured";
+import { declaredScreenshots } from "./declaredScreenshots";
 
 type PluginContext = {
 	fileURL: URL | undefined;
@@ -20,14 +21,7 @@ type VisitorContext = {
 	): void;
 };
 
-function declaredScreenshots(data: PluginContext["data"]) {
-	const result = docsScreenshotsSchema.safeParse(
-		data.astro?.frontmatter?.screenshots,
-	);
-	return new Map((result.data ?? []).map((shot) => [shot.file, shot]));
-}
-
-export function screenshotsPlugin(basePath: string) {
+export function screenshotsPlugin(basePath: string, preview = false) {
 	return ({ fileURL, data }: PluginContext) => {
 		const path = fileURL && fileURLToPath(fileURL);
 		if (!path?.startsWith(docsPaths.pagesDir)) return undefined;
@@ -44,7 +38,11 @@ export function screenshotsPlugin(basePath: string) {
 				placed.add(file);
 				ctx.replaceNode(node, {
 					type: "html",
-					value: renderScreenshot(screenshot, basePath),
+					value: renderScreenshot(
+						screenshot,
+						basePath,
+						preview ? isCaptured : undefined,
+					),
 				});
 			},
 			after() {

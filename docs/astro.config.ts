@@ -24,7 +24,7 @@ export default defineConfig({
 	markdown: {
 		processor: satteri({
 			mdastPlugins: [
-				screenshotsPlugin(base),
+				screenshotsPlugin(base, preview),
 				kbdPlugin,
 				statusPlugin,
 				badgePlugin,
