@@ -1,3 +1,15 @@
+# [0.907.0](https://github.com/staff0rd/assist/compare/v0.906.0...v0.907.0) (2026-10-27)
+
+
+### Bug Fixes
+
+* explain why assist has a backlog ([cd90233](https://github.com/staff0rd/assist/commit/cd9023358dfd3876fd0f59b95f64c3666a295a2e))
+
+
+### Features
+
+* backlog activity screenshot ([8c2e022](https://github.com/staff0rd/assist/commit/8c2e0223267be19caa62becd836a4bb320a6bb6f))
+
 # [0.906.0](https://github.com/staff0rd/assist/compare/v0.905.0...v0.906.0) (2026-10-27)
 
 
