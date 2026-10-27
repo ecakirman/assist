@@ -43,7 +43,7 @@ assist config set sync.autoConfirm true
 
 ## Set up the database
 
-assist keeps your [backlog](../backlog/), usage and per-repo settings in a Postgres database, and won't start without one. Any Postgres works: one running locally or in Docker, or a managed one such as Supabase or Neon. Set its connection string, then create the tables:
+assist keeps your [backlog](../backlog/), [usage](../usage/) and per-repo settings in a Postgres database, and won't start without one. Any Postgres works: one running locally or in Docker, or a managed one such as Supabase or Neon. Set its connection string, then create the tables:
 
 ```bash
 assist config set database.url postgresql://user:password@host:5432/database
