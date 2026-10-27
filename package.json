@@ -26,7 +26,7 @@
 		"test": "vitest run",
 		"docs:install": "npm ci --prefix docs",
 		"docs:build": "npm run --prefix docs build",
-		"docs:preview": "npm run --prefix docs dev",
+		"docs:preview": "tsx src/docs/previewDocs.ts",
 		"docs:capture": "tsx src/docs/captureDocs.ts"
 	},
 	"overrides": {
