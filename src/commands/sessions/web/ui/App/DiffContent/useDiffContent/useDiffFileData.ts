@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { type FileData, parseDiff } from "react-diff-view";
+import type { FileData } from "react-diff-view";
 import { type DiffChangeType, filterDiffFiles } from "../filterDiffFiles";
 import { orderFilesByTree } from "./useDiffFileData/orderFilesByTree";
+import { parseDiffFiles } from "./useDiffFileData/parseDiffFiles";
 
 export function useDiffFileData({
 	diff,
@@ -15,7 +16,7 @@ export function useDiffFileData({
 	changeType: DiffChangeType;
 }): { files: FileData[]; visibleFiles: FileData[] } {
 	const files = useMemo(
-		() => (error || !diff ? [] : parseDiff(diff)),
+		() => (error || !diff ? [] : parseDiffFiles(diff)),
 		[diff, error],
 	);
 	const visibleFiles = useMemo(

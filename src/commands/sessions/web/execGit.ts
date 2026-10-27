@@ -14,9 +14,10 @@ export async function execGit(
 	opts: ExecGitOptions = {},
 ): Promise<string> {
 	const { maxBuffer, allowFailure } = opts;
+	const unquoted = ["-c", "core.quotePath=false", ...args];
 	const { file, argv } = /^[A-Za-z]:[\\/]/.test(cwd)
-		? { file: "git.exe", argv: ["-C", cwd, ...args] }
-		: { file: "git", argv: args };
+		? { file: "git.exe", argv: ["-C", cwd, ...unquoted] }
+		: { file: "git", argv: unquoted };
 	try {
 		const { stdout } = await execFileAsync(file, argv, {
 			encoding: "utf8",
