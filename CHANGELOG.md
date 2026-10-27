@@ -1,3 +1,10 @@
+## [0.904.1](https://github.com/staff0rd/assist/compare/v0.904.0...v0.904.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* configure help names path defaults ([39a6181](https://github.com/staff0rd/assist/commit/39a61814055f1fcadeec44cbd950fe2e647b9ed7))
+
 # [0.904.0](https://github.com/staff0rd/assist/compare/v0.903.0...v0.904.0) (2026-10-27)
 
 
