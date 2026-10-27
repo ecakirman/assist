@@ -35,7 +35,6 @@ covers:
   - cli:backlog associate-github
   - cli:backlog add-activity
   - cli:backlog record-slack
-  - cli:backlog record-session
   - cli:backlog run
   - cli:backlog next
   - cli:next
@@ -88,7 +87,6 @@ These work on the current repo's [backlog](../backlog/). Item ids are written `a
 - `assist backlog unlink <from> <to>` :badge[internal] removes a link. Called by agents working on backlog items.
 - `assist backlog associate-jira <id> [key]` :badge[internal] links a Jira issue by key or browse URL, replacing any GitHub issue; `--clear` removes it. Called by `/draft`, `/bug` and `/refine`.
 - `assist backlog associate-github <id> [issue]` :badge[internal] links a GitHub issue by URL or `owner/repo#number`, replacing any Jira issue; `--clear` removes it. Called by `/draft`, `/bug` and `/refine`.
-- `assist backlog record-session <id>` :badge[internal] attaches the agent conversation it runs inside to an item, or `--session <id>` attaches another. Called by an agent asked to attach its conversation to an item.
 - `assist backlog add-activity <id> <branch|commit|pr|slack|session> <ref>` :badge[internal] attaches a ref to an item's activity, with `--title`, `--url` and `--state`. Called by `/draft` and `/bug`.
 - `assist backlog record-slack <url>` :badge[internal] attaches a Slack thread to the current session's item. Called by `/prs-slack`.
 
