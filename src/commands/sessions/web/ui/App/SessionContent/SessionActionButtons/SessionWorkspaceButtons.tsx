@@ -10,7 +10,7 @@ export function SessionWorkspaceButtons({ session }: { session: SessionInfo }) {
 				<OpenInCodeButton
 					cwd={session.cwd}
 					variant="card"
-					shortcut="focusVsCode"
+					shortcut={session.commandType === "run" ? undefined : "focusVsCode"}
 				/>
 			)}
 		</>

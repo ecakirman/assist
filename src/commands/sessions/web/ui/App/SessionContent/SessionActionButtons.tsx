@@ -33,7 +33,13 @@ export function SessionActionButtons({
 					harness={session.harness}
 				/>
 			)}
-			{onRetry && <RetryButton id={session.id} onRetry={onRetry} />}
+			{onRetry && (
+				<RetryButton
+					id={session.id}
+					onRetry={onRetry}
+					shortcut={session.commandType === "run" ? "focusVsCode" : undefined}
+				/>
+			)}
 			<SessionStarButton session={session} />
 			{target && (
 				<CompleteButton

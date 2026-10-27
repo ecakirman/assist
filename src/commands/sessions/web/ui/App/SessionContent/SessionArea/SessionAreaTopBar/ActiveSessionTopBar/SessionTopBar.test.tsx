@@ -11,6 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SessionTopBar } from "./SessionTopBar";
 import type { SessionInfo } from "../../../../../types";
 import { StarredSessionsProvider } from "../../../../useStarredSessions";
+import { topBarActionRegion } from "../../../../AppSidebar/useRegionFocusHotkeys/useTopBarActionHotkey/topBarActionRegion";
 import { makeSessionInfo } from "../../../../../../../../../test/mothers/makeSessionInfo";
 
 let panelWidth = 1200;
@@ -436,6 +437,50 @@ describe("SessionTopBar actions", () => {
 			);
 			fireEvent.mouseLeave(button);
 		}
+	});
+
+	it("gives Alt+X to Retry on a run session and drops it from VS Code", async () => {
+		renderTopBar(
+			makeSessionInfo({
+				commandType: "run",
+				runName: "dev",
+				cwd: "/git/repo",
+			}),
+			{ onRetry: () => {} },
+		);
+
+		const retry = screen.getByRole("button", { name: "Retry session 1" });
+		expect(topBarActionRegion("focusVsCode", "1").locate()).toBe(retry);
+		expect(
+			screen
+				.getByRole("button", { name: "Open in VS Code" })
+				.getAttribute("data-shortcut"),
+		).toBeNull();
+
+		fireEvent.mouseOver(retry);
+		await waitFor(() =>
+			expect(screen.getByRole("tooltip").textContent).toContain("Alt+X"),
+		);
+	});
+
+	it("keeps Alt+X on VS Code for a non-run session that shows Retry", () => {
+		renderTopBar(
+			makeSessionInfo({
+				commandType: "assist",
+				assistArgs: ["update"],
+				cwd: "/git/repo",
+			}),
+			{ onRetry: () => {} },
+		);
+
+		expect(topBarActionRegion("focusVsCode", "1").locate()).toBe(
+			screen.getByRole("button", { name: "Open in VS Code" }),
+		);
+		expect(
+			screen
+				.getByRole("button", { name: "Retry session 1" })
+				.getAttribute("data-shortcut"),
+		).toBeNull();
 	});
 
 	it("carries the session's actions", () => {

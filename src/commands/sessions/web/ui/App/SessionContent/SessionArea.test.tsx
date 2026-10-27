@@ -413,7 +413,7 @@ describe("SessionArea top bar actions", () => {
 			lifecycle: { onRetry },
 		});
 
-		fireEvent.click(screen.getByTitle("Retry session 1"));
+		fireEvent.click(screen.getByRole("button", { name: "Retry session 1" }));
 
 		expect(onRetry).toHaveBeenCalledWith("1");
 	});
