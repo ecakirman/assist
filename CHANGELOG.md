@@ -1,3 +1,10 @@
+# [0.904.0](https://github.com/staff0rd/assist/compare/v0.903.0...v0.904.0) (2026-10-27)
+
+
+### Features
+
+* configure suggests default paths ([e89f722](https://github.com/staff0rd/assist/commit/e89f72257e589f04c0ab4525477633051d813f38))
+
 # [0.903.0](https://github.com/staff0rd/assist/compare/v0.902.0...v0.903.0) (2026-10-27)
 
 
