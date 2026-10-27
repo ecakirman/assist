@@ -1,3 +1,16 @@
+# [0.908.0](https://github.com/staff0rd/assist/compare/v0.907.2...v0.908.0) (2026-10-27)
+
+
+### Bug Fixes
+
+* explain the backlog item id format ([d1c2fdb](https://github.com/staff0rd/assist/commit/d1c2fdb227fa5510c59f5a123a782154b66fa0f2))
+* restart docs preview on input change ([71fe88f](https://github.com/staff0rd/assist/commit/71fe88fd5961424ce5d85af6f016f75afc8c68bf))
+
+
+### Features
+
+* remove backlog sub-tasks ([f3211ad](https://github.com/staff0rd/assist/commit/f3211ad5dfbc2f7cae5881f87621afc7a297d8df))
+
 ## [0.907.2](https://github.com/staff0rd/assist/compare/v0.907.1...v0.907.2) (2026-10-27)
 
 
