@@ -7,6 +7,8 @@ covers:
   - cli:sync
   - claude:sync
   - config:sync.autoConfirm
+  - config:database.url
+  - cli:db migrate
 screenshots:
   - file: getting-started-first-session.png
     alt: The new-session dialog in prompt mode with a prompt typed in
@@ -38,6 +40,17 @@ Sync asks before overwriting an existing `settings.json`. Pass `--yes` to skip t
 ```bash
 assist config set sync.autoConfirm true
 ```
+
+## Set up the database
+
+assist keeps your [backlog](../backlog/), usage and per-repo settings in a Postgres database, and won't start without one. A managed Postgres such as Supabase or Neon works. Set its connection string, then create the tables:
+
+```bash
+assist config set database.url postgresql://user:password@host:5432/database
+assist db migrate
+```
+
+The `ASSIST_DATABASE_URL` environment variable works too, and takes precedence. Point every machine you use at the same database and they share one backlog.
 
 ## Open the dashboard
 
