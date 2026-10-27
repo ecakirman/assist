@@ -19,15 +19,19 @@ export function ConfigSourceChip({
 	source,
 	repoKey,
 	repoSource,
+	globalConfigFile,
 }: {
 	source: ConfigSource;
 	repoKey?: string;
 	repoSource?: "db" | "yml";
+	globalConfigFile?: string;
 }) {
 	const description =
 		source === "repo" && repoKey
 			? repoDescription(repoKey, repoSource)
-			: DESCRIPTIONS[source];
+			: source === "global" && globalConfigFile
+				? `Set in ${globalConfigFile}`
+				: DESCRIPTIONS[source];
 
 	return (
 		<Tooltip title={description}>

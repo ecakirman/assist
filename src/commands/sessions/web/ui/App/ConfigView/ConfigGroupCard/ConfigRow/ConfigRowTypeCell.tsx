@@ -26,6 +26,7 @@ export function ConfigRowTypeCell({ entry, readOnly, canEdit, onEdit }: Props) {
 					source={entry.source}
 					repoKey={entry.repoKey}
 					repoSource={entry.repoSource}
+					globalConfigFile={entry.globalConfigFile}
 				/>
 				{readOnly && <Chip size="small" variant="outlined" label="read-only" />}
 				{canEdit && (

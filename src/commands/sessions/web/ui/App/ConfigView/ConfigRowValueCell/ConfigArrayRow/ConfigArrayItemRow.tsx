@@ -35,6 +35,7 @@ export function ConfigArrayItemRow({ entry, node, index, editor }: Props) {
 					source={editor.itemAt(index)?.owner?.scope ?? "default"}
 					repoKey={entry.repoKey}
 					repoSource={entry.repoSource}
+					globalConfigFile={entry.globalConfigFile}
 				/>
 				<ConfigArrayItemActions
 					entry={entry}

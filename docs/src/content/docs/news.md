@@ -22,13 +22,13 @@ Waiting on agents can be boring, and the **News** page gives you something to re
 
 ::screenshot{file="news.png"}
 
-The feeds are the `news.feeds` config key. It's stored in the assist database rather than `assist.yml`, so every machine sharing that database sees the same feeds. Set the whole list at once:
+The feeds are the `news.feeds` config key. It's stored in the assist database rather than `assist.yml`, so every machine sharing that database sees the same feeds. Edit it on the [Config](../config/) page, or set the whole list at once:
 
 ```bash
 assist config set news.feeds https://example.com/feed.xml,https://blog.example.org/rss
 ```
 
-Or add, list and remove one at a time with [`assist news`](../cli-news/). `assist config unset news.feeds` removes them all. Restart the web server to load posts from a feed you've just added.
+Or add, list and remove one at a time with [`assist news`](../cli-news/). `assist config unset news.feeds` removes them all.
 
 The page is always at `/news`. To also show a **News** tab in the toolbar:
 

@@ -9,6 +9,13 @@ const home = join(root, "home");
 const repo = join(root, "repo");
 
 const mockRespondJson = vi.fn();
+const mockListFeeds = vi.fn();
+
+vi.mock("../../../shared/db/getDb", () => ({ getDb: async () => ({}) }));
+
+vi.mock("../../backlog/listFeeds", () => ({
+	listFeeds: (...args: unknown[]) => mockListFeeds(...args),
+}));
 
 vi.mock("../../../shared/web", () => ({
 	respondJson: (...args: unknown[]) => mockRespondJson(...args),
@@ -33,9 +40,9 @@ afterAll(() => {
 	rmSync(root, { recursive: true, force: true });
 });
 
-function get(cwd: string): ConfigEntry[] {
+async function get(cwd: string): Promise<ConfigEntry[]> {
 	const req = { url: `/api/config?cwd=${encodeURIComponent(cwd)}` };
-	getConfig(req as IncomingMessage, {} as ServerResponse);
+	await getConfig(req as IncomingMessage, {} as ServerResponse);
 	const [, status, payload] = mockRespondJson.mock.lastCall as [
 		ServerResponse,
 		number,
@@ -62,10 +69,23 @@ describe("getConfig", () => {
 		);
 	});
 
-	it("reads the project config at the cwd", () => {
-		const entry = entryFor(get(repo), "run");
+	it("reads the project config at the cwd", async () => {
+		const entry = entryFor(await get(repo), "run");
 
 		expect(entry.source).toBe("project");
 		expect(entry.value).toEqual([{ name: "build", command: "pnpm build" }]);
+	});
+
+	it("reads news.feeds from the database as a global-only key", async () => {
+		vi.stubEnv("ASSIST_DATABASE_URL", "postgresql://test");
+		mockListFeeds.mockResolvedValue(["https://a.test/feed"]);
+
+		const entry = entryFor(await get(repo), "news.feeds");
+
+		expect(entry.value).toEqual(["https://a.test/feed"]);
+		expect(entry.source).toBe("global");
+		expect(entry.layers).toEqual({ global: ["https://a.test/feed"] });
+		expect(entry.globalOnly).toBe(true);
+		expect(entry.globalConfigFile).toBe("the shared db (all nodes)");
 	});
 });

@@ -32,6 +32,8 @@ import { readRepoConfigCache } from "../../../shared/readRepoConfigCache";
 import { REDACTED_SECRET } from "../../../shared/redactConfigSecrets";
 import { writeRepoConfigCache } from "../../../shared/writeRepoConfigCache";
 import { seedRepoConfigs } from "../../../test/mothers/seedRepoConfigs";
+import { listFeeds } from "../../backlog/listFeeds";
+import { replaceFeeds } from "../../backlog/replaceFeeds";
 import { setConfig } from "./setConfig";
 
 const root = join(tmpdir(), "assist-set-config-test");
@@ -639,5 +641,35 @@ describe("setConfig", () => {
 		expect(status).toBe(400);
 		expect(payload.error).toContain("global-only");
 		expect(await listRepoConfigs(orm)).toEqual({});
+	});
+
+	it("replaces news.feeds in the database, not the global yml", async () => {
+		await replaceFeeds(orm, ["https://old.test/feed"]);
+
+		const [status] = await post({
+			key: "news.feeds",
+			value: ["https://a.test/feed", "https://b.test/feed"],
+			cwd: paths.repo,
+			scope: "global",
+		});
+
+		expect(status).toBe(200);
+		expect(await listFeeds(orm)).toEqual([
+			"https://a.test/feed",
+			"https://b.test/feed",
+		]);
+		expect(readYaml(paths.globalConfig)).toEqual({ commit: { pull: false } });
+	});
+
+	it("rejects news.feeds outside the global scope", async () => {
+		const [status] = await post({
+			key: "news.feeds",
+			value: ["https://a.test/feed"],
+			cwd: paths.repo,
+			scope: "project",
+		});
+
+		expect(status).toBe(400);
+		expect(await listFeeds(orm)).toEqual([]);
 	});
 });
