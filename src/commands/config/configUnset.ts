@@ -1,17 +1,13 @@
 import chalk from "chalk";
-import { applyConfigUnset } from "./applyConfigUnset";
-import { applySharedRepoConfigUnset } from "./applySharedRepoConfigUnset";
-import { exitWithConfigErrors } from "./exitWithConfigErrors";
+import { isDbBackedConfigKey } from "./dbBackedConfigKeys";
 import { resolveRepoUnsetTarget } from "./resolveRepoUnsetTarget";
+import { unsetDbBackedConfigKey } from "./unsetDbBackedConfigKey";
+import { unsetFileConfigKey } from "./unsetFileConfigKey";
 
 type ConfigUnsetOptions = {
 	global?: boolean;
 	repo?: boolean | string;
 };
-
-type UnsetTarget =
-	| { target: "global" | "project" }
-	| { target: "repo"; label: string };
 
 export async function configUnset(
 	key: string | undefined,
@@ -33,25 +29,12 @@ export async function configUnset(
 		return;
 	}
 
-	const result = resolved.useRepo
-		? await applySharedRepoConfigUnset(resolved.key, resolved.repoName)
-		: applyConfigUnset(resolved.key, options.global ?? false);
-	if (!result.ok) exitWithConfigErrors(result.errors);
-	if (!result.removed) {
-		console.log(
-			chalk.yellow(`${resolved.key} is not set in ${whereLabel(result)}`),
-		);
-		return;
-	}
-	console.log(chalk.green(`Unset ${resolved.key} (${targetLabel(result)})`));
-}
-
-function whereLabel(result: UnsetTarget): string {
-	return result.target === "repo"
-		? `repos.${result.label}`
-		: `the ${result.target} config`;
-}
-
-function targetLabel(result: UnsetTarget): string {
-	return result.target === "repo" ? `repo: ${result.label}` : result.target;
+	if (isDbBackedConfigKey(resolved.key))
+		return unsetDbBackedConfigKey(resolved.key, resolved.useRepo);
+	await unsetFileConfigKey({
+		key: resolved.key,
+		useRepo: resolved.useRepo,
+		repoName: resolved.repoName,
+		global: options.global ?? false,
+	});
 }

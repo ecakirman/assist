@@ -44,7 +44,7 @@ assist list
 assist litellm list-models
 assist ls
 assist miro extract
-assist news
+assist news list
 assist prs list-comments
 assist prs read-time
 assist prs slack-channel

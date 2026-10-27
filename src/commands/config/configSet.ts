@@ -1,10 +1,10 @@
 import chalk from "chalk";
-import { applyConfigSet, type ConfigWritableValue } from "./applyConfigSet";
-import { applySharedRepoConfigSet } from "./applySharedRepoConfigSet";
 import { coerceCliConfigValue } from "./coerceCliConfigValue";
+import { isDbBackedConfigKey } from "./dbBackedConfigKeys";
 import { exitWithConfigErrors } from "./exitWithConfigErrors";
-import { maskConfigKeySecrets } from "./maskConfigKeySecrets";
 import { resolveRepoTarget } from "./resolveRepoTarget";
+import { setDbBackedConfigKey } from "./setDbBackedConfigKey";
+import { setFileConfigKey } from "./setFileConfigKey";
 
 type ConfigSetOptions = {
 	global?: boolean;
@@ -31,30 +31,10 @@ export async function configSet(
 
 	const coercion = coerceCliConfigValue(resolved.key, resolved.value);
 	if (!coercion.ok) exitWithConfigErrors([coercion.error]);
-	const coerced = coercion.value;
-	const target = resolved.useRepo
-		? `repo: ${await applyRepoOrExit(resolved.key, coerced, resolved.repoName)}`
-		: applyOrExit(resolved.key, coerced, options.global ?? false);
-	const shown = JSON.stringify(maskConfigKeySecrets(resolved.key, coerced));
-	console.log(chalk.green(`Set ${resolved.key} = ${shown} (${target})`));
-}
-
-function applyOrExit(
-	key: string,
-	coerced: ConfigWritableValue,
-	global: boolean,
-): string {
-	const result = applyConfigSet(key, coerced, global);
-	if (!result.ok) exitWithConfigErrors(result.errors);
-	return result.target;
-}
-
-async function applyRepoOrExit(
-	key: string,
-	coerced: ConfigWritableValue,
-	repoName: string | undefined,
-): Promise<string> {
-	const result = await applySharedRepoConfigSet(key, coerced, repoName);
-	if (!result.ok) exitWithConfigErrors(result.errors);
-	return result.label;
+	if (isDbBackedConfigKey(resolved.key))
+		return setDbBackedConfigKey(resolved.key, coercion.value, resolved.useRepo);
+	await setFileConfigKey(
+		{ ...resolved, global: options.global ?? false },
+		coercion.value,
+	);
 }

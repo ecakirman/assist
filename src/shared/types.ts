@@ -309,6 +309,7 @@ const assistConfigShape = {
 	news: z
 		.strictObject({
 			showInNav: z.boolean().default(false),
+			feeds: z.array(z.string()).optional(),
 		})
 		.optional(),
 	next: z

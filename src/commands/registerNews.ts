@@ -1,7 +1,9 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
 import { add as newsAdd } from "./news/add";
+import { list as newsList } from "./news/list";
 import { newsConfigHelp } from "./news/newsConfigHelp";
+import { remove as newsRemove } from "./news/remove";
 
 export function registerNews(program: Command): void {
 	const newsCommand = program
@@ -10,9 +12,20 @@ export function registerNews(program: Command): void {
 
 	newsCommand
 		.command("add")
-		.description("Add an RSS feed URL")
+		.description("Add an RSS feed URL to news.feeds")
 		.argument("<url>", "RSS feed URL")
 		.action(newsAdd);
+
+	newsCommand
+		.command("list")
+		.description("List the RSS feed URLs in news.feeds")
+		.action(newsList);
+
+	newsCommand
+		.command("remove")
+		.description("Remove an RSS feed URL from news.feeds")
+		.argument("<url>", "RSS feed URL")
+		.action(newsRemove);
 
 	configHelp(newsCommand, newsConfigHelp);
 }

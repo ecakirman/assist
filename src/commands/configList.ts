@@ -4,10 +4,14 @@ import { describeConfigNode } from "../shared/describeConfigNode";
 import { loadConfig } from "../shared/loadConfig";
 import { maskConfigSecrets } from "../shared/maskConfigSecrets";
 import { assistConfigSchema } from "../shared/types";
+import {
+	dbBackedKeysIn,
+	withDbBackedConfigValues,
+} from "./config/withDbBackedConfigValues";
 
-export function configList(): void {
+export async function configList(): Promise<void> {
 	const config = maskConfigSecrets(
-		loadConfig(),
+		await withDbBackedConfigValues(loadConfig(), dbBackedKeysIn()),
 		describeConfigNode(assistConfigSchema),
 	);
 	console.log(

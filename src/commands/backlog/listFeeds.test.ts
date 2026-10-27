@@ -3,6 +3,8 @@ import { createTestDb } from "../../shared/db/createTestDb";
 import type { Db } from "../../shared/db/Db";
 import { addFeed } from "./addFeed";
 import { listFeeds } from "./listFeeds";
+import { removeFeed } from "./removeFeed";
+import { replaceFeeds } from "./replaceFeeds";
 
 let orm: Db;
 let close: () => Promise<void>;
@@ -37,5 +39,25 @@ describe("feeds data access", () => {
 		await addFeed(orm, "https://a.example/feed");
 		expect(await addFeed(orm, "https://a.example/feed")).toBe(false);
 		expect(await listFeeds(orm)).toEqual(["https://a.example/feed"]);
+	});
+
+	it("removes a feed and reports whether it existed", async () => {
+		await addFeed(orm, "https://a.example/feed");
+		expect(await removeFeed(orm, "https://a.example/feed")).toBe(true);
+		expect(await removeFeed(orm, "https://a.example/feed")).toBe(false);
+		expect(await listFeeds(orm)).toEqual([]);
+	});
+
+	it("replaces every feed with a de-duplicated list", async () => {
+		await addFeed(orm, "https://a.example/feed");
+		await replaceFeeds(orm, [
+			"https://b.example/feed",
+			"https://c.example/feed",
+			"https://b.example/feed",
+		]);
+		expect(await listFeeds(orm)).toEqual([
+			"https://b.example/feed",
+			"https://c.example/feed",
+		]);
 	});
 });

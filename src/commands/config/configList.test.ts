@@ -1,9 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createTestDb } from "../../shared/db/createTestDb";
+import type { Db } from "../../shared/db/Db";
 import { loadConfig } from "../../shared/loadConfig";
 import { SECRET_MASK } from "../../shared/maskConfigSecrets";
 import type * as loadConfigMockModule from "../../test/mocks/loadConfigMock";
 import { makeAssistConfig } from "../../test/mothers/makeAssistConfig";
+import { addFeed } from "../backlog/addFeed";
 import { configList } from "../configList";
+
+let orm: Db;
 
 vi.mock("../../shared/loadConfig", async () =>
 	(
@@ -13,15 +18,19 @@ vi.mock("../../shared/loadConfig", async () =>
 	).loadConfigMock(),
 );
 
+vi.mock("../../shared/db/getDb", () => ({
+	getDb: () => Promise.resolve(orm),
+}));
+
 const mockConfig = vi.mocked(loadConfig);
 
-function output(run: () => void): string {
+async function output(run: () => Promise<void>): Promise<string> {
 	const lines: string[] = [];
 	const log = vi.spyOn(console, "log").mockImplementation((line) => {
 		lines.push(String(line));
 	});
 	try {
-		run();
+		await run();
 	} finally {
 		log.mockRestore();
 	}
@@ -29,11 +38,12 @@ function output(run: () => void): string {
 }
 
 describe("configList", () => {
-	beforeEach(() => {
+	beforeEach(async () => {
+		({ orm } = await createTestDb());
 		vi.clearAllMocks();
 	});
 
-	it("masks secrets and keeps the rest of the config readable", () => {
+	it("masks secrets and keeps the rest of the config readable", async () => {
 		mockConfig.mockReturnValue(
 			makeAssistConfig({
 				commit: { push: true },
@@ -44,7 +54,7 @@ describe("configList", () => {
 			}),
 		);
 
-		const text = output(configList);
+		const text = await output(configList);
 
 		expect(text).not.toContain("pass@host");
 		expect(text).not.toContain("t0k");
@@ -54,18 +64,27 @@ describe("configList", () => {
 		expect(text).toContain("push: true");
 	});
 
-	it("omits an unset secret entirely", () => {
+	it("omits an unset secret entirely", async () => {
 		mockConfig.mockReturnValue(makeAssistConfig({ commit: { push: true } }));
 
-		expect(output(configList)).not.toContain(SECRET_MASK);
+		expect(await output(configList)).not.toContain(SECRET_MASK);
 	});
 
-	it("says it shows only what is set and points at config keys", () => {
+	it("says it shows only what is set and points at config keys", async () => {
 		mockConfig.mockReturnValue(makeAssistConfig({ commit: { push: true } }));
 
-		const text = output(configList);
+		const text = await output(configList);
 
 		expect(text).toContain("# Only the keys that are set");
 		expect(text).toContain("assist config keys");
+	});
+
+	it("lists news.feeds from the database", async () => {
+		mockConfig.mockReturnValue(
+			makeAssistConfig({ database: { url: "postgres://host/db" } }),
+		);
+		await addFeed(orm, "https://a.example/feed");
+
+		expect(await output(configList)).toContain("- https://a.example/feed");
 	});
 });

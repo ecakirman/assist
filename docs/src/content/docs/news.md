@@ -6,6 +6,7 @@ order: 2
 covers:
   - route:/news
   - config:news.showInNav
+  - config:news.feeds
 screenshots:
   - file: news.png
     alt: The News page, listing AI news posts from two feeds under date headings
@@ -21,7 +22,13 @@ Waiting on agents can be boring, and the **News** page gives you something to re
 
 ::screenshot{file="news.png"}
 
-Add feeds with [`assist news add`](../cli-news/). Restart the web server to load posts from a feed you've just added.
+The feeds are the `news.feeds` config key. It's stored in the assist database rather than `assist.yml`, so every machine sharing that database sees the same feeds. Set the whole list at once:
+
+```bash
+assist config set news.feeds https://example.com/feed.xml,https://blog.example.org/rss
+```
+
+Or add, list and remove one at a time with [`assist news`](../cli-news/). `assist config unset news.feeds` removes them all. Restart the web server to load posts from a feed you've just added.
 
 The page is always at `/news`. To also show a **News** tab in the toolbar:
 

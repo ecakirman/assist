@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import enquirer from "enquirer";
+import { getDb } from "../../shared/db/getDb";
 import { addFeed } from "../backlog/addFeed";
-import { getReady } from "../backlog/shared";
 
 export async function add(url?: string): Promise<void> {
 	if (!url) {
@@ -21,8 +21,7 @@ export async function add(url?: string): Promise<void> {
 		url = response.url;
 	}
 
-	const { orm } = await getReady();
-	const added = await addFeed(orm, url);
+	const added = await addFeed(await getDb(), url);
 	if (!added) {
 		console.log(chalk.yellow("Feed already exists"));
 		return;
