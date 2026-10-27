@@ -1,3 +1,11 @@
+# [0.903.0](https://github.com/staff0rd/assist/compare/v0.902.0...v0.903.0) (2026-10-27)
+
+
+### Features
+
+* default review critical paths ([63e439e](https://github.com/staff0rd/assist/commit/63e439e01d0172322479918bd9e437f56524e7c8))
+* docs social card on every page ([fc816fa](https://github.com/staff0rd/assist/commit/fc816fa7ecb81c126e6d3b15c4f371494c8af9ef))
+
 # [0.902.0](https://github.com/staff0rd/assist/compare/v0.901.0...v0.902.0) (2026-10-26)
 
 
