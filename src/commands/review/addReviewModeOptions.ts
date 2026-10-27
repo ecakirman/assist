@@ -12,7 +12,7 @@ export function addReviewModeOptions(command: Command): Command {
 		)
 		.option(
 			"--configure",
-			"With --high-level: review nothing and instead ask for review.highLevel.criticalPaths, uiPaths and descriptionWordCap one at a time, each prefilled with its current value or, when unset, globs Claude proposes from this repo's own tree, then write the answers in one pass to either this repo's override in the shared assist database or the project assist.yml. A blank answer leaves that key unset",
+			"With --high-level: review nothing and instead ask for review.highLevel.criticalPaths, uiPaths and descriptionWordCap one at a time, each prefilled with its current value or, when unset, globs Claude proposes from this repo's own tree (for criticalPaths, merged with its defaults), then write the answers in one pass to either this repo's override in the shared assist database or the project assist.yml. A blank answer leaves that key unset",
 		)
 		.option(
 			"--scope <scope>",
