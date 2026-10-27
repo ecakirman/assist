@@ -7,11 +7,38 @@ covers:
   - claude:draft
   - claude:bug
   - claude:refine
+screenshots:
+  - file: backlog-new-draft.png
+    alt: The new-session dialog in draft mode with a brief description typed in
+    route: /sessions
+    scene: dashboard
+    waitFor: text=Pricing page copy
+    actions:
+      - click: "[aria-label='New session']"
+      - click: "[role='dialog'] [aria-label='Mode'] >> text=draft"
+      - click: "[role='dialog'] textarea"
+      - type: Show prices in the visitor's currency
+    highlight:
+      - "[role='dialog'] [aria-label='Mode'] >> text=draft"
+  - file: backlog-new-bug.png
+    alt: The new-session dialog in bug mode with a brief description typed in
+    route: /sessions
+    scene: dashboard
+    waitFor: text=Pricing page copy
+    actions:
+      - click: "[aria-label='New session']"
+      - click: "[role='dialog'] [aria-label='Mode'] >> text=bug"
+      - click: "[role='dialog'] textarea"
+      - type: Cart total is a cent too high for three $0.10 items
+    highlight:
+      - "[role='dialog'] [aria-label='Mode'] >> text=bug"
 ---
 
 Items are written with an agent rather than typed in: briefly describe what you want, answer its questions, and approve the item it proposes.
 
 ## Drafting a story
+
+::screenshot{file="backlog-new-draft.png"}
 
 Start a **draft** session from the [new-session dialog](../sessions-creating/), or run `/draft [description]` in any session. The agent reads the code around your idea, asks a few questions one at a time, then proposes the item in the [preview pane](../sessions-preview-panes/#proposing-a-backlog-item): a name, a description, acceptance criteria and a plan.
 
@@ -20,6 +47,8 @@ A plan is a list of phases (context windows), each a working slice of the featur
 Mention a Jira key, a GitHub issue or a Slack thread while drafting, and the item is linked to it.
 
 ## Filing a bug
+
+::screenshot{file="backlog-new-bug.png"}
 
 Start a **bug** session, or run `/bug [description]` with a brief description of what's wrong. The agent works out the steps to reproduce it, what should happen and what happens instead, asking only about what it can't find in the code, and proposes a bug with those and its acceptance criteria. A bug has no plan: the agent that fixes it works out how.
 
