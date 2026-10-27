@@ -1,3 +1,15 @@
+## [0.908.2](https://github.com/staff0rd/assist/compare/v0.908.1...v0.908.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* document database setup ([cb75f08](https://github.com/staff0rd/assist/commit/cb75f080088f158d7d2c896303ed0f252110150d))
+* draft and bug dialog screenshots ([944fc1c](https://github.com/staff0rd/assist/commit/944fc1c95c4b71eed4d294db2c3da4b64dbe3b14))
+* link config from database setup ([f077af6](https://github.com/staff0rd/assist/commit/f077af653e79e8b95f5c85000f1b3a7eb840df1b))
+* link usage from database setup ([4fc3830](https://github.com/staff0rd/assist/commit/4fc3830571c0184473e2799632521329c4061294))
+* list database options ([14d6a15](https://github.com/staff0rd/assist/commit/14d6a15ceb72d49d16df9966fcfb40b6b2cbef6a))
+* remove backlog record-session ([f71ae36](https://github.com/staff0rd/assist/commit/f71ae36fbde75d0c38551c6f1c5e412550770084))
+
 ## [0.908.1](https://github.com/staff0rd/assist/compare/v0.908.0...v0.908.1) (2026-10-27)
 
 
