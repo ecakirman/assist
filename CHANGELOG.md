@@ -1,3 +1,10 @@
+## [0.911.1](https://github.com/staff0rd/assist/compare/v0.911.0...v0.911.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* strip screenshots from llms.txt ([66103ec](https://github.com/staff0rd/assist/commit/66103ecb6c0513ad0e1d8c62bfc93a785d26c311))
+
 # [0.911.0](https://github.com/staff0rd/assist/compare/v0.910.0...v0.911.0) (2026-10-27)
 
 
