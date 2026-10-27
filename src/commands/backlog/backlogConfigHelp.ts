@@ -7,11 +7,6 @@ export const backlogConfigHelp: ConfigHelpEntry[] = [
 		note: "Postgres connection string for backlog storage (or ASSIST_DATABASE_URL)",
 	},
 	{
-		key: "subtasks",
-		setter: 'assist config set subtasks.0.title "Review"',
-		note: "default sub-tasks seeded onto every new backlog item",
-	},
-	{
 		key: "clone.baseDir",
 		setter: "assist config set clone.baseDir ~/git",
 		note: "base directory 'backlog clone' clones repos into (default: ~/git)",

@@ -81,8 +81,6 @@
 			"SlashCommand(/test-review)",
 			"Skill(strip-code-comments)",
 			"SlashCommand(/strip-code-comments)",
-			"Skill(subtask)",
-			"SlashCommand(/subtask)",
 			"Skill(miro)",
 			"SlashCommand(/miro)",
 			"Skill(slack-post)",

@@ -14,11 +14,6 @@ export function seedBacklogItem(
 	(step.phaseSummaries ?? []).forEach((summary, index) => {
 		assist("backlog", "phase-done", id, String(index + 1), summary);
 	});
-	(step.subtasks ?? []).forEach(({ title, status }, index) => {
-		assist("backlog", "add-subtask", id, "--title", title);
-		if (status && status !== "todo")
-			assist("backlog", "subtask-status", id, String(index + 1), status);
-	});
 	for (const { kind, ref, title, url, state } of step.activity ?? [])
 		assist(
 			"backlog",

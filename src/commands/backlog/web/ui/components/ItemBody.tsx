@@ -7,7 +7,6 @@ export function ItemBody({
 	item,
 	onRewind,
 	onCommentDeleted,
-	onSubtaskStatusChange,
 }: ItemRelationsProps) {
 	return (
 		<Box sx={{ pt: 2, flex: 1, minWidth: 0 }}>
@@ -17,7 +16,6 @@ export function ItemBody({
 				item={item}
 				onRewind={onRewind}
 				onCommentDeleted={onCommentDeleted}
-				onSubtaskStatusChange={onSubtaskStatusChange}
 			/>
 		</Box>
 	);

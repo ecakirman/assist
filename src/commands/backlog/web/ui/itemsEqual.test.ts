@@ -42,15 +42,6 @@ describe("itemsEqual", () => {
 		).toBe(false);
 	});
 
-	it("returns false when the incomplete sub-task count differs", () => {
-		expect(
-			itemsEqual(
-				[first],
-				[makeBacklogItemSummary({ id: 1, incompleteSubtasks: 2 })],
-			),
-		).toBe(false);
-	});
-
 	it("returns false when order differs", () => {
 		expect(itemsEqual([first, second], [second, first])).toBe(false);
 	});

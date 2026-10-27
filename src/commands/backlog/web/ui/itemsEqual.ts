@@ -25,7 +25,6 @@ export function itemsEqual(
 			item.name === other.name &&
 			item.status === other.status &&
 			item.starred === other.starred &&
-			item.incompleteSubtasks === other.incompleteSubtasks &&
 			usageTotalEqual(item.usageTotal, other.usageTotal)
 		);
 	});

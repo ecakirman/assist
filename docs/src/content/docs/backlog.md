@@ -16,7 +16,7 @@ screenshots:
       width: 1440
       height: 640
   - file: backlog-item.png
-    alt: A backlog item's detail page, showing its description, acceptance criteria and sub-tasks
+    alt: A backlog item's detail page, showing its description, acceptance criteria and plan
     route: /backlog
     scene: backlog
     waitFor: text=Cart total rounds to the wrong cent
@@ -102,7 +102,7 @@ The header holds:
 - The status picker sets the item to todo, in-progress, done or won't do.
 - The Jira or GitHub issue the item is linked to, which opens it.
 
-Below are the **Description**, **Acceptance Criteria** and **Sub-tasks**, followed by the **Plan**, **Activity** and **Comments**. On a wide window, the navigator on the right jumps to each section and phase. Set a sub-task's status with the picker beside it; sub-tasks are added with [`/subtask`](../backlog-writing/#sub-tasks).
+Below are the **Description** and **Acceptance Criteria**, followed by the **Plan**, **Activity** and **Comments**. On a wide window, the navigator on the right jumps to each section and phase.
 
 ### Plan
 

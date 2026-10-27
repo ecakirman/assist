@@ -3,7 +3,6 @@ import { backups } from "./backups";
 import { comments } from "./comments";
 import { itemGitRefs } from "./itemGitRefs";
 import { items } from "./items";
-import { itemSubtasks } from "./itemSubtasks";
 import { links } from "./links";
 import { phaseCycleContext } from "./phaseCycleContext";
 import { phaseSessions } from "./phaseSessions";
@@ -18,7 +17,6 @@ export { backups } from "./backups";
 export { comments } from "./comments";
 export { itemGitRefs } from "./itemGitRefs";
 export { items } from "./items";
-export { itemSubtasks } from "./itemSubtasks";
 export { links } from "./links";
 export { phaseCycleContext } from "./phaseCycleContext";
 export { phaseSessions } from "./phaseSessions";
@@ -45,7 +43,6 @@ export const schema = {
 	links,
 	planPhases,
 	planTasks,
-	itemSubtasks,
 	itemGitRefs,
 	metadata,
 	feeds,
@@ -63,7 +60,6 @@ export type CommentRow = typeof comments.$inferSelect;
 export type LinkRow = typeof links.$inferSelect;
 export type PhaseRow = typeof planPhases.$inferSelect;
 export type TaskRow = typeof planTasks.$inferSelect;
-export type SubtaskRow = typeof itemSubtasks.$inferSelect;
 export type PhaseUsageRow = typeof phaseUsage.$inferSelect;
 export type PhaseSessionRow = typeof phaseSessions.$inferSelect;
 export type GitRefRow = typeof itemGitRefs.$inferSelect;

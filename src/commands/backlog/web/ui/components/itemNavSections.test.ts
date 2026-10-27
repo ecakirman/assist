@@ -12,7 +12,6 @@ describe("itemNavSections", () => {
 			makeBacklogItem({
 				description: "d",
 				acceptanceCriteria: ["a"],
-				subtasks: [],
 				gitRefs: [],
 				comments: [],
 			}),
@@ -115,11 +114,10 @@ describe("itemNavSections", () => {
 		]);
 	});
 
-	it("places phase rows between Sub-tasks and Activity", () => {
+	it("places phase rows between Description and Activity", () => {
 		const sections = itemNavSections(
 			makeBacklogItem({
 				description: "d",
-				subtasks: [{ title: "t", status: "todo" }],
 				plan: [{ name: "First", tasks: [] }],
 				gitRefs: [{ kind: "branch", ref: "b" }],
 				comments: [{ text: "c", timestamp: "now", type: "comment" }],
@@ -128,7 +126,6 @@ describe("itemNavSections", () => {
 
 		expect(sections.map((s) => s.label)).toEqual([
 			"Description",
-			"Sub-tasks",
 			"Phases",
 			"1",
 			"Activity",

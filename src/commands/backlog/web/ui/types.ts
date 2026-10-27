@@ -53,14 +53,6 @@ export type PhaseStatus = "done" | "current" | "upcoming";
 
 export type BacklogStatus = "todo" | "in-progress" | "done" | "wontdo";
 
-export type SubtaskStatus = "todo" | "in-progress" | "done";
-
-export type Subtask = {
-	title: string;
-	description?: string;
-	status: SubtaskStatus;
-};
-
 type GitRefKind =
 	| "branch"
 	| "commit"
@@ -91,7 +83,6 @@ export type BacklogItem = {
 	jiraKey?: string;
 	githubIssue?: string;
 	comments?: BacklogComment[];
-	subtasks?: Subtask[];
 	phaseUsage?: PhaseUsage[];
 	phaseSessions?: PhaseSession[];
 	usageTotal?: PhaseUsageTotal;
@@ -115,7 +106,6 @@ export type BacklogItemSummary = {
 	starred: boolean;
 	jiraKey?: string;
 	githubIssue?: string;
-	incompleteSubtasks: number;
 	usageTotal?: PhaseUsageTotal;
 	currentPhase?: number;
 	totalPhases?: number;

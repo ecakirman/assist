@@ -258,7 +258,6 @@
 				"phaseSummaries": [
 					"Added useColourScheme and a Dark mode checkbox beside the theme picker; the theme switches without a reload."
 				],
-				"subtasks": [{ "title": "Add a screenshot to the changelog" }],
 				"activity": [
 					{ "kind": "branch", "ref": "dark-mode-toggle" },
 					{

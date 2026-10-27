@@ -5,7 +5,6 @@ import type {
 	PhaseRow,
 	PhaseSessionRow,
 	PhaseUsageRow,
-	SubtaskRow,
 	TaskRow,
 } from "../../shared/db/schema";
 
@@ -14,7 +13,6 @@ export type Relations = {
 	links: Map<number, LinkRow[]>;
 	phases: Map<number, PhaseRow[]>;
 	tasks: Map<number, TaskRow[]>;
-	subtasks: Map<number, SubtaskRow[]>;
 	usage: Map<number, PhaseUsageRow[]>;
 	sessions: Map<number, PhaseSessionRow[]>;
 	gitRefs: Map<number, GitRefRow[]>;
@@ -23,7 +21,6 @@ export type Relations = {
 export type LoadRelationsOptions = {
 	includeComments?: boolean;
 	includeTasks?: boolean;
-	includeSubtasks?: boolean;
 	includeUsage?: boolean;
 	includeGitRefs?: boolean;
 };

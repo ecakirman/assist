@@ -26,23 +26,27 @@ describe("dropRetiredTables", () => {
 		);
 	});
 
-	it("drops the table after the user confirms a prompt showing its row count", async () => {
+	it("drops each table after the user confirms a prompt showing its row count", async () => {
 		mockPromptConfirm.mockResolvedValue(true);
 		await dropRetiredTables(pgliteExecutor(db));
 		expect(mockPromptConfirm.mock.calls[0][0]).toContain("handovers (1 rows)");
+		expect(mockPromptConfirm.mock.calls[1][0]).toContain(
+			"item_subtasks (0 rows)",
+		);
 		expect(await findRetiredTables(pgliteExecutor(db))).toEqual([]);
 	});
 
-	it("keeps the table when the user declines", async () => {
+	it("keeps the tables when the user declines", async () => {
 		mockPromptConfirm.mockResolvedValue(false);
 		await dropRetiredTables(pgliteExecutor(db));
 		expect(await findRetiredTables(pgliteExecutor(db))).toEqual([
 			{ name: "handovers", rows: 1 },
+			{ name: "item_subtasks", rows: 0 },
 		]);
 	});
 
 	it("does not prompt when no retired table exists", async () => {
-		await db.exec("DROP TABLE handovers");
+		await db.exec("DROP TABLE handovers; DROP TABLE item_subtasks");
 		await dropRetiredTables(pgliteExecutor(db));
 		expect(mockPromptConfirm).not.toHaveBeenCalled();
 	});

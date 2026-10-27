@@ -4,7 +4,6 @@ import type {
 	GitRefRow,
 	PhaseSessionRow,
 	PhaseUsageRow,
-	SubtaskRow,
 	TaskRow,
 } from "../../shared/db/schema";
 import { groupByItem } from "./groupByItem";
@@ -19,7 +18,6 @@ export async function loadRelations(
 	{
 		includeComments = true,
 		includeTasks = true,
-		includeSubtasks = true,
 		includeUsage = false,
 		includeGitRefs = false,
 	}: LoadRelationsOptions = {},
@@ -29,7 +27,6 @@ export async function loadRelations(
 		linkRows,
 		phaseRows,
 		taskRows,
-		subtaskRows,
 		usageRows,
 		sessionRows,
 		gitRefRows,
@@ -38,7 +35,6 @@ export async function loadRelations(
 		relationQueries.links(orm, ids),
 		relationQueries.phases(orm, ids),
 		includeTasks ? relationQueries.tasks(orm, ids) : ([] as TaskRow[]),
-		includeSubtasks ? relationQueries.subtasks(orm, ids) : ([] as SubtaskRow[]),
 		includeUsage ? relationQueries.usage(orm, ids) : ([] as PhaseUsageRow[]),
 		includeUsage
 			? relationQueries.sessions(orm, ids)
@@ -50,7 +46,6 @@ export async function loadRelations(
 		links: groupByItem(linkRows),
 		phases: groupByItem(phaseRows),
 		tasks: groupByItem(taskRows),
-		subtasks: groupByItem(subtaskRows),
 		usage: groupByItem(usageRows),
 		sessions: groupByItem(sessionRows),
 		gitRefs: groupByItem(gitRefRows),

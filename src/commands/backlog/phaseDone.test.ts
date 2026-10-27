@@ -175,48 +175,18 @@ describe("phaseDone", () => {
 		});
 	});
 
-	describe("when the review phase has incomplete sub-tasks", () => {
-		const withPlanAndSubtask = makeBacklogItem({
-			id: 1,
-			status: "in-progress",
-			plan: [{ name: "Implement", tasks: [] }],
-			subtasks: [{ title: "Wire it up", status: "todo" }],
-		});
+	it("should complete the review phase", async () => {
+		mockLoadItem.mockResolvedValue(
+			makeBacklogItem({
+				id: 1,
+				status: "in-progress",
+				plan: [{ name: "Implement", tasks: [] }],
+			}),
+		);
 
-		it("should block the review phase and not advance", async () => {
-			mockLoadItem.mockResolvedValue(withPlanAndSubtask);
+		await phaseDone("a1", "2", "Review complete");
 
-			await phaseDone("a1", "2", "Review complete");
-
-			expect(mockSetCurrentPhase).not.toHaveBeenCalled();
-			expect(mockAppendComment).not.toHaveBeenCalled();
-			expect(process.exitCode).toBe(1);
-			cleanup();
-		});
-
-		it("should still allow an intermediate authored phase to complete", async () => {
-			mockLoadItem.mockResolvedValue(withPlanAndSubtask);
-
-			await phaseDone("a1", "1", "Phase 1 done");
-
-			expect(mockSetCurrentPhase).toHaveBeenCalledWith("a1", 2);
-			cleanup();
-		});
-
-		it("should allow the review phase once all sub-tasks are done", async () => {
-			mockLoadItem.mockResolvedValue(
-				makeBacklogItem({
-					id: 1,
-					status: "in-progress",
-					plan: [{ name: "Implement", tasks: [] }],
-					subtasks: [{ title: "Wire it up", status: "done" }],
-				}),
-			);
-
-			await phaseDone("a1", "2", "Review complete");
-
-			expect(mockSetCurrentPhase).toHaveBeenCalledWith("a1", 3);
-			cleanup();
-		});
+		expect(mockSetCurrentPhase).toHaveBeenCalledWith("a1", 3);
+		cleanup();
 	});
 });

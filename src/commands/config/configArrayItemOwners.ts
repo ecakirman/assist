@@ -65,8 +65,6 @@ export function configArrayItemOwners(
 	const owned =
 		strategy.kind === "keyed"
 			? keyedMergeOwners(scopeLayers, strategy.field)
-			: strategy.kind === "concat"
-				? scopeLayers.flatMap(ownedItems)
-				: highestPrecedenceOwners(scopeLayers);
+			: highestPrecedenceOwners(scopeLayers);
 	return owned.map(({ scope, indexInScope }) => ({ scope, indexInScope }));
 }

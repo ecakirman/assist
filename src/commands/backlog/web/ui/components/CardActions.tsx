@@ -3,7 +3,6 @@ import { canPlay } from "./canPlay";
 import { PhaseMeter } from "./PhaseMeter";
 import { PlayAction } from "./PlayAction";
 import { StarAction } from "./StarAction";
-import { SubtaskBadge } from "./SubtaskBadge";
 
 export function CardActions({
 	item,
@@ -14,7 +13,6 @@ export function CardActions({
 }) {
 	return (
 		<>
-			<SubtaskBadge count={item.incompleteSubtasks} />
 			<PhaseMeter item={item} />
 			<StarAction
 				itemId={item.id}

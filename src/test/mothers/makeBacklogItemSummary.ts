@@ -9,7 +9,6 @@ export function makeBacklogItemSummary(
 		name: "Item",
 		status: "todo",
 		starred: false,
-		incompleteSubtasks: 0,
 		...overrides,
 	};
 }

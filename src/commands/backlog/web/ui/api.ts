@@ -1,5 +1,5 @@
 import { formatItemId } from "../../formatItemId";
-import type { BacklogItem, SubtaskStatus } from "./types";
+import type { BacklogItem } from "./types";
 import { withCwd } from "./withCwd";
 
 async function sendJson<T>(
@@ -33,20 +33,6 @@ export function updateItemStatus(
 ): Promise<BacklogItem> {
 	return sendJson(
 		withCwd(`/api/items/${formatItemId(id)}`, cwd, node),
-		"PATCH",
-		{ status },
-	);
-}
-
-export function updateSubtaskStatus(
-	itemId: number,
-	idx: number,
-	status: SubtaskStatus,
-	cwd?: string,
-	node?: string,
-): Promise<BacklogItem> {
-	return sendJson(
-		withCwd(`/api/items/${formatItemId(itemId)}/subtasks/${idx}`, cwd, node),
 		"PATCH",
 		{ status },
 	);

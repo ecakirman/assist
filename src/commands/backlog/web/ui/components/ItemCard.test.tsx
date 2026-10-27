@@ -129,13 +129,6 @@ describe("ItemCard phase indicator", () => {
 		expect(screen.queryByText("in progress")).toBeNull();
 		expect(container.querySelector(".MuiChip-root")).toBeNull();
 	});
-
-	it("badges the incomplete subtasks instead of chipping them", () => {
-		const { container } = renderCard({ incompleteSubtasks: 2 });
-
-		expect(screen.getByLabelText("2 incomplete subtasks")).toBeTruthy();
-		expect(container.querySelector(".MuiChip-root")).toBeNull();
-	});
 });
 
 describe("ItemCard running edge", () => {

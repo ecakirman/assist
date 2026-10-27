@@ -47,14 +47,6 @@ const phaseUsageTotalSchema = z.strictObject({
 	peakContextPct: z.number(),
 });
 
-const subtaskStatusSchema = z.enum(["todo", "in-progress", "done"]);
-
-const subtaskSchema = z.strictObject({
-	title: z.string(),
-	description: z.string().optional(),
-	status: subtaskStatusSchema.default("todo"),
-});
-
 const backlogCommentTypeSchema = z.enum(["comment", "summary"]);
 
 const backlogCommentSchema = z.strictObject({
@@ -101,7 +93,6 @@ export const backlogItemSchema = z.strictObject({
 	starred: z.boolean().default(false),
 	status: backlogStatusSchema,
 	comments: z.array(backlogCommentSchema).optional(),
-	subtasks: z.array(subtaskSchema).optional(),
 	links: z.array(backlogLinkSchema).optional(),
 	phaseUsage: z.array(phaseUsageSchema).optional(),
 	phaseSessions: z.array(phaseSessionSchema).optional(),
@@ -133,7 +124,7 @@ export type BacklogItemSummary = Pick<
 	| "githubIssue"
 	| "usageTotal"
 	| "currentPhase"
-> & { incompleteSubtasks: number; totalPhases?: number };
+> & { totalPhases?: number };
 export type BacklogStatus = z.infer<typeof backlogStatusSchema>;
 export type BacklogType = z.infer<typeof backlogTypeSchema>;
 export type PlanPhase = z.infer<typeof planPhaseSchema>;
@@ -141,8 +132,6 @@ export type PhaseUsage = z.infer<typeof phaseUsageSchema>;
 export type PhaseSession = z.infer<typeof phaseSessionSchema>;
 export type PhaseUsageTotal = z.infer<typeof phaseUsageTotalSchema>;
 export type BacklogComment = z.infer<typeof backlogCommentSchema>;
-export type Subtask = z.infer<typeof subtaskSchema>;
-export type SubtaskStatus = z.infer<typeof subtaskStatusSchema>;
 export type BacklogLinkType = z.infer<typeof backlogLinkTypeSchema>;
 export type GitRef = z.infer<typeof gitRefSchema>;
 

@@ -8,7 +8,6 @@ import type { BacklogItem } from "./types";
 import { printActivity } from "./show/printActivity";
 import { printLinks } from "./show/printLinks";
 import { printPlan } from "./show/printPlan";
-import { printSubtasks } from "./show/printSubtasks";
 
 function printHeader(item: BacklogItem): void {
 	console.log(chalk.bold(`${formatItemId(item.id)} ${item.name}`));
@@ -63,7 +62,6 @@ export async function show(
 	}
 
 	printAcceptanceCriteria(item.acceptanceCriteria);
-	printSubtasks(item);
 	await printLinks(orm, item);
 	printPlan(item);
 	printActivity(item, { allCommits: options.allCommits });

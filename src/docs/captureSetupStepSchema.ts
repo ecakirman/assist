@@ -78,14 +78,6 @@ const backlogItemStepSchema = z.strictObject({
 	item: proposedItemSchema,
 	status: z.enum(["todo", "in-progress", "done", "wontdo"]).optional(),
 	phaseSummaries: z.array(z.string().min(1)).optional(),
-	subtasks: z
-		.array(
-			z.strictObject({
-				title: z.string().min(1),
-				status: z.enum(["todo", "in-progress", "done"]).optional(),
-			}),
-		)
-		.optional(),
 	comments: z.array(z.string().min(1)).optional(),
 	activity: z
 		.array(

@@ -54,7 +54,6 @@ const projectConfig = {
 		{ name: "test", command: "vitest" },
 	],
 	deny: [{ pattern: "rm -rf", message: "no" }],
-	subtasks: [{ title: "write tests" }],
 };
 
 afterAll(() => {
@@ -156,24 +155,6 @@ describe("array config writes at a chosen scope", () => {
 			[originKey]: {
 				worktree: { enabled: true },
 				deny: [{ pattern: "curl", message: "ask first" }],
-			},
-		});
-		expect(readYaml(repoConfig)).toEqual(projectConfig);
-	});
-
-	it("adds one subtask to the repo override and leaves the project file alone", async () => {
-		const status = await postItemSaveAsTheArrayEditorWould(
-			"subtasks",
-			"repo",
-			undefined,
-			{ title: "update docs" },
-		);
-
-		expect(status).toBe(200);
-		expect(await listRepoConfigs(orm)).toEqual({
-			[originKey]: {
-				worktree: { enabled: true },
-				subtasks: [{ title: "update docs" }],
 			},
 		});
 		expect(readYaml(repoConfig)).toEqual(projectConfig);

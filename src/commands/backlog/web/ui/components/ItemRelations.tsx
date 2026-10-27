@@ -1,30 +1,21 @@
-import type { BacklogItem, SubtaskStatus } from "../types";
+import type { BacklogItem } from "../types";
 import { ActivitySection } from "./ActivitySection";
 import { CommentsSection } from "./CommentsSection";
 import { PlanSection } from "./PlanSection";
-import { SubtasksSection } from "./SubtasksSection";
 
 export type ItemRelationsProps = {
 	item: BacklogItem;
 	onRewind?: () => Promise<void>;
 	onCommentDeleted?: () => Promise<void>;
-	onSubtaskStatusChange?: (idx: number, status: SubtaskStatus) => void;
 };
 
 export function ItemRelations({
 	item,
 	onRewind,
 	onCommentDeleted,
-	onSubtaskStatusChange,
 }: ItemRelationsProps) {
 	return (
 		<>
-			{item.subtasks && onSubtaskStatusChange && (
-				<SubtasksSection
-					subtasks={item.subtasks}
-					onStatusChange={onSubtaskStatusChange}
-				/>
-			)}
 			{item.plan && (
 				<PlanSection
 					phases={item.plan}

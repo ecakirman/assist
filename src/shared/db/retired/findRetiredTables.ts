@@ -1,6 +1,6 @@
 import type { MigrationExecutor } from "../migrations/MigrationExecutor";
 
-const RETIRED_TABLES = ["handovers"];
+const RETIRED_TABLES = ["handovers", "item_subtasks"];
 
 export type RetiredTable = { name: string; rows: number };
 

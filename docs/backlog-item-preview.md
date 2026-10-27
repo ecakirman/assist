@@ -104,7 +104,7 @@ An agent is detected with `isClaudeCode()` — the `CLAUDECODE` environment vari
 
 ## Invariants
 
-- Nothing is written to the backlog before an approval. A rejected or abandoned preview leaves no item, no phase and no sub-task behind.
+- Nothing is written to the backlog before an approval. A rejected or abandoned preview leaves no item and no phase behind.
 - An approval writes the item and every phase in the payload — never a subset.
 - No un-approved phase can be bolted onto a just-approved story. A rejected `add-phase` preview leaves the item's existing plan exactly as it was, and never renumbers a phase.
 - There is no agent path to the backlog that skips the gate: `add` refuses agents outright, `add-phase` previews them, and an agent's `propose` writes only after either a pane approval or an explicit `--confirmed` re-run — never both, since `--confirmed` is refused in a web session.

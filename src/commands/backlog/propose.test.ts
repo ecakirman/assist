@@ -13,12 +13,7 @@ import {
 } from "vitest";
 import { createTestDb } from "../../shared/db/createTestDb";
 import type { Db } from "../../shared/db/Db";
-import {
-	items,
-	itemSubtasks,
-	planPhases,
-	planTasks,
-} from "../../shared/db/schema";
+import { items, planPhases, planTasks } from "../../shared/db/schema";
 import { loadConfig } from "../../shared/loadConfig";
 import { makeAssistConfig } from "../../test/mothers/makeAssistConfig";
 import type * as loadConfigMockModule from "../../test/mocks/loadConfigMock";
@@ -209,10 +204,7 @@ describe("propose inside a web session", () => {
 		expect(body).toContain("1. The pane opens");
 	});
 
-	it("writes the item, the bug's Fix phase and configured sub-tasks on approval", async () => {
-		mockLoadConfig.mockReturnValue(
-			makeAssistConfig({ subtasks: [{ title: "Write tests" }] }),
-		);
+	it("writes the item and the bug's Fix phase on approval", async () => {
 		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
 
 		await propose({ json: writePayload(bug) });
@@ -226,12 +218,6 @@ describe("propose inside a web session", () => {
 				.where(eq(planPhases.itemId, item.id))
 				.orderBy(asc(planPhases.idx)),
 		).toEqual([{ idx: 0, name: "Fix" }]);
-		expect(
-			await orm
-				.select({ title: itemSubtasks.title })
-				.from(itemSubtasks)
-				.where(eq(itemSubtasks.itemId, item.id)),
-		).toEqual([{ title: "Write tests" }]);
 	});
 
 	it("starts no run on a plain approval", async () => {

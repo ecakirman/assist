@@ -53,8 +53,5 @@ export function configArrayItemWriteNote({
 
 	if (ownerScope === undefined || ownerScope === targetScope) return undefined;
 
-	if (strategy.kind === "concat")
-		return `${key} concatenates across scopes — the entry in ${files[ownerScope]} stays, so both will apply.`;
-
 	return `Both ${files[ownerScope]} and ${files[targetScope]} will define this entry — ${configScopeLabels[winner(targetScope, ownerScope)]} wins.`;
 }

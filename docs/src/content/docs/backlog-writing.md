@@ -7,8 +7,6 @@ covers:
   - claude:draft
   - claude:bug
   - claude:refine
-  - claude:subtask
-  - config:subtasks
 ---
 
 Items are written with an agent rather than typed in: briefly describe what you want, answer its questions, and approve the item it proposes.
@@ -28,15 +26,3 @@ Start a **bug** session, or run `/bug [description]` with a brief description of
 ## Refining an item
 
 **Refine** on an item, or `/refine <id>` in a session, starts a conversation about the item. Tell the agent what to change: its name, description, type, acceptance criteria, plan or linked issue, or feedback to keep as a comment. A change to the plan opens in the preview pane as a diff of its phases for you to approve.
-
-## Sub-tasks
-
-Sub-tasks are loose ends that sit outside the plan, such as a follow-up the item can't be finished without. In a session working on an item, `/subtask <text>` adds one to it. An item can't be marked done until its sub-tasks are.
-
-To add the same sub-tasks to every new item:
-
-```bash
-assist config set subtasks.0.title "Update the changelog"
-```
-
-Each entry takes a `title` and an optional `description`.

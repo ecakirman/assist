@@ -37,19 +37,6 @@ describe("configArrayItemWriteNote", () => {
 		);
 	});
 
-	it("warns that a concatenated entry ends up duplicated", () => {
-		expect(
-			configArrayItemWriteNote({
-				...base,
-				key: "subtasks",
-				ownerScope: "global",
-				targetScope: "project",
-			}),
-		).toBe(
-			"subtasks concatenates across scopes — the entry in ~/.assist.yml stays, so both will apply.",
-		);
-	});
-
 	it("warns that an unmerged key replaces the lower scope wholesale", () => {
 		expect(
 			configArrayItemWriteNote({

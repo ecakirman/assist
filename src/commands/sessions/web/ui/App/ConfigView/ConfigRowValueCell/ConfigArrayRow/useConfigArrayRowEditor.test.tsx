@@ -114,23 +114,23 @@ describe("useConfigArrayRowEditor", () => {
 		]);
 	});
 
-	it("adds a repo-scoped subtask without copying the project's subtasks", async () => {
+	it("adds a repo-scoped deny rule without copying the project's rules", async () => {
 		const fetchMock = stubWrites();
 		const { result } = renderEditor(
-			entryFor("subtasks", { project: [{ title: "write tests" }] }),
+			entryFor("deny", { project: [{ pattern: "rm", message: "no" }] }),
 		);
 
 		act(() => result.current.add());
 		act(() => result.current.setScope("repo"));
-		act(() => result.current.setValue({ title: "update docs" }));
+		act(() => result.current.setValue({ pattern: "curl", message: "ask" }));
 		await act(() => result.current.save());
 
 		expect(posted(fetchMock)).toEqual([
 			{
 				url: "/api/config/set",
 				body: {
-					key: "subtasks",
-					value: [{ title: "update docs" }],
+					key: "deny",
+					value: [{ pattern: "curl", message: "ask" }],
 					cwd: "/repo",
 					scope: "repo",
 				},
@@ -367,12 +367,12 @@ describe("useConfigArrayRowEditor", () => {
 
 	it("copies an item without a string name unchanged", () => {
 		const { result } = renderEditor(
-			entryFor("subtasks", { project: [{ title: "write tests" }] }),
+			entryFor("deny", { project: [{ pattern: "rm", message: "no" }] }),
 		);
 
 		act(() => result.current.duplicate(0));
 
-		expect(result.current.valueOf(1)).toEqual({ title: "write tests" });
+		expect(result.current.valueOf(1)).toEqual({ pattern: "rm", message: "no" });
 	});
 
 	it("discards a cancelled duplicate without writing", () => {

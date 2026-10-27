@@ -1,7 +1,6 @@
 import type { CommentRow, ItemRow, LinkRow } from "../../shared/db/schema";
 import { attachGitRefs } from "./attachGitRefs";
 import { attachSessions } from "./attachSessions";
-import { attachSubtasks } from "./attachSubtasks";
 import { attachUsage } from "./attachUsage";
 import { buildPlan } from "./buildPlan";
 import type { Relations } from "./loadRelations";
@@ -65,7 +64,6 @@ function attachPlan(item: BacklogItem, rel: Relations, id: number): void {
 export function rowToItem(row: ItemRow, rel: Relations): BacklogItem {
 	const item = baseItem(row);
 	attachComments(item, rel, row.id);
-	attachSubtasks(item, rel, row.id);
 	attachLinks(item, rel, row.id);
 	attachPlan(item, rel, row.id);
 	attachUsage(item, rel, row.id);

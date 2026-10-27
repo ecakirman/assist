@@ -1,5 +1,5 @@
 import type { BacklogDatabase } from "../../shared/db/Db";
-import { comments, itemSubtasks, links } from "../../shared/db/schema";
+import { comments, links } from "../../shared/db/schema";
 import type { BacklogItem } from "./types";
 import { insertPlan } from "./insertPlan";
 
@@ -37,28 +37,11 @@ async function insertLinks(
 	);
 }
 
-async function insertSubtasks(
-	db: BacklogDatabase,
-	item: BacklogItem,
-): Promise<void> {
-	if (!item.subtasks?.length) return;
-	await db.insert(itemSubtasks).values(
-		item.subtasks.map((s, i) => ({
-			itemId: item.id,
-			idx: i,
-			title: s.title,
-			description: s.description ?? null,
-			status: s.status,
-		})),
-	);
-}
-
 export async function insertItemRelations(
 	db: BacklogDatabase,
 	item: BacklogItem,
 ): Promise<void> {
 	await insertComments(db, item);
-	await insertSubtasks(db, item);
 	await insertLinks(db, item);
 	await insertPlan(db, item);
 }

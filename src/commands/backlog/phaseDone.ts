@@ -1,10 +1,8 @@
 import chalk from "chalk";
 import { appendComment } from "./appendComment";
-import { checkSubtasksComplete } from "./checkSubtasksComplete";
 import { formatItemId, parseItemId } from "./formatItemId";
 import { loadItem } from "./loadItem";
 import { parsePhaseNumber } from "./parsePhaseNumber";
-import { resolvePlan } from "./resolvePlan";
 import { getReady, setCurrentPhase } from "./shared";
 import { writeSignal } from "./writeSignal";
 
@@ -41,12 +39,6 @@ export async function phaseDone(
 		console.log(
 			chalk.dim(`Item ${label} already done, skipping phase advance.`),
 		);
-		return;
-	}
-
-	const reviewPhaseNumber = resolvePlan(item).length + 1;
-	if (phaseNumber === reviewPhaseNumber && !checkSubtasksComplete(item)) {
-		process.exitCode = 1;
 		return;
 	}
 

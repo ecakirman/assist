@@ -3,7 +3,6 @@ import type { Db } from "../../shared/db/Db";
 import {
 	comments,
 	itemGitRefs,
-	itemSubtasks,
 	links,
 	phaseSessions,
 	phaseUsage,
@@ -47,13 +46,6 @@ export const relationQueries = {
 				asc(planTasks.phaseIdx),
 				asc(planTasks.idx),
 			),
-
-	subtasks: (orm: Db, ids: number[]) =>
-		orm
-			.select()
-			.from(itemSubtasks)
-			.where(inArray(itemSubtasks.itemId, ids))
-			.orderBy(asc(itemSubtasks.itemId), asc(itemSubtasks.idx)),
 
 	usage: (orm: Db, ids: number[]) =>
 		orm

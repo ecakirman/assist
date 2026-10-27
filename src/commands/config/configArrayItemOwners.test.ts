@@ -102,33 +102,6 @@ describe("configArrayItemOwners", () => {
 		expectMatchesMerge("deny", layers);
 	});
 
-	it("keeps every subtask, concatenated global then repo then project", () => {
-		const layers = {
-			global: [{ title: "g1" }],
-			repo: [{ title: "r1" }, { title: "r2" }],
-			project: [{ title: "p1" }],
-		};
-
-		expect(configArrayItemOwners("subtasks", layers)).toEqual([
-			{ scope: "global", indexInScope: 0 },
-			{ scope: "repo", indexInScope: 0 },
-			{ scope: "repo", indexInScope: 1 },
-			{ scope: "project", indexInScope: 0 },
-		]);
-		expectMatchesMerge("subtasks", layers);
-	});
-
-	it("keeps duplicate subtask titles from the same layer distinct", () => {
-		expect(
-			configArrayItemOwners("subtasks", {
-				project: [{ title: "same" }, { title: "same" }],
-			}),
-		).toEqual([
-			{ scope: "project", indexInScope: 0 },
-			{ scope: "project", indexInScope: 1 },
-		]);
-	});
-
 	it("gives a plain array key to the highest layer that sets it", () => {
 		const layers = {
 			global: [{ name: "main" }],

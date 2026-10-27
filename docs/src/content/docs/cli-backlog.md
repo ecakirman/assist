@@ -19,10 +19,6 @@ covers:
   - cli:backlog remove-phase
   - cli:backlog move-phase
   - cli:backlog update-plan
-  - cli:backlog add-subtask
-  - cli:backlog edit-subtask
-  - cli:backlog remove-subtask
-  - cli:backlog subtask-status
   - cli:backlog start
   - cli:backlog stop
   - cli:backlog done
@@ -70,12 +66,11 @@ These work on the current repo's [backlog](../backlog/). Item ids are written `a
 - `assist backlog update-phase <id> <phase>` (alias `edit-phase`) changes a phase's `--name`, replaces its `--task` or `--manual-check` lists, or changes one with `--add-task`, `--edit-task <n>`, `--remove-task <n>`, `--add-check`, `--edit-check <n>` and `--remove-check <n>`.
 - `assist backlog remove-phase <id> <phase>` removes a phase, and `assist backlog move-phase <id> <from> <to>` moves one.
 - `assist backlog update-plan <id> --json <file|->` :badge[internal] replaces the whole plan from a JSON payload, after approval in a dashboard session. Called by `/refine`.
-- `assist backlog add-subtask <id> --title <title> [--desc <description>]` adds a sub-task. `assist backlog edit-subtask <id> <n>` changes its `--title`, `--desc` or `--status`, `assist backlog subtask-status <id> <n> <todo|in-progress|done>` sets just its status, and `assist backlog remove-subtask <id> <n>` removes it.
 
 ## Status
 
 - `assist backlog start <id>` sets an item in progress, and `assist backlog stop` puts every in-progress item back to todo at its first phase.
-- `assist backlog done <id> [summary]` :badge[internal] marks an item done, once its sub-tasks are. Called by the review phase of a backlog run.
+- `assist backlog done <id> [summary]` :badge[internal] marks an item done. Called by the review phase of a backlog run.
 - `assist backlog wontdo <id> [reason]` marks an item won't do.
 - `assist backlog set-status <id> <todo|in-progress|done|wontdo>` sets any status.
 - `assist backlog star <id>` and `assist backlog unstar <id>` star and unstar an item.

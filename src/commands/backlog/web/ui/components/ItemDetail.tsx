@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import { countRender } from "../../../../sessions/web/ui/renderCounters";
-import { updateItemStatus, updateSubtaskStatus } from "../api";
-import type { BacklogItem, SubtaskStatus } from "../types";
+import { updateItemStatus } from "../api";
+import type { BacklogItem } from "../types";
 import { useApiNode } from "../../../../sessions/web/ui/useApiNode";
 import { useRepoCwd } from "../useRepoCwd";
 import { ItemBody } from "./ItemBody";
@@ -30,13 +30,6 @@ export function ItemDetail({ item, onReload }: ItemDetailProps) {
 		await updateItemStatus(item.id, status, cwd, node);
 		await onReload();
 	};
-	const handleSubtaskStatusChange = async (
-		idx: number,
-		status: SubtaskStatus,
-	) => {
-		await updateSubtaskStatus(item.id, idx, status, cwd, node);
-		await onReload();
-	};
 	return (
 		<Box style={style}>
 			<PinnedHeader
@@ -51,7 +44,6 @@ export function ItemDetail({ item, onReload }: ItemDetailProps) {
 						item={item}
 						onRewind={onReload}
 						onCommentDeleted={onReload}
-						onSubtaskStatusChange={handleSubtaskStatusChange}
 					/>
 					<ItemNavigator item={item} headerHeight={headerHeight} />
 				</Box>

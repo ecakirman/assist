@@ -85,7 +85,6 @@ The user guide is an [Astro Starlight](https://starlight.astro.build/) site in i
 - `/github [action] [ref] [args]` - GitHub issue actions: `view`, `edit`, `create`, `associate`, `update`, `started`, `done`, `help`. `[ref]` defaults to the session's backlog item's; a bare `/github <ref>` runs `edit`
 - `/next [id]` - Signal completion and chain into the next backlog item
 - `/slack-post [channel] [--thread <ts-or-permalink>] <what to say>` - Preview a markdown message, or a thread of them, then post it to a Slack channel (default `slack.channel`); `--thread` replies in that thread
-- `/subtask <text>` - Add a sub-task to the session's current backlog item
 - `/strip-code-comments` - Strip redundant comments from tracked source files
 - `/sync` - Sync commands and settings to ~/.claude
 - `/design <prompt>` - Apply the vendored design system prompt to a design task
@@ -195,13 +194,9 @@ Backlog item ids are written in an `a`-prefixed form (e.g. item 555 is `a555`) t
 - `assist backlog remove-phase <id> <phase>` - Remove a plan phase from a backlog item
 - `assist backlog move-phase <id> <from> <to>` - Reorder a plan phase between 1-based positions
 - `assist backlog update-plan <id> --json <file|->` - Replace an item's whole plan from a JSON payload, previewed as a diff for approval
-- `assist backlog add-subtask <id> --title <t> [--desc <d>]` - Add a sub-task. Sub-tasks under the `subtasks` key in `assist.yml` / `~/.assist.yml` are added to every new item
-- `assist backlog edit-subtask <id> <idx> [--title <t>] [--desc <d>] [--status <s>]` - Edit a sub-task by its 1-based index
-- `assist backlog remove-subtask <id> <idx>` - Remove a sub-task by its 1-based index
-- `assist backlog subtask-status <id> <idx> <status>` - Set a sub-task's status (`todo`, `in-progress`, `done`)
 - `assist backlog start <id>` - Set a backlog item to in-progress
 - `assist backlog stop` - Revert all in-progress items to todo and reset their phase to 1
-- `assist backlog done <id>` - Set a backlog item to done (blocked while any sub-task is not done)
+- `assist backlog done <id>` - Set a backlog item to done
 - `assist backlog wontdo <id> [reason]` - Set a backlog item to won't do
 - `assist backlog set-status <id> <status>` - Set status (`todo`, `in-progress`, `done`, `wontdo`)
 - `assist backlog star <id>` / `assist backlog unstar <id>` - Pin an item ahead of unstarred items in the web view

@@ -47,69 +47,64 @@ function click(name: string) {
 
 describe("ConfigNodeEditor", () => {
 	it("adds an entry to an array of objects and types into its fields", () => {
-		render(<Harness nodeKey="subtasks" initial={undefined} />);
+		render(<Harness nodeKey="deny" initial={undefined} />);
 
-		click("Add subtasks entry");
-		type("subtasks[0].title", "Write the walker");
-		type("subtasks[0].description", "recursive");
+		click("Add deny entry");
+		type("deny[0].pattern", "rm -rf");
+		type("deny[0].message", "no");
 
-		expect(edited()).toEqual([
-			{ title: "Write the walker", description: "recursive" },
-		]);
+		expect(edited()).toEqual([{ pattern: "rm -rf", message: "no" }]);
 	});
 
 	it("opens one entry at a time, summarising the rest", () => {
 		render(
 			<Harness
-				nodeKey="subtasks"
-				initial={[{ title: "first" }, { title: "second" }]}
+				nodeKey="deny"
+				initial={[{ pattern: "first" }, { pattern: "second" }]}
 			/>,
 		);
 
 		expect(screen.getByText("first")).toBeTruthy();
-		expect(screen.queryByLabelText("subtasks[0].title")).toBeNull();
+		expect(screen.queryByLabelText("deny[0].pattern")).toBeNull();
 
-		click("Edit subtasks[1]");
-		expect(screen.getByLabelText("subtasks[1].title")).toHaveProperty(
+		click("Edit deny[1]");
+		expect(screen.getByLabelText("deny[1].pattern")).toHaveProperty(
 			"value",
 			"second",
 		);
-		expect(screen.queryByLabelText("subtasks[0].title")).toBeNull();
+		expect(screen.queryByLabelText("deny[0].pattern")).toBeNull();
 
-		click("Edit subtasks[0]");
-		expect(screen.queryByLabelText("subtasks[1].title")).toBeNull();
+		click("Edit deny[0]");
+		expect(screen.queryByLabelText("deny[1].pattern")).toBeNull();
 
-		click("Done editing subtasks[0]");
-		expect(screen.queryByLabelText("subtasks[0].title")).toBeNull();
+		click("Done editing deny[0]");
+		expect(screen.queryByLabelText("deny[0].pattern")).toBeNull();
 	});
 
 	it("drops a field again when its input is cleared", () => {
 		render(
-			<Harness
-				nodeKey="subtasks"
-				initial={[{ title: "a", description: "b" }]}
-			/>,
+			<Harness nodeKey="deny" initial={[{ pattern: "a", message: "b" }]} />,
 		);
 
-		click("Edit subtasks[0]");
-		type("subtasks[0].description", "");
+		click("Edit deny[0]");
+		type("deny[0].message", "");
 
-		expect(edited()).toEqual([{ title: "a" }]);
+		expect(edited()).toEqual([{ pattern: "a" }]);
 	});
 
 	it("reorders and removes entries in an array of objects", () => {
 		render(
 			<Harness
-				nodeKey="subtasks"
-				initial={[{ title: "first" }, { title: "second" }]}
+				nodeKey="deny"
+				initial={[{ pattern: "first" }, { pattern: "second" }]}
 			/>,
 		);
 
-		click("Move subtasks[1] up");
-		expect(edited()).toEqual([{ title: "second" }, { title: "first" }]);
+		click("Move deny[1] up");
+		expect(edited()).toEqual([{ pattern: "second" }, { pattern: "first" }]);
 
-		click("Remove subtasks[0]");
-		expect(edited()).toEqual([{ title: "first" }]);
+		click("Remove deny[0]");
+		expect(edited()).toEqual([{ pattern: "first" }]);
 	});
 
 	it("keeps only the picked variant's fields when a run entry changes shape", () => {
