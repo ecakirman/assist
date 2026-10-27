@@ -811,36 +811,36 @@
 		{ "assist": ["config", "set", "-g", "news.showInNav", "true"] },
 		{
 			"newsFeed": {
-				"name": "frontend",
-				"title": "Frontend Notes",
+				"name": "ai-digest",
+				"title": "AI Digest",
 				"items": [
 					{
-						"title": "Container queries are ready for production",
+						"title": "Coding agents now run for hours without a check-in",
 						"hoursAgo": 3,
-						"excerpt": "Every evergreen browser now ships size and style container queries, so components can respond to the space they're given rather than the viewport."
+						"excerpt": "Longer context and better planning let agents carry a multi-step change from plan to passing tests on their own, so reviewing their work is becoming the bottleneck."
 					},
 					{
-						"title": "A practical guide to view transitions",
+						"title": "What a month of parallel agent sessions taught us",
 						"hoursAgo": 30,
-						"excerpt": "Animate between pages and states with a few lines of CSS, and fall back gracefully where they aren't supported."
+						"excerpt": "Running five agents at once only paid off once each had its own worktree and a clear plan to follow."
 					}
 				]
 			}
 		},
 		{
 			"newsFeed": {
-				"name": "tooling",
-				"title": "Tooling Weekly",
+				"name": "model-notes",
+				"title": "Model Notes",
 				"items": [
 					{
-						"title": "Faster TypeScript builds with project references",
+						"title": "Small models are closing the gap on code review",
 						"hoursAgo": 6,
-						"excerpt": "Splitting a large repo into referenced projects lets the compiler skip what hasn't changed. We measured a 4x speed-up on incremental builds."
+						"excerpt": "On our review benchmark, a model a tenth the size caught four in five of the bugs the largest one did, at a fraction of the cost."
 					},
 					{
-						"title": "Lint rules that pay for themselves",
+						"title": "Prompt caching, explained",
 						"hoursAgo": 50,
-						"excerpt": "Five rules that caught real bugs in a year of code review, and two we turned off again."
+						"excerpt": "How reusing a long, unchanging prompt prefix cuts latency and cost, and how to structure prompts to get the most from it."
 					}
 				]
 			}
