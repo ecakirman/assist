@@ -1,3 +1,15 @@
+# [0.911.0](https://github.com/staff0rd/assist/compare/v0.910.0...v0.911.0) (2026-10-27)
+
+
+### Bug Fixes
+
+* exclude wontdo from Running usage filter ([50a252d](https://github.com/staff0rd/assist/commit/50a252de149c56636143d630c22f1d0d506f5a53))
+
+
+### Features
+
+* publish llms.txt for the docs site ([e40579b](https://github.com/staff0rd/assist/commit/e40579bf181457b454cba70ed6fecd19d485bed9))
+
 # [0.910.0](https://github.com/staff0rd/assist/compare/v0.909.0...v0.910.0) (2026-10-27)
 
 
