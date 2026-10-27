@@ -6,4 +6,9 @@ export const backupConfigHelp: ConfigHelpEntry[] = [
 		setter: "assist config set backup.dir ~/.assist/backups",
 		note: "directory dumps are written to (default: ~/.assist/backups)",
 	},
+	{
+		key: "backup.staleAfter",
+		setter: "assist config set backup.staleAfter 32h",
+		note: "age (s, m or h) after which the web header warns the last backup is overdue (default: 32h)",
+	},
 ];

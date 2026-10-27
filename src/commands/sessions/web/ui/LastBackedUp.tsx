@@ -6,12 +6,16 @@ import { Link as RouterLink } from "react-router";
 import type { BackupRow } from "../../../../shared/db/listBackups";
 import { formatRelativeTime } from "./formatRelativeTime";
 
-const STALE_AFTER_MS = 32 * 60 * 60 * 1000;
+type LatestBackup = { row: BackupRow | null; staleAfterMs: number };
 
-async function fetchLatestBackup(): Promise<BackupRow | null> {
-	const res = await fetch("/api/backups/list");
-	const backups: BackupRow[] = await res.json();
-	return backups[0] ?? null;
+async function fetchLatestBackup(): Promise<LatestBackup> {
+	const [listRes, statusRes] = await Promise.all([
+		fetch("/api/backups/list"),
+		fetch("/api/backups/status"),
+	]);
+	const backups: BackupRow[] = await listRes.json();
+	const { staleAfterMs }: { staleAfterMs: number } = await statusRes.json();
+	return { row: backups[0] ?? null, staleAfterMs };
 }
 
 function BackupsLink({
@@ -45,7 +49,7 @@ function BackupsLink({
 }
 
 export function LastBackedUp() {
-	const [latest, setLatest] = useState<BackupRow | null>();
+	const [latest, setLatest] = useState<LatestBackup>();
 
 	useEffect(() => {
 		fetchLatestBackup().then(setLatest);
@@ -53,16 +57,16 @@ export function LastBackedUp() {
 
 	if (latest === undefined) return null;
 
-	if (latest === null)
+	const { row, staleAfterMs } = latest;
+	if (row === null)
 		return (
 			<BackupsLink warn tooltip="No backup has been recorded">
 				Never backed up
 			</BackupsLink>
 		);
 
-	const timestamp = new Date(latest.createdAt).toLocaleString();
-	const stale =
-		Date.now() - new Date(latest.createdAt).getTime() > STALE_AFTER_MS;
+	const timestamp = new Date(row.createdAt).toLocaleString();
+	const stale = Date.now() - new Date(row.createdAt).getTime() > staleAfterMs;
 
 	return (
 		<BackupsLink
@@ -71,7 +75,7 @@ export function LastBackedUp() {
 				stale ? `Backup overdue — last backed up ${timestamp}` : timestamp
 			}
 		>
-			Last backed up {formatRelativeTime(String(latest.createdAt))}
+			Last backed up {formatRelativeTime(String(row.createdAt))}
 		</BackupsLink>
 	);
 }

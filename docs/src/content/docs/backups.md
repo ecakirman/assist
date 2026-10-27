@@ -27,7 +27,7 @@ screenshots:
 
 The **Backups** page lists the backups of the assist database, which holds every repo's backlog, newest first.
 
-To open it, go to the [Backlog](../backlog/) tab (:kbd[Alt+2]) and click **Last backed up** at the top right. The link appears once you've taken a backup.
+To open it, go to the [Backlog](../backlog/) tab (:kbd[Alt+2]) and click **Last backed up** (**Never backed up** before your first backup) at the top right.
 
 ::screenshot{file="backups-link.png"}
 

@@ -9,6 +9,7 @@ covers:
   - cli:backup schedule status
   - cli:backup schedule remove
   - config:backup.dir
+  - config:backup.staleAfter
 ---
 
 ## Commands
@@ -27,3 +28,9 @@ assist config set backup.dir ~/backups/assist
 ```
 
 Scheduled runs log to `cron.log` in `backup.dir`.
+
+```bash
+assist config set backup.staleAfter 48h
+```
+
+`backup.staleAfter` sets how old the newest backup can get, in `s`, `m` or `h`, before the **Last backed up** link warns it is overdue. The default is `32h`.

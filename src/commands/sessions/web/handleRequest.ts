@@ -12,6 +12,7 @@ import { fileContent } from "./fileContent";
 import { reviewFromGithub } from "./fromGithub/reviewFromGithub";
 import { sessionFromGithub } from "./fromGithub/sessionFromGithub";
 import { sessionFromGithubPreflight } from "./fromGithub/sessionFromGithubPreflight";
+import { getBackupStatus } from "./getBackupStatus";
 import { getBackups } from "./getBackups";
 import { getConfig } from "./getConfig";
 import { getHtml } from "./getHtml";
@@ -108,6 +109,7 @@ const routes: Record<string, Handler> = {
 	"GET /api/usage/history": listUsageHistory,
 	"GET /api/usage/items": listUsageItems,
 	"GET /api/backups/list": getBackups,
+	"GET /api/backups/status": getBackupStatus,
 	"GET /api/config": getConfig,
 	"POST /api/config/set": setConfig,
 	"POST /api/config/unset": unsetConfig,

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { adviceFragmentNames } from "./adviceFragmentNames";
 import { defaultCriticalPaths } from "./defaultCriticalPaths";
+import { durationSchema } from "./durationSchema";
 import { hotkeysSchema } from "./hotkeys/hotkeysSchema";
 import { runConfigSchema, runLinkSchema } from "./runConfigSchema";
 import { secretConfigValue } from "./secretConfigValue";
@@ -23,6 +24,7 @@ export const miroExtractSchema = z.strictObject({
 });
 
 const DEFAULT_BACKUP_DIR = "~/.assist/backups";
+const DEFAULT_BACKUP_STALE_AFTER = "32h";
 const DEFAULT_CLONE_DIR = "~/git";
 const assistConfigShape = {
 	advice: z
@@ -37,8 +39,12 @@ const assistConfigShape = {
 	backup: z
 		.strictObject({
 			dir: z.string().default(DEFAULT_BACKUP_DIR),
+			staleAfter: durationSchema.default(DEFAULT_BACKUP_STALE_AFTER),
 		})
-		.default({ dir: DEFAULT_BACKUP_DIR }),
+		.default({
+			dir: DEFAULT_BACKUP_DIR,
+			staleAfter: DEFAULT_BACKUP_STALE_AFTER,
+		}),
 	clone: z
 		.strictObject({
 			baseDir: z.string().default(DEFAULT_CLONE_DIR),

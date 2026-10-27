@@ -1,4 +1,4 @@
-import { parseDuration } from "./parseDuration";
+import { parseDuration } from "../../shared/parseDuration";
 
 type WatchDurations = { intervalMs: number; timeoutMs: number | undefined };
 

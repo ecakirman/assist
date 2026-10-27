@@ -11,11 +11,14 @@ afterEach(() => {
 	vi.unstubAllGlobals();
 });
 
-function stubBackups(createdAts: Date[]) {
-	const body = createdAts.map((createdAt, id) => ({ id, createdAt }));
+function stubBackups(createdAts: Date[], staleAfterMs = 32 * HOUR_MS) {
+	const list = createdAts.map((createdAt, id) => ({ id, createdAt }));
 	vi.stubGlobal(
 		"fetch",
-		vi.fn(async () => ({ ok: true, status: 200, json: async () => body })),
+		vi.fn(async (url: string) => {
+			const body = url === "/api/backups/status" ? { staleAfterMs } : list;
+			return { ok: true, status: 200, json: async () => body };
+		}),
 	);
 }
 
@@ -51,6 +54,15 @@ describe("LastBackedUp", () => {
 		expect(link.getAttribute("aria-label")).toBe(
 			`Backup overdue — last backed up ${createdAt.toLocaleString()}`,
 		);
+	});
+
+	it("uses the configured threshold in place of the 32h default", async () => {
+		stubBackups([new Date(Date.now() - 40 * HOUR_MS)], 48 * HOUR_MS);
+		renderLink();
+		const link = (await screen.findByText(/Last backed up/)).closest(
+			"a",
+		) as HTMLAnchorElement;
+		expect(link.querySelector("svg")).toBeNull();
 	});
 
 	it("shows a 'Never backed up' warning link when no backup exists", async () => {
