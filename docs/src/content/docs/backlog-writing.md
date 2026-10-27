@@ -23,7 +23,7 @@ Mention a Jira key, a GitHub issue or a Slack thread while drafting, and the ite
 
 ## Filing a bug
 
-Start a **bug** session, or run `/bug [description]`. The agent asks for the steps to reproduce it, what should happen and what happens instead, and proposes a bug with those and its acceptance criteria. A bug has no plan: the agent that fixes it works out how.
+Start a **bug** session, or run `/bug [description]` with a brief description of what's wrong. The agent works out the steps to reproduce it, what should happen and what happens instead, asking only about what it can't find in the code, and proposes a bug with those and its acceptance criteria. A bug has no plan: the agent that fixes it works out how.
 
 ## Refining an item
 
