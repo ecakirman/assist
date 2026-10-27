@@ -1,6 +1,7 @@
 import { satteri } from "@astrojs/markdown-satteri";
 import starlight from "@astrojs/starlight";
 import { defineConfig } from "astro/config";
+import starlightLlmsTxt from "starlight-llms-txt";
 import { docsSectionsPlugin } from "../src/docs/starlight/docsSectionsPlugin";
 import { kbdPlugin } from "../src/docs/starlight/kbdPlugin";
 import { docsSidebar } from "../src/docs/starlight/docsSidebar";
@@ -16,6 +17,7 @@ const sidebar = docsSidebar();
 const preview = process.env.NODE_ENV === "development";
 const site = "https://staffordwilliams.com";
 const ogImage = `${site}${base}og.png`;
+const description = "Enforce determinism in LLM development workflows.";
 
 export default defineConfig({
 	site,
@@ -40,6 +42,7 @@ export default defineConfig({
 			logo: { src: "../extension/icons/assist-128.png", alt: "" },
 			sidebar,
 			pagination: false,
+			plugins: [starlightLlmsTxt({ projectName: "assist", description })],
 			customCss: [
 				"./src/styles/kbd.css",
 				"./src/styles/screenshot.css",
@@ -60,8 +63,7 @@ export default defineConfig({
 					tag: "meta",
 					attrs: {
 						property: "og:image:alt",
-						content:
-							"assist: Enforce determinism in LLM development workflows.",
+						content: `assist: ${description}`,
 					},
 				},
 				{ tag: "meta", attrs: { name: "twitter:image", content: ogImage } },
