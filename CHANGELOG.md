@@ -1,3 +1,10 @@
+## [0.904.2](https://github.com/staff0rd/assist/compare/v0.904.1...v0.904.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* revert all uncommitted diff entries ([3b9f87a](https://github.com/staff0rd/assist/commit/3b9f87a7cf917c5ef1cb7440bc032f95e1af462c))
+
 ## [0.904.1](https://github.com/staff0rd/assist/compare/v0.904.0...v0.904.1) (2026-10-27)
 
 
