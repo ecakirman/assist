@@ -65,7 +65,7 @@ These work on the current repo's [backlog](../backlog/). Item ids are written `a
 ## Writing
 
 - `assist backlog add` adds an item, prompting for anything not given by `--name`, `--type <story|bug>`, `--desc` and `--ac <criterion>` (repeatable).
-- `assist backlog update-field <id>` changes `--name`, `--desc` or `--type`. `--ac` replaces every acceptance criterion, while `--add-ac <text>`, `--edit-ac <n> <text>` and `--remove-ac <n>` change one. `--origin [origin]` moves the item to another repo, the current one when no origin is given.
+- `assist backlog update-field <id>` :badge[internal] changes `--name`, `--desc` or `--type`. `--ac` replaces every acceptance criterion, while `--add-ac <text>`, `--edit-ac <n> <text>` and `--remove-ac <n>` change one. `--origin [origin]` moves the item to another repo, the current one when no origin is given. Called by `/refine`.
 - `assist backlog add-phase <id> <name> --task <task>` adds a phase, with `--manual-check <check>` (both repeatable) and `--position <n>` to insert it rather than append it.
 - `assist backlog update-phase <id> <phase>` (alias `edit-phase`) changes a phase's `--name`, replaces its `--task` or `--manual-check` lists, or changes one with `--add-task`, `--edit-task <n>`, `--remove-task <n>`, `--add-check`, `--edit-check <n>` and `--remove-check <n>`.
 - `assist backlog remove-phase <id> <phase>` removes a phase, and `assist backlog move-phase <id> <from> <to>` moves one.
@@ -75,17 +75,19 @@ These work on the current repo's [backlog](../backlog/). Item ids are written `a
 ## Status
 
 - `assist backlog start <id>` sets an item in progress, and `assist backlog stop` puts every in-progress item back to todo at its first phase.
-- `assist backlog done <id> [summary]` marks an item done, once its sub-tasks are, and `assist backlog wontdo <id> [reason]` marks it won't do.
+- `assist backlog done <id> [summary]` :badge[internal] marks an item done, once its sub-tasks are. Called by the review phase of a backlog run.
+- `assist backlog wontdo <id> [reason]` marks an item won't do.
 - `assist backlog set-status <id> <todo|in-progress|done|wontdo>` sets any status.
 - `assist backlog star <id>` and `assist backlog unstar <id>` star and unstar an item.
 - `assist backlog delete <id>` (alias `remove`) deletes an item.
 
 ## Comments, links and activity
 
-- `assist backlog comment <id> <text>` adds a comment, and `assist backlog delete-comment <id> <comment-id>` deletes one. Phase summaries can't be deleted.
+- `assist backlog comment <id> <text>` :badge[internal] adds a comment. Called by backlog run phases and `/refine`.
+- `assist backlog delete-comment <id> <comment-id>` deletes a comment. Phase summaries can't be deleted.
 - `assist backlog link <from> <to>` links two items, `--type depends-on` making `<from>` wait for `<to>` (default `relates-to`). `assist backlog unlink <from> <to>` removes the link.
 - `assist backlog associate-jira <id> [key]` links a Jira issue by key or browse URL, and `assist backlog associate-github <id> [issue]` a GitHub issue by URL or `owner/repo#number`. An item has one or the other, and `--clear` removes it.
-- `assist backlog record-session <id>` attaches the agent conversation it runs inside to an item, or `--session <id>` attaches another.
+- `assist backlog record-session <id>` :badge[internal] attaches the agent conversation it runs inside to an item, or `--session <id>` attaches another. Called by an agent asked to attach its conversation to an item.
 - `assist backlog add-activity <id> <branch|commit|pr|slack|session> <ref>` :badge[internal] attaches a ref to an item's activity, with `--title`, `--url` and `--state`. Called by `/draft` and `/bug`.
 - `assist backlog record-slack <url>` :badge[internal] attaches a Slack thread to the current session's item. Called by `/prs-slack`.
 

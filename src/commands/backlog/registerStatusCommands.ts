@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { internalCommand } from "../../shared/internalCommand";
 import { del as backlogDel } from "./del";
 import { done as backlogDone } from "./done";
 import { setStatusCommand as backlogSetStatus } from "./setStatusCommand";
@@ -19,10 +20,13 @@ export function registerStatusCommands(cmd: Command): void {
 		.description("Revert all in-progress backlog items to todo")
 		.action(backlogStop);
 
-	cmd
-		.command("done <id> [summary]")
-		.description("Set a backlog item to done")
-		.action(backlogDone);
+	internalCommand(
+		cmd
+			.command("done <id> [summary]")
+			.description("Set a backlog item to done")
+			.action(backlogDone),
+		"the review phase of a backlog run",
+	);
 
 	cmd
 		.command("wontdo <id> [reason]")

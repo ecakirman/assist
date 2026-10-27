@@ -29,14 +29,17 @@ export function registerActivityCommands(cmd: Command): void {
 		"/prs-slack",
 	);
 
-	cmd
-		.command("record-session <id>")
-		.description(
-			"Attach the Claude session this command runs inside to a backlog item",
-		)
-		.option(
-			"--session <sessionId>",
-			"Session id to attach instead of the detected one",
-		)
-		.action(recordSession);
+	internalCommand(
+		cmd
+			.command("record-session <id>")
+			.description(
+				"Attach the Claude session this command runs inside to a backlog item",
+			)
+			.option(
+				"--session <sessionId>",
+				"Session id to attach instead of the detected one",
+			)
+			.action(recordSession),
+		"an agent asked to attach its conversation to an item",
+	);
 }

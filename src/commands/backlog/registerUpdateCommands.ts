@@ -3,41 +3,11 @@ import { internalCommand } from "../../shared/internalCommand";
 import { movePhase } from "./movePhase";
 import { registerUpdatePhaseCommand } from "./registerUpdatePhaseCommand";
 import { removePhase } from "./removePhase";
-import { update } from "./update/update";
+import { registerUpdateFieldCommand } from "./registerUpdateFieldCommand";
 import { updatePlan } from "./updatePlan";
 
-function collect(value: string, previous: string[]): string[] {
-	return [...previous, value];
-}
-
 export function registerUpdateCommands(cmd: Command): void {
-	cmd
-		.command("update-field <id>")
-		.description("Update fields on a backlog item")
-		.option("--name <name>", "New item name")
-		.option(
-			"--desc <description>",
-			String.raw`New description (Markdown supported; use \n for line breaks)`,
-		)
-		.option("--type <type>", "New type (story or bug)")
-		.option("--ac <criterion...>", "Replace acceptance criteria (repeatable)")
-		.option(
-			"--add-ac <text>",
-			"Append one acceptance criterion (repeatable)",
-			collect,
-			[],
-		)
-		.option(
-			"--edit-ac <n> <text...>",
-			"Replace acceptance criterion n (1-based) in place",
-		)
-		.option("--remove-ac <n>", "Remove acceptance criterion n (1-based)")
-		.option(
-			"--origin [origin]",
-			"Retag the item to a different repo (origin URL or key, normalized); with no value, retags to the current repo's origin",
-		)
-		.action(update);
-
+	registerUpdateFieldCommand(cmd);
 	registerUpdatePhaseCommand(cmd);
 
 	cmd

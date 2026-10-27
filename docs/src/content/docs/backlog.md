@@ -112,4 +112,4 @@ Each phase lists its tasks and any manual checks you'll be asked to confirm, its
 
 ::screenshot{file="backlog-activity.png"}
 
-**Activity** lists the item's branches, commits, pull requests, Slack threads and agent conversations. :icon[PlayArrow] on a conversation resumes it as a new session. **Comments** holds each phase's summary and the notes agents and you added; :icon[DeleteOutlined] deletes a comment.
+**Activity** lists the item's branches, commits, pull requests, Slack threads and agent conversations. :icon[PlayArrow] on a conversation resumes it as a new session. **Comments** holds each phase's summary and the notes agents added; :icon[DeleteOutlined] deletes a comment.
