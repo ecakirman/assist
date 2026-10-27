@@ -59,7 +59,7 @@ Press **+** in the toolbar (or :kbd[Mod+N]) to open the new-session dialog.
 
 ::screenshot{file="getting-started-first-session.png"}
 
-The other modes start assist commands rather than a plain prompt: **draft** turns your description into a backlog item and **bug** files a bug report. See [Creating sessions](../sessions-creating/).
+The other modes start assist commands rather than a plain prompt: **draft** turns your description into a backlog item and **bug** files a bug report. See [Creating sessions](../sessions-creating/), and [why assist keeps its own backlog](../backlog/#why-a-separate-backlog) rather than using Jira or GitHub issues.
 
 ## Next steps
 

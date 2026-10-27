@@ -42,6 +42,12 @@ The backlog holds each repo's work as items: stories and bugs, each with a descr
 
 The **Backlog** tab (:kbd[Alt+2]) lists the selected repo's items.
 
+## Why a separate backlog
+
+Assist keeps its own backlog because an item is what drives an agent's run. It holds the plan the agent works through, the phase it's on, and each session's summary, commits and usage, all updated many times per phase. An issue tracker holds none of that in a form an agent can safely update, and it would bury the team's discussion under run details.
+
+If your team uses Jira or GitHub issues, link the ticket to the item instead. The ticket stays the team's record, and the item's first phase assigns it to you and moves it to In Progress; close it with `/jira done` or `/github done`.
+
 ## The list
 
 ::screenshot{file="backlog-list.png"}
