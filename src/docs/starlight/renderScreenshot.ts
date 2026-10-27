@@ -20,5 +20,5 @@ export function renderScreenshot(
 		? img(screenshot.file)
 		: img(screenshot.file, "dark") +
 			img(darkVariantFile(screenshot.file), "light");
-	return `<figure>${image}<figcaption>${alt}</figcaption></figure>`;
+	return `<figure class="assist-screenshot">${image}<figcaption>${alt}</figcaption></figure>`;
 }

@@ -9,7 +9,7 @@ describe("renderScreenshot", () => {
 				"/assist/",
 			),
 		).toBe(
-			'<figure><a href="/assist/screenshots/dash.png" target="_blank" title="Open full size" class="dark:sl-hidden"><img src="/assist/screenshots/dash.png" alt="The &quot;dashboard&quot;" loading="lazy"></a><a href="/assist/screenshots/dash-dark.png" target="_blank" title="Open full size" class="light:sl-hidden"><img src="/assist/screenshots/dash-dark.png" alt="The &quot;dashboard&quot;" loading="lazy"></a><figcaption>The &quot;dashboard&quot;</figcaption></figure>',
+			'<figure class="assist-screenshot"><a href="/assist/screenshots/dash.png" target="_blank" title="Open full size" class="dark:sl-hidden"><img src="/assist/screenshots/dash.png" alt="The &quot;dashboard&quot;" loading="lazy"></a><a href="/assist/screenshots/dash-dark.png" target="_blank" title="Open full size" class="light:sl-hidden"><img src="/assist/screenshots/dash-dark.png" alt="The &quot;dashboard&quot;" loading="lazy"></a><figcaption>The &quot;dashboard&quot;</figcaption></figure>',
 		);
 	});
 
@@ -21,7 +21,7 @@ describe("renderScreenshot", () => {
 				(file) => file === "dash.png",
 			),
 		).toBe(
-			'<figure><a href="/screenshots/dash.png" target="_blank" title="Open full size" class="dark:sl-hidden"><img src="/screenshots/dash.png" alt="Dash" loading="lazy"></a><div class="assist-screenshot-missing light:sl-hidden">Screenshot not captured yet: dash-dark.png</div><figcaption>Dash</figcaption></figure>',
+			'<figure class="assist-screenshot"><a href="/screenshots/dash.png" target="_blank" title="Open full size" class="dark:sl-hidden"><img src="/screenshots/dash.png" alt="Dash" loading="lazy"></a><div class="assist-screenshot-missing light:sl-hidden">Screenshot not captured yet: dash-dark.png</div><figcaption>Dash</figcaption></figure>',
 		);
 	});
 
@@ -32,7 +32,7 @@ describe("renderScreenshot", () => {
 				"/",
 			),
 		).toBe(
-			'<figure><a href="/screenshots/a.png" target="_blank" title="Open full size"><img src="/screenshots/a.png" alt="A" loading="lazy"></a><figcaption>A</figcaption></figure>',
+			'<figure class="assist-screenshot"><a href="/screenshots/a.png" target="_blank" title="Open full size"><img src="/screenshots/a.png" alt="A" loading="lazy"></a><figcaption>A</figcaption></figure>',
 		);
 	});
 });

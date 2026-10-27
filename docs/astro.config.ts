@@ -42,7 +42,19 @@ export default defineConfig({
 			logo: { src: "../extension/icons/assist-128.png", alt: "" },
 			sidebar,
 			pagination: false,
-			plugins: [starlightLlmsTxt({ projectName: "assist", description })],
+			plugins: [
+				starlightLlmsTxt({
+					projectName: "assist",
+					description,
+					customSelectors: {
+						all: [
+							"figure.assist-screenshot",
+							".assist-screenshot-missing",
+							".assist-status-icon",
+						],
+					},
+				}),
+			],
 			customCss: [
 				"./src/styles/kbd.css",
 				"./src/styles/screenshot.css",

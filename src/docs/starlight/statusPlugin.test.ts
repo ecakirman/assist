@@ -14,8 +14,12 @@ function render(label: string): string {
 describe("statusPlugin", () => {
 	it("renders a glyph status with its dashboard glyph", () => {
 		expect(render("waiting")).toBe(
-			'<span class="assist-status assist-status-waiting" title="waiting">◆</span>',
+			'<span class="assist-status assist-status-waiting" title="waiting"><span class="assist-status-icon" aria-hidden="true">◆</span><span class="sr-only">waiting</span></span>',
 		);
+	});
+
+	it("names a dot status in hidden text", () => {
+		expect(render("running")).toContain('<span class="sr-only">running</span>');
 	});
 
 	it("renders running as a dot without a ring", () => {

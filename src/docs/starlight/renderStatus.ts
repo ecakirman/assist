@@ -15,7 +15,7 @@ function renderDot(ring: boolean): string {
 	const ringCircle = ring
 		? '<circle class="assist-status-ring" cx="8" cy="8" r="6.25" pathLength="100"/>'
 		: "";
-	return `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/>${ringCircle}</svg>`;
+	return `<svg class="assist-status-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/>${ringCircle}</svg>`;
 }
 
 export function renderStatus(status: string): string {
@@ -26,6 +26,6 @@ export function renderStatus(status: string): string {
 	const content =
 		status === "running" || status === "verifying"
 			? renderDot(status === "verifying")
-			: statusGlyph[status];
-	return `<span class="assist-status assist-status-${status}" title="${status}">${content}</span>`;
+			: `<span class="assist-status-icon" aria-hidden="true">${statusGlyph[status]}</span>`;
+	return `<span class="assist-status assist-status-${status}" title="${status}">${content}<span class="sr-only">${status}</span></span>`;
 }
