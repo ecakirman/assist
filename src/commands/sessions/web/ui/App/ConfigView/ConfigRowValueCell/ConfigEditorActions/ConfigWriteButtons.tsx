@@ -1,4 +1,6 @@
 import Button from "@mui/material/Button";
+import { useState } from "react";
+import { ConfirmDialog } from "../../../../../../../backlog/web/ui/components/ConfirmDialog";
 
 type Props = {
 	saving: boolean;
@@ -17,6 +19,7 @@ export function ConfigWriteButtons({
 	onClear,
 	onCancel,
 }: Props) {
+	const [confirmingClear, setConfirmingClear] = useState(false);
 	return (
 		<>
 			<Button
@@ -36,10 +39,22 @@ export function ConfigWriteButtons({
 					color="error"
 					disabled={saving}
 					title={clearTitle}
-					onClick={onClear}
+					onClick={() => setConfirmingClear(true)}
 				>
 					Clear
 				</Button>
+			)}
+			{confirmingClear && onClear && (
+				<ConfirmDialog
+					title="Clear setting"
+					message={`${clearTitle ?? "Remove this setting"}?`}
+					confirmLabel="Clear"
+					onConfirm={() => {
+						setConfirmingClear(false);
+						onClear();
+					}}
+					onCancel={() => setConfirmingClear(false)}
+				/>
 			)}
 		</>
 	);

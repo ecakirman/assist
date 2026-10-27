@@ -145,6 +145,13 @@ const describedEntries: ConfigEntry[] = [
 	},
 ];
 
+function clearAndConfirm() {
+	fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+	fireEvent.click(
+		within(screen.getByRole("dialog")).getByRole("button", { name: "Clear" }),
+	);
+}
+
 function keyFilter() {
 	return screen.getByLabelText("Filter config keys and descriptions");
 }
@@ -1098,7 +1105,7 @@ describe("ConfigView", () => {
 
 		await waitFor(() => expect(screen.getByText("commit.push")).toBeTruthy());
 		fireEvent.click(screen.getByRole("button", { name: "Edit commit.push" }));
-		fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+		clearAndConfirm();
 
 		await waitFor(() =>
 			expect(postedBody(fetchMock, "/api/config/unset")).toEqual({
@@ -1110,6 +1117,36 @@ describe("ConfigView", () => {
 		await waitFor(() => expect(screen.getByText("default")).toBeTruthy());
 		expect(screen.getByText("true")).toBeTruthy();
 		expect(screen.queryByText("project")).toBeNull();
+	});
+
+	it("does not clear a key when the confirmation is cancelled", async () => {
+		const fetchMock = stubUnsetApi(
+			[
+				{
+					key: "commit.push",
+					type: "boolean",
+					value: false,
+					source: "project",
+					node: node("commit.push"),
+				},
+			],
+			[],
+		);
+		renderView("/repo/one");
+
+		await waitFor(() => expect(screen.getByText("commit.push")).toBeTruthy());
+		fireEvent.click(screen.getByRole("button", { name: "Edit commit.push" }));
+		fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+		fireEvent.click(
+			within(screen.getByRole("dialog")).getByRole("button", {
+				name: "Cancel",
+			}),
+		);
+
+		await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+		expect(
+			fetchMock.mock.calls.some(([url]) => String(url) === "/api/config/unset"),
+		).toBe(false);
 	});
 
 	it("clears a global-only key from the global config", async () => {
@@ -1144,7 +1181,7 @@ describe("ConfigView", () => {
 		fireEvent.click(
 			screen.getByRole("button", { name: "Edit sync.autoConfirm" }),
 		);
-		fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+		clearAndConfirm();
 
 		await waitFor(() =>
 			expect(postedBody(fetchMock, "/api/config/unset")).toEqual({
@@ -1182,7 +1219,7 @@ describe("ConfigView", () => {
 
 		await waitFor(() => expect(screen.getByText("worktree.copy")).toBeTruthy());
 		fireEvent.click(screen.getByRole("button", { name: "Edit worktree.copy" }));
-		fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+		clearAndConfirm();
 
 		await waitFor(() =>
 			expect(postedBody(fetchMock, "/api/config/unset")).toEqual({
@@ -1240,7 +1277,7 @@ describe("ConfigView", () => {
 
 		await waitFor(() => expect(screen.getByText("roam.clientId")).toBeTruthy());
 		fireEvent.click(screen.getByRole("button", { name: "Edit roam.clientId" }));
-		fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+		clearAndConfirm();
 
 		await waitFor(() =>
 			expect(
@@ -1358,7 +1395,7 @@ describe("ConfigView", () => {
 		fireEvent.click(
 			screen.getByRole("button", { name: "Edit worktree.trunk" }),
 		);
-		fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+		clearAndConfirm();
 
 		await waitFor(() =>
 			expect(
@@ -1404,7 +1441,7 @@ describe("ConfigView", () => {
 			"Remove worktree.enabled from repos.assist in the shared db (all nodes) — reverts to the schema default",
 		);
 
-		fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+		clearAndConfirm();
 
 		await waitFor(() =>
 			expect(postedBody(fetchMock, "/api/config/unset")).toEqual({
