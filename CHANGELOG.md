@@ -1,3 +1,10 @@
+## [0.907.1](https://github.com/staff0rd/assist/compare/v0.907.0...v0.907.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* pad backlog crops, explain item ids ([e2ff1d9](https://github.com/staff0rd/assist/commit/e2ff1d960d33edb70323ef8011ee809d0c11f694))
+
 # [0.907.0](https://github.com/staff0rd/assist/compare/v0.906.0...v0.907.0) (2026-10-27)
 
 
