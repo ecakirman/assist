@@ -2,9 +2,13 @@ import { spawnSync } from "node:child_process";
 import { docsPaths } from "../docsPaths";
 import type { CaptureHome } from "./createCaptureHome";
 
-export function runAssist(capture: CaptureHome, args: string[]): void {
+export function runAssist(
+	capture: CaptureHome,
+	args: string[],
+	cwd: string = capture.sandbox,
+): void {
 	const result = spawnSync(process.execPath, [docsPaths.distEntry, ...args], {
-		cwd: capture.sandbox,
+		cwd,
 		env: capture.env,
 		stdio: "inherit",
 	});

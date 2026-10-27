@@ -1,9 +1,20 @@
 import CloseFullscreen from "@mui/icons-material/CloseFullscreen";
+import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
+import MoreVert from "@mui/icons-material/MoreVert";
 import OpenInFull from "@mui/icons-material/OpenInFull";
+import PlayArrow from "@mui/icons-material/PlayArrow";
+import StarBorder from "@mui/icons-material/StarBorder";
 import { createElement, type ElementType } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
-const icons: Record<string, ElementType> = { CloseFullscreen, OpenInFull };
+const icons: Record<string, ElementType> = {
+	CloseFullscreen,
+	DeleteOutlined,
+	MoreVert,
+	OpenInFull,
+	PlayArrow,
+	StarBorder,
+};
 
 export function renderIcon(name: string): string {
 	const icon = Object.hasOwn(icons, name) ? icons[name] : undefined;

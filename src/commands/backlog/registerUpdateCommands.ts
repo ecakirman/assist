@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { internalCommand } from "../../shared/internalCommand";
 import { movePhase } from "./movePhase";
 import { registerUpdatePhaseCommand } from "./registerUpdatePhaseCommand";
 import { removePhase } from "./removePhase";
@@ -44,16 +45,19 @@ export function registerUpdateCommands(cmd: Command): void {
 		.description("Remove a plan phase from a backlog item")
 		.action(removePhase);
 
-	cmd
-		.command("update-plan <id>")
-		.description(
-			"Replace an item's whole plan from a JSON payload, previewed and applied in one approval",
-		)
-		.requiredOption(
-			"--json <file|->",
-			"Path to a JSON payload of { phases: [{ name, tasks, manualChecks }] }, or - to read it from stdin",
-		)
-		.action(updatePlan);
+	internalCommand(
+		cmd
+			.command("update-plan <id>")
+			.description(
+				"Replace an item's whole plan from a JSON payload, previewed and applied in one approval",
+			)
+			.requiredOption(
+				"--json <file|->",
+				"Path to a JSON payload of { phases: [{ name, tasks, manualChecks }] }, or - to read it from stdin",
+			)
+			.action(updatePlan),
+		"/refine",
+	);
 
 	cmd
 		.command("move-phase <id> <from> <to>")

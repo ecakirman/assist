@@ -7,6 +7,7 @@ import type { CaptureScenes } from "../loadCaptureScenes";
 import { captureScreenshot } from "./captureScreenshot";
 import { closePreviews } from "./closePreviews";
 import type { CaptureHome } from "./createCaptureHome";
+import { resetBacklog } from "./resetBacklog";
 import { resetPeers } from "./resetPeers";
 import { runAssist } from "./runAssist";
 import { runSetupStep } from "./runSetupStep";
@@ -33,6 +34,7 @@ function sessionStateTracker(capture: CaptureHome) {
 				force: true,
 			});
 			rmSync(join(capture.home, ".fake-gh.json"), { force: true });
+			await resetBacklog(capture);
 		}
 		for (const step of steps) await runSetupStep(capture, step);
 		current = next;

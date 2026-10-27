@@ -217,5 +217,111 @@
 				"reply": ["Adding a token bucket per API key."]
 			}
 		}
+	],
+	"backlog": [
+		{ "run": "dev" },
+		{
+			"backlogItem": {
+				"item": {
+					"name": "Dark mode toggle",
+					"type": "story",
+					"description": "## Background\n\nUsers working at night have asked for a dark theme.\n\n## Goal\n\nThe settings page has a **Dark mode** toggle that follows the operating system's colour scheme until the user picks one.",
+					"acceptanceCriteria": [
+						"With no saved choice, the page matches the operating system's colour scheme",
+						"Toggling **Dark mode** switches the theme without a reload",
+						"The choice survives a reload"
+					],
+					"phases": [
+						{
+							"name": "Toggle on the settings page",
+							"tasks": [
+								"Add a `useColourScheme` hook that reads the saved scheme",
+								"Add a **Dark mode** checkbox next to the theme picker"
+							]
+						},
+						{
+							"name": "Follow the system scheme",
+							"tasks": [
+								"Fall back to `prefers-color-scheme` when no choice is saved",
+								"Update the scheme when the operating system's changes"
+							],
+							"manualChecks": [
+								"Switch the operating system to dark mode and confirm the page follows"
+							]
+						},
+						{
+							"name": "Persist the choice",
+							"tasks": ["Save the choice to localStorage"]
+						}
+					]
+				},
+				"phaseSummaries": [
+					"Added useColourScheme and a Dark mode checkbox beside the theme picker; the theme switches without a reload."
+				],
+				"subtasks": [{ "title": "Add a screenshot to the changelog" }],
+				"activity": [
+					{ "kind": "branch", "ref": "dark-mode-toggle" },
+					{
+						"kind": "commit",
+						"ref": "3f9c2a7d1e4b8c06f5a2d9e1b7c4a3f8e2d6b1c9",
+						"title": "feat: dark mode toggle on the settings page"
+					},
+					{
+						"kind": "pr",
+						"ref": "14",
+						"title": "Add a dark mode toggle to settings",
+						"url": "https://github.com/staff0rd/sandbox/pull/14",
+						"state": "OPEN"
+					}
+				],
+				"comments": [
+					"The theme picker already reads a CSS variable per colour, so dark mode only swaps the variable set."
+				],
+				"status": "in-progress",
+				"starred": true
+			}
+		},
+		{
+			"backlogItem": {
+				"item": {
+					"name": "Date formatting test fails west of UTC",
+					"type": "bug",
+					"description": "**Repro:**\n\n1. Set the machine's timezone to America/Los_Angeles\n2. Run `npm test -- formatDate`\n\n**Expected:** the test passes.\n\n**Actual:** `formatDate` returns the previous day.",
+					"acceptanceCriteria": ["`formatDate` tests pass in every timezone"]
+				}
+			}
+		},
+		{
+			"backlogItem": {
+				"item": {
+					"name": "Paginate the product list",
+					"type": "story",
+					"description": "The product list loads every product at once. Show 24 per page with next and previous links.",
+					"acceptanceCriteria": [
+						"The product list shows 24 products per page",
+						"Next and previous links move between pages"
+					],
+					"phases": [
+						{
+							"name": "Page the product list",
+							"tasks": [
+								"Request one page at a time",
+								"Add next and previous links"
+							]
+						}
+					]
+				}
+			}
+		},
+		{
+			"backlogItem": {
+				"item": {
+					"name": "Cart total rounds to the wrong cent",
+					"type": "bug",
+					"description": "**Repro:**\n\n1. Add three items at $0.10 to the cart\n\n**Expected:** the total is $0.30.\n\n**Actual:** the total is $0.31.",
+					"acceptanceCriteria": ["Cart totals are summed in whole cents"]
+				}
+			}
+		}
 	]
 }

@@ -73,6 +73,34 @@ const highLevelReviewSchema = z.strictObject({
 	files: z.array(highLevelFileSchema).min(1),
 });
 
+const backlogItemStepSchema = z.strictObject({
+	repo: z.enum(captureRepos).optional(),
+	item: proposedItemSchema,
+	status: z.enum(["todo", "in-progress", "done", "wontdo"]).optional(),
+	phaseSummaries: z.array(z.string().min(1)).optional(),
+	subtasks: z
+		.array(
+			z.strictObject({
+				title: z.string().min(1),
+				status: z.enum(["todo", "in-progress", "done"]).optional(),
+			}),
+		)
+		.optional(),
+	comments: z.array(z.string().min(1)).optional(),
+	activity: z
+		.array(
+			z.strictObject({
+				kind: z.enum(["branch", "commit", "pr", "slack"]),
+				ref: z.string().min(1),
+				title: z.string().min(1).optional(),
+				url: z.string().min(1).optional(),
+				state: z.string().min(1).optional(),
+			}),
+		)
+		.optional(),
+	starred: z.boolean().optional(),
+});
+
 export const captureSetupStepSchema = z.union([
 	z.strictObject({ assist: z.array(z.string().min(1)).min(1) }),
 	z.strictObject({ run: z.string().min(1) }),
@@ -84,6 +112,7 @@ export const captureSetupStepSchema = z.union([
 	z.strictObject({ pr: prPreviewSchema }),
 	z.strictObject({ proposal: proposalPreviewSchema }),
 	z.strictObject({ highLevelReview: highLevelReviewSchema }),
+	z.strictObject({ backlogItem: backlogItemStepSchema }),
 ]);
 
 export type CaptureSetupStep = z.infer<typeof captureSetupStepSchema>;
@@ -92,3 +121,4 @@ export type CaptureOpenPrStep = z.infer<typeof openPrStepSchema>;
 export type CaptureTranscriptStep = z.infer<typeof transcriptStepSchema>;
 export type CaptureHighLevelReviewStep = z.infer<typeof highLevelReviewSchema>;
 export type CaptureHighLevelFile = z.infer<typeof highLevelFileSchema>;
+export type CaptureBacklogItemStep = z.infer<typeof backlogItemStepSchema>;

@@ -3,6 +3,7 @@ import { linkPeer } from "./linkPeer";
 import { runAssist } from "./runAssist";
 import type { CaptureHome } from "./createCaptureHome";
 import { requestDaemon } from "./requestDaemon";
+import { seedBacklogItem } from "./seedBacklogItem";
 import { startScriptedSession } from "./startScriptedSession";
 import { writeFakePr } from "./writeFakePr";
 import { writeTranscript } from "./writeTranscript";
@@ -16,6 +17,7 @@ export async function runSetupStep(
 	if ("assist" in step) runAssist(capture, step.assist);
 	else if ("session" in step) await startScriptedSession(capture, step.session);
 	else if ("transcript" in step) writeTranscript(capture, step.transcript);
+	else if ("backlogItem" in step) seedBacklogItem(capture, step.backlogItem);
 	else if ("openPr" in step) writeFakePr(capture, step.openPr);
 	else if ("peer" in step) await linkPeer(capture, step.peer);
 	else if ("run" in step)
