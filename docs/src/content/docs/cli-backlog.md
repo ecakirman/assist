@@ -39,6 +39,7 @@ covers:
   - cli:backlog run
   - cli:backlog next
   - cli:next
+  - claude:next
   - cli:backlog refine
   - cli:backlog phase-done
   - cli:backlog rewind
@@ -60,38 +61,43 @@ These work on the current repo's [backlog](../backlog/). Item ids are written `a
 
 ## Writing
 
-- `assist backlog add` adds an item, prompting for anything not given by `--name`, `--type <story|bug>`, `--desc` and `--ac <criterion>` (repeatable).
-- `assist backlog update-field <id>` :badge[internal] changes `--name`, `--desc` or `--type`. `--ac` replaces every acceptance criterion, while `--add-ac <text>`, `--edit-ac <n> <text>` and `--remove-ac <n>` change one. `--origin [origin]` moves the item to another repo, the current one when no origin is given. Called by `/refine`.
-- `assist backlog add-phase <id> <name> --task <task>` adds a phase, with `--manual-check <check>` (both repeatable) and `--position <n>` to insert it rather than append it.
-- `assist backlog update-phase <id> <phase>` (alias `edit-phase`) changes a phase's `--name`, replaces its `--task` or `--manual-check` lists, or changes one with `--add-task`, `--edit-task <n>`, `--remove-task <n>`, `--add-check`, `--edit-check <n>` and `--remove-check <n>`.
-- `assist backlog remove-phase <id> <phase>` removes a phase, and `assist backlog move-phase <id> <from> <to>` moves one.
+- `assist backlog add` :badge[internal] adds an item from `--name`, `--type <story|bug>`, `--desc` and `--ac <criterion>` (repeatable). Called by agents working on backlog items.
+- `assist backlog update-field <id>` :badge[internal] changes `--name`, `--desc` or `--type`. `--ac` replaces every acceptance criterion, while `--add-ac <text>`, `--edit-ac <n> <text>` and `--remove-ac <n>` change one. `--origin [origin]` moves the item to another repo. Called by `/refine`.
+- `assist backlog add-phase <id> <name> --task <task>` :badge[internal] adds a phase, with `--manual-check <check>` (both repeatable) and `--position <n>`. Called by agents working on backlog items.
+- `assist backlog update-phase <id> <phase>` :badge[internal] (alias `edit-phase`) changes a phase's `--name`, `--task` and `--manual-check` lists, or one task or check with `--add-task`, `--edit-task <n>`, `--remove-task <n>`, `--add-check`, `--edit-check <n>` and `--remove-check <n>`. Called by agents working on backlog items.
+- `assist backlog remove-phase <id> <phase>` :badge[internal] removes a phase. Called by agents working on backlog items.
+- `assist backlog move-phase <id> <from> <to>` :badge[internal] moves a phase. Called by agents working on backlog items.
 - `assist backlog update-plan <id> --json <file|->` :badge[internal] replaces the whole plan from a JSON payload, after approval in a dashboard session. Called by `/refine`.
 
 ## Status
 
-- `assist backlog start <id>` sets an item in progress, and `assist backlog stop` puts every in-progress item back to todo at its first phase.
+- `assist backlog start <id>` :badge[internal] sets an item in progress. Called by agents working on backlog items.
+- `assist backlog stop` :badge[internal] puts every in-progress item back to todo at its first phase. Called by agents working on backlog items.
 - `assist backlog done <id> [summary]` :badge[internal] marks an item done. Called by the review phase of a backlog run.
-- `assist backlog wontdo <id> [reason]` marks an item won't do.
-- `assist backlog set-status <id> <todo|in-progress|done|wontdo>` sets any status.
-- `assist backlog star <id>` and `assist backlog unstar <id>` star and unstar an item.
-- `assist backlog delete <id>` (alias `remove`) deletes an item.
+- `assist backlog wontdo <id> [reason]` :badge[internal] marks an item won't do. Called by agents working on backlog items.
+- `assist backlog set-status <id> <todo|in-progress|done|wontdo>` :badge[internal] sets any status. Called by agents working on backlog items.
+- `assist backlog star <id>` :badge[internal] stars an item. Called by agents working on backlog items.
+- `assist backlog unstar <id>` :badge[internal] unstars an item. Called by agents working on backlog items.
+- `assist backlog delete <id>` :badge[internal] (alias `remove`) deletes an item. Called by agents working on backlog items.
 
 ## Comments, links and activity
 
 - `assist backlog comment <id> <text>` :badge[internal] adds a comment. Called by backlog run phases and `/refine`.
-- `assist backlog delete-comment <id> <comment-id>` deletes a comment. Phase summaries can't be deleted.
-- `assist backlog link <from> <to>` links two items, `--type depends-on` making `<from>` wait for `<to>` (default `relates-to`). `assist backlog unlink <from> <to>` removes the link.
-- `assist backlog associate-jira <id> [key]` links a Jira issue by key or browse URL, and `assist backlog associate-github <id> [issue]` a GitHub issue by URL or `owner/repo#number`. An item has one or the other, and `--clear` removes it.
+- `assist backlog delete-comment <id> <comment-id>` :badge[internal] deletes a comment other than a phase summary. Called by agents working on backlog items.
+- `assist backlog link <from> <to>` :badge[internal] links two items, `--type depends-on` making `<from>` wait for `<to>` (default `relates-to`). Called by agents working on backlog items.
+- `assist backlog unlink <from> <to>` :badge[internal] removes a link. Called by agents working on backlog items.
+- `assist backlog associate-jira <id> [key]` :badge[internal] links a Jira issue by key or browse URL, replacing any GitHub issue; `--clear` removes it. Called by `/draft`, `/bug` and `/refine`.
+- `assist backlog associate-github <id> [issue]` :badge[internal] links a GitHub issue by URL or `owner/repo#number`, replacing any Jira issue; `--clear` removes it. Called by `/draft`, `/bug` and `/refine`.
 - `assist backlog record-session <id>` :badge[internal] attaches the agent conversation it runs inside to an item, or `--session <id>` attaches another. Called by an agent asked to attach its conversation to an item.
 - `assist backlog add-activity <id> <branch|commit|pr|slack|session> <ref>` :badge[internal] attaches a ref to an item's activity, with `--title`, `--url` and `--state`. Called by `/draft` and `/bug`.
 - `assist backlog record-slack <url>` :badge[internal] attaches a Slack thread to the current session's item. Called by `/prs-slack`.
 
 ## Running
 
-- `assist backlog run <id>` runs an item's plan in this terminal, from the phase it is on. `--harness <claude|codex|pi>` overrides `harness.engine`, and `--no-write` runs the harness without write access.
-- `assist next [id]` (or `assist backlog next`) runs the item already in progress, or one you pick, then offers the next. With `[id]` it runs that item first; with no items left it starts `/draft`. `--once` stops after one item.
-- `assist backlog refine [id]` is the same as [`assist refine`](../launchers/).
-- `assist backlog rewind <id> <phase> --reason <reason>` sends an item back to an earlier phase.
+- `assist next [id]` (or `assist backlog next`) runs the item already in progress, or one you pick, then offers the next. With `[id]` it runs that item first; with no items left it starts `/draft`. `--once` stops after one item. In a terminal started by `assist next`, `assist draft`, `assist bug` or `assist refine`, `/next [id]` ends the current session and moves on to item `<id>`, or to whatever `assist next` picks.
+- `assist backlog run <id>` :badge[internal] runs an item's plan from the phase it is on. `--harness <claude|codex|pi>` overrides `harness.engine`, and `--no-write` runs the harness without write access. Called by the dashboard's Build and `assist next`.
+- `assist backlog refine [id]` :badge[internal] is the same as [`assist refine`](../launchers/). Called by agents working on backlog items.
+- `assist backlog rewind <id> <phase> --reason <reason>` :badge[internal] sends an item back to an earlier phase. Called by the review phase of a backlog run.
 - `assist backlog phase-done <id> <phase> <summary>` :badge[internal] marks a phase complete and records its summary. Called by the agent running each phase of a backlog run.
 
 ## Repos and data

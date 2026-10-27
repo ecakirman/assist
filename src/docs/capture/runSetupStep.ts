@@ -20,6 +20,16 @@ export async function runSetupStep(
 	else if ("backlogItem" in step) seedBacklogItem(capture, step.backlogItem);
 	else if ("openPr" in step) writeFakePr(capture, step.openPr);
 	else if ("peer" in step) await linkPeer(capture, step.peer);
+	else if ("assistSession" in step)
+		await requestDaemon(
+			capture.home,
+			{
+				type: "create-assist",
+				assistArgs: step.assistSession,
+				cwd: capture.sandbox,
+			},
+			"created",
+		);
 	else if ("run" in step)
 		await requestDaemon(
 			capture.home,

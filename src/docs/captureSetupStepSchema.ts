@@ -105,6 +105,7 @@ export const captureSetupStepSchema = z.union([
 	z.strictObject({ proposal: proposalPreviewSchema }),
 	z.strictObject({ highLevelReview: highLevelReviewSchema }),
 	z.strictObject({ backlogItem: backlogItemStepSchema }),
+	z.strictObject({ assistSession: z.array(z.string().min(1)).min(1) }),
 ]);
 
 export type CaptureSetupStep = z.infer<typeof captureSetupStepSchema>;
