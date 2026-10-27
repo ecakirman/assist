@@ -1,3 +1,10 @@
+## [0.908.4](https://github.com/staff0rd/assist/compare/v0.908.3...v0.908.4) (2026-10-27)
+
+
+### Bug Fixes
+
+* document activity views ([5373580](https://github.com/staff0rd/assist/commit/5373580b16b32b675928b94aea1d24f1e7d10162))
+
 ## [0.908.3](https://github.com/staff0rd/assist/compare/v0.908.2...v0.908.3) (2026-10-27)
 
 
