@@ -1,3 +1,10 @@
+# [0.905.0](https://github.com/staff0rd/assist/compare/v0.904.2...v0.905.0) (2026-10-27)
+
+
+### Features
+
+* Alt+X focuses Retry on run sessions ([7290674](https://github.com/staff0rd/assist/commit/729067421cb22311817477961bf7940df9860df3))
+
 ## [0.904.2](https://github.com/staff0rd/assist/compare/v0.904.1...v0.904.2) (2026-10-27)
 
 
