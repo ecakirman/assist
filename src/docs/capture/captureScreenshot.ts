@@ -44,7 +44,7 @@ export async function captureScreenshot(
 		await drawHighlights(page, screenshot.highlight ?? []);
 		await saveScreenshot(
 			page,
-			screenshot.crop,
+			screenshot,
 			join(docsPaths.screenshotsDir, variant.file),
 		);
 		await context.close();

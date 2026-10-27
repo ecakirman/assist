@@ -36,6 +36,7 @@ screenshots:
     actions:
       - click: text=Dark mode toggle
     crop: "#item-section-plan"
+    cropPadding: 24
   - file: backlog-activity.png
     alt: An item's activity, with its branch, a commit and a pull request, and its comments, including a phase summary
     route: /backlog
@@ -49,6 +50,7 @@ screenshots:
     crop:
       - "#item-section-activity"
       - "#item-section-comments"
+    cropPadding: 24
 ---
 
 The backlog holds each repo's work as items: stories and bugs, each with a description, acceptance criteria and, usually, a plan of phases that an agent works through one at a time. Items are written by [drafting](../backlog-writing/) and built by [running](../backlog-running/) them.
@@ -87,6 +89,8 @@ Click a card to open the item.
 ## An item
 
 ::screenshot{file="backlog-item.png"}
+
+Every item has an id, such as `a1`, shown beside its type. Use it to point an agent or command at the item, for example `/refine a1` or `/next a1`; the `a` keeps it apart from pull request and issue numbers.
 
 The header holds:
 
