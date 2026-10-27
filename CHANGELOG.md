@@ -1,3 +1,10 @@
+## [0.908.1](https://github.com/staff0rd/assist/compare/v0.908.0...v0.908.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* backlog CLI internals and run shots ([f093589](https://github.com/staff0rd/assist/commit/f093589694b86fb351313f5069ec3392ef005276))
+
 # [0.908.0](https://github.com/staff0rd/assist/compare/v0.907.2...v0.908.0) (2026-10-27)
 
 
