@@ -35,4 +35,4 @@ To open it, go to the [Backlog](../backlog/) tab (:kbd[Alt+2]) and click **Last 
 
 Hover a file name for its full path.
 
-Backups are taken, scheduled and restored from the command line, see [assist backup](../cli-backup/).
+Backups are taken, scheduled and restored from the command line, see [assist backup](../cli-backup/). That page also covers `backup.staleAfter`, which sets how old the newest backup can get before **Last backed up** warns that it's overdue.
