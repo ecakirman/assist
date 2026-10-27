@@ -250,6 +250,7 @@ describe("listItemUsageSummaries", () => {
 				[1, "done"],
 				[2, "in-progress"],
 				[3, "todo"],
+				[4, "wontdo"],
 			] as const) {
 				await addItem(id, { status });
 				await addUsage(id, 0, {
@@ -269,12 +270,20 @@ describe("listItemUsageSummaries", () => {
 			expect(rows.map((r) => r.id)).toEqual([1]);
 		});
 
-		it("treats every item that is not done as running", async () => {
+		it("treats every item that is neither done nor wontdo as running", async () => {
 			await seed();
 
 			const rows = await listItemUsageSummaries(orm, { status: "running" });
 
 			expect(rows.map((r) => r.id)).toEqual([3, 2]);
+		});
+
+		it("keeps every status when no status filter is given", async () => {
+			await seed();
+
+			const rows = await listItemUsageSummaries(orm);
+
+			expect(rows.map((r) => r.id).sort()).toEqual([1, 2, 3, 4]);
 		});
 	});
 

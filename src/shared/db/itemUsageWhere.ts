@@ -1,4 +1,4 @@
-import { and, eq, ne, type SQL } from "drizzle-orm";
+import { and, eq, notInArray, type SQL } from "drizzle-orm";
 import { items } from "./schema";
 
 export type ItemUsageStatusFilter = "done" | "running";
@@ -16,7 +16,7 @@ export function parseItemUsageStatus(
 
 function statusClause(status?: ItemUsageStatusFilter) {
 	if (status === "done") return eq(items.status, "done");
-	if (status === "running") return ne(items.status, "done");
+	if (status === "running") return notInArray(items.status, ["done", "wontdo"]);
 	return undefined;
 }
 
