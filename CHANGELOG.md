@@ -1,3 +1,10 @@
+# [0.906.0](https://github.com/staff0rd/assist/compare/v0.905.0...v0.906.0) (2026-10-27)
+
+
+### Features
+
+* document the backlog ([85c9ec9](https://github.com/staff0rd/assist/commit/85c9ec9ac745553aec99272e7e349c12d806052f))
+
 # [0.905.0](https://github.com/staff0rd/assist/compare/v0.904.2...v0.905.0) (2026-10-27)
 
 
