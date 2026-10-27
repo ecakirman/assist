@@ -1,3 +1,10 @@
+## [0.908.3](https://github.com/staff0rd/assist/compare/v0.908.2...v0.908.3) (2026-10-27)
+
+
+### Bug Fixes
+
+* preview uncaptured screenshots ([305be76](https://github.com/staff0rd/assist/commit/305be761274f634a6450080d6316a543629763a3))
+
 ## [0.908.2](https://github.com/staff0rd/assist/compare/v0.908.1...v0.908.2) (2026-10-27)
 
 
