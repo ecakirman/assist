@@ -46,11 +46,13 @@ Five keys in `assist.yml`, all under `review.highLevel`:
 
 | Key                  | Default                            | Meaning                                                                    |
 | -------------------- | ---------------------------------- | -------------------------------------------------------------------------- |
-| `criticalPaths`      | none                               | Globs whose full diffs back the critical-diff item                         |
+| `criticalPaths`      | see below                          | Globs whose full diffs back the critical-diff item                         |
 | `uiPaths`            | none                               | Globs that make a change a UI change, so a screenshot or video is required |
 | `descriptionWordCap` | 300                                | The cap the description is held to                                         |
 | `testPaths`          | `**/*.{test,spec}.{ts,tsx,js,jsx}` | Globs of test files whose changed tests back the tests item                |
 | `collapsedPaths`     | `**/*.test.*`, `**/generated/**`   | Globs of files that start collapsed in the changed-files tree              |
+
+With `criticalPaths` unset, the files that are expensive to get wrong in almost any repo are critical: `**/.github/workflows/**`, `**/.github/actions/**`, `**/package.json`, `**/Dockerfile`, `**/Dockerfile.*`, `**/*.Dockerfile` and `**/CLAUDE.md`. A configured value replaces these rather than adding to them, so a repo that wants them alongside its own globs lists both.
 
 With `uiPaths` unset the UI-evidence check passes — a repo that has not said which files are UI cannot be told it is missing a screenshot of one.
 
@@ -67,7 +69,7 @@ Given a PR number outside a Claude session — as the **High-level review** butt
 The two structural items carry their evidence in the pane, so the judgement is made without leaving it:
 
 - **Structure** expands to the changed-file tree. Directories collapse and expand, and which ones are collapsed is remembered per PR, so a tree folded down to what matters stays folded across a reopen. Directories roll their children's line counts up and a chain of single-child directories reads as one row, so the shape of the change is a glance rather than a scroll. Each file is marked added, deleted or modified and carries its `+`/`-` line counts; its diff opens inline beneath it in the same viewer the session diff uses — syntax highlighting, word-level edit marks, unified or split, line comments — with a link out to GitHub for when the conversation there is what is wanted. Every file starts open except those matching `review.highLevel.collapsedPaths`, which start collapsed and are tagged with the glob that matched; a directory whose files all match starts collapsed as a whole.
-- **Critical diffs** expands to the full diff of every changed file matching `review.highLevel.criticalPaths`, inline in the pane and in that same viewer. With no critical paths configured, or none of them touched, the item says so rather than showing an empty box — it is still the reviewer's to tick.
+- **Critical diffs** expands to the full diff of every changed file matching `review.highLevel.criticalPaths`, inline in the pane and in that same viewer. With `criticalPaths` set empty, or none of them touched, the item says so rather than showing an empty box — it is still the reviewer's to tick.
 
 - **Tests** expands to every changed test, as file > describe > it, read with ts-morph from the checked-out branch rather than the patch — so a test whose enclosing `describe` the PR did not touch is still framed by it. A test counts as changed when any of its lines is added in the patch; a new file, or one GitHub gives no patch for, shows all its tests. Only the names are shown: clicking a test reveals its source, and nothing else does, so the hierarchy reads as a list of claims rather than a wall of code. The source opens in the same viewer as the diffs, numbered from the test's line in the file, so selecting lines of it comments on them exactly as on a diff.
 

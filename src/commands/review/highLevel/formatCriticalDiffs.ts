@@ -30,7 +30,7 @@ export function formatCriticalDiffs(
 	criticalPaths: string[],
 ): string {
 	if (criticalPaths.length === 0)
-		return `${chalk.bold.underline("Critical diffs")}\n  ${chalk.dim("review.highLevel.criticalPaths is unset, so no diffs are shown")}`;
+		return `${chalk.bold.underline("Critical diffs")}\n  ${chalk.dim("review.highLevel.criticalPaths is empty, so no diffs are shown")}`;
 	if (diffs.length === 0)
 		return `${chalk.bold.underline("Critical diffs")}\n  ${chalk.dim(`no changed file matches ${criticalPaths.join(", ")}`)}`;
 	return [

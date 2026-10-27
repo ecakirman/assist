@@ -1,3 +1,4 @@
+import { defaultCriticalPaths } from "../../../shared/defaultCriticalPaths";
 import type { AssistConfig } from "../../../shared/types";
 
 export type HighLevelConfig = {
@@ -15,7 +16,7 @@ const DEFAULT_COLLAPSED_PATHS = ["**/*.test.*", "**/generated/**"];
 export function resolveHighLevelConfig(config: AssistConfig): HighLevelConfig {
 	const highLevel = config.review?.highLevel;
 	return {
-		criticalPaths: highLevel?.criticalPaths ?? [],
+		criticalPaths: highLevel?.criticalPaths ?? defaultCriticalPaths,
 		uiPaths: highLevel?.uiPaths ?? [],
 		descriptionWordCap:
 			highLevel?.descriptionWordCap ?? DEFAULT_DESCRIPTION_WORD_CAP,

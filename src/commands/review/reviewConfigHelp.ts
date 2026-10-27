@@ -1,4 +1,5 @@
 import type { ConfigHelpEntry } from "../../shared/configHelp";
+import { defaultCriticalPaths } from "../../shared/defaultCriticalPaths";
 
 export const reviewConfigHelp: ConfigHelpEntry[] = [
 	{
@@ -10,7 +11,7 @@ export const reviewConfigHelp: ConfigHelpEntry[] = [
 		key: "review.highLevel.criticalPaths",
 		setter:
 			'assist config set review.highLevel.criticalPaths "**/*.graphql,en-AU/translation.json"',
-		note: "comma-separated globs whose full diffs the high-level review shows; unset shows none",
+		note: `comma-separated globs whose full diffs the high-level review shows; a value replaces the default (${defaultCriticalPaths.join(",")})`,
 	},
 	{
 		key: "review.highLevel.uiPaths",

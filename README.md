@@ -157,7 +157,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
   - `--announce` - Announce the PR in Slack at the end of the chain
   - `--verbose` - Per-line log output instead of the stacked-spinner UI
   - `review.codexModel` - LiteLLM model the Codex reviewer uses; unset, it uses your own codex auth
-  - `review.highLevel.criticalPaths` - Globs of files whose diffs back the critical-diff checklist item; unset, no file is critical
+  - `review.highLevel.criticalPaths` - Globs of files whose diffs back the critical-diff checklist item; defaults to `**/.github/workflows/**`, `**/.github/actions/**`, `**/package.json`, `**/Dockerfile`, `**/Dockerfile.*`, `**/*.Dockerfile` and `**/CLAUDE.md`, and a configured value replaces the defaults
   - `review.highLevel.uiPaths` - Globs that make a change a UI change, requiring a screenshot or video; unset, the check passes
   - `review.highLevel.descriptionWordCap` - Word cap for the PR description; defaults to 300
   - `review.highLevel.testPaths` - Globs of test files whose changed tests back the tests checklist item as a file > describe > it hierarchy, each test's source a click away and open to line comments; defaults to `**/*.{test,spec}.{ts,tsx,js,jsx}`

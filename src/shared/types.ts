@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { adviceFragmentNames } from "./adviceFragmentNames";
+import { defaultCriticalPaths } from "./defaultCriticalPaths";
 import { hotkeysSchema } from "./hotkeys/hotkeysSchema";
 import { runConfigSchema, runLinkSchema } from "./runConfigSchema";
 import { secretConfigValue } from "./secretConfigValue";
@@ -136,7 +137,7 @@ const assistConfigShape = {
 			codexModel: z.string().optional(),
 			highLevel: z
 				.strictObject({
-					criticalPaths: z.array(z.string()).default([]),
+					criticalPaths: z.array(z.string()).default(defaultCriticalPaths),
 					uiPaths: z.array(z.string()).default([]),
 					descriptionWordCap: z.number().int().positive().default(300),
 					testPaths: z

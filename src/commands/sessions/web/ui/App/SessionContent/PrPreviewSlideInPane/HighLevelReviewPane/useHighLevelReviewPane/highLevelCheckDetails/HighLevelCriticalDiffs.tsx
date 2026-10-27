@@ -27,7 +27,7 @@ export function HighLevelCriticalDiffs({
 	if (criticalPaths.length === 0)
 		return (
 			<HighLevelDiffNote>
-				review.highLevel.criticalPaths is unset, so no diffs are shown here.
+				review.highLevel.criticalPaths is empty, so no diffs are shown here.
 			</HighLevelDiffNote>
 		);
 	if (diffs.length === 0)

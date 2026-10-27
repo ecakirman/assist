@@ -94,10 +94,12 @@ assist config set review.highLevel.collapsedPaths "**/*.test.*,**/generated/**"
 
 | Key                  | Default                            | Sets                                                                |
 | -------------------- | ---------------------------------- | ------------------------------------------------------------------- |
-| `criticalPaths`      | none                               | Files whose full diffs **Critical diffs** shows                     |
+| `criticalPaths`      | see below                          | Files whose full diffs **Critical diffs** shows                     |
 | `uiPaths`            | none, so no screenshot is required | Files that make a change a UI change, needing a screenshot or video |
 | `descriptionWordCap` | 300                                | The most words the description can have                             |
 | `testPaths`          | `**/*.{test,spec}.{ts,tsx,js,jsx}` | Test files whose tests **Tests** lists                              |
 | `collapsedPaths`     | `**/*.test.*`, `**/generated/**`   | Files whose diffs start collapsed under **Structure**               |
+
+Unset, `criticalPaths` covers GitHub workflows and actions, `package.json`, Dockerfiles (`Dockerfile`, `Dockerfile.*`, `*.Dockerfile`) and `CLAUDE.md`, anywhere in the repo. Setting it replaces these, so list them too if you still want them.
 
 From the command line, `assist review --high-level --configure` asks for each key in turn, suggesting globs for any that are unset.
