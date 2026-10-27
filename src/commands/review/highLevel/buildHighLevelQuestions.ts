@@ -1,10 +1,15 @@
+import { defaultCriticalPaths } from "../../../shared/defaultCriticalPaths";
 import type { ConfigKeyQuestion } from "../../config/resolveConfigKeyAnswer";
 import { highLevelConfigKeys } from "./highLevelConfigKeys";
 import type { ProposedGlobs } from "./ProposedGlobs";
 import type { HighLevelConfig } from "./resolveHighLevelConfig";
 
+type CurrentHighLevelConfig = Omit<HighLevelConfig, "criticalPaths"> & {
+	criticalPaths: string[] | undefined;
+};
+
 export function buildHighLevelQuestions(
-	current: HighLevelConfig,
+	current: CurrentHighLevelConfig,
 	proposed: ProposedGlobs,
 ): ConfigKeyQuestion[] {
 	return [
@@ -12,7 +17,10 @@ export function buildHighLevelQuestions(
 			key: highLevelConfigKeys.criticalPaths,
 			question:
 				"Critical paths — comma-separated globs whose full diffs the review shows (blank to leave unset)",
-			suggest: suggestGlobs(current.criticalPaths, proposed.criticalPaths),
+			suggest: suggestCriticalPaths(
+				current.criticalPaths,
+				proposed.criticalPaths,
+			),
 		},
 		{
 			key: highLevelConfigKeys.uiPaths,
@@ -32,6 +40,14 @@ export function buildHighLevelQuestions(
 			suggest: suggestGlobs(current.collapsedPaths, []),
 		},
 	];
+}
+
+function suggestCriticalPaths(
+	current: string[] | undefined,
+	proposed: string[],
+): string | undefined {
+	if (current) return suggestGlobs(current, []);
+	return [...new Set([...defaultCriticalPaths, ...proposed])].join(",");
 }
 
 function suggestGlobs(

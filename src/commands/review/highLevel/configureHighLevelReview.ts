@@ -4,8 +4,10 @@ import {
 	configureConfigKeys,
 	type ConfigureConfigKeysResult,
 } from "../../config/configureConfigKeys";
+import { isConfigKeySet } from "../../config/isConfigKeySet";
 import type { ConfigKeyScope } from "../../config/writeConfigKeys";
 import { buildHighLevelQuestions } from "./buildHighLevelQuestions";
+import { highLevelConfigKeys } from "./highLevelConfigKeys";
 import {
 	answersCoverEveryKey,
 	parseConfigureAnswers,
@@ -28,8 +30,14 @@ export async function configureHighLevelReview(
 	const proposed = answersCoverEveryKey(answers)
 		? NOTHING_PROPOSED
 		: proposeHighLevelGlobs();
+	const current = resolveHighLevelConfig(loadConfig());
 	const questions = buildHighLevelQuestions(
-		resolveHighLevelConfig(loadConfig()),
+		{
+			...current,
+			criticalPaths: isConfigKeySet(highLevelConfigKeys.criticalPaths)
+				? current.criticalPaths
+				: undefined,
+		},
 		proposed,
 	);
 	const scope = asConfigKeyScope(options.scope);
