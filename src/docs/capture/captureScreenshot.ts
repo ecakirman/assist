@@ -5,6 +5,7 @@ import { docsPaths } from "../docsPaths";
 import { screenshotVariants } from "../screenshotVariants";
 import { dragBetween } from "./dragBetween";
 import { drawHighlights } from "./drawHighlights";
+import { saveScreenshot } from "./saveScreenshot";
 
 const DEFAULT_VIEWPORT = { width: 1280, height: 800 };
 const SETTLE_MS = 750;
@@ -41,11 +42,11 @@ export async function captureScreenshot(
 			await performAction(page, action);
 		await page.waitForTimeout(SETTLE_MS);
 		await drawHighlights(page, screenshot.highlight ?? []);
-		const target = screenshot.crop ? page.locator(screenshot.crop) : page;
-		await target.screenshot({
-			path: join(docsPaths.screenshotsDir, variant.file),
-			animations: "disabled",
-		});
+		await saveScreenshot(
+			page,
+			screenshot.crop,
+			join(docsPaths.screenshotsDir, variant.file),
+		);
 		await context.close();
 		written.push(variant.file);
 	}

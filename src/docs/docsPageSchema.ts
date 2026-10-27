@@ -34,7 +34,9 @@ const screenshotSchema = z.strictObject({
 		.optional(),
 	theme: z.enum(["light", "dark"]).optional(),
 	waitFor: z.string().min(1).optional(),
-	crop: z.string().min(1).optional(),
+	crop: z
+		.union([z.string().min(1), z.array(z.string().min(1)).min(2)])
+		.optional(),
 	scene: z.string().min(1).optional(),
 	setup: z.array(captureSetupStepSchema).optional(),
 	actions: z.array(actionSchema).optional(),

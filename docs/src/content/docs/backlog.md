@@ -36,6 +36,19 @@ screenshots:
     actions:
       - click: text=Dark mode toggle
     crop: "#item-section-plan"
+  - file: backlog-activity.png
+    alt: An item's activity, with its branch, a commit and a pull request, and its comments, including a phase summary
+    route: /backlog
+    scene: backlog
+    waitFor: text=Cart total rounds to the wrong cent
+    viewport:
+      width: 1440
+      height: 2400
+    actions:
+      - click: text=Dark mode toggle
+    crop:
+      - "#item-section-activity"
+      - "#item-section-comments"
 ---
 
 The backlog holds each repo's work as items: stories and bugs, each with a description, acceptance criteria and, usually, a plan of phases that an agent works through one at a time. Items are written by [drafting](../backlog-writing/) and built by [running](../backlog-running/) them.
@@ -92,5 +105,7 @@ Below are the **Description**, **Acceptance Criteria** and **Sub-tasks**, follow
 Each phase lists its tasks and any manual checks you'll be asked to confirm, its token and time usage, and the sessions that worked on it. **Rewind** on a finished phase sends the item back to it: give a reason, and the next build picks up from that phase with your reason.
 
 ### Activity and comments
+
+::screenshot{file="backlog-activity.png"}
 
 **Activity** lists the item's branches, commits, pull requests, Slack threads and agent conversations. :icon[PlayArrow] on a conversation resumes it as a new session. **Comments** holds each phase's summary and the notes agents and you added; :icon[DeleteOutlined] deletes a comment.

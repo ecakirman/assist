@@ -11,13 +11,13 @@ covers:
   - config:subtasks
 ---
 
-Items are written with an agent rather than typed in: describe what you want, answer its questions, and approve the item it proposes.
+Items are written with an agent rather than typed in: briefly describe what you want, answer its questions, and approve the item it proposes.
 
 ## Drafting a story
 
 Start a **draft** session from the [new-session dialog](../sessions-creating/), or run `/draft [description]` in any session. The agent reads the code around your idea, asks a few questions one at a time, then proposes the item in the [preview pane](../sessions-preview-panes/#proposing-a-backlog-item): a name, a description, acceptance criteria and a plan.
 
-A plan is a list of phases, each a working slice of the feature with its own tasks. A phase can also list manual checks, things only you can confirm, such as how something looks; the agent running that phase asks you to confirm them before it finishes. Every plan ends with a review phase that checks the item against its acceptance criteria, so a draft never needs one.
+A plan is a list of phases (context windows), each a working slice of the feature with its own tasks. A phase can also list manual checks, things only you can confirm, such as how something looks; the agent running that phase asks you to confirm them before it finishes. Every plan ends with a review phase that checks the item against its acceptance criteria, so a draft never needs one.
 
 Mention a Jira key, a GitHub issue or a Slack thread while drafting, and the item is linked to it.
 

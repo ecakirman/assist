@@ -30,6 +30,14 @@ describe("docsPageSchema", () => {
 		expect(docsPageSchema.safeParse(withoutScreenshots).success).toBe(true);
 	});
 
+	it("crops to one selector or the box around two or more", () => {
+		const parses = (crop: unknown) =>
+			docsPageSchema.safeParse(withScreenshot({ crop })).success;
+		expect(parses("#plan")).toBe(true);
+		expect(parses(["#activity", "#comments"])).toBe(true);
+		expect(parses(["#activity"])).toBe(false);
+	});
+
 	it("rejects an unknown top-level key", () => {
 		expect(
 			docsPageSchema.safeParse({ ...validPage, summary: "extra" }).success,
