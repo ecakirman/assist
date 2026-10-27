@@ -93,6 +93,25 @@ const backlogItemStepSchema = z.strictObject({
 	starred: z.boolean().optional(),
 });
 
+const ghResponseSchema = z.strictObject({
+	match: z.array(z.string().min(1)).min(1),
+	json: z.unknown(),
+});
+
+const newsFeedSchema = z.strictObject({
+	name: z.string().regex(/^[a-z0-9-]+$/),
+	title: z.string().min(1),
+	items: z
+		.array(
+			z.strictObject({
+				title: z.string().min(1),
+				hoursAgo: z.number().nonnegative(),
+				excerpt: z.string().min(1).optional(),
+			}),
+		)
+		.min(1),
+});
+
 export const captureSetupStepSchema = z.union([
 	z.strictObject({ assist: z.array(z.string().min(1)).min(1) }),
 	z.strictObject({ run: z.string().min(1) }),
@@ -106,6 +125,9 @@ export const captureSetupStepSchema = z.union([
 	z.strictObject({ highLevelReview: highLevelReviewSchema }),
 	z.strictObject({ backlogItem: backlogItemStepSchema }),
 	z.strictObject({ assistSession: z.array(z.string().min(1)).min(1) }),
+	z.strictObject({ gh: ghResponseSchema }),
+	z.strictObject({ sql: z.string().min(1) }),
+	z.strictObject({ newsFeed: newsFeedSchema }),
 ]);
 
 export type CaptureSetupStep = z.infer<typeof captureSetupStepSchema>;
@@ -115,3 +137,5 @@ export type CaptureTranscriptStep = z.infer<typeof transcriptStepSchema>;
 export type CaptureHighLevelReviewStep = z.infer<typeof highLevelReviewSchema>;
 export type CaptureHighLevelFile = z.infer<typeof highLevelFileSchema>;
 export type CaptureBacklogItemStep = z.infer<typeof backlogItemStepSchema>;
+export type CaptureGhResponse = z.infer<typeof ghResponseSchema>;
+export type CaptureNewsFeed = z.infer<typeof newsFeedSchema>;

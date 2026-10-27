@@ -8,12 +8,14 @@ import { startScriptedSession } from "./startScriptedSession";
 import { writeFakePr } from "./writeFakePr";
 import { writeTranscript } from "./writeTranscript";
 import { openPreviewStep } from "./openPreviewStep";
+import { seedDataStep } from "./seedDataStep";
 
 export async function runSetupStep(
 	capture: CaptureHome,
 	step: CaptureSetupStep,
 ): Promise<void> {
 	if (await openPreviewStep(capture, step)) return;
+	if (await seedDataStep(capture, step)) return;
 	if ("assist" in step) runAssist(capture, step.assist);
 	else if ("session" in step) await startScriptedSession(capture, step.session);
 	else if ("transcript" in step) writeTranscript(capture, step.transcript);

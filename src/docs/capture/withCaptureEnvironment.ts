@@ -21,6 +21,7 @@ export async function withCaptureEnvironment(
 			await run({ capture, url: server.url });
 		} finally {
 			for (const peer of capture.peers.values()) await peer.stop();
+			capture.feedServer?.close();
 			await server.stop();
 		}
 	} finally {

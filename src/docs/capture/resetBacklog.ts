@@ -5,7 +5,9 @@ export async function resetBacklog(capture: CaptureHome): Promise<void> {
 	const client = new Client({ connectionString: capture.databaseUrl });
 	await client.connect();
 	try {
-		await client.query("TRUNCATE items RESTART IDENTITY CASCADE");
+		await client.query(
+			"TRUNCATE items, backups, usage_peaks RESTART IDENTITY CASCADE",
+		);
 	} finally {
 		await client.end();
 	}

@@ -322,5 +322,604 @@
 				}
 			}
 		}
+	],
+	"next": [
+		{ "assist": ["config", "set", "-g", "next.peers", "alice,bob"] },
+		{ "assist": ["config", "set", "-g", "next.projects", "staff0rd/3"] },
+		{
+			"gh": {
+				"match": ["pullRequests(states: OPEN"],
+				"json": {
+					"data": {
+						"viewer": { "login": "sandbox" },
+						"repository": {
+							"pullRequests": {
+								"nodes": [
+									{
+										"number": 42,
+										"title": "Add CSV export to the orders report",
+										"url": "https://github.com/staff0rd/sandbox/pull/42",
+										"createdAt": "{{ago:2d}}",
+										"isDraft": false,
+										"author": { "login": "alice" },
+										"reviewRequests": {
+											"nodes": [{ "requestedReviewer": { "login": "sandbox" } }]
+										},
+										"latestReviews": { "nodes": [] },
+										"commits": {
+											"nodes": [
+												{
+													"commit": {
+														"statusCheckRollup": { "state": "SUCCESS" }
+													}
+												}
+											]
+										},
+										"timelineItems": {
+											"nodes": [
+												{
+													"createdAt": "{{ago:1d}}",
+													"requestedReviewer": { "login": "sandbox" }
+												}
+											]
+										}
+									},
+									{
+										"number": 44,
+										"title": "Retry webhook deliveries with backoff",
+										"url": "https://github.com/staff0rd/sandbox/pull/44",
+										"createdAt": "{{ago:20h}}",
+										"isDraft": false,
+										"author": { "login": "bob" },
+										"reviewRequests": { "nodes": [] },
+										"latestReviews": { "nodes": [] },
+										"commits": {
+											"nodes": [
+												{
+													"commit": {
+														"statusCheckRollup": { "state": "PENDING" }
+													}
+												}
+											]
+										},
+										"timelineItems": { "nodes": [] }
+									},
+									{
+										"number": 45,
+										"title": "Paginate the orders endpoint",
+										"url": "https://github.com/staff0rd/sandbox/pull/45",
+										"createdAt": "{{ago:5h}}",
+										"isDraft": false,
+										"author": { "login": "sandbox" },
+										"reviewRequests": {
+											"nodes": [{ "requestedReviewer": { "login": "bob" } }]
+										},
+										"latestReviews": { "nodes": [] },
+										"commits": {
+											"nodes": [
+												{
+													"commit": {
+														"statusCheckRollup": { "state": "SUCCESS" }
+													}
+												}
+											]
+										},
+										"timelineItems": {
+											"nodes": [
+												{
+													"createdAt": "{{ago:5h}}",
+													"requestedReviewer": { "login": "bob" }
+												}
+											]
+										}
+									},
+									{
+										"number": 47,
+										"title": "Bump vite to 7.1",
+										"url": "https://github.com/staff0rd/sandbox/pull/47",
+										"createdAt": "{{ago:3h}}",
+										"isDraft": false,
+										"author": { "login": "alice" },
+										"reviewRequests": {
+											"nodes": [{ "requestedReviewer": { "login": "sandbox" } }]
+										},
+										"latestReviews": { "nodes": [] },
+										"commits": {
+											"nodes": [
+												{
+													"commit": {
+														"statusCheckRollup": { "state": "FAILURE" }
+													}
+												}
+											]
+										},
+										"timelineItems": {
+											"nodes": [
+												{
+													"createdAt": "{{ago:3h}}",
+													"requestedReviewer": { "login": "sandbox" }
+												}
+											]
+										}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["issue list"],
+				"json": [
+					{
+						"number": 38,
+						"title": "Settings page loses its scroll position",
+						"url": "https://github.com/staff0rd/sandbox/issues/38",
+						"createdAt": "{{ago:3d}}",
+						"author": { "login": "alice" },
+						"labels": [{ "name": "bug" }]
+					},
+					{
+						"number": 40,
+						"title": "Document the release process",
+						"url": "https://github.com/staff0rd/sandbox/issues/40",
+						"createdAt": "{{ago:6d}}",
+						"author": { "login": "bob" },
+						"labels": [{ "name": "docs" }]
+					}
+				]
+			}
+		},
+		{
+			"gh": {
+				"match": ["projectV2(number"],
+				"json": {
+					"data": {
+						"repositoryOwner": {
+							"projectV2": {
+								"title": "Sandbox roadmap",
+								"url": "https://github.com/users/staff0rd/projects/3",
+								"items": {
+									"pageInfo": { "hasNextPage": false, "endCursor": null },
+									"nodes": [
+										{
+											"id": "PVTI_1",
+											"status": { "name": "Ready" },
+											"priority": { "name": "P1" },
+											"content": {
+												"number": 51,
+												"title": "Saved filters on the orders list",
+												"url": "https://github.com/staff0rd/sandbox/issues/51",
+												"createdAt": "{{ago:4d}}",
+												"state": "OPEN",
+												"author": { "login": "bob" },
+												"repository": { "nameWithOwner": "staff0rd/sandbox" },
+												"assignees": { "totalCount": 0 },
+												"issueType": { "name": "Feature", "color": "GREEN" },
+												"parent": null,
+												"labels": { "nodes": [] }
+											}
+										},
+										{
+											"id": "PVTI_2",
+											"status": { "name": "Todo" },
+											"priority": { "name": "P2" },
+											"content": {
+												"number": 52,
+												"title": "Date picker ignores the week start setting",
+												"url": "https://github.com/staff0rd/sandbox/issues/52",
+												"createdAt": "{{ago:2d}}",
+												"state": "OPEN",
+												"author": { "login": "alice" },
+												"repository": { "nameWithOwner": "staff0rd/sandbox" },
+												"assignees": { "totalCount": 0 },
+												"issueType": { "name": "Bug", "color": "RED" },
+												"parent": null,
+												"labels": { "nodes": [{ "name": "frontend" }] }
+											}
+										},
+										{
+											"id": "PVTI_3",
+											"status": { "name": "In Progress" },
+											"priority": { "name": "P1" },
+											"content": {
+												"number": 49,
+												"title": "Move sessions to the new auth provider",
+												"url": "https://github.com/staff0rd/sandbox/issues/49",
+												"createdAt": "{{ago:8d}}",
+												"state": "OPEN",
+												"author": { "login": "alice" },
+												"repository": { "nameWithOwner": "staff0rd/sandbox" },
+												"assignees": { "totalCount": 1 },
+												"issueType": { "name": "Task", "color": "BLUE" },
+												"parent": null,
+												"labels": { "nodes": [] }
+											}
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	],
+	"releases": [
+		{
+			"assist": [
+				"config",
+				"set",
+				"-g",
+				"releases.streams",
+				"[{\"name\":\"Web app\",\"repo\":\"staff0rd/sandbox\",\"workflow\":\"release.yml\",\"nodes\":[{\"id\":\"build\",\"kind\":\"build\"},{\"id\":\"staging\",\"environment\":\"staging\"},{\"id\":\"production\",\"environment\":\"production\"}],\"edges\":[[\"build\",\"staging\"],[\"staging\",\"production\"]]},{\"name\":\"API\",\"repo\":\"example/api\",\"workflow\":\"deploy.yml\",\"nodes\":[{\"id\":\"build\",\"kind\":\"build\"},{\"id\":\"dev\",\"environment\":\"dev\"},{\"id\":\"prod\",\"environment\":\"prod\"}],\"edges\":[[\"build\",\"dev\"],[\"dev\",\"prod\"]]}]"
+			]
+		},
+		{
+			"gh": {
+				"match": ["deployments(environments", "name=sandbox"],
+				"json": {
+					"data": {
+						"repository": {
+							"defaultBranchRef": {
+								"name": "main",
+								"target": {
+									"oid": "4c1d2e8f0a9b7c6d5e4f3a2b1c0d9e8f7a6b5c4d",
+									"messageHeadline": "Add CSV export to the orders report (#42)",
+									"author": { "name": "Alice" }
+								}
+							},
+							"env0": {
+								"nodes": [
+									{
+										"environment": "production",
+										"createdAt": "{{ago:2d}}",
+										"commitOid": "e7a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7",
+										"commit": {
+											"oid": "e7a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7",
+											"messageHeadline": "Fix the cart total rounding (#39)",
+											"author": { "name": "Bob" }
+										},
+										"latestStatus": {
+											"state": "SUCCESS",
+											"createdAt": "{{ago:2d}}",
+											"logUrl": "https://github.com/staff0rd/sandbox/actions/runs/98"
+										}
+									},
+									{
+										"environment": "production",
+										"createdAt": "{{ago:1h}}",
+										"commitOid": "4c1d2e8f0a9b7c6d5e4f3a2b1c0d9e8f7a6b5c4d",
+										"commit": {
+											"oid": "4c1d2e8f0a9b7c6d5e4f3a2b1c0d9e8f7a6b5c4d",
+											"messageHeadline": "Add CSV export to the orders report (#42)",
+											"author": { "name": "Alice" }
+										},
+										"latestStatus": {
+											"state": "WAITING",
+											"createdAt": "{{ago:1h}}",
+											"logUrl": "https://github.com/staff0rd/sandbox/actions/runs/101"
+										}
+									}
+								]
+							},
+							"env1": {
+								"nodes": [
+									{
+										"environment": "staging",
+										"createdAt": "{{ago:1h}}",
+										"commitOid": "4c1d2e8f0a9b7c6d5e4f3a2b1c0d9e8f7a6b5c4d",
+										"commit": {
+											"oid": "4c1d2e8f0a9b7c6d5e4f3a2b1c0d9e8f7a6b5c4d",
+											"messageHeadline": "Add CSV export to the orders report (#42)",
+											"author": { "name": "Alice" }
+										},
+										"latestStatus": {
+											"state": "SUCCESS",
+											"createdAt": "{{ago:1h}}",
+											"logUrl": "https://github.com/staff0rd/sandbox/actions/runs/101"
+										}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["compare(headRef", "name=sandbox"],
+				"json": {
+					"data": {
+						"repository": {
+							"ref": { "c0": { "behindBy": 0 }, "c1": { "behindBy": 3 } }
+						}
+					}
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["actions/workflows/release.yml/runs"],
+				"json": {
+					"workflow_runs": [
+						{
+							"id": 101,
+							"run_number": 57,
+							"html_url": "https://github.com/staff0rd/sandbox/actions/runs/101",
+							"head_sha": "4c1d2e8f0a9b7c6d5e4f3a2b1c0d9e8f7a6b5c4d",
+							"status": "waiting",
+							"run_started_at": "{{ago:1h}}"
+						}
+					]
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["actions/runs/101/jobs"],
+				"json": {
+					"jobs": [
+						{
+							"name": "build",
+							"status": "completed",
+							"conclusion": "success",
+							"started_at": "{{ago:70m}}",
+							"completed_at": "{{ago:66m}}",
+							"html_url": "https://github.com/staff0rd/sandbox/actions/runs/101/job/1"
+						},
+						{
+							"name": "deploy (staging)",
+							"status": "completed",
+							"conclusion": "success",
+							"started_at": "{{ago:66m}}",
+							"completed_at": "{{ago:62m}}",
+							"html_url": "https://github.com/staff0rd/sandbox/actions/runs/101/job/2"
+						},
+						{
+							"name": "deploy (production)",
+							"status": "waiting",
+							"conclusion": null,
+							"started_at": null,
+							"completed_at": null,
+							"html_url": "https://github.com/staff0rd/sandbox/actions/runs/101/job/3"
+						}
+					]
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["deployments(environments", "name=api"],
+				"json": {
+					"data": {
+						"repository": {
+							"defaultBranchRef": {
+								"name": "main",
+								"target": {
+									"oid": "b3f0a1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8",
+									"messageHeadline": "Add pagination to the orders endpoint (#18)",
+									"author": { "name": "Sandbox" }
+								}
+							},
+							"env0": {
+								"nodes": [
+									{
+										"environment": "dev",
+										"createdAt": "{{ago:3h}}",
+										"commitOid": "b3f0a1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8",
+										"commit": {
+											"oid": "b3f0a1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8",
+											"messageHeadline": "Add pagination to the orders endpoint (#18)",
+											"author": { "name": "Sandbox" }
+										},
+										"latestStatus": {
+											"state": "SUCCESS",
+											"createdAt": "{{ago:3h}}",
+											"logUrl": "https://github.com/example/api/actions/runs/202"
+										}
+									}
+								]
+							},
+							"env1": {
+								"nodes": [
+									{
+										"environment": "prod",
+										"createdAt": "{{ago:2h}}",
+										"commitOid": "b3f0a1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8",
+										"commit": {
+											"oid": "b3f0a1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8",
+											"messageHeadline": "Add pagination to the orders endpoint (#18)",
+											"author": { "name": "Sandbox" }
+										},
+										"latestStatus": {
+											"state": "SUCCESS",
+											"createdAt": "{{ago:2h}}",
+											"logUrl": "https://github.com/example/api/actions/runs/202"
+										}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["compare(headRef", "name=api"],
+				"json": {
+					"data": { "repository": { "ref": { "c0": { "behindBy": 0 } } } }
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["actions/workflows/deploy.yml/runs"],
+				"json": {
+					"workflow_runs": [
+						{
+							"id": 202,
+							"run_number": 31,
+							"html_url": "https://github.com/example/api/actions/runs/202",
+							"head_sha": "b3f0a1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8",
+							"status": "completed",
+							"run_started_at": "{{ago:3h}}"
+						}
+					]
+				}
+			}
+		},
+		{
+			"gh": {
+				"match": ["actions/runs/202/jobs"],
+				"json": {
+					"jobs": [
+						{
+							"name": "build",
+							"status": "completed",
+							"conclusion": "success",
+							"started_at": "{{ago:3h}}",
+							"completed_at": "{{ago:3h}}",
+							"html_url": "https://github.com/example/api/actions/runs/202/job/1"
+						},
+						{
+							"name": "deploy (dev)",
+							"status": "completed",
+							"conclusion": "success",
+							"started_at": "{{ago:3h}}",
+							"completed_at": "{{ago:3h}}",
+							"html_url": "https://github.com/example/api/actions/runs/202/job/2"
+						},
+						{
+							"name": "deploy (prod)",
+							"status": "completed",
+							"conclusion": "success",
+							"started_at": "{{ago:2h}}",
+							"completed_at": "{{ago:2h}}",
+							"html_url": "https://github.com/example/api/actions/runs/202/job/3"
+						}
+					]
+				}
+			}
+		}
+	],
+	"news": [
+		{ "assist": ["config", "set", "-g", "news.showInNav", "true"] },
+		{
+			"newsFeed": {
+				"name": "frontend",
+				"title": "Frontend Notes",
+				"items": [
+					{
+						"title": "Container queries are ready for production",
+						"hoursAgo": 3,
+						"excerpt": "Every evergreen browser now ships size and style container queries, so components can respond to the space they're given rather than the viewport."
+					},
+					{
+						"title": "A practical guide to view transitions",
+						"hoursAgo": 30,
+						"excerpt": "Animate between pages and states with a few lines of CSS, and fall back gracefully where they aren't supported."
+					}
+				]
+			}
+		},
+		{
+			"newsFeed": {
+				"name": "tooling",
+				"title": "Tooling Weekly",
+				"items": [
+					{
+						"title": "Faster TypeScript builds with project references",
+						"hoursAgo": 6,
+						"excerpt": "Splitting a large repo into referenced projects lets the compiler skip what hasn't changed. We measured a 4x speed-up on incremental builds."
+					},
+					{
+						"title": "Lint rules that pay for themselves",
+						"hoursAgo": 50,
+						"excerpt": "Five rules that caught real bugs in a year of code review, and two we turned off again."
+					}
+				]
+			}
+		}
+	],
+	"usage": [
+		{
+			"backlogItem": {
+				"item": {
+					"name": "Dark mode toggle",
+					"type": "story",
+					"description": "Let users switch the app to a dark colour scheme.",
+					"acceptanceCriteria": ["The settings page has a dark mode toggle"],
+					"phases": [
+						{
+							"name": "Toggle on the settings page",
+							"tasks": ["Add the toggle"]
+						},
+						{ "name": "Persist the choice", "tasks": ["Save the scheme"] },
+						{
+							"name": "Follow the system scheme",
+							"tasks": ["Read prefers-color-scheme"]
+						}
+					]
+				},
+				"status": "done"
+			}
+		},
+		{
+			"backlogItem": {
+				"item": {
+					"name": "Cart total rounds to the wrong cent",
+					"type": "bug",
+					"description": "Totals are summed in floating point.",
+					"acceptanceCriteria": ["Cart totals are summed in whole cents"],
+					"phases": [
+						{ "name": "Sum in cents", "tasks": ["Convert prices to cents"] },
+						{
+							"name": "Regression test",
+							"tasks": ["Add a test for three $0.10 items"]
+						}
+					]
+				},
+				"status": "done"
+			}
+		},
+		{
+			"backlogItem": {
+				"item": {
+					"name": "Paginate the product list",
+					"type": "story",
+					"description": "The product list loads every product at once.",
+					"acceptanceCriteria": ["The product list shows 20 products per page"],
+					"phases": [
+						{
+							"name": "Page the product list",
+							"tasks": ["Request one page at a time"]
+						},
+						{ "name": "Page links", "tasks": ["Add next and previous links"] },
+						{
+							"name": "Remember the page",
+							"tasks": ["Keep the page in the URL"]
+						},
+						{
+							"name": "Empty state",
+							"tasks": ["Show a message when there are no products"]
+						}
+					]
+				},
+				"status": "in-progress"
+			}
+		},
+		{
+			"sql": "INSERT INTO phase_usage (item_id, phase_idx, tokens_up, tokens_down, active_ms, peak_context_pct) VALUES (1, 0, 1840000, 42000, 1260000, 48), (1, 1, 960000, 21000, 720000, 35), (1, 2, 1310000, 30500, 940000, 41), (2, 0, 2210000, 51000, 1680000, 62), (2, 1, 640000, 12800, 410000, 27), (3, 0, 1520000, 38000, 1100000, 44), (3, 1, 1980000, 46000, 1450000, 57); INSERT INTO phase_sessions (item_id, phase_idx, claude_session_id, hostname, os_user, created_at) VALUES (1, 2, 's1', 'laptop', 'sandbox', now() - interval '2 days'), (2, 1, 's2', 'laptop', 'sandbox', now() - interval '1 day'), (3, 1, 's3', 'laptop', 'sandbox', now() - interval '40 minutes'); INSERT INTO usage_peaks (\"window\", resets_at, used_percentage, reset_detected, tokens_up, tokens_down, created_at) SELECT 'five_hour', extract(epoch FROM now() - (n * 5 - 2) * interval '1 hour')::bigint, 22 + (n * 37) % 71, n = 4, 900000 + (n * 413000) % 2600000, 20000 + (n * 9100) % 60000, now() - (n * 5 - 2) * interval '1 hour' FROM generate_series(0, 13) AS n UNION ALL SELECT 'seven_day', extract(epoch FROM now() - (n * 7 - 3) * interval '1 day')::bigint, (ARRAY[46, 83, 64])[n + 1], false, 21000000 + n * 7300000, 480000 + n * 150000, now() - (n * 7 - 3) * interval '1 day' FROM generate_series(0, 2) AS n; INSERT INTO phase_cycle_context (item_id, phase_idx, \"window\", resets_at, peak_context_pct) SELECT pu.item_id, pu.phase_idx, up.\"window\", up.resets_at, pu.peak_context_pct FROM phase_usage pu CROSS JOIN usage_peaks up WHERE (up.\"window\" = 'seven_day' AND up.resets_at > extract(epoch FROM now())) OR (up.\"window\" = 'five_hour' AND (up.resets_at + pu.item_id * 7 + pu.phase_idx) % 3 = 0)"
+		}
+	],
+	"backups": [
+		{
+			"sql": "INSERT INTO backups (created_at, file_path, size_bytes, duration_ms) SELECT now() - n * interval '6 hours' - interval '12 minutes', '/home/sandbox/.assist/backups/backup-' || to_char(now() - n * interval '6 hours' - interval '12 minutes', 'YYYY-MM-DD\"T\"HH24-MI-SS') || '.dump', 4820000 - n * 61000, 1100 + (n * 137) % 600 FROM generate_series(0, 7) AS n"
+		}
 	]
 }

@@ -5,9 +5,11 @@ import {
 	realpathSync,
 	writeFileSync,
 } from "node:fs";
+import type { Server } from "node:http";
 import type { Socket } from "node:net";
 import { tmpdir } from "node:os";
 import { delimiter, join } from "node:path";
+import type { CaptureNewsFeed } from "../captureSetupStepSchema";
 import { docsPaths } from "../docsPaths";
 import { cloneCaptureRepos } from "./cloneCaptureRepos";
 import { isolatedEnv } from "./isolatedEnv";
@@ -28,6 +30,8 @@ export type CaptureHome = {
 	openPreviews: Socket[];
 	peers: Map<string, CapturePeer>;
 	linkedPeers: Set<string>;
+	newsFeeds: Map<string, CaptureNewsFeed>;
+	feedServer?: Server;
 };
 
 function socketPathSafeTempDir(): string {
@@ -63,5 +67,6 @@ export function createCaptureHome(databaseUrl: string): CaptureHome {
 		openPreviews: [],
 		peers: new Map(),
 		linkedPeers: new Set(),
+		newsFeeds: new Map(),
 	};
 }

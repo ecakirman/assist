@@ -1,8 +1,9 @@
-import { rmSync } from "node:fs";
+import { copyFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { chromium } from "playwright";
 import type { CaptureSetupStep } from "../captureSetupStepSchema";
 import type { DocsScreenshot } from "../docsPageSchema";
+import { docsPaths } from "../docsPaths";
 import type { CaptureScenes } from "../loadCaptureScenes";
 import { captureScreenshot } from "./captureScreenshot";
 import { closePreviews } from "./closePreviews";
@@ -11,6 +12,7 @@ import { resetBacklog } from "./resetBacklog";
 import { resetPeers } from "./resetPeers";
 import { runAssist } from "./runAssist";
 import { runSetupStep } from "./runSetupStep";
+import { fakeGhResponsesFile } from "./writeFakeGhResponse";
 
 function setupSteps(
 	screenshot: DocsScreenshot,
@@ -34,6 +36,8 @@ function sessionStateTracker(capture: CaptureHome) {
 				force: true,
 			});
 			rmSync(join(capture.home, ".fake-gh.json"), { force: true });
+			rmSync(fakeGhResponsesFile(capture), { force: true });
+			copyFileSync(docsPaths.captureConfig, join(capture.home, ".assist.yml"));
 			await resetBacklog(capture);
 		}
 		for (const step of steps) await runSetupStep(capture, step);

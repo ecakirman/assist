@@ -6,6 +6,7 @@ order: 1
 covers:
   - cli:update
   - config:autoUpdate.enabled
+  - route:/updates
 screenshots:
   - file: updates-panel.png
     alt: The Updates panel
@@ -16,10 +17,6 @@ screenshots:
 
 When assist is installed from a git clone, it keeps itself up to date in the background. When the clone's upstream gets new commits, assist pulls and installs them.
 
-The Updates panel opens from the version badge on the dashboard, or with :kbd[Alt+Q]. When a new build is ready, it shows **Restart to update** and which part needs restarting, the web server or the daemon. **Restart** does it for you.
-
-::screenshot{file="updates-panel.png"}
-
 If the clone has local commits and cannot fast-forward, assist starts a Claude session in it to rebase or merge onto the upstream, push and rebuild. Updates pause until that session closes.
 
 To turn automatic updates off:
@@ -29,6 +26,18 @@ assist config set autoUpdate.enabled false
 ```
 
 A global npm install is not updated automatically.
+
+## The Updates page
+
+The Updates page opens from the version badge on the dashboard, or with :kbd[Alt+Q]. It lists this machine and each [linked machine](../sessions-linked-nodes/), with the version each is running and where its updates are up to.
+
+::screenshot{file="updates-panel.png"}
+
+- **Restart** on a row restarts that machine's daemon and web server onto the new build it has ready. **Restart ready nodes** restarts every machine with one ready.
+- **Check now** checks every machine for new commits straight away.
+- **Pause** stops a machine pulling updates until you **Resume** it.
+- **Open fix session** jumps to the session fixing a clone that couldn't fast-forward.
+- Expand a row for that machine's update history.
 
 ## Manual updates
 

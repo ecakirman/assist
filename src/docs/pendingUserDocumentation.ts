@@ -1,32 +1,6 @@
 import type { DocsArea } from "./docsAreas";
 
 export const pendingUserDocumentation: Partial<Record<DocsArea, string[]>> = {
-	activity: [
-		"cli:backup",
-		"cli:backup schedule",
-		"cli:backup schedule status",
-		"cli:backup schedule remove",
-		"cli:releases",
-		"cli:releases list",
-		"cli:releases configure",
-		"cli:news add",
-		"claude:releases-configure",
-		"config:backup.dir",
-		"config:news.showInNav",
-		"config:next.excludeLabels",
-		"config:next.excludeTypes",
-		"config:next.peers",
-		"config:next.pickStatuses",
-		"config:next.projects",
-		"config:next.repos",
-		"config:releases.streams",
-		"route:/next",
-		"route:/news",
-		"route:/releases",
-		"route:/usage",
-		"route:/backups",
-		"route:/updates",
-	],
 	"git-github": [
 		"cli:commit",
 		"cli:activity",

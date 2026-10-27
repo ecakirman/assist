@@ -64,7 +64,8 @@ From left to right:
 - **VS Code** opens the selected repo in VS Code, and **GitHub** opens it on GitHub.
 - **+** (:kbd[Mod+N] or :kbd[Alt+N]) opens the new-session dialog (see [Creating sessions](../sessions-creating/)).
 - A **PRs** menu appears when the repo has open [pull requests](../pull-requests/), and a run menu when the repo has [`run` entries](../run-commands/).
-- **Usage** opens the [Usage](../usage/) page.- The **version badge** (:kbd[Alt+Q]) shows how many updates are ready and opens the [Updates](../updating/) page.
+- **Usage** opens the [Usage](../usage/) page.
+- The **version badge** (:kbd[Alt+Q]) shows how many updates are ready and opens the [Updates](../updating/#the-updates-page) page.
 - The **cog** (:kbd[Alt+W]) opens the [Config](../config/) page.
 - The **menu** (:kbd[Alt+E]) holds the rest.
 

@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-// Stand-in for the gh CLI during docs capture. It answers `gh pr list` and
+// Stand-in for the gh CLI during docs capture. A call whose arguments contain
+// every string of a gh step's match prints that step's json, from
+// $HOME/.fake-gh-responses.json, with each {{ago:<n><m|h|d>}} replaced by the
+// ISO time that long before now. Otherwise it answers `gh pr list` and
 // `gh pr view` with the pull requests the capture's openPr steps wrote to
 // $HOME/.fake-gh.json, matched on the repo's origin, and fails every other
 // call as an unauthenticated gh would.
@@ -7,6 +10,26 @@
 	const { existsSync, readFileSync } = await import("node:fs");
 	const { execFileSync } = await import("node:child_process");
 	const { join } = await import("node:path");
+
+	const responsesFile = join(process.env.HOME ?? "", ".fake-gh-responses.json");
+	const responses = existsSync(responsesFile)
+		? JSON.parse(readFileSync(responsesFile, "utf8"))
+		: [];
+	const args = process.argv.slice(2).join(" ");
+	const response = responses.find(({ match }) =>
+		match.every((part) => args.includes(part)),
+	);
+	if (response) {
+		const unitMs = { m: 60_000, h: 3_600_000, d: 86_400_000 };
+		console.log(
+			JSON.stringify(response.json).replace(
+				/\{\{ago:(\d+)([mhd])\}\}/g,
+				(_, amount, unit) =>
+					new Date(Date.now() - amount * unitMs[unit]).toISOString(),
+			),
+		);
+		return;
+	}
 
 	const file = join(process.env.HOME ?? "", ".fake-gh.json");
 	const prs = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : {};

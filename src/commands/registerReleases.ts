@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { releasesConfigHelp } from "./releases/releasesConfigHelp";
 import { releasesConfigure } from "./releases/releasesConfigure";
 import { releasesList } from "./releases/releasesList";
@@ -21,19 +22,22 @@ export function registerReleases(parent: Command): void {
 		.description("List the declared release streams, their nodes and edges")
 		.action(releasesList);
 
-	releasesCommand
-		.command("configure")
-		.description(
-			"Validate release streams and write them to releases.streams for the current repo",
-		)
-		.requiredOption(
-			"--streams <file>",
-			"JSON or YAML array of streams to declare; '-' reads stdin",
-		)
-		.option(
-			"--scope <project|repo>",
-			"project assist.yml or this repo's shared db override",
-			"project",
-		)
-		.action(releasesConfigure);
+	internalCommand(
+		releasesCommand
+			.command("configure")
+			.description(
+				"Validate release streams and write them to releases.streams for the current repo",
+			)
+			.requiredOption(
+				"--streams <file>",
+				"JSON or YAML array of streams to declare; '-' reads stdin",
+			)
+			.option(
+				"--scope <project|repo>",
+				"project assist.yml or this repo's shared db override",
+				"project",
+			)
+			.action(releasesConfigure),
+		"/releases-configure",
+	);
 }
