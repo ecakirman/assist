@@ -1,3 +1,16 @@
+# [0.909.0](https://github.com/staff0rd/assist/compare/v0.908.4...v0.909.0) (2026-10-27)
+
+
+### Bug Fixes
+
+* news and backups docs feedback ([be8ad2c](https://github.com/staff0rd/assist/commit/be8ad2c90be4eb07ac803dacf69314f194cdd5a7))
+
+
+### Features
+
+* manage news.feeds as a config key ([ee11195](https://github.com/staff0rd/assist/commit/ee1119553027355515c38ff50f5c7d1786f534dc))
+* warn when last backup is stale ([070e60c](https://github.com/staff0rd/assist/commit/070e60c9cb167e836dba38b823e1a412bbca7222))
+
 ## [0.908.4](https://github.com/staff0rd/assist/compare/v0.908.3...v0.908.4) (2026-10-27)
 
 
