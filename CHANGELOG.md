@@ -1,3 +1,17 @@
+# [0.910.0](https://github.com/staff0rd/assist/compare/v0.909.0...v0.910.0) (2026-10-27)
+
+
+### Bug Fixes
+
+* confirm before clearing a config key ([e33dcae](https://github.com/staff0rd/assist/commit/e33dcaea57201f42972c0fe936bf00896ef9707c))
+* link backup.staleAfter from backups ([16d8304](https://github.com/staff0rd/assist/commit/16d8304fb12b5e33799fcd69fe957e12b1a85a71))
+
+
+### Features
+
+* configurable backup.staleAfter ([75f9be7](https://github.com/staff0rd/assist/commit/75f9be7e487fcab75f884eee37981d603c641c39))
+* edit news.feeds on the web config page ([07465c5](https://github.com/staff0rd/assist/commit/07465c58219cf7c57f4d39a0900d69147f9d9d11))
+
 # [0.909.0](https://github.com/staff0rd/assist/compare/v0.908.4...v0.909.0) (2026-10-27)
 
 
