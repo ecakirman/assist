@@ -1,3 +1,13 @@
+## [0.907.2](https://github.com/staff0rd/assist/compare/v0.907.1...v0.907.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* clarify the review phase note ([f626aa3](https://github.com/staff0rd/assist/commit/f626aa379727ec48920520aa21a0b0e9e7bb97af))
+* describe how /bug writes repro steps ([d6b4a6e](https://github.com/staff0rd/assist/commit/d6b4a6e7d8024538c42ffa2425b38d4dc34ff5f4))
+* mark agent-run backlog commands ([39aa960](https://github.com/staff0rd/assist/commit/39aa960c4e69be9e426e884b2c2ef0d2b7bf311f))
+* shorten the review phase note ([458ece4](https://github.com/staff0rd/assist/commit/458ece4c9d375f0afb3608314011648349816211))
+
 ## [0.907.1](https://github.com/staff0rd/assist/compare/v0.907.0...v0.907.1) (2026-10-27)
 
 
