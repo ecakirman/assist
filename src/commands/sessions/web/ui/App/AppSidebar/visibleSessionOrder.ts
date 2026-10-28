@@ -1,4 +1,5 @@
 import { flattenSessionGroups } from "./flattenSessionGroups";
+import { groupSessions } from "./groupSessions";
 import { groupSessionsByRepo, type IsParkedGroup } from "./groupSessionsByRepo";
 import type { SessionInfo } from "../../types";
 
@@ -8,7 +9,7 @@ export function visibleSessionOrder(
 	sessions: SessionInfo[],
 	isStarred: (session: SessionInfo) => boolean,
 	isFloatingWaiter?: (session: SessionInfo) => boolean,
-	isGroupCollapsed: (key: string) => boolean = never,
+	isGroupCollapsed: (key: string, members: SessionInfo[]) => boolean = never,
 	isParkedGroup?: IsParkedGroup,
 ): SessionInfo[] {
 	return flattenSessionGroups(
@@ -20,7 +21,8 @@ export function visibleSessionOrder(
 		).filter(
 			(group) =>
 				group.kind === "single" ||
-				(!group.parked && !isGroupCollapsed(group.key)),
+				(!group.parked &&
+					!isGroupCollapsed(group.key, groupSessions(group.rows))),
 		),
 	);
 }

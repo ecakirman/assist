@@ -111,7 +111,7 @@ describe("useJumpToNextWaiting", () => {
 		const repoGroup = { origin: "host/org/assist", clone: "/git/assist" };
 		localStorage.setItem(
 			"assist:group-collapse",
-			JSON.stringify({ [repoGroup.origin]: true }),
+			JSON.stringify({ [repoGroup.origin]: { collapsedAt: 0 } }),
 		);
 		const { onSelect } = renderJump("active", [
 			makeSessionInfo({

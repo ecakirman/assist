@@ -1,8 +1,8 @@
 const STORAGE_KEY = "assist:group-collapse";
 
-type GroupCollapseChoice = true | number;
+type GroupCollapseChoice = { collapsedAt: number } | { openedAt: number };
 
-type GroupCollapseChoices = Record<string, GroupCollapseChoice | false>;
+type GroupCollapseChoices = Record<string, GroupCollapseChoice>;
 
 const listeners = new Set<() => void>();
 
@@ -18,9 +18,12 @@ function parseChoices(raw: string): GroupCollapseChoices {
 	if (!raw) return {};
 	try {
 		const parsed: unknown = JSON.parse(raw);
-		return parsed && typeof parsed === "object"
-			? (parsed as GroupCollapseChoices)
-			: {};
+		if (!parsed || typeof parsed !== "object") return {};
+		return Object.fromEntries(
+			Object.entries(parsed).filter(
+				([, choice]) => choice && typeof choice === "object",
+			),
+		);
 	} catch {
 		return {};
 	}

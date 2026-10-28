@@ -60,7 +60,7 @@ describe("useSidebarOrdering isParkedGroup", () => {
 	it("restarts the park timer when the user opens the group", () => {
 		const isParked = renderParked();
 
-		act(() => groupCollapseStore.setChoice("/repo", Date.now()));
+		act(() => groupCollapseStore.setChoice("/repo", { openedAt: Date.now() }));
 
 		expect(isParked()).toBe(false);
 	});
@@ -68,7 +68,9 @@ describe("useSidebarOrdering isParkedGroup", () => {
 	it("parks an opened group again once the threshold passes since opening", () => {
 		const isParked = renderParked();
 
-		act(() => groupCollapseStore.setChoice("/repo", Date.now() - 90_000));
+		act(() =>
+			groupCollapseStore.setChoice("/repo", { openedAt: Date.now() - 90_000 }),
+		);
 
 		expect(isParked()).toBe(true);
 	});
@@ -76,7 +78,9 @@ describe("useSidebarOrdering isParkedGroup", () => {
 	it("keeps a group the user collapsed in place rather than parking it", () => {
 		const isParked = renderParked();
 
-		act(() => groupCollapseStore.setChoice("/repo", true));
+		act(() =>
+			groupCollapseStore.setChoice("/repo", { collapsedAt: Date.now() }),
+		);
 
 		expect(isParked()).toBe(false);
 	});

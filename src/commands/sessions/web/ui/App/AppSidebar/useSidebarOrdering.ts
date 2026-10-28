@@ -42,7 +42,7 @@ export function useSidebarOrdering(
 		),
 		isParkedGroup: useCallback(
 			(key: string, members: SessionInfo[]) =>
-				!isCollapsed(key) &&
+				!isCollapsed(key, members) &&
 				isStalledGroup(members, {
 					now,
 					thresholdMs: parkWaitingAfterMs,

@@ -67,7 +67,7 @@ assist config set sessions.floatWaitingAfterMs 15000
 assist config set sessions.floatWaiting false
 ```
 
-A repo group where every session has waited on you for 5 minutes collapses and parks below a **Parked** divider at the bottom of the list, unless it holds a starred session or the one you're viewing. Click a parked group to open it and bring it back up; it parks again if it sits untouched for another 5 minutes. A group you collapse yourself stays where it is, marked with a pin, until you open it. To change the delay:
+A repo group where every session has waited on you for 5 minutes collapses and parks below a **Parked** divider at the bottom of the list, unless it holds a starred session or the one you're viewing. Click a parked group to open it and bring it back up; it parks again if it sits untouched for another 5 minutes. A group you collapse yourself stays where it is, marked with a pin, until you open it or a new session starts in it. To change the delay:
 
 ```bash
 assist config set sessions.parkWaitingAfterMs 600000

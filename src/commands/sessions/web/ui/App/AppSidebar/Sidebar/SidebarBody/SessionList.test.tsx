@@ -175,6 +175,33 @@ describe("SessionList repo group collapse", () => {
 		expect(card("g1")).toBeNull();
 	});
 
+	it("opens a collapsed group when a new session joins it", () => {
+		const members = [
+			makeSessionInfo({ id: "g1", cwd: "/git/assist-2", repoGroup: group }),
+			makeSessionInfo({ id: "g2", cwd: "/git/assist-3", repoGroup: group }),
+		];
+		const { rerender } = render(<List sessions={members} onSelect={vi.fn()} />);
+		fireEvent.click(groupToggle());
+
+		rerender(
+			<List
+				sessions={[
+					...members,
+					makeSessionInfo({
+						id: "g3",
+						cwd: "/git/assist-4",
+						repoGroup: group,
+						startedAt: Date.now() + 1000,
+					}),
+				]}
+				onSelect={vi.fn()}
+			/>,
+		);
+
+		expect(groupToggle().getAttribute("aria-expanded")).toBe("true");
+		expect(card("g3")).not.toBeNull();
+	});
+
 	it("skips sessions in a collapsed group when Tab cycling", () => {
 		const onSelect = renderGroupedList();
 		fireEvent.click(groupToggle());
@@ -236,7 +263,7 @@ describe("SessionList parked groups", () => {
 		fireEvent.click(groupToggle());
 
 		expect(JSON.parse(localStorage.getItem("assist:group-collapse")!)).toEqual({
-			[group.origin]: 42_000,
+			[group.origin]: { openedAt: 42_000 },
 		});
 		vi.restoreAllMocks();
 	});

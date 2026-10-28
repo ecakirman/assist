@@ -25,7 +25,7 @@ export function SessionGroupSection({
 	children: ReactNode;
 }) {
 	const { isCollapsed, setCollapsed } = useCollapsedGroups();
-	const pinned = isCollapsed(groupKey);
+	const pinned = isCollapsed(groupKey, sessions);
 	const collapsed = pinned || parked;
 	return (
 		<Box sx={containerSx}>

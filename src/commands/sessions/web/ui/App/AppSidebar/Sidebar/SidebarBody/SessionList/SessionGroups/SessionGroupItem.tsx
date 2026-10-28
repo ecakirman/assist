@@ -1,5 +1,5 @@
 import type { groupSessionsByRepo } from "../../../../groupSessionsByRepo";
-import { groupSessions } from "./SessionGroupItem/groupSessions";
+import { groupSessions } from "../../../../groupSessions";
 import { NestedSessionRows } from "./SessionGroupItem/NestedSessionRows";
 import { SessionGroupSection } from "./SessionGroupItem/SessionGroupSection";
 import { SessionListCard } from "./SessionGroupItem/SessionListCard";
