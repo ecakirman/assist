@@ -165,6 +165,19 @@ describe("ReviewButton", () => {
 		);
 	});
 
+	it("launches Address Comments (auto) against the PR shown on the card", () => {
+		const launchAssist = vi.fn();
+		renderButton(launchAssist);
+
+		fireEvent.click(screen.getByText("Address Comments (auto)"));
+
+		expect(launchAssist).toHaveBeenCalledWith(
+			["review-pr-comments", "42", "--auto"],
+			"/git/repo",
+			expect.objectContaining({ inPlace: true }),
+		);
+	});
+
 	it("tags a review with the card it was launched from", () => {
 		const launchAssist = vi.fn();
 		renderButton(launchAssist, makeSessionInfo({ id: "7" }));

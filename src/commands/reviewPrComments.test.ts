@@ -94,6 +94,26 @@ describe("reviewPrComments", () => {
 		});
 	});
 
+	describe("with --auto", () => {
+		it("should ask the pass to run in auto mode", async () => {
+			await reviewPrComments("123", { auto: true });
+
+			expect(mockSpawnClaude).toHaveBeenCalledWith(
+				"/review-pr-comments --auto",
+				expect.anything(),
+			);
+		});
+
+		it("should compose with --announce", async () => {
+			await reviewPrComments("123", { auto: true, announce: true });
+
+			expect(mockSpawnClaude).toHaveBeenCalledWith(
+				"/review-pr-comments --auto --announce 123",
+				expect.anything(),
+			);
+		});
+	});
+
 	describe("without --announce", () => {
 		it("should run the plain pass", async () => {
 			await reviewPrComments("123");

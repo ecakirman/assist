@@ -6,12 +6,21 @@ import { checkoutPr } from "./review/checkoutPr";
 
 type ReviewPrCommentsOptions = {
 	announce?: boolean;
+	auto?: boolean;
 	resumeSessionId?: string;
 };
 
-function buildPrompt(number: string | undefined, announce: boolean): string {
-	if (!announce) return "/review-pr-comments";
-	return `/review-pr-comments --announce ${number}`;
+function buildPrompt(
+	number: string | undefined,
+	announce: boolean,
+	auto: boolean,
+): string {
+	const args = [
+		"/review-pr-comments",
+		...(auto ? ["--auto"] : []),
+		...(announce ? [`--announce ${number}`] : []),
+	];
+	return args.join(" ");
 }
 
 function validateAnnounce(number: string | undefined, announce: boolean): void {
@@ -38,7 +47,9 @@ export async function reviewPrComments(
 		claudeSessionId,
 	});
 	const { done } = spawnClaude(
-		resumeSessionId ? resumeNudge() : buildPrompt(number, announce),
+		resumeSessionId
+			? resumeNudge()
+			: buildPrompt(number, announce, options.auto === true),
 		{
 			permissionMode: "auto",
 			sessionId: claudeSessionId,

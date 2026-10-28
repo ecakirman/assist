@@ -2,8 +2,8 @@ import type { Command } from "commander";
 import { launchMode } from "./backlog/launchMode";
 import { next as backlogNext } from "./backlog/next";
 import { registerRefineLaunch } from "./backlog/registerRefineLaunch";
-import { reviewPrComments } from "./reviewPrComments";
 import { registerFixConflict } from "./registerFixConflict";
+import { registerReviewPrComments } from "./registerReviewPrComments";
 
 type LaunchOpts = { once?: boolean; resumeSession?: string };
 
@@ -47,24 +47,6 @@ function registerDescriptionLaunch(
 	if (alias) command.alias(alias);
 }
 
-function registerReviewPrComments(program: Command): void {
-	program
-		.command("review-pr-comments")
-		.argument("[number]", "PR number to check out first")
-		.description("Launch Claude in /review-pr-comments mode (single session)")
-		.option(
-			"--announce",
-			"After every comment thread is processed, announce the PR in Slack via /prs-slack <number> --no-confirm (requires a PR number)",
-		)
-		.option("--resume-session <id>", RESUME_SESSION_FLAG)
-		.action((number, opts: { announce?: boolean; resumeSession?: string }) =>
-			reviewPrComments(number, {
-				announce: opts.announce,
-				resumeSessionId: opts.resumeSession,
-			}),
-		);
-}
-
 export function registerLaunch(program: Command): void {
 	registerNext(program);
 	registerDescriptionLaunch(
@@ -80,7 +62,7 @@ export function registerLaunch(program: Command): void {
 		"bug",
 		"Launch Claude in /bug mode, chain into next on /next signal",
 	);
-	registerReviewPrComments(program);
+	registerReviewPrComments(program, RESUME_SESSION_FLAG);
 	registerFixConflict(program, RESUME_SESSION_FLAG);
 	registerRefineLaunch(program, RESUME_SESSION_FLAG);
 }

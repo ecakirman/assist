@@ -50,6 +50,17 @@ Create a task for each unresolved **thread** (not each comment). For each thread
 
 5. **Repeat** until all comments have been processed
 
+## Auto mode
+
+If `$ARGUMENTS` contains `--auto`, process the threads without asking the user, overriding steps 3 and 4 above:
+
+1. For each thread, display it and analyse it as in steps 1 and 2, then act on your own recommendation instead of asking:
+   - **Address**: implement the fix and run `/commit` — one commit per thread — noting the SHA. Do not push yet and do not run `assist prs fixed` yet.
+   - **Do not address**: run `assist prs wontfix <comment-id> "<reason>"` as in step 4.
+2. If you cannot confidently decide on a thread — the comment is unclear, the fix is risky or large, or reasonable people would disagree — put that one thread to the user with AskUserQuestion exactly as in step 3, act on their choice as above, then continue automatically with the next thread.
+3. Once every thread has been processed, run `git push` once, then run `assist prs fixed <comment-id> <sha>` for each addressed thread with the SHA of the commit that addressed it.
+4. Finish with a closing summary listing each thread and its outcome, calling out any thread that was skipped so the user can revisit it.
+
 ## Bodies containing markdown
 
 Reply bodies routinely contain backticks around identifiers, and a double-quoted argument lets your shell expand backticks, `$(...)` and `$VAR` before assist ever sees the body — it posts mangled and resolves the thread with no error. Whenever the body contains any of those, pass `-` as the body and pipe it in on stdin, with the heredoc at the left margin so `EOF` terminates it:

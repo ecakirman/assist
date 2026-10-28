@@ -120,6 +120,16 @@ describe("ReviewTypeDialog", () => {
 		expect(onSelect).toHaveBeenCalledWith(["review-pr-comments"]);
 	});
 
+	it("selects Address Comments (auto) with no review option flags", () => {
+		const onSelect = vi.fn();
+		render(<ReviewTypeDialog pr={pr} onSelect={onSelect} onCancel={vi.fn()} />);
+
+		fireEvent.click(checkbox("Force re-run"));
+		fireEvent.click(screen.getByText("Address Comments (auto)"));
+
+		expect(onSelect).toHaveBeenCalledWith(["review-pr-comments", "--auto"]);
+	});
+
 	it("selects Fix conflicts (merge) with no option flags", () => {
 		const onSelect = vi.fn();
 		render(<ReviewTypeDialog pr={pr} onSelect={onSelect} onCancel={vi.fn()} />);
@@ -142,7 +152,7 @@ describe("ReviewTypeDialog", () => {
 		expect(onSelect).toHaveBeenCalledWith(["fix-conflict", "--rebase"]);
 	});
 
-	it("lists both fix-conflict items after Address Comments, below Checkout, then Open in GitHub", () => {
+	it("lists both fix-conflict items after the Address Comments items, below Checkout, then Open in GitHub", () => {
 		render(<ReviewTypeDialog pr={pr} onSelect={vi.fn()} onCancel={vi.fn()} />);
 
 		const items = screen
@@ -152,8 +162,9 @@ describe("ReviewTypeDialog", () => {
 		expect(items.at(-1)).toBe("Open in GitHub");
 		expect(items.at(-2)).toBe("Fix conflicts (rebase)");
 		expect(items.at(-3)).toBe("Fix conflicts (merge)");
-		expect(items.at(-4)).toBe("Address Comments");
-		expect(items.at(-5)).toBe("Checkout");
+		expect(items.at(-4)).toBe("Address Comments (auto)");
+		expect(items.at(-5)).toBe("Address Comments");
+		expect(items.at(-6)).toBe("Checkout");
 	});
 
 	it("opens the PR in GitHub and closes without starting a session", () => {

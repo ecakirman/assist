@@ -17,7 +17,7 @@ export function useReviewLaunch(
 	setOptions: (options: ReviewOptions) => void;
 	resetOptions: () => void;
 	launchMode: (modeArgs: string[]) => void;
-	launchAddressComments: () => void;
+	launchAddressComments: (modeArgs: string[]) => void;
 } {
 	const { launchAssist } = useSessionLaunchContext();
 	const [options, setOptions] = useState(reviewOptionDefaults);
@@ -30,7 +30,7 @@ export function useReviewLaunch(
 		resetOptions: () => setOptions(reviewOptionDefaults),
 		launchMode: (modeArgs) =>
 			launch([...modeArgs, String(pr.number), ...reviewOptionArgs(options)]),
-		launchAddressComments: () =>
-			launch(["review-pr-comments", String(pr.number)]),
+		launchAddressComments: (modeArgs) =>
+			launch(["review-pr-comments", String(pr.number), ...modeArgs]),
 	};
 }

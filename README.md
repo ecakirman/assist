@@ -408,7 +408,7 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 - `assist draft [description] [--once]` (alias: `feat`) - Launch Claude in `/draft` mode, chain into next on `/next` signal
 - `assist bug [description] [--once]` - Launch Claude in `/bug` mode, chain into next on `/next` signal
 - `assist refine [id] [--once] [--harness <claude|codex|pi>]` - Launch a coding harness in `/refine` mode (default `harness.engine`)
-- `assist review-pr-comments [number] [--announce] [--resume-session <id>]` - Launch Claude in `/review-pr-comments` mode, on PR `[number]` when given; `--announce` announces the PR in Slack once every thread is processed
+- `assist review-pr-comments [number] [--auto] [--announce] [--resume-session <id>]` - Launch Claude in `/review-pr-comments` mode, on PR `[number]` when given; `--auto` accepts Claude's own recommendation for each thread (asking only about threads it cannot confidently decide), commits each fix separately, pushes once and resolves every thread; `--announce` announces the PR in Slack once every thread is processed
 - `assist fix-conflict [number] [--rebase] [--resume-session <id>]` - Launch Claude in `/fix-conflict` mode, on PR `[number]` when given; `--rebase` rebases instead of merging
 - `assist signal next [id]` - Signal the session to chain into `assist next`
 - `assist signal done [id]` - Signal the session's initial task complete, surfacing backlog item `[id]` on its card

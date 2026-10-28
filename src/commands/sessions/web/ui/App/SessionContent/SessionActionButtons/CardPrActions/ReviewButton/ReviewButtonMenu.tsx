@@ -3,6 +3,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { reviewButtonModes } from "../../../../../../../../../shared/reviewButtonModes";
 import { ReviewOptionToggles } from "../../../../ReviewOptionToggles";
+import { AddressCommentsItems } from "./ReviewButtonMenu/AddressCommentsItems";
 import type { HighLevelReviewAction } from "./useHighLevelReviewAction";
 import type { useReviewLaunch } from "./useReviewLaunch";
 
@@ -50,9 +51,7 @@ export function ReviewButtonMenu({
 				onChange={review.setOptions}
 			/>
 			<Divider />
-			<MenuItem onClick={(e) => pick(e, review.launchAddressComments)}>
-				Address Comments
-			</MenuItem>
+			<AddressCommentsItems review={review} pick={pick} />
 		</Menu>
 	);
 }
