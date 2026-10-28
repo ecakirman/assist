@@ -1,3 +1,10 @@
+# [0.915.0](https://github.com/staff0rd/assist/compare/v0.914.0...v0.915.0) (2026-10-28)
+
+
+### Features
+
+* Draft button in extension popover ([89911ee](https://github.com/staff0rd/assist/commit/89911eea0efdec10057ec78c15a60f44ad459688))
+
 # [0.914.0](https://github.com/staff0rd/assist/compare/v0.913.0...v0.914.0) (2026-10-28)
 
 
