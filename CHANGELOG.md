@@ -1,3 +1,10 @@
+# [0.925.0](https://github.com/staff0rd/assist/compare/v0.924.0...v0.925.0) (2026-10-28)
+
+
+### Features
+
+* document repo tooling area ([b1f647d](https://github.com/staff0rd/assist/commit/b1f647deed5deaf754a764211ad9803fe4eafd5f))
+
 # [0.924.0](https://github.com/staff0rd/assist/compare/v0.923.0...v0.924.0) (2026-10-28)
 
 
