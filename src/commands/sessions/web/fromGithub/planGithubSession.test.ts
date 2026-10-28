@@ -36,20 +36,20 @@ describe("planGithubSession", () => {
 		).toMatchObject({ prompt: `${URL}\n\nfix it` });
 	});
 
-	it("carries the draft mode with the same prompt", () => {
-		mockResolve.mockReturnValue({ cwd: "/base/repo" });
-		expect(
-			planGithubSession(
-				{ url: URL, instructions: "fix it", mode: "draft" },
-				"/base",
-			),
-		).toEqual({
-			ok: true,
-			cwd: "/base/repo",
-			prompt: `${URL}\n\nfix it`,
-			mode: "draft",
-		});
-	});
+	it.each(["draft", "bug"])(
+		"carries the %s mode with the same prompt",
+		(mode) => {
+			mockResolve.mockReturnValue({ cwd: "/base/repo" });
+			expect(
+				planGithubSession({ url: URL, instructions: "fix it", mode }, "/base"),
+			).toEqual({
+				ok: true,
+				cwd: "/base/repo",
+				prompt: `${URL}\n\nfix it`,
+				mode,
+			});
+		},
+	);
 
 	it("reports 400 for an unknown mode", () => {
 		expect(planGithubSession({ url: URL, mode: "deploy" }, "/base")).toEqual({
@@ -60,12 +60,16 @@ describe("planGithubSession", () => {
 		expect(mockResolve).not.toHaveBeenCalled();
 	});
 
-	it("reports 404 for a draft when the repo is not cloned", () => {
-		mockResolve.mockReturnValue({ cloneTarget: "/base/repo" });
-		expect(
-			planGithubSession({ url: URL, mode: "draft" }, "/base"),
-		).toMatchObject({ ok: false, status: 404 });
-	});
+	it.each(["draft", "bug"])(
+		"reports 404 for a %s when the repo is not cloned",
+		(mode) => {
+			mockResolve.mockReturnValue({ cloneTarget: "/base/repo" });
+			expect(planGithubSession({ url: URL, mode }, "/base")).toMatchObject({
+				ok: false,
+				status: 404,
+			});
+		},
+	);
 
 	it("reports 404 when the repo is not cloned", () => {
 		mockResolve.mockReturnValue({ cloneTarget: "/base/repo" });
@@ -89,6 +93,18 @@ describe("planGithubSession", () => {
 					redirects,
 				),
 			).toEqual({ ok: true, cwd: "/base/target", prompt: `${ISSUE}\n\ngo` });
+			expect(mockResolve).toHaveBeenCalledWith(
+				"github.com/other/target",
+				undefined,
+				"/base",
+			);
+		});
+
+		it("opens a mapped repo's bug in the target clone", () => {
+			mockResolve.mockReturnValue({ cwd: "/base/target" });
+			expect(
+				planGithubSession({ url: ISSUE, mode: "bug" }, "/base", redirects),
+			).toEqual({ ok: true, cwd: "/base/target", prompt: ISSUE, mode: "bug" });
 			expect(mockResolve).toHaveBeenCalledWith(
 				"github.com/other/target",
 				undefined,

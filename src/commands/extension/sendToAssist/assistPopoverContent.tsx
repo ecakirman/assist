@@ -12,6 +12,7 @@ export type AssistSendRequest = {
 const sendModes: { label: string; mode?: GithubAssistMode }[] = [
 	{ label: "Prompt" },
 	{ label: "Draft", mode: "draft" },
+	{ label: "Bug", mode: "bug" },
 ];
 
 export function assistPopoverContent(

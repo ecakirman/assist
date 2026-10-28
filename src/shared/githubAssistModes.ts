@@ -1,5 +1,6 @@
 export const githubAssistModes = {
 	draft: ["draft", "--once"],
+	bug: ["bug", "--once"],
 } satisfies Record<string, string[]>;
 
 export type GithubAssistMode = keyof typeof githubAssistModes;

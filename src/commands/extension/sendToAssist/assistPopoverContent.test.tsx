@@ -33,17 +33,17 @@ describe("assistPopoverContent", () => {
 		expect(send).toHaveBeenCalledWith({ instructions: undefined });
 	});
 
-	it("sends with the draft mode from the Draft button", () => {
+	it.each([
+		["Draft", "draft"],
+		["Bug", "bug"],
+	])("sends from the %s button with the %s mode", (name, mode) => {
 		const send = vi.fn();
 		const dismiss = vi.fn();
 		render(assistPopoverContent("instructions", { send, dismiss }));
 		fireEvent.change(field(), { target: { value: "Rebase first" } });
-		fireEvent.click(screen.getByRole("button", { name: "Draft" }));
+		fireEvent.click(screen.getByRole("button", { name }));
 		expect(dismiss).toHaveBeenCalledWith(false);
-		expect(send).toHaveBeenCalledWith({
-			instructions: "Rebase first",
-			mode: "draft",
-		});
+		expect(send).toHaveBeenCalledWith({ instructions: "Rebase first", mode });
 	});
 
 	it("stays open when focus moves to a button", () => {
