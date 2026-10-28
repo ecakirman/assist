@@ -8,17 +8,22 @@ export function isStalledGroup(
 		thresholdMs,
 		activeId,
 		isStarred,
+		openedAt,
 	}: {
 		now: number;
 		thresholdMs: number;
 		activeId: string | null;
 		isStarred: (session: SessionInfo) => boolean;
+		openedAt: number;
 	},
 ): boolean {
-	return members.every(
-		(session) =>
-			session.id !== activeId &&
-			!isStarred(session) &&
-			hasWaitedPastThreshold(session, now, thresholdMs),
+	return (
+		now - openedAt >= thresholdMs &&
+		members.every(
+			(session) =>
+				session.id !== activeId &&
+				!isStarred(session) &&
+				hasWaitedPastThreshold(session, now, thresholdMs),
+		)
 	);
 }

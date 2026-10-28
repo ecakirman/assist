@@ -3,7 +3,7 @@ import { groupCollapseStore } from "./useCollapsedGroups/groupCollapseStore";
 
 type CollapsedGroups = {
 	isCollapsed: (key: string) => boolean;
-	isOpened: (key: string) => boolean;
+	openedAt: (key: string) => number;
 	setCollapsed: (key: string, collapsed: boolean) => void;
 };
 
@@ -17,16 +17,20 @@ export function useCollapsedGroups(): CollapsedGroups {
 		(key: string) => choices[key] === true,
 		[choices],
 	);
-	const isOpened = useCallback(
-		(key: string) => choices[key] === false,
+	const openedAt = useCallback(
+		(key: string) => {
+			const choice = choices[key];
+			return typeof choice === "number" ? choice : 0;
+		},
 		[choices],
 	);
 	return useMemo(
 		() => ({
 			isCollapsed,
-			isOpened,
-			setCollapsed: groupCollapseStore.setChoice,
+			openedAt,
+			setCollapsed: (key: string, collapsed: boolean) =>
+				groupCollapseStore.setChoice(key, collapsed || Date.now()),
 		}),
-		[isCollapsed, isOpened],
+		[isCollapsed, openedAt],
 	);
 }

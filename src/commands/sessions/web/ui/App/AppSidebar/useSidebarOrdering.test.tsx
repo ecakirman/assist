@@ -57,12 +57,20 @@ describe("useSidebarOrdering isParkedGroup", () => {
 		expect(renderParked("a")()).toBe(false);
 	});
 
-	it("keeps a group the user opened out of the Parked section", () => {
+	it("restarts the park timer when the user opens the group", () => {
 		const isParked = renderParked();
 
-		act(() => groupCollapseStore.setChoice("/repo", false));
+		act(() => groupCollapseStore.setChoice("/repo", Date.now()));
 
 		expect(isParked()).toBe(false);
+	});
+
+	it("parks an opened group again once the threshold passes since opening", () => {
+		const isParked = renderParked();
+
+		act(() => groupCollapseStore.setChoice("/repo", Date.now() - 90_000));
+
+		expect(isParked()).toBe(true);
 	});
 
 	it("keeps a group the user collapsed in place rather than parking it", () => {

@@ -1,6 +1,8 @@
 const STORAGE_KEY = "assist:group-collapse";
 
-type GroupCollapseChoices = Record<string, boolean>;
+type GroupCollapseChoice = true | number;
+
+type GroupCollapseChoices = Record<string, GroupCollapseChoice | false>;
 
 const listeners = new Set<() => void>();
 
@@ -24,8 +26,8 @@ function parseChoices(raw: string): GroupCollapseChoices {
 	}
 }
 
-function setChoice(key: string, collapsed: boolean): void {
-	const next = { ...parseChoices(readRaw()), [key]: collapsed };
+function setChoice(key: string, choice: GroupCollapseChoice): void {
+	const next = { ...parseChoices(readRaw()), [key]: choice };
 	try {
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
 	} catch {}

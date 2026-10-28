@@ -21,7 +21,7 @@ export function useSidebarOrdering(
 	isParkedGroup: IsParkedGroup;
 } {
 	const { isStarred } = useStarredSessions();
-	const { isCollapsed, isOpened } = useCollapsedGroups();
+	const { isCollapsed, openedAt } = useCollapsedGroups();
 	const { floatWaiting, floatWaitingAfterMs, parkWaitingAfterMs } =
 		useSessionViewConfig();
 	const now = useWaitingClock();
@@ -43,14 +43,14 @@ export function useSidebarOrdering(
 		isParkedGroup: useCallback(
 			(key: string, members: SessionInfo[]) =>
 				!isCollapsed(key) &&
-				!isOpened(key) &&
 				isStalledGroup(members, {
 					now,
 					thresholdMs: parkWaitingAfterMs,
 					activeId,
 					isStarred,
+					openedAt: openedAt(key),
 				}),
-			[isCollapsed, isOpened, now, parkWaitingAfterMs, activeId, isStarred],
+			[isCollapsed, openedAt, now, parkWaitingAfterMs, activeId, isStarred],
 		),
 	};
 }

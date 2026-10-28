@@ -19,13 +19,15 @@ function check(
 	{
 		activeId = null,
 		starred = [],
-	}: { activeId?: string | null; starred?: string[] } = {},
+		openedAt = 0,
+	}: { activeId?: string | null; starred?: string[]; openedAt?: number } = {},
 ) {
 	return isStalledGroup(members, {
 		now: NOW,
 		thresholdMs: THRESHOLD_MS,
 		activeId,
 		isStarred: (s) => starred.includes(s.id),
+		openedAt,
 	});
 }
 
@@ -56,5 +58,14 @@ describe("isStalledGroup", () => {
 
 	it("is not stalled while it holds the active session", () => {
 		expect(check([stalled("a"), stalled("b")], { activeId: "a" })).toBe(false);
+	});
+
+	it("is not stalled until the threshold has passed since the user opened it", () => {
+		expect(check([stalled("a"), stalled("b")], { openedAt: NOW - 1000 })).toBe(
+			false,
+		);
+		expect(
+			check([stalled("a"), stalled("b")], { openedAt: NOW - THRESHOLD_MS }),
+		).toBe(true);
 	});
 });

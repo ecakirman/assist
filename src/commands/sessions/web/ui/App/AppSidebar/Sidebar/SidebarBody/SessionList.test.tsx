@@ -229,14 +229,16 @@ describe("SessionList parked groups", () => {
 		expect(onSelect).toHaveBeenLastCalledWith("last");
 	});
 
-	it("records an explicit open when a parked group is clicked", () => {
+	it("records when a parked group is opened so its park timer restarts", () => {
+		vi.spyOn(Date, "now").mockReturnValue(42_000);
 		renderGroupedList(vi.fn(), parked);
 
 		fireEvent.click(groupToggle());
 
 		expect(JSON.parse(localStorage.getItem("assist:group-collapse")!)).toEqual({
-			[group.origin]: false,
+			[group.origin]: 42_000,
 		});
+		vi.restoreAllMocks();
 	});
 
 	it("shows the pushpin only on a group the user collapsed", () => {
