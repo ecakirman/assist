@@ -1,3 +1,10 @@
+# [0.919.0](https://github.com/staff0rd/assist/compare/v0.918.1...v0.919.0) (2026-10-28)
+
+
+### Features
+
+* comment popover defaults to send ([5f8ace9](https://github.com/staff0rd/assist/commit/5f8ace9ca8d9dc52964e9afdc0a088ec68411682))
+
 ## [0.918.1](https://github.com/staff0rd/assist/compare/v0.918.0...v0.918.1) (2026-10-28)
 
 
