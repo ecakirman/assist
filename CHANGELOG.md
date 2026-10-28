@@ -1,3 +1,10 @@
+## [0.911.2](https://github.com/staff0rd/assist/compare/v0.911.1...v0.911.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* show preview no longer marks waiting ([fd9d912](https://github.com/staff0rd/assist/commit/fd9d9120b39c8d3594bfb941aeeeefae5aa50be5))
+
 ## [0.911.1](https://github.com/staff0rd/assist/compare/v0.911.0...v0.911.1) (2026-10-27)
 
 
