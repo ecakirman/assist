@@ -15,8 +15,13 @@ const sendModes: { label: string; mode?: GithubAssistMode }[] = [
 	{ label: "Bug", mode: "bug" },
 ];
 
+export type AssistPopoverKind =
+	| "instructions"
+	| "review"
+	| "azure-devops-review";
+
 export function assistPopoverContent(
-	kind: "instructions" | "review",
+	kind: AssistPopoverKind,
 	{
 		send,
 		dismiss,
@@ -25,9 +30,10 @@ export function assistPopoverContent(
 		dismiss: (restoreFocus: boolean) => void;
 	},
 ): ReactNode {
-	if (kind === "review")
+	if (kind !== "instructions")
 		return (
 			<AssistReviewMenu
+				actionsOnly={kind === "azure-devops-review"}
 				onPick={(args) => {
 					dismiss(false);
 					send({ args });

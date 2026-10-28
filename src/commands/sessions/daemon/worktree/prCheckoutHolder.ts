@@ -1,17 +1,19 @@
 import { execFile } from "node:child_process";
 import { existsSync } from "node:fs";
+import { prCliCommands } from "../../../review/prCliCommands";
 import { daemonLog } from "../daemonLog";
 import { gitOrNull } from "./git";
 import { prCheckoutNumber } from "./prCheckoutNumber";
 import { worktreeWithBranch } from "./worktreeWithBranch";
 
 function prHeadBranch(number: string, cwd: string): Promise<string | null> {
+	const { headBranch } = prCliCommands(number, cwd);
 	return new Promise((resolve) => {
 		execFile(
-			"gh",
-			["pr", "view", number, "--json", "headRefName", "-q", ".headRefName"],
+			headBranch.file,
+			headBranch.args,
 			{ cwd, encoding: "utf8", windowsHide: true },
-			(error, stdout) => resolve(error ? null : stdout.trim() || null),
+			(error, stdout) => resolve(error ? null : headBranch.parse(stdout)),
 		);
 	});
 }

@@ -1,5 +1,7 @@
+import { parseAzureDevopsPrUrl } from "../../../shared/azureDevops/parseAzureDevopsPrUrl";
 import { githubPullNumber } from "../../../shared/githubPullNumber";
 import {
+	type AssistPopoverKind,
 	type AssistSendRequest,
 	assistPopoverContent,
 } from "./assistPopoverContent";
@@ -10,6 +12,15 @@ import { toggleAssistPopover } from "./toggleAssistPopover";
 import { assistIcon } from "./assistIcon";
 
 const LABEL = "assist";
+
+function popoverKind(
+	placement: "comment" | "header",
+	url: string,
+): AssistPopoverKind {
+	if (placement !== "header") return "instructions";
+	if (parseAzureDevopsPrUrl(url)) return "azure-devops-review";
+	return githubPullNumber(url) ? "review" : "instructions";
+}
 
 export function assistSendButton(
 	url: () => string,
@@ -42,12 +53,8 @@ export function assistSendButton(
 	button.addEventListener("click", (event) => {
 		event.preventDefault();
 		event.stopPropagation();
-		const reviewMenu = placement === "header" && githubPullNumber(url());
 		toggleAssistPopover(button, (dismiss) =>
-			assistPopoverContent(reviewMenu ? "review" : "instructions", {
-				send,
-				dismiss,
-			}),
+			assistPopoverContent(popoverKind(placement, url()), { send, dismiss }),
 		);
 	});
 	return button;

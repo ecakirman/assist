@@ -2,6 +2,8 @@ import { execFileSync } from "node:child_process";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type * as childProcessMockModule from "../../test/mocks/childProcessMock";
 import { gitSyncOrNull } from "../sessions/daemon/worktree/git";
+import { azCliProblem } from "./azCliProblem";
+import { azureDevopsRemote } from "./azureDevopsRemote";
 import { checkoutPr } from "./checkoutPr";
 import { clearStalePrBranch } from "./clearStalePrBranch";
 import { moveToPrCheckoutTree } from "./moveToPrCheckoutTree";
@@ -25,6 +27,8 @@ vi.mock("../sessions/daemon/worktree/git", () => ({
 	gitSyncOrNull: vi.fn(),
 }));
 vi.mock("./clearStalePrBranch", () => ({ clearStalePrBranch: vi.fn() }));
+vi.mock("./azureDevopsRemote", () => ({ azureDevopsRemote: vi.fn() }));
+vi.mock("./azCliProblem", () => ({ azCliProblem: vi.fn() }));
 vi.mock("./moveToPrCheckoutTree", () => ({
 	moveToPrCheckoutTree: vi.fn(),
 }));
@@ -39,6 +43,7 @@ const headBranchMock = vi.mocked(prHeadBranch);
 const staleMock = vi.mocked(clearStalePrBranch);
 const holderMock = vi.mocked(worktreeHoldingBranch);
 const moveMock = vi.mocked(moveToPrCheckoutTree);
+const remoteMock = vi.mocked(azureDevopsRemote);
 
 let chdir: ReturnType<typeof vi.spyOn>;
 
@@ -50,6 +55,7 @@ beforeEach(() => {
 	holderMock.mockReturnValue(null);
 	gitMock.mockReturnValue("other-branch");
 	staleMock.mockReturnValue("absent");
+	remoteMock.mockReturnValue(null);
 });
 
 afterEach(() => {
@@ -142,6 +148,34 @@ describe("checkoutPr", () => {
 
 			expect(String(errors.mock.calls[0][0])).toContain(
 				"Local branch feature has commits that are not on the remote",
+			);
+		});
+
+		it("diagnoses the az CLI when an Azure DevOps checkout fails", async () => {
+			remoteMock.mockReturnValue({ org: "acme", project: "p", repo: "r" });
+			vi.mocked(azCliProblem).mockReturnValue("az is not logged in");
+
+			await expect(checkoutPr("42")).rejects.toThrow("exit");
+
+			const printed = errors.mock.calls.map(([line]: unknown[]) =>
+				String(line),
+			);
+			expect(printed[0]).toContain("az is not logged in");
+			expect(printed[1]).toContain("az repos pr checkout --id 42 failed");
+		});
+	});
+
+	describe("on an Azure DevOps clone", () => {
+		it("checks the PR out with az repos pr checkout", async () => {
+			remoteMock.mockReturnValue({ org: "acme", project: "p", repo: "r" });
+			mockExecFileSync.mockReset();
+
+			await checkoutPr("42");
+
+			expect(mockExecFileSync).toHaveBeenCalledWith(
+				"az",
+				["repos", "pr", "checkout", "--id", "42"],
+				{ stdio: "inherit" },
 			);
 		});
 	});

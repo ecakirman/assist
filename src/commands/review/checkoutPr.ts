@@ -1,12 +1,13 @@
 import { execFileSync } from "node:child_process";
-import chalk from "chalk";
-import { clearStalePrBranch, type StalePrBranch } from "./clearStalePrBranch";
+import { clearStalePrBranch } from "./clearStalePrBranch";
 import { appendDaemonLog } from "../sessions/daemon/appendDaemonLog";
 import { gitSyncOrNull } from "../sessions/daemon/worktree/git";
 import { moveToPrCheckoutTree } from "./moveToPrCheckoutTree";
+import { prCliCommands } from "./prCliCommands";
 import { prHeadBranch } from "./prHeadBranch";
 import { reportCwdToDaemon } from "./reportCwdToDaemon";
 import { worktreeHoldingBranch } from "./worktreeHoldingBranch";
+import { failCheckout } from "./failCheckout";
 
 function currentBranch(): string | null {
 	return gitSyncOrNull(process.cwd(), ["rev-parse", "--abbrev-ref", "HEAD"]);
@@ -29,26 +30,9 @@ async function moveToExistingCheckout(
 	return true;
 }
 
-function failCheckout(
-	number: string,
-	headRef: string | null,
-	stale: StalePrBranch,
-	from: string | null,
-): never {
-	if (headRef && from && from !== headRef && currentBranch() === headRef)
-		gitSyncOrNull(process.cwd(), ["checkout", "--quiet", from]);
-	if (headRef && stale === "local-work")
-		console.error(
-			chalk.red(
-				`Local branch ${headRef} has commits that are not on the remote and cannot fast-forward to PR #${number}'s head; push or reset ${headRef}, then retry.`,
-			),
-		);
-	console.error(chalk.red(`gh pr checkout ${number} failed; aborting.`));
-	process.exit(1);
-}
-
 export async function checkoutPr(number: string): Promise<void> {
-	const headRef = prHeadBranch(number);
+	const commands = prCliCommands(number, process.cwd());
+	const headRef = prHeadBranch(commands);
 	if (headRef && (await moveToExistingCheckout(number, headRef))) return;
 	await moveToPrCheckoutTree();
 	const branch = currentBranch();
@@ -58,8 +42,10 @@ export async function checkoutPr(number: string): Promise<void> {
 			: branch;
 	const stale = headRef ? clearStalePrBranch(process.cwd(), headRef) : "absent";
 	try {
-		execFileSync("gh", ["pr", "checkout", number], { stdio: "inherit" });
+		execFileSync(commands.checkout.file, commands.checkout.args, {
+			stdio: "inherit",
+		});
 	} catch {
-		failCheckout(number, headRef, stale, from);
+		failCheckout(number, headRef, stale, from, commands.checkout);
 	}
 }

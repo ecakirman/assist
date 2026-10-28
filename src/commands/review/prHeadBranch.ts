@@ -1,13 +1,16 @@
 import { execFileSync } from "node:child_process";
+import type { PrCliCommands } from "./prCliCommands";
 
-export function prHeadBranch(number: string): string | null {
+export function prHeadBranch({
+	headBranch,
+}: Pick<PrCliCommands, "headBranch">): string | null {
 	try {
-		const out = execFileSync(
-			"gh",
-			["pr", "view", number, "--json", "headRefName", "-q", ".headRefName"],
-			{ encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
-		).trim();
-		return out || null;
+		return headBranch.parse(
+			execFileSync(headBranch.file, headBranch.args, {
+				encoding: "utf8",
+				stdio: ["ignore", "pipe", "pipe"],
+			}),
+		);
 	} catch {
 		return null;
 	}

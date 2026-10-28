@@ -1,17 +1,16 @@
-import { Divider, MenuItem, MenuList, Paper } from "@mui/material";
+import { MenuItem, MenuList, Paper } from "@mui/material";
 import { type FocusEvent, type KeyboardEvent, useState } from "react";
+import { azureDevopsPrActions } from "../../../shared/azureDevops/azureDevopsPrActions";
 import { prActions } from "../../../shared/prActions";
-import { reviewButtonModes } from "../../../shared/reviewButtonModes";
-import {
-	reviewOptionArgs,
-	reviewOptionDefaults,
-} from "../../../shared/reviewOptionFlags";
-import { AssistReviewToggles } from "./AssistReviewToggles";
+import { reviewOptionDefaults } from "../../../shared/reviewOptionFlags";
+import { reviewModeItems } from "./reviewModeItems";
 
 export function AssistReviewMenu({
+	actionsOnly = false,
 	onPick,
 	onClose,
 }: {
+	actionsOnly?: boolean;
 	onPick: (args: string[]) => void;
 	onClose: (restoreFocus: boolean) => void;
 }) {
@@ -38,22 +37,14 @@ export function AssistReviewMenu({
 				onKeyDown={onKeyDown}
 				onBlur={closeWhenFocusLeaves}
 			>
-				{reviewButtonModes.map(({ label, args }) => (
-					<MenuItem
-						key={label}
-						onClick={() => onPick([...args, ...reviewOptionArgs(options)])}
-					>
-						{label}
-					</MenuItem>
-				))}
-				<Divider />
-				<AssistReviewToggles value={options} onChange={setOptions} />
-				<Divider />
-				{prActions.map(({ label, args }) => (
-					<MenuItem key={label} onClick={() => onPick(args)}>
-						{label}
-					</MenuItem>
-				))}
+				{!actionsOnly && reviewModeItems(options, setOptions, onPick)}
+				{(actionsOnly ? azureDevopsPrActions : prActions).map(
+					({ label, args }) => (
+						<MenuItem key={label} onClick={() => onPick(args)}>
+							{label}
+						</MenuItem>
+					),
+				)}
 			</MenuList>
 		</Paper>
 	);
