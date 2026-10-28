@@ -1,5 +1,8 @@
 import { githubPullNumber } from "../../../shared/githubPullNumber";
-import { assistPopoverContent } from "./assistPopoverContent";
+import {
+	type AssistSendRequest,
+	assistPopoverContent,
+} from "./assistPopoverContent";
 import { ensureAssistButtonStyles } from "./ensureAssistButtonStyles";
 import { sendToAssist } from "./sendToAssist";
 import { showAssistToast } from "./showAssistToast";
@@ -26,7 +29,7 @@ export function assistSendButton(
 	if (icon) button.append(icon);
 	button.append(label);
 
-	const send = async (request: { instructions?: string; args?: string[] }) => {
+	const send = async (request: AssistSendRequest) => {
 		button.disabled = true;
 		label.textContent = "sending…";
 		const result = await sendToAssist({ url: url(), ...request });

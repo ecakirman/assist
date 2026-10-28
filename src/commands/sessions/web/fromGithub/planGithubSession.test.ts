@@ -36,6 +36,37 @@ describe("planGithubSession", () => {
 		).toMatchObject({ prompt: `${URL}\n\nfix it` });
 	});
 
+	it("carries the draft mode with the same prompt", () => {
+		mockResolve.mockReturnValue({ cwd: "/base/repo" });
+		expect(
+			planGithubSession(
+				{ url: URL, instructions: "fix it", mode: "draft" },
+				"/base",
+			),
+		).toEqual({
+			ok: true,
+			cwd: "/base/repo",
+			prompt: `${URL}\n\nfix it`,
+			mode: "draft",
+		});
+	});
+
+	it("reports 400 for an unknown mode", () => {
+		expect(planGithubSession({ url: URL, mode: "deploy" }, "/base")).toEqual({
+			ok: false,
+			status: 400,
+			error: "Unknown mode: deploy",
+		});
+		expect(mockResolve).not.toHaveBeenCalled();
+	});
+
+	it("reports 404 for a draft when the repo is not cloned", () => {
+		mockResolve.mockReturnValue({ cloneTarget: "/base/repo" });
+		expect(
+			planGithubSession({ url: URL, mode: "draft" }, "/base"),
+		).toMatchObject({ ok: false, status: 404 });
+	});
+
 	it("reports 404 when the repo is not cloned", () => {
 		mockResolve.mockReturnValue({ cloneTarget: "/base/repo" });
 		expect(planGithubSession({ url: URL }, "/base")).toEqual({

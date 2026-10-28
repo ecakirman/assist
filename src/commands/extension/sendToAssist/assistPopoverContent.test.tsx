@@ -18,6 +18,43 @@ describe("assistPopoverContent", () => {
 		expect(dismiss).toHaveBeenCalledWith(false);
 	});
 
+	it("sends as Prompt on Enter", () => {
+		const send = vi.fn();
+		render(assistPopoverContent("instructions", { send, dismiss: vi.fn() }));
+		fireEvent.change(field(), { target: { value: "Rebase first" } });
+		fireEvent.keyDown(field(), { key: "Enter" });
+		expect(send).toHaveBeenCalledWith({ instructions: "Rebase first" });
+	});
+
+	it("sends as Prompt from the Prompt button", () => {
+		const send = vi.fn();
+		render(assistPopoverContent("instructions", { send, dismiss: vi.fn() }));
+		fireEvent.click(screen.getByRole("button", { name: "Prompt" }));
+		expect(send).toHaveBeenCalledWith({ instructions: undefined });
+	});
+
+	it("sends with the draft mode from the Draft button", () => {
+		const send = vi.fn();
+		const dismiss = vi.fn();
+		render(assistPopoverContent("instructions", { send, dismiss }));
+		fireEvent.change(field(), { target: { value: "Rebase first" } });
+		fireEvent.click(screen.getByRole("button", { name: "Draft" }));
+		expect(dismiss).toHaveBeenCalledWith(false);
+		expect(send).toHaveBeenCalledWith({
+			instructions: "Rebase first",
+			mode: "draft",
+		});
+	});
+
+	it("stays open when focus moves to a button", () => {
+		const dismiss = vi.fn();
+		render(assistPopoverContent("instructions", { send: vi.fn(), dismiss }));
+		fireEvent.blur(field(), {
+			relatedTarget: screen.getByRole("button", { name: "Draft" }),
+		});
+		expect(dismiss).not.toHaveBeenCalled();
+	});
+
 	it("leaves Ctrl+C to the browser", () => {
 		const writeText = vi.fn();
 		Object.assign(navigator, { clipboard: { writeText } });

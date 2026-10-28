@@ -30,6 +30,21 @@ describe("postToAssist", () => {
 		);
 	});
 
+	it("posts the mode to the from-github endpoint", async () => {
+		respond(200, { sessionId: "s1", cwd: "/base/repo" });
+		await postToAssist(SERVER, {
+			...message,
+			instructions: "go",
+			mode: "draft",
+		});
+		expect(fetch).toHaveBeenCalledWith(
+			`${SERVER}/api/sessions/from-github`,
+			expect.objectContaining({
+				body: JSON.stringify({ url: URL, instructions: "go", mode: "draft" }),
+			}),
+		);
+	});
+
 	it("posts args to the review-from-github endpoint", async () => {
 		respond(200, { sessionId: "s1", cwd: "/base/repo" });
 		const PR = "https://github.com/org/repo/pull/1";

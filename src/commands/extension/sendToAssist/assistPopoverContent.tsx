@@ -1,6 +1,18 @@
 import type { ReactNode } from "react";
+import type { GithubAssistMode } from "../../../shared/githubAssistModes";
 import { AssistPopover } from "./AssistPopover";
 import { AssistReviewMenu } from "./AssistReviewMenu";
+
+export type AssistSendRequest = {
+	instructions?: string;
+	args?: string[];
+	mode?: GithubAssistMode;
+};
+
+const sendModes: { label: string; mode?: GithubAssistMode }[] = [
+	{ label: "Prompt" },
+	{ label: "Draft", mode: "draft" },
+];
 
 export function assistPopoverContent(
 	kind: "instructions" | "review",
@@ -8,7 +20,7 @@ export function assistPopoverContent(
 		send,
 		dismiss,
 	}: {
-		send: (request: { instructions?: string; args?: string[] }) => void;
+		send: (request: AssistSendRequest) => void;
 		dismiss: (restoreFocus: boolean) => void;
 	},
 ): ReactNode {
@@ -24,9 +36,14 @@ export function assistPopoverContent(
 		);
 	return (
 		<AssistPopover
-			onSend={(instructions) => {
+			buttons={sendModes.map(({ label }) => label)}
+			onSend={(instructions, button) => {
 				dismiss(false);
-				send({ instructions: instructions || undefined });
+				const { mode } = sendModes[button];
+				send({
+					instructions: instructions || undefined,
+					...(mode && { mode }),
+				});
 			}}
 			onClose={dismiss}
 		/>
