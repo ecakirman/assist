@@ -1,3 +1,10 @@
+# [0.924.0](https://github.com/staff0rd/assist/compare/v0.923.0...v0.924.0) (2026-10-28)
+
+
+### Features
+
+* comments survive superseded previews ([4c20c97](https://github.com/staff0rd/assist/commit/4c20c9733b2ead10050fdf25280ddba01ea240ac))
+
 # [0.923.0](https://github.com/staff0rd/assist/compare/v0.922.0...v0.923.0) (2026-10-28)
 
 
