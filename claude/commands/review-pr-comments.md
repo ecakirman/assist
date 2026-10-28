@@ -50,6 +50,14 @@ Create a task for each unresolved **thread** (not each comment). For each thread
 
 5. **Repeat** until all comments have been processed
 
+## Batch mode
+
+If `$ARGUMENTS` contains `--batch`, collect every decision before changing anything, overriding step 4 above:
+
+1. For each thread, display it, analyse it and ask the user with AskUserQuestion exactly as in steps 1–3, recording their choice and your recommended fix. Do not edit any file, commit, reply or resolve anything until every thread has a decision.
+2. Once every thread has a decision, implement each **Address** thread in turn and run `/commit` after each — one commit per thread — noting its SHA.
+3. Run `git push` once, then run `assist prs fixed <comment-id> <sha>` for each addressed thread with the SHA of the commit that addressed it, and `assist prs wontfix <comment-id> "<reason>"` for each **Do not address** thread as in step 4. Leave skipped threads untouched.
+
 ## Auto mode
 
 If `$ARGUMENTS` contains `--auto`, process the threads without asking the user, overriding steps 3 and 4 above:

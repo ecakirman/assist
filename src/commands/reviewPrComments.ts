@@ -7,17 +7,19 @@ import { checkoutPr } from "./review/checkoutPr";
 type ReviewPrCommentsOptions = {
 	announce?: boolean;
 	auto?: boolean;
+	batch?: boolean;
 	resumeSessionId?: string;
 };
 
 function buildPrompt(
 	number: string | undefined,
 	announce: boolean,
-	auto: boolean,
+	options: ReviewPrCommentsOptions,
 ): string {
 	const args = [
 		"/review-pr-comments",
-		...(auto ? ["--auto"] : []),
+		...(options.batch ? ["--batch"] : []),
+		...(options.auto ? ["--auto"] : []),
 		...(announce ? [`--announce ${number}`] : []),
 	];
 	return args.join(" ");
@@ -29,6 +31,12 @@ function validateAnnounce(number: string | undefined, announce: boolean): void {
 	process.exit(1);
 }
 
+function validateMode(options: ReviewPrCommentsOptions): void {
+	if (!options.batch || !options.auto) return;
+	console.error("Error: --batch and --auto cannot be used together.");
+	process.exit(1);
+}
+
 export async function reviewPrComments(
 	number?: string,
 	options: ReviewPrCommentsOptions = {},
@@ -36,6 +44,7 @@ export async function reviewPrComments(
 	const announce = options.announce === true;
 	const resumeSessionId = options.resumeSessionId;
 	validateAnnounce(number, announce);
+	validateMode(options);
 	if (number && !resumeSessionId) await checkoutPr(number);
 	/* why: assign the conversation id up front and report it via activity so the
 	 * daemon binds the card to this transcript rather than guessing via the cwd
@@ -47,9 +56,7 @@ export async function reviewPrComments(
 		claudeSessionId,
 	});
 	const { done } = spawnClaude(
-		resumeSessionId
-			? resumeNudge()
-			: buildPrompt(number, announce, options.auto === true),
+		resumeSessionId ? resumeNudge() : buildPrompt(number, announce, options),
 		{
 			permissionMode: "auto",
 			sessionId: claudeSessionId,

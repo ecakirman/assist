@@ -120,6 +120,16 @@ describe("ReviewTypeDialog", () => {
 		expect(onSelect).toHaveBeenCalledWith(["review-pr-comments"]);
 	});
 
+	it("selects Address Comments (batch) with no review option flags", () => {
+		const onSelect = vi.fn();
+		render(<ReviewTypeDialog pr={pr} onSelect={onSelect} onCancel={vi.fn()} />);
+
+		fireEvent.click(checkbox("Force re-run"));
+		fireEvent.click(screen.getByText("Address Comments (batch)"));
+
+		expect(onSelect).toHaveBeenCalledWith(["review-pr-comments", "--batch"]);
+	});
+
 	it("selects Address Comments (auto) with no review option flags", () => {
 		const onSelect = vi.fn();
 		render(<ReviewTypeDialog pr={pr} onSelect={onSelect} onCancel={vi.fn()} />);
@@ -163,8 +173,9 @@ describe("ReviewTypeDialog", () => {
 		expect(items.at(-2)).toBe("Fix conflicts (rebase)");
 		expect(items.at(-3)).toBe("Fix conflicts (merge)");
 		expect(items.at(-4)).toBe("Address Comments (auto)");
-		expect(items.at(-5)).toBe("Address Comments");
-		expect(items.at(-6)).toBe("Checkout");
+		expect(items.at(-5)).toBe("Address Comments (batch)");
+		expect(items.at(-6)).toBe("Address Comments");
+		expect(items.at(-7)).toBe("Checkout");
 	});
 
 	it("opens the PR in GitHub and closes without starting a session", () => {
