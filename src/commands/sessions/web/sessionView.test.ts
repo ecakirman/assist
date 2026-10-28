@@ -21,7 +21,11 @@ vi.mock("../../../shared/web", () => ({
 
 import { sessionView } from "./sessionView";
 
-type Body = { floatWaiting: boolean; floatWaitingAfterMs: number };
+type Body = {
+	floatWaiting: boolean;
+	floatWaitingAfterMs: number;
+	parkWaitingAfterMs: number;
+};
 
 function run(): [ServerResponse, number, Body] {
 	const res = {} as ServerResponse;
@@ -41,18 +45,27 @@ describe("sessionView", () => {
 		);
 		const [, status, body] = run();
 		expect(status).toBe(200);
-		expect(body).toEqual({ floatWaiting: false, floatWaitingAfterMs: 5000 });
+		expect(body).toMatchObject({
+			floatWaiting: false,
+			floatWaitingAfterMs: 5000,
+		});
 	});
 
 	it("defaults floating on when the key is absent", () => {
 		const [, , body] = run();
-		expect(body).toEqual({ floatWaiting: true, floatWaitingAfterMs: 5000 });
+		expect(body).toMatchObject({
+			floatWaiting: true,
+			floatWaitingAfterMs: 5000,
+		});
 	});
 
 	it("defaults floating on when there is no sessions config at all", () => {
 		mockLoadConfig.mockReturnValue(makeAssistConfig());
 		const [, , body] = run();
-		expect(body).toEqual({ floatWaiting: true, floatWaitingAfterMs: 5000 });
+		expect(body).toMatchObject({
+			floatWaiting: true,
+			floatWaitingAfterMs: 5000,
+		});
 	});
 
 	it("reports the configured sessions.floatWaitingAfterMs threshold", () => {
@@ -60,7 +73,10 @@ describe("sessionView", () => {
 			makeAssistConfig({ sessions: { floatWaitingAfterMs: 15_000 } }),
 		);
 		const [, , body] = run();
-		expect(body).toEqual({ floatWaiting: true, floatWaitingAfterMs: 15_000 });
+		expect(body).toMatchObject({
+			floatWaiting: true,
+			floatWaitingAfterMs: 15_000,
+		});
 	});
 
 	it("keeps a zero threshold rather than falling back to the default", () => {
@@ -68,6 +84,19 @@ describe("sessionView", () => {
 			makeAssistConfig({ sessions: { floatWaitingAfterMs: 0 } }),
 		);
 		const [, , body] = run();
-		expect(body).toEqual({ floatWaiting: true, floatWaitingAfterMs: 0 });
+		expect(body).toMatchObject({ floatWaiting: true, floatWaitingAfterMs: 0 });
+	});
+
+	it("defaults the park threshold to five minutes", () => {
+		const [, , body] = run();
+		expect(body.parkWaitingAfterMs).toBe(300_000);
+	});
+
+	it("reports the configured sessions.parkWaitingAfterMs threshold", () => {
+		mockLoadConfig.mockReturnValue(
+			makeAssistConfig({ sessions: { parkWaitingAfterMs: 60_000 } }),
+		);
+		const [, , body] = run();
+		expect(body.parkWaitingAfterMs).toBe(60_000);
 	});
 });

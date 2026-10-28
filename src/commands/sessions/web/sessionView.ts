@@ -9,5 +9,7 @@ export function sessionView(_req: IncomingMessage, res: ServerResponse): void {
 		floatWaiting: sessions?.floatWaiting ?? sessionViewDefaults.floatWaiting,
 		floatWaitingAfterMs:
 			sessions?.floatWaitingAfterMs ?? sessionViewDefaults.floatWaitingAfterMs,
+		parkWaitingAfterMs:
+			sessions?.parkWaitingAfterMs ?? sessionViewDefaults.parkWaitingAfterMs,
 	});
 }

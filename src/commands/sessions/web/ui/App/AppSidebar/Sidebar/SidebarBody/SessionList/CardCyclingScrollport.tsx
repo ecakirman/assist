@@ -11,17 +11,20 @@ export function CardCyclingScrollport({
 	sessions,
 	onSelect,
 	isFloatingWaiter,
+	isParkedGroup,
 	children,
 }: {
 	sessions: SessionInfo[];
 	onSelect: (id: string) => void;
 	isFloatingWaiter?: (session: SessionInfo) => boolean;
+	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 	children: ReactNode;
 }) {
 	const cycleCards = useCycleSessionCards({
 		sessions,
 		onSelect,
 		isFloatingWaiter,
+		isParkedGroup,
 	});
 	return (
 		<Box sx={unpaddedScrollportSx} onKeyDown={cycleCards}>

@@ -8,7 +8,15 @@ import { starredThenWaitingFirst } from "./groupSessionsByRepo/starredThenWaitin
 
 type SessionGroup =
 	| { kind: "single"; session: SessionInfo }
-	| { kind: "repo"; key: string; label: string; rows: NestedSessionRow[] };
+	| {
+			kind: "repo";
+			key: string;
+			label: string;
+			rows: NestedSessionRow[];
+			parked: boolean;
+	  };
+
+export type IsParkedGroup = (key: string, members: SessionInfo[]) => boolean;
 
 const never = () => false;
 
@@ -16,6 +24,7 @@ export function groupSessionsByRepo(
 	sessions: SessionInfo[],
 	isStarred: (session: SessionInfo) => boolean,
 	isFloatingWaiter: (session: SessionInfo) => boolean = never,
+	isParkedGroup: IsParkedGroup = never,
 ): SessionGroup[] {
 	const groups = bucketSessionsByRepoKey(sessions).map(
 		({ key, label, members }): SessionGroup =>
@@ -30,13 +39,19 @@ export function groupSessionsByRepo(
 							(row) => rowMembers(row).some(isStarred),
 							(row) => rowMembers(row).some(isFloatingWaiter),
 						),
+						parked: isParkedGroup(key, members),
 					},
 	);
-	return starredThenWaitingFirst(
-		groups,
-		(group) => groupMembers(group).some(isStarred),
-		(group) => groupMembers(group).some(isFloatingWaiter),
-	);
+	const isParked = (group: SessionGroup) =>
+		group.kind === "repo" && group.parked;
+	return [
+		...starredThenWaitingFirst(
+			groups.filter((group) => !isParked(group)),
+			(group) => groupMembers(group).some(isStarred),
+			(group) => groupMembers(group).some(isFloatingWaiter),
+		),
+		...groups.filter(isParked),
+	];
 }
 
 function rowMembers(row: NestedSessionRow): SessionInfo[] {

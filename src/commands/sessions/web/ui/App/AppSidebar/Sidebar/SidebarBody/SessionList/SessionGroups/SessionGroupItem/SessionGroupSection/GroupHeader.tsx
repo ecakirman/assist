@@ -25,12 +25,14 @@ export function GroupHeader({
 	label,
 	sessions,
 	collapsed,
+	pinned,
 	onToggle,
 	onDismiss,
 }: {
 	label: string;
 	sessions: SessionInfo[];
 	collapsed: boolean;
+	pinned: boolean;
 	onToggle: () => void;
 	onDismiss: (id: string) => void;
 }) {
@@ -41,6 +43,7 @@ export function GroupHeader({
 				count={sessions.length}
 				collapsedSummary={<GroupStatusTally sessions={sessions} />}
 				collapsed={collapsed}
+				pinned={pinned}
 				onToggle={onToggle}
 			/>
 			<GroupCloseButton

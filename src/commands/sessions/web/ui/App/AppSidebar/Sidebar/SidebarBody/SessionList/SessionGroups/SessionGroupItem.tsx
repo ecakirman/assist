@@ -34,6 +34,7 @@ export function SessionGroupItem({
 			groupKey={group.key}
 			label={group.label}
 			sessions={groupSessions(group.rows)}
+			parked={group.parked}
 			onDismiss={cardProps.onDismiss}
 		>
 			<NestedSessionRows rows={group.rows} renderCard={renderCard} />

@@ -13,24 +13,28 @@ export function SessionGroupSection({
 	groupKey,
 	label,
 	sessions,
+	parked,
 	onDismiss,
 	children,
 }: {
 	groupKey: string;
 	label: string;
 	sessions: SessionInfo[];
+	parked: boolean;
 	onDismiss: (id: string) => void;
 	children: ReactNode;
 }) {
-	const { isCollapsed, toggleCollapsed } = useCollapsedGroups();
-	const collapsed = isCollapsed(groupKey);
+	const { isCollapsed, setCollapsed } = useCollapsedGroups();
+	const pinned = isCollapsed(groupKey);
+	const collapsed = pinned || parked;
 	return (
 		<Box sx={containerSx}>
 			<GroupHeader
 				label={label}
 				sessions={sessions}
 				collapsed={collapsed}
-				onToggle={() => toggleCollapsed(groupKey)}
+				pinned={pinned}
+				onToggle={() => setCollapsed(groupKey, !collapsed)}
 				onDismiss={onDismiss}
 			/>
 			{!collapsed && (

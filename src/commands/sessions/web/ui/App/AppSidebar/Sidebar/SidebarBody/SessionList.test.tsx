@@ -31,10 +31,12 @@ function List({
 	sessions,
 	onSelect,
 	pendingLaunches = [],
+	isParkedGroup,
 }: {
 	sessions: SessionInfo[];
 	onSelect: (id: string) => void;
 	pendingLaunches?: PendingLaunch[];
+	isParkedGroup?: (key: string) => boolean;
 }) {
 	const [activeId, setActiveId] = useState<string | null>(
 		sessions[0]?.id ?? null,
@@ -56,6 +58,7 @@ function List({
 				onDismiss={() => {}}
 				onSetAutoApprove={() => {}}
 				onSetAutoAdvance={() => {}}
+				isParkedGroup={isParkedGroup}
 			/>
 		</StarredSessionsProvider>
 	);
@@ -105,7 +108,10 @@ function groupToggle() {
 	return document.querySelector<HTMLElement>("[aria-expanded]")!;
 }
 
-function renderGroupedList(onSelect = vi.fn()) {
+function renderGroupedList(
+	onSelect = vi.fn(),
+	isParkedGroup?: (key: string) => boolean,
+) {
 	render(
 		<List
 			sessions={[
@@ -125,6 +131,7 @@ function renderGroupedList(onSelect = vi.fn()) {
 				makeSessionInfo({ id: "last", cwd: "/git/other" }),
 			]}
 			onSelect={onSelect}
+			isParkedGroup={isParkedGroup}
 		/>,
 	);
 	for (const id of ["solo", "g1", "g2", "last"])
@@ -176,6 +183,71 @@ describe("SessionList repo group collapse", () => {
 		pressTab();
 
 		expect(onSelect).toHaveBeenLastCalledWith("last");
+	});
+});
+
+describe("SessionList parked groups", () => {
+	const parked = (key: string) => key === group.origin;
+
+	function renderedOrder() {
+		return [
+			...document.querySelectorAll(
+				"[data-session-id], [data-testid=parked-divider], [aria-expanded]",
+			),
+		].map(
+			(el) =>
+				el.getAttribute("data-session-id") ??
+				el.getAttribute("data-testid") ??
+				"group",
+		);
+	}
+
+	it("renders a parked group collapsed below a Parked divider at the bottom", () => {
+		renderGroupedList(vi.fn(), parked);
+
+		expect(groupToggle().getAttribute("aria-expanded")).toBe("false");
+		expect(renderedOrder()).toEqual([
+			"solo",
+			"last",
+			"parked-divider",
+			"group",
+		]);
+	});
+
+	it("omits the divider when nothing is parked", () => {
+		renderGroupedList();
+
+		expect(screen.queryByTestId("parked-divider")).toBeNull();
+	});
+
+	it("skips sessions in a parked group when Tab cycling", () => {
+		const onSelect = renderGroupedList(vi.fn(), parked);
+		card("solo").focus();
+
+		pressTab();
+
+		expect(onSelect).toHaveBeenLastCalledWith("last");
+	});
+
+	it("records an explicit open when a parked group is clicked", () => {
+		renderGroupedList(vi.fn(), parked);
+
+		fireEvent.click(groupToggle());
+
+		expect(JSON.parse(localStorage.getItem("assist:group-collapse")!)).toEqual({
+			[group.origin]: false,
+		});
+	});
+
+	it("shows the pushpin only on a group the user collapsed", () => {
+		renderGroupedList(vi.fn(), parked);
+		expect(screen.queryByTestId("group-pinned")).toBeNull();
+		cleanup();
+
+		renderGroupedList();
+		fireEvent.click(groupToggle());
+
+		expect(screen.getByTestId("group-pinned")).not.toBeNull();
 	});
 });
 

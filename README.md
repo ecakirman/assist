@@ -481,6 +481,7 @@ A config still holding a retired ssh link (`ssh:` / `port:` / `localPort:`) fail
 - `sessions.includeCommittedChanges` — include the commits recorded against the session's backlog item, not just uncommitted work, in its change counts and diff. Defaults to **true**.
 - `sessions.floatWaiting` — float sessions waiting on input above the other cards. Defaults to **true**.
 - `sessions.floatWaitingAfterMs` — how long a session must wait on input before it floats. Defaults to **5000**.
+- `sessions.parkWaitingAfterMs` — how long every session in a repo group must wait on input before the group collapses and parks at the bottom of the sidebar. Defaults to **300000**.
 - `sessions.newSessionMode` — the mode pre-selected in the new session dialog: `draft`, `bug`, `prompt` or `design`. Defaults to **draft**.
 - `sessions.maxLive` — the most live sessions one daemon holds at once. Defaults to **24**.
 

@@ -14,7 +14,10 @@ type Props = {
 };
 
 export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
-	const { sessions, isFloatingWaiter } = useSidebarOrdering(socket.sessions);
+	const { sessions, isFloatingWaiter, isParkedGroup } = useSidebarOrdering(
+		socket.sessions,
+		socket.activeId,
+	);
 	const { handleSelect, handleResume, handleView } = useSidebarNavigation(
 		socket,
 		onTabChange,
@@ -27,6 +30,7 @@ export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
 		onSelect: handleSelect,
 		onTabChange,
 		isFloatingWaiter,
+		isParkedGroup,
 	});
 	useRegionFocusHotkeys({
 		sessions: socket.sessions,
@@ -55,6 +59,7 @@ export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
 			onSetAutoAdvance={socket.setAutoAdvance}
 			initialized={socket.initialized}
 			isFloatingWaiter={isFloatingWaiter}
+			isParkedGroup={isParkedGroup}
 			collapsed={collapsed}
 		/>
 	);

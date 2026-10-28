@@ -22,6 +22,11 @@ export const sessionsConfigHelp: ConfigHelpEntry[] = [
 		note: "how long a session must have been waiting on input before it floats (default: 5000ms)",
 	},
 	{
+		key: "sessions.parkWaitingAfterMs",
+		setter: "assist config set sessions.parkWaitingAfterMs 600000 -g",
+		note: "how long every session in a repo group must have been waiting on input before the group collapses and parks at the bottom of the sidebar (default: 300000ms)",
+	},
+	{
 		key: "sessions.maxLive",
 		setter: "assist config set sessions.maxLive 24 -g",
 		note: "ceiling on concurrent live sessions one daemon holds; spawning past it is refused, and restore respawns at most this many persisted sessions (default: 24)",

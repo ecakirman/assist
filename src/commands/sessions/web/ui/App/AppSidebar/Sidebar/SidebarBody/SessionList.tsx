@@ -1,26 +1,19 @@
 import { CardCyclingScrollport } from "./SessionList/CardCyclingScrollport";
-import { groupSessionsByRepo } from "../../groupSessionsByRepo";
 import { NoSessionsMessage } from "./SessionList/NoSessionsMessage";
 import type { PendingLaunch } from "../../../../PendingLaunch";
 import { PendingLaunchCard } from "./SessionList/PendingLaunchCard";
 import { SessionGroups } from "./SessionList/SessionGroups";
 import type { SessionListHandlers } from "../../../../types";
 import type { SessionInfo } from "../../../../useSessionSocket";
-import { useStarredSessions } from "../../../useStarredSessions";
+import { useSessionGroups } from "./SessionList/useSessionGroups";
 
 export function SessionList({
 	sessions,
 	pendingLaunches,
-	activeId,
-	initialized,
-	onSelect,
 	onDismissPending,
-	onRetry,
-	onRestart,
-	onDismiss,
-	onSetAutoApprove,
-	onSetAutoAdvance,
 	isFloatingWaiter,
+	isParkedGroup,
+	...cardProps
 }: {
 	sessions: SessionInfo[];
 	pendingLaunches: PendingLaunch[];
@@ -29,15 +22,16 @@ export function SessionList({
 	onSelect: (id: string) => void;
 	onDismissPending: (id: string) => void;
 	isFloatingWaiter?: (session: SessionInfo) => boolean;
+	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 } & SessionListHandlers) {
-	const { isStarred } = useStarredSessions();
-	const groups = groupSessionsByRepo(sessions, isStarred, isFloatingWaiter);
+	const groups = useSessionGroups(sessions, isFloatingWaiter, isParkedGroup);
 
 	return (
 		<CardCyclingScrollport
 			sessions={sessions}
-			onSelect={onSelect}
+			onSelect={cardProps.onSelect}
 			isFloatingWaiter={isFloatingWaiter}
+			isParkedGroup={isParkedGroup}
 		>
 			{pendingLaunches.map((launch) => (
 				<PendingLaunchCard
@@ -46,17 +40,7 @@ export function SessionList({
 					onDismiss={onDismissPending}
 				/>
 			))}
-			<SessionGroups
-				groups={groups}
-				activeId={activeId}
-				initialized={initialized}
-				onSelect={onSelect}
-				onRetry={onRetry}
-				onRestart={onRestart}
-				onDismiss={onDismiss}
-				onSetAutoApprove={onSetAutoApprove}
-				onSetAutoAdvance={onSetAutoAdvance}
-			/>
+			<SessionGroups groups={groups} {...cardProps} />
 			{sessions.length === 0 && pendingLaunches.length === 0 && (
 				<NoSessionsMessage />
 			)}

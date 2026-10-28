@@ -6,6 +6,7 @@ order: 1
 covers:
   - config:sessions.floatWaiting
   - config:sessions.floatWaitingAfterMs
+  - config:sessions.parkWaitingAfterMs
 screenshots:
   - file: sessions-sidebar.png
     alt: Sidebar cards in the waiting, running and done states
@@ -64,6 +65,12 @@ A session floats once it has waited 5 seconds. To change the delay, or stop floa
 ```bash
 assist config set sessions.floatWaitingAfterMs 15000
 assist config set sessions.floatWaiting false
+```
+
+A repo group where every session has waited on you for 5 minutes collapses and parks below a **Parked** divider at the bottom of the list, unless it holds a starred session or the one you're viewing. Click a parked group to open it and bring it back up. A group you collapse yourself stays where it is, marked with a pin, until you open it. To change the delay:
+
+```bash
+assist config set sessions.parkWaitingAfterMs 600000
 ```
 
 The button at the left of the tab row hides the sidebar; the same button then appears in the toolbar to bring it back.

@@ -12,10 +12,12 @@ export function useCycleSessionCards({
 	sessions,
 	onSelect,
 	isFloatingWaiter,
+	isParkedGroup,
 }: {
 	sessions: SessionInfo[];
 	onSelect: (id: string) => void;
 	isFloatingWaiter?: (session: SessionInfo) => boolean;
+	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 }): (event: KeyboardEvent) => void {
 	const { isStarred } = useStarredSessions();
 	const { isCollapsed } = useCollapsedGroups();
@@ -29,6 +31,7 @@ export function useCycleSessionCards({
 				isStarred,
 				isFloatingWaiter,
 				isCollapsed,
+				isParkedGroup,
 			).map((s) => s.id);
 			const currentId = card.getAttribute("data-session-id");
 			const id = adjacentSessionId(order, currentId, event.shiftKey ? -1 : 1);
@@ -38,6 +41,13 @@ export function useCycleSessionCards({
 			holdSessionCardFocus(id);
 			scrollSessionCardIntoView(id);
 		},
-		[sessions, isStarred, isFloatingWaiter, isCollapsed, onSelect],
+		[
+			sessions,
+			isStarred,
+			isFloatingWaiter,
+			isCollapsed,
+			isParkedGroup,
+			onSelect,
+		],
 	);
 }

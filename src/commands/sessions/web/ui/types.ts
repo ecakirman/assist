@@ -49,6 +49,7 @@ export type SidebarProps = {
 	onResume: (session: HistoricalSession) => void;
 	initialized: Set<string>;
 	isFloatingWaiter?: (session: SessionInfo) => boolean;
+	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 	collapsed?: boolean;
 } & SessionListHandlers;
 

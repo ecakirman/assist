@@ -290,6 +290,7 @@ const assistConfigShape = {
 			includeCommittedChanges: z.boolean().default(true),
 			floatWaiting: z.boolean().default(true),
 			floatWaitingAfterMs: z.number().default(5000),
+			parkWaitingAfterMs: z.number().default(300_000),
 			maxLive: z.number().default(24),
 			newSessionMode: z
 				.enum(["draft", "bug", "prompt", "design"])

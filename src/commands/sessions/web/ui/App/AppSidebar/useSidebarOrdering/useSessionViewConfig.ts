@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { sessionViewDefaults } from "../../../../../shared/sessionViewDefaults";
 
-export function useSessionViewConfig(): {
-	floatWaiting: boolean;
-	floatWaitingAfterMs: number;
-} {
-	const [floatWaiting, setFloatWaiting] = useState(
-		sessionViewDefaults.floatWaiting,
-	);
-	const [floatWaitingAfterMs, setFloatWaitingAfterMs] = useState(
-		sessionViewDefaults.floatWaitingAfterMs,
-	);
+type SessionViewConfig = typeof sessionViewDefaults;
+
+function numberOr(value: unknown, fallback: number): number {
+	return typeof value === "number" ? value : fallback;
+}
+
+export function useSessionViewConfig(): SessionViewConfig {
+	const [config, setConfig] = useState<SessionViewConfig>(sessionViewDefaults);
 
 	useEffect(() => {
 		let cancelled = false;
@@ -19,15 +17,19 @@ export function useSessionViewConfig(): {
 				const res = await fetch("/api/session-view");
 				const body = await res.json();
 				if (cancelled) return;
-				setFloatWaiting(Boolean(body?.floatWaiting));
-				setFloatWaitingAfterMs(
-					typeof body?.floatWaitingAfterMs === "number"
-						? body.floatWaitingAfterMs
-						: sessionViewDefaults.floatWaitingAfterMs,
-				);
+				setConfig({
+					floatWaiting: Boolean(body?.floatWaiting),
+					floatWaitingAfterMs: numberOr(
+						body?.floatWaitingAfterMs,
+						sessionViewDefaults.floatWaitingAfterMs,
+					),
+					parkWaitingAfterMs: numberOr(
+						body?.parkWaitingAfterMs,
+						sessionViewDefaults.parkWaitingAfterMs,
+					),
+				});
 			} catch {
-				setFloatWaiting(sessionViewDefaults.floatWaiting);
-				setFloatWaitingAfterMs(sessionViewDefaults.floatWaitingAfterMs);
+				setConfig(sessionViewDefaults);
 			}
 		})();
 		return () => {
@@ -35,5 +37,5 @@ export function useSessionViewConfig(): {
 		};
 	}, []);
 
-	return { floatWaiting, floatWaitingAfterMs };
+	return config;
 }
