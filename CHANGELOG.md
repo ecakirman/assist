@@ -1,3 +1,10 @@
+## [0.918.1](https://github.com/staff0rd/assist/compare/v0.918.0...v0.918.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* one Enter starts prompt-default repo ([973916e](https://github.com/staff0rd/assist/commit/973916eba4478d8af77611bbf821c58aa6ba22e8))
+
 # [0.918.0](https://github.com/staff0rd/assist/compare/v0.917.1...v0.918.0) (2026-10-28)
 
 
