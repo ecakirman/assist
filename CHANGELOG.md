@@ -1,3 +1,10 @@
+## [0.915.1](https://github.com/staff0rd/assist/compare/v0.915.0...v0.915.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* reset loading for recycled session ids ([31cba82](https://github.com/staff0rd/assist/commit/31cba8244e4b8f7ba5a95756b4603e291c123ace))
+
 # [0.915.0](https://github.com/staff0rd/assist/compare/v0.914.0...v0.915.0) (2026-10-28)
 
 
