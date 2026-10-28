@@ -3,7 +3,6 @@ autoUpdate:
 sessions:
   nodeName: laptop
   tailscaleServe: false
-  floatWaitingAfterMs: 0
 run:
   - name: dev
     command: sh

@@ -13,7 +13,6 @@ export function useJumpToNextWaiting({
 	tab,
 	onSelect,
 	onTabChange,
-	isFloatingWaiter,
 	isParkedGroup,
 }: {
 	sessions: SessionInfo[];
@@ -21,7 +20,6 @@ export function useJumpToNextWaiting({
 	tab: SidebarTab;
 	onSelect: (id: string) => void;
 	onTabChange: (tab: SidebarTab) => void;
-	isFloatingWaiter?: (session: SessionInfo) => boolean;
 	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 }): void {
 	const { isStarred } = useStarredSessions();
@@ -29,13 +27,7 @@ export function useJumpToNextWaiting({
 	useNextWaitingHotkey(
 		useCallback(() => {
 			const id = nextWaitingSessionId(
-				visibleSessionOrder(
-					sessions,
-					isStarred,
-					isFloatingWaiter,
-					isCollapsed,
-					isParkedGroup,
-				),
+				visibleSessionOrder(sessions, isStarred, isCollapsed, isParkedGroup),
 				activeId,
 			);
 			if (!id) return;
@@ -45,7 +37,6 @@ export function useJumpToNextWaiting({
 		}, [
 			sessions,
 			isStarred,
-			isFloatingWaiter,
 			isCollapsed,
 			isParkedGroup,
 			activeId,

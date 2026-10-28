@@ -115,3 +115,19 @@ describe("loadConfigFrom news config", () => {
 		});
 	});
 });
+
+describe("loadConfigFrom retired sessions keys", () => {
+	it("loads a config that still sets the float-waiting keys", () => {
+		writeConfig(
+			clone,
+			"sessions:\n  nodeName: pc\n  floatWaiting: false\n  floatWaitingAfterMs: 15000\n",
+		);
+
+		const sessions = loadConfigFrom(clone, join(base, "no-global.yml"))
+			.sessions as Record<string, unknown>;
+
+		expect(sessions.nodeName).toBe("pc");
+		expect(sessions).not.toHaveProperty("floatWaiting");
+		expect(sessions).not.toHaveProperty("floatWaitingAfterMs");
+	});
+});

@@ -8,17 +8,11 @@ const never = () => false;
 export function visibleSessionOrder(
 	sessions: SessionInfo[],
 	isStarred: (session: SessionInfo) => boolean,
-	isFloatingWaiter?: (session: SessionInfo) => boolean,
 	isGroupCollapsed: (key: string, members: SessionInfo[]) => boolean = never,
 	isParkedGroup?: IsParkedGroup,
 ): SessionInfo[] {
 	return flattenSessionGroups(
-		groupSessionsByRepo(
-			sessions,
-			isStarred,
-			isFloatingWaiter,
-			isParkedGroup,
-		).filter(
+		groupSessionsByRepo(sessions, isStarred, isParkedGroup).filter(
 			(group) =>
 				group.kind === "single" ||
 				(!group.parked &&

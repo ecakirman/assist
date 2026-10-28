@@ -4,7 +4,7 @@ import {
 	nestUnderBacklogRun,
 } from "../nestUnderBacklogRun";
 import type { SessionInfo } from "../../types";
-import { starredThenWaitingFirst } from "./groupSessionsByRepo/starredThenWaitingFirst";
+import { starredFirst } from "./groupSessionsByRepo/starredFirst";
 
 type SessionGroup =
 	| { kind: "single"; session: SessionInfo }
@@ -23,7 +23,6 @@ const never = () => false;
 export function groupSessionsByRepo(
 	sessions: SessionInfo[],
 	isStarred: (session: SessionInfo) => boolean,
-	isFloatingWaiter: (session: SessionInfo) => boolean = never,
 	isParkedGroup: IsParkedGroup = never,
 ): SessionGroup[] {
 	const groups = bucketSessionsByRepoKey(sessions).map(
@@ -34,10 +33,8 @@ export function groupSessionsByRepo(
 						kind: "repo",
 						key,
 						label,
-						rows: starredThenWaitingFirst(
-							nestUnderBacklogRun(members),
-							(row) => rowMembers(row).some(isStarred),
-							(row) => rowMembers(row).some(isFloatingWaiter),
+						rows: starredFirst(nestUnderBacklogRun(members), (row) =>
+							rowMembers(row).some(isStarred),
 						),
 						parked: isParkedGroup(key, members),
 					},
@@ -45,10 +42,9 @@ export function groupSessionsByRepo(
 	const isParked = (group: SessionGroup) =>
 		group.kind === "repo" && group.parked;
 	return [
-		...starredThenWaitingFirst(
+		...starredFirst(
 			groups.filter((group) => !isParked(group)),
 			(group) => groupMembers(group).some(isStarred),
-			(group) => groupMembers(group).some(isFloatingWaiter),
 		),
 		...groups.filter(isParked),
 	];

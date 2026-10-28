@@ -22,8 +22,6 @@ vi.mock("../../../shared/web", () => ({
 import { sessionView } from "./sessionView";
 
 type Body = {
-	floatWaiting: boolean;
-	floatWaitingAfterMs: number;
 	parkWaitingAfterMs: number;
 };
 
@@ -39,55 +37,14 @@ describe("sessionView", () => {
 		mockLoadConfig.mockReturnValue(makeAssistConfig({ sessions: {} }));
 	});
 
-	it("reports floating off when sessions.floatWaiting is false", () => {
-		mockLoadConfig.mockReturnValue(
-			makeAssistConfig({ sessions: { floatWaiting: false } }),
-		);
+	it("defaults the park threshold to five minutes", () => {
 		const [, status, body] = run();
 		expect(status).toBe(200);
-		expect(body).toMatchObject({
-			floatWaiting: false,
-			floatWaitingAfterMs: 5000,
-		});
+		expect(body).toEqual({ parkWaitingAfterMs: 300_000 });
 	});
 
-	it("defaults floating on when the key is absent", () => {
-		const [, , body] = run();
-		expect(body).toMatchObject({
-			floatWaiting: true,
-			floatWaitingAfterMs: 5000,
-		});
-	});
-
-	it("defaults floating on when there is no sessions config at all", () => {
+	it("defaults the park threshold when there is no sessions config at all", () => {
 		mockLoadConfig.mockReturnValue(makeAssistConfig());
-		const [, , body] = run();
-		expect(body).toMatchObject({
-			floatWaiting: true,
-			floatWaitingAfterMs: 5000,
-		});
-	});
-
-	it("reports the configured sessions.floatWaitingAfterMs threshold", () => {
-		mockLoadConfig.mockReturnValue(
-			makeAssistConfig({ sessions: { floatWaitingAfterMs: 15_000 } }),
-		);
-		const [, , body] = run();
-		expect(body).toMatchObject({
-			floatWaiting: true,
-			floatWaitingAfterMs: 15_000,
-		});
-	});
-
-	it("keeps a zero threshold rather than falling back to the default", () => {
-		mockLoadConfig.mockReturnValue(
-			makeAssistConfig({ sessions: { floatWaitingAfterMs: 0 } }),
-		);
-		const [, , body] = run();
-		expect(body).toMatchObject({ floatWaiting: true, floatWaitingAfterMs: 0 });
-	});
-
-	it("defaults the park threshold to five minutes", () => {
 		const [, , body] = run();
 		expect(body.parkWaitingAfterMs).toBe(300_000);
 	});

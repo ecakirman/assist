@@ -4,8 +4,6 @@ title: Sidebar and cards
 group: Sessions
 order: 1
 covers:
-  - config:sessions.floatWaiting
-  - config:sessions.floatWaitingAfterMs
   - config:sessions.parkWaitingAfterMs
 screenshots:
   - file: sessions-sidebar.png
@@ -58,14 +56,7 @@ The detail line shows the repo, then the session type or, for a backlog run, the
 
 Cards are grouped by repo. A repo with one session shows a lone card; two or more get a group header with a count, which collapses the group, and an × on hover that closes every session in it. Sessions a backlog run launches nest under that run's card.
 
-Starred sessions come first. Then come sessions that have been waiting on you longest, so whatever needs you floats to the top. Everything else keeps its order. :kbd[Mod+.] jumps straight to the next waiting session.
-
-A session floats once it has waited 5 seconds. To change the delay, or stop floating altogether:
-
-```bash
-assist config set sessions.floatWaitingAfterMs 15000
-assist config set sessions.floatWaiting false
-```
+Starred sessions, and the groups holding them, come first; everything else keeps the order it started in. :kbd[Mod+.] jumps straight to the next waiting session.
 
 A repo group where every session has waited on you for 5 minutes collapses and parks below a **Parked** divider at the bottom of the list, unless it holds a starred session or the one you're viewing. Click a parked group to open it and bring it back up; it parks again if it sits untouched for another 5 minutes. A group you collapse yourself stays where it is, marked with a pin, until you open it or a new session starts in it. To change the delay:
 

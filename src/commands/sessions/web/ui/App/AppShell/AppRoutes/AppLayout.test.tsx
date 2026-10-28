@@ -10,8 +10,6 @@ import { SidebarCollapsedContext } from "../../useSidebarCollapsedContext";
 
 vi.mock("../../AppSidebar/useSidebarOrdering/useSessionViewConfig", () => ({
 	useSessionViewConfig: () => ({
-		floatWaiting: false,
-		floatWaitingAfterMs: 0,
 		parkWaitingAfterMs: 300_000,
 	}),
 }));

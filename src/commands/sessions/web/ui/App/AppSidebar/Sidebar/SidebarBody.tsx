@@ -26,7 +26,6 @@ export function SidebarBody(props: SidebarProps) {
 			onDismiss={props.onDismiss}
 			onSetAutoApprove={props.onSetAutoApprove}
 			onSetAutoAdvance={props.onSetAutoAdvance}
-			isFloatingWaiter={props.isFloatingWaiter}
 			isParkedGroup={props.isParkedGroup}
 		/>
 	);

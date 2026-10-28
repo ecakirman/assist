@@ -11,12 +11,10 @@ import { visibleSessionOrder } from "../../../../visibleSessionOrder";
 export function useCycleSessionCards({
 	sessions,
 	onSelect,
-	isFloatingWaiter,
 	isParkedGroup,
 }: {
 	sessions: SessionInfo[];
 	onSelect: (id: string) => void;
-	isFloatingWaiter?: (session: SessionInfo) => boolean;
 	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 }): (event: KeyboardEvent) => void {
 	const { isStarred } = useStarredSessions();
@@ -29,7 +27,6 @@ export function useCycleSessionCards({
 			const order = visibleSessionOrder(
 				sessions,
 				isStarred,
-				isFloatingWaiter,
 				isCollapsed,
 				isParkedGroup,
 			).map((s) => s.id);
@@ -41,13 +38,6 @@ export function useCycleSessionCards({
 			holdSessionCardFocus(id);
 			scrollSessionCardIntoView(id);
 		},
-		[
-			sessions,
-			isStarred,
-			isFloatingWaiter,
-			isCollapsed,
-			isParkedGroup,
-			onSelect,
-		],
+		[sessions, isStarred, isCollapsed, isParkedGroup, onSelect],
 	);
 }

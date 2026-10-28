@@ -7,14 +7,8 @@ import { useStarredSessions } from "../../../../useStarredSessions";
 
 export function useSessionGroups(
 	sessions: SessionInfo[],
-	isFloatingWaiter?: (session: SessionInfo) => boolean,
 	isParkedGroup?: IsParkedGroup,
 ): ReturnType<typeof groupSessionsByRepo> {
 	const { isStarred } = useStarredSessions();
-	return groupSessionsByRepo(
-		sessions,
-		isStarred,
-		isFloatingWaiter,
-		isParkedGroup,
-	);
+	return groupSessionsByRepo(sessions, isStarred, isParkedGroup);
 }

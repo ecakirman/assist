@@ -4,6 +4,8 @@ const LEGACY_SESSIONS_KEYS = [
 	"windowsDaemonPort",
 	"windowsVersionCheck",
 	"topBar",
+	"floatWaiting",
+	"floatWaitingAfterMs",
 ];
 
 const LEGACY_WORKTREE_KEYS = ["watcher", "includeDrafts"];

@@ -1,5 +1,5 @@
-import { hasWaitedPastThreshold } from "./sortSessionsByWaiting";
 import type { SessionInfo } from "../../../types";
+import { hasWaitedPastThreshold } from "./isStalledGroup/hasWaitedPastThreshold";
 
 export function isStalledGroup(
 	members: SessionInfo[],

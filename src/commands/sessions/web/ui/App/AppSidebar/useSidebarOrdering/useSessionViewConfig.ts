@@ -18,11 +18,6 @@ export function useSessionViewConfig(): SessionViewConfig {
 				const body = await res.json();
 				if (cancelled) return;
 				setConfig({
-					floatWaiting: Boolean(body?.floatWaiting),
-					floatWaitingAfterMs: numberOr(
-						body?.floatWaitingAfterMs,
-						sessionViewDefaults.floatWaitingAfterMs,
-					),
 					parkWaitingAfterMs: numberOr(
 						body?.parkWaitingAfterMs,
 						sessionViewDefaults.parkWaitingAfterMs,

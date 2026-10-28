@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeSessionInfo } from "../../../../../../test/mothers/makeSessionInfo";
 import { groupSessionsByRepo } from "./groupSessionsByRepo";
-import { hasWaitedPastThreshold } from "./useSidebarOrdering/sortSessionsByWaiting";
 import type { SessionInfo } from "../../types";
-
-const NOW = 1_000_000;
-
-function waitedPast(thresholdMs: number): (session: SessionInfo) => boolean {
-	return (session) => hasWaitedPastThreshold(session, NOW, thresholdMs);
-}
 
 function row(session: SessionInfo, ...children: SessionInfo[]) {
 	return { session, children };
@@ -16,6 +9,10 @@ function row(session: SessionInfo, ...children: SessionInfo[]) {
 
 const repoGroup = { origin: "host/org/assist", clone: "/git/assist" };
 const backlog = { kind: "backlog" as const, startedAt: 0 };
+
+function keys(groups: ReturnType<typeof groupSessionsByRepo>) {
+	return groups.map((g) => (g.kind === "repo" ? g.key : g.session.id));
+}
 
 describe("groupSessionsByRepo", () => {
 	it("groups 2+ sessions sharing a cwd under a repo entry", () => {
@@ -76,9 +73,7 @@ describe("groupSessionsByRepo", () => {
 
 		const groups = groupSessionsByRepo(sessions, () => false);
 
-		expect(
-			groups.map((g) => (g.kind === "repo" ? g.key : g.session.id)),
-		).toEqual(["/one", "/two"]);
+		expect(keys(groups)).toEqual(["/one", "/two"]);
 	});
 
 	it("keeps no-cwd sessions as separate standalone cards", () => {
@@ -137,188 +132,13 @@ describe("groupSessionsByRepo", () => {
 		]);
 	});
 
-	it("floats the waiting member to the top of its group", () => {
-		const sessions = [
-			makeSessionInfo({ id: "a", cwd: "/repo" }),
-			makeSessionInfo({ id: "b", cwd: "/repo" }),
-			makeSessionInfo({ id: "c", cwd: "/repo" }),
-		];
-		const waiting = new Set(["c"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			(s) => waiting.has(s.id),
-		);
-
-		expect(groups).toEqual([
-			{
-				kind: "repo",
-				key: "/repo",
-				label: "repo",
-				rows: [row(sessions[2]), row(sessions[0]), row(sessions[1])],
-				parked: false,
-			},
-		]);
-	});
-
-	it("keeps a starred member above a waiting one inside a group", () => {
-		const sessions = [
-			makeSessionInfo({ id: "a", cwd: "/repo" }),
-			makeSessionInfo({ id: "b", cwd: "/repo" }),
-			makeSessionInfo({ id: "c", cwd: "/repo" }),
-		];
-		const starred = new Set(["b"]);
-		const waiting = new Set(["c"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			(s) => starred.has(s.id),
-			(s) => waiting.has(s.id),
-		);
-
-		expect(groups).toEqual([
-			{
-				kind: "repo",
-				key: "/repo",
-				label: "repo",
-				rows: [row(sessions[1]), row(sessions[2]), row(sessions[0])],
-				parked: false,
-			},
-		]);
-	});
-
-	it("floats a whole group above the rest when one member is waiting", () => {
+	it("keeps waiting sessions in their insertion position, inside and across groups", () => {
 		const sessions = [
 			makeSessionInfo({ id: "a", cwd: "/one" }),
 			makeSessionInfo({ id: "b", cwd: "/one" }),
 			makeSessionInfo({ id: "c", cwd: "/two" }),
-			makeSessionInfo({ id: "d", cwd: "/two" }),
-		];
-		const waiting = new Set(["d"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			(s) => waiting.has(s.id),
-		);
-
-		expect(groups).toEqual([
-			{
-				kind: "repo",
-				key: "/two",
-				label: "two",
-				rows: [row(sessions[3]), row(sessions[2])],
-				parked: false,
-			},
-			{
-				kind: "repo",
-				key: "/one",
-				label: "one",
-				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
-			},
-		]);
-	});
-
-	it("keeps a group with a starred member above a group with a waiting one", () => {
-		const sessions = [
-			makeSessionInfo({ id: "a", cwd: "/one" }),
-			makeSessionInfo({ id: "b", cwd: "/one" }),
-			makeSessionInfo({ id: "c", cwd: "/two" }),
-			makeSessionInfo({ id: "d", cwd: "/two" }),
-		];
-		const starred = new Set(["b"]);
-		const waiting = new Set(["c"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			(s) => starred.has(s.id),
-			(s) => waiting.has(s.id),
-		);
-
-		expect(
-			groups.map((g) => (g.kind === "repo" ? g.key : g.session.id)),
-		).toEqual(["/one", "/two"]);
-	});
-
-	it("floats a waiting standalone session above a group with none", () => {
-		const sessions = [
-			makeSessionInfo({ id: "a", cwd: "/one" }),
-			makeSessionInfo({ id: "b", cwd: "/one" }),
-			makeSessionInfo({ id: "c", cwd: "/two" }),
-		];
-		const waiting = new Set(["c"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			(s) => waiting.has(s.id),
-		);
-
-		expect(groups).toEqual([
-			{ kind: "single", session: sessions[2] },
-			{
-				kind: "repo",
-				key: "/one",
-				label: "one",
-				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
-			},
-		]);
-	});
-
-	it("keeps floated groups in the order their waiters were given, longest waiting first", () => {
-		const sessions = [
-			makeSessionInfo({ id: "longest", cwd: "/two" }),
-			makeSessionInfo({ id: "shorter", cwd: "/one" }),
-			makeSessionInfo({ id: "idle", cwd: "/one" }),
-			makeSessionInfo({ id: "other", cwd: "/two" }),
-		];
-		const waiting = new Set(["longest", "shorter"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			(s) => waiting.has(s.id),
-		);
-
-		expect(
-			groups.map((g) => (g.kind === "repo" ? g.key : g.session.id)),
-		).toEqual(["/two", "/one"]);
-	});
-
-	it("never splits a group, even when only one member is waiting", () => {
-		const sessions = [
-			makeSessionInfo({ id: "a", cwd: "/one" }),
-			makeSessionInfo({ id: "b", cwd: "/one" }),
-			makeSessionInfo({ id: "c", cwd: "/two" }),
-			makeSessionInfo({ id: "d", cwd: "/two" }),
-		];
-		const waiting = new Set(["b"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			(s) => waiting.has(s.id),
-		);
-
-		expect(groups).toHaveLength(2);
-		expect(groups[0]).toEqual({
-			kind: "repo",
-			key: "/one",
-			label: "one",
-			rows: [row(sessions[1]), row(sessions[0])],
-			parked: false,
-		});
-	});
-
-	it("leaves the order untouched when no waiting predicate is given", () => {
-		const sessions = [
-			makeSessionInfo({ id: "a", cwd: "/one" }),
-			makeSessionInfo({ id: "b", cwd: "/one" }),
-			makeSessionInfo({ id: "c", cwd: "/two" }),
-			makeSessionInfo({ id: "d", cwd: "/two" }),
+			makeSessionInfo({ id: "d", cwd: "/two", status: "waiting" }),
+			makeSessionInfo({ id: "e", cwd: "/three", status: "waiting" }),
 		];
 
 		const groups = groupSessionsByRepo(sessions, () => false);
@@ -338,32 +158,20 @@ describe("groupSessionsByRepo", () => {
 				rows: [row(sessions[2]), row(sessions[3])],
 				parked: false,
 			},
+			{ kind: "single", session: sessions[4] },
 		]);
 	});
 
-	it("floats only the group past a longer configured threshold", () => {
+	it("lifts a group with a starred member above earlier groups", () => {
 		const sessions = [
 			makeSessionInfo({ id: "a", cwd: "/one" }),
-			makeSessionInfo({
-				id: "b",
-				cwd: "/one",
-				status: "waiting",
-				waitingSince: NOW - 8000,
-			}),
+			makeSessionInfo({ id: "b", cwd: "/one" }),
 			makeSessionInfo({ id: "c", cwd: "/two" }),
-			makeSessionInfo({
-				id: "d",
-				cwd: "/two",
-				status: "waiting",
-				waitingSince: NOW - 12_000,
-			}),
+			makeSessionInfo({ id: "d", cwd: "/two" }),
 		];
+		const starred = new Set(["d"]);
 
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			waitedPast(10_000),
-		);
+		const groups = groupSessionsByRepo(sessions, (s) => starred.has(s.id));
 
 		expect(groups).toEqual([
 			{
@@ -383,37 +191,17 @@ describe("groupSessionsByRepo", () => {
 		]);
 	});
 
-	it("floats a briefly waiting member on a shorter configured threshold", () => {
+	it("lifts a starred standalone session above a group with none", () => {
 		const sessions = [
 			makeSessionInfo({ id: "a", cwd: "/one" }),
 			makeSessionInfo({ id: "b", cwd: "/one" }),
-			makeSessionInfo({
-				id: "c",
-				cwd: "/two",
-				status: "waiting",
-				waitingSince: NOW - 900,
-			}),
-			makeSessionInfo({ id: "d", cwd: "/two" }),
+			makeSessionInfo({ id: "c", cwd: "/two" }),
 		];
+		const starred = new Set(["c"]);
 
-		const groups = groupSessionsByRepo(sessions, () => false, waitedPast(500));
+		const groups = groupSessionsByRepo(sessions, (s) => starred.has(s.id));
 
-		expect(groups).toEqual([
-			{
-				kind: "repo",
-				key: "/two",
-				label: "two",
-				rows: [row(sessions[2]), row(sessions[3])],
-				parked: false,
-			},
-			{
-				kind: "repo",
-				key: "/one",
-				label: "one",
-				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
-			},
-		]);
+		expect(keys(groups)).toEqual(["c", "/one"]);
 	});
 
 	it("treats repos sharing a last segment but differing in full path as distinct", () => {
@@ -468,7 +256,7 @@ describe("groupSessionsByRepo", () => {
 		]);
 	});
 
-	it("floats a whole nested row when only its child is waiting", () => {
+	it("lifts a whole nested row when only its child is starred", () => {
 		const sessions = [
 			makeSessionInfo({ id: "other", cwd: "/git/assist-3", repoGroup }),
 			makeSessionInfo({
@@ -479,13 +267,9 @@ describe("groupSessionsByRepo", () => {
 			}),
 			makeSessionInfo({ id: "review", cwd: "/git/assist-2", repoGroup }),
 		];
-		const waiting = new Set(["review"]);
+		const starred = new Set(["review"]);
 
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			(s) => waiting.has(s.id),
-		);
+		const groups = groupSessionsByRepo(sessions, (s) => starred.has(s.id));
 
 		expect(groups).toEqual([
 			{
@@ -493,45 +277,6 @@ describe("groupSessionsByRepo", () => {
 				key: "host/org/assist",
 				label: "assist",
 				rows: [row(sessions[1]!, sessions[2]!), row(sessions[0]!)],
-				parked: false,
-			},
-		]);
-	});
-
-	it("floats a whole repo group whose only waiter is a nested child", () => {
-		const otherGroup = { origin: "host/org/other", clone: "/git/other" };
-		const sessions = [
-			makeSessionInfo({ id: "x", cwd: "/git/other", repoGroup: otherGroup }),
-			makeSessionInfo({ id: "y", cwd: "/git/other-2", repoGroup: otherGroup }),
-			makeSessionInfo({
-				id: "run",
-				cwd: "/git/assist-2",
-				repoGroup,
-				activity: backlog,
-			}),
-			makeSessionInfo({ id: "review", cwd: "/git/assist-2", repoGroup }),
-		];
-		const waiting = new Set(["review"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			() => false,
-			(s) => waiting.has(s.id),
-		);
-
-		expect(groups).toEqual([
-			{
-				kind: "repo",
-				key: "host/org/assist",
-				label: "assist",
-				rows: [row(sessions[2]!, sessions[3]!)],
-				parked: false,
-			},
-			{
-				kind: "repo",
-				key: "host/org/other",
-				label: "other",
-				rows: [row(sessions[0]!), row(sessions[1]!)],
 				parked: false,
 			},
 		]);
@@ -561,46 +306,6 @@ describe("groupSessionsByRepo", () => {
 				rows: [
 					row(sessions[1]!, sessions[2]!, sessions[3]!),
 					row(sessions[0]!),
-				],
-				parked: false,
-			},
-		]);
-	});
-
-	it("keeps a starred nested row above a row floated by a waiting child", () => {
-		const sessions = [
-			makeSessionInfo({
-				id: "waitingRun",
-				cwd: "/git/assist-2",
-				repoGroup,
-				activity: backlog,
-			}),
-			makeSessionInfo({ id: "waitingReview", cwd: "/git/assist-2", repoGroup }),
-			makeSessionInfo({
-				id: "starredRun",
-				cwd: "/git/assist-3",
-				repoGroup,
-				activity: backlog,
-			}),
-			makeSessionInfo({ id: "starredReview", cwd: "/git/assist-3", repoGroup }),
-		];
-		const starred = new Set(["starredReview"]);
-		const waiting = new Set(["waitingReview"]);
-
-		const groups = groupSessionsByRepo(
-			sessions,
-			(s) => starred.has(s.id),
-			(s) => waiting.has(s.id),
-		);
-
-		expect(groups).toEqual([
-			{
-				kind: "repo",
-				key: "host/org/assist",
-				label: "assist",
-				rows: [
-					row(sessions[2]!, sessions[3]!),
-					row(sessions[0]!, sessions[1]!),
 				],
 				parked: false,
 			},
@@ -641,32 +346,12 @@ describe("groupSessionsByRepo", () => {
 		];
 		const parkOne = (key: string) => key === "/one";
 
-		function keys(groups: ReturnType<typeof groupSessionsByRepo>) {
-			return groups.map((g) => (g.kind === "repo" ? g.key : g.session.id));
-		}
-
 		it("marks the parked group and moves it after every other group", () => {
-			const groups = groupSessionsByRepo(
-				sessions,
-				() => false,
-				undefined,
-				parkOne,
-			);
+			const groups = groupSessionsByRepo(sessions, () => false, parkOne);
 
 			expect(keys(groups)).toEqual(["/two", "e", "/one"]);
 			expect(groups.at(-1)).toMatchObject({ key: "/one", parked: true });
 			expect(groups[0]).toMatchObject({ parked: false });
-		});
-
-		it("keeps a parked group from floating even when its members wait", () => {
-			const groups = groupSessionsByRepo(
-				sessions,
-				() => false,
-				(s) => s.cwd === "/one",
-				parkOne,
-			);
-
-			expect(keys(groups)).toEqual(["/two", "e", "/one"]);
 		});
 
 		it("hands the parked predicate every member of the group", () => {
@@ -675,7 +360,6 @@ describe("groupSessionsByRepo", () => {
 			groupSessionsByRepo(
 				sessions,
 				() => false,
-				undefined,
 				(key, members) => {
 					seen.push([key, ...members.map((m) => m.id)]);
 					return false;

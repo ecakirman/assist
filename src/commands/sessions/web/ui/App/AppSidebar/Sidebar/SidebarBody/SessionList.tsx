@@ -11,7 +11,6 @@ export function SessionList({
 	sessions,
 	pendingLaunches,
 	onDismissPending,
-	isFloatingWaiter,
 	isParkedGroup,
 	...cardProps
 }: {
@@ -21,16 +20,14 @@ export function SessionList({
 	initialized: Set<string>;
 	onSelect: (id: string) => void;
 	onDismissPending: (id: string) => void;
-	isFloatingWaiter?: (session: SessionInfo) => boolean;
 	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 } & SessionListHandlers) {
-	const groups = useSessionGroups(sessions, isFloatingWaiter, isParkedGroup);
+	const groups = useSessionGroups(sessions, isParkedGroup);
 
 	return (
 		<CardCyclingScrollport
 			sessions={sessions}
 			onSelect={cardProps.onSelect}
-			isFloatingWaiter={isFloatingWaiter}
 			isParkedGroup={isParkedGroup}
 		>
 			{pendingLaunches.map((launch) => (

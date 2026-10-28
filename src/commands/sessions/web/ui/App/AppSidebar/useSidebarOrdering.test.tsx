@@ -9,8 +9,6 @@ import { StarredSessionsProvider } from "../useStarredSessions";
 
 vi.mock("./useSidebarOrdering/useSessionViewConfig", () => ({
 	useSessionViewConfig: () => ({
-		floatWaiting: true,
-		floatWaitingAfterMs: 0,
 		parkWaitingAfterMs: 60_000,
 	}),
 }));

@@ -12,16 +12,6 @@ export const sessionsConfigHelp: ConfigHelpEntry[] = [
 		note: "default on: session card counts, /diff and the diff scope picker span the commits recorded against the session's backlog item as well as uncommitted work, so they survive the agent committing. Set false to show only uncommitted changes",
 	},
 	{
-		key: "sessions.floatWaiting",
-		setter: "assist config set sessions.floatWaiting false -g",
-		note: "set false to stop the sidebar floating sessions that have been waiting on input for a few seconds above the other unstarred cards (default on)",
-	},
-	{
-		key: "sessions.floatWaitingAfterMs",
-		setter: "assist config set sessions.floatWaitingAfterMs 15000 -g",
-		note: "how long a session must have been waiting on input before it floats (default: 5000ms)",
-	},
-	{
 		key: "sessions.parkWaitingAfterMs",
 		setter: "assist config set sessions.parkWaitingAfterMs 600000 -g",
 		note: "how long every session in a repo group must have been waiting on input before the group collapses and parks at the bottom of the sidebar (default: 300000ms)",
