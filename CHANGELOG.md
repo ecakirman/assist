@@ -1,3 +1,10 @@
+# [0.916.0](https://github.com/staff0rd/assist/compare/v0.915.1...v0.916.0) (2026-10-28)
+
+
+### Features
+
+* auto-park stalled repo groups ([a7a623d](https://github.com/staff0rd/assist/commit/a7a623dea9c6b158aff3ff051d755429ae2deb84))
+
 ## [0.915.1](https://github.com/staff0rd/assist/compare/v0.915.0...v0.915.1) (2026-10-28)
 
 
