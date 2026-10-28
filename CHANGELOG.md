@@ -1,3 +1,10 @@
+# [0.922.0](https://github.com/staff0rd/assist/compare/v0.921.0...v0.922.0) (2026-10-28)
+
+
+### Features
+
+* stalled groups no longer park ([5369a43](https://github.com/staff0rd/assist/commit/5369a436fadcd1e4a7f4edc235c3a2cab1eedd4c))
+
 # [0.921.0](https://github.com/staff0rd/assist/compare/v0.920.0...v0.921.0) (2026-10-28)
 
 
