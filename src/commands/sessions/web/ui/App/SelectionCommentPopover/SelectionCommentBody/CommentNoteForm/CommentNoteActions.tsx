@@ -25,15 +25,17 @@ export function CommentNoteActions({
 					{unavailable}
 				</Typography>
 			)}
-			<Stack direction="row" spacing={1} sx={{ justifyContent: "flex-end" }}>
-				<Button size="small" onClick={onCancel}>
-					Cancel
-				</Button>
-				{onCollapse && (
-					<Button size="small" variant="outlined" onClick={onCollapse}>
-						Collapse
-					</Button>
-				)}
+			<Stack
+				direction="row-reverse"
+				spacing={1}
+				sx={{ justifyContent: "flex-start" }}
+			>
+				<CommentSendActions
+					disabled={disabled}
+					unavailable={unavailable}
+					onAdd={onAdd}
+					onQueue={onQueue}
+				/>
 				{onAddRule && (
 					<Button
 						size="small"
@@ -44,12 +46,14 @@ export function CommentNoteActions({
 						Add rule
 					</Button>
 				)}
-				<CommentSendActions
-					disabled={disabled}
-					unavailable={unavailable}
-					onAdd={onAdd}
-					onQueue={onQueue}
-				/>
+				{onCollapse && (
+					<Button size="small" variant="outlined" onClick={onCollapse}>
+						Collapse
+					</Button>
+				)}
+				<Button size="small" onClick={onCancel}>
+					Cancel
+				</Button>
 			</Stack>
 		</>
 	);

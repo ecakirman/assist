@@ -77,16 +77,11 @@ describe("CommentPopover with a review queue", () => {
 		expect(onQueue).toHaveBeenCalledWith("rename this");
 	});
 
-	it("makes Send to agent the rightmost primary button", () => {
+	it("makes Send to agent the primary button", () => {
 		renderPopover();
 
-		const send = button("Send to agent");
-		const queue = button("Add to review");
-		expect(isContained(send)).toBe(true);
-		expect(isContained(queue)).toBe(false);
-		expect(
-			queue.compareDocumentPosition(send) & Node.DOCUMENT_POSITION_FOLLOWING,
-		).toBeTruthy();
+		expect(isContained(button("Send to agent"))).toBe(true);
+		expect(isContained(button("Add to review"))).toBe(false);
 	});
 
 	it("sends to the agent on Enter", () => {

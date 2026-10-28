@@ -13,21 +13,21 @@ export function CommentSendButtons({
 		<>
 			<Button
 				size="small"
-				variant={queuePrimary ? "contained" : "outlined"}
-				disabled={!onQueue}
-				onClick={onQueue}
-				sx={{ whiteSpace: "nowrap" }}
-			>
-				Add to review
-			</Button>
-			<Button
-				size="small"
 				variant={queuePrimary ? "outlined" : "contained"}
 				disabled={!onSend}
 				onClick={onSend}
 				sx={{ whiteSpace: "nowrap" }}
 			>
 				Send to agent
+			</Button>
+			<Button
+				size="small"
+				variant={queuePrimary ? "contained" : "outlined"}
+				disabled={!onQueue}
+				onClick={onQueue}
+				sx={{ whiteSpace: "nowrap" }}
+			>
+				Add to review
 			</Button>
 		</>
 	);
