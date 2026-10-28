@@ -29,7 +29,6 @@ describe("groupSessionsByRepo", () => {
 				key: "/home/me/git/assist",
 				label: "assist",
 				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
 			},
 		]);
 	});
@@ -58,7 +57,6 @@ describe("groupSessionsByRepo", () => {
 				key: "/repo",
 				label: "repo",
 				rows: [row(sessions[2]), row(sessions[0]), row(sessions[1])],
-				parked: false,
 			},
 		]);
 	});
@@ -105,7 +103,6 @@ describe("groupSessionsByRepo", () => {
 				key: "host/org/assist",
 				label: "assist",
 				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
 			},
 		]);
 	});
@@ -149,14 +146,12 @@ describe("groupSessionsByRepo", () => {
 				key: "/one",
 				label: "one",
 				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
 			},
 			{
 				kind: "repo",
 				key: "/two",
 				label: "two",
 				rows: [row(sessions[2]), row(sessions[3])],
-				parked: false,
 			},
 			{ kind: "single", session: sessions[4] },
 		]);
@@ -179,14 +174,12 @@ describe("groupSessionsByRepo", () => {
 				key: "/two",
 				label: "two",
 				rows: [row(sessions[3]), row(sessions[2])],
-				parked: false,
 			},
 			{
 				kind: "repo",
 				key: "/one",
 				label: "one",
 				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
 			},
 		]);
 	});
@@ -220,14 +213,12 @@ describe("groupSessionsByRepo", () => {
 				key: "/home/me/work/assist",
 				label: "assist",
 				rows: [row(sessions[0]), row(sessions[1])],
-				parked: false,
 			},
 			{
 				kind: "repo",
 				key: "/home/me/play/assist",
 				label: "assist",
 				rows: [row(sessions[2]), row(sessions[3])],
-				parked: false,
 			},
 		]);
 	});
@@ -251,7 +242,6 @@ describe("groupSessionsByRepo", () => {
 				key: "host/org/assist",
 				label: "assist",
 				rows: [row(sessions[0]!, sessions[1]!)],
-				parked: false,
 			},
 		]);
 	});
@@ -277,7 +267,6 @@ describe("groupSessionsByRepo", () => {
 				key: "host/org/assist",
 				label: "assist",
 				rows: [row(sessions[1]!, sessions[2]!), row(sessions[0]!)],
-				parked: false,
 			},
 		]);
 	});
@@ -307,7 +296,6 @@ describe("groupSessionsByRepo", () => {
 					row(sessions[1]!, sessions[2]!, sessions[3]!),
 					row(sessions[0]!),
 				],
-				parked: false,
 			},
 		]);
 	});
@@ -331,45 +319,7 @@ describe("groupSessionsByRepo", () => {
 				key: "host/org/assist",
 				label: "assist",
 				rows: [row(sessions[0]!), row(sessions[1]!)],
-				parked: false,
 			},
 		]);
-	});
-
-	describe("parked groups", () => {
-		const sessions = [
-			makeSessionInfo({ id: "a", cwd: "/one" }),
-			makeSessionInfo({ id: "b", cwd: "/one" }),
-			makeSessionInfo({ id: "c", cwd: "/two" }),
-			makeSessionInfo({ id: "d", cwd: "/two" }),
-			makeSessionInfo({ id: "e", cwd: "/three" }),
-		];
-		const parkOne = (key: string) => key === "/one";
-
-		it("marks the parked group and moves it after every other group", () => {
-			const groups = groupSessionsByRepo(sessions, () => false, parkOne);
-
-			expect(keys(groups)).toEqual(["/two", "e", "/one"]);
-			expect(groups.at(-1)).toMatchObject({ key: "/one", parked: true });
-			expect(groups[0]).toMatchObject({ parked: false });
-		});
-
-		it("hands the parked predicate every member of the group", () => {
-			const seen: string[][] = [];
-
-			groupSessionsByRepo(
-				sessions,
-				() => false,
-				(key, members) => {
-					seen.push([key, ...members.map((m) => m.id)]);
-					return false;
-				},
-			);
-
-			expect(seen).toEqual([
-				["/one", "a", "b"],
-				["/two", "c", "d"],
-			]);
-		});
 	});
 });

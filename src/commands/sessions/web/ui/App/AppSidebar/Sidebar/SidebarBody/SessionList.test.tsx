@@ -31,12 +31,10 @@ function List({
 	sessions,
 	onSelect,
 	pendingLaunches = [],
-	isParkedGroup,
 }: {
 	sessions: SessionInfo[];
 	onSelect: (id: string) => void;
 	pendingLaunches?: PendingLaunch[];
-	isParkedGroup?: (key: string) => boolean;
 }) {
 	const [activeId, setActiveId] = useState<string | null>(
 		sessions[0]?.id ?? null,
@@ -58,7 +56,6 @@ function List({
 				onDismiss={() => {}}
 				onSetAutoApprove={() => {}}
 				onSetAutoAdvance={() => {}}
-				isParkedGroup={isParkedGroup}
 			/>
 		</StarredSessionsProvider>
 	);
@@ -108,10 +105,7 @@ function groupToggle() {
 	return document.querySelector<HTMLElement>("[aria-expanded]")!;
 }
 
-function renderGroupedList(
-	onSelect = vi.fn(),
-	isParkedGroup?: (key: string) => boolean,
-) {
+function renderGroupedList(onSelect = vi.fn()) {
 	render(
 		<List
 			sessions={[
@@ -131,7 +125,6 @@ function renderGroupedList(
 				makeSessionInfo({ id: "last", cwd: "/git/other" }),
 			]}
 			onSelect={onSelect}
-			isParkedGroup={isParkedGroup}
 		/>,
 	);
 	for (const id of ["solo", "g1", "g2", "last"])
@@ -213,67 +206,24 @@ describe("SessionList repo group collapse", () => {
 	});
 });
 
-describe("SessionList parked groups", () => {
-	const parked = (key: string) => key === group.origin;
-
+describe("SessionList group order", () => {
 	function renderedOrder() {
 		return [
-			...document.querySelectorAll(
-				"[data-session-id], [data-testid=parked-divider], [aria-expanded]",
-			),
-		].map(
-			(el) =>
-				el.getAttribute("data-session-id") ??
-				el.getAttribute("data-testid") ??
-				"group",
-		);
+			...document.querySelectorAll("[data-session-id], [aria-expanded]"),
+		].map((el) => el.getAttribute("data-session-id") ?? "group");
 	}
 
-	it("renders a parked group collapsed below a Parked divider at the bottom", () => {
-		renderGroupedList(vi.fn(), parked);
-
-		expect(groupToggle().getAttribute("aria-expanded")).toBe("false");
-		expect(renderedOrder()).toEqual([
-			"solo",
-			"last",
-			"parked-divider",
-			"group",
-		]);
-	});
-
-	it("omits the divider when nothing is parked", () => {
+	it("keeps a repo group open in its insertion position", () => {
 		renderGroupedList();
 
-		expect(screen.queryByTestId("parked-divider")).toBeNull();
+		expect(groupToggle().getAttribute("aria-expanded")).toBe("true");
+		expect(renderedOrder()).toEqual(["solo", "group", "g1", "g2", "last"]);
 	});
 
-	it("skips sessions in a parked group when Tab cycling", () => {
-		const onSelect = renderGroupedList(vi.fn(), parked);
-		card("solo").focus();
-
-		pressTab();
-
-		expect(onSelect).toHaveBeenLastCalledWith("last");
-	});
-
-	it("records when a parked group is opened so its park timer restarts", () => {
-		vi.spyOn(Date, "now").mockReturnValue(42_000);
-		renderGroupedList(vi.fn(), parked);
-
-		fireEvent.click(groupToggle());
-
-		expect(JSON.parse(localStorage.getItem("assist:group-collapse")!)).toEqual({
-			[group.origin]: { openedAt: 42_000 },
-		});
-		vi.restoreAllMocks();
-	});
-
-	it("shows the pushpin only on a group the user collapsed", () => {
-		renderGroupedList(vi.fn(), parked);
+	it("shows the pushpin on a group the user collapsed", () => {
+		renderGroupedList();
 		expect(screen.queryByTestId("group-pinned")).toBeNull();
-		cleanup();
 
-		renderGroupedList();
 		fireEvent.click(groupToggle());
 
 		expect(screen.getByTestId("group-pinned")).not.toBeNull();

@@ -27,12 +27,13 @@ describe("stripLegacyConfigKeys", () => {
 		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
 	});
 
-	it("drops the retired sessions float-waiting keys so old configs still parse", () => {
+	it("drops the retired sessions float-waiting and parking keys so old configs still parse", () => {
 		const stripped = stripLegacyConfigKeys({
 			sessions: {
 				nodeName: "pc-wsl",
 				floatWaiting: false,
 				floatWaitingAfterMs: 15_000,
+				parkWaitingAfterMs: 600_000,
 			},
 		});
 

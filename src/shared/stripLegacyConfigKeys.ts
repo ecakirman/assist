@@ -6,6 +6,7 @@ const LEGACY_SESSIONS_KEYS = [
 	"topBar",
 	"floatWaiting",
 	"floatWaitingAfterMs",
+	"parkWaitingAfterMs",
 ];
 
 const LEGACY_WORKTREE_KEYS = ["watcher", "includeDrafts"];

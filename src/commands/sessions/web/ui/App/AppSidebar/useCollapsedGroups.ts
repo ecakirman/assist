@@ -4,7 +4,6 @@ import type { SessionInfo } from "../../types";
 
 type CollapsedGroups = {
 	isCollapsed: (key: string, members: SessionInfo[]) => boolean;
-	openedAt: (key: string) => number;
 	setCollapsed: (key: string, collapsed: boolean) => void;
 };
 
@@ -25,23 +24,15 @@ export function useCollapsedGroups(): CollapsedGroups {
 		},
 		[choices],
 	);
-	const openedAt = useCallback(
-		(key: string) => {
-			const choice = choices[key];
-			return choice && "openedAt" in choice ? choice.openedAt : 0;
-		},
-		[choices],
-	);
 	return useMemo(
 		() => ({
 			isCollapsed,
-			openedAt,
 			setCollapsed: (key: string, collapsed: boolean) =>
 				groupCollapseStore.setChoice(
 					key,
 					collapsed ? { collapsedAt: Date.now() } : { openedAt: Date.now() },
 				),
 		}),
-		[isCollapsed, openedAt],
+		[isCollapsed],
 	);
 }

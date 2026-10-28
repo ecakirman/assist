@@ -26,7 +26,6 @@ function renderSection(
 			groupKey="host/org/assist"
 			label="assist"
 			sessions={sessionIds.map((id) => makeSessionInfo({ id }))}
-			parked={false}
 			onDismiss={onDismiss}
 		>
 			<Probe />

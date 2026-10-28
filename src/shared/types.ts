@@ -288,7 +288,6 @@ const assistConfigShape = {
 			linkVersionCheck: z.enum(["block", "warn", "off"]).default("block"),
 			tailscaleServe: z.boolean().default(true),
 			includeCommittedChanges: z.boolean().default(true),
-			parkWaitingAfterMs: z.number().default(300_000),
 			maxLive: z.number().default(24),
 			newSessionMode: z
 				.enum(["draft", "bug", "prompt", "design"])

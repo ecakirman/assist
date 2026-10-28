@@ -8,12 +8,6 @@ import { AppLayout } from "./AppLayout";
 import type { SessionSocket } from "../../../useSessionSocket";
 import { SidebarCollapsedContext } from "../../useSidebarCollapsedContext";
 
-vi.mock("../../AppSidebar/useSidebarOrdering/useSessionViewConfig", () => ({
-	useSessionViewConfig: () => ({
-		parkWaitingAfterMs: 300_000,
-	}),
-}));
-
 vi.mock("../../AppSidebar/Sidebar/SidebarBody", () => ({
 	SidebarBody: () => <div data-testid="sidebar-body" />,
 }));

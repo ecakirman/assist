@@ -117,10 +117,10 @@ describe("loadConfigFrom news config", () => {
 });
 
 describe("loadConfigFrom retired sessions keys", () => {
-	it("loads a config that still sets the float-waiting keys", () => {
+	it("loads a config that still sets the float-waiting and parking keys", () => {
 		writeConfig(
 			clone,
-			"sessions:\n  nodeName: pc\n  floatWaiting: false\n  floatWaitingAfterMs: 15000\n",
+			"sessions:\n  nodeName: pc\n  floatWaiting: false\n  floatWaitingAfterMs: 15000\n  parkWaitingAfterMs: 600000\n",
 		);
 
 		const sessions = loadConfigFrom(clone, join(base, "no-global.yml"))
@@ -129,5 +129,6 @@ describe("loadConfigFrom retired sessions keys", () => {
 		expect(sessions.nodeName).toBe("pc");
 		expect(sessions).not.toHaveProperty("floatWaiting");
 		expect(sessions).not.toHaveProperty("floatWaitingAfterMs");
+		expect(sessions).not.toHaveProperty("parkWaitingAfterMs");
 	});
 });

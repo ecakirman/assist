@@ -10,19 +10,13 @@ const paddedContentSx = { py: 0.5 } as const;
 export function CardCyclingScrollport({
 	sessions,
 	onSelect,
-	isParkedGroup,
 	children,
 }: {
 	sessions: SessionInfo[];
 	onSelect: (id: string) => void;
-	isParkedGroup?: (key: string, members: SessionInfo[]) => boolean;
 	children: ReactNode;
 }) {
-	const cycleCards = useCycleSessionCards({
-		sessions,
-		onSelect,
-		isParkedGroup,
-	});
+	const cycleCards = useCycleSessionCards({ sessions, onSelect });
 	return (
 		<Box sx={unpaddedScrollportSx} onKeyDown={cycleCards}>
 			<Box sx={paddedContentSx}>{children}</Box>

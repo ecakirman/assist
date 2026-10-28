@@ -13,17 +13,11 @@ type SessionGroup =
 			key: string;
 			label: string;
 			rows: NestedSessionRow[];
-			parked: boolean;
 	  };
-
-export type IsParkedGroup = (key: string, members: SessionInfo[]) => boolean;
-
-const never = () => false;
 
 export function groupSessionsByRepo(
 	sessions: SessionInfo[],
 	isStarred: (session: SessionInfo) => boolean,
-	isParkedGroup: IsParkedGroup = never,
 ): SessionGroup[] {
 	const groups = bucketSessionsByRepoKey(sessions).map(
 		({ key, label, members }): SessionGroup =>
@@ -36,18 +30,9 @@ export function groupSessionsByRepo(
 						rows: starredFirst(nestUnderBacklogRun(members), (row) =>
 							rowMembers(row).some(isStarred),
 						),
-						parked: isParkedGroup(key, members),
 					},
 	);
-	const isParked = (group: SessionGroup) =>
-		group.kind === "repo" && group.parked;
-	return [
-		...starredFirst(
-			groups.filter((group) => !isParked(group)),
-			(group) => groupMembers(group).some(isStarred),
-		),
-		...groups.filter(isParked),
-	];
+	return starredFirst(groups, (group) => groupMembers(group).some(isStarred));
 }
 
 function rowMembers(row: NestedSessionRow): SessionInfo[] {

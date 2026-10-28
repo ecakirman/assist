@@ -14,10 +14,7 @@ type Props = {
 };
 
 export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
-	const { sessions, isParkedGroup } = useSidebarOrdering(
-		socket.sessions,
-		socket.activeId,
-	);
+	const sessions = useSidebarOrdering(socket.sessions);
 	const { handleSelect, handleResume, handleView } = useSidebarNavigation(
 		socket,
 		onTabChange,
@@ -29,7 +26,6 @@ export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
 		tab,
 		onSelect: handleSelect,
 		onTabChange,
-		isParkedGroup,
 	});
 	useRegionFocusHotkeys({
 		sessions: socket.sessions,
@@ -57,7 +53,6 @@ export function AppSidebar({ socket, tab, onTabChange, collapsed }: Props) {
 			onSetAutoApprove={socket.setAutoApprove}
 			onSetAutoAdvance={socket.setAutoAdvance}
 			initialized={socket.initialized}
-			isParkedGroup={isParkedGroup}
 			collapsed={collapsed}
 		/>
 	);

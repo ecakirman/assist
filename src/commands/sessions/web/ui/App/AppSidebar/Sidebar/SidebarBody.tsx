@@ -26,7 +26,6 @@ export function SidebarBody(props: SidebarProps) {
 			onDismiss={props.onDismiss}
 			onSetAutoApprove={props.onSetAutoApprove}
 			onSetAutoAdvance={props.onSetAutoAdvance}
-			isParkedGroup={props.isParkedGroup}
 		/>
 	);
 }
