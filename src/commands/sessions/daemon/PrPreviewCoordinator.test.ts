@@ -280,7 +280,10 @@ describe("PrPreviewCoordinator", () => {
 		expect(oldWaiter.sent).toEqual([
 			{ type: "pr-superseded", requestId: "r1", supersededBy: "r2" },
 		]);
-		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r2");
+		expect(sessions.get("1")?.pendingPrPreview).toMatchObject({
+			requestId: "r2",
+			supersedes: "r1",
+		});
 		coord.decide({
 			type: "pr-decision",
 			sessionId: "1",
@@ -315,6 +318,7 @@ describe("PrPreviewCoordinator", () => {
 
 		expect(shower.sent).toEqual([{ type: "show-ack", requestId: "r1" }]);
 		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r2");
+		expect(sessions.get("1")?.pendingPrPreview?.supersedes).toBeUndefined();
 	});
 
 	it("keeps a show preview after its sending client disconnects", () => {

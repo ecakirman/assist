@@ -162,6 +162,34 @@ describe("PrPreviewPane inline comments", () => {
 		expect(container.querySelector("mark.pr-comment")).toBeNull();
 	});
 
+	it("carries matching unsent comments over to a superseding preview", () => {
+		const first = render(
+			<PrPreviewPane preview={preview} onDecision={vi.fn()} />,
+		);
+		addComment(first.container, "Adds x", "say what x is");
+		addComment(first.container, "the thing", "which thing");
+		first.unmount();
+
+		const revised: PrPreview = {
+			...preview,
+			requestId: "r2",
+			supersedes: "r1",
+			body: "## What\n\nNow it Adds x to the widget",
+		};
+		const { container } = render(
+			<PrPreviewPane preview={revised} onDecision={vi.fn()} />,
+		);
+
+		expect(screen.getByText("Comments (1)")).toBeTruthy();
+		const marks = container.querySelectorAll("mark.pr-comment");
+		expect(marks).toHaveLength(1);
+		expect(marks[0].textContent).toBe("Adds x");
+		expect(localStorage.getItem("assist:pr-preview-comments:r1")).toBeNull();
+		expect(
+			localStorage.getItem("assist:pr-preview-comments:r2"),
+		).not.toBeNull();
+	});
+
 	it("plain Approve and Reject send no comments", () => {
 		const onDecision = vi.fn();
 		render(<PrPreviewPane preview={preview} onDecision={onDecision} />);

@@ -14,7 +14,11 @@ export function usePrPane(options: PrPaneOptions) {
 	const edit = useEditableBody(options.initialBody, options.editable);
 	const { wrapperRef, contentRef, pending, dragRects, onMouseDown, clear } =
 		usePreviewSelection();
-	const { comments, add, remove } = usePrComments(requestId);
+	const { comments, add, remove } = usePrComments(
+		requestId,
+		options.supersedes,
+		contentRef,
+	);
 	const { decision: shotsForDecision, ...shots } = usePaneScreenshots(options);
 	const decision = usePrDecision(
 		requestId,

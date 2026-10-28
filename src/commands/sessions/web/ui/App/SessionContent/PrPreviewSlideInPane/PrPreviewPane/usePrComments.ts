@@ -1,26 +1,36 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import {
-	loadPersistedComments,
+	type RefObject,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
+import {
 	type PersistedComment,
 	prunePersistedComments,
 	savePersistedComments,
 } from "./PersistedComment";
+import { loadComments } from "./usePrComments/loadComments";
 
 export type LocalComment = PersistedComment & { id: number };
 
-export function usePrComments(requestId: string) {
+export function usePrComments(
+	requestId: string,
+	supersedes: string | undefined,
+	contentRef: RefObject<HTMLElement | null>,
+) {
 	const [comments, setComments] = useState<LocalComment[]>([]);
 	const nextId = useRef(0);
 
 	useEffect(() => {
 		prunePersistedComments();
 		setComments(
-			loadPersistedComments(requestId).map((p) => ({
+			loadComments(requestId, supersedes, contentRef.current).map((p) => ({
 				...p,
 				id: nextId.current++,
 			})),
 		);
-	}, [requestId]);
+	}, [requestId, supersedes, contentRef]);
 
 	const add = useCallback(
 		(comment: PersistedComment) => {

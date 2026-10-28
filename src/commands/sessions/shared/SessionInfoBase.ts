@@ -33,6 +33,7 @@ export type PreviewMetadata = {
 
 export type PrPreview = {
 	requestId: string;
+	supersedes?: string;
 	title: string;
 	body: string;
 	prNumber: number | null;

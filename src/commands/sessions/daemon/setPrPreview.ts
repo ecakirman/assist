@@ -6,7 +6,7 @@ import { daemonLog } from "./daemonLog";
 import { isPreviewKind } from "./isPreviewKind";
 import { previewTargetLabel } from "./previewTargetLabel";
 import { placeShowPreview } from "./placeShowPreview";
-import { supersedePendingPreview } from "./supersedePendingPreview";
+import { holdBlockingPreview } from "./holdBlockingPreview";
 
 type Msg = Record<string, unknown>;
 
@@ -33,11 +33,7 @@ export function setPrPreview(
 	if (kind === "show") {
 		sendTo(client, { type: "show-ack", requestId: d.requestId });
 		if (placeShowPreview(session, preview)) return notify();
-	} else {
-		supersedePendingPreview(session, waiters, d.requestId);
-		session.pendingPrPreview = preview;
-		waiters.set(id, client);
-	}
+	} else holdBlockingPreview(session, waiters, client, preview);
 	const target = previewTargetLabel(
 		kind,
 		d.itemType === "bug" ? "bug" : "story",

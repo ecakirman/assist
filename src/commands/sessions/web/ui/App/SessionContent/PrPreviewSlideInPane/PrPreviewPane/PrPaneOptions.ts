@@ -3,6 +3,7 @@ import type { PrDecisionDetails } from "../../../../PrDecisionDetails";
 
 export type PrPaneOptions = {
 	requestId: string;
+	supersedes: string | undefined;
 	sessionId: string | undefined;
 	cwd: string | undefined;
 	onDecision: (

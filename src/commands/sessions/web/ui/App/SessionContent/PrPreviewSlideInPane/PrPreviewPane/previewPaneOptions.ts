@@ -16,6 +16,7 @@ export function previewPaneOptions(
 	return {
 		...previewPaneCapabilities(preview.kind),
 		requestId: preview.requestId,
+		supersedes: preview.supersedes,
 		sessionId,
 		cwd,
 		onDecision,
