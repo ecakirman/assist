@@ -1,3 +1,10 @@
+# [0.920.0](https://github.com/staff0rd/assist/compare/v0.919.0...v0.920.0) (2026-10-28)
+
+
+### Features
+
+* comment actions primary-first tab order ([5b574a6](https://github.com/staff0rd/assist/commit/5b574a696d8f2c7058d638d7de359ade8e6004de))
+
 # [0.919.0](https://github.com/staff0rd/assist/compare/v0.918.1...v0.919.0) (2026-10-28)
 
 
