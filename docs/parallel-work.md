@@ -5,27 +5,17 @@ where you are or where any in-progress changes live. The tool tracks that; you d
 
 ## 1. Concurrent sessions are isolated automatically
 
-- A second session on `<repo>` lands on `<repo>-2`, a third on `<repo>-3`, and so on.
+- Every session on `<repo>` lands in a fresh workspace — `<repo>-2`, `<repo>-3`, and so on — even when nothing else is running. The repo's own working copy is never handed to a session, so where a session lands never depends on what else is running.
 - Each is a fully independent working copy — one session's edits never touch another's.
 - You never choose, name, or manage these. You start a session on the repo; the tool
   places it.
-- A workspace counts as free once nothing live is working in it and it holds nothing
-  unlanded. A finished card left sitting on the board does not push the next session
-  somewhere new — it reuses the workspace it is standing in.
 - A repo reads as **one place** wherever you pick or browse it. The repo selector and
   the history list show it once — its own working copy and every `<repo>-N` workspace
   under the same remote — and sessions that ran in a workspace since cleaned away are
   still listed there, under the repo they belong to.
-- Checking out someone else's PR — to review it, or to work through its comments —
-  is placed the same way, and it never takes over a workspace that holds work in
-  progress. A workspace is only reused for a checkout when it holds nothing
-  unlanded, so whatever you had going is left exactly where it was; otherwise the
-  PR gets a workspace of its own.
-- Only a plain prompt session may use the repo's own working copy, and only while
-  nothing live holds it. Every assist command — drafting, filing a bug, a backlog
-  run, a review — gets a fresh workspace off the freshly fetched remote default, even
-  when the working copy is free, so it never plans or works against whatever branch
-  the working copy happens to be on.
+- That covers prompt sessions, every assist command — drafting, filing a bug, a backlog run, a review — resumes of a session whose workspace was cleaned away, and `assist review` run from a plain terminal. Each new workspace starts off the freshly fetched remote default, so it never works against whatever branch the working copy happens to be on.
+- Checking out someone else's PR never takes over a workspace that holds work in progress: the PR gets a workspace of its own, unless its branch is already checked out somewhere, in which case it runs there.
+- Only two launches stay where they are: the PR Review button runs in the tree it was launched from, and adding an agent to an existing stream joins that stream's tree.
 - Isolation is per session, not per task. The same piece of work is never started
   twice: ask to run a backlog item that already has a live run and the tool
   **refuses and points at the run that holds it**, rather than isolating a duplicate
