@@ -1,3 +1,15 @@
+# [0.914.0](https://github.com/staff0rd/assist/compare/v0.913.0...v0.914.0) (2026-10-28)
+
+
+### Bug Fixes
+
+* batch/auto push via prs fixed ([5142a7d](https://github.com/staff0rd/assist/commit/5142a7de8fa66bf24e851f5292f2a296f7cbfa46))
+
+
+### Features
+
+* collapsible repo groups in sidebar ([a549c3a](https://github.com/staff0rd/assist/commit/a549c3a95324661f9ef2f18710b88f91a87efb0c))
+
 # [0.913.0](https://github.com/staff0rd/assist/compare/v0.912.0...v0.913.0) (2026-10-28)
 
 
