@@ -79,14 +79,12 @@ describe("describeConfigNode", () => {
 		});
 	});
 
-	it("describes cliReadVerbs and devlog.skip as records of string lists", () => {
-		for (const key of ["cliReadVerbs", "devlog.skip"]) {
-			expect(node(key).kind).toBe("record");
-			expect(node(`${key}.*`)).toMatchObject({
-				kind: "scalarList",
-				itemType: "string",
-			});
-		}
+	it("describes devlog.skip as a record of string lists", () => {
+		expect(node("devlog.skip").kind).toBe("record");
+		expect(node("devlog.skip.*")).toMatchObject({
+			kind: "scalarList",
+			itemType: "string",
+		});
 	});
 
 	it("describes run as a list of two object variants", () => {

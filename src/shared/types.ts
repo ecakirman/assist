@@ -209,7 +209,6 @@ const assistConfigShape = {
 		.optional(),
 	run: z.array(z.union([runConfigSchema, runLinkSchema])).optional(),
 	transcript: transcriptConfigSchema.optional(),
-	cliReadVerbs: z.record(z.string(), z.array(z.string())).optional(),
 	cliHook: z
 		.strictObject({
 			blockNpmRun: z.boolean().default(true),

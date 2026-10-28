@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { cliHook } from "./cliHook";
 import { cliHookCheck } from "./cliHook/cliHookCheck";
 import { cliHookConfigHelp } from "./cliHook/cliHookConfigHelp";
@@ -14,6 +15,7 @@ export function registerCliHook(program: Command): void {
 			cliHook();
 		});
 
+	internalCommand(cmd, "the PreToolUse hook on shell commands and reads");
 	configHelp(cmd, cliHookConfigHelp);
 
 	cmd

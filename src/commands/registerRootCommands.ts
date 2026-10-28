@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { coverage } from "./coverage";
 import { init } from "./init";
 import { init as lintInit } from "./lint/init";
@@ -41,6 +42,7 @@ function registerNotify(program: Command): void {
 		)
 		.action(notify);
 
+	internalCommand(notifyCommand, "the Notification hook");
 	configHelp(notifyCommand, rootConfigHelp.notify);
 }
 
@@ -63,10 +65,13 @@ export function registerRootCommands(program: Command): void {
 	registerLint(program);
 	registerVscode(program);
 
-	program
-		.command("status-line")
-		.description("Format Claude Code status line from JSON stdin")
-		.action(statusLine);
+	internalCommand(
+		program
+			.command("status-line")
+			.description("Format Claude Code status line from JSON stdin")
+			.action(statusLine),
+		"Claude Code's status line",
+	);
 
 	registerNotify(program);
 

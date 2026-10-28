@@ -79,7 +79,7 @@ describe("readConfigEntries", () => {
 			kind: "objectList",
 			item: { kind: "object" },
 		});
-		expect(entryFor("cliReadVerbs").node).toMatchObject({ kind: "record" });
+		expect(entryFor("devlog.skip").node).toMatchObject({ kind: "record" });
 		expect(entryFor("run").node).toMatchObject({
 			kind: "objectList",
 			item: { kind: "unionOfObjects" },

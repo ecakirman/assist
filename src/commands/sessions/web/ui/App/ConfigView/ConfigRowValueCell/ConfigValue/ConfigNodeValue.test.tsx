@@ -44,7 +44,7 @@ describe("ConfigNodeValue", () => {
 	});
 
 	it("renders a record as key/value rows, recursing into the value type", () => {
-		renderNode("cliReadVerbs", { docker: ["ps", "logs"], kubectl: ["get"] });
+		renderNode("devlog.skip", { docker: ["ps", "logs"], kubectl: ["get"] });
 
 		expect(textsUnder("docker")).toEqual(["ps", "logs"]);
 		expect(textsUnder("kubectl")).toEqual(["get"]);
@@ -71,7 +71,7 @@ describe("ConfigNodeValue", () => {
 		expect(screen.getByText("empty list")).toBeTruthy();
 
 		cleanup();
-		renderNode("cliReadVerbs", {});
+		renderNode("devlog.skip", {});
 		expect(screen.getByText("no entries")).toBeTruthy();
 	});
 

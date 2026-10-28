@@ -394,7 +394,7 @@ describe("setConfig", () => {
 
 	it("writes a record of lists", async () => {
 		const [status] = await post({
-			key: "cliReadVerbs",
+			key: "devlog.skip",
 			value: { docker: ["ps", "logs"] },
 			cwd: paths.repo,
 			scope: "project",
@@ -403,7 +403,7 @@ describe("setConfig", () => {
 		expect(status).toBe(200);
 		expect(readYaml(paths.repoConfig)).toEqual({
 			commit: { push: false },
-			cliReadVerbs: { docker: ["ps", "logs"] },
+			devlog: { skip: { docker: ["ps", "logs"] } },
 		});
 	});
 

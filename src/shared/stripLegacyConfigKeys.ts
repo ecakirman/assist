@@ -36,6 +36,7 @@ export function stripLegacyConfigKeys(
 	const stripped = { ...config };
 	if (stripped.repos) stripped.repos = stripRepos(stripped.repos);
 	delete stripped.backlog;
+	delete stripped.cliReadVerbs;
 	const news = stripped.news;
 	if (news && typeof news === "object" && "feeds" in news) {
 		const { feeds: _feeds, ...rest } = news as Record<string, unknown>;

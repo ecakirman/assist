@@ -187,17 +187,17 @@ describe("ConfigNodeEditor", () => {
 	});
 
 	it("adds, renames and removes record entries", () => {
-		render(<Harness nodeKey="cliReadVerbs" initial={{ docker: ["ps"] }} />);
+		render(<Harness nodeKey="devlog.skip" initial={{ docker: ["ps"] }} />);
 
-		click("Add cliReadVerbs entry");
-		type("cliReadVerbs key 2", "kubectl");
-		type("cliReadVerbs.kubectl", "get\ndescribe");
+		click("Add devlog.skip entry");
+		type("devlog.skip key 2", "kubectl");
+		type("devlog.skip.kubectl", "get\ndescribe");
 		expect(edited()).toEqual({
 			docker: ["ps"],
 			kubectl: ["get", "describe"],
 		});
 
-		click("Remove cliReadVerbs entry 1");
+		click("Remove devlog.skip entry 1");
 		expect(edited()).toEqual({ kubectl: ["get", "describe"] });
 	});
 });

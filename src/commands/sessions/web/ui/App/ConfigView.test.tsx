@@ -1046,32 +1046,32 @@ describe("ConfigView", () => {
 	it("adds a key/value row to a record", async () => {
 		const fetchMock = stubApi([
 			{
-				key: "cliReadVerbs",
+				key: "devlog.skip",
 				type: "record",
 				value: { docker: ["ps"] },
 				source: "project",
-				node: node("cliReadVerbs"),
+				node: node("devlog.skip"),
 			},
 		]);
 		renderView("/repo/one");
 
-		await waitFor(() => expect(screen.getByText("cliReadVerbs")).toBeTruthy());
+		await waitFor(() => expect(screen.getByText("devlog.skip")).toBeTruthy());
 		expect(screen.queryByText("read-only")).toBeNull();
-		fireEvent.click(screen.getByRole("button", { name: "Edit cliReadVerbs" }));
+		fireEvent.click(screen.getByRole("button", { name: "Edit devlog.skip" }));
 		fireEvent.click(
-			screen.getByRole("button", { name: "Add cliReadVerbs entry" }),
+			screen.getByRole("button", { name: "Add devlog.skip entry" }),
 		);
-		fireEvent.change(screen.getByLabelText("cliReadVerbs key 2"), {
+		fireEvent.change(screen.getByLabelText("devlog.skip key 2"), {
 			target: { value: "kubectl" },
 		});
-		fireEvent.change(screen.getByLabelText("cliReadVerbs.kubectl"), {
+		fireEvent.change(screen.getByLabelText("devlog.skip.kubectl"), {
 			target: { value: "get" },
 		});
 		fireEvent.click(screen.getByRole("button", { name: "Save" }));
 
 		await waitFor(() =>
 			expect(lastSetBody(fetchMock)).toEqual({
-				key: "cliReadVerbs",
+				key: "devlog.skip",
 				value: { docker: ["ps"], kubectl: ["get"] },
 				cwd: "/repo/one",
 				scope: "project",
