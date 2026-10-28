@@ -1,3 +1,10 @@
+# [0.912.0](https://github.com/staff0rd/assist/compare/v0.911.2...v0.912.0) (2026-10-28)
+
+
+### Features
+
+* address comments auto mode ([feb2968](https://github.com/staff0rd/assist/commit/feb29683c75565e3464cb81a1b26d76d7da49a67))
+
 ## [0.911.2](https://github.com/staff0rd/assist/compare/v0.911.1...v0.911.2) (2026-10-28)
 
 
