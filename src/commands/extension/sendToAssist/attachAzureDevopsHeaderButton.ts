@@ -1,8 +1,8 @@
 import { parseAzureDevopsPrUrl } from "../../../shared/azureDevops/parseAzureDevopsPrUrl";
 import { assistSendButton } from "./assistSendButton";
 
-const HEADER_ACTIONS_SELECTOR =
-	".repos-pr-header .bolt-header-commandbar, .repos-pr-details-page .bolt-header-commandbar";
+const COMPLETE_BUTTON_SELECTOR =
+	".repos-pr-header .repos-pr-header-complete-button";
 
 export function attachAzureDevopsHeaderButton(): void {
 	const pr = parseAzureDevopsPrUrl(location.href);
@@ -13,7 +13,9 @@ export function attachAzureDevopsHeaderButton(): void {
 			stale.remove();
 		return;
 	}
-	const actions = document.querySelector<HTMLElement>(HEADER_ACTIONS_SELECTOR);
+	const actions = document.querySelector(
+		COMPLETE_BUTTON_SELECTOR,
+	)?.parentElement;
 	if (!actions || actions.querySelector(":scope > [data-assist-send]")) return;
 	actions.prepend(
 		assistSendButton(
