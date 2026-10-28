@@ -220,6 +220,22 @@ describe("propose inside a web session", () => {
 		).toEqual([{ idx: 0, name: "Fix" }]);
 	});
 
+	it("exits 0 without creating the item when a newer preview supersedes it", async () => {
+		mockRequestPreviewDecision.mockResolvedValue("superseded");
+		vi.spyOn(process, "exit").mockImplementation(((code?: number) => {
+			throw new Error(`process.exit(${code})`);
+		}) as never);
+
+		await expect(propose({ json: writePayload(bug) })).rejects.toThrow(
+			"process.exit(0)",
+		);
+
+		expect(await allItems()).toHaveLength(0);
+		expect(logSpy.mock.calls.map((c) => c.join(" ")).join("\n")).toContain(
+			"Superseded by a newer preview — no decision; ignore this result.",
+		);
+	});
+
 	it("starts no run on a plain approval", async () => {
 		mockRequestPreviewDecision.mockResolvedValue({ decision: "approve" });
 

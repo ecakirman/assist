@@ -266,6 +266,57 @@ describe("PrPreviewCoordinator", () => {
 		expect(sessions.get("1")?.pendingPrPreview).toBeUndefined();
 	});
 
+	it("supersedes a pending preview in place when another blocking preview arrives", () => {
+		const sessions = makeSessions("1");
+		const notify = vi.fn();
+		const coord = new PrPreviewCoordinator(sessions, notify);
+		const oldWaiter = makeClient();
+		const newWaiter = makeClient();
+		coord.set(oldWaiter, { ...previewMsg("1", "r1"), kind: "ask" });
+
+		coord.set(newWaiter, { ...previewMsg("1", "r2"), kind: "ask" });
+		coord.clearWaiter(oldWaiter);
+
+		expect(oldWaiter.sent).toEqual([
+			{ type: "pr-superseded", requestId: "r1", supersededBy: "r2" },
+		]);
+		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r2");
+		coord.decide({
+			type: "pr-decision",
+			sessionId: "1",
+			requestId: "r2",
+			decision: "approve",
+		});
+		expect(newWaiter.sent.at(-1)).toMatchObject({
+			type: "pr-decision",
+			requestId: "r2",
+		});
+	});
+
+	it("does not supersede anything when a show arrives over a pending preview", () => {
+		const sessions = makeSessions("1");
+		const coord = new PrPreviewCoordinator(sessions, vi.fn());
+		const waiter = makeClient();
+		coord.set(waiter, { ...previewMsg("1", "r1"), kind: "ask" });
+
+		coord.set(makeClient(), { ...previewMsg("1", "r2"), kind: "show" });
+
+		expect(waiter.sent).toEqual([]);
+		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r1");
+	});
+
+	it("replaces a show with a blocking preview without a supersede", () => {
+		const sessions = makeSessions("1");
+		const coord = new PrPreviewCoordinator(sessions, vi.fn());
+		const shower = makeClient();
+		coord.set(shower, { ...previewMsg("1", "r1"), kind: "show" });
+
+		coord.set(makeClient(), { ...previewMsg("1", "r2"), kind: "ask" });
+
+		expect(shower.sent).toEqual([{ type: "show-ack", requestId: "r1" }]);
+		expect(sessions.get("1")?.pendingPrPreview?.requestId).toBe("r2");
+	});
+
 	it("keeps a show preview after its sending client disconnects", () => {
 		const sessions = makeSessions("1");
 		const coord = new PrPreviewCoordinator(sessions, vi.fn());

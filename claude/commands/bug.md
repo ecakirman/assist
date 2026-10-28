@@ -70,7 +70,7 @@ JSON
 
 The payload is strict JSON — an unknown key is an error. `\n` inside the `description` string is a JSON escape and becomes a real newline, which is what the markdown rendering needs.
 
-Always run `propose` **as a background task**, and do no other work until it returns. In a web session it blocks on the preview pane until the user decides, which can take far longer than the default command timeout, and the pending preview dies with the process — a killed `propose` abandons the item.
+Always run `propose` **as a background task**, and do no other work until it returns. In a web session it blocks on the preview pane until the user decides, which can take far longer than the default command timeout, and the pending preview dies with the process — a killed `propose` abandons the item. To revise the report while its preview is still pending, re-run `propose` with the revised payload directly — do not stop the earlier task. The pane swaps to the new version, and the earlier task exits 0 printing `Superseded by a newer preview — no decision; ignore this result.` without creating anything: ignore it.
 
 `propose` decides where the bug report is reviewed and prints what to do next. Follow that instruction; never inspect the environment to work it out yourself:
 

@@ -21,6 +21,8 @@ assist ask --title '<short title>' --body - < <scratch file>
 
 Always run it **as a background task**, and do no other work until it returns. In a web session it blocks until the user decides, which can take far longer than the default command timeout, and the pending preview dies with the process.
 
+To revise the update while it is still pending, re-run Step 2 directly — do not stop the earlier task. The pane swaps to the new version, and the earlier task exits 0 printing `Superseded by a newer preview — no decision; ignore this result.`: ignore it.
+
 Outside a web session it prints the markdown and exits 0 without a decision: ask the user in chat instead.
 
 ## Step 3: act on the decision

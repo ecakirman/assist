@@ -1,6 +1,7 @@
 import type { PreviewDecision } from "./PreviewDecision";
 import { reportPreviewRejection } from "./reportPreviewRejection";
 import {
+	type PreviewOutcome,
 	type PreviewRequest,
 	requestPreviewDecision,
 } from "./requestPreviewDecision";
@@ -18,9 +19,9 @@ export async function awaitPreviewApproval(
 ): Promise<PreviewDecision> {
 	console.log("Awaiting your approval in the assist web UI preview pane…");
 
-	let decision: PreviewDecision;
+	let outcome: PreviewOutcome;
 	try {
-		decision = await requestPreviewDecision(request);
+		outcome = await requestPreviewDecision(request);
 	} catch (error) {
 		console.error(
 			`Error: ${error instanceof Error ? error.message : String(error)}`,
@@ -28,9 +29,16 @@ export async function awaitPreviewApproval(
 		process.exit(1);
 	}
 
-	if (decision.body !== undefined) options.saveEditedBody?.(decision.body);
-	if (decision.decision === "reject" && !options.rejectIsOutcome)
-		reportPreviewRejection(subject, decision, options.rejectionAdvice);
+	if (outcome === "superseded") {
+		console.log(
+			"Superseded by a newer preview — no decision; ignore this result.",
+		);
+		process.exit(0);
+	}
 
-	return decision;
+	if (outcome.body !== undefined) options.saveEditedBody?.(outcome.body);
+	if (outcome.decision === "reject" && !options.rejectIsOutcome)
+		reportPreviewRejection(subject, outcome, options.rejectionAdvice);
+
+	return outcome;
 }

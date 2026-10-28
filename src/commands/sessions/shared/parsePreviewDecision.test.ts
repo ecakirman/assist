@@ -35,6 +35,24 @@ describe("parsePreviewDecision", () => {
 		).toEqual({ kind: "error", message: "pr-preview blew up" });
 	});
 
+	it("reads a supersede of this request", () => {
+		expect(
+			parsePreviewDecision(
+				line({ type: "pr-superseded", requestId: "r1", supersededBy: "r2" }),
+				"r1",
+			),
+		).toEqual({ kind: "superseded" });
+	});
+
+	it("ignores a supersede of another request", () => {
+		expect(
+			parsePreviewDecision(
+				line({ type: "pr-superseded", requestId: "r0" }),
+				"r1",
+			),
+		).toBeNull();
+	});
+
 	it("reads the reviewer's chain toggles", () => {
 		expect(parsed({ reviewAfter: true, announceAfter: false })).toMatchObject({
 			decision: "approve",

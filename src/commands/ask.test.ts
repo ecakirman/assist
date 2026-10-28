@@ -79,6 +79,20 @@ describe("ask", () => {
 		expect(out).toContain("  > step 3\n   Comment: drop it");
 	});
 
+	it("prints the superseded message and exits 0 when a newer preview replaces it", async () => {
+		mockRequestPreviewDecision.mockResolvedValue("superseded");
+
+		await expect(ask({ title: "Plan", body: "# Plan" })).rejects.toThrow(
+			"process.exit(0)",
+		);
+
+		expect(logged).toContain(
+			"Superseded by a newer preview — no decision; ignore this result.",
+		);
+		expect(logged).not.toContain("Approved.");
+		expect(errored).toEqual([]);
+	});
+
 	it("exits non-zero with the reason and every comment on reject", async () => {
 		mockRequestPreviewDecision.mockResolvedValue({
 			decision: "reject",

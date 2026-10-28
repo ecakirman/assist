@@ -6,23 +6,27 @@ import type { PrPreview } from "./SessionInfoBase";
 
 export type PreviewRequest = PrPreview & { sessionId: string };
 
+export type PreviewOutcome = PreviewDecision | "superseded";
+
 export function requestPreviewDecision(
 	request: PreviewRequest,
-): Promise<PreviewDecision> {
+): Promise<PreviewOutcome> {
 	return new Promise((resolve, reject) => {
 		connectToDaemon().then((socket) => {
 			let settled = false;
-			const finish = (error?: Error, decision?: PreviewDecision) => {
+			const finish = (error?: Error, outcome?: PreviewOutcome) => {
 				if (settled) return;
 				settled = true;
 				socket.destroy();
 				if (error) reject(error);
-				else resolve(decision as PreviewDecision);
+				else resolve(outcome as PreviewOutcome);
 			};
 			readSocketLines(socket, (line) => {
 				const incoming = parsePreviewDecision(line, request.requestId);
 				if (!incoming) return;
 				if (incoming.kind === "error") finish(new Error(incoming.message));
+				else if (incoming.kind === "superseded")
+					finish(undefined, "superseded");
 				else finish(undefined, incoming.decision);
 			});
 			socket.on("error", (error) => finish(error));

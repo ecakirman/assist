@@ -38,6 +38,7 @@ In an assist web session this renders each message in the preview pane for appro
 - **Approved (`--body`)** — the last line of stdout is the path to the approved body under `~/.assist/slack/`. That file, not your scratch file, is what gets posted. The line above it names the target channel, and the resolved `thread_ts` when `--thread` was passed.
 - **Approved (`--parts`)** — only after the last part is approved does the command print anything: a line naming the target, then one `k/N <path>` line per part in thread order under `~/.assist/slack/`, then a line saying how to thread them. Those files, not your scratch files, are what get posted.
 - **Rejected** — the command exits non-zero with the reason and any inline comments, and names the working file of the message that was rejected (with its position, for a batch). No path is handed back, so nothing from the batch is posted. Address every comment, rewrite that working file in place, and re-run the same command with that working file in place of the scratch file it came from — a batch re-previews from part 1. Do not post, and do not recompose the messages from scratch.
+- **Superseded** — the command was re-run while this preview was pending, which is how to revise a pending preview; never stop the earlier task first. It exits 0 printing `Superseded by a newer preview — no decision; ignore this result.` and posts nothing: ignore it and wait for the newer run.
 
 Outside a web session there is no pane: the bodies pass straight through and the working files are written immediately.
 

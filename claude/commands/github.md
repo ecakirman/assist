@@ -62,6 +62,8 @@ Display the output so the user can see what happened. If the command exits non-z
 - **Request changes** — the reason and every inline comment, each with the excerpt it was left on. The output names the working file holding the pane's markdown, collapses included. Revise **that file in place** to address the comments — never recompose the body from scratch — then re-run the command, which previews the revised file with the earlier collapses intact. Pass `--fresh` only when the working file should be thrown away and the issue re-fetched.
 - **The issue moved on GitHub** — it names the working file holding the markdown. Someone else edited the issue, so nothing was pushed; tell the user rather than re-running blind.
 
+Any preview in this skill (`edit`, `create`, `comment`) can be revised while still pending by re-running the command directly — do not stop the earlier task. The earlier task exits 0 printing `Superseded by a newer preview — no decision; ignore this result.` without touching GitHub: ignore it.
+
 ## Action: create
 
 Create a new issue from a free-form request (e.g. `create bug against owner/repo, Sprint 3 milestone, Roadmap project: login fails on Safari`). Step 2 does not apply — there is no issue yet. Work out from the args:

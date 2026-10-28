@@ -9,7 +9,7 @@ Run the high-level review (see `docs/high-level-review.md`) for the PR given in 
 assist review --high-level $ARGUMENTS
 ```
 
-If this is a re-invocation in a session that already ran it, re-run it anyway — never assume the checklist is still open, since the pane may have gone even while a previous task still looks alive. Stop any still-running previous `assist review --high-level` background task first, then launch it afresh.
+If this is a re-invocation in a session that already ran it, re-run it anyway — never assume the checklist is still open, since the pane may have gone even while a previous task still looks alive. Do not stop a still-running previous `assist review --high-level` task: launch it afresh, and the new checklist replaces the old one in place. The earlier task then exits 0 printing `Superseded by a newer preview — no decision; ignore this result.` — ignore it.
 
 Run it as a background task. In an assist web session it opens the checklist in the web UI preview pane and returns once the user approves or requests changes; otherwise it prints the checklist and exits straight away. Do not review the PR yourself or post anything to GitHub.
 

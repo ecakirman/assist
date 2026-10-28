@@ -6,6 +6,7 @@ import { daemonLog } from "./daemonLog";
 import { isPreviewKind } from "./isPreviewKind";
 import { previewTargetLabel } from "./previewTargetLabel";
 import { placeShowPreview } from "./placeShowPreview";
+import { supersedePendingPreview } from "./supersedePendingPreview";
 
 type Msg = Record<string, unknown>;
 
@@ -33,6 +34,7 @@ export function setPrPreview(
 		sendTo(client, { type: "show-ack", requestId: d.requestId });
 		if (placeShowPreview(session, preview)) return notify();
 	} else {
+		supersedePendingPreview(session, waiters, d.requestId);
 		session.pendingPrPreview = preview;
 		waiters.set(id, client);
 	}
