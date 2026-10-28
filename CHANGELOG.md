@@ -1,3 +1,10 @@
+# [0.923.0](https://github.com/staff0rd/assist/compare/v0.922.0...v0.923.0) (2026-10-28)
+
+
+### Features
+
+* previews supersede in place ([15a9637](https://github.com/staff0rd/assist/commit/15a9637c0452d4053d587bdfb5c20780a11fb14c))
+
 # [0.922.0](https://github.com/staff0rd/assist/compare/v0.921.0...v0.922.0) (2026-10-28)
 
 
