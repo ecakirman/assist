@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { internalCommand } from "../shared/internalCommand";
 import { edit as prsEdit } from "./prs/edit";
 import { editHelpText } from "./prs/editHelpText";
 
@@ -7,7 +8,7 @@ function collect(value: string, previous: string[]): string[] {
 }
 
 export function registerPrsEdit(prsCommand: Command): void {
-	prsCommand
+	const editCommand = prsCommand
 		.command("edit")
 		.description(
 			"Update individual sections of the current branch's pull request",
@@ -30,4 +31,5 @@ export function registerPrsEdit(prsCommand: Command): void {
 		)
 		.addHelpText("after", () => editHelpText())
 		.action(prsEdit);
+	internalCommand(editCommand, "agents revising their pull request");
 }

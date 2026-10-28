@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { raise as prsRaise } from "./prs/raise";
 import { prsRaiseConfigHelp } from "./prs/prsConfigHelp";
 import { raiseHelpText } from "./prs/raiseHelpText";
@@ -59,5 +60,6 @@ export function registerPrsRaise(prsCommand: Command): void {
 		.addHelpText("after", () => raiseHelpText())
 		.action(prsRaise);
 
+	internalCommand(raiseCommand, "/pr");
 	configHelp(raiseCommand, prsRaiseConfigHelp);
 }

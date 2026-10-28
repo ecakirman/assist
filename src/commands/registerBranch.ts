@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { branch } from "./branch/branch";
 import { branchConfigHelp } from "./branch/branchConfigHelp";
 
@@ -18,6 +19,7 @@ export function registerBranch(program: Command): void {
 			branch(slug, options),
 		);
 
+	internalCommand(branchCommand, "/branch");
 	configHelp(
 		branchCommand,
 		branchConfigHelp,

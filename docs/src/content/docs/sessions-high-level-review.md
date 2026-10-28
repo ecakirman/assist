@@ -2,7 +2,7 @@
 id: sessions-high-level-review
 title: High-level review
 group: Git and GitHub
-order: 2
+order: 3
 covers:
   - claude:review-high-level
   - claude:review-config
@@ -37,7 +37,7 @@ screenshots:
       - click: "[aria-label^='Structure']"
 ---
 
-A high-level review is a checklist for judging a pull request without reading every line: whether its description is reviewable, whether the shape of the change matches what it says it does, and whether the few files where a mistake is expensive are right. Use it alongside an [LLM review](../sessions-pr-review/), which does read every line.
+A high-level review is a checklist for judging a pull request without reading every line: whether its description is reviewable, whether the shape of the change matches what it says it does, and whether the few files where a mistake is expensive are right. Use it alongside an [adversarial review](../sessions-pr-review/), which does read every line.
 
 ## Starting a review
 

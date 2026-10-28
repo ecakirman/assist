@@ -1,9 +1,10 @@
 import type { Command } from "commander";
 import { readBodyArgument } from "../../prs/readBodyArgument";
+import { internalCommand } from "../../../shared/internalCommand";
 import { commentIssue } from "./commentIssue";
 
 export function registerCommentIssue(issueCommand: Command): void {
-	issueCommand
+	const commentCommand = issueCommand
 		.command("comment <number>")
 		.description("Comment on a GitHub issue (body of - reads it from stdin)")
 		.option("--body <body>", "Comment body (- reads it from stdin)")
@@ -23,4 +24,5 @@ export function registerCommentIssue(issueCommand: Command): void {
 				});
 			},
 		);
+	internalCommand(commentCommand, "/github update");
 }

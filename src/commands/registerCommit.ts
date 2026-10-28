@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { commit } from "./commit";
 import { rootConfigHelp } from "./rootConfigHelp";
 
@@ -20,5 +21,6 @@ export function registerCommit(program: Command): void {
 		)
 		.action(commit);
 
+	internalCommand(commitCommand, "/commit");
 	configHelp(commitCommand, rootConfigHelp.commit);
 }

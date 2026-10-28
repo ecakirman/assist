@@ -1,9 +1,10 @@
 import type { Command } from "commander";
 import { readBodyArgument } from "../../prs/readBodyArgument";
+import { internalCommand } from "../../../shared/internalCommand";
 import { editIssueComment } from "./editIssueComment";
 
 export function registerEditIssueComment(issueCommand: Command): void {
-	issueCommand
+	const editCommentCommand = issueCommand
 		.command("edit-comment <comment-id>")
 		.description(
 			"Replace the body of a posted GitHub issue comment (body of - reads it from stdin)",
@@ -25,4 +26,5 @@ export function registerEditIssueComment(issueCommand: Command): void {
 				});
 			},
 		);
+	internalCommand(editCommentCommand, "agents revising an issue comment");
 }

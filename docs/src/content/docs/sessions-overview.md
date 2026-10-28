@@ -63,7 +63,7 @@ From left to right:
 - **Repo picker** (:kbd[Alt+R]) chooses the repo the toolbar acts on. It lists the repo the web server started in plus every repo a session has run in; type to filter. Selecting a card switches it to that card's repo.
 - **VS Code** opens the selected repo in VS Code, and **GitHub** opens it on GitHub.
 - **+** (:kbd[Mod+N] or :kbd[Alt+N]) opens the new-session dialog (see [Creating sessions](../sessions-creating/)).
-- A **PRs** menu appears when the repo has open [pull requests](../pull-requests/), and a run menu when the repo has [`run` entries](../run-commands/).
+- A **PRs** menu appears when the repo has open [pull requests](../pull-requests/#the-prs-menu), and a run menu when the repo has [`run` entries](../run-commands/).
 - **Usage** opens the [Usage](../usage/) page.
 - The **version badge** (:kbd[Alt+Q]) shows how many updates are ready and opens the [Updates](../updating/#the-updates-page) page.
 - The **cog** (:kbd[Alt+W]) opens the [Config](../config/) page.

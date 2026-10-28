@@ -2,9 +2,10 @@
 id: sessions-pr-review
 title: Reviewing pull requests
 group: Git and GitHub
-order: 1
+order: 2
 covers:
   - config:review.codexModel
+  - skill:review-ci
 screenshots:
   - file: sessions-review-menu.png
     alt: The Review menu on a session with a pull request
@@ -28,7 +29,7 @@ A session with a pull request has a **Review** button on its card and in its [to
 
 ## Choosing a review
 
-The **Review** menu offers:
+The **Review** menu, also opened by picking a pull request from the toolbar's [PRs menu](../pull-requests/#the-prs-menu), offers:
 
 ::screenshot{file="sessions-review-menu.png"}
 
@@ -46,7 +47,7 @@ Tick these before picking a mode:
 - **Address comments after** works through the review comments once posted.
 - **Announce to Slack after** posts the pull request to Slack.
 
-**Address Comments** works through the pull request's unresolved review comments one by one.
+Below them, the **Address Comments** items work through the pull request's [review comments](../review-comments/).
 
 ## Reading the findings
 
@@ -59,3 +60,7 @@ The Codex reviewer runs the Codex CLI under the account you signed in to it with
 ```bash
 assist config set review.codexModel gpt-5-codex
 ```
+
+## Reviewing in CI
+
+Run `/review-ci` in a repo to have every new pull request reviewed by Claude and Codex in GitHub Actions, through a LiteLLM proxy or Azure AI Foundry. It adds a workflow to the repo and asks which models to use for the two reviewers and the summary. It then gives you a command to run in your own terminal, which asks for the API key and stores the settings on the GitHub repo. Commit the files it adds; the findings arrive as a review on each pull request that isn't a draft.
