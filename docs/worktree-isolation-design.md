@@ -3,12 +3,14 @@
 One clone per repo. Concurrency comes from **linked worktrees hanging off that
 clone**, not from keeping spare clones and remembering which is free.
 
-- A session **reuses the clone's own tree when it is free** — git's primary
-  checkout is itself a worktree.
-- Only a **concurrent** session — one arriving while the clone's tree is already
-  bound to a live session — spills into a linked worktree at `<clone>-2`,
-  `<clone>-3`, … beside the clone. Never nested under it: a coding harness
-  recurses its working tree and would edit sibling worktrees it must not touch.
+- **Every session spills** into a fresh linked worktree at `<clone>-2`,
+  `<clone>-3`, … beside the clone, whatever else is running. The clone's own
+  tree is never allocated, so placement never depends on what else is live.
+  Worktrees are never nested under the clone: a coding harness recurses its
+  working tree and would edit sibling worktrees it must not touch.
+- The only sessions that stay put are `inPlace` launches (e.g. the PR Review
+  button), which run in the tree they were launched from, and agents added to an
+  existing stream, which join that stream's tree.
 - A worktree is **reaped only when its session ends**, and a session **cannot
   end while its tree holds undurable work**. No commit is stranded by teardown.
 - **Opt-in per repo, default off.** Disabled, the code path is today's.
@@ -16,9 +18,9 @@ clone**, not from keeping spare clones and remembering which is free.
 ```mermaid
 flowchart LR
   CLONE["single clone<br/>(primary worktree)"]
-  CLONE --> S1["Session A → clone's own tree (free ⇒ reused)"]
-  CLONE --> WT2["Session B → <clone>-2"]
-  CLONE --> WT3["Session C → <clone>-3"]
+  CLONE --> WT2["Session A → <clone>-2"]
+  CLONE --> WT3["Session B → <clone>-3"]
+  CLONE --> WT4["Session C → <clone>-4"]
 ```
 
 Everything below lives in `src/commands/sessions/daemon/worktree/`.
@@ -26,11 +28,12 @@ Everything below lives in `src/commands/sessions/daemon/worktree/`.
 ## Allocation
 
 `spawn` and `spawnAssist` route through `spawnInTree.ts`, which calls
-`allocateTree(requestedCwd, boundTreeRoots)` before `spawnWith`, then binds the
-result onto the new session. `boundTreeRoots` is every live session's `cwd`
-mapped through `findRepoRoot` — the live map is the authority on which trees are
-bound. `planAllocation` returns `primary` unless the clone is already in that
-set, in which case `createWorktree` runs:
+`allocateTree(requestedCwd, boundTreeRoots, options)` via `allocateAndBind`,
+then binds the result onto the new session. With `worktree.enabled` off, or
+`options.inPlace` set, `allocateTree` keeps the requested tree. Otherwise it
+always runs `createWorktree` against the clone (`mainWorktree` of the requested
+tree, so launching from a `<clone>-N` still spills off the clone) and logs a
+`daemonLog` line naming the clone and that `worktree.enabled` forced the spill:
 
 ```
 git config push.default upstream            (on the clone)
@@ -40,17 +43,24 @@ git worktree add --track -b <repo>-N <path> origin/<trunk>
 The branch takes the worktree directory's name. `nextWorktreePath` walks up from
 `-2` and skips any suffix that is a registered worktree, an existing path, a
 bound tree, or an existing local branch — so it never clobbers a real clone.
+`boundTreeRoots` is every live session's `cwd` mapped through `findRepoRoot` —
+the live map is the authority on which trees are bound.
 Each new worktree is recorded in `~/.assist/worktrees.json` (path → clone +
 origin), which is what makes cleanup possible after the directory is gone.
 
 This is race-free within a host: the daemon is one Node process and allocation is
-synchronous, so two near-simultaneous spawns cannot both claim the primary tree.
+synchronous, so two near-simultaneous spawns cannot both claim the same `<clone>-N`.
 Cross-host WSL↔Windows repos are different clones on different filesystems, so
 there is no shared tree to race — `git.ts` shells `git.exe -C <path>` for `C:\`
 paths, keeping every worktree operation on the side that owns the checkout.
 
 `resume` does not allocate; `resumeInTree` binds whatever worktree the recorded
-`cwd` already is, via `detectExistingWorktree`.
+`cwd` already is, via `detectExistingWorktree`. When that worktree has been
+reaped, `resumeInReplacementTree` allocates a fresh `<clone>-N` in its place.
+Adding an agent to a stream (`addAgentToStream`) joins the stream's tree rather
+than allocating. `assist review` from a plain terminal (`moveToPrCheckoutTree`)
+calls `allocateTree` against `persistedTreeRoots`, so it too moves to a fresh
+worktree.
 
 ## Seeding
 
@@ -154,7 +164,8 @@ Documented, not fixed.
 
 | Key                | Default                                                      | Effect                                                                                                                                                                             |
 | ------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `worktree.enabled` | `false`                                                      | off ⇒ `allocateTree` always returns the requested cwd                                                                                                                              |
+| `worktree.enabled` | `false`                                                      | off ⇒ `allocateTree` always returns the requested cwd; on ⇒ every non-`inPlace` allocation creates a fresh `<clone>-N`                                                             |
+| `worktree.trunk`   | `false`                                                      | on ⇒ a worktree's branch tracks `origin/<clone's branch>`; off ⇒ it starts off the remote default with no upstream. Affects branch tracking only, not placement                    |
 | `worktree.root`    | the clone's parent                                           | where `<repo>-N` worktrees are created                                                                                                                                             |
 | `worktree.install` | `true`                                                       | `true` auto-detects the package manager; a string is an explicit command; `false` skips; a list of paths auto-detects and installs in each in order, stopping at the first failure |
 | `worktree.copy`    | `.env`, `settings.local.json`, `.claude/settings.local.json` | gitignored files copied into a new worktree                                                                                                                                        |
@@ -169,7 +180,4 @@ entry in `~/.assist.yml` keyed by origin (`resolveRepoOverride.ts`).
   (`uniqueRepos.ts`, `groupSessionsByRepo.ts`), so worktree sessions sprawl into
   separate entries. Resolve origin live via git for existing trees and via the
   registry for reaped ones.
-- **`review` still uses the shared tree.** `checkoutPr` (`review/review.ts`)
-  runs `gh pr checkout N` against whatever is checked out. Routing it through
-  `allocateTree` would keep a PR checkout off in-progress work.
 - **`spawnRun` does not allocate** — server runs always use the requested cwd.

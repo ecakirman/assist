@@ -89,7 +89,9 @@ describe("configGet", () => {
 
 		expect(text).toContain('Key "worktree.enabled" is not set');
 		expect(text).toContain("the schema default is false");
-		expect(text).toContain("spill concurrent prompt sessions");
+		expect(text).toContain(
+			"every session spills into a fresh adjacent <clone>-N worktree",
+		);
 		expect(text).toContain("assist config set worktree.enabled true");
 	});
 

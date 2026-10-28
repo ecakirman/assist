@@ -23,8 +23,10 @@ assist config set worktree.enabled true
 
 With it on:
 
-- The first prompt session uses the clone itself. A second concurrent one lands in `<repo>-2`, a third in `<repo>-3`, and so on.
-- Every assist-command session (draft, bug, backlog run, review and so on) gets a fresh worktree off the freshly fetched remote default branch, so it never works against whatever branch the clone is on.
+- Every session gets a fresh worktree beside the clone — `<repo>-2`, `<repo>-3` and so on — even when nothing else is running. The clone itself is never handed to a session, so where a session lands never depends on what else is running.
+- That covers prompt sessions, assist-command sessions (draft, bug, backlog run, review and so on), resumes of a session whose worktree has been removed, and `assist review` run from a plain terminal.
+- A worktree starts off the freshly fetched remote default branch, so it never works against whatever branch the clone is on.
+- Two launches stay where they are: the PR Review button runs in the tree it was launched from, and adding an agent to an existing stream joins that stream's tree.
 
 ## Work is never lost
 
@@ -34,7 +36,7 @@ The same applies to a session in the clone's own working copy, though the clone 
 
 ## Worktree settings
 
-- `worktree.trunk` — trunk-based work. A spilled worktree's branch tracks `origin/<trunk>` so commits land on the mainline, and jobs that commit (`backlog run`, PR checkouts, reviews) always run in a worktree, never the clone. Off (the default), a worktree starts off the remote default branch with no upstream, and the session raises its own branch and PR.
+- `worktree.trunk` — trunk-based work. A spilled worktree's branch tracks `origin/<trunk>` so commits land on the mainline. Off (the default), a worktree starts off the remote default branch with no upstream, and the session raises its own branch and PR.
 - `worktree.root` — the parent directory for `<repo>-N` worktrees. Defaults to the clone's parent.
 - `worktree.install` — how a new worktree installs its dependencies. `true` (the default) detects pnpm, yarn, bun or npm; a string is the install command to run; `false` skips it; a JSON list of paths installs in each in order, stopping at the first failure:
 
