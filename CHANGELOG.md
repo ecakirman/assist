@@ -1,3 +1,10 @@
+# [0.913.0](https://github.com/staff0rd/assist/compare/v0.912.0...v0.913.0) (2026-10-28)
+
+
+### Features
+
+* address comments batch mode ([36de717](https://github.com/staff0rd/assist/commit/36de717446c58003c7293d9581a83e6297b71456))
+
 # [0.912.0](https://github.com/staff0rd/assist/compare/v0.911.2...v0.912.0) (2026-10-28)
 
 
