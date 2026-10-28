@@ -60,7 +60,7 @@ function coerceScalarList(
 	return { ok: true, value: values };
 }
 
-function coerceUnion(
+export function coerceUnion(
 	key: string,
 	raw: unknown,
 	types: ConfigScalarLeafType[],

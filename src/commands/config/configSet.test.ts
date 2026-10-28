@@ -311,6 +311,18 @@ describe("configSet", () => {
 			});
 		});
 
+		it("should write a number field of an indexed list entry as a number", () => {
+			mockLoadGlobalConfigRaw.mockReturnValue({
+				run: [{ name: "dev", command: "npm" }],
+			});
+
+			configSet("run.0.port", "5173", { global: true });
+
+			expect(mockSaveGlobalConfig.mock.lastCall?.[0]).toEqual({
+				run: [{ name: "dev", command: "npm", port: 5173 }],
+			});
+		});
+
 		it("should keep string keys as strings", () => {
 			configSet("branch.prefix", "sw", { global: true });
 

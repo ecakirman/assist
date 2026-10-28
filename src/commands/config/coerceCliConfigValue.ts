@@ -1,7 +1,8 @@
 import { describeConfigLeaves } from "../../shared/describeConfigLeaves";
 import { assistConfigSchema } from "../../shared/types";
 import type { ConfigWritableValue } from "./applyConfigSet";
-import { coerceConfigValue } from "./coerceConfigValue";
+import { coerceConfigValue, coerceUnion } from "./coerceConfigValue";
+import { configKeyNode } from "./configKeyNode";
 
 type CoerceCliConfigValueResult =
 	| { ok: true; value: ConfigWritableValue }
@@ -14,9 +15,23 @@ export function coerceCliConfigValue(
 	const leaf = describeConfigLeaves(assistConfigSchema).find(
 		(candidate) => candidate.key === key,
 	);
-	if (!leaf) return { ok: true, value: coerceWithoutSchemaLeaf(raw) };
+	if (!leaf) return coerceIndexedValue(key, raw);
 	if (leaf.itemType) return coerceConfigValue(key, splitList(raw));
 	return coerceConfigValue(key, raw);
+}
+
+function coerceIndexedValue(
+	key: string,
+	raw: string,
+): CoerceCliConfigValueResult {
+	const node = configKeyNode(key.replace(/\.(\d+)(?=\.|$)/g, "[$1]"));
+	if (node?.kind !== "scalar")
+		return { ok: true, value: coerceWithoutSchemaLeaf(raw) };
+	return coerceUnion(
+		key,
+		raw,
+		node.type === "union" ? (node.unionTypes ?? []) : [node.type],
+	);
 }
 
 function splitList(raw: string): string[] {
