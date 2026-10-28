@@ -56,7 +56,7 @@ If `$ARGUMENTS` contains `--batch`, collect every decision before changing anyth
 
 1. For each thread, display it, analyse it and ask the user with AskUserQuestion exactly as in steps 1–3, recording their choice and your recommended fix. Do not edit any file, commit, reply or resolve anything until every thread has a decision.
 2. Once every thread has a decision, implement each **Address** thread in turn and run `/commit` after each — one commit per thread — noting its SHA.
-3. Run `git push` once, then run `assist prs fixed <comment-id> <sha>` for each addressed thread with the SHA of the commit that addressed it, and `assist prs wontfix <comment-id> "<reason>"` for each **Do not address** thread as in step 4. Leave skipped threads untouched.
+3. Run `assist prs fixed <comment-id> <sha>` for each addressed thread with the SHA of the commit that addressed it — the first one pushes every commit, so do not run `git push` yourself — and `assist prs wontfix <comment-id> "<reason>"` for each **Do not address** thread as in step 4. Leave skipped threads untouched.
 
 ## Auto mode
 
@@ -66,7 +66,7 @@ If `$ARGUMENTS` contains `--auto`, process the threads without asking the user, 
    - **Address**: implement the fix and run `/commit` — one commit per thread — noting the SHA. Do not push yet and do not run `assist prs fixed` yet.
    - **Do not address**: run `assist prs wontfix <comment-id> "<reason>"` as in step 4.
 2. If you cannot confidently decide on a thread — the comment is unclear, the fix is risky or large, or reasonable people would disagree — put that one thread to the user with AskUserQuestion exactly as in step 3, act on their choice as above, then continue automatically with the next thread.
-3. Once every thread has been processed, run `git push` once, then run `assist prs fixed <comment-id> <sha>` for each addressed thread with the SHA of the commit that addressed it.
+3. Once every thread has been processed, run `assist prs fixed <comment-id> <sha>` for each addressed thread with the SHA of the commit that addressed it — the first one pushes every commit, so do not run `git push` yourself.
 4. Finish with a closing summary listing each thread and its outcome, calling out any thread that was skipped so the user can revisit it.
 
 ## Bodies containing markdown
