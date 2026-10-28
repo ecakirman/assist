@@ -28,6 +28,20 @@ function renderPopover(unavailable?: string) {
 	return { onAdd, onQueue };
 }
 
+function button(name: string): HTMLElement {
+	return screen.getByRole("button", { name });
+}
+
+function isContained(element: HTMLElement): boolean {
+	return element.classList.contains("MuiButton-contained");
+}
+
+function pressEnter() {
+	fireEvent.keyDown(screen.getByPlaceholderText("Add a note…"), {
+		key: "Enter",
+	});
+}
+
 describe("CommentPopover with a review queue", () => {
 	it("sends the note to the agent", () => {
 		const { onAdd, onQueue } = renderPopover();
@@ -61,5 +75,37 @@ describe("CommentPopover with a review queue", () => {
 		fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
 
 		expect(onQueue).toHaveBeenCalledWith("rename this");
+	});
+
+	it("makes Send to agent the rightmost primary button", () => {
+		renderPopover();
+
+		const send = button("Send to agent");
+		const queue = button("Add to review");
+		expect(isContained(send)).toBe(true);
+		expect(isContained(queue)).toBe(false);
+		expect(
+			queue.compareDocumentPosition(send) & Node.DOCUMENT_POSITION_FOLLOWING,
+		).toBeTruthy();
+	});
+
+	it("sends to the agent on Enter", () => {
+		const { onAdd, onQueue } = renderPopover();
+
+		pressEnter();
+
+		expect(onAdd).toHaveBeenCalledWith("rename this");
+		expect(onQueue).not.toHaveBeenCalled();
+	});
+
+	it("makes Add to review primary and queues on Enter when the agent is unavailable", () => {
+		const { onAdd, onQueue } = renderPopover("No live agent session");
+
+		expect(isContained(button("Add to review"))).toBe(true);
+		expect(isContained(button("Send to agent"))).toBe(false);
+		pressEnter();
+
+		expect(onQueue).toHaveBeenCalledWith("rename this");
+		expect(onAdd).not.toHaveBeenCalled();
 	});
 });

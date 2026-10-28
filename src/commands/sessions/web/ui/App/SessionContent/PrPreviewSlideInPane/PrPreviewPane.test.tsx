@@ -1680,7 +1680,7 @@ describe("PrPreviewPane send to agent", () => {
 		["stopped", makeSessionInfo({ status: "stopped" })],
 		["closing", makeSessionInfo({ closing: true })],
 	])(
-		"disables Send to agent with the unavailable caption when the session is %s",
+		"disables Send to agent and queues on Enter when the session is %s",
 		(_, session) => {
 			const { container, sendInput } = renderLive(preview, session);
 			typeNote(container, "say what x is");
@@ -1700,7 +1700,6 @@ describe("PrPreviewPane send to agent", () => {
 			});
 			expect(sendInput).not.toHaveBeenCalled();
 			expect(screen.queryByText(/Comment sent to/)).toBeNull();
-			fireEvent.click(screen.getByRole("button", { name: "Add to review" }));
 			expect(screen.getByText("Comments (1)")).toBeTruthy();
 		},
 	);

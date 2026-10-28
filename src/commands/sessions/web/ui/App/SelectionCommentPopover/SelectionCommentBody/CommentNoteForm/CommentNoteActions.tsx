@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { CommentSendButtons } from "./CommentNoteActions/CommentSendButtons";
+import { CommentSendActions } from "./CommentNoteActions/CommentSendActions";
 
 export function CommentNoteActions({
 	disabled,
@@ -44,21 +44,12 @@ export function CommentNoteActions({
 						Add rule
 					</Button>
 				)}
-				{onQueue ? (
-					<CommentSendButtons
-						onSend={disabled || unavailable ? undefined : onAdd}
-						onQueue={disabled ? undefined : onQueue}
-					/>
-				) : (
-					<Button
-						size="small"
-						variant="contained"
-						disabled={disabled}
-						onClick={onAdd}
-					>
-						Send to agent
-					</Button>
-				)}
+				<CommentSendActions
+					disabled={disabled}
+					unavailable={unavailable}
+					onAdd={onAdd}
+					onQueue={onQueue}
+				/>
 			</Stack>
 		</>
 	);

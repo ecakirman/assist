@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import { CommentNoteActions } from "./CommentNoteForm/CommentNoteActions";
+import { useCommentNoteSubmit } from "./CommentNoteForm/useCommentNoteSubmit";
 
 export function CommentNoteForm({
 	unavailable,
@@ -19,9 +20,12 @@ export function CommentNoteForm({
 }) {
 	const [note, setNote] = useState("");
 	const trimmed = note.trim();
-	const submit = () => {
-		if (trimmed && !unavailable) onAdd(trimmed);
-	};
+	const { submit, submitDefault } = useCommentNoteSubmit({
+		trimmed,
+		unavailable,
+		onAdd,
+		onQueue,
+	});
 
 	return (
 		<>
@@ -37,7 +41,7 @@ export function CommentNoteForm({
 				onKeyDown={(e) => {
 					if (e.key === "Enter" && !e.shiftKey) {
 						e.preventDefault();
-						submit();
+						submitDefault();
 					}
 				}}
 			/>

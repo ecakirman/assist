@@ -116,9 +116,29 @@ describe("SelectionCommentPopover", () => {
 			/>,
 		);
 
-		expect(screen.getByRole("button", { name: "Send to agent" })).toBeTruthy();
+		expect(
+			screen
+				.getByRole("button", { name: "Send to agent" })
+				.classList.contains("MuiButton-contained"),
+		).toBe(true);
 		expect(screen.queryByRole("button", { name: "Add to review" })).toBeNull();
 		expect(screen.queryByRole("button", { name: "Add comment" })).toBeNull();
+	});
+
+	it("sends on Enter without a review queue", () => {
+		const onAdd = vi.fn();
+		render(
+			<SelectionCommentPopover
+				pending={anchor}
+				onAdd={onAdd}
+				onCancel={vi.fn()}
+			/>,
+		);
+		fireEvent.change(noteField(), { target: { value: "needs a guard" } });
+
+		fireEvent.keyDown(noteField(), { key: "Enter" });
+
+		expect(onAdd).toHaveBeenCalledWith("needs a guard");
 	});
 
 	it("warns that the lines changed while keeping the original quote", () => {
