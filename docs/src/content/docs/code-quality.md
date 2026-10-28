@@ -69,3 +69,5 @@ Agents can't add code comments by editing a file. When an agent believes one com
 ```bash
 assist config set complexity.ignore "**/*test.ts*,src/generated/**"
 ```
+
+To give one file its own minimum score in place of `--threshold`, add a `// MAINT_MARKER: 40` comment in its first ten lines, with a score from 0 to 100. Agents can't add, change or remove it, so lowering a file's bar stays your decision.

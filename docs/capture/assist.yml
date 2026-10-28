@@ -5,8 +5,6 @@ sessions:
   tailscaleServe: false
 run:
   - name: dev
-    server: true
-    port: 5173
     command: sh
     args:
       - -c

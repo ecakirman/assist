@@ -12,8 +12,8 @@ screenshots:
   - file: run-dev-server.png
     alt: The serving banner at the top of the session list, linking to the dev server's port, above the session cards
     route: /sessions
-    scene: dashboard
-    waitFor: text=Pricing page copy
+    scene: dev-server
+    waitFor: text=Paginate orders endpoint
     viewport:
       width: 1280
       height: 480

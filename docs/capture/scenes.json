@@ -59,6 +59,39 @@
 			}
 		}
 	],
+	"dev-server": [
+		{ "assist": ["config", "set", "run.0.server", "true", "-g"] },
+		{ "assist": ["config", "set", "run.0.port", "5173", "-g"] },
+		{ "run": "dev" },
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "Add a dark mode toggle to the settings page",
+				"title": "Dark mode toggle",
+				"status": "waiting",
+				"reply": [
+					"Should the toggle also follow the operating system's colour scheme until the user picks one?"
+				]
+			}
+		},
+		{
+			"session": {
+				"repo": "sandbox",
+				"prompt": "Fix the flaky date formatting test",
+				"title": "Fix flaky date test",
+				"reply": ["Bash(npm test -- formatDate)"]
+			}
+		},
+		{
+			"session": {
+				"repo": "api",
+				"prompt": "Add pagination to the orders endpoint",
+				"title": "Paginate orders endpoint",
+				"status": "waiting",
+				"reply": ["Ready for review."]
+			}
+		}
+	],
 	"history": [
 		{
 			"transcript": {
