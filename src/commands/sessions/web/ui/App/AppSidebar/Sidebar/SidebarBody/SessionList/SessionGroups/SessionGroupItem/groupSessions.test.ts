@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { makeSessionInfo } from "../../../../../../../../../../../test/mothers/makeSessionInfo";
-import { groupSessionIds } from "./groupSessionIds";
+import { groupSessions } from "./groupSessions";
 
-describe("groupSessionIds", () => {
+describe("groupSessions", () => {
 	it("lists every row and its nested children", () => {
 		const rows = [
 			{
@@ -15,6 +15,11 @@ describe("groupSessionIds", () => {
 			{ session: makeSessionInfo({ id: "solo" }), children: [] },
 		];
 
-		expect(groupSessionIds(rows)).toEqual(["run", "review", "fix", "solo"]);
+		expect(groupSessions(rows).map((s) => s.id)).toEqual([
+			"run",
+			"review",
+			"fix",
+			"solo",
+		]);
 	});
 });

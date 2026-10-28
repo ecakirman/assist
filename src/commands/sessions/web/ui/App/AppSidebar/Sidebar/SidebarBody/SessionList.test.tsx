@@ -22,6 +22,7 @@ beforeEach(() => {
 afterEach(() => {
 	cleanup();
 	vi.unstubAllGlobals();
+	localStorage.clear();
 });
 
 const group = { origin: "host/org/assist", clone: "/git/assist" };
@@ -97,6 +98,84 @@ describe("SessionList scroll area", () => {
 
 		expect(getComputedStyle(scrollport).overflow).toBe("auto");
 		expect(getComputedStyle(scrollport).paddingTop).toBe("0");
+	});
+});
+
+function groupToggle() {
+	return document.querySelector<HTMLElement>("[aria-expanded]")!;
+}
+
+function renderGroupedList(onSelect = vi.fn()) {
+	render(
+		<List
+			sessions={[
+				makeSessionInfo({ id: "solo", cwd: "/git/solo", status: "waiting" }),
+				makeSessionInfo({
+					id: "g1",
+					cwd: "/git/assist-2",
+					repoGroup: group,
+					status: "waiting",
+				}),
+				makeSessionInfo({
+					id: "g2",
+					cwd: "/git/assist-3",
+					repoGroup: group,
+					status: "running",
+				}),
+				makeSessionInfo({ id: "last", cwd: "/git/other" }),
+			]}
+			onSelect={onSelect}
+		/>,
+	);
+	for (const id of ["solo", "g1", "g2", "last"])
+		if (card(id)) card(id).scrollIntoView = vi.fn();
+	return onSelect;
+}
+
+describe("SessionList repo group collapse", () => {
+	it("collapses a group on header click and opens it again", () => {
+		renderGroupedList();
+
+		fireEvent.click(groupToggle());
+
+		expect(groupToggle().getAttribute("aria-expanded")).toBe("false");
+		expect(card("g1")).toBeNull();
+		expect(card("g2")).toBeNull();
+
+		fireEvent.click(groupToggle());
+
+		expect(groupToggle().getAttribute("aria-expanded")).toBe("true");
+		expect(card("g1")).not.toBeNull();
+	});
+
+	it("shows a per-status tally with card glyphs while collapsed", () => {
+		renderGroupedList();
+
+		fireEvent.click(groupToggle());
+
+		expect(groupToggle().textContent).toContain("◆ 1 waiting");
+		expect(groupToggle().textContent).toContain("● 1 running");
+	});
+
+	it("remembers a collapsed group across a remount", () => {
+		renderGroupedList();
+		fireEvent.click(groupToggle());
+		cleanup();
+
+		renderGroupedList();
+
+		expect(groupToggle().getAttribute("aria-expanded")).toBe("false");
+		expect(card("g1")).toBeNull();
+	});
+
+	it("skips sessions in a collapsed group when Tab cycling", () => {
+		const onSelect = renderGroupedList();
+		fireEvent.click(groupToggle());
+		card("solo").focus();
+
+		pressTab();
+
+		expect(onSelect).toHaveBeenLastCalledWith("last");
 	});
 });
 

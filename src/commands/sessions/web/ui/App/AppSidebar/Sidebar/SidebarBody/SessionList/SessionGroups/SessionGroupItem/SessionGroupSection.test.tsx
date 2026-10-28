@@ -9,6 +9,7 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { SessionGroupSection } from "./SessionGroupSection";
 import { useInRepoGroupContext } from "../../../../../useInRepoGroupContext";
+import { makeSessionInfo } from "../../../../../../../../../../../test/mothers/makeSessionInfo";
 
 afterEach(cleanup);
 
@@ -22,8 +23,9 @@ function renderSection(
 ) {
 	render(
 		<SessionGroupSection
+			groupKey="host/org/assist"
 			label="assist"
-			sessionIds={sessionIds}
+			sessions={sessionIds.map((id) => makeSessionInfo({ id }))}
 			onDismiss={onDismiss}
 		>
 			<Probe />
@@ -39,9 +41,9 @@ function openCloseDialog() {
 }
 
 function header() {
-	const label = screen.getByText("assist");
-	if (!label.parentElement) throw new Error("group header not found");
-	return label.parentElement;
+	const toggle = screen.getByText("assist").closest("[aria-expanded]");
+	if (!toggle?.parentElement) throw new Error("group header not found");
+	return toggle.parentElement;
 }
 
 describe("SessionGroupSection", () => {

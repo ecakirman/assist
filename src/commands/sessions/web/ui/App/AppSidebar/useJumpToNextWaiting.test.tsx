@@ -68,6 +68,7 @@ afterEach(() => {
 	cleanup();
 	vi.unstubAllGlobals();
 	document.body.replaceChildren();
+	localStorage.clear();
 });
 
 describe("useJumpToNextWaiting", () => {
@@ -104,6 +105,33 @@ describe("useJumpToNextWaiting", () => {
 		pressJumpKey();
 
 		expect(target.scrollIntoView).toHaveBeenCalledWith({ block: "nearest" });
+	});
+
+	it("skips waiting sessions inside a collapsed repo group", () => {
+		const repoGroup = { origin: "host/org/assist", clone: "/git/assist" };
+		localStorage.setItem(
+			"assist:group-collapse",
+			JSON.stringify({ [repoGroup.origin]: true }),
+		);
+		const { onSelect } = renderJump("active", [
+			makeSessionInfo({
+				id: "a",
+				cwd: "/git/a1",
+				repoGroup,
+				status: "waiting",
+			}),
+			makeSessionInfo({
+				id: "b",
+				cwd: "/git/a2",
+				repoGroup,
+				status: "waiting",
+			}),
+			makeSessionInfo({ id: "c", cwd: "/git/other", status: "waiting" }),
+		]);
+
+		pressJumpKey();
+
+		expect(onSelect).toHaveBeenCalledWith("c");
 	});
 
 	it("changes nothing when no session is waiting", () => {

@@ -1,0 +1,47 @@
+const STORAGE_KEY = "assist:group-collapse";
+
+type GroupCollapseChoices = Record<string, boolean>;
+
+const listeners = new Set<() => void>();
+
+function readRaw(): string {
+	try {
+		return localStorage.getItem(STORAGE_KEY) ?? "";
+	} catch {
+		return "";
+	}
+}
+
+function parseChoices(raw: string): GroupCollapseChoices {
+	if (!raw) return {};
+	try {
+		const parsed: unknown = JSON.parse(raw);
+		return parsed && typeof parsed === "object"
+			? (parsed as GroupCollapseChoices)
+			: {};
+	} catch {
+		return {};
+	}
+}
+
+function setChoice(key: string, collapsed: boolean): void {
+	const next = { ...parseChoices(readRaw()), [key]: collapsed };
+	try {
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+	} catch {}
+	for (const listener of listeners) listener();
+}
+
+function subscribe(listener: () => void): () => void {
+	listeners.add(listener);
+	return () => {
+		listeners.delete(listener);
+	};
+}
+
+export const groupCollapseStore = {
+	getRaw: readRaw,
+	parse: parseChoices,
+	setChoice,
+	subscribe,
+};

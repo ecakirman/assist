@@ -1,17 +1,19 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import {
 	GroupCloseButton,
 	groupCloseClassName,
 } from "./GroupHeader/GroupCloseButton";
+import { GroupStatusTally } from "./GroupHeader/GroupStatusTally";
+import { GroupToggle } from "./GroupHeader/GroupToggle";
+import type { SessionInfo } from "../../../../../../../../types";
 
 const headerSx = {
 	display: "flex",
 	alignItems: "center",
 	gap: 1,
 	px: "10px",
-	pt: 1,
-	pb: 0.5,
+	pt: 1.25,
+	pb: 0.75,
 	bgcolor: "background.paper",
 	position: "sticky",
 	top: 0,
@@ -19,47 +21,31 @@ const headerSx = {
 	[`&:hover .${groupCloseClassName}`]: { opacity: 1 },
 } as const;
 
-const labelSx = {
-	minWidth: 0,
-	overflow: "hidden",
-	textOverflow: "ellipsis",
-	whiteSpace: "nowrap",
-	color: "text.secondary",
-} as const;
-
-const caretSx = { color: "text.disabled", fontSize: "0.6rem" } as const;
-
-const countSx = {
-	color: "text.disabled",
-	fontVariantNumeric: "tabular-nums",
-} as const;
-
-const ruleSx = { flex: 1, height: "1px", bgcolor: "divider" } as const;
-
 export function GroupHeader({
 	label,
-	sessionIds,
+	sessions,
+	collapsed,
+	onToggle,
 	onDismiss,
 }: {
 	label: string;
-	sessionIds: string[];
+	sessions: SessionInfo[];
+	collapsed: boolean;
+	onToggle: () => void;
 	onDismiss: (id: string) => void;
 }) {
 	return (
 		<Box sx={headerSx}>
-			<Typography variant="caption" sx={caretSx}>
-				▾
-			</Typography>
-			<Typography variant="body2" title={label} sx={labelSx}>
-				{label}
-			</Typography>
-			<Typography variant="caption" sx={countSx}>
-				{sessionIds.length}
-			</Typography>
-			<Box sx={ruleSx} />
+			<GroupToggle
+				label={label}
+				count={sessions.length}
+				collapsedSummary={<GroupStatusTally sessions={sessions} />}
+				collapsed={collapsed}
+				onToggle={onToggle}
+			/>
 			<GroupCloseButton
 				label={label}
-				sessionIds={sessionIds}
+				sessionIds={sessions.map((s) => s.id)}
 				onDismiss={onDismiss}
 			/>
 		</Box>

@@ -1,5 +1,5 @@
 import type { groupSessionsByRepo } from "../../../../groupSessionsByRepo";
-import { groupSessionIds } from "./SessionGroupItem/groupSessionIds";
+import { groupSessions } from "./SessionGroupItem/groupSessions";
 import { NestedSessionRows } from "./SessionGroupItem/NestedSessionRows";
 import { SessionGroupSection } from "./SessionGroupItem/SessionGroupSection";
 import { SessionListCard } from "./SessionGroupItem/SessionListCard";
@@ -31,8 +31,9 @@ export function SessionGroupItem({
 		renderCard(group.session)
 	) : (
 		<SessionGroupSection
+			groupKey={group.key}
 			label={group.label}
-			sessionIds={groupSessionIds(group.rows)}
+			sessions={groupSessions(group.rows)}
 			onDismiss={cardProps.onDismiss}
 		>
 			<NestedSessionRows rows={group.rows} renderCard={renderCard} />
