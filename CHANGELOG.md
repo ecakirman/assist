@@ -1,3 +1,15 @@
+# [0.926.0](https://github.com/staff0rd/assist/compare/v0.925.0...v0.926.0) (2026-10-28)
+
+
+### Bug Fixes
+
+* type indexed config set values ([e94d60a](https://github.com/staff0rd/assist/commit/e94d60acdad168b2e643a2daffedad18fa37daf4))
+
+
+### Features
+
+* checkout Azure DevOps PRs ([e943609](https://github.com/staff0rd/assist/commit/e94360939ada8b28011a24d3932e90cc7256da00))
+
 # [0.925.0](https://github.com/staff0rd/assist/compare/v0.924.0...v0.925.0) (2026-10-28)
 
 
