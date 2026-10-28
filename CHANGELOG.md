@@ -1,3 +1,10 @@
+## [0.926.1](https://github.com/staff0rd/assist/compare/v0.926.0...v0.926.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* anchor ADO assist button on PR header ([7042197](https://github.com/staff0rd/assist/commit/704219799ce5976f404ee9100287e790452a5f66))
+
 # [0.926.0](https://github.com/staff0rd/assist/compare/v0.925.0...v0.926.0) (2026-10-28)
 
 
