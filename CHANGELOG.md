@@ -1,3 +1,10 @@
+# [0.921.0](https://github.com/staff0rd/assist/compare/v0.920.0...v0.921.0) (2026-10-28)
+
+
+### Features
+
+* waiting sessions no longer float ([cf6e2b5](https://github.com/staff0rd/assist/commit/cf6e2b5cadbafff05c24c30fdef8fa4d6abf5113))
+
 # [0.920.0](https://github.com/staff0rd/assist/compare/v0.919.0...v0.920.0) (2026-10-28)
 
 
