@@ -1,3 +1,10 @@
+# [0.918.0](https://github.com/staff0rd/assist/compare/v0.917.1...v0.918.0) (2026-10-28)
+
+
+### Features
+
+* Bug button in extension popover ([288122d](https://github.com/staff0rd/assist/commit/288122d3d9cfd02e7c25f4138ca8959489980fbb))
+
 ## [0.917.1](https://github.com/staff0rd/assist/compare/v0.917.0...v0.917.1) (2026-10-28)
 
 
