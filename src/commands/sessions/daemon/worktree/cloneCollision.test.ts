@@ -123,10 +123,13 @@ describe("a second session colliding with a held clone", () => {
 		expect(spawnInto(ctx, join(clone, ".claude")).cwd).toBe(`${clone}-2`);
 	});
 
-	it("keeps the clone when nothing else holds it", () => {
+	it("spills out of the clone even when nothing else holds it", () => {
 		const { clone } = makeRepo();
 		const ctx = ctxHolding();
 
-		expect(spawnInto(ctx, clone).cwd).toBe(clone);
+		const session = spawnInto(ctx, clone);
+
+		expect(session.cwd).toBe(`${clone}-2`);
+		expect(session.worktree).toEqual({ path: `${clone}-2`, clone });
 	});
 });

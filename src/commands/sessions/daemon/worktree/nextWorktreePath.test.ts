@@ -1,21 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { nextWorktreePath, planAllocation } from "./planAllocation";
-
-describe("planAllocation", () => {
-	const clone = "/git/foo";
-
-	it("reuses the clone's own tree when it is free", () => {
-		expect(planAllocation(clone, new Set())).toBe("primary");
-	});
-
-	it("spills to a worktree when the clone is already bound", () => {
-		expect(planAllocation(clone, new Set([clone]))).toBe("spill");
-	});
-
-	it("spills for a new session even when a sibling worktree is active", () => {
-		expect(planAllocation(clone, new Set([clone, "/git/foo-2"]))).toBe("spill");
-	});
-});
+import { nextWorktreePath } from "./nextWorktreePath";
 
 describe("nextWorktreePath", () => {
 	it("picks the first adjacent suffix starting at -2", () => {

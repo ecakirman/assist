@@ -4,9 +4,7 @@ import { canonicalTreePath } from "./canonicalTreePath";
 import { createWorktree } from "./createWorktree";
 import { keptInTree } from "./keptInTree";
 import { mainWorktree } from "./listWorktreePaths";
-import { reusesClone } from "./reusesClone";
 import { worktreeConfigFor } from "./worktreeConfigFor";
-import { forcedSpillReason } from "./forcedSpillReason";
 
 export type Allocation = {
 	cwd: string | undefined;
@@ -16,11 +14,7 @@ export type Allocation = {
 };
 
 export type AllocateOptions = {
-	forCheckout?: boolean;
-	assistCommand?: string;
 	inPlace?: boolean;
-	commits?: boolean;
-	backlogRun?: boolean;
 	replacesTree?: string;
 };
 
@@ -47,16 +41,14 @@ export function allocateTree(
 		);
 
 	const clone = canonicalTreePath(mainWorktree(repoRoot) ?? repoRoot);
-	const forcedSpill = forcedSpillReason(clone, cfg.trunk, options);
-	if (forcedSpill) daemonLog(forcedSpill);
-	else if (reusesClone(clone, boundTreeRoots, options))
-		return { cwd: clone, kind: "primary", created: false, clone };
-
 	const path = createWorktree(
 		clone,
 		{ root: cfg.root, trunk: cfg.trunk },
 		boundTreeRoots,
 		options.replacesTree,
+	);
+	daemonLog(
+		`session spilled out of the clone ${clone} into ${path}: worktree.enabled is on, so every session gets its own worktree`,
 	);
 	return { cwd: path, kind: "worktree", created: true, clone };
 }

@@ -50,7 +50,6 @@ describe("moveToPrCheckoutTree", () => {
 		expect(allocateMock).toHaveBeenCalledWith(
 			"/git/repo",
 			new Set(["/git/repo"]),
-			{ forCheckout: true, commits: true },
 		);
 		expect(chdir).toHaveBeenCalledWith("/git/repo-2");
 		expect(seedMock).toHaveBeenCalledWith(
@@ -60,39 +59,7 @@ describe("moveToPrCheckoutTree", () => {
 		);
 	});
 
-	it("asks for a workspace that can take the checkout's commits", async () => {
-		allocateMock.mockReturnValue({
-			cwd: "/git/repo-2",
-			kind: "worktree",
-			created: false,
-			clone: "/git/repo",
-		});
-
-		await moveToPrCheckoutTree();
-
-		expect(allocateMock).toHaveBeenCalledWith(
-			"/git/repo",
-			new Set(["/git/repo"]),
-			expect.objectContaining({ commits: true }),
-		);
-	});
-
-	it("moves into an existing tree without reseeding it", async () => {
-		vi.spyOn(process, "cwd").mockReturnValue("/git/repo-3");
-		allocateMock.mockReturnValue({
-			cwd: "/git/repo",
-			kind: "primary",
-			created: false,
-			clone: "/git/repo",
-		});
-
-		await moveToPrCheckoutTree();
-
-		expect(chdir).toHaveBeenCalledWith("/git/repo");
-		expect(seedMock).not.toHaveBeenCalled();
-	});
-
-	it("stays put when the allocator picks the tree it was invoked in", async () => {
+	it("stays put when worktrees are off and the allocator keeps the tree", async () => {
 		allocateMock.mockReturnValue({
 			cwd: "/git/repo",
 			kind: "primary",

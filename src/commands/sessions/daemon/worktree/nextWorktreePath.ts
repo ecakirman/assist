@@ -1,12 +1,5 @@
 import { basename, join } from "node:path";
 
-export function planAllocation(
-	clone: string,
-	boundTreeRoots: Set<string>,
-): "primary" | "spill" {
-	return boundTreeRoots.has(clone) ? "spill" : "primary";
-}
-
 export function nextWorktreePath(
 	clone: string,
 	base: string,

@@ -17,10 +17,7 @@ function seed(worktreePath: string, clone: string): Promise<void> {
 export async function moveToPrCheckoutTree(): Promise<void> {
 	if (placedByDaemon()) return;
 	const from = process.cwd();
-	const alloc = allocateTree(from, persistedTreeRoots(), {
-		forCheckout: true,
-		commits: true,
-	});
+	const alloc = allocateTree(from, persistedTreeRoots());
 	if (!alloc.cwd || alloc.cwd === from) return;
 	process.chdir(alloc.cwd);
 	console.log(`Checking the PR out in ${alloc.cwd}`);

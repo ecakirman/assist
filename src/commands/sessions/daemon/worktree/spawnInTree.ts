@@ -6,9 +6,6 @@ import {
 import { createSession } from "../createSession";
 import type { SpawnContext } from "../types";
 import { allocateAndBind, type TreeSpawnContext } from "./allocateAndBind";
-import { isBacklogRunArgs } from "./isBacklogRunArgs";
-import { isCommittingArgs } from "./isCommittingArgs";
-import { isPrCheckoutArgs } from "./isPrCheckoutArgs";
 export type { TreeSpawnContext };
 
 export type CreateSpawnRequest = {
@@ -54,13 +51,7 @@ export function spawnAssistInTree(
 		cwd,
 		(sid, resolvedCwd, holdUntilSeeded) =>
 			createAssistSession(sid, assistArgs, resolvedCwd, meta, holdUntilSeeded),
-		{
-			forCheckout: isPrCheckoutArgs(assistArgs),
-			commits: isCommittingArgs(assistArgs),
-			backlogRun: isBacklogRunArgs(assistArgs),
-			assistCommand: assistArgs[0] ?? "",
-			inPlace: meta?.inPlace,
-		},
+		{ inPlace: meta?.inPlace },
 		context,
 	);
 }

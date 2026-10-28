@@ -6,7 +6,7 @@ import { fetchQuietly } from "../../../watch/fetchQuietly";
 import { daemonLog } from "../daemonLog";
 import { gitSync } from "./git";
 import { listLocalBranches, listWorktreePaths } from "./listWorktreePaths";
-import { nextWorktreePath } from "./planAllocation";
+import { nextWorktreePath } from "./nextWorktreePath";
 import { recordWorktree } from "./readWorktreeRegistry";
 import { worktreeStartPoint } from "./worktreeStartPoint";
 

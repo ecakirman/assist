@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { daemonLog } from "../daemonLog";
 import { allocateTree } from "./allocateTree";
 import { createWorktree } from "./createWorktree";
-import { checkDurabilitySync } from "./treeDurability";
 import { worktreeConfigFor } from "./worktreeConfigFor";
 
 vi.mock("../daemonLog", () => ({ daemonLog: vi.fn() }));
@@ -10,72 +9,70 @@ vi.mock("../../../../shared/findRepoRoot", () => ({
 	findRepoRoot: (cwd: string) => (cwd.startsWith("/git/repo") ? cwd : null),
 }));
 vi.mock("./listWorktreePaths", () => ({ mainWorktree: () => "/git/repo" }));
-vi.mock("./worktreeConfigFor", () => ({
-	worktreeConfigFor: vi.fn(() => ({
-		enabled: true,
-		trunk: false,
-		install: true,
-		commitBeforeManualChecks: false,
-		copy: [],
-	})),
-}));
-vi.mock("./treeDurability", () => ({
-	checkDurabilitySync: vi.fn(() => ({ durable: true })),
-}));
+vi.mock("./worktreeConfigFor", () => ({ worktreeConfigFor: vi.fn() }));
 vi.mock("./createWorktree", () => ({
 	createWorktree: vi.fn(() => "/git/repo-2"),
 }));
 
 const configMock = vi.mocked(worktreeConfigFor);
-const durabilityMock = vi.mocked(checkDurabilitySync);
 const createMock = vi.mocked(createWorktree);
 const logMock = vi.mocked(daemonLog);
+
+function configure(
+	enabled: boolean,
+	extra: { trunk?: boolean; root?: string } = {},
+) {
+	configMock.mockReturnValue({
+		enabled,
+		trunk: false,
+		install: true,
+		commitBeforeManualChecks: false,
+		copy: [],
+		...extra,
+	});
+}
+
+const spilled = {
+	cwd: "/git/repo-2",
+	kind: "worktree",
+	created: true,
+	clone: "/git/repo",
+};
 
 describe("allocateTree", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
-		configMock.mockReturnValue({
-			enabled: true,
-			trunk: false,
-			install: true,
-			commitBeforeManualChecks: false,
-			copy: [],
-		});
-		durabilityMock.mockReturnValue({ durable: true });
+		configure(true);
 		createMock.mockReturnValue("/git/repo-2");
 	});
 
-	describe("for a prompt session", () => {
-		it("spills when a live session holds the clone", () => {
-			expect(allocateTree("/git/repo", new Set(["/git/repo"])).kind).toBe(
-				"worktree",
+	describe("with worktree.enabled on", () => {
+		it("spills a session launched against an idle clone", () => {
+			expect(allocateTree("/git/repo", new Set())).toEqual(spilled);
+		});
+
+		it("spills a session when a live session holds the clone", () => {
+			expect(allocateTree("/git/repo", new Set(["/git/repo"]))).toEqual(
+				spilled,
 			);
 		});
 
-		it("reuses the clone even when it holds uncommitted work", () => {
-			durabilityMock.mockReturnValue({
-				durable: false,
-				reason: "uncommitted changes",
-			});
+		it("spills from a subdirectory or sibling worktree into a new worktree of the clone", () => {
+			expect(allocateTree("/git/repo-3/src", new Set())).toEqual(spilled);
+		});
 
-			expect(allocateTree("/git/repo", new Set())).toEqual({
-				cwd: "/git/repo",
-				kind: "primary",
-				created: false,
-				clone: "/git/repo",
-			});
-			expect(durabilityMock).not.toHaveBeenCalled();
+		it("logs that worktree.enabled forced the spill, naming the clone", () => {
+			allocateTree("/git/repo", new Set());
+
+			expect(logMock).toHaveBeenCalledWith(
+				expect.stringMatching(
+					/clone \/git\/repo into \/git\/repo-2: worktree\.enabled is on/,
+				),
+			);
 		});
 
 		it("passes the repo's branch strategy to the worktree it creates", () => {
-			configMock.mockReturnValue({
-				enabled: true,
-				trunk: true,
-				root: "~/git",
-				install: true,
-				commitBeforeManualChecks: false,
-				copy: [],
-			});
+			configure(true, { trunk: true, root: "~/git" });
 
 			allocateTree("/git/repo", new Set(["/git/repo"]));
 
@@ -86,21 +83,8 @@ describe("allocateTree", () => {
 				undefined,
 			);
 		});
-	});
 
-	describe("for a resume whose worktree was reaped", () => {
-		it("spills to a worktree even though the clone is free", () => {
-			expect(
-				allocateTree("/git/repo", new Set(), { replacesTree: "/git/repo-7" }),
-			).toEqual({
-				cwd: "/git/repo-2",
-				kind: "worktree",
-				created: true,
-				clone: "/git/repo",
-			});
-		});
-
-		it("offers the reaped path back to the allocator so it can be reclaimed", () => {
+		it("offers a reaped worktree's path back to the allocator so a resume can reclaim it", () => {
 			createMock.mockReturnValue("/git/repo-7");
 
 			expect(
@@ -116,69 +100,10 @@ describe("allocateTree", () => {
 		});
 	});
 
-	describe("for an assist-command session", () => {
-		it.each(["draft", "bug", "next", "review"])(
-			"spills assist %s out of an idle clone",
-			(command) => {
-				expect(
-					allocateTree("/git/repo", new Set(), { assistCommand: command }),
-				).toEqual({
-					cwd: "/git/repo-2",
-					kind: "worktree",
-					created: true,
-					clone: "/git/repo",
-				});
-				expect(logMock).toHaveBeenCalledWith(
-					`assist ${command} session spilled out of the clone /git/repo: only prompt sessions use the clone`,
-				);
-			},
-		);
-
-		it("spills a PR checkout without checking the clone's durability", () => {
-			allocateTree("/git/repo", new Set(), {
-				assistCommand: "review",
-				forCheckout: true,
-			});
-
-			expect(createMock).toHaveBeenCalled();
-			expect(durabilityMock).not.toHaveBeenCalled();
-		});
-
-		it("still runs in the tree it was launched against when inPlace", () => {
-			expect(
-				allocateTree("/git/repo", new Set(), {
-					assistCommand: "draft",
-					inPlace: true,
-				}),
-			).toEqual({ cwd: "/git/repo", kind: "primary", created: false });
-			expect(createMock).not.toHaveBeenCalled();
-		});
-
-		it("stays in the clone when parallel work is off", () => {
-			configMock.mockReturnValue({
-				enabled: false,
-				trunk: false,
-				install: true,
-				commitBeforeManualChecks: false,
-				copy: [],
-			});
-
-			expect(
-				allocateTree("/git/repo/src", new Set(["/git/repo"]), {
-					assistCommand: "draft",
-				}),
-			).toEqual({ cwd: "/git/repo/src", kind: "primary", created: false });
-			expect(createMock).not.toHaveBeenCalled();
-		});
-	});
-
 	describe("for a session pinned to the tree it was launched from", () => {
 		it("stays put even when another session already holds that tree", () => {
 			expect(
-				allocateTree("/git/repo", new Set(["/git/repo"]), {
-					forCheckout: true,
-					inPlace: true,
-				}),
+				allocateTree("/git/repo", new Set(["/git/repo"]), { inPlace: true }),
 			).toEqual({ cwd: "/git/repo", kind: "primary", created: false });
 			expect(createMock).not.toHaveBeenCalled();
 		});
@@ -190,227 +115,26 @@ describe("allocateTree", () => {
 				}).cwd,
 			).toBe("/git/repo-2");
 		});
-
-		it("stays put when worktrees are off, as it always did", () => {
-			configMock.mockReturnValue({
-				enabled: false,
-				trunk: false,
-				install: true,
-				commitBeforeManualChecks: false,
-				copy: [],
-			});
-
-			expect(
-				allocateTree("/git/repo", new Set(["/git/repo"]), {
-					forCheckout: true,
-					inPlace: true,
-				}),
-			).toEqual({ cwd: "/git/repo", kind: "primary", created: false });
-			expect(createMock).not.toHaveBeenCalled();
-		});
-
-		it("stays put even when the tree holds uncommitted work", () => {
-			durabilityMock.mockReturnValue({
-				durable: false,
-				reason: "uncommitted changes",
-			});
-
-			expect(
-				allocateTree("/git/repo", new Set(), {
-					forCheckout: true,
-					inPlace: true,
-				}).kind,
-			).toBe("primary");
-			expect(createMock).not.toHaveBeenCalled();
-		});
 	});
 
-	describe("for a PR checkout", () => {
-		it("reuses the clone when it holds nothing in progress", () => {
-			expect(
-				allocateTree("/git/repo", new Set(), { forCheckout: true }),
-			).toEqual({
-				cwd: "/git/repo",
+	describe("with worktree.enabled off", () => {
+		it("keeps the session in the requested tree", () => {
+			configure(false);
+
+			expect(allocateTree("/git/repo/src", new Set(["/git/repo"]))).toEqual({
+				cwd: "/git/repo/src",
 				kind: "primary",
 				created: false,
-				clone: "/git/repo",
 			});
-			expect(createMock).not.toHaveBeenCalled();
-		});
-
-		it("spills to a worktree rather than checking out over uncommitted work", () => {
-			durabilityMock.mockReturnValue({
-				durable: false,
-				reason: "uncommitted changes",
-			});
-
-			expect(
-				allocateTree("/git/repo", new Set(), { forCheckout: true }),
-			).toEqual({
-				cwd: "/git/repo-2",
-				kind: "worktree",
-				created: true,
-				clone: "/git/repo",
-			});
-		});
-
-		it("spills to a worktree rather than taking over unpushed commits", () => {
-			durabilityMock.mockReturnValue({
-				durable: false,
-				reason: "unpushed commits",
-			});
-
-			expect(
-				allocateTree("/git/repo", new Set(), { forCheckout: true }).kind,
-			).toBe("worktree");
-		});
-
-		it("leaves the requested tree alone when parallel work is off", () => {
-			configMock.mockReturnValue({
-				enabled: false,
-				trunk: false,
-				install: true,
-				commitBeforeManualChecks: false,
-				copy: [],
-			});
-			durabilityMock.mockReturnValue({
-				durable: false,
-				reason: "uncommitted changes",
-			});
-
-			expect(
-				allocateTree("/git/repo/src", new Set(), { forCheckout: true }),
-			).toEqual({ cwd: "/git/repo/src", kind: "primary", created: false });
 			expect(createMock).not.toHaveBeenCalled();
 		});
 	});
 
-	describe("for a committing session in a trunk-mode repo", () => {
-		beforeEach(() => {
-			configMock.mockReturnValue({
-				enabled: true,
-				trunk: true,
-				install: true,
-				commitBeforeManualChecks: false,
-				copy: [],
-			});
-		});
-
-		it("spills out of a free, clean clone rather than committing on the mainline", () => {
-			expect(allocateTree("/git/repo", new Set(), { commits: true })).toEqual({
-				cwd: "/git/repo-2",
-				kind: "worktree",
-				created: true,
-				clone: "/git/repo",
-			});
-		});
-
-		it("spills a PR checkout even though the clone is durable", () => {
-			expect(
-				allocateTree("/git/repo", new Set(), {
-					commits: true,
-					forCheckout: true,
-				}).kind,
-			).toBe("worktree");
-			expect(durabilityMock).not.toHaveBeenCalled();
-		});
-
-		it("still keeps a plain prompt in the clone", () => {
-			expect(allocateTree("/git/repo", new Set()).kind).toBe("primary");
-			expect(createMock).not.toHaveBeenCalled();
-		});
-
-		it("names the trunk reason for a committing assist command", () => {
-			allocateTree("/git/repo", new Set(), {
-				assistCommand: "review",
-				commits: true,
-			});
-
-			expect(logMock).toHaveBeenCalledWith(
-				expect.stringContaining("worktree.trunk is on"),
-			);
-		});
-
-		it("still honours a session pinned to the tree it was launched from", () => {
-			expect(
-				allocateTree("/git/repo", new Set(), { commits: true, inPlace: true }),
-			).toEqual({ cwd: "/git/repo", kind: "primary", created: false });
-			expect(createMock).not.toHaveBeenCalled();
-		});
-
-		it("stays inert when parallel work is off", () => {
-			configMock.mockReturnValue({
-				enabled: false,
-				trunk: true,
-				install: true,
-				commitBeforeManualChecks: false,
-				copy: [],
-			});
-
-			expect(
-				allocateTree("/git/repo/src", new Set(), { commits: true }),
-			).toEqual({ cwd: "/git/repo/src", kind: "primary", created: false });
-			expect(createMock).not.toHaveBeenCalled();
-		});
-	});
-
-	describe("for a backlog run", () => {
-		it("spills out of a free, clean clone even with worktree.trunk off", () => {
-			expect(
-				allocateTree("/git/repo", new Set(), {
-					commits: true,
-					backlogRun: true,
-				}),
-			).toEqual({
-				cwd: "/git/repo-2",
-				kind: "worktree",
-				created: true,
-				clone: "/git/repo",
-			});
-			expect(logMock).toHaveBeenCalledWith(
-				"backlog run spilled out of the clone /git/repo: backlog runs never use the clone",
-			);
-		});
-
-		it("stays in the clone when parallel work is off", () => {
-			configMock.mockReturnValue({
-				enabled: false,
-				trunk: false,
-				install: true,
-				commitBeforeManualChecks: false,
-				copy: [],
-			});
-
-			expect(
-				allocateTree("/git/repo", new Set(), { backlogRun: true }),
-			).toEqual({ cwd: "/git/repo", kind: "primary", created: false });
-			expect(createMock).not.toHaveBeenCalled();
-		});
-	});
-
-	describe("for a committing session in a non-trunk repo", () => {
-		it("reuses a free, clean clone exactly as before", () => {
-			expect(allocateTree("/git/repo", new Set(), { commits: true })).toEqual({
-				cwd: "/git/repo",
-				kind: "primary",
-				created: false,
-				clone: "/git/repo",
-			});
-			expect(createMock).not.toHaveBeenCalled();
-		});
-
-		it("still spills a PR checkout over uncommitted work", () => {
-			durabilityMock.mockReturnValue({
-				durable: false,
-				reason: "uncommitted changes",
-			});
-
-			expect(
-				allocateTree("/git/repo", new Set(), {
-					commits: true,
-					forCheckout: true,
-				}).kind,
-			).toBe("worktree");
+	it("leaves a session without a cwd unplaced", () => {
+		expect(allocateTree(undefined, new Set())).toEqual({
+			cwd: undefined,
+			kind: "primary",
+			created: false,
 		});
 	});
 });
