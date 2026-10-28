@@ -7,9 +7,8 @@ export function useQueuedSubmit(draft: NewSessionDraft, submit: () => void) {
 	useEffect(() => {
 		if (!queued || draft.modePending) return;
 		setQueued(false);
-		if (draft.mode === "prompt" && !draft.prompt.trim()) return;
 		submit();
-	}, [queued, draft.modePending, draft.mode, draft.prompt, submit]);
+	}, [queued, draft.modePending, submit]);
 
 	return () => {
 		if (draft.modePending) setQueued(true);

@@ -352,7 +352,7 @@ describe("NewSessionDialog mode selector", () => {
 		return loaded;
 	}
 
-	it("does not submit the previous repo's default mode while the new one loads", async () => {
+	it("submits an empty prompt in the new repo's prompt default after a single Enter", async () => {
 		const { onCreate, onCreateAssist, onClose } =
 			renderDialog(useLoadedDefault);
 		await act(async () => {});
@@ -368,11 +368,23 @@ describe("NewSessionDialog mode selector", () => {
 		await act(async () => {
 			await new Promise((resolve) => setTimeout(resolve));
 		});
-		expect(checkedMode()).toBe("prompt");
+		expect(onCreate).toHaveBeenCalledWith("", "/git/alpha");
+		expect(onCreateAssist).not.toHaveBeenCalled();
+		expect(onClose).toHaveBeenCalled();
+	});
+
+	it("submits a typed prompt once the new repo's prompt default loads after a single Enter", async () => {
+		const { onCreate, onCreateAssist } = renderDialog(useLoadedDefault);
+		await act(async () => {});
 
 		fireEvent.change(promptInput(), { target: { value: "fix it" } });
-		submitPrompt();
+		fireEvent.focus(repoInput());
+		fireEvent.change(repoInput(), { target: { value: "al" } });
+		fireEvent.keyDown(repoInput(), { key: "Enter" });
 
+		await act(async () => {
+			await new Promise((resolve) => setTimeout(resolve));
+		});
 		expect(onCreate).toHaveBeenCalledWith("fix it", "/git/alpha");
 		expect(onCreateAssist).not.toHaveBeenCalled();
 	});
