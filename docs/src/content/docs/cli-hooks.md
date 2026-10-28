@@ -47,7 +47,7 @@ See [Agent instructions and permissions](../hooks-and-permissions/) for what the
 
 - `assist cli-hook` :badge[internal] approves read-only commands and blocks denied ones. Called by the PreToolUse hook on shell commands and reads.
 - `assist edit-hook` :badge[internal] blocks edits that add code comments. Called by the PreToolUse hook on file edits.
-- `assist code-comment set <file> <line> <text>` :badge[internal] requests a single-line comment of up to 50 characters, sending a pin to your desktop notifications. Give the agent the pin only if the comment should go in. Called by agents whose edit the comment gate blocked.
+- `assist code-comment set <file> <line> <text>` :badge[internal] requests a single-line comment of up to 50 characters, sending a pin to your desktop notifications. See [Approving a comment](../code-quality/#approving-a-comment). Called by agents whose edit the comment gate blocked.
 - `assist code-comment confirm <pin>` :badge[internal] adds the comment the pin was issued for. Called by agents whose edit the comment gate blocked.
 - `assist notify` :badge[internal] shows a [desktop notification](../hooks-and-permissions/#desktop-notifications). Called by the Notification hook.
 - `assist status-line` :badge[internal] prints Claude Code's status line: model, branch, context use and rate limits. Called by Claude Code's status line.

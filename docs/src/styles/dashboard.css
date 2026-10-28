@@ -113,6 +113,10 @@
 	--assist-chip-color: var(--assist-secondary);
 }
 
+.assist-chip-error {
+	--assist-chip-color: var(--assist-error);
+}
+
 @keyframes assist-status-pulse {
 	0%,
 	100% {

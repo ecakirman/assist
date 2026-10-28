@@ -28,7 +28,7 @@ The commands that change files are dry runs by default: they print what they wou
 - `assist refactor rename file <source> <destination>` moves a file and updates every import of it.
 - `assist refactor rename symbol <file> <oldName> <newName>` renames a variable, function, class or type everywhere it's used.
 - `assist refactor extract <file> <functionName> <destination>` moves a function, and the private helpers only it uses, into a new file and imports it back.
-- `assist refactor restructure [root]` plans where every file under `root` belongs by its imports. `--apply` moves the files, rewrites their imports and removes emptied folders. `--check` lists files that differ from the plan and fails if there are any, so it can run as a [verify](../verify/) check. See [Restructuring folders](../code-quality/#restructuring-folders) for its settings.
+- `assist refactor restructure [root]` :badge[experimental] plans where every file under `root` belongs by its imports. `--apply` moves the files, rewrites their imports and removes emptied folders. `--check` lists files that differ from the plan and fails if there are any, so it can run as a [verify](../verify/) check. See [Restructuring folders](../code-quality/#restructuring-folders) for its settings.
 
 ## Complexity
 

@@ -26,6 +26,8 @@ When a file has no sensible split, exempt it with [`assist refactor ignore`](../
 
 ## Restructuring folders
 
+:badge[experimental] Restructuring is still being worked out, and how it places files may change or be removed.
+
 Run `/restructure [root]` to lay out the files under `root` by their imports: a file used by one other file moves into a folder beside it, and a file shared by several sits in the closest folder they have in common. The agent reviews the plan, applies it, rewriting imports, then fixes anything [verify](../verify/) finds broken.
 
 Shape the plan with these keys:
@@ -47,6 +49,13 @@ When the plan goes deeper or longer than the limits, pin files to flatten it.
 ## Removing comments
 
 Run `/strip-code-comments` to remove comments that restate the code, label sections or hold commented-out code, keeping directives and comments that explain something the code can't. It also adds a commenting policy to the repo's `CLAUDE.md` if there isn't one.
+
+### Approving a comment
+
+Agents can't add code comments by editing a file. When an agent believes one comment genuinely belongs, it asks for it: a single line of up to 50 characters, at a given line. assist sends a three-digit pin to your desktop notifications.
+
+- To allow the comment, give the agent the pin. It uses the pin to add the comment.
+- To refuse it, don't. The agent has to make the code clearer instead.
 
 ## Tests
 

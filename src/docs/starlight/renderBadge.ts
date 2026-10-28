@@ -10,6 +10,8 @@ const badges: Record<string, string> = {
 	node: '<span class="assist-badge assist-chip assist-chip-outlined assist-chip-info">laptop</span>',
 	internal:
 		'<span class="assist-badge assist-chip assist-chip-outlined assist-chip-warning" title="Called by assist itself, not run by hand">internal</span>',
+	experimental:
+		'<span class="assist-badge assist-chip assist-chip-outlined assist-chip-error" title="Still in development and may change or be removed">experimental</span>',
 };
 
 export function renderBadge(badge: string): string {
