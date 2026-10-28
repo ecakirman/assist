@@ -1,3 +1,15 @@
+# [0.917.0](https://github.com/staff0rd/assist/compare/v0.916.0...v0.917.0) (2026-10-28)
+
+
+### Bug Fixes
+
+* restart park timer on opening group ([2c90bbb](https://github.com/staff0rd/assist/commit/2c90bbb9f1450b6dd5fc55dd738c7f22bb21b7c7))
+
+
+### Features
+
+* always spill sessions to worktrees ([1ba91de](https://github.com/staff0rd/assist/commit/1ba91de624e3095f881a08f9391097ab5bb7a32f))
+
 # [0.916.0](https://github.com/staff0rd/assist/compare/v0.915.1...v0.916.0) (2026-10-28)
 
 
