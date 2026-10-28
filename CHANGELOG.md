@@ -1,3 +1,10 @@
+## [0.917.1](https://github.com/staff0rd/assist/compare/v0.917.0...v0.917.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* new session opens collapsed group ([c8c5cbe](https://github.com/staff0rd/assist/commit/c8c5cbedc676ab401949266dc6102c008b160043))
+
 # [0.917.0](https://github.com/staff0rd/assist/compare/v0.916.0...v0.917.0) (2026-10-28)
 
 
