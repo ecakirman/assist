@@ -102,6 +102,18 @@ describe("SessionArea loading state", () => {
 		]);
 		expect(screen.queryByText("Starting session…")).toBeNull();
 	});
+
+	it("names the seeding step for a session held for its worktree", () => {
+		renderArea("3", new Set(), [
+			makeSessionInfo({
+				id: "3",
+				seeding: "Installing dependencies in member-app…",
+			}),
+		]);
+		expect(
+			screen.getByText("Installing dependencies in member-app…"),
+		).toBeTruthy();
+	});
 });
 
 describe("SessionArea transcript view", () => {

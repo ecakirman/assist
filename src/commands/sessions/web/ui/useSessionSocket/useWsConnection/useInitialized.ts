@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { cancelSettleTimers } from "./useInitialized/cancelSettleTimers";
+import { goneIds } from "./useInitialized/goneIds";
 import { removeIds } from "./useInitialized/removeIds";
 import { respawnedIds } from "./useInitialized/respawnedIds";
 import { startedRunIds } from "./useInitialized/startedRunIds";
@@ -43,11 +45,12 @@ export function useInitialized() {
 
 	const syncSessions = useCallback(
 		(sessions: SessionInfo[]) => {
-			const respawned = respawnedIds(startedAt.current, sessions);
+			const gone = goneIds(startedAt.current, sessions);
+			const reset = [...respawnedIds(startedAt.current, sessions), ...gone];
 			const startedRuns = startedRunIds(startedAt.current, sessions);
 			startedAt.current = new Map(sessions.map((s) => [s.id, s.startedAt]));
-			if (respawned.length)
-				setInitialized((prev) => removeIds(prev, respawned));
+			cancelSettleTimers(settleTimers.current, gone);
+			if (reset.length) setInitialized((prev) => removeIds(prev, reset));
 			settleAfterDelay(startedRuns);
 		},
 		[settleAfterDelay],

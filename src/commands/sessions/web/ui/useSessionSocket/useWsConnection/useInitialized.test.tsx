@@ -28,6 +28,22 @@ describe("useInitialized", () => {
 		expect(result.current.initialized.has("1")).toBe(true);
 	});
 
+	it("starts a session that reuses a dismissed session's id uninitialized", () => {
+		const { result } = renderHook(() => useInitialized());
+		act(() => {
+			result.current.syncSessions([makeSessionInfo({ id: "13" })]);
+			result.current.markInitialized("13");
+		});
+
+		act(() => result.current.syncSessions([]));
+		act(() =>
+			result.current.syncSessions([
+				makeSessionInfo({ id: "13", startedAt: 200 }),
+			]),
+		);
+		expect(result.current.initialized.has("13")).toBe(false);
+	});
+
 	it("leaves a respawned claude session starting until it prints", () => {
 		const { result } = renderHook(() => useInitialized());
 		act(() => {
