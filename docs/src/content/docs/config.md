@@ -8,6 +8,20 @@ covers:
   - config:repos
   - cli:config set
   - cli:config unset
+screenshots:
+  - file: config.png
+    alt: The commit keys on the Config page, with commit.push open for editing and the Project, This repo and Global scope buttons below it
+    route: /config?search=commit
+    scene: dashboard
+    waitFor: text=commit.push
+    actions:
+      - click: "[aria-label='Edit commit.push']"
+      - click: text=push after committing
+    viewport:
+      width: 1280
+      height: 720
+    crop: "xpath=//h6[normalize-space()='commit']/.."
+    cropPadding: 16
 ---
 
 Every assist setting is a config key, such as `commit.push` or `next.repos`. Change them on the **Config** page, opened from the cog in the toolbar (:kbd[Alt+W]), or with `assist config set`.
@@ -29,6 +43,8 @@ Use **This repo** for personal settings you want in one repo on all your machine
 ## The Config page
 
 The page shows the effective config for the repo selected in the toolbar, with keys grouped by their first segment (`commit`, `next`, `sessions` and so on).
+
+::screenshot{file="config.png"}
 
 - Type in **Search** to narrow the list by key or description. Other pages link here with the search filled in, such as **Next settings** on [Next](../next/).
 - Each key shows a chip naming where its value comes from: `project`, `repo`, `global` or `default`. Hover the chip to see the file or override it was read from.
