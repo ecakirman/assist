@@ -20,6 +20,17 @@ describe("displayStatus", () => {
 		).toBe("waiting");
 	});
 
+	it("stays running while only a show preview is open", () => {
+		expect(
+			displayStatus(
+				makeSessionInfo({
+					status: "running",
+					pendingPrPreview: { ...preview, kind: "show" },
+				}),
+			),
+		).toBe("running");
+	});
+
 	it("returns to the real status once the preview is cleared", () => {
 		expect(displayStatus(makeSessionInfo({ status: "running" }))).toBe(
 			"running",
