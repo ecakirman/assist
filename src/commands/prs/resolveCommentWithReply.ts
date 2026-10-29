@@ -1,17 +1,7 @@
-import { execFileSync } from "node:child_process";
+import type { AzureDevopsThreadStatus } from "./azureDevops/azureDevopsThreadRequests";
 import { deleteCommentsCache, loadCommentsCache } from "./loadCommentsCache";
-import { getCurrentPrNumber, getRepoInfo } from "./shared";
-import type { PrComment } from "./types";
-import { replyToComment } from "./replyToComment";
-
-function resolveThread(threadId: string): void {
-	const mutation = `mutation($threadId: ID!) { resolveReviewThread(input: {threadId: $threadId}) { thread { isResolved } } }`;
-	execFileSync(
-		"gh",
-		["api", "graphql", "-f", `query=${mutation}`, "-f", `threadId=${threadId}`],
-		{ stdio: ["inherit", "pipe", "inherit"] },
-	);
-}
+import { type ThreadTarget, threadTarget } from "./threadTarget";
+import type { LineComment, PrComment } from "./types";
 
 function requireCache(org: string, repo: string, prNumber: number) {
 	const cache = loadCommentsCache(org, repo, prNumber);
@@ -34,7 +24,7 @@ function findLineComment(
 function requireLineComment(
 	cache: NonNullable<ReturnType<typeof loadCommentsCache>>,
 	commentId: number,
-) {
+): LineComment {
 	const comment = findLineComment(cache.comments, commentId);
 	if (!comment || comment.type !== "line" || !comment.threadId) {
 		console.error(
@@ -42,14 +32,12 @@ function requireLineComment(
 		);
 		process.exit(1);
 	}
-	return comment as PrComment & { threadId: string };
+	return comment;
 }
 
 function cleanupCacheIfDone(
 	cache: NonNullable<ReturnType<typeof loadCommentsCache>>,
-	org: string,
-	repo: string,
-	prNumber: number,
+	{ org, repo, prNumber }: ThreadTarget,
 	commentId: number,
 ): void {
 	const hasRemaining = cache.comments.some(
@@ -61,17 +49,17 @@ function cleanupCacheIfDone(
 export function resolveCommentWithReply(
 	commentId: number,
 	message: string,
+	status: AzureDevopsThreadStatus,
 ): void {
-	const prNumber = getCurrentPrNumber();
-	const { org, repo } = getRepoInfo();
-	const cache = requireCache(org, repo, prNumber);
+	const target = threadTarget(status);
+	const cache = requireCache(target.org, target.repo, target.prNumber);
 	const comment = requireLineComment(cache, commentId);
 
-	replyToComment(org, repo, prNumber, commentId, message);
+	target.reply(comment, message);
 	console.log("Reply posted successfully.");
 
-	resolveThread(comment.threadId);
+	target.resolve(comment);
 	console.log("Thread resolved successfully.");
 
-	cleanupCacheIfDone(cache, org, repo, prNumber, commentId);
+	cleanupCacheIfDone(cache, target, commentId);
 }

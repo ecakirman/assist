@@ -134,7 +134,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
 - `assist prs raise --title <t> --what <w> --why <y> [--how <h>] [--resolves <ref>] [--screenshot '[Group/]Caption=path']... [--force] [--draft|--no-draft]` - Raise a PR with a What/Why/How body, previewed for approval in a web session; `--draft`/`--no-draft` override `prs.draft`; each `--screenshot` is uploaded via `gh --attach` and rendered under `## Screenshots` as a `### Group` heading with a 2-column captioned table, ungrouped images last as plain images
 - `assist prs edit [--title <t>] [--what <w>] [--why <y>] [--how <h>] [--resolves <ref>] [--screenshot '[Group/]Caption=path']...` - Update the supplied sections of the current PR's body, previewed for approval in a web session; `--screenshot` replaces the existing `## Screenshots` section
 - `assist prs read-time <target> [--budget <duration>]` - Alias of `assist read-time`
-- `assist prs list-comments` - List all comments on the current branch's pull request
+- `assist prs list-comments` - List all comments on the current branch's pull request (GitHub via `gh`, or Azure DevOps via `az` when the remote is on Azure DevOps — see [Azure DevOps PRs](#azure-devops-prs))
 - `assist prs fixed <comment-id> <sha>` - Reply with commit link and resolve thread
 - `assist prs wontfix <comment-id> <reason>` - Reply with reason and resolve thread, previewed for approval in a web session; `-` reads the reason from stdin
 - `assist prs reply <comment-id> <body>` - Reply to a comment thread without resolving it, previewed for approval in a web session; `-` reads the body from stdin
@@ -584,9 +584,11 @@ On a PR page the header button opens a menu mirroring the web app's PR dialog in
 
 ### Azure DevOps PRs
 
-The content script also runs on `dev.azure.com` and `*.visualstudio.com`. On a PR page (`…/<project>/_git/<repo>/pullrequest/<id>`) it adds the **assist** button to the PR header with only **Checkout**; the review modes and other PR actions are GitHub-only and get a 400 for an Azure DevOps URL. The endpoint finds the clone under `clone.baseDir` whose remote is the same org/project/repo in any form (`https://org@dev.azure.com/…/_git/repo`, `https://org.visualstudio.com/…/_git/repo`, `git@ssh.dev.azure.com:v3/org/project/repo`), preferring `<baseDir>/<repo>`.
+The content script also runs on `dev.azure.com` and `*.visualstudio.com`. On a PR page (`…/<project>/_git/<repo>/pullrequest/<id>`) it adds the **assist** button to the PR header with only **Checkout**, **Address Comments**, **Address Comments (batch)** and **Address Comments (auto)**; the review modes and Fix conflicts are GitHub-only and get a 400 for an Azure DevOps URL. The endpoint finds the clone under `clone.baseDir` whose remote is the same org/project/repo in any form (`https://org@dev.azure.com/…/_git/repo`, `https://org.visualstudio.com/…/_git/repo`, `git@ssh.dev.azure.com:v3/org/project/repo`), preferring `<baseDir>/<repo>`.
 
-Assist stores no Azure DevOps credentials: it drives the [Azure CLI](https://aka.ms/azure-cli) with your own login, so install `az`, add its extension with `az extension add --name azure-devops`, and run `az login`. When a checkout fails, assist says which of these is missing.
+Assist stores no Azure DevOps credentials: it drives the [Azure CLI](https://aka.ms/azure-cli) with your own login, so install `az`, add its extension with `az extension add --name azure-devops`, and run `az login`. When a checkout or an `assist prs` thread command fails, assist says which of these is missing.
+
+In a clone whose remote is on Azure DevOps, `assist prs list-comments`, `fixed`, `wontfix` and `reply` work on the current branch's active PR through `az repos pr list` and `az devops invoke`. Each thread prints with its ADO web URL and the thread id as its `id` (every comment in a thread shares it); `fixed` replies with a `dev.azure.com/…/commit/<sha>` link and sets the thread to **Fixed**, `wontfix` sets it to **Won't fix**. A thread counts as resolved unless its status is Active or Pending.
 
 Sending is Firefox-only (it relies on the `browser.*` promise APIs). The web server URL is set on the extension's options page (**about:addons** → the extension → **Options**) and defaults to `http://localhost:3100`. `host_permissions` covers any port on `localhost` and `127.0.0.1`; another host relies on the endpoint's CORS.
 

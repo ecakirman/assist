@@ -7,6 +7,7 @@ export type Thread = {
 };
 
 export function threadLocation(comment: LineComment): string {
+	if (!comment.path) return "the PR";
 	return comment.line ? `${comment.path}:${comment.line}` : comment.path;
 }
 

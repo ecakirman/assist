@@ -14,7 +14,7 @@ function validateReason(reason: string): void {
 function validateShaReferences(reason: string): void {
 	// Match SHAs in markdown commit links: [7-char sha](https://github.com/owner/repo/commit/full-sha)
 	const commitLinkPattern =
-		/\[[0-9a-f]{7}\]\(https:\/\/github\.com\/[^/]+\/[^/]+\/commit\/([0-9a-f]{40})\)/gi;
+		/\[[0-9a-f]{7}\]\(https:\/\/(?:github\.com\/[^/]+\/[^/]+|dev\.azure\.com\/[^/]+\/[^/]+\/_git\/[^/]+)\/commit\/([0-9a-f]{40})\)/gi;
 
 	const shas = Array.from(reason.matchAll(commitLinkPattern), (m) => m[1]);
 
@@ -53,7 +53,7 @@ export async function wontfix(
 	);
 
 	try {
-		resolveCommentWithReply(commentId, reason);
+		resolveCommentWithReply(commentId, reason, "wontFix");
 	} catch (error) {
 		if (isGhNotInstalled(error)) {
 			console.error("Error: GitHub CLI (gh) is not installed.");

@@ -1,6 +1,8 @@
 import { execSync } from "node:child_process";
 import { loadConfig } from "../../shared/loadConfig";
 import { pushCommit } from "../commit/pushCommit";
+import { azureDevopsRemote } from "../review/azureDevopsRemote";
+import { azureDevopsRepoUrl } from "./azureDevops/azureDevopsRepoUrl";
 import { resolveCommentWithReply } from "./resolveCommentWithReply";
 import { getRepoInfo, isGhNotInstalled } from "./shared";
 
@@ -15,15 +17,20 @@ function verifySha(sha: string): string {
 	}
 }
 
+function repoUrl(): string {
+	const azure = azureDevopsRemote(process.cwd());
+	if (azure) return azureDevopsRepoUrl(azure);
+	const { org, repo } = getRepoInfo();
+	return `https://github.com/${org}/${repo}`;
+}
+
 export function fixed(commentId: number, sha: string): void {
 	try {
 		const fullSha = verifySha(sha);
-		const { org, repo } = getRepoInfo();
-		const repoUrl = `https://github.com/${org}/${repo}`;
-		const message = `Fixed in [${fullSha}](${repoUrl}/commit/${fullSha})`;
+		const message = `Fixed in [${fullSha}](${repoUrl()}/commit/${fullSha})`;
 
 		pushCommit(loadConfig().worktree?.trunk === true);
-		resolveCommentWithReply(commentId, message);
+		resolveCommentWithReply(commentId, message, "fixed");
 	} catch (error) {
 		if (isGhNotInstalled(error)) {
 			console.error("Error: GitHub CLI (gh) is not installed.");

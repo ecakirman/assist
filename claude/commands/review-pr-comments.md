@@ -17,7 +17,7 @@ Comments are also cached to `~/.assist/pr-comments/{org}/{repo}/pr-{prNumber}-co
 
 ## Processing Comments
 
-**Threads:** each unresolved thread block is one unit of work — never merge different threads, even when they are on the same file. Within a block, present follow-up comments (e.g., a reviewer endorsing a bot suggestion) as context alongside the primary actionable comment. Only call `fixed`/`wontfix` once per thread, using the `id` of the primary actionable comment.
+**Threads:** each unresolved thread block is one unit of work — never merge different threads, even when they are on the same file. Within a block, present follow-up comments (e.g., a reviewer endorsing a bot suggestion) as context alongside the primary actionable comment. Only call `fixed`/`wontfix` once per thread, using the `id` of the primary actionable comment (on Azure DevOps every comment in a thread shows the thread's id).
 
 Create a task for each unresolved **thread** (not each comment). For each thread:
 
@@ -31,7 +31,7 @@ Create a task for each unresolved **thread** (not each comment). For each thread
    - Prepare a recommended fix if you believe the comment should be addressed
 
 3. **Present options to the user** using AskUserQuestion:
-   - Include the comment URL (from `html_url` field) so the user can view it on GitHub
+   - Include the comment URL (from `html_url` field) so the user can view it on the PR's host (GitHub or Azure DevOps)
    - **Address the comment**: Display your recommended fix and explain why it addresses the feedback
    - **Do not address**: Display your reasoning for why the comment should not be addressed (e.g., already handled, out of scope, incorrect suggestion)
    - **Skip**: Move on to the next comment without taking any action
@@ -46,7 +46,7 @@ Create a task for each unresolved **thread** (not each comment). For each thread
      2. Run `assist prs wontfix <comment-id> "<reason>"` to reply and resolve the thread — or, if the reason contains backticks, `$(...)` or `$VAR`, use the stdin form below so your shell cannot expand it
    - If skipping:
      1. Do nothing — move on to the next comment immediately
-   - **Commit references**: Always use full markdown links (e.g., `[abc1234](https://github.com/owner/repo/commit/abc1234)`), never bare SHAs
+   - **Commit references**: Always use full markdown links to the commit on the PR's host, never bare SHAs — `[abc1234](https://github.com/owner/repo/commit/<full-sha>)` on GitHub, `[abc1234](https://dev.azure.com/org/project/_git/repo/commit/<full-sha>)` on Azure DevOps
 
 5. **Repeat** until all comments have been processed
 

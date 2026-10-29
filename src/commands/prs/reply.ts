@@ -1,3 +1,5 @@
+import { azureDevopsRemote } from "../review/azureDevopsRemote";
+import { azureDevopsThreadActions } from "./azureDevops/azureDevopsThreadActions";
 import { replyToComment } from "./replyToComment";
 import { reviewProposedPrComment } from "./reviewProposedPrComment";
 import { getCurrentPrNumber, getRepoInfo, isGhNotInstalled } from "./shared";
@@ -14,6 +16,14 @@ export async function reply(commentId: number, body: string): Promise<void> {
 	validateBody(body);
 
 	await reviewProposedPrComment(`Reply to comment #${commentId}`, body, null);
+
+	const azure = azureDevopsRemote(process.cwd());
+	if (azure) {
+		const pr = azureDevopsThreadActions.currentPr(azure);
+		azureDevopsThreadActions.reply(pr, commentId, body);
+		console.log("Reply posted successfully.");
+		return;
+	}
 
 	try {
 		const prNumber = getCurrentPrNumber();

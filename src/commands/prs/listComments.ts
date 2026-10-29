@@ -1,3 +1,5 @@
+import { azureDevopsRemote } from "../review/azureDevopsRemote";
+import { listAzureDevopsComments } from "./azureDevops/listAzureDevopsComments";
 import { commentsCachePath } from "./commentsCachePath";
 import { fetchThreadIds } from "./fetchThreadIds";
 import { getCurrentPrNumber, getRepoInfo, isGhNotInstalled } from "./shared";
@@ -24,6 +26,8 @@ function handleKnownErrors(error: unknown): PrComment[] | null {
 }
 
 export async function listComments(): Promise<ListCommentsResult> {
+	const azure = azureDevopsRemote(process.cwd());
+	if (azure) return listAzureDevopsComments(azure);
 	try {
 		const prNumber = getCurrentPrNumber();
 		const { org, repo } = getRepoInfo();

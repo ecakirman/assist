@@ -36,6 +36,7 @@ describe("wontfix", () => {
 		expect(resolveCommentWithReply).toHaveBeenCalledWith(
 			123,
 			"Out of scope for this PR",
+			"wontFix",
 		);
 	});
 
