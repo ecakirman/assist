@@ -1,46 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRepoSelectionContext } from "../../../../../useRepoSelectionContext";
-import { type NewSessionMode, newSessionModes } from "../newSessionModes";
+import { type NewSessionMode } from "../newSessionModes";
+import { fetchModes } from "./useDefaultNewSessionMode/fetchModes";
 
 export type LoadedDefaultMode = { mode: NewSessionMode; pending: boolean };
 
 type LoadedModes = { open: boolean; byCwd: Record<string, NewSessionMode> };
 
-async function fetchModes(
-	cwds: string[],
-): Promise<Record<string, NewSessionMode>> {
-	try {
-		const query = cwds.map((cwd) => `cwd=${encodeURIComponent(cwd)}`);
-		const res = await fetch(`/api/new-session-defaults?${query.join("&")}`);
-		const body = await res.json();
-		return Object.fromEntries(
-			Object.entries(body?.modes ?? {}).filter(([, mode]) =>
-				Object.hasOwn(newSessionModes, mode as string),
-			),
-		) as Record<string, NewSessionMode>;
-	} catch {
-		return {};
-	}
-}
+const RETRY_MS = 1000;
 
 export function useDefaultNewSessionMode(
 	cwd: string,
 	open = false,
 ): LoadedDefaultMode | null {
 	const { repos } = useRepoSelectionContext();
-	const cwdsKey = JSON.stringify([...new Set([...repos, cwd])]);
+	const cwds = useRef<string[]>([]);
+	cwds.current = [...new Set([...repos, cwd])];
 	const [loaded, setLoaded] = useState<LoadedModes | null>(null);
+	const missing = loaded && !Object.hasOwn(loaded.byCwd, cwd) ? cwd : "";
 
 	useEffect(() => {
 		let cancelled = false;
-		void (async () => {
-			const byCwd = await fetchModes(JSON.parse(cwdsKey));
-			if (!cancelled) setLoaded({ open, byCwd });
-		})();
+		let retry: ReturnType<typeof setTimeout> | undefined;
+		const load = async () => {
+			const byCwd = await fetchModes(cwds.current);
+			if (cancelled) return;
+			if (!byCwd) {
+				retry = setTimeout(load, RETRY_MS);
+				return;
+			}
+			setLoaded((prev) => ({
+				open,
+				byCwd: prev?.open === open ? { ...prev.byCwd, ...byCwd } : byCwd,
+			}));
+		};
+		void load();
 		return () => {
 			cancelled = true;
+			clearTimeout(retry);
 		};
-	}, [open, cwdsKey]);
+	}, [open, missing]);
 
 	if (!loaded) return null;
 	const mode = loaded.byCwd[cwd];

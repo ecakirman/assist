@@ -53,6 +53,45 @@ it("loads every repo's mode in one request so switching repos is immediate", asy
 	);
 });
 
+it("finishes loading while the repo list reorders mid-request", async () => {
+	let release = () => {};
+	const fetch = vi.fn(async () => {
+		await new Promise<void>((resolve) => {
+			release = resolve;
+		});
+		return Response.json({
+			modes: { "/git/alpha": "prompt", "/git/beta": "draft" },
+		});
+	});
+	vi.stubGlobal("fetch", fetch);
+	let order = repos;
+	const reorderingWrapper = ({ children }: { children: ReactNode }) => (
+		<RepoSelectionContext.Provider
+			value={{
+				repos: order,
+				selectedCwd: "/git/alpha",
+				worktreeCwd: "/git/alpha",
+				setSelectedCwd: vi.fn(),
+				cloneOn: (cwd) => cwd,
+				originOf: () => undefined,
+			}}
+		>
+			{children}
+		</RepoSelectionContext.Provider>
+	);
+	const { result, rerender } = renderHook(
+		() => useDefaultNewSessionMode("/git/alpha", true),
+		{ wrapper: reorderingWrapper },
+	);
+
+	order = [...repos].reverse();
+	rerender();
+	await act(async () => release());
+
+	expect(result.current).toEqual({ mode: "prompt", pending: false });
+	expect(fetch).toHaveBeenCalledTimes(1);
+});
+
 it("reloads the modes each time the dialog opens", async () => {
 	stubModes({ "/git/alpha": "draft", "/git/beta": "draft" });
 	const { result, rerender } = renderHook(
@@ -69,18 +108,32 @@ it("reloads the modes each time the dialog opens", async () => {
 	expect(result.current).toEqual({ mode: "prompt", pending: false });
 });
 
-it("stays pending rather than guessing draft when the modes fail to load", async () => {
-	vi.stubGlobal(
-		"fetch",
-		vi.fn(async () => {
-			throw new Error("offline");
-		}),
-	);
-	const { result } = renderHook(
-		() => useDefaultNewSessionMode("/git/alpha", true),
-		{ wrapper },
-	);
-	await act(async () => {});
+it("stays pending through a failed reload and retries until the server answers", async () => {
+	vi.useFakeTimers();
+	try {
+		stubModes({ "/git/alpha": "draft" });
+		const { result, rerender } = renderHook(
+			({ open }) => useDefaultNewSessionMode("/git/alpha", open),
+			{ wrapper, initialProps: { open: false } },
+		);
+		await act(async () => {});
 
-	expect(result.current?.pending).toBe(true);
+		vi.stubGlobal(
+			"fetch",
+			vi.fn(async () => {
+				throw new Error("offline");
+			}),
+		);
+		rerender({ open: true });
+		await act(async () => {});
+		expect(result.current?.pending).toBe(true);
+
+		stubModes({ "/git/alpha": "prompt" });
+		await act(async () => {
+			await vi.advanceTimersByTimeAsync(1000);
+		});
+		expect(result.current).toEqual({ mode: "prompt", pending: false });
+	} finally {
+		vi.useRealTimers();
+	}
 });
