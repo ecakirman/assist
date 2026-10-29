@@ -3,8 +3,9 @@ import { FileCommentLayer } from "../../../../FileCommentLayer";
 import { MonacoEditor } from "./FileViewBody/MonacoEditor";
 import { monacoLanguageForPath } from "./FileViewBody/monacoLanguageForPath";
 import type { FileComments } from "./useFileComments";
+import { statusBarInset } from "../../../../../designSystem/statusBarInset";
 
-const EDITOR_HEIGHT = "calc(100vh - 152px)";
+const EDITOR_HEIGHT = `calc(100vh - 152px - ${statusBarInset})`;
 
 export function FileViewBody({
 	path,

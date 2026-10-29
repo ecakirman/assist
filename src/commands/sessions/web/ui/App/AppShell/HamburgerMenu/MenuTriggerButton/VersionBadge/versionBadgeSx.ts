@@ -1,8 +1,25 @@
 import type { Theme } from "@mui/material/styles";
+import { chromeColors } from "../../../../../designSystem/chromeColors";
 
-const onAppBar = (t: Theme) => t.tokens.color.onAppBar;
+const statusBar = (t: Theme) => t.tokens.color.statusBar;
 
-export const versionBadgeSx = (ready: boolean) =>
+const onStatusBarSx = {
+	height: 22,
+	py: 0,
+	borderRadius: 1,
+	fontSize: "inherit",
+	opacity: 1,
+	"&:hover, &:focus-visible": {
+		bgcolor: (t: Theme) => statusBar(t)?.hover,
+		color: (t: Theme) => statusBar(t)?.hoverText,
+	},
+	"& .ready-count": {
+		fontWeight: 500,
+		color: (t: Theme) => statusBar(t)?.readyText,
+	},
+} as const;
+
+export const versionBadgeSx = (ready: boolean, onStatusBar = false) =>
 	({
 		display: "inline-flex",
 		alignItems: "center",
@@ -14,18 +31,20 @@ export const versionBadgeSx = (ready: boolean) =>
 		lineHeight: 1.5,
 		color: "inherit",
 		opacity: ready ? 1 : 0.55,
-		bgcolor: (t: Theme) => (ready ? onAppBar(t).active : "transparent"),
-		transition: "opacity .2s ease, background-color .2s ease",
+		bgcolor: (t: Theme) => (ready ? chromeColors(t).active : "transparent"),
+		transition: "opacity .2s ease, background-color .2s ease, color .2s ease",
 		"&:hover, &:focus-visible": {
 			opacity: 1,
-			bgcolor: (t: Theme) => onAppBar(t).hover,
+			bgcolor: (t: Theme) => chromeColors(t).hover,
 		},
 		"& .ready-dot": {
-			width: 8,
-			height: 8,
+			width: onStatusBar ? 6 : 8,
+			height: onStatusBar ? 6 : 8,
 			borderRadius: "50%",
-			bgcolor: (t: Theme) => onAppBar(t).dot,
-			boxShadow: (t: Theme) => `0 0 0 2px ${onAppBar(t).dotRing}`,
+			bgcolor: (t: Theme) => chromeColors(t).dot,
+			boxShadow: (t: Theme) =>
+				`0 0 0 ${onStatusBar ? 3 : 2}px ${chromeColors(t).dotRing}`,
 		},
 		"& .ready-count": { fontWeight: 500 },
+		...(onStatusBar && onStatusBarSx),
 	}) as const;

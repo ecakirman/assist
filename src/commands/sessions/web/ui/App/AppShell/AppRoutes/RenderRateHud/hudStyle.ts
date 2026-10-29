@@ -1,9 +1,10 @@
 import type { CSSProperties } from "react";
+import { statusBarInset } from "../../../../designSystem/statusBarInset";
 import { swatches } from "../../../../designSystem/swatches";
 
 export const hudStyle = (monoFont: string): CSSProperties => ({
 	position: "fixed",
-	bottom: 8,
+	bottom: `calc(8px + ${statusBarInset})`,
 	right: 8,
 	zIndex: 3000,
 	background: swatches.renderHud.background,

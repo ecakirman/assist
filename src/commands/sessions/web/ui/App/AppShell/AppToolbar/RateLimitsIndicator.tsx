@@ -9,27 +9,22 @@ import { HarnessRateLimitChips } from "./RateLimitsIndicator/HarnessRateLimitChi
 import { HarnessRateLimitsTooltip } from "./RateLimitsIndicator/HarnessRateLimitsTooltip";
 import { harnessLimitGroups } from "./RateLimitsIndicator/harnessLimitGroups";
 import { RateLimitChips } from "./RateLimitsIndicator/RateLimitChips";
+import { rateLimitsIndicatorSx } from "./RateLimitsIndicator/rateLimitsIndicatorSx";
 import {
 	RATE_LIMITS_TOOLTIP_HINT,
 	RateLimitsTooltip,
 } from "./RateLimitsIndicator/RateLimitsTooltip";
-
-const containerSx = {
-	display: "flex",
-	alignItems: "center",
-	ml: 2,
-	fontFamily: "fontFamilyMono",
-	fontSize: 13,
-} as const;
 
 const NO_HARNESS_LIMITS: HarnessRateLimits = {};
 
 export function RateLimitsIndicator({
 	rateLimits,
 	harnessRateLimits = NO_HARNESS_LIMITS,
+	onStatusBar = false,
 }: {
 	rateLimits: RateLimits | null;
 	harnessRateLimits?: HarnessRateLimits;
+	onStatusBar?: boolean;
 }) {
 	const groups = harnessLimitGroups(rateLimits, harnessRateLimits);
 	const claudeOnly = groups.every((g) => g.harness === "claude");
@@ -44,13 +39,13 @@ export function RateLimitsIndicator({
 		content = <HarnessRateLimitChips groups={groups} />;
 	}
 	return (
-		<Tooltip title={title}>
+		<Tooltip title={title} placement={onStatusBar ? "top-end" : "bottom"}>
 			<Link
 				component={RouterLink}
 				to="/usage"
-				underline="hover"
+				underline={onStatusBar ? "none" : "hover"}
 				color="inherit"
-				sx={containerSx}
+				sx={rateLimitsIndicatorSx(onStatusBar)}
 			>
 				{content}
 			</Link>

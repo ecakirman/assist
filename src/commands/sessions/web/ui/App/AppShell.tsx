@@ -1,6 +1,8 @@
 import AppBar from "@mui/material/AppBar";
+import { useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import { AppRoutes } from "./AppShell/AppRoutes";
+import { AppStatusBar } from "./AppShell/AppStatusBar";
 import { AppOverlays } from "./AppShell/AppOverlays";
 import { AppShellProviders } from "./AppShell/AppShellProviders";
 import { AppToolbar } from "./AppShell/AppToolbar";
@@ -25,6 +27,7 @@ export function AppShell({
 }) {
 	const shell = useAppShell();
 	const { socket, selection, viewLaunchedSession } = shell;
+	const { design } = useTheme();
 
 	return (
 		<AppShellProviders shell={shell}>
@@ -43,6 +46,7 @@ export function AppShell({
 				<ServerRunLayer socket={socket}>
 					<AppRoutes socket={socket} />
 				</ServerRunLayer>
+				{design === "slate" && <AppStatusBar socket={socket} />}
 				<AppOverlays
 					socket={socket}
 					onViewLaunchedSession={viewLaunchedSession}

@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import { rateLimitLevel } from "../../../../../../../../../shared/rateLimitLevel";
 import {
-	limitLevelOnDarkColor,
-	onDarkSecondary,
-} from "../limitLevelOnDarkColor";
+	limitLevelChromeColor,
+	chromeSecondary,
+} from "../limitLevelChromeColor";
 import { limitChipTimeLabel } from "./limitChipTimeLabel";
 
 type Window = { used_percentage?: number; resets_at?: number };
@@ -25,10 +25,10 @@ export function LimitChip({
 	const timeLabel = limitChipTimeLabel(window?.resets_at, fallbackLabel, now);
 	return (
 		<Box component="span">
-			<Box component="span" sx={{ color: limitLevelOnDarkColor(level) }}>
+			<Box component="span" sx={{ color: limitLevelChromeColor(level) }}>
 				{Math.round(pct)}%
 			</Box>{" "}
-			<Box component="span" sx={{ color: onDarkSecondary }}>
+			<Box component="span" sx={{ color: chromeSecondary }}>
 				({timeLabel})
 			</Box>
 		</Box>

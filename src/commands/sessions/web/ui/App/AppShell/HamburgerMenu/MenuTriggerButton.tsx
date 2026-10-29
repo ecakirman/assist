@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import { ConfigButton } from "./MenuTriggerButton/ConfigButton";
 import { MenuButton } from "./MenuTriggerButton/MenuButton";
 import { VersionBadge } from "./MenuTriggerButton/VersionBadge";
@@ -10,6 +11,7 @@ export function MenuTriggerButton({
 	open: boolean;
 	onOpen: (anchor: HTMLElement) => void;
 }) {
+	const { design } = useTheme();
 	return (
 		<Box
 			sx={{
@@ -23,7 +25,7 @@ export function MenuTriggerButton({
 				color: "inherit",
 			}}
 		>
-			<VersionBadge />
+			{design !== "slate" && <VersionBadge />}
 			<ConfigButton />
 			<MenuButton open={open} onOpen={onOpen} />
 		</Box>

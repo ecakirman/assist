@@ -10,6 +10,7 @@ import type { SessionSocket } from "../../../useSessionSocket";
 import { useSidebarCollapsedContext } from "../../useSidebarCollapsedContext";
 import { useSidebarTab } from "./AppLayout/useSidebarTab";
 import { StarredSessionsProvider } from "../../useStarredSessions";
+import { appLayoutSx } from "./AppLayout/appLayoutSx";
 
 export function AppLayout({ socket }: { socket: SessionSocket }) {
 	const { pathname } = useLocation();
@@ -30,9 +31,7 @@ export function AppLayout({ socket }: { socket: SessionSocket }) {
 				sessionIds={socket.sessions.map((s) => s.id)}
 				onActivateSession={activateSession}
 			>
-				<Box
-					sx={{ display: "flex", width: "100%", height: "calc(100vh - 48px)" }}
-				>
+				<Box sx={appLayoutSx}>
 					<AppSidebar
 						socket={socket}
 						tab={tab}

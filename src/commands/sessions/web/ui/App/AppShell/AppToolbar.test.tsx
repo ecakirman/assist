@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { renderWithTheme } from "../../../../../../test/renderWithTheme";
 import { AppToolbar } from "./AppToolbar";
 import type { RepoSelection } from "../../useRepoSelectionContext";
 import type { SessionSocket } from "../../useSessionSocket";
@@ -17,7 +18,7 @@ vi.mock("./AppToolbar/NewSessionButton", () => ({
 }));
 vi.mock("./AppToolbar/TopNavActions", () => ({ TopNavActions: () => <div /> }));
 vi.mock("./AppToolbar/RateLimitsIndicator", () => ({
-	RateLimitsIndicator: () => <div />,
+	RateLimitsIndicator: () => <div data-testid="usage" />,
 }));
 vi.mock("./AppToolbar/RefreshWebserverButton", () => ({
 	RefreshWebserverButton: () => <div />,
@@ -73,5 +74,23 @@ describe("AppToolbar sidebar toggle", () => {
 
 		expect(screen.queryByRole("button", { name: "Show sidebar" })).toBeNull();
 		expect(screen.queryByRole("button", { name: "Hide sidebar" })).toBeNull();
+	});
+});
+
+describe("AppToolbar usage placement", () => {
+	it.each([
+		["classic", 1],
+		["slate", 0],
+	] as const)("under %s shows %i usage indicators", (design, count) => {
+		renderWithTheme(
+			<SidebarCollapsedContext.Provider
+				value={{ collapsed: false, onToggleCollapsed: vi.fn() }}
+			>
+				<AppToolbar socket={socket} selection={selection} />
+			</SidebarCollapsedContext.Provider>,
+			{ design },
+		);
+
+		expect(screen.queryAllByTestId("usage")).toHaveLength(count);
 	});
 });

@@ -5,7 +5,7 @@ import {
 	FIVE_HOUR_SECONDS,
 	SEVEN_DAY_SECONDS,
 } from "../../../../../../../../shared/rateLimitLevel";
-import { onDarkSecondary } from "./limitLevelOnDarkColor";
+import { chromeSecondary } from "./limitLevelChromeColor";
 import { LimitChip } from "./RateLimitChips/LimitChip";
 import { limitChipTimeLabel } from "./RateLimitChips/limitChipTimeLabel";
 import { RainbowPill } from "./RateLimitChips/RainbowPill";
@@ -37,7 +37,7 @@ export function RateLimitChips({ rateLimits }: { rateLimits: RateLimits }) {
 	const chips = windows.map((w, i) => (
 		<Fragment key={w.fallbackLabel}>
 			{i > 0 ? (
-				<Box component="span" sx={{ color: onDarkSecondary, mr: 0.5 }}>
+				<Box component="span" sx={{ color: chromeSecondary, mr: 0.5 }}>
 					,
 				</Box>
 			) : null}

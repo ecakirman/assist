@@ -7,6 +7,7 @@ import { DiffFileTreeRows } from "./DiffFileTree/DiffFileTreeRows";
 import { DIFF_TOOLBAR_HEIGHT } from "../DiffToolbar";
 import { treeFileKeys } from "../treeFileKeys";
 import { useCollapsedDirs } from "./DiffFileTree/useCollapsedDirs";
+import { statusBarInset } from "../../../designSystem/statusBarInset";
 
 const panelSx = {
 	position: "sticky",
@@ -14,7 +15,7 @@ const panelSx = {
 	alignSelf: "flex-start",
 	flexShrink: 0,
 	width: 260,
-	maxHeight: `calc(100vh - ${DIFF_TOOLBAR_HEIGHT + 96}px)`,
+	maxHeight: `calc(100vh - ${DIFF_TOOLBAR_HEIGHT + 96}px - ${statusBarInset})`,
 	overflow: "auto",
 	pt: 2,
 	pr: 2,

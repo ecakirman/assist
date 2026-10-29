@@ -29,7 +29,7 @@ A global npm install is not updated automatically.
 
 ## The Updates page
 
-The Updates page opens from the version badge on the dashboard, or with :kbd[Alt+Q]. It lists this machine and each [linked machine](../sessions-linked-nodes/), with the version each is running and where its updates are up to.
+The Updates page opens from the version badge in the dashboard's [status bar](../sessions-overview/#the-status-bar), or with :kbd[Alt+Q]. It lists this machine and each [linked machine](../sessions-linked-nodes/), with the version each is running and where its updates are up to.
 
 ::screenshot{file="updates-panel.png"}
 

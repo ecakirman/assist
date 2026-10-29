@@ -26,7 +26,7 @@ screenshots:
       - click: "role=tab[name='Items']"
 ---
 
-The **Usage** page tracks how much of your Claude plan's rate limits you use, and what each backlog item cost to build. Open it from the usage figures in the dashboard [toolbar](../sessions-overview/#the-toolbar), which show your current 5-hour and 7-day usage.
+The **Usage** page tracks how much of your Claude plan's rate limits you use, and what each backlog item cost to build. Open it from the usage figures in the dashboard's [status bar](../sessions-overview/#the-status-bar), which show your current 5-hour and 7-day usage.
 
 ## Rate limits
 

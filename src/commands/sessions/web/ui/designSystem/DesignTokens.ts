@@ -3,6 +3,22 @@ import type { ITheme } from "@xterm/xterm";
 
 export type DesignName = "classic" | "slate";
 
+type ChromeColors = {
+	secondary: string;
+	hover: string;
+	active: string;
+	dot: string;
+	dotRing: string;
+	level: { ok: string; warn: string; over: string };
+};
+
+type StatusBarColors = ChromeColors & {
+	background: string;
+	text: string;
+	hoverText: string;
+	readyText: string;
+};
+
 type ColorTokens = {
 	background: string;
 	surface: string;
@@ -16,14 +32,8 @@ type ColorTokens = {
 	stripe: string;
 	overlay: { background: string; text: string };
 	appBar?: { background: string; text: string };
-	onAppBar: {
-		secondary: string;
-		hover: string;
-		active: string;
-		dot: string;
-		dotRing: string;
-		level: { ok: string; warn: string; over: string };
-	};
+	onAppBar: ChromeColors;
+	statusBar?: StatusBarColors;
 	primary: SimplePaletteColorOptions;
 	secondary: SimplePaletteColorOptions;
 	success: SimplePaletteColorOptions;
