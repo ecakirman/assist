@@ -1,3 +1,10 @@
+# [0.927.0](https://github.com/staff0rd/assist/compare/v0.926.6...v0.927.0) (2026-10-29)
+
+
+### Features
+
+* document integrations, lock docs ([fe5087e](https://github.com/staff0rd/assist/commit/fe5087e4d853913e3131e31f4d48555fd28ed86b))
+
 ## [0.926.6](https://github.com/staff0rd/assist/compare/v0.926.5...v0.926.6) (2026-10-29)
 
 
