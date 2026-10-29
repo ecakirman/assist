@@ -1,3 +1,10 @@
+## [0.933.2](https://github.com/staff0rd/assist/compare/v0.933.1...v0.933.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* style web UI through design tokens ([f87095e](https://github.com/staff0rd/assist/commit/f87095ef76892a42b6261e4e01624853c04f1e0f))
+
 ## [0.933.1](https://github.com/staff0rd/assist/compare/v0.933.0...v0.933.1) (2026-10-29)
 
 
