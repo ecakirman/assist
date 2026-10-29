@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { clean as transcriptClean } from "./transcript/clean";
 import { configure as transcriptConfigure } from "./transcript/configure";
 import { list as transcriptList } from "./transcript/list";
@@ -21,10 +22,13 @@ export function registerTranscript(program: Command): void {
 		.description("Configure transcript directories")
 		.action(transcriptConfigure);
 
-	transcriptCommand
-		.command("list")
-		.description("List raw .vtt filenames waiting in the pick-up directory")
-		.action(transcriptList);
+	internalCommand(
+		transcriptCommand
+			.command("list")
+			.description("List raw .vtt filenames waiting in the pick-up directory")
+			.action(transcriptList),
+		"/transcripts",
+	);
 
 	transcriptCommand
 		.command("clean <path>")
@@ -38,12 +42,15 @@ export function registerTranscript(program: Command): void {
 
 	registerMergeCommand(transcriptCommand);
 
-	transcriptCommand
-		.command("move <file>")
-		.description(
-			"Convert a raw .vtt to a dated markdown transcript and archive the original",
-		)
-		.requiredOption("--date <YYYY-MM-DD>", "meeting date")
-		.requiredOption("--client <name>", "client name")
-		.action(transcriptMove);
+	internalCommand(
+		transcriptCommand
+			.command("move <file>")
+			.description(
+				"Convert a raw .vtt to a dated markdown transcript and archive the original",
+			)
+			.requiredOption("--date <YYYY-MM-DD>", "meeting date")
+			.requiredOption("--client <name>", "client name")
+			.action(transcriptMove),
+		"/transcripts",
+	);
 }

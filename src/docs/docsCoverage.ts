@@ -1,15 +1,20 @@
 import { reportVerifyProblems } from "../commands/verify/reportVerifyProblems";
 import { checkDocsCoverage } from "./checkDocsCoverage";
 import { docsPaths } from "./docsPaths";
-import { formatPendingReport } from "./formatPendingReport";
+import { formatUncoveredReport } from "./formatUncoveredReport";
 import { collectDocsInventory } from "./inventory/collectDocsInventory";
 import { loadDocsPages } from "./loadDocsPages";
-import { pendingUserDocumentation } from "./pendingUserDocumentation";
 
 export function docsCoverage(report: boolean): never {
 	const inventory = collectDocsInventory();
+	const pages = loadDocsPages(docsPaths.pagesDir);
 	if (report) {
-		console.log(formatPendingReport(inventory, pendingUserDocumentation));
+		console.log(
+			formatUncoveredReport(
+				inventory,
+				new Set(pages.flatMap((page) => page.covers)),
+			),
+		);
 		process.exit(0);
 	}
 	reportVerifyProblems(
@@ -20,10 +25,9 @@ export function docsCoverage(report: boolean): never {
 					internalCalledBy ? [[id, internalCalledBy] as const] : [],
 				),
 			),
-			pages: loadDocsPages(docsPaths.pagesDir),
-			pending: pendingUserDocumentation,
+			pages,
 		}),
-		`All ${inventory.length} commands, skills, config keys and routes are documented or pending documentation.`,
+		`All ${inventory.length} commands, skills, config keys and routes are documented.`,
 	);
 }
 

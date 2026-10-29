@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { configHelp } from "../shared/configHelp";
+import { internalCommand } from "../shared/internalCommand";
 import { readBodyArgument } from "./prs/readBodyArgument";
 import { parseSlackThreadRef } from "./slack/parseSlackThreadRef";
 import { postSlackMessage } from "./slack/postSlackMessage";
@@ -39,5 +40,6 @@ export function registerSlack(program: Command): void {
 			},
 		);
 
+	internalCommand(postCommand, "/slack-post");
 	configHelp(postCommand, slackConfigHelp);
 }
