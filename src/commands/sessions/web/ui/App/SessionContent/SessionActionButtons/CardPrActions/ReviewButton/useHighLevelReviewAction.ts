@@ -9,7 +9,7 @@ import { pasteAndSubmit } from "../../../../../../../shared/pasteAndSubmit";
 import { hasPendingHighLevelReview } from "./useHighLevelReviewAction/hasPendingHighLevelReview";
 import { isHighLevelReviewSession } from "./useHighLevelReviewAction/isHighLevelReviewSession";
 
-export type HighLevelReviewAction = { label: string; run: () => void };
+export type HighLevelReviewAction = { run: () => void };
 
 export function useHighLevelReviewAction(
 	session: SessionInfo | undefined,
@@ -22,7 +22,6 @@ export function useHighLevelReviewAction(
 		return undefined;
 	if (hasPendingHighLevelReview(session, pr.number))
 		return {
-			label: "Open high-level review",
 			run: () => {
 				activateSession(session.id);
 				focusRegion(sessionRegion("preview", session.id), ringColor);
@@ -30,7 +29,6 @@ export function useHighLevelReviewAction(
 		};
 	const force = options.force ? " --force" : "";
 	return {
-		label: "Reopen high-level review",
 		run: () =>
 			pasteAndSubmit(
 				sendInput,

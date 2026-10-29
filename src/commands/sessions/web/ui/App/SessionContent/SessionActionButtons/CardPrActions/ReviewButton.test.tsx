@@ -247,14 +247,19 @@ describe("ReviewButton on the high-level review session", () => {
 		for (const pane of panes.splice(0)) pane.remove();
 	});
 
+	function clickHighLevelReview() {
+		expect(screen.queryByText("Open high-level review")).toBeNull();
+		expect(screen.queryByText("Reopen high-level review")).toBeNull();
+		fireEvent.click(screen.getByText("High-level review"));
+	}
+
 	it("opens the pending high-level review pane instead of launching", () => {
 		const launchAssist = vi.fn();
 		const activateSession = vi.fn();
 		const pane = previewPane("7");
 		renderButton(launchAssist, highLevelSession(), activateSession);
 
-		expect(screen.queryByText("High-level review")).toBeNull();
-		fireEvent.click(screen.getByText("Open high-level review"));
+		clickHighLevelReview();
 
 		expect(launchAssist).not.toHaveBeenCalled();
 		expect(activateSession).toHaveBeenCalledWith("7");
@@ -286,9 +291,7 @@ describe("ReviewButton on the high-level review session", () => {
 				sendInput,
 			);
 
-			expect(screen.queryByText("High-level review")).toBeNull();
-			expect(screen.queryByText("Open high-level review")).toBeNull();
-			fireEvent.click(screen.getByText("Reopen high-level review"));
+			clickHighLevelReview();
 			vi.runAllTimers();
 
 			expect(launchAssist).not.toHaveBeenCalled();
@@ -310,7 +313,7 @@ describe("ReviewButton on the high-level review session", () => {
 
 			fireEvent.click(checkbox("Force re-run"));
 			fireEvent.click(checkbox("Announce to Slack after"));
-			fireEvent.click(screen.getByText("Reopen high-level review"));
+			clickHighLevelReview();
 
 			expect(sendInput).toHaveBeenCalledWith(
 				"7",
@@ -339,9 +342,7 @@ describe("ReviewButton on the high-level review session", () => {
 			sendInput,
 		);
 
-		expect(screen.queryByText("Open high-level review")).toBeNull();
-		expect(screen.queryByText("Reopen high-level review")).toBeNull();
-		fireEvent.click(screen.getByText("High-level review"));
+		clickHighLevelReview();
 
 		expect(activateSession).not.toHaveBeenCalled();
 		expect(sendInput).not.toHaveBeenCalled();

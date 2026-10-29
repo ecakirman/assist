@@ -31,20 +31,21 @@ export function ReviewButtonMenu({
 			onClose={onClose}
 			onClick={(e) => e.stopPropagation()}
 		>
-			{reviewButtonModes.map((mode) =>
-				highLevel && mode.args.includes("--high-level") ? (
-					<MenuItem key={mode.label} onClick={(e) => pick(e, highLevel.run)}>
-						{highLevel.label}
-					</MenuItem>
-				) : (
-					<MenuItem
-						key={mode.label}
-						onClick={(e) => pick(e, () => review.launchMode(mode.args))}
-					>
-						{mode.label}
-					</MenuItem>
-				),
-			)}
+			{reviewButtonModes.map((mode) => (
+				<MenuItem
+					key={mode.label}
+					onClick={(e) =>
+						pick(
+							e,
+							highLevel && mode.args.includes("--high-level")
+								? highLevel.run
+								: () => review.launchMode(mode.args),
+						)
+					}
+				>
+					{mode.label}
+				</MenuItem>
+			))}
 			<Divider />
 			<ReviewOptionToggles
 				value={review.options}
