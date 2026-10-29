@@ -6,5 +6,7 @@ export function holdFocus(element: HTMLElement): void {
 }
 
 export function isFocusHeld(): boolean {
-	return held !== null && globalThis.document.activeElement === held;
+	const doc = globalThis.document;
+	if (doc.querySelector('[role="dialog"][aria-modal="true"]')) return true;
+	return held !== null && doc.activeElement === held;
 }
