@@ -6,5 +6,6 @@ export function detectInstallCommand(dir: string): string | null {
 	if (existsSync(join(dir, "pnpm-lock.yaml"))) return "pnpm install";
 	if (existsSync(join(dir, "yarn.lock"))) return "yarn install";
 	if (existsSync(join(dir, "bun.lockb"))) return "bun install";
+	if (existsSync(join(dir, "package-lock.json"))) return "npm ci";
 	return "npm install";
 }

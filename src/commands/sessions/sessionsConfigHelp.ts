@@ -39,7 +39,7 @@ export const sessionsConfigHelp: ConfigHelpEntry[] = [
 	{
 		key: "worktree.install",
 		setter: "assist config set worktree.install true -g --repo",
-		note: 'per-worktree dep install: true auto-detects the package manager, or give an explicit command; false to skip; or a JSON list of paths (e.g. \'[".","packages/ui"]\') to auto-detect and install in each, in order, stopping at the first failure',
+		note: 'per-worktree dep install: true auto-detects the package manager (npm ci when a package-lock.json exists), or give an explicit command; false to skip; or a JSON list of paths (e.g. \'[".","packages/ui"]\') to auto-detect and install in each, in order, stopping at the first failure',
 	},
 	{
 		key: "worktree.commitBeforePhaseEnd",

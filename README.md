@@ -538,7 +538,7 @@ Concurrent sessions in one repo can be isolated with native git worktrees instea
 
 - `worktree.enabled` (parallel work) — every session (prompt, assist command, backlog run, resume of a reaped worktree, `assist review` from a terminal) gets a fresh adjacent `<clone>-N` worktree; the clone itself is never allocated. Only `inPlace` launches (e.g. the PR Review button) and agents added to an existing stream stay in their tree.
 - `worktree.trunk` (trunk-based) — a worktree's branch tracks `origin/<trunk>` so commits land on the mainline. Off, worktrees start off the remote default branch with no mainline tracking.
-- `worktree.install` — how a new worktree installs its deps: `true` (default) auto-detects pnpm/yarn/bun/npm, a string is the install command, `false` skips it, and a list of paths installs in each in order.
+- `worktree.install` — how a new worktree installs its deps: `true` (default) auto-detects pnpm/yarn/bun/npm (`npm ci` when a `package-lock.json` exists), a string is the install command, `false` skips it, and a list of paths installs in each in order.
 
 None of them leaves permanent state on the clone, so turning parallel work back off leaves the repo as it was.
 
