@@ -27,7 +27,7 @@
 			]
 		}
 	],
-	"permissions": ["storage"],
+	"permissions": ["storage", "alarms"],
 	"host_permissions": ["http://localhost/*", "http://127.0.0.1/*"],
 	"options_ui": {
 		"page": "options.html"

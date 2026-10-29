@@ -345,6 +345,7 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 - `assist netcap [-p, --port <port>] [-o, --out <dir>] [-f, --filter <pattern>]` - Capture browser network traffic under `--out` (default `~/.assist/netcap`), paired with the [netcap browser extension](#netcap-browser-extension)
 - `assist netcap extract-linkedin-posts [file]` - Parse a netcap capture into structured LinkedIn posts
 - `assist extension [--sign] [--url]` - Locate the [assist browser extension](#assist-browser-extension) to load unpacked; `--sign` signs it for a permanent Firefox install; `--url` prints the latest signed build's download URL
+- `assist browser status [--url <substring>] [--server <url>]` - Through the [browser link](#browser-link), print the connected extension's version, the target tab's URL and whether the assist content script runs there; `--url` targets the most recently active tab whose URL contains the substring instead of the focused window's active tab; `--server` is the web server the extension connects to (default `http://localhost:3100`)
 - `assist screenshot <process>` - Capture a screenshot of a running application window (`screenshot.outputDir`, default `./screenshots`)
 - `assist mermaid export [file.md]` - Render each fenced mermaid block to SVG via [Kroki](https://kroki.io) (`--out`, `--index`, `mermaid.krokiUrl`)
 - `assist prompts` - Show the most frequently denied tool calls
@@ -591,6 +592,10 @@ Assist stores no Azure DevOps credentials: it drives the [Azure CLI](https://aka
 In a clone whose remote is on Azure DevOps, `assist prs list-comments`, `fixed`, `wontfix` and `reply` work on the current branch's active PR through `az repos pr list` and `az devops invoke`. Each thread prints with its ADO web URL and the thread id as its `id` (every comment in a thread shares it); `fixed` replies with a `dev.azure.com/…/commit/<sha>` link and sets the thread to **Fixed**, `wontfix` sets it to **Won't fix**. A thread counts as resolved unless its status is Active or Pending.
 
 Sending is Firefox-only (it relies on the `browser.*` promise APIs). The web server URL is set on the extension's options page (**about:addons** → the extension → **Options**) and defaults to `http://localhost:3100`. `host_permissions` covers any port on `localhost` and `127.0.0.1`; another host relies on the endpoint's CORS.
+
+### Browser link
+
+The background script keeps a websocket open to the options page's web server at `/ws/browser`, which accepts only `moz-extension://` and `chrome-extension://` origins, and says hello with the extension's version. It reconnects 5s after the socket drops, and a 30s `alarms` alarm wakes a suspended event page to reconnect, so a web server restart or suspension needs no browser restart. `assist browser` commands POST to `/api/browser`, which refuses any request carrying an `Origin` header, relays the request to the extension and waits 10s for its reply. While no extension is connected but one was seen in the last 90s (or the web server started that recently), the relay waits up to 35s for it to reconnect before answering that none is connected. The background script resolves the target tab and only acts on tabs on the assist content scripts' hosts (`github.com`, `dev.azure.com`, `*.visualstudio.com`, `localhost`, `127.0.0.1`); any other tab gets an error naming its URL.
 
 ### Docs feedback
 

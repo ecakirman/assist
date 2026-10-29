@@ -13,6 +13,7 @@ import { registerCodexHook } from "./commands/registerCodexHook";
 import { registerCommit } from "./commands/registerCommit";
 import { registerComplexity } from "./commands/registerComplexity";
 import { registerConfig } from "./commands/registerConfig";
+import { registerBrowser } from "./commands/registerBrowser";
 import { registerExtension } from "./commands/registerExtension";
 import { registerDb } from "./commands/registerDb";
 import { registerDbMigration } from "./commands/registerDbMigration";
@@ -94,6 +95,7 @@ export const programRegistrars: ((program: Command) => void)[] = [
 	registerNews,
 	registerNetcap,
 	registerExtension,
+	registerBrowser,
 	registerLitellm,
 	registerRavendb,
 	registerSeq,

@@ -4,6 +4,7 @@ import { getBacklogSummary } from "../../backlog/web/getBacklogSummary";
 import { getRepoLocation } from "../../backlog/web/getRepoLocation";
 import { handleItemRoute } from "../../backlog/web/handleItemRoute";
 import { listItems } from "../../backlog/web/shared";
+import { browserRelay } from "./browser/browserRelay";
 import { daemonLogTail } from "./daemonLogTail";
 import { diff } from "./diff";
 import { diffScopes } from "./diffScopes";
@@ -72,6 +73,7 @@ const routes: Record<string, Handler> = {
 	"OPTIONS /api/sessions/review-from-github": sessionFromGithubPreflight,
 	"POST /api/sessions/docs-feedback": docsFeedback,
 	"OPTIONS /api/sessions/docs-feedback": sessionFromGithubPreflight,
+	"POST /api/browser": browserRelay,
 	"POST /api/open-in-code": openInCode,
 	"POST /api/pr-preview/upload-image": uploadPrImage,
 	"GET /api/pr-preview/image": previewImage,

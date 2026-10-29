@@ -1,0 +1,35 @@
+import type {
+	BrowserRelayReply,
+	BrowserRequest,
+} from "../extension/browserLink/types";
+
+const CLI_TIMEOUT_MS = 50_000;
+
+export async function requestBrowser(
+	server: string,
+	request: BrowserRequest,
+): Promise<BrowserRelayReply> {
+	let response: Response;
+	try {
+		response = await fetch(`${server}/api/browser`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(request),
+			signal: AbortSignal.timeout(CLI_TIMEOUT_MS),
+		});
+	} catch (error) {
+		if (error instanceof Error && error.name === "TimeoutError")
+			throw new Error(`the assist web server at ${server} did not answer`);
+		throw new Error(
+			`assist web server unreachable at ${server}; start it with \`assist sessions web\``,
+		);
+	}
+	const data = (await response.json().catch(() => ({}))) as
+		| BrowserRelayReply
+		| { error?: string };
+	if (!response.ok)
+		throw new Error(
+			`${"error" in data && data.error ? data.error : `assist web server returned ${response.status}`} (${server})`,
+		);
+	return data as BrowserRelayReply;
+}

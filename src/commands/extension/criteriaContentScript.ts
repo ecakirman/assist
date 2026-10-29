@@ -1,3 +1,4 @@
+import { answerBrowserProbes } from "./browserLink/answerBrowserProbes";
 import { attachAssistButtons } from "./sendToAssist/attachAssistButtons";
 import { attachAssistHeaderButtons } from "./sendToAssist/attachAssistHeaderButtons";
 import { attachAzureDevopsHeaderButton } from "./sendToAssist/attachAzureDevopsHeaderButton";
@@ -9,6 +10,7 @@ function isAzureDevopsHost(hostname: string): boolean {
 }
 
 export function criteriaContentScript(): void {
+	answerBrowserProbes();
 	if (isAzureDevopsHost(location.hostname)) {
 		watchGithubPage(attachAzureDevopsHeaderButton);
 		return;

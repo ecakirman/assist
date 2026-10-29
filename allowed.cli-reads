@@ -27,6 +27,7 @@ assist backlog list
 assist backlog show
 assist backlog view
 assist backup schedule status
+assist browser status
 assist cli-hook
 assist complexity
 assist config get
