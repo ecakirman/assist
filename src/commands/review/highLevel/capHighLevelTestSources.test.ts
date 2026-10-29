@@ -42,6 +42,53 @@ describe("capHighLevelTestSources", () => {
 		});
 	});
 
+	it("shows the changed lines and their context of a long test with a small change", () => {
+		const source = Array.from({ length: 2400 }, (_, i) => `l${i + 10}`).join(
+			"\n",
+		);
+		const changedLines = Array.from({ length: 12 }, (_, i) => 1000 + i);
+		const [capped] = capHighLevelTestSources([
+			file([{ ...test(10, 1), source, change: "modified", changedLines }]),
+		]);
+		const lines = (from: number, to: number) =>
+			Array.from({ length: to - from + 1 }, (_, i) => `l${from + i}`).join(
+				"\n",
+			);
+
+		expect(capped?.tests[0]).toEqual({
+			kind: "it",
+			id: "a.test.ts:10",
+			name: "t10",
+			line: 10,
+			change: "modified",
+			excerpts: [{ line: 997, source: lines(997, 1014) }],
+		});
+	});
+
+	it("marks a long test truncated when its change is itself over the cap", () => {
+		const changedLines = Array.from({ length: 300 }, (_, i) => 100 + i);
+		const [capped] = capHighLevelTestSources([
+			file([{ ...test(1, 500), change: "modified", changedLines }]),
+		]);
+
+		expect(capped?.tests[0]).toEqual({
+			kind: "it",
+			id: "a.test.ts:1",
+			name: "t1",
+			line: 1,
+			change: "modified",
+			truncated: true,
+		});
+	});
+
+	it("drops changed lines from a test shown in full", () => {
+		const [capped] = capHighLevelTestSources([
+			file([{ ...test(1, 10), change: "modified", changedLines: [3] }]),
+		]);
+
+		expect(capped?.tests[0]).toEqual({ ...test(1, 10), change: "modified" });
+	});
+
 	it("stops shipping sources once the review-wide budget is spent", () => {
 		const tests = Array.from({ length: 30 }, (_, i) => test(i, 200));
 		const [capped] = capHighLevelTestSources([file(tests)]);

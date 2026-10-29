@@ -3,8 +3,8 @@ import type {
 	HighLevelTestFile,
 	HighLevelTestNode,
 } from "./types";
+import { type ShownForm, shownForm } from "./shownForm";
 
-const MAX_TEST_SOURCE_LINES = 200;
 const MAX_TOTAL_SOURCE_LINES = 5000;
 
 function collectCases(nodes: HighLevelTestNode[]): HighLevelTestCase[] {
@@ -13,22 +13,22 @@ function collectCases(nodes: HighLevelTestNode[]): HighLevelTestCase[] {
 	);
 }
 
-function shippedCases(files: HighLevelTestFile[]): Set<HighLevelTestCase> {
+function shippedForms(
+	files: HighLevelTestFile[],
+): Map<HighLevelTestCase, ShownForm> {
 	const sized = files
 		.flatMap((file) => collectCases(file.tests))
-		.flatMap((test) =>
-			test.source === undefined
-				? []
-				: [{ test, lines: test.source.split("\n").length }],
-		)
-		.filter(({ lines }) => lines <= MAX_TEST_SOURCE_LINES)
-		.sort((a, b) => a.lines - b.lines);
-	const shipped = new Set<HighLevelTestCase>();
+		.flatMap((test) => {
+			const form = shownForm(test);
+			return form ? [{ test, form }] : [];
+		})
+		.sort((a, b) => a.form.lines - b.form.lines);
+	const shipped = new Map<HighLevelTestCase, ShownForm>();
 	let remaining = MAX_TOTAL_SOURCE_LINES;
-	for (const { test, lines } of sized) {
-		if (lines > remaining) break;
-		remaining -= lines;
-		shipped.add(test);
+	for (const { test, form } of sized) {
+		if (form.lines > remaining) break;
+		remaining -= form.lines;
+		shipped.set(test, form);
 	}
 	return shipped;
 }
@@ -36,14 +36,16 @@ function shippedCases(files: HighLevelTestFile[]): Set<HighLevelTestCase> {
 export function capHighLevelTestSources(
 	files: HighLevelTestFile[],
 ): HighLevelTestFile[] {
-	const shipped = shippedCases(files);
+	const shipped = shippedForms(files);
 
 	const capCase = (test: HighLevelTestCase): HighLevelTestCase => {
-		if (test.source === undefined || shipped.has(test)) return test;
-		const { source, ...rest } = test;
-		return source.split("\n").length > MAX_TEST_SOURCE_LINES
-			? { ...rest, truncated: true }
-			: { ...rest, overBudget: true };
+		const form = shipped.get(test);
+		if (form) return form.shown;
+		const { source, changedLines: _changedLines, ...rest } = test;
+		if (source === undefined) return rest;
+		return shownForm(test)
+			? { ...rest, overBudget: true }
+			: { ...rest, truncated: true };
 	};
 
 	const capNode = (node: HighLevelTestNode): HighLevelTestNode =>

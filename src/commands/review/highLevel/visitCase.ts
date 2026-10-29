@@ -9,17 +9,25 @@ export function visitCase(
 	call: CallExpression,
 	context: Context,
 ): HighLevelTestNode[] {
-	if (!context.changed) return [toCase(call, context, undefined)];
-	const count = changedLines(call, context.changed);
-	if (count === 0) return [];
-	const lines = call.getEndLineNumber() - call.getStartLineNumber() + 1;
-	return [toCase(call, context, count === lines ? "added" : "modified")];
+	if (!context.changed) return [toCase(call, context)];
+	const lines = changedLines(call, context.changed);
+	if (lines.length === 0) return [];
+	const total = call.getEndLineNumber() - call.getStartLineNumber() + 1;
+	return [
+		toCase(
+			call,
+			context,
+			lines.length === total
+				? { change: "added" }
+				: { change: "modified", changedLines: lines },
+		),
+	];
 }
 
 function toCase(
 	call: CallExpression,
 	context: Context,
-	change: HighLevelTestCase["change"],
+	change: Pick<HighLevelTestCase, "change" | "changedLines"> = {},
 ): HighLevelTestCase {
 	const line = call.getStartLineNumber();
 	return {
@@ -27,18 +35,18 @@ function toCase(
 		id: `${context.path}:${line}`,
 		name: testName(call),
 		line,
-		...(change ? { change } : {}),
+		...change,
 		source: dedentedSource(call),
 	};
 }
 
-function changedLines(call: CallExpression, changed: Set<number>): number {
-	let count = 0;
+function changedLines(call: CallExpression, changed: Set<number>): number[] {
+	const lines: number[] = [];
 	for (
 		let line = call.getStartLineNumber();
 		line <= call.getEndLineNumber();
 		line++
 	)
-		if (changed.has(line)) count++;
-	return count;
+		if (changed.has(line)) lines.push(line);
+	return lines;
 }

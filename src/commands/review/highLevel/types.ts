@@ -76,11 +76,15 @@ export type HighLevelCriticalDiff = {
 
 type HighLevelTestBase = { name: string; line: number };
 
+export type HighLevelTestExcerpt = { line: number; source: string };
+
 export type HighLevelTestCase = HighLevelTestBase & {
 	kind: "it";
 	id: string;
 	change?: "added" | "modified";
 	source?: string;
+	changedLines?: number[];
+	excerpts?: HighLevelTestExcerpt[];
 	truncated?: boolean;
 	overBudget?: boolean;
 };

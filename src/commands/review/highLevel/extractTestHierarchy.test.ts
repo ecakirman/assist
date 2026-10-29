@@ -54,6 +54,7 @@ describe("extractTestHierarchy", () => {
 			name: "first",
 			line: 7,
 			change: "modified",
+			changedLines: [8],
 			source: 'it("first", () => {\n\texpect(1).toBe(1);\n})',
 		});
 	});

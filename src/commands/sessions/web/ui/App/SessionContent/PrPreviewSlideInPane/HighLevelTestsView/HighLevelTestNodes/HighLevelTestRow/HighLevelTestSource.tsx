@@ -16,13 +16,19 @@ export function HighLevelTestSource({
 	indent: string;
 	comments?: HighLevelDiffComments | undefined;
 }) {
-	const { source } = test;
+	const excerpts =
+		test.excerpts ??
+		(test.source === undefined
+			? undefined
+			: [{ line: test.line, source: test.source }]);
 	return (
 		<Box sx={{ pl: `calc(${indent} + 20px)`, minWidth: 0 }}>
-			{source === undefined ? (
+			{excerpts === undefined ? (
 				<HighLevelDiffNote>
 					{test.truncated
-						? "Too long to show here — open the file on GitHub."
+						? test.change === "modified"
+							? "This test's change is too long to show here — open the file on GitHub."
+							: "Too long to show here — open the file on GitHub."
 						: test.overBudget
 							? "Left out because this PR's tests are too large to show in full — open the file on GitHub."
 							: "No source available."}
@@ -31,7 +37,7 @@ export function HighLevelTestSource({
 				<HighLevelNativeDiff
 					path={path}
 					status="modified"
-					patch={testSourcePatch(source, test.line)}
+					patch={testSourcePatch(excerpts)}
 					viewType="unified"
 					comments={comments}
 				/>
