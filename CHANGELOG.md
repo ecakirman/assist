@@ -1,3 +1,10 @@
+## [0.934.5](https://github.com/staff0rd/assist/compare/v0.934.4...v0.934.5) (2026-10-29)
+
+
+### Bug Fixes
+
+* cut daemon idle CPU on connects ([0f047b8](https://github.com/staff0rd/assist/commit/0f047b846aec9213b6ee156b00ff10dba9cdf448))
+
 ## [0.934.4](https://github.com/staff0rd/assist/compare/v0.934.3...v0.934.4) (2026-10-29)
 
 
