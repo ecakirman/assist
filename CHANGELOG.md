@@ -1,3 +1,10 @@
+## [0.934.4](https://github.com/staff0rd/assist/compare/v0.934.3...v0.934.4) (2026-10-29)
+
+
+### Bug Fixes
+
+* focus Mark done button on open ([e6e966a](https://github.com/staff0rd/assist/commit/e6e966a2922a434ea4e363fec6c37cae6d4bbec9))
+
 ## [0.934.3](https://github.com/staff0rd/assist/compare/v0.934.2...v0.934.3) (2026-10-29)
 
 
