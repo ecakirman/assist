@@ -1,24 +1,25 @@
 import { join } from "node:path";
-import type { Browser, Page } from "playwright";
-import type { DocsScreenshot, DocsScreenshotAction } from "../docsPageSchema";
+import type { Browser, BrowserContext, Page } from "playwright";
+import type { DocsScreenshot } from "../docsPageSchema";
 import { docsPaths } from "../docsPaths";
 import { screenshotVariants } from "../screenshotVariants";
-import { dragBetween } from "./dragBetween";
 import { drawHighlights } from "./drawHighlights";
+import { openGithubPage } from "./openGithubPage";
 import { saveScreenshot } from "./saveScreenshot";
+import { performAction } from "./performAction";
 
 const DEFAULT_VIEWPORT = { width: 1280, height: 800 };
 const SETTLE_MS = 750;
 
-async function performAction(
-	page: Page,
-	action: DocsScreenshotAction,
-): Promise<void> {
-	if ("click" in action) await page.locator(action.click).first().click();
-	else if ("press" in action) await page.keyboard.press(action.press);
-	else if ("drag" in action)
-		await dragBetween(page, action.drag.from, action.drag.to);
-	else await page.keyboard.type(action.type);
+async function openPage(
+	context: BrowserContext,
+	baseUrl: string,
+	screenshot: DocsScreenshot,
+): Promise<Page> {
+	if (screenshot.url) return openGithubPage(context, screenshot.url);
+	const page = await context.newPage();
+	await page.goto(`${baseUrl}${screenshot.route}`, { waitUntil: "load" });
+	return page;
 }
 
 export async function captureScreenshot(
@@ -31,12 +32,12 @@ export async function captureScreenshot(
 		const context = await browser.newContext({
 			viewport: screenshot.viewport ?? DEFAULT_VIEWPORT,
 			colorScheme: variant.theme,
+			bypassCSP: screenshot.url !== undefined,
 		});
 		await context.addInitScript((mode) => {
 			localStorage.setItem("theme-mode", mode);
 		}, variant.theme);
-		const page = await context.newPage();
-		await page.goto(`${baseUrl}${screenshot.route}`, { waitUntil: "load" });
+		const page = await openPage(context, baseUrl, screenshot);
 		if (screenshot.waitFor) await page.waitForSelector(screenshot.waitFor);
 		for (const action of screenshot.actions ?? [])
 			await performAction(page, action);

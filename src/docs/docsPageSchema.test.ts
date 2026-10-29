@@ -38,6 +38,18 @@ describe("docsPageSchema", () => {
 		expect(parses(["#activity"])).toBe(false);
 	});
 
+	it("takes exactly one of a route or a github.com url", () => {
+		const parses = (extra: Record<string, unknown>) =>
+			docsPageSchema.safeParse(withScreenshot(extra)).success;
+		const url = "https://github.com/staff0rd/sandbox/pull/12";
+		expect(parses({ route: undefined, url })).toBe(true);
+		expect(parses({ url })).toBe(false);
+		expect(parses({ route: undefined })).toBe(false);
+		expect(parses({ route: undefined, url: "https://example.com/" })).toBe(
+			false,
+		);
+	});
+
 	it("rejects an unknown top-level key", () => {
 		expect(
 			docsPageSchema.safeParse({ ...validPage, summary: "extra" }).success,

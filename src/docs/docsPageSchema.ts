@@ -20,29 +20,35 @@ const actionSchema = z.union([
 	z.strictObject({
 		drag: z.strictObject({ from: z.string().min(1), to: z.string().min(1) }),
 	}),
+	z.strictObject({ script: z.string().regex(/^[a-z0-9-]+$/) }),
 ]);
 
-const screenshotSchema = z.strictObject({
-	file: z.string().regex(/^[a-z0-9-]+\.png$/),
-	alt: z.string().min(1),
-	route: z.string().startsWith("/"),
-	viewport: z
-		.strictObject({
-			width: z.number().int().positive(),
-			height: z.number().int().positive(),
-		})
-		.optional(),
-	theme: z.enum(["light", "dark"]).optional(),
-	waitFor: z.string().min(1).optional(),
-	crop: z
-		.union([z.string().min(1), z.array(z.string().min(1)).min(2)])
-		.optional(),
-	cropPadding: z.number().int().positive().optional(),
-	scene: z.string().min(1).optional(),
-	setup: z.array(captureSetupStepSchema).optional(),
-	actions: z.array(actionSchema).optional(),
-	highlight: z.array(z.string().min(1)).optional(),
-});
+const screenshotSchema = z
+	.strictObject({
+		file: z.string().regex(/^[a-z0-9-]+\.png$/),
+		alt: z.string().min(1),
+		route: z.string().startsWith("/").optional(),
+		url: z.string().startsWith("https://github.com/").optional(),
+		viewport: z
+			.strictObject({
+				width: z.number().int().positive(),
+				height: z.number().int().positive(),
+			})
+			.optional(),
+		theme: z.enum(["light", "dark"]).optional(),
+		waitFor: z.string().min(1).optional(),
+		crop: z
+			.union([z.string().min(1), z.array(z.string().min(1)).min(2)])
+			.optional(),
+		cropPadding: z.number().int().positive().optional(),
+		scene: z.string().min(1).optional(),
+		setup: z.array(captureSetupStepSchema).optional(),
+		actions: z.array(actionSchema).optional(),
+		highlight: z.array(z.string().min(1)).optional(),
+	})
+	.refine((shot) => (shot.route === undefined) !== (shot.url === undefined), {
+		message: "Give a screenshot exactly one of route or url",
+	});
 
 export const docsScreenshotsSchema = z.array(screenshotSchema).optional();
 

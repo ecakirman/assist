@@ -6,6 +6,23 @@ order: 9
 covers:
   - claude:extension
   - config:extension.redirects
+screenshots:
+  - file: browser-extension-review-menu.png
+    alt: The assist button's menu on a GitHub pull request, listing review modes, options and pull request actions
+    url: https://github.com/staff0rd/sandbox/pull/12
+    actions:
+      - script: show-header-actions
+      - click: ".assist-send--header[data-assist-send]"
+    crop:
+      - "h1:visible"
+      - "[role='menu']:visible"
+    cropPadding: 16
+  - file: browser-extension-criteria.png
+    alt: An issue description's acceptance criteria shown as an editable outline, with Edit markdown in the editor toolbar
+    url: https://github.com/staff0rd/sandbox/issues/8
+    actions:
+      - script: issue-editor
+    crop: "[data-testid='capture-issue-editor']"
 ---
 
 The assist extension for Firefox starts sessions from GitHub pages and edits acceptance criteria in GitHub issues.
@@ -28,7 +45,11 @@ The extension adds an **assist** button beside each comment and review on a pull
 
 The repo must be cloned under `clone.baseDir`.
 
-On a pull request, the header button opens the same menu as the dashboard's [Review menu](../sessions-pr-review/#choosing-a-review): its review modes and options, **Checkout**, **Address Comments** and **Fix conflicts**. On an Azure DevOps pull request it offers **Checkout**, which needs the Azure CLI with its `azure-devops` extension, logged in with `az login`.
+On a pull request, the header button opens the same menu as the dashboard's [Review menu](../sessions-pr-review/#choosing-a-review): its review modes and options, **Checkout**, **Address Comments** and **Fix conflicts**.
+
+::screenshot{file="browser-extension-review-menu.png"}
+
+On an Azure DevOps pull request it offers **Checkout**, which needs the Azure CLI with its `azure-devops` extension, logged in with `az login`.
 
 ## Working on issues in another repo
 
@@ -42,4 +63,6 @@ Pull request reviews always open in the pull request's own repo.
 
 ## Acceptance criteria
 
-When you edit an issue's description, or write a new one, the editor's toolbar gains **Outline criteria**. Press it to edit the acceptance criteria as an outline of rows, then save the issue as usual.
+When you edit an issue's description, or write a new one, the editor's toolbar gains **Outline criteria**. Press it to edit the acceptance criteria as an outline of rows, then save the issue as usual. **Edit markdown** goes back to the text.
+
+::screenshot{file="browser-extension-criteria.png"}

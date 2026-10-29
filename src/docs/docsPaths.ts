@@ -15,5 +15,7 @@ export const docsPaths = {
 	captureConfig: join(repoRoot, "docs/capture/assist.yml"),
 	captureScenes: join(repoRoot, "docs/capture/scenes.json"),
 	captureBin: join(repoRoot, "docs/capture/bin"),
+	captureScripts: join(repoRoot, "docs/capture/github"),
+	extensionDir: join(repoRoot, "extension"),
 	distEntry: join(repoRoot, "dist/index.js"),
 };
