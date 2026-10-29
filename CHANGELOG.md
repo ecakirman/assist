@@ -1,3 +1,10 @@
+## [0.926.4](https://github.com/staff0rd/assist/compare/v0.926.3...v0.926.4) (2026-10-29)
+
+
+### Bug Fixes
+
+* one mode query per repo, refetch on open ([075055c](https://github.com/staff0rd/assist/commit/075055cb9b743196dffed0d745db0e5240dc5ec1))
+
 ## [0.926.3](https://github.com/staff0rd/assist/compare/v0.926.2...v0.926.3) (2026-10-29)
 
 
