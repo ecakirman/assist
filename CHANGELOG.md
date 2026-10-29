@@ -1,3 +1,10 @@
+# [0.933.0](https://github.com/staff0rd/assist/compare/v0.932.4...v0.933.0) (2026-10-29)
+
+
+### Features
+
+* add Slate design system behind toggle ([dccf893](https://github.com/staff0rd/assist/commit/dccf8938bf151942bba92a19a7f54949fd35890d))
+
 ## [0.932.4](https://github.com/staff0rd/assist/compare/v0.932.3...v0.932.4) (2026-10-29)
 
 
