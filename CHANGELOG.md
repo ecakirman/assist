@@ -1,3 +1,16 @@
+# [0.929.0](https://github.com/staff0rd/assist/compare/v0.928.0...v0.929.0) (2026-10-29)
+
+
+### Bug Fixes
+
+* describe ADO comments in extension ([99a8fad](https://github.com/staff0rd/assist/commit/99a8fad5e2f978bdbd6afdd1478db3783212a170))
+* match built-in denies as substrings ([42acf1a](https://github.com/staff0rd/assist/commit/42acf1a562129b69261212232b213fc1cef24329))
+
+
+### Features
+
+* clear Azure DevOps failure messages ([e870a2c](https://github.com/staff0rd/assist/commit/e870a2c04a87f505683ed362499117cafc4d0667))
+
 # [0.928.0](https://github.com/staff0rd/assist/compare/v0.927.1...v0.928.0) (2026-10-29)
 
 
