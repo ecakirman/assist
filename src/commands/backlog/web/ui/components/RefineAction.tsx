@@ -1,12 +1,14 @@
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TuneIcon from "@mui/icons-material/Tune";
 import { Button, ButtonGroup } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { type MouseEvent, useRef, useState } from "react";
 import { useHarnessCapabilities } from "../../../../sessions/web/ui/useHarnessCapabilities";
 import { HarnessMenu, harnessOptions } from "./HarnessMenu";
 import { useRefineLaunch } from "./useRefineLaunch";
 
 export function RefineAction({ itemId }: { itemId: number }) {
+	const { design } = useTheme();
 	const { launched, launch } = useRefineLaunch(itemId);
 	const capabilities = useHarnessCapabilities();
 	const anchorRef = useRef<HTMLDivElement>(null);
@@ -19,7 +21,7 @@ export function RefineAction({ itemId }: { itemId: number }) {
 		<>
 			<ButtonGroup
 				ref={anchorRef}
-				variant="outlined"
+				variant={design === "slate" ? "tonal" : "outlined"}
 				size="small"
 				disabled={launched}
 			>

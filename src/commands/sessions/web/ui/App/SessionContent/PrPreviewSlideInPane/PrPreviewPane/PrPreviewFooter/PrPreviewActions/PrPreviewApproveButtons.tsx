@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { usePreviewPrimaryAction } from "../../../../../usePreviewPrimaryAction";
 
 export function PrPreviewApproveButtons({
@@ -11,11 +12,14 @@ export function PrPreviewApproveButtons({
 	onApproveAndStart: () => void;
 }) {
 	const primary = usePreviewPrimaryAction();
+	const slate = useTheme().design === "slate";
+	const color = slate ? "primary" : "success";
+	const secondaryVariant = slate ? "tonal" : "outlined";
 	return (
 		<>
 			<Button
-				color="success"
-				variant={canStart ? "outlined" : "contained"}
+				color={color}
+				variant={canStart ? secondaryVariant : "contained"}
 				onClick={onApprove}
 				{...(canStart ? {} : primary)}
 			>
@@ -23,7 +27,7 @@ export function PrPreviewApproveButtons({
 			</Button>
 			{canStart && (
 				<Button
-					color="success"
+					color={color}
 					variant="contained"
 					onClick={onApproveAndStart}
 					{...primary}

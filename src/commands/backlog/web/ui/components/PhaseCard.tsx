@@ -38,7 +38,7 @@ export function PhaseCard({
 		<Paper
 			variant="outlined"
 			id={anchor.id}
-			sx={{ ...phaseCardSx(status), ...anchor.sx }}
+			sx={[phaseCardSx(status), anchor.sx]}
 		>
 			<PhaseHeader
 				phase={phase}

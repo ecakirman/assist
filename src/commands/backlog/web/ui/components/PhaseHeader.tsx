@@ -1,5 +1,6 @@
 import type { ChipProps } from "@mui/material";
 import { Chip, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import type { PhaseStatus, PlanPhase } from "../types";
 import { RewindAction } from "./RewindAction";
 
@@ -10,6 +11,11 @@ const statusBadge: Record<
 	done: { label: "Done", color: "success" },
 	current: { label: "In Progress", color: "info" },
 	upcoming: { label: "Upcoming", color: "default" },
+};
+
+const slateStatusBadge: typeof statusBadge = {
+	...statusBadge,
+	current: { label: "In Progress", color: "primary" },
 };
 
 const headerSx = { alignItems: "center", mb: 1 } as const;
@@ -34,14 +40,21 @@ export function PhaseHeader({
 	itemId?: number;
 	onRewind?: () => Promise<void>;
 }) {
-	const badge = statusBadge[status];
+	const slate = useTheme().design === "slate";
+	const badge = slate ? slateStatusBadge[status] : statusBadge[status];
 	const canRewind = status === "done" && itemId !== undefined && onRewind;
 	return (
 		<Stack direction="row" spacing={1} sx={headerSx}>
 			<Typography sx={nameSx}>
 				Phase {index + 1}: {phase.name}
 			</Typography>
-			<Chip label={badge.label} size="small" color={badge.color} sx={chipSx} />
+			<Chip
+				label={badge.label}
+				size="small"
+				color={badge.color}
+				variant={slate ? "tonal" : "filled"}
+				sx={chipSx}
+			/>
 			{canRewind && (
 				<RewindAction
 					itemId={itemId}

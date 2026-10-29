@@ -1,4 +1,5 @@
 import { Button, Stack } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import type { PrPreviewChain } from "../../../../../PrPreviewChain";
 import { PrPreviewApproveButtons } from "./PrPreviewActions/PrPreviewApproveButtons";
 import { PrPreviewChainToggles } from "./PrPreviewActions/PrPreviewChainToggles";
@@ -24,6 +25,7 @@ export function PrPreviewActions({
 	onReject: () => void;
 	onRequestChanges: () => void;
 }) {
+	const { design } = useTheme();
 	return (
 		<Stack
 			direction="row"
@@ -41,7 +43,11 @@ export function PrPreviewActions({
 				Reject
 			</Button>
 			{commentCount > 0 && (
-				<Button color="warning" variant="contained" onClick={onRequestChanges}>
+				<Button
+					color="warning"
+					variant={design === "slate" ? "tonal" : "contained"}
+					onClick={onRequestChanges}
+				>
 					Request changes ({commentCount})
 				</Button>
 			)}

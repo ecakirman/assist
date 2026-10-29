@@ -1,12 +1,13 @@
-import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { ReactNode } from "react";
 import type { SessionInfo } from "../../../../../types";
+import { NextChipLabel } from "../NextChipLabel";
 import type { NextChip } from "../nextChips";
 import { NextItemActions } from "../NextItemActions";
 import { NextRepoRef } from "../NextRepoRef";
+import { nextHeroSx } from "./nextHeroSx";
 
 export function NextHero({
 	chip,
@@ -30,7 +31,7 @@ export function NextHero({
 	sessions?: SessionInfo[];
 }) {
 	return (
-		<Paper variant="outlined" sx={{ p: 2.5 }}>
+		<Paper variant="outlined" sx={nextHeroSx}>
 			<Stack spacing={1.5}>
 				<Typography
 					variant="overline"
@@ -39,12 +40,7 @@ export function NextHero({
 					Your next best action
 				</Typography>
 				<Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-					<Chip
-						label={chip.label}
-						size="small"
-						color={chip.color}
-						variant="outlined"
-					/>
+					<NextChipLabel chip={chip} />
 					<NextRepoRef repo={repo} number={number} />
 				</Stack>
 				<Typography variant="h6" component="h2">

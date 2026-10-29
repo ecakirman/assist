@@ -6,6 +6,10 @@ import { SessionLoadingOverlay } from "./TerminalPanes/SessionLoadingOverlay";
 import { TerminalPane } from "./TerminalPanes/TerminalPane";
 import type { SessionInfo } from "../../../../types";
 import { ownershipOf } from "./TerminalPanes/ownershipOf";
+import {
+	terminalFrameSx,
+	terminalWellSx,
+} from "./TerminalPanes/terminalFrameSx";
 
 type OutputSubscriber = (
 	sessionId: string,
@@ -28,22 +32,24 @@ export function TerminalPanes({
 	sendResize: ResizeFn;
 }) {
 	return (
-		<Box sx={{ flex: 1, position: "relative", bgcolor: "background.default" }}>
-			{sessions.map((s) => (
-				<TerminalPane
-					key={s.id}
-					sessionId={s.id}
-					visible={s.id === activeId}
-					ownership={ownershipOf(s.activeViewer)}
-					ended={hasEnded(s.status)}
-					activeNode={s.activeViewerNode}
-					onOutput={onOutput}
-					sendInput={sendInput}
-					sendResize={sendResize}
-				/>
-			))}
-			{loadingLabel && <SessionLoadingOverlay label={loadingLabel} />}
-			{sessions.length === 0 && <NoSessionsHint />}
+		<Box sx={terminalWellSx}>
+			<Box sx={terminalFrameSx}>
+				{sessions.map((s) => (
+					<TerminalPane
+						key={s.id}
+						sessionId={s.id}
+						visible={s.id === activeId}
+						ownership={ownershipOf(s.activeViewer)}
+						ended={hasEnded(s.status)}
+						activeNode={s.activeViewerNode}
+						onOutput={onOutput}
+						sendInput={sendInput}
+						sendResize={sendResize}
+					/>
+				))}
+				{loadingLabel && <SessionLoadingOverlay label={loadingLabel} />}
+				{sessions.length === 0 && <NoSessionsHint />}
+			</Box>
 		</Box>
 	);
 }

@@ -23,3 +23,15 @@ declare module "@mui/material/Button" {
 		tonal: true;
 	}
 }
+
+declare module "@mui/material/Chip" {
+	interface ChipPropsVariantOverrides {
+		tonal: true;
+	}
+}
+
+declare module "@mui/material/ButtonGroup" {
+	interface ButtonGroupPropsVariantOverrides {
+		tonal: true;
+	}
+}

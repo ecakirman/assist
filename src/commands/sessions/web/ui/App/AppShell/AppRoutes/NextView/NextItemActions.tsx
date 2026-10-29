@@ -3,8 +3,10 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
+import { useTheme } from "@mui/material/styles";
 import type { SessionInfo } from "../../../../types";
 import { NextSessionLinks } from "./NextItemActions/NextSessionLinks";
+import { actionVariants } from "./NextItemActions/actionVariants";
 import { useNextClone } from "./useNextClone";
 
 export function NextItemActions({
@@ -21,6 +23,7 @@ export function NextItemActions({
 	size?: "small" | "medium";
 }) {
 	const cwd = useNextClone()(repo);
+	const variants = actionVariants(useTheme().design, size);
 	return (
 		<Stack
 			direction="row"
@@ -34,7 +37,7 @@ export function NextItemActions({
 			>
 				<span>
 					<Button
-						variant="outlined"
+						variant={variants.start}
 						size={size}
 						startIcon={<PlayArrowIcon />}
 						disabled={!cwd}
@@ -45,7 +48,7 @@ export function NextItemActions({
 				</span>
 			</Tooltip>
 			<Button
-				variant="outlined"
+				variant={variants.link}
 				size={size}
 				startIcon={<OpenInNewIcon />}
 				href={url}

@@ -6,6 +6,7 @@ import type { ResizeFn } from "../../../../../ResizeFn";
 import { TakeOverOverlay } from "./TerminalPane/TakeOverOverlay";
 import { useTerminal } from "./TerminalPane/useTerminal";
 import { terminalTheme } from "./TerminalPane/useTerminal/terminalTheme";
+import { terminalInset } from "./terminalFrameSx";
 
 export function TerminalPane({
 	sessionId,
@@ -27,7 +28,8 @@ export function TerminalPane({
 	sendResize: ResizeFn;
 }) {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const { tokens } = useTheme();
+	const theme = useTheme();
+	const { tokens } = theme;
 	const look = useMemo(() => terminalTheme(tokens), [tokens]);
 	const inactive = ownership === "other";
 	const onPress = useTerminal(containerRef, sessionId, {
@@ -45,7 +47,7 @@ export function TerminalPane({
 			data-terminal-session-id={sessionId}
 			sx={{
 				position: "absolute",
-				inset: "0 0 0 8px",
+				inset: terminalInset(theme),
 				visibility: visible ? "visible" : "hidden",
 				pointerEvents: visible ? "auto" : "none",
 			}}

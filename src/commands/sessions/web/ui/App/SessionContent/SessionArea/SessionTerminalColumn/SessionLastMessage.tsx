@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { useEffect, useRef, useState } from "react";
 import { HistoryPosition } from "./SessionLastMessage/HistoryPosition";
-import { lastMessageSx } from "./SessionLastMessage/lastMessageSx";
+import { lastMessageReadoutSx } from "./SessionLastMessage/lastMessageReadoutSx";
 import { useDismissablePin } from "./SessionLastMessage/useDismissablePin";
 import { useHistoryStep } from "./SessionLastMessage/useHistoryStep";
 
@@ -37,7 +37,7 @@ export function SessionLastMessage({
 	return (
 		<Box
 			ref={ref}
-			sx={{ ...lastMessageSx(pinned, expanded), ...(position && { pr: 8 }) }}
+			sx={lastMessageReadoutSx(pinned, expanded, !!position)}
 			data-testid="session-last-message"
 			data-expanded={expanded ? "true" : "false"}
 			data-pinned={pinned ? "true" : "false"}
