@@ -11,8 +11,12 @@ export function NewSessionLayer({
 	launchers: NewSessionLaunchers;
 }) {
 	const [open, setOpen] = useState(false);
-	const draft = useNewSessionDraft(open);
-	const openDialog = useCallback(() => setOpen(true), []);
+	const [opens, setOpens] = useState(0);
+	const draft = useNewSessionDraft(opens);
+	const openDialog = useCallback(() => {
+		setOpen(true);
+		setOpens((count) => count + 1);
+	}, []);
 	useNewSessionHotkey(openDialog);
 	useNewSessionRequest(draft, openDialog);
 

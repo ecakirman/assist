@@ -14,10 +14,7 @@ import { NewSessionDialog } from "./NewSessionDialog";
 import type { NewSessionLaunchers } from "./launchNewSession";
 import type { NewSessionMode } from "./newSessionModes";
 import { useNewSessionDraft } from "./useNewSessionDraft";
-import {
-	type LoadedDefaultMode,
-	useDefaultNewSessionMode,
-} from "./useNewSessionDraft/useDefaultNewSessionMode";
+import type { LoadedDefaultMode } from "./useNewSessionDraft/useDefaultNewSessionMode";
 import { RepoSelectionContext } from "../../../../useRepoSelectionContext";
 
 beforeAll(() => {
@@ -39,12 +36,12 @@ const repos = [
 type DefaultMode =
 	| NewSessionMode
 	| ((cwd: string) => NewSessionMode)
-	| ((cwd: string, open: boolean) => LoadedDefaultMode | null);
+	| ((cwd: string) => LoadedDefaultMode);
 
 function useInjectedDefault(defaultMode: DefaultMode, cwd: string) {
 	if (typeof defaultMode !== "function")
 		return { mode: defaultMode, pending: false };
-	const loaded = defaultMode(cwd, true);
+	const loaded = defaultMode(cwd);
 	return typeof loaded === "string" ? { mode: loaded, pending: false } : loaded;
 }
 
@@ -57,7 +54,7 @@ function DraftedDialog({
 	launchers: NewSessionLaunchers;
 	onClose: () => void;
 }) {
-	const draft = useNewSessionDraft(true, (cwd) =>
+	const draft = useNewSessionDraft(0, (cwd) =>
 		useInjectedDefault(defaultMode, cwd),
 	);
 	return (
@@ -70,15 +67,10 @@ function DraftedDialog({
 function renderDialog(
 	defaultMode: DefaultMode = "prompt",
 	capabilities = { exposeCodexActions: false, exposePiActions: false },
-	modes: () => Promise<Record<string, NewSessionMode>> = async () => ({}),
 ) {
 	vi.stubGlobal(
 		"fetch",
-		vi.fn(async (url: string) =>
-			url.startsWith("/api/new-session-defaults")
-				? Response.json({ modes: await modes() })
-				: Response.json(capabilities),
-		),
+		vi.fn(async () => Response.json(capabilities)),
 	);
 	const onCreate = vi.fn();
 	const onCreateDesign = vi.fn();
@@ -336,7 +328,7 @@ describe("NewSessionDialog mode selector", () => {
 	});
 
 	it("follows the selected repo's default mode", () => {
-		renderDialog((cwd: string) => (cwd === "/git/alpha" ? "bug" : "prompt"));
+		renderDialog((cwd) => (cwd === "/git/alpha" ? "bug" : "prompt"));
 
 		expect(checkedMode()).toBe("prompt");
 
@@ -348,10 +340,10 @@ describe("NewSessionDialog mode selector", () => {
 	});
 
 	function useLoadedDefault(cwd: string) {
-		const [loaded, setLoaded] = useState({
-			cwd: "/git/beta",
-			mode: "draft" as NewSessionMode,
-		});
+		const [loaded, setLoaded] = useState<{
+			cwd: string;
+			mode: NewSessionMode;
+		}>({ cwd: "/git/beta", mode: "draft" });
 		useEffect(() => {
 			const timer = setTimeout(() =>
 				setLoaded({ cwd, mode: cwd === "/git/alpha" ? "prompt" : "draft" }),
@@ -361,55 +353,55 @@ describe("NewSessionDialog mode selector", () => {
 		return { mode: loaded.mode, pending: loaded.cwd !== cwd };
 	}
 
-	const repoModes = async (): Promise<Record<string, NewSessionMode>> => ({
-		"/git/alpha": "prompt",
-		"/git/beta": "draft",
-		"/git/gamma": "draft",
-	});
-
-	async function renderFetchedDefaults(
-		modes: () => Promise<Record<string, NewSessionMode>> = repoModes,
-	) {
-		const handlers = renderDialog(
-			useDefaultNewSessionMode,
-			{ exposeCodexActions: false, exposePiActions: false },
-			modes,
-		);
+	it("submits an empty prompt in the new repo's prompt default after a single Enter", async () => {
+		const { onCreate, onCreateAssist, onClose } =
+			renderDialog(useLoadedDefault);
 		await act(async () => {});
-		return handlers;
-	}
 
-	function pickRepoWithEnter(text: string) {
 		fireEvent.focus(repoInput());
-		fireEvent.change(repoInput(), { target: { value: text } });
+		fireEvent.change(repoInput(), { target: { value: "al" } });
 		fireEvent.keyDown(repoInput(), { key: "Enter" });
-	}
 
-	it("starts a prompt-default repo with an empty prompt on a single Enter", async () => {
-		const { onCreate, onCreateAssist, onClose } = await renderFetchedDefaults();
+		expect(onCreateAssist).not.toHaveBeenCalled();
+		expect(onCreate).not.toHaveBeenCalled();
+		expect(onClose).not.toHaveBeenCalled();
 
-		pickRepoWithEnter("al");
-
+		await act(async () => {
+			await new Promise((resolve) => setTimeout(resolve));
+		});
 		expect(onCreate).toHaveBeenCalledWith("", "/git/alpha");
 		expect(onCreateAssist).not.toHaveBeenCalled();
 		expect(onClose).toHaveBeenCalled();
 	});
 
-	it("starts a prompt-default repo with a typed prompt on a single Enter", async () => {
-		const { onCreate, onCreateAssist } = await renderFetchedDefaults();
+	it("submits a typed prompt once the new repo's prompt default loads after a single Enter", async () => {
+		const { onCreate, onCreateAssist } = renderDialog(useLoadedDefault);
+		await act(async () => {});
 
 		fireEvent.change(promptInput(), { target: { value: "fix it" } });
-		pickRepoWithEnter("al");
+		fireEvent.focus(repoInput());
+		fireEvent.change(repoInput(), { target: { value: "al" } });
+		fireEvent.keyDown(repoInput(), { key: "Enter" });
 
+		await act(async () => {
+			await new Promise((resolve) => setTimeout(resolve));
+		});
 		expect(onCreate).toHaveBeenCalledWith("fix it", "/git/alpha");
 		expect(onCreateAssist).not.toHaveBeenCalled();
 	});
 
-	it("starts a draft-default repo on a single Enter", async () => {
-		const { onCreateAssist, onClose } = await renderFetchedDefaults();
+	it("submits once the new repo's default loads after a single Enter", async () => {
+		const { onCreateAssist, onClose } = renderDialog(useLoadedDefault);
+		await act(async () => {});
 
-		pickRepoWithEnter("ga");
+		fireEvent.focus(repoInput());
+		fireEvent.change(repoInput(), { target: { value: "ga" } });
+		fireEvent.keyDown(repoInput(), { key: "Enter" });
+		expect(onCreateAssist).not.toHaveBeenCalled();
 
+		await act(async () => {
+			await new Promise((resolve) => setTimeout(resolve));
+		});
 		expect(onCreateAssist).toHaveBeenCalledWith(
 			expect.arrayContaining(["draft"]),
 			"/git/gamma",
@@ -417,26 +409,14 @@ describe("NewSessionDialog mode selector", () => {
 		expect(onClose).toHaveBeenCalled();
 	});
 
-	it("submits an Enter pressed while the mode is pending once it loads", async () => {
-		const { onCreate, onCreateAssist } = renderDialog(useLoadedDefault);
-		await act(async () => {});
-
-		pickRepoWithEnter("al");
-		expect(onCreate).not.toHaveBeenCalled();
-
-		await act(async () => {
-			await new Promise((resolve) => setTimeout(resolve));
-		});
-		expect(onCreate).toHaveBeenCalledWith("", "/git/alpha");
-		expect(onCreateAssist).not.toHaveBeenCalled();
-	});
-
 	it("submits a hand-picked mode while the new repo's default loads", async () => {
 		const { onCreateAssist } = renderDialog(useLoadedDefault);
 		await act(async () => {});
 
 		fireEvent.click(modeRadio("bug"));
-		pickRepoWithEnter("al");
+		fireEvent.focus(repoInput());
+		fireEvent.change(repoInput(), { target: { value: "al" } });
+		fireEvent.keyDown(repoInput(), { key: "Enter" });
 
 		expect(onCreateAssist).toHaveBeenCalledWith(
 			["bug", "--once"],
@@ -464,7 +444,7 @@ describe("NewSessionDialog mode selector", () => {
 	});
 
 	it("keeps a hand-picked mode when the repo changes", () => {
-		renderDialog((cwd: string) => (cwd === "/git/alpha" ? "bug" : "prompt"));
+		renderDialog((cwd) => (cwd === "/git/alpha" ? "bug" : "prompt"));
 
 		fireEvent.click(modeRadio("design"));
 		fireEvent.focus(repoInput());

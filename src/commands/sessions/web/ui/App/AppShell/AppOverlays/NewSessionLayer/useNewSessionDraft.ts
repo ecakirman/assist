@@ -27,17 +27,17 @@ export type NewSessionDraft = {
 };
 
 export function useNewSessionDraft(
-	open: boolean,
+	opens: number,
 	useDefaultMode: (
 		cwd: string,
-		open: boolean,
+		opens: number,
 	) => LoadedDefaultMode | null = useDefaultNewSessionMode,
 ): NewSessionDraft | null {
 	const { selectedCwd } = useRepoSelectionContext();
 	const nodeSelection = useNodeSelectionContext();
 	const state = useDraftState();
 	const cwd = state.cwd ?? selectedCwd;
-	const defaultMode = useDefaultMode(cwd, open);
+	const defaultMode = useDefaultMode(cwd, opens);
 
 	if (!defaultMode) return null;
 	return {

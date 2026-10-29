@@ -24,12 +24,7 @@ afterEach(() => {
 function renderAt(path: string) {
 	vi.stubGlobal(
 		"fetch",
-		vi.fn(async (url: string) => {
-			const cwds = new URL(url, "http://localhost").searchParams.getAll("cwd");
-			return Response.json({
-				modes: Object.fromEntries(cwds.map((cwd) => [cwd, "bug"])),
-			});
-		}),
+		vi.fn(async () => Response.json({ mode: "bug" })),
 	);
 	const onCreate = vi.fn();
 	const onCreateAssist = vi.fn();
