@@ -1,3 +1,10 @@
+# [0.932.0](https://github.com/staff0rd/assist/compare/v0.931.0...v0.932.0) (2026-10-29)
+
+
+### Features
+
+* add browser snapshot and inspect ([7372d69](https://github.com/staff0rd/assist/commit/7372d69c183d140660c5bf51f632ad7a1549e002))
+
 # [0.931.0](https://github.com/staff0rd/assist/compare/v0.930.0...v0.931.0) (2026-10-29)
 
 
