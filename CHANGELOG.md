@@ -1,3 +1,10 @@
+## [0.926.6](https://github.com/staff0rd/assist/compare/v0.926.5...v0.926.6) (2026-10-29)
+
+
+### Bug Fixes
+
+* re-run to revise pending PR preview ([8d36bef](https://github.com/staff0rd/assist/commit/8d36bef4cdadd53fbdf4b4e338d4877cbc05cbcf))
+
 ## [0.926.5](https://github.com/staff0rd/assist/compare/v0.926.4...v0.926.5) (2026-10-29)
 
 
