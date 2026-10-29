@@ -1,3 +1,10 @@
+## [0.926.3](https://github.com/staff0rd/assist/compare/v0.926.2...v0.926.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* stop repo churn starving mode load ([2ff0bbb](https://github.com/staff0rd/assist/commit/2ff0bbb60530351bfe752e72652bd3b7bcc3ff13))
+
 ## [0.926.2](https://github.com/staff0rd/assist/compare/v0.926.1...v0.926.2) (2026-10-29)
 
 
