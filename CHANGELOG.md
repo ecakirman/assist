@@ -1,3 +1,10 @@
+## [0.932.1](https://github.com/staff0rd/assist/compare/v0.932.0...v0.932.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* fit extension description for AMO ([d6ea0e6](https://github.com/staff0rd/assist/commit/d6ea0e661096f8f4ef9cb9fde0810feadfe94fee))
+
 # [0.932.0](https://github.com/staff0rd/assist/compare/v0.931.0...v0.932.0) (2026-10-29)
 
 
