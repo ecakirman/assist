@@ -409,6 +409,35 @@ describe("NewSessionDialog mode selector", () => {
 		expect(onClose).toHaveBeenCalled();
 	});
 
+	it("disables the form with a loading button while the new repo's default loads", async () => {
+		renderDialog(useLoadedDefault);
+		await act(async () => {});
+
+		repoInput().focus();
+		fireEvent.change(repoInput(), { target: { value: "al" } });
+		fireEvent.keyDown(repoInput(), { key: "Tab" });
+
+		expect(repoInput().matches(":disabled")).toBe(true);
+		expect(promptInput().matches(":disabled")).toBe(true);
+		expect(
+			(screen.getByRole("button", { name: /start/i }) as HTMLButtonElement)
+				.disabled,
+		).toBe(true);
+
+		await act(async () => {
+			await new Promise((resolve) => setTimeout(resolve));
+		});
+		expect(repoInput().matches(":disabled")).toBe(false);
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "Start session",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(false);
+		expect(document.activeElement).toBe(repoInput());
+	});
+
 	it("submits a hand-picked mode while the new repo's default loads", async () => {
 		const { onCreateAssist } = renderDialog(useLoadedDefault);
 		await act(async () => {});

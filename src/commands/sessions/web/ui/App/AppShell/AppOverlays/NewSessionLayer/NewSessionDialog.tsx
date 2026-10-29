@@ -1,13 +1,12 @@
-import type { FormEvent } from "react";
 import { harnessChoices } from "./NewSessionDialog/harnessChoices";
 import type { NewSessionLaunchers } from "./launchNewSession";
 import { NewSessionFields } from "./NewSessionDialog/NewSessionFields";
 import { NewSessionFooter } from "./NewSessionDialog/NewSessionFooter";
 import { newSessionModes } from "./newSessionModes";
-import { submitDraft } from "./NewSessionDialog/submitDraft";
 import { useDraftFocus } from "./NewSessionDialog/useDraftFocus";
 import { useDraftRepos } from "./NewSessionDialog/useDraftRepos";
-import { useQueuedSubmit } from "./NewSessionDialog/useQueuedSubmit";
+import { useDraftSubmit } from "./NewSessionDialog/useDraftSubmit";
+import { LoadingFieldset } from "./NewSessionDialog/LoadingFieldset";
 import type { NewSessionDraft } from "./useNewSessionDraft";
 import { AutoFocusDialog } from "../AutoFocusDialog";
 import { useHarnessCapabilities } from "../../../../useHarnessCapabilities";
@@ -26,32 +25,32 @@ export function NewSessionDialog({
 	const harness = harnesses.includes(draft.harness) ? draft.harness : "claude";
 	const { target, cloneState } = useDraftRepos(draft.node, draft.cwd);
 
-	const requestSubmit = useQueuedSubmit(draft, () => {
-		if (submitDraft(draft, harness, target, launchers)) onClose();
-	});
-	const submit = (e: FormEvent) => {
-		e.preventDefault();
-		requestSubmit();
-	};
+	const submit = useDraftSubmit(draft, harness, target, launchers, onClose);
 
 	return (
 		<AutoFocusDialog onClose={onClose} onEntered={focus.restore} centered>
 			<form onSubmit={submit}>
-				<NewSessionFields
-					draft={draft}
-					harness={harness}
-					harnesses={harnesses}
-					focus={focus}
-					cloneState={cloneState}
-				/>
-				<NewSessionFooter
-					submitLabel={
-						target.kind === "clone"
-							? "Clone"
-							: newSessionModes[draft.mode].submitLabel
-					}
-					disabled={target.kind === "blocked"}
-				/>
+				<LoadingFieldset
+					loading={draft.modePending}
+					restoreFocus={focus.restore}
+				>
+					<NewSessionFields
+						draft={draft}
+						harness={harness}
+						harnesses={harnesses}
+						focus={focus}
+						cloneState={cloneState}
+					/>
+					<NewSessionFooter
+						submitLabel={
+							target.kind === "clone"
+								? "Clone"
+								: newSessionModes[draft.mode].submitLabel
+						}
+						disabled={target.kind === "blocked"}
+						loading={draft.modePending}
+					/>
+				</LoadingFieldset>
 			</form>
 		</AutoFocusDialog>
 	);

@@ -16,9 +16,11 @@ const footerSx = {
 export function NewSessionFooter({
 	submitLabel,
 	disabled = false,
+	loading = false,
 }: {
 	submitLabel: string;
 	disabled?: boolean;
+	loading?: boolean;
 }) {
 	return (
 		<Stack direction="row" spacing={1.5} sx={footerSx}>
@@ -34,6 +36,7 @@ export function NewSessionFooter({
 				variant="contained"
 				size="small"
 				disabled={disabled}
+				loading={loading}
 			>
 				{submitLabel}
 			</Button>

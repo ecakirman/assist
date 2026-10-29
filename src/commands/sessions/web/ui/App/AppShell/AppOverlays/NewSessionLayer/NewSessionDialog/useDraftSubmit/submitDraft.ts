@@ -1,11 +1,11 @@
-import type { HarnessKind } from "../../../../../../../../../shared/harnesses";
-import { launchClone } from "../../../../../../../../backlog/web/ui/components/launchClone";
-import type { NewSessionDraft } from "../useNewSessionDraft";
+import type { HarnessKind } from "../../../../../../../../../../shared/harnesses";
+import { launchClone } from "../../../../../../../../../backlog/web/ui/components/launchClone";
+import type { NewSessionDraft } from "../../useNewSessionDraft";
 import {
 	launchNewSession,
 	type NewSessionLaunchers,
-} from "../launchNewSession";
-import type { useDraftRepos } from "./useDraftRepos";
+} from "../../launchNewSession";
+import type { useDraftRepos } from "../useDraftRepos";
 
 type DraftTarget = ReturnType<typeof useDraftRepos>["target"];
 
