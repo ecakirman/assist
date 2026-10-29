@@ -1,10 +1,9 @@
 import { existsSync } from "node:fs";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type * as fsMockModule from "../../../../test/mocks/fsMock";
-import { fetchQuietly } from "../../../watch/fetchQuietly";
 import { daemonLog } from "../daemonLog";
 import { createWorktree } from "./createWorktree";
-import { gitSync, gitSyncOrNull } from "./git";
+import { git, gitOrNull, gitResult } from "./git";
 
 vi.mock("node:fs", async () =>
 	(
@@ -12,22 +11,26 @@ vi.mock("node:fs", async () =>
 	).fsMock(),
 );
 vi.mock("../daemonLog", () => ({ daemonLog: vi.fn() }));
-vi.mock("./git", () => ({ gitSync: vi.fn(() => ""), gitSyncOrNull: vi.fn() }));
+vi.mock("./git", () => ({
+	git: vi.fn(async () => ""),
+	gitOrNull: vi.fn(),
+	gitResult: vi.fn(async () => ({ ok: true, out: "" })),
+}));
 vi.mock("./listWorktreePaths", () => ({
 	listWorktreePaths: () => ["/git/repo"],
 	listLocalBranches: () => ["main"],
 }));
-vi.mock("../../../watch/fetchQuietly", () => ({ fetchQuietly: vi.fn() }));
 vi.mock("./readWorktreeRegistry", () => ({ recordWorktree: vi.fn() }));
-vi.mock("../../../backlog/getCurrentOrigin", () => ({
-	getCurrentOrigin: () => "github.com/acme/repo",
+vi.mock("../../../backlog/getCachedOrigin", () => ({
+	getCachedOrigin: () => "github.com/acme/repo",
 }));
 
-const gitSyncMock = vi.mocked(gitSync);
-const gitSyncOrNullMock = vi.mocked(gitSyncOrNull);
+const gitMock = vi.mocked(git);
+const gitOrNullMock = vi.mocked(gitOrNull);
+const gitResultMock = vi.mocked(gitResult);
 
 function gitState({ head = "main", verify = true } = {}) {
-	gitSyncOrNullMock.mockImplementation((_cwd: string, args: string[]) => {
+	gitOrNullMock.mockImplementation(async (_cwd: string, args: string[]) => {
 		if (args[0] === "rev-parse") return verify ? "abc1234" : null;
 		if (args[2] === "refs/remotes/origin/HEAD") return "origin/main";
 		return head;
@@ -35,9 +38,24 @@ function gitState({ head = "main", verify = true } = {}) {
 }
 
 function worktreeAdd(): string[] | undefined {
-	return gitSyncMock.mock.calls
+	return gitMock.mock.calls
 		.map((call) => call[1])
 		.find((args) => args[0] === "worktree");
+}
+
+async function create(
+	strategy: { root: string | undefined; trunk: boolean },
+	bound = new Set<string>(),
+	preferred?: string,
+): Promise<string> {
+	const { path, ready } = createWorktree(
+		"/git/repo",
+		strategy,
+		bound,
+		preferred,
+	);
+	await ready;
+	return path;
 }
 
 describe("createWorktree", () => {
@@ -48,14 +66,10 @@ describe("createWorktree", () => {
 	});
 
 	describe("with trunk-based off (the default)", () => {
-		it("starts the worktree branch off the remote default with no tracking", () => {
-			expect(
-				createWorktree(
-					"/git/repo",
-					{ root: undefined, trunk: false },
-					new Set(),
-				),
-			).toBe("/git/repo-2");
+		it("starts the worktree branch off the remote default with no tracking", async () => {
+			expect(await create({ root: undefined, trunk: false })).toBe(
+				"/git/repo-2",
+			);
 
 			expect(worktreeAdd()).toEqual([
 				"worktree",
@@ -70,8 +84,8 @@ describe("createWorktree", () => {
 	});
 
 	describe("with trunk-based on", () => {
-		it("tracks the mainline so commits land there", () => {
-			createWorktree("/git/repo", { root: undefined, trunk: true }, new Set());
+		it("tracks the mainline so commits land there", async () => {
+			await create({ root: undefined, trunk: true });
 
 			expect(worktreeAdd()).toEqual([
 				"worktree",
@@ -85,19 +99,18 @@ describe("createWorktree", () => {
 		});
 	});
 
-	it("never mutates the clone's shared push configuration", () => {
-		createWorktree("/git/repo", { root: undefined, trunk: true }, new Set());
+	it("never mutates the clone's shared push configuration", async () => {
+		await create({ root: undefined, trunk: true });
 
-		expect(gitSyncMock.mock.calls.map((call) => call[1][0])).not.toContain(
+		expect(gitMock.mock.calls.map((call) => call[1][0])).not.toContain(
 			"config",
 		);
 	});
 
 	describe("with a preferred path", () => {
-		it("reclaims it when nothing holds it", () => {
+		it("reclaims it when nothing holds it", async () => {
 			expect(
-				createWorktree(
-					"/git/repo",
+				await create(
 					{ root: undefined, trunk: false },
 					new Set(),
 					"/git/repo-7",
@@ -115,10 +128,9 @@ describe("createWorktree", () => {
 			]);
 		});
 
-		it("falls back to the next free suffix when it is already held", () => {
+		it("falls back to the next free suffix when it is already held", async () => {
 			expect(
-				createWorktree(
-					"/git/repo",
+				await create(
 					{ root: undefined, trunk: false },
 					new Set(["/git/repo-7"]),
 					"/git/repo-7",
@@ -127,10 +139,10 @@ describe("createWorktree", () => {
 		});
 	});
 
-	it("falls back to the clone's HEAD when the remote branch is unknown", () => {
+	it("falls back to the clone's HEAD when the remote branch is unknown", async () => {
 		gitState({ verify: false });
 
-		createWorktree("/git/repo", { root: undefined, trunk: true }, new Set());
+		await create({ root: undefined, trunk: true });
 
 		expect(worktreeAdd()).toEqual([
 			"worktree",
@@ -143,24 +155,54 @@ describe("createWorktree", () => {
 		]);
 	});
 
-	it("fetches before resolving the start point", () => {
-		createWorktree("/git/repo", { root: undefined, trunk: false }, new Set());
+	it("returns the reserved path before any network fetch completes", () => {
+		gitResultMock.mockReturnValueOnce(new Promise(() => {}));
 
-		expect(fetchQuietly).toHaveBeenCalledWith("/git/repo", 0);
-		const fetchOrder = vi.mocked(fetchQuietly).mock.invocationCallOrder[0];
-		const verifyOrder = gitSyncOrNullMock.mock.invocationCallOrder[0];
+		const { path } = createWorktree(
+			"/git/repo",
+			{ root: undefined, trunk: false },
+			new Set(),
+		);
+
+		expect(path).toBe("/git/repo-2");
+		expect(worktreeAdd()).toBeUndefined();
+	});
+
+	it("fetches before resolving the start point", async () => {
+		await create({ root: undefined, trunk: false });
+
+		expect(gitResultMock).toHaveBeenCalledWith(
+			"/git/repo",
+			["fetch", "--quiet"],
+			expect.any(Number),
+		);
+		const fetchOrder = gitResultMock.mock.invocationCallOrder[0];
+		const verifyOrder = gitOrNullMock.mock.invocationCallOrder[0];
 		expect(fetchOrder).toBeLessThan(verifyOrder ?? Infinity);
 	});
 
-	it("logs a failed fetch and still creates the worktree off local refs", () => {
-		vi.mocked(fetchQuietly).mockReturnValueOnce("could not resolve host");
+	it("logs a failed fetch and still creates the worktree off local refs", async () => {
+		gitResultMock.mockResolvedValueOnce({
+			ok: false,
+			error: "could not resolve host",
+		});
 
-		expect(
-			createWorktree("/git/repo", { root: undefined, trunk: false }, new Set()),
-		).toBe("/git/repo-2");
+		expect(await create({ root: undefined, trunk: false })).toBe("/git/repo-2");
 		expect(daemonLog).toHaveBeenCalledWith(
 			expect.stringContaining("could not resolve host"),
 		);
 		expect(worktreeAdd()).toBeDefined();
+	});
+
+	it("rejects ready when the worktree cannot be added", async () => {
+		gitMock.mockRejectedValueOnce(new Error("branch exists"));
+
+		const { ready } = createWorktree(
+			"/git/repo",
+			{ root: undefined, trunk: false },
+			new Set(),
+		);
+
+		await expect(ready).rejects.toThrow("branch exists");
 	});
 });

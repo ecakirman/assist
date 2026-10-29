@@ -11,7 +11,7 @@ vi.mock("../../../../shared/findRepoRoot", () => ({
 vi.mock("./listWorktreePaths", () => ({ mainWorktree: () => "/git/repo" }));
 vi.mock("./worktreeConfigFor", () => ({ worktreeConfigFor: vi.fn() }));
 vi.mock("./createWorktree", () => ({
-	createWorktree: vi.fn(() => "/git/repo-2"),
+	createWorktree: vi.fn(),
 }));
 
 const configMock = vi.mocked(worktreeConfigFor);
@@ -32,18 +32,21 @@ function configure(
 	});
 }
 
+const ready = Promise.resolve();
+
 const spilled = {
 	cwd: "/git/repo-2",
 	kind: "worktree",
 	created: true,
 	clone: "/git/repo",
+	ready,
 };
 
 describe("allocateTree", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 		configure(true);
-		createMock.mockReturnValue("/git/repo-2");
+		createMock.mockReturnValue({ path: "/git/repo-2", ready });
 	});
 
 	describe("with worktree.enabled on", () => {
@@ -85,7 +88,7 @@ describe("allocateTree", () => {
 		});
 
 		it("offers a reaped worktree's path back to the allocator so a resume can reclaim it", () => {
-			createMock.mockReturnValue("/git/repo-7");
+			createMock.mockReturnValue({ path: "/git/repo-7", ready });
 
 			expect(
 				allocateTree("/git/repo", new Set(), { replacesTree: "/git/repo-7" })

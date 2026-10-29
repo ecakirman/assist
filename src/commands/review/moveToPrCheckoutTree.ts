@@ -19,6 +19,7 @@ export async function moveToPrCheckoutTree(): Promise<void> {
 	const from = process.cwd();
 	const alloc = allocateTree(from, persistedTreeRoots());
 	if (!alloc.cwd || alloc.cwd === from) return;
+	await alloc.ready;
 	process.chdir(alloc.cwd);
 	console.log(`Checking the PR out in ${alloc.cwd}`);
 	appendDaemonLog(`pr checkout placed in ${alloc.cwd} (invoked from ${from})`);

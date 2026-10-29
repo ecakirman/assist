@@ -16,7 +16,6 @@ import { startAutoUpdate } from "./autoUpdate/startAutoUpdate";
 import { dismissSessionGated } from "./dismissSessionGated";
 import { drainSessions } from "./drainSessions";
 import { flushPhaseActiveMs } from "./flushPhaseActiveMs";
-import { greetClient } from "./greetClient";
 import { PrPreviewCoordinator } from "./PrPreviewCoordinator";
 import { makeSessionSpawner } from "./makeSessionSpawner";
 import { applyUsageRecord } from "./applyUsageRecord";
@@ -65,13 +64,17 @@ export class SessionManager {
 
 	addClient(client: SessionClient): void {
 		this.clients.add(client);
-		// why: notify sends the sessions list with the active selection in one message, avoiding a first-card race before greetClient
 		this.notify();
-		greetClient(client, this.sessions, this.links);
+		this.links.sendNodes(client);
 	}
 
 	replayLocal = (client: SessionClient) =>
 		replayScrollback(this.sessions, client);
+
+	replayAll = (client: SessionClient) => {
+		this.replayLocal(client);
+		this.links.replayScrollback(client);
+	};
 
 	removeClient(client: SessionClient): void {
 		this.io.viewerLeft(client);

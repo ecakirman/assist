@@ -17,10 +17,14 @@ function gitInvocation(cwd: string, args: string[]) {
 	};
 }
 
-export function git(cwd: string, args: string[]): Promise<string> {
+export function git(
+	cwd: string,
+	args: string[],
+	timeout?: number,
+): Promise<string> {
 	const { file, argv, options } = gitInvocation(cwd, args);
 	return new Promise((resolve, reject) => {
-		execFile(file, argv, options, (error, stdout) => {
+		execFile(file, argv, { ...options, timeout }, (error, stdout) => {
 			if (error) reject(error);
 			else resolve(stdout.toString());
 		});
@@ -45,9 +49,10 @@ export type GitResult =
 export async function gitResult(
 	cwd: string,
 	args: string[],
+	timeout?: number,
 ): Promise<GitResult> {
 	try {
-		return { ok: true, out: (await git(cwd, args)).trim() };
+		return { ok: true, out: (await git(cwd, args, timeout)).trim() };
 	} catch (error) {
 		return {
 			ok: false,

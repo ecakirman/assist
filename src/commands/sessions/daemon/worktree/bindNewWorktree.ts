@@ -2,6 +2,7 @@ import type { Session } from "../createSession";
 import type { Allocation } from "./allocateTree";
 import { detectExistingWorktree } from "./detectExistingWorktree";
 import { seedWorktree } from "./seedWorktree";
+import { refuseUnallocatedStart } from "./refuseUnallocatedStart";
 
 export function bindNewWorktree(
 	session: Session | undefined,
@@ -14,7 +15,11 @@ export function bindNewWorktree(
 	session.worktree = { path: alloc.cwd, clone: alloc.clone };
 	if (alloc.created) {
 		session.awaitingSeed = true;
-		seedHeldSession(session, alloc.cwd, alloc.clone, notify, startHeld);
+		const { cwd, clone } = alloc;
+		void (alloc.ready ?? Promise.resolve()).then(
+			() => seedHeldSession(session, cwd, clone, notify, startHeld),
+			(error) => refuseUnallocatedStart(session, cwd, error, startHeld),
+		);
 	}
 	notify();
 }

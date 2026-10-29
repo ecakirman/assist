@@ -6,8 +6,8 @@ import { loadConfigFrom } from "./loadConfigFrom";
 import { repoConfigCachePath } from "./readRepoConfigCache";
 import { writeRepoConfigCache } from "./writeRepoConfigCache";
 
-vi.mock("../commands/backlog/getCurrentOrigin", () => ({
-	getCurrentOrigin: () => "github.com/org/assist",
+vi.mock("../commands/backlog/getCachedOrigin", () => ({
+	getCachedOrigin: () => "github.com/org/assist",
 }));
 
 let dir: string;

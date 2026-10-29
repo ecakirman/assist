@@ -13,13 +13,20 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { makeSession } from "../../../../test/mothers/makeSession";
 import type { Session } from "../createSession";
 import { allocateAndBind, type TreeSpawnContext } from "./allocateAndBind";
+import { seedWorktree } from "./seedWorktree";
 
 vi.mock("../daemonLog", () => ({ daemonLog: vi.fn() }));
 vi.mock("./seedWorktree", () => ({ seedWorktree: vi.fn() }));
 
 const created: string[] = [];
+const allocated = { count: 0 };
 
-afterEach(() => {
+afterEach(async () => {
+	await vi.waitFor(() =>
+		expect(vi.mocked(seedWorktree)).toHaveBeenCalledTimes(allocated.count),
+	);
+	vi.mocked(seedWorktree).mockClear();
+	allocated.count = 0;
 	for (const base of created.splice(0))
 		rmSync(base, { recursive: true, force: true });
 });
@@ -64,7 +71,9 @@ function spawnInto(ctx: TreeSpawnContext, cwd: string): Session {
 	const id = allocateAndBind(ctx, cwd, (sid, resolvedCwd) =>
 		makeSession({ id: sid, status: "waiting", cwd: resolvedCwd ?? cwd }),
 	);
-	return ctx.sessions.get(id) as Session;
+	const session = ctx.sessions.get(id) as Session;
+	if (session.awaitingSeed) allocated.count++;
+	return session;
 }
 
 describe("a second session colliding with a held clone", () => {

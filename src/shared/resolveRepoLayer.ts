@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { getCurrentOrigin } from "../commands/backlog/getCurrentOrigin";
+import { getCachedOrigin } from "../commands/backlog/getCachedOrigin";
 import { readRepoConfigCache } from "./readRepoConfigCache";
 import { matchRepoConfigKey, resolveRepoOverride } from "./resolveRepoOverride";
 
@@ -21,7 +21,7 @@ export function resolveRepoLayer(
 	if (Object.keys(cached.repos).length === 0 && !globalRaw.repos)
 		return { override: {} };
 
-	const origin = getCurrentOrigin(cwd);
+	const origin = getCachedOrigin(cwd);
 	const dbKey = matchRepoConfigKey(cached, origin, SHARED_REPO_CONFIG_SOURCE);
 	if (dbKey !== undefined)
 		return {

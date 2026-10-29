@@ -11,6 +11,7 @@ export type Allocation = {
 	kind: "primary" | "worktree";
 	created: boolean;
 	clone?: string;
+	ready?: Promise<void>;
 };
 
 export type AllocateOptions = {
@@ -41,7 +42,7 @@ export function allocateTree(
 		);
 
 	const clone = canonicalTreePath(mainWorktree(repoRoot) ?? repoRoot);
-	const path = createWorktree(
+	const { path, ready } = createWorktree(
 		clone,
 		{ root: cfg.root, trunk: cfg.trunk },
 		boundTreeRoots,
@@ -50,5 +51,5 @@ export function allocateTree(
 	daemonLog(
 		`session spilled out of the clone ${clone} into ${path}: worktree.enabled is on, so every session gets its own worktree`,
 	);
-	return { cwd: path, kind: "worktree", created: true, clone };
+	return { cwd: path, kind: "worktree", created: true, clone, ready };
 }

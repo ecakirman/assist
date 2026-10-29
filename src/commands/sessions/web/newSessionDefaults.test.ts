@@ -20,8 +20,8 @@ vi.mock("node:os", async (importOriginal) => {
 	return { ...actual, homedir: () => root };
 });
 
-vi.mock("../../backlog/getCurrentOrigin", () => ({
-	getCurrentOrigin: (cwd: string) =>
+vi.mock("../../backlog/getCachedOrigin", () => ({
+	getCachedOrigin: (cwd: string) =>
 		cwd === apm ? "github.com/org/apm" : "github.com/org/other",
 }));
 

@@ -1,5 +1,5 @@
-import { gitSyncOrNull } from "./git";
+import { gitOrNull } from "./git";
 
-export function cloneHead(clone: string): string | null {
-	return gitSyncOrNull(clone, ["symbolic-ref", "--short", "HEAD"]);
+export function cloneHead(clone: string): Promise<string | null> {
+	return gitOrNull(clone, ["symbolic-ref", "--short", "HEAD"]);
 }
