@@ -10,6 +10,8 @@ export function shouldAutoDismiss(
 	/* why: a backlog run that reached its review phase (#409) dismisses on a
 	 * clean exit whether "Continue" (autoAdvance) is on or off. */
 	if (session.reviewStarted) return true;
+	if (session.activity?.kind === "backlog" && session.autoAdvance === false)
+		return true;
 	const args = session.assistArgs;
 	if (args === undefined) return false;
 	if (args[0] === "update") return true;

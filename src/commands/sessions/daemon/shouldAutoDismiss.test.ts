@@ -128,6 +128,44 @@ describe("shouldAutoDismiss", () => {
 		});
 	});
 
+	describe("when a backlog run paused with Continue off exits cleanly", () => {
+		it("dismisses", () => {
+			const session = makeSession({
+				status: "done",
+				assistArgs: ["backlog"],
+				activity: { kind: "backlog", itemId: 7, startedAt: 1 },
+				autoAdvance: false,
+			});
+
+			expect(shouldAutoDismiss(session, 0)).toBe(true);
+		});
+	});
+
+	describe("when a backlog run paused with Continue off exits non-zero", () => {
+		it("keeps", () => {
+			const session = makeSession({
+				status: "done",
+				assistArgs: ["backlog"],
+				activity: { kind: "backlog", itemId: 7, startedAt: 1 },
+				autoAdvance: false,
+			});
+
+			expect(shouldAutoDismiss(session, 1)).toBe(false);
+		});
+	});
+
+	describe("when a non-backlog session has autoAdvance off", () => {
+		it("keeps", () => {
+			const session = makeSession({
+				status: "done",
+				assistArgs: ["bug"],
+				autoAdvance: false,
+			});
+
+			expect(shouldAutoDismiss(session, 0)).toBe(false);
+		});
+	});
+
 	describe("when a non-backlog session has autoAdvance on but never reached review", () => {
 		it("keeps", () => {
 			const session = makeSession({
