@@ -1,10 +1,12 @@
 import { browserApi } from "./browserApi";
 import { isAssistHost } from "./isAssistHost";
 import { pickTargetTab } from "./pickTargetTab";
+import { probeReply } from "./probeReply";
 import {
 	BROWSER_PROBE_TYPE,
 	type BrowserReply,
 	type BrowserRequest,
+	type ProbeAnswer,
 } from "./types";
 
 const ASSIST_HOSTS =
@@ -34,11 +36,9 @@ export async function runBrowserRequest(
 			tabUrl,
 			error: `the target tab is not on an assist host (${ASSIST_HOSTS})`,
 		};
-	const contentScript = await api.tabs
-		.sendMessage(tab.id, { type: BROWSER_PROBE_TYPE, op: request.op })
-		.then(
-			(reply) => (reply as { running?: boolean } | undefined)?.running === true,
-		)
-		.catch(() => false);
-	return { ok: true, result: { tabUrl, contentScript } };
+	const answer = await api.tabs
+		.sendMessage(tab.id, { ...request, type: BROWSER_PROBE_TYPE })
+		.then((reply) => reply as ProbeAnswer | undefined)
+		.catch(() => undefined);
+	return probeReply(request.op, tabUrl, answer);
 }

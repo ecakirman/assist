@@ -1,10 +1,36 @@
-export type BrowserRequest = { op: "status"; url?: string };
+export type InspectQuery = { selector: string } | { text: string };
 
-type BrowserStatus = { tabUrl: string; contentScript: boolean };
+export type BrowserRequest =
+	| { op: "status"; url?: string }
+	| { op: "snapshot"; url?: string }
+	| ({ op: "inspect"; url?: string } & InspectQuery);
 
-export type BrowserReply =
-	| { ok: true; result: BrowserStatus }
+export type BrowserOp = BrowserRequest["op"];
+
+export type InspectMatch = {
+	chain: string[];
+	text: string;
+	width: number;
+	height: number;
+};
+
+export type InspectResult = { matches: InspectMatch[]; total: number };
+
+export type ProbeResults = {
+	status: { contentScript: boolean };
+	snapshot: { html: string };
+	inspect: InspectResult;
+};
+
+export type BrowserReply<O extends BrowserOp = BrowserOp> =
+	| { ok: true; result: { tabUrl: string } & ProbeResults[O] }
 	| { ok: false; error: string; tabUrl?: string };
+
+export type ProbeAnswer = {
+	running: true;
+	error?: string;
+	result?: ProbeResults["snapshot"] | InspectResult;
+};
 
 export type BrowserRelayRequest = BrowserRequest & {
 	type: "request";
@@ -15,7 +41,8 @@ export type BrowserLinkMessage =
 	| { type: "hello"; version: string }
 	| (BrowserReply & { type: "response"; id: string });
 
-export type BrowserRelayReply = BrowserReply & { version: string };
+export type BrowserRelayReply<O extends BrowserOp = BrowserOp> =
+	BrowserReply<O> & { version: string };
 
 export const BROWSER_PROBE_TYPE = "assist-browser-probe";
 

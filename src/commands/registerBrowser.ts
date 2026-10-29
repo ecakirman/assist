@@ -1,4 +1,6 @@
 import type { Command } from "commander";
+import { browserInspect } from "./browser/browserInspect";
+import { browserSnapshot } from "./browser/browserSnapshot";
 import { browserStatus } from "./browser/browserStatus";
 
 function withTargetOptions(command: Command): Command {
@@ -28,4 +30,24 @@ export function registerBrowser(program: Command): void {
 				"Print the connected extension's version, the target tab's URL and whether the assist content script runs there",
 			),
 	).action(browserStatus);
+
+	withTargetOptions(
+		browser
+			.command("snapshot")
+			.description(
+				"Write the target tab's DOM to ~/.assist/browser/<host>-<timestamp>.html and print its path",
+			),
+	).action(browserSnapshot);
+
+	withTargetOptions(
+		browser
+			.command("inspect [selector]")
+			.description(
+				"Print the ancestor chain (tag#id.class), text and size of each element matching a CSS selector or --text, capped",
+			)
+			.option(
+				"--text <text>",
+				"Match elements whose own text contains this, instead of a selector",
+			),
+	).action(browserInspect);
 }

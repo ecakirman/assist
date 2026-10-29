@@ -6,11 +6,18 @@ import { browserLink } from "./browserLink";
 
 const RELAY_TIMEOUT_MS = 10_000;
 
+function optionalString(value: unknown): value is string | undefined {
+	return value === undefined || typeof value === "string";
+}
+
 function parseBrowserRequest(body: unknown): BrowserRequest | undefined {
-	const { op, url } = (body ?? {}) as Record<string, unknown>;
-	if (op !== "status") return undefined;
-	if (url !== undefined && typeof url !== "string") return undefined;
-	return { op, url };
+	const { op, url, selector, text } = (body ?? {}) as Record<string, unknown>;
+	if (!optionalString(url)) return undefined;
+	if (op === "status" || op === "snapshot") return { op, url };
+	if (op !== "inspect") return undefined;
+	if (typeof selector === "string" && selector) return { op, url, selector };
+	if (typeof text === "string" && text) return { op, url, text };
+	return undefined;
 }
 
 export async function browserRelay(

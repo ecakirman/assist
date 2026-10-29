@@ -1,14 +1,15 @@
 import type {
+	BrowserOp,
 	BrowserRelayReply,
 	BrowserRequest,
 } from "../extension/browserLink/types";
 
 const CLI_TIMEOUT_MS = 50_000;
 
-export async function requestBrowser(
+export async function requestBrowser<O extends BrowserOp>(
 	server: string,
-	request: BrowserRequest,
-): Promise<BrowserRelayReply> {
+	request: BrowserRequest & { op: O },
+): Promise<BrowserRelayReply<O>> {
 	let response: Response;
 	try {
 		response = await fetch(`${server}/api/browser`, {
@@ -31,5 +32,5 @@ export async function requestBrowser(
 		throw new Error(
 			`${"error" in data && data.error ? data.error : `assist web server returned ${response.status}`} (${server})`,
 		);
-	return data as BrowserRelayReply;
+	return data as BrowserRelayReply<O>;
 }

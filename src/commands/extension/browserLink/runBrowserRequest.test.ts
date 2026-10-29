@@ -49,6 +49,43 @@ describe("runBrowserRequest", () => {
 		expect(sendMessage).not.toHaveBeenCalled();
 	});
 
+	it("returns the content script's probe result with the tab URL", async () => {
+		const sendMessage = stubBrowser(
+			[github],
+			vi.fn().mockResolvedValue({ running: true, result: { html: "<html>" } }),
+		);
+		await expect(runBrowserRequest({ op: "snapshot" })).resolves.toEqual({
+			ok: true,
+			result: { tabUrl: github.url, html: "<html>" },
+		});
+		expect(sendMessage).toHaveBeenCalledWith(7, {
+			op: "snapshot",
+			type: "assist-browser-probe",
+		});
+	});
+
+	it("passes the content script's probe error back", async () => {
+		stubBrowser(
+			[github],
+			vi.fn().mockResolvedValue({ running: true, error: "bad selector" }),
+		);
+		await expect(
+			runBrowserRequest({ op: "inspect", selector: "[" }),
+		).resolves.toEqual({
+			ok: false,
+			tabUrl: github.url,
+			error: "bad selector",
+		});
+	});
+
+	it("fails a probe when the content script does not answer", async () => {
+		stubBrowser([github], vi.fn().mockRejectedValue(new Error("no receiver")));
+		await expect(runBrowserRequest({ op: "snapshot" })).resolves.toMatchObject({
+			ok: false,
+			error: expect.stringContaining("content script is not running"),
+		});
+	});
+
 	it("says when no tab matches --url", async () => {
 		stubBrowser([github]);
 		await expect(
