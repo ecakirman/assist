@@ -1,3 +1,10 @@
+# [0.928.0](https://github.com/staff0rd/assist/compare/v0.927.1...v0.928.0) (2026-10-29)
+
+
+### Features
+
+* address comments on Azure DevOps PRs ([ebbcca0](https://github.com/staff0rd/assist/commit/ebbcca0898095ab556eeb021716ef56d870f7937))
+
 ## [0.927.1](https://github.com/staff0rd/assist/compare/v0.927.0...v0.927.1) (2026-10-29)
 
 
