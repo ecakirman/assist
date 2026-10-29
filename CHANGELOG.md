@@ -1,3 +1,10 @@
+# [0.931.0](https://github.com/staff0rd/assist/compare/v0.930.0...v0.931.0) (2026-10-29)
+
+
+### Features
+
+* capture docs screenshots on GitHub ([23e3d3f](https://github.com/staff0rd/assist/commit/23e3d3f8be6af2d4aaac694efff11c58af7d881b))
+
 # [0.930.0](https://github.com/staff0rd/assist/compare/v0.929.0...v0.930.0) (2026-10-29)
 
 
