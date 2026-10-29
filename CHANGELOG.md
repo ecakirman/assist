@@ -1,3 +1,10 @@
+## [0.933.1](https://github.com/staff0rd/assist/compare/v0.933.0...v0.933.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* unify high-level review menu label ([ed4cae0](https://github.com/staff0rd/assist/commit/ed4cae0eff8dcfb9a6075560957b09541f6ab64a)), closes [hi#level](https://github.com/hi/issues/level)
+
 # [0.933.0](https://github.com/staff0rd/assist/compare/v0.932.4...v0.933.0) (2026-10-29)
 
 
