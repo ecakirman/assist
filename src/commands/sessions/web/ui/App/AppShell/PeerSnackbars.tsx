@@ -1,6 +1,6 @@
 import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
 import { ErrorSnackbar } from "../../ErrorSnackbar";
+import { Toast } from "../../Toast";
 
 type PeerNotices = {
 	back: string | null;
@@ -14,24 +14,16 @@ export function PeerSnackbars({ notices }: { notices: PeerNotices }) {
 	const { back, clearBack, error, clearError, progress } = notices;
 	return (
 		<>
-			<Snackbar
-				open={Boolean(progress)}
-				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-			>
+			<Toast open={Boolean(progress)}>
 				<Alert severity="info" variant="filled">
 					{progress}
 				</Alert>
-			</Snackbar>
-			<Snackbar
-				open={back !== null}
-				autoHideDuration={6000}
-				onClose={clearBack}
-				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-			>
+			</Toast>
+			<Toast open={back !== null} autoHideDuration={6000} onClose={clearBack}>
 				<Alert severity="success" variant="filled" onClose={clearBack}>
 					{back}
 				</Alert>
-			</Snackbar>
+			</Toast>
 			<ErrorSnackbar error={error} onClose={clearError} />
 		</>
 	);

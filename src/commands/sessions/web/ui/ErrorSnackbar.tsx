@@ -1,5 +1,5 @@
 import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import { Toast } from "./Toast";
 
 type Props = {
 	error: string | null;
@@ -8,15 +8,10 @@ type Props = {
 
 export function ErrorSnackbar({ error, onClose }: Props) {
 	return (
-		<Snackbar
-			open={error !== null}
-			autoHideDuration={8000}
-			onClose={onClose}
-			anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-		>
+		<Toast open={error !== null} autoHideDuration={8000} onClose={onClose}>
 			<Alert severity="error" variant="filled" onClose={onClose}>
 				{error}
 			</Alert>
-		</Snackbar>
+		</Toast>
 	);
 }

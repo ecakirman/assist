@@ -1,5 +1,5 @@
 import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import { Toast } from "../Toast";
 
 export function CommentSentSnackbar({
 	sessionName,
@@ -9,15 +9,14 @@ export function CommentSentSnackbar({
 	onClose: () => void;
 }) {
 	return (
-		<Snackbar
+		<Toast
 			open={sessionName !== null}
 			autoHideDuration={4000}
 			onClose={onClose}
-			anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 		>
 			<Alert severity="success" variant="filled" onClose={onClose}>
 				{`Comment sent to ${sessionName}`}
 			</Alert>
-		</Snackbar>
+		</Toast>
 	);
 }

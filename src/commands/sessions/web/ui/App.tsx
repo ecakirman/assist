@@ -8,6 +8,7 @@ import { useColorMode } from "./App/useColorMode";
 import { createDesignTheme } from "./designSystem/createDesignTheme";
 import { loadFontsBeforeTerminalsOpen } from "./designSystem/loadFontsBeforeTerminalsOpen";
 import { useDesign } from "./designSystem/useDesign";
+import { ToastStack } from "./ToastStack";
 
 function Root() {
 	const { mode, toggle } = useColorMode();
@@ -17,7 +18,9 @@ function Root() {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<AppShell mode={mode} toggle={toggle} toggleDesign={toggleDesign} />
+			<ToastStack>
+				<AppShell mode={mode} toggle={toggle} toggleDesign={toggleDesign} />
+			</ToastStack>
 		</ThemeProvider>
 	);
 }

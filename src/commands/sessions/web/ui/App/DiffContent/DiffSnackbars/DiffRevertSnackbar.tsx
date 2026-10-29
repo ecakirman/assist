@@ -1,5 +1,5 @@
 import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import { Toast } from "../../../Toast";
 
 export function DiffRevertSnackbar({
 	error,
@@ -9,15 +9,10 @@ export function DiffRevertSnackbar({
 	onClose: () => void;
 }) {
 	return (
-		<Snackbar
-			open={error !== null}
-			autoHideDuration={6000}
-			onClose={onClose}
-			anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-		>
+		<Toast open={error !== null} autoHideDuration={6000} onClose={onClose}>
 			<Alert severity="error" variant="filled" onClose={onClose}>
 				{error}
 			</Alert>
-		</Snackbar>
+		</Toast>
 	);
 }

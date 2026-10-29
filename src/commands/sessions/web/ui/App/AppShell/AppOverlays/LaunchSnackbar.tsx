@@ -1,6 +1,6 @@
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
+import { Toast } from "../../../Toast";
 import type { SuccessNotice } from "../../../useNotices";
 
 type Props = {
@@ -12,12 +12,7 @@ type Props = {
 export function LaunchSnackbar({ notice, onClose, onView }: Props) {
 	const sessionId = notice?.sessionId ?? null;
 	return (
-		<Snackbar
-			open={notice !== null}
-			autoHideDuration={6000}
-			onClose={onClose}
-			anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-		>
+		<Toast open={notice !== null} autoHideDuration={6000} onClose={onClose}>
 			<Alert
 				severity="success"
 				variant="filled"
@@ -36,6 +31,6 @@ export function LaunchSnackbar({ notice, onClose, onView }: Props) {
 			>
 				{notice?.message}
 			</Alert>
-		</Snackbar>
+		</Toast>
 	);
 }

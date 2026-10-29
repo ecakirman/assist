@@ -1,6 +1,6 @@
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
-import Snackbar from "@mui/material/Snackbar";
+import { Toast } from "../../../Toast";
 
 export function ReconnectingIndicator({
 	reconnecting,
@@ -8,10 +8,7 @@ export function ReconnectingIndicator({
 	reconnecting: boolean;
 }) {
 	return (
-		<Snackbar
-			open={reconnecting}
-			anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-		>
+		<Toast open={reconnecting}>
 			<Alert
 				severity="info"
 				variant="filled"
@@ -19,6 +16,6 @@ export function ReconnectingIndicator({
 			>
 				Reconnecting…
 			</Alert>
-		</Snackbar>
+		</Toast>
 	);
 }
