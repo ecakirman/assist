@@ -1,3 +1,10 @@
+# [0.934.0](https://github.com/staff0rd/assist/compare/v0.933.2...v0.934.0) (2026-10-29)
+
+
+### Features
+
+* add Slate status bar for version and usage ([549fc9b](https://github.com/staff0rd/assist/commit/549fc9b67dc6dcb4444b3fc8c0691316605487a0))
+
 ## [0.933.2](https://github.com/staff0rd/assist/compare/v0.933.1...v0.933.2) (2026-10-29)
 
 
