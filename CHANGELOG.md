@@ -1,3 +1,11 @@
+## [0.932.2](https://github.com/staff0rd/assist/compare/v0.932.1...v0.932.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* add extension comment screenshot ([4fb8d15](https://github.com/staff0rd/assist/commit/4fb8d15eef10f85cbb39082ba9d4bf28419aa6c9))
+* dismiss reviewed run with Continue off ([940f1c9](https://github.com/staff0rd/assist/commit/940f1c9fa9b2175fac0797c35438eb56f398cb76))
+
 ## [0.932.1](https://github.com/staff0rd/assist/compare/v0.932.0...v0.932.1) (2026-10-29)
 
 
