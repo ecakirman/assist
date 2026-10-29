@@ -1,3 +1,10 @@
+## [0.926.5](https://github.com/staff0rd/assist/compare/v0.926.4...v0.926.5) (2026-10-29)
+
+
+### Bug Fixes
+
+* disable new-session form while loading ([5949057](https://github.com/staff0rd/assist/commit/5949057daa68c2a62b37cac977787570672f5d58))
+
 ## [0.926.4](https://github.com/staff0rd/assist/compare/v0.926.3...v0.926.4) (2026-10-29)
 
 
