@@ -1,3 +1,10 @@
+## [0.932.4](https://github.com/staff0rd/assist/compare/v0.932.3...v0.932.4) (2026-10-29)
+
+
+### Bug Fixes
+
+* remove roam auth and roam config keys ([3248c87](https://github.com/staff0rd/assist/commit/3248c87ba5991c0b4f0c777523fc42d5b766be0c))
+
 ## [0.932.3](https://github.com/staff0rd/assist/compare/v0.932.2...v0.932.3) (2026-10-29)
 
 
