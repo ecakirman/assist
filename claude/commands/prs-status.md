@@ -79,6 +79,7 @@ The panes pop in sequence and no path is handed back until both parts are approv
 
 - **Approved** — stdout names the target, then each approved body's path under `~/.assist/slack/` prefixed with its position (`1/2`, `2/2`). Those files, not the scratch files, are what get posted.
 - **Rejected** — the first rejection halts the batch and exits non-zero naming that part's position, the reason, any inline comments and its working file. Nothing posts. Address every comment, rewrite that working file in place, and re-run the whole batch against the working files. Do not rebuild the overview from scratch — re-run `assist prs status` only if the rejection asks for fresh data. A comment on the summary that also applies to the sections is carried into the reply body too.
+- **Superseded** — the batch was re-run while this preview was pending, which is how to revise a pending preview; never stop the earlier task first. It exits 0 printing `Superseded by a newer preview — no decision; ignore this result.` and posts nothing: ignore it and wait for the newer run.
 
 ## Step 5: Post the thread
 
