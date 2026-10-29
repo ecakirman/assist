@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "assist",
 	"version": "1.0.0",
-	"description": "Brings assist to GitHub: edit an issue's acceptance criteria as an outline, and send a comment, PR or issue to assist to start a session. Checks out Azure DevOps PRs and addresses their comments. Sends feedback on selected text in a local assist docs preview.",
+	"description": "Brings assist to GitHub: edit an issue's acceptance criteria as an outline, and send a comment, PR or issue to assist to start a session. Checks out Azure DevOps PRs and addresses their comments. Sends feedback on a local assist docs preview.",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "assist@staff0rd.github.io",
