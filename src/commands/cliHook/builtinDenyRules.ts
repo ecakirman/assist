@@ -60,38 +60,20 @@ const CLOSE_WITH_COMMENT_MESSAGE =
 	"Do not post a comment through 'gh issue close', 'gh issue reopen' or 'gh pr close' with --comment/-c — it goes to GitHub without the approval pane. Post the comment first with 'assist github issue comment <number> --body <body> [-R <owner>/<repo>]', which validates it and gates it on the user's approval, then run the same close/reopen without --comment.";
 
 const CLOSE_WITH_COMMENT_REGEX =
-	/(?<=^|\s)gh\s+(?:issue\s+(?:close|reopen)|pr\s+close)(?=\s|$)[^;&|\n]*?\s(?:--comment(?=[\s=]|$)|-c)/;
-
-const COMMAND_BOUNDARY = String.raw`(?<=(?:^|[;&|(\n])\s*)`;
+	/gh (?:issue (?:close|reopen)|pr close)[^;&|]*? (?:--comment|-c)/;
 
 const BRANCH_CREATION_REGEXES: RegExp[] = [
-	new RegExp(
-		COMMAND_BOUNDARY + String.raw`git\s+(?:checkout|co)\s+-[bB](?=\s|$)`,
-	),
-	new RegExp(
-		COMMAND_BOUNDARY + String.raw`git\s+switch\s+(?:-[cC]|--create)(?=\s|$)`,
-	),
-	new RegExp(COMMAND_BOUNDARY + String.raw`git\s+branch\s+(?!-)\S`),
+	/git (?:checkout|co) -[bB]/,
+	/git switch (?:-[cC]|--create)/,
+	/git branch [^-\s;&|)]/,
 ];
 
-function anywhereTokenSequenceRegex(pattern: string): RegExp {
-	const tokens = pattern
-		.trim()
-		.split(/\s+/)
-		.map((token) => token.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`))
-		.join(String.raw`\s+`);
-	return new RegExp(`(?<=^|\\s)${tokens}(?=\\s|$)`);
-}
-
 export const builtinDenyRules: BuiltinDenyRule[] = [
-	...PATTERN_DENIES.map((rule) => {
-		const regex = anywhereTokenSequenceRegex(rule.pattern);
-		return {
-			message: rule.message,
-			matches: (text: string) => regex.test(text),
-			enabled: rule.enabled,
-		};
-	}),
+	...PATTERN_DENIES.map((rule) => ({
+		message: rule.message,
+		matches: (text: string) => text.includes(rule.pattern),
+		enabled: rule.enabled,
+	})),
 	...BRANCH_CREATION_REGEXES.map((regex) => ({
 		message: BRANCH_CREATION_MESSAGE,
 		matches: (text: string) => regex.test(text),

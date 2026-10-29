@@ -252,8 +252,10 @@ describe("findBuiltinDeny git commit", () => {
 		expect(decision?.permissionDecisionReason).toContain("assist commit");
 	});
 
-	it("does not deny 'git commit-tree'", () => {
-		expect(findBuiltinDeny(["git commit-tree abc"])).toBeUndefined();
+	it("denies 'git commit' as a plain substring, even of 'git commit-tree'", () => {
+		expect(findBuiltinDeny(["git commit-tree abc"])?.permissionDecision).toBe(
+			"deny",
+		);
 	});
 
 	it("does not deny 'assist commit'", () => {
@@ -395,18 +397,16 @@ describe("findBuiltinDeny branch creation", () => {
 		expect(findBuiltinDeny(["git switch main"])).toBeUndefined();
 	});
 
-	it("does not deny a branch-creation phrase inside a quoted argument", () => {
-		expect(
-			findBuiltinDeny([
-				'assist backlog draft --name "git checkout -b for a new feature"',
-			]),
-		).toBeUndefined();
-		expect(
-			findBuiltinDeny(['echo "explain git switch -c usage"']),
-		).toBeUndefined();
-		expect(
-			findBuiltinDeny(['echo "run git branch feature-x to create it"']),
-		).toBeUndefined();
+	it("denies a branch-creation phrase even inside a quoted argument", () => {
+		for (const command of [
+			'assist backlog draft --name "git checkout -b for a new feature"',
+			'echo "explain git switch -c usage"',
+			'echo "run git branch feature-x to create it"',
+		]) {
+			expect(findBuiltinDeny([command])?.permissionDecision, command).toBe(
+				"deny",
+			);
+		}
 	});
 
 	it("still denies genuine branch creation after a command boundary", () => {

@@ -70,8 +70,10 @@ describe("built-in gh pr create deny", () => {
 		).toBeUndefined();
 	});
 
-	it("does not deny commands merely containing the words", () => {
-		expect(findDeny("Bash", ["echo gh pr created"])).toBeUndefined();
+	it("denies commands merely containing the phrase", () => {
+		expect(findDeny("Bash", ["echo gh pr created"])?.permissionDecision).toBe(
+			"deny",
+		);
 	});
 });
 
@@ -105,7 +107,6 @@ describe("built-in git commit deny", () => {
 	});
 
 	it("does not deny other git sub-commands", () => {
-		expect(findDeny("Bash", ["git commit-tree"])).toBeUndefined();
 		expect(findDeny("Bash", ["git status"])).toBeUndefined();
 	});
 

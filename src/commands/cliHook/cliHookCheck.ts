@@ -19,11 +19,11 @@ function reportDeny(toolName: string, parts: string[]): boolean {
 
 export function cliHookCheck(command: string, toolName = "Bash"): void {
 	const trimmed = command.trim();
+	if (reportDecision(findBuiltinDenyRaw(trimmed))) return;
 	const result = splitCompound(trimmed);
 
 	if (!result.ok) {
 		if (reportDecision(findRestrictedPathDenyRaw(trimmed))) return;
-		if (reportDecision(findBuiltinDenyRaw(trimmed))) return;
 		if (reportDecision(findTruncatedReadDenyRaw(trimmed))) return;
 		if (reportDeny(toolName, [trimmed])) return;
 		console.log(`not approved (${result.error})`);

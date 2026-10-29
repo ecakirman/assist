@@ -125,12 +125,12 @@ describe("isGhIssueApiWrite reads and other endpoints", () => {
 		).toBe(false);
 	});
 
-	it("does not carry a write method across a command boundary", () => {
+	it("judges the whole command, ignoring command boundaries", () => {
 		expect(
 			isGhIssueApiWrite(
 				"gh api repos/acme/widgets/issues/180 && curl -X PATCH elsewhere",
 			),
-		).toBe(false);
+		).toBe(true);
 	});
 });
 

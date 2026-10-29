@@ -12,11 +12,12 @@ export function decideCommand(
 	toolName: string,
 	rawCommand: string,
 ): HookDecision | undefined {
+	const builtinDeny = findBuiltinDenyRaw(rawCommand);
+	if (builtinDeny) return builtinDeny;
 	const result = splitCompound(rawCommand);
 	if (result.ok) return resolvePermission(toolName, result.parts);
 	return (
 		findRestrictedPathDenyRaw(rawCommand) ??
-		findBuiltinDenyRaw(rawCommand) ??
 		findTruncatedReadDenyRaw(rawCommand) ??
 		findDeny(toolName, [rawCommand])
 	);

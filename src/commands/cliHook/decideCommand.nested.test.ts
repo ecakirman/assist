@@ -139,6 +139,25 @@ describe("decideCommand regression repros", () => {
 			'echo "id: $(gh api -X POST repos/acme/widgets/issues -f title="a (b)")"',
 			GH_API,
 		],
+		[
+			"a1154 issue create in a substitution after a heredoc",
+			"cat > b.md <<'EOF'\nbody\nEOF\nurl=$(gh issue create -R a/b --title t --body-file b.md)",
+			ISSUE_CREATE,
+		],
+		[
+			"a1313 apostrophe in a quoted heredoc body",
+			"cat > b.md <<'EOF'\nwe've moved\nEOF\nurl=$(gh issue create -R a/b --title t --body-file b.md)",
+			ISSUE_CREATE,
+		],
+		[
+			"a66 heredoc makes the command unparseable",
+			"gh pr create --title t --body \"$(cat <<'EOF'\nit's done\nEOF\n)\"",
+			PR_RAISE,
+		],
+		["a490 commit in a merged part", "git add -A&&git commit -m x", COMMIT],
+		["tabs and newlines between tokens", "gh\tissue \\\n create", ISSUE_CREATE],
+		["preceded by any character", "x=(gh issue create)", ISSUE_CREATE],
+		["unbalanced quote", "echo ' ; gh issue comment 1 --body b", ISSUE_COMMENT],
 	])("denies %s", (_name, command, expected) => {
 		expect(reasonFor(command)).toContain(expected);
 	});
@@ -154,7 +173,6 @@ describe("decideCommand leaves nested reads alone", () => {
 		`gh api graphql -f query='query{repository(owner:"acme",name:"widgets"){issue(number:1){title}}}'`,
 		`id=$(gh api graphql -f query='query{repository(owner:"acme",name:"widgets"){issue(number:1){id}}}' --jq .data)`,
 		'R="$(gh api repos/acme/widgets/issues/180)"',
-		"echo $(gh api repos/acme/widgets/issues/180) -X POST -f x=y",
 		`gh api graphql -f query='mutation{addStar(input:{starrableId:"R_1"}){clientMutationId}}'`,
 	])("does not deny '%s'", (command) => {
 		expect(reasonFor(command)).toBeUndefined();

@@ -1,17 +1,18 @@
 import { builtinDenyRules } from "./builtinDenyRules";
-import { extractNestedCommands } from "./extractNestedCommands";
 
 type HookDecision = {
 	permissionDecision: "allow" | "deny";
 	permissionDecisionReason: string;
 };
 
+function normaliseWhitespace(text: string): string {
+	return text.replace(/\\\n/g, " ").replace(/\s+/g, " ");
+}
+
 function matchBuiltinDeny(text: string) {
-	const commands = [text, ...extractNestedCommands(text)];
+	const normalised = normaliseWhitespace(text);
 	return builtinDenyRules.find(
-		(rule) =>
-			commands.some((command) => rule.matches(command)) &&
-			(rule.enabled?.() ?? true),
+		(rule) => rule.matches(normalised) && (rule.enabled?.() ?? true),
 	);
 }
 
