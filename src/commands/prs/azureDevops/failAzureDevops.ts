@@ -7,6 +7,6 @@ function errorOutput(error: unknown): string {
 }
 
 export function failAzureDevops(error: unknown): never {
-	console.error(`Error: ${azCliProblem() ?? errorOutput(error)}`);
+	console.error(`Error: ${azCliProblem(error) ?? errorOutput(error)}`);
 	process.exit(1);
 }

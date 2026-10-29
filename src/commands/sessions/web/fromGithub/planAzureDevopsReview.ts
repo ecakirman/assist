@@ -1,5 +1,6 @@
 import { isAllowedAzureDevopsPrArgs } from "../../../../shared/azureDevops/isAllowedAzureDevopsPrArgs";
 import type { AzureDevopsPr } from "../../../../shared/azureDevops/parseAzureDevopsPrUrl";
+import { azureDevopsRepoUrl } from "../../../prs/azureDevops/azureDevopsRepoUrl";
 import { findAzureDevopsClone } from "./findAzureDevopsClone";
 import type { GithubPlanError } from "./resolveGithubClone";
 
@@ -19,7 +20,7 @@ export function planAzureDevopsReview(
 		return {
 			ok: false,
 			status: 404,
-			error: `${pr.org}/${pr.project}/${pr.repo} is not cloned under ${baseDir}`,
+			error: `${pr.org}/${pr.project}/${pr.repo} is not cloned under ${baseDir}; clone ${azureDevopsRepoUrl(pr)} there and retry`,
 		};
 	return { ok: true, cwd, assistArgs: [...args, pr.id] };
 }

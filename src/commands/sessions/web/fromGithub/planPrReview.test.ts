@@ -54,8 +54,21 @@ describe("planPrReview", () => {
 		expect(planPrReview({ url: URL, args: CHECKOUT }, "/base")).toEqual({
 			ok: false,
 			status: 404,
-			error: "acme/proj/site is not cloned under /base",
+			error:
+				"acme/proj/site is not cloned under /base; clone https://dev.azure.com/acme/proj/_git/site there and retry",
 		});
+	});
+
+	it.each([
+		["https://dev.azure.com/acme/proj/_git/site/pullrequests"],
+		["https://acme.visualstudio.com/proj/_git/site"],
+	])("reports 400 for an Azure DevOps URL that is not a PR: %s", (url) => {
+		expect(planPrReview({ url, args: CHECKOUT }, "/base")).toMatchObject({
+			ok: false,
+			status: 400,
+			error: expect.stringContaining(`Not an Azure DevOps PR URL: ${url}`),
+		});
+		expect(planGithubReview).not.toHaveBeenCalled();
 	});
 
 	it("hands GitHub URLs to planGithubReview", () => {

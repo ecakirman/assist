@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { azFailureProblem, azProblems } from "./azFailureProblem";
 
 function runAz(args: string[]): "ok" | "missing" | "failed" {
 	try {
@@ -11,12 +12,12 @@ function runAz(args: string[]): "ok" | "missing" | "failed" {
 	}
 }
 
-export function azCliProblem(): string | null {
-	if (runAz(["version"]) === "missing")
-		return "Azure CLI (az) not found; install it (https://aka.ms/azure-cli) and run az login.";
+export function azCliProblem(error?: unknown): string | null {
+	const fromFailure = error === undefined ? null : azFailureProblem(error);
+	if (fromFailure) return fromFailure;
+	if (runAz(["version"]) === "missing") return azProblems.missing;
 	if (runAz(["extension", "show", "--name", "azure-devops"]) !== "ok")
-		return "The azure-devops az extension is not installed; run az extension add --name azure-devops.";
-	if (runAz(["account", "show"]) !== "ok")
-		return "az is not logged in; run az login.";
+		return azProblems.extension;
+	if (runAz(["account", "show"]) !== "ok") return azProblems.login;
 	return null;
 }
