@@ -1,3 +1,10 @@
+## [0.935.1](https://github.com/staff0rd/assist/compare/v0.935.0...v0.935.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* skip git for origin outside a repo ([13aa43b](https://github.com/staff0rd/assist/commit/13aa43b9d5a59e30a48695b4f442e0e15d27c0c2))
+
 # [0.935.0](https://github.com/staff0rd/assist/compare/v0.934.5...v0.935.0) (2026-10-29)
 
 
