@@ -1,3 +1,10 @@
+## [0.927.1](https://github.com/staff0rd/assist/compare/v0.927.0...v0.927.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* npm ci when package-lock.json exists ([da4eb4e](https://github.com/staff0rd/assist/commit/da4eb4e78c386a2e125287e40bb50d8409ff858c))
+
 # [0.927.0](https://github.com/staff0rd/assist/compare/v0.926.6...v0.927.0) (2026-10-29)
 
 
