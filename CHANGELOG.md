@@ -1,3 +1,10 @@
+# [0.930.0](https://github.com/staff0rd/assist/compare/v0.929.0...v0.930.0) (2026-10-29)
+
+
+### Features
+
+* link extension for assist browser ([89cd3ab](https://github.com/staff0rd/assist/commit/89cd3ab08d55fb89495c7ed7860f42f061b7176c))
+
 # [0.929.0](https://github.com/staff0rd/assist/compare/v0.928.0...v0.929.0) (2026-10-29)
 
 
