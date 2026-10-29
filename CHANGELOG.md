@@ -1,3 +1,10 @@
+## [0.934.1](https://github.com/staff0rd/assist/compare/v0.934.0...v0.934.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* keep focus in open modal dialogs ([0fe3f1e](https://github.com/staff0rd/assist/commit/0fe3f1e12d71d78b9342d488b717887fead4a6e7))
+
 # [0.934.0](https://github.com/staff0rd/assist/compare/v0.933.2...v0.934.0) (2026-10-29)
 
 
