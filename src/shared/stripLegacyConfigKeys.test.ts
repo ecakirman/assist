@@ -69,6 +69,22 @@ describe("stripLegacyConfigKeys", () => {
 		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
 	});
 
+	it("drops the retired roam OAuth block so old configs still parse", () => {
+		const stripped = stripLegacyConfigKeys({
+			worktree: { enabled: true },
+			roam: {
+				clientId: "id",
+				clientSecret: "secret",
+				accessToken: "access",
+				refreshToken: "refresh",
+				tokenExpiresAt: 1234,
+			},
+		});
+
+		expect(stripped).toEqual({ worktree: { enabled: true } });
+		expect(assistConfigSchema.safeParse(stripped).success).toBe(true);
+	});
+
 	it("drops retired keys inside repos entries so old global configs still parse", () => {
 		const stripped = stripLegacyConfigKeys({
 			repos: {

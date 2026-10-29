@@ -1259,30 +1259,32 @@ describe("ConfigView", () => {
 		stubUnsetApi(
 			[
 				{
-					key: "roam.clientId",
+					key: "transcript.vttDir",
 					type: "string",
-					value: "id",
+					value: "vtt",
 					source: "project",
-					node: node("roam.clientId"),
+					node: node("transcript.vttDir"),
 				},
 			],
 			undefined,
 			{
 				ok: false,
 				status: 400,
-				body: { error: "roam: clientSecret requires clientId" },
+				body: { error: "transcript.vttDir: Required" },
 			},
 		);
 		renderView();
 
-		await waitFor(() => expect(screen.getByText("roam.clientId")).toBeTruthy());
-		fireEvent.click(screen.getByRole("button", { name: "Edit roam.clientId" }));
+		await waitFor(() =>
+			expect(screen.getByText("transcript.vttDir")).toBeTruthy(),
+		);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Edit transcript.vttDir" }),
+		);
 		clearAndConfirm();
 
 		await waitFor(() =>
-			expect(
-				screen.getByText("roam: clientSecret requires clientId"),
-			).toBeTruthy(),
+			expect(screen.getByText("transcript.vttDir: Required")).toBeTruthy(),
 		);
 		expect(screen.getByRole("button", { name: "Clear" })).toBeTruthy();
 	});
@@ -1463,12 +1465,12 @@ describe("ConfigView", () => {
 				node: node("database.url"),
 			},
 			{
-				key: "roam.clientSecret",
+				key: "litellm.apiKey",
 				type: "string",
 				secret: true,
 				value: undefined,
 				source: "default",
-				node: node("roam.clientSecret"),
+				node: node("litellm.apiKey"),
 			},
 		]);
 		renderView();

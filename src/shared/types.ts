@@ -114,15 +114,6 @@ const assistConfigShape = {
 			acField: z.string().default("customfield_11937"),
 		})
 		.optional(),
-	roam: z
-		.strictObject({
-			clientId: secretConfigValue(z.string()),
-			clientSecret: secretConfigValue(z.string()),
-			accessToken: secretConfigValue(z.string()).optional(),
-			refreshToken: secretConfigValue(z.string()).optional(),
-			tokenExpiresAt: z.number().optional(),
-		})
-		.optional(),
 	slack: z
 		.strictObject({
 			channel: z.string().optional(),

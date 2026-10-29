@@ -397,7 +397,7 @@ describe("configSet", () => {
 				.spyOn(process, "exit")
 				.mockImplementation(() => undefined as never);
 
-			configSet("roam.clientSecret", "hunter2", { global: true });
+			configSet("sql.connections[0].password", "hunter2", { global: true });
 
 			expect(mockExit).toHaveBeenCalledWith(1);
 			expect(mockError.mock.calls.flat().join("\n")).not.toContain("hunter2");

@@ -47,13 +47,13 @@ describe("redactConfigSecrets", () => {
 	it("carries no trace of the value in its JSON form", () => {
 		const json = JSON.stringify(
 			redactConfigSecrets(
-				{ clientId: "id", clientSecret: "shh", tokenExpiresAt: 1234 },
-				nodeAt("roam"),
+				{ baseUrl: "https://litellm", apiKey: "shh" },
+				nodeAt("litellm"),
 			),
 		);
 
 		expect(json).not.toContain("shh");
-		expect(json).toContain("1234");
+		expect(json).toContain("https://litellm");
 	});
 });
 

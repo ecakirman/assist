@@ -244,13 +244,17 @@ describe("configUnset", () => {
 	describe("when the result fails validation", () => {
 		it("should exit non-zero without writing", () => {
 			mockLoadProjectConfig.mockReturnValue({
-				roam: { clientId: "id", clientSecret: "secret" },
+				transcript: {
+					vttDir: "vtt",
+					transcriptsDir: "transcripts",
+					summaryDir: "summaries",
+				},
 			});
 			const mockExit = vi
 				.spyOn(process, "exit")
 				.mockImplementation(() => undefined as never);
 
-			configUnset("roam.clientId");
+			configUnset("transcript.vttDir");
 
 			expect(mockExit).toHaveBeenCalledWith(1);
 			expect(mockSaveConfig).not.toHaveBeenCalled();

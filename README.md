@@ -364,7 +364,6 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 - `assist vscode init` - Add VS Code configuration files
 - `assist deploy init` - Initialize Netlify project and configure deployment
 - `assist deploy redirect` - Add trailing slash redirect script to index.html
-- `assist roam auth` - Authenticate with Roam via OAuth
 - `assist roam show-claude-code-icon` - Forward Claude Code hook activity to Roam local API
 
 ### Complexity

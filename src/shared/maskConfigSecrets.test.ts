@@ -30,8 +30,7 @@ describe("secret markers", () => {
 
 	it("marks optional and top-level secret scalars", () => {
 		expect(nodeAt("database.url")?.secret).toBe(true);
-		expect(nodeAt("roam.accessToken")?.secret).toBe(true);
-		expect(nodeAt("roam.clientSecret")?.secret).toBe(true);
+		expect(nodeAt("litellm.apiKey")?.secret).toBe(true);
 	});
 
 	it("leaves non-credential fields unmarked", () => {

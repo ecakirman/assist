@@ -215,7 +215,7 @@ describe("readConfigEntries", () => {
 
 	it("leaves an unset secret without a value so it reads as not set", () => {
 		expect(entryFor("database.url").value).toBeUndefined();
-		expect(entryFor("roam.clientSecret").value).toBeUndefined();
+		expect(entryFor("litellm.apiKey").value).toBeUndefined();
 	});
 
 	it("withholds a secret nested in an array of objects and keeps its siblings", () => {

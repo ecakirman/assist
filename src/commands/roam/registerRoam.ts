@@ -1,7 +1,4 @@
 import type { Command } from "commander";
-import { configHelp } from "../../shared/configHelp";
-import { auth } from "./auth";
-import { roamConfigHelp } from "./roamConfigHelp";
 import { showClaudeCodeIcon } from "./showClaudeCodeIcon";
 import { showCodexIcon } from "./showCodexIcon";
 import { stopClaudeCodeIcon } from "./stopClaudeCodeIcon";
@@ -11,11 +8,6 @@ export function registerRoam(program: Command): void {
 	const roamCommand = program
 		.command("roam")
 		.description("Roam Research utilities");
-
-	roamCommand
-		.command("auth")
-		.description("Configure Roam API credentials")
-		.action(auth);
 
 	roamCommand
 		.command("show-claude-code-icon")
@@ -36,6 +28,4 @@ export function registerRoam(program: Command): void {
 		.command("stop-codex-icon")
 		.description("Signal Codex session stop to Roam local API")
 		.action(stopCodexIcon);
-
-	configHelp(roamCommand, roamConfigHelp);
 }

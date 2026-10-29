@@ -34,6 +34,8 @@ import { seedRepoConfigs } from "../../../test/mothers/seedRepoConfigs";
 import { unsetConfig } from "./unsetConfig";
 
 const root = join(tmpdir(), "assist-unset-config-test");
+const TRANSCRIPT_YAML =
+	"transcript:\n  vttDir: vtt\n  transcriptsDir: transcripts\n  summaryDir: summaries\n";
 const paths = {
 	root,
 	repo: join(root, "repo"),
@@ -133,22 +135,17 @@ describe("unsetConfig", () => {
 	});
 
 	it("rejects a result the schema refuses and leaves the file untouched", async () => {
-		writeFileSync(
-			paths.repoConfig,
-			"roam:\n  clientId: id\n  clientSecret: secret\n",
-		);
+		writeFileSync(paths.repoConfig, TRANSCRIPT_YAML);
 
 		const [status, payload] = await post({
-			key: "roam.clientId",
+			key: "transcript.vttDir",
 			cwd: paths.repo,
 			scope: "project",
 		});
 
 		expect(status).toBe(400);
-		expect(payload.errors).toEqual([expect.stringContaining("roam")]);
-		expect(readFileSync(paths.repoConfig, "utf8")).toBe(
-			"roam:\n  clientId: id\n  clientSecret: secret\n",
-		);
+		expect(payload.errors).toEqual([expect.stringContaining("transcript")]);
+		expect(readFileSync(paths.repoConfig, "utf8")).toBe(TRANSCRIPT_YAML);
 	});
 
 	it("rejects an unknown key", async () => {

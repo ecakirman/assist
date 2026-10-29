@@ -61,14 +61,14 @@ describe("isApprovedRead", () => {
 
 	describe("when the command reveals a config secret", () => {
 		it("should approve a masked config read", () => {
-			const result = isApprovedRead("assist config get roam.clientSecret");
+			const result = isApprovedRead("assist config get litellm.apiKey");
 
 			expect(result).toBe("Read-only CLI command: assist config get");
 		});
 
 		it("should not approve the same read with --reveal", () => {
 			const result = isApprovedRead(
-				"assist config get roam.clientSecret --reveal",
+				"assist config get litellm.apiKey --reveal",
 			);
 
 			expect(result).toBeUndefined();

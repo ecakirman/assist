@@ -23,7 +23,6 @@ import { readTimeConfigHelp } from "./readTime/readTimeConfigHelp";
 import { refactorConfigHelp } from "./refactor/refactorConfigHelp";
 import { releasesConfigHelp } from "./releases/releasesConfigHelp";
 import { reviewConfigHelp } from "./review/reviewConfigHelp";
-import { roamConfigHelp } from "./roam/roamConfigHelp";
 import { rootConfigHelp } from "./rootConfigHelp";
 import { runConfigHelp } from "./run/runConfigHelp";
 import { seqConfigHelp } from "./seq/seqConfigHelp";
@@ -62,7 +61,6 @@ export const configHelpEntries: ConfigHelpEntry[] = [
 	...refactorConfigHelp,
 	...releasesConfigHelp,
 	...reviewConfigHelp,
-	...roamConfigHelp,
 	...runConfigHelp,
 	...seqConfigHelp,
 	...sessionsConfigHelp,

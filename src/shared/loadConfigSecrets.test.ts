@@ -41,9 +41,8 @@ describe("loadConfigFrom with secret values", () => {
 				"    - name: prod",
 				"      url: https://seq",
 				"      apiToken: t0ken",
-				"roam:",
-				"  clientId: cid",
-				"  clientSecret: csecret",
+				"litellm:",
+				"  apiKey: lkey",
 				"",
 			].join("\n"),
 		);
@@ -53,6 +52,6 @@ describe("loadConfigFrom with secret values", () => {
 		expect(config.database?.url).toBe("postgres://user:pass@host/db");
 		expect(config.sql?.connections[0]?.password).toBe("hunter2");
 		expect(config.seq?.connections[0]?.apiToken).toBe("t0ken");
-		expect(config.roam?.clientSecret).toBe("csecret");
+		expect(config.litellm?.apiKey).toBe("lkey");
 	});
 });
