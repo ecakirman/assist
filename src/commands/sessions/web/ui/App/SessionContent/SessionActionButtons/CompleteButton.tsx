@@ -52,6 +52,7 @@ export function CompleteButton({
 						title={`Mark ${formatItemId(itemId)} done`}
 						message={`${phase ?? 0} of ${totalPhases ?? 0} phases completed. Mark this backlog item as done and end its session?`}
 						confirmLabel="Mark done"
+						autoFocusConfirm
 						onConfirm={handleConfirm}
 						onCancel={() => setConfirming(false)}
 					/>
