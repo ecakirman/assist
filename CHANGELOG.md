@@ -1,3 +1,10 @@
+## [0.932.3](https://github.com/staff0rd/assist/compare/v0.932.2...v0.932.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* dismiss paused run with Continue off ([03865a5](https://github.com/staff0rd/assist/commit/03865a5641c8dffe1d7dd08ac4e5634d1b425d4a))
+
 ## [0.932.2](https://github.com/staff0rd/assist/compare/v0.932.1...v0.932.2) (2026-10-29)
 
 
