@@ -1,3 +1,11 @@
+## [0.934.3](https://github.com/staff0rd/assist/compare/v0.934.2...v0.934.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* enlarge Slate type scale ([08d2743](https://github.com/staff0rd/assist/commit/08d2743c1a60c9812a7349c4d87c42bc234697bf))
+* stack web UI toasts instead of overlap ([0853abe](https://github.com/staff0rd/assist/commit/0853abe486e820e9e55ebbb43c273bab94f89dda))
+
 ## [0.934.2](https://github.com/staff0rd/assist/compare/v0.934.1...v0.934.2) (2026-10-29)
 
 
