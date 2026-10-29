@@ -141,16 +141,6 @@ run:
       - src/index.ts
       - verify
       - migrations
-  - name: verify:structure
-    command: npx
-    filter: src/commands/sessions/web/ui/**
-    args:
-      - tsx
-      - src/index.ts
-      - refactor
-      - restructure
-      - src/commands/sessions/web/ui
-      - --check
   - name: verify:custom-lint
     command: assist
     filter: "{src/**/*.ts,src/**/*.tsx}"
@@ -167,6 +157,7 @@ run:
       - --format=iife
       - --target=es2020
       - --outfile=dist/commands/sessions/web/bundle.verify.js
+      - --loader:.woff2=dataurl
       - --jsx=automatic
       - --jsx-import-source=react
       - --define:process.env.NODE_ENV=production

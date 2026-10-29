@@ -1,4 +1,3 @@
-import type { PaletteMode } from "@mui/material";
 import { type RefObject, useRef } from "react";
 import type { Ownership } from "../Ownership";
 import type { ResizeFn } from "../../../../../../ResizeFn";
@@ -7,13 +6,15 @@ import { maySizeSession } from "./useTerminal/maySizeSession";
 import { pressHandler } from "./useTerminal/pressHandler";
 import { useFitWhenVisible } from "./useTerminal/useFitWhenVisible";
 import { useMountTerminal } from "./useTerminal/useMountTerminal";
+import { useRefitOnFontChange } from "./useTerminal/useRefitOnFontChange";
 import { useTakeOver } from "./useTerminal/useTakeOver";
+import type { TerminalLook } from "./useTerminal/terminalTheme";
 
 type TerminalOptions = {
 	visible: boolean;
 	ownership: Ownership;
 	ended: boolean;
-	mode: PaletteMode;
+	look: TerminalLook;
 	sendInput: (sessionId: string, data: string) => void;
 	onOutput: (sessionId: string, handler: (data: string) => void) => () => void;
 	sendResize: ResizeFn;
@@ -26,7 +27,7 @@ export function useTerminal(
 		visible,
 		ownership,
 		ended,
-		mode,
+		look,
 		sendInput,
 		onOutput,
 		sendResize,
@@ -49,7 +50,7 @@ export function useTerminal(
 		sendResize,
 		staleRef,
 		mayResize: mayResizeRef.current,
-		mode,
+		look,
 	});
 
 	const refs = { containerRef, handleRef, staleRef };
@@ -65,5 +66,6 @@ export function useTerminal(
 		{ visible, ownership },
 		sendResize,
 	);
+	useRefitOnFontChange(look, visible, fit);
 	return pressHandler(ownership, takeOver, fit);
 }

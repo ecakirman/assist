@@ -1,10 +1,11 @@
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import type { Ownership } from "./Ownership";
 import type { ResizeFn } from "../../../../../ResizeFn";
 import { TakeOverOverlay } from "./TerminalPane/TakeOverOverlay";
 import { useTerminal } from "./TerminalPane/useTerminal";
+import { terminalTheme } from "./TerminalPane/useTerminal/terminalTheme";
 
 export function TerminalPane({
 	sessionId,
@@ -26,13 +27,14 @@ export function TerminalPane({
 	sendResize: ResizeFn;
 }) {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const { mode } = useTheme().palette;
+	const { tokens } = useTheme();
+	const look = useMemo(() => terminalTheme(tokens), [tokens]);
 	const inactive = ownership === "other";
 	const onPress = useTerminal(containerRef, sessionId, {
 		visible,
 		ownership,
 		ended,
-		mode,
+		look,
 		sendInput,
 		onOutput,
 		sendResize,

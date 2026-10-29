@@ -1,4 +1,3 @@
-import type { PaletteMode } from "@mui/material";
 import type { ResizeFn } from "../../../../../../../ResizeFn";
 import { createTerminal, type TerminalHandle } from "./createTerminal";
 import { fitTerminal } from "./fitTerminal";
@@ -6,6 +5,7 @@ import { handleClipboardKey } from "./setupTerminal/handleClipboardKey";
 import { hasTerminalSize } from "./hasTerminalSize";
 import { isAppHotkey } from "./setupTerminal/isAppHotkey";
 import { observeSettledResize } from "./setupTerminal/observeSettledResize";
+import type { TerminalLook } from "./terminalTheme";
 
 type TerminalIo = {
 	sendInput: (sessionId: string, data: string) => void;
@@ -13,7 +13,7 @@ type TerminalIo = {
 	sendResize: ResizeFn;
 	isStale: () => boolean;
 	mayResize: () => boolean;
-	mode: PaletteMode;
+	look: TerminalLook;
 };
 
 export type SessionTerminal = TerminalHandle & { replayOutput: () => void };
@@ -21,9 +21,9 @@ export type SessionTerminal = TerminalHandle & { replayOutput: () => void };
 export function setupTerminal(
 	el: HTMLElement,
 	sessionId: string,
-	{ sendInput, onOutput, sendResize, isStale, mayResize, mode }: TerminalIo,
+	{ sendInput, onOutput, sendResize, isStale, mayResize, look }: TerminalIo,
 ): { handle: SessionTerminal; cleanup: () => void } {
-	const terminal = createTerminal(el, mode);
+	const terminal = createTerminal(el, look);
 	const subscribe = () =>
 		onOutput(sessionId, (data) => {
 			if (!isStale()) terminal.term.write(data);

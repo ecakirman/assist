@@ -1,4 +1,5 @@
 import KeyboardIcon from "@mui/icons-material/Keyboard";
+import PaletteIcon from "@mui/icons-material/Palette";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import Divider from "@mui/material/Divider";
@@ -13,6 +14,7 @@ type HamburgerMenuHandlers = {
 	restartLabel: string;
 	updateLabel: string;
 	onToggleColorMode: () => void;
+	onToggleDesign: () => void;
 	onShowShortcuts: () => void;
 	onRestart: () => void;
 	onUpdate: () => void;
@@ -23,6 +25,7 @@ export function hamburgerMenuItems({
 	restartLabel,
 	updateLabel,
 	onToggleColorMode,
+	onToggleDesign,
 	onShowShortcuts,
 	onRestart,
 	onUpdate,
@@ -33,6 +36,12 @@ export function hamburgerMenuItems({
 				<ColorModeIcon mode={mode} />
 			</ListItemIcon>
 			<ListItemText>Toggle dark mode</ListItemText>
+		</MenuItem>,
+		<MenuItem key="design" onClick={onToggleDesign}>
+			<ListItemIcon>
+				<PaletteIcon fontSize="small" />
+			</ListItemIcon>
+			<ListItemText>Toggle Slate design</ListItemText>
 		</MenuItem>,
 		<RenderHudMenuItem key="render-hud" />,
 		<MenuItem key="shortcuts" onClick={onShowShortcuts}>

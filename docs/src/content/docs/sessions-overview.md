@@ -71,7 +71,7 @@ From left to right:
 
 Every shortcut can be changed, see [Keyboard shortcuts](../sessions-keyboard/).
 
-The menu has **Toggle dark mode**, **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting.
+The menu has **Toggle dark mode**, **Toggle Slate design** (switches between the classic look and the new Slate look, remembered per browser), **Show render HUD**, **Keyboard shortcuts**, **Restart daemon** and **Update assist**. Restart and update both ask before acting.
 
 ::screenshot{file="sessions-menu.png"}
 

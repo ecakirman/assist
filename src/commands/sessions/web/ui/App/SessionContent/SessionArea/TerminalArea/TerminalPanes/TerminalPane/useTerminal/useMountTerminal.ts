@@ -1,7 +1,7 @@
-import type { PaletteMode } from "@mui/material";
 import { type RefObject, useEffect, useRef } from "react";
 import type { ResizeFn } from "../../../../../../../ResizeFn";
 import { type SessionTerminal, setupTerminal } from "./setupTerminal";
+import type { TerminalLook } from "./terminalTheme";
 import { useTerminalTheme } from "./useMountTerminal/useTerminalTheme";
 
 type MountIo = {
@@ -10,17 +10,17 @@ type MountIo = {
 	sendResize: ResizeFn;
 	staleRef: RefObject<boolean>;
 	mayResize: () => boolean;
-	mode: PaletteMode;
+	look: TerminalLook;
 };
 
 export function useMountTerminal(
 	containerRef: RefObject<HTMLDivElement | null>,
 	sessionId: string,
-	{ sendInput, onOutput, sendResize, staleRef, mayResize, mode }: MountIo,
+	{ sendInput, onOutput, sendResize, staleRef, mayResize, look }: MountIo,
 ): RefObject<SessionTerminal | null> {
 	const handleRef = useRef<SessionTerminal | null>(null);
-	const modeRef = useRef(mode);
-	modeRef.current = mode;
+	const lookRef = useRef(look);
+	lookRef.current = look;
 
 	useEffect(() => {
 		const el = containerRef.current;
@@ -31,7 +31,7 @@ export function useMountTerminal(
 			sendResize,
 			isStale: () => staleRef.current,
 			mayResize,
-			mode: modeRef.current,
+			look: lookRef.current,
 		});
 		handleRef.current = handle;
 		return () => {
@@ -46,9 +46,9 @@ export function useMountTerminal(
 		sendResize,
 		staleRef,
 		mayResize,
-		modeRef,
+		lookRef,
 	]);
 
-	useTerminalTheme(handleRef, mode);
+	useTerminalTheme(handleRef, look);
 	return handleRef;
 }

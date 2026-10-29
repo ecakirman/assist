@@ -62,6 +62,7 @@ export default defineConfig({
 			format: "iife",
 			target: "es2020",
 			outfile: "dist/commands/sessions/web/bundle.js",
+			loader: { ".woff2": "dataurl" },
 			jsx: "automatic",
 			jsxImportSource: "react",
 			define: {

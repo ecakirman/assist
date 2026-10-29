@@ -1,7 +1,11 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createDesignTheme } from "../../../../../../../designSystem/createDesignTheme";
 import type { TerminalHandle } from "./createTerminal";
 import { setupTerminal } from "./setupTerminal";
+import { terminalTheme } from "./terminalTheme";
+
+const look = terminalTheme(createDesignTheme("classic", "dark").tokens);
 
 const fit = vi.fn();
 let term = { cols: 120, rows: 40 };
@@ -48,7 +52,7 @@ function attach(el: HTMLElement, mayResize = true) {
 		sendResize,
 		isStale: () => !mayResize,
 		mayResize: () => mayResize,
-		mode: "dark",
+		look,
 	});
 	return sendResize;
 }
@@ -131,7 +135,7 @@ describe("setupTerminal output replay", () => {
 			sendResize: vi.fn(),
 			isStale: () => stale,
 			mayResize: () => true,
-			mode: "dark",
+			look,
 		});
 		expect(handle.term.write).not.toHaveBeenCalled();
 

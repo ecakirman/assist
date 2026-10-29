@@ -1,14 +1,13 @@
-import type { PaletteMode } from "@mui/material";
 import { type RefObject, useEffect } from "react";
 import type { TerminalHandle } from "../createTerminal";
-import { terminalTheme } from "../terminalTheme";
+import type { TerminalLook } from "../terminalTheme";
 
 export function useTerminalTheme(
 	handleRef: RefObject<TerminalHandle | null>,
-	mode: PaletteMode,
+	look: TerminalLook,
 ) {
 	useEffect(() => {
 		const handle = handleRef.current;
-		if (handle) handle.term.options.theme = terminalTheme(mode);
-	}, [handleRef, mode]);
+		if (handle) Object.assign(handle.term.options, look);
+	}, [handleRef, look]);
 }

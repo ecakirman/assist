@@ -53,6 +53,7 @@ function renderMenu(
 					<HamburgerMenu
 						mode="light"
 						toggle={() => {}}
+						toggleDesign={() => {}}
 						sessions={[]}
 						reconnecting={false}
 					/>

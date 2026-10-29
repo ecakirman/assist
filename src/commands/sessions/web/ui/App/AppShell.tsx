@@ -17,9 +17,11 @@ const toolbarSx = { minHeight: 48 } as const;
 export function AppShell({
 	mode,
 	toggle,
+	toggleDesign,
 }: {
 	mode: "light" | "dark";
 	toggle: () => void;
+	toggleDesign: () => void;
 }) {
 	const shell = useAppShell();
 	const { socket, selection, viewLaunchedSession } = shell;
@@ -30,15 +32,11 @@ export function AppShell({
 				<HamburgerMenu
 					mode={mode}
 					toggle={toggle}
+					toggleDesign={toggleDesign}
 					sessions={socket.sessions}
 					reconnecting={socket.reconnecting}
 				/>
-				<AppBar
-					position="fixed"
-					elevation={1}
-					sx={appBarSx}
-					data-testid="toolbar"
-				>
+				<AppBar position="fixed" sx={appBarSx} data-testid="toolbar">
 					<AppToolbar socket={socket} selection={selection} />
 				</AppBar>
 				<Toolbar variant="dense" sx={toolbarSx} />
