@@ -29,7 +29,7 @@ export function MarkdownPreviewDialog({
 
 	return (
 		<Dialog open onClose={onClose} maxWidth="lg" fullWidth>
-			<DialogTitle sx={{ fontFamily: "monospace", fontSize: "1rem" }}>
+			<DialogTitle sx={{ fontFamily: "fontFamilyMono", fontSize: "1rem" }}>
 				{path}
 			</DialogTitle>
 			<DialogContent dividers>

@@ -32,7 +32,7 @@ export const highLevelButtonResetSx = {
 } as const;
 
 export const highLevelTreeNameSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 12,
 	overflow: "hidden",
 	textOverflow: "ellipsis",
@@ -40,7 +40,7 @@ export const highLevelTreeNameSx = {
 } as const;
 
 export const highLevelTreeCountSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 11,
 	flexShrink: 0,
 } as const;

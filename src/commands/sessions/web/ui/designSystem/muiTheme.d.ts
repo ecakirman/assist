@@ -10,6 +10,12 @@ declare module "@mui/material/styles" {
 		design?: DesignName;
 		tokens?: ActiveTokens;
 	}
+	interface TypographyVariants {
+		fontFamilyMono: string;
+	}
+	interface TypographyVariantsOptions {
+		fontFamilyMono?: string;
+	}
 }
 
 declare module "@mui/material/Button" {

@@ -22,7 +22,7 @@ function ToolRow({ tool, target }: { tool: string; target: string }) {
 			<BuildIcon sx={{ fontSize: 14, color: "text.disabled" }} />
 			<Typography
 				variant="caption"
-				sx={{ color: "text.secondary", fontFamily: "monospace" }}
+				sx={{ color: "text.secondary", fontFamily: "fontFamilyMono" }}
 			>
 				<Box component="span" sx={{ color: "warning.main" }}>
 					{tool}

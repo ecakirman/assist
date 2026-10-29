@@ -16,7 +16,7 @@ export function UsagePeakRow({
 	peak: UsagePeakRowData;
 	now: number;
 }) {
-	const { label, seconds, tint } = usagePeakWindow(peak.window);
+	const { label, seconds, striped } = usagePeakWindow(peak.window);
 	const level = rateLimitLevel(
 		peak.usedPercentage,
 		peak.resetsAt,
@@ -26,11 +26,7 @@ export function UsagePeakRow({
 	return (
 		<TableRow
 			sx={(theme) => ({
-				backgroundColor: tint
-					? theme.palette.mode === "dark"
-						? tint.dark
-						: tint.light
-					: undefined,
+				backgroundColor: striped ? theme.tokens.color.stripe : undefined,
 			})}
 		>
 			<TableCell>

@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
 import { amber, green, red } from "@mui/material/colors";
-import { createTheme, hexToRgb, ThemeProvider } from "@mui/material/styles";
-import { cleanup, render, screen } from "@testing-library/react";
+import { hexToRgb } from "@mui/material/styles";
+import { cleanup, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { renderWithTheme as render } from "../../../../../../../../test/renderWithTheme";
+import { createDesignTheme } from "../../../../designSystem/createDesignTheme";
 import type { RateLimits } from "../../../../../../../../shared/RateLimits";
 import type { RateLimitLevel } from "../../../../../../../../shared/rateLimitLevel";
 import {
@@ -97,13 +99,12 @@ describe("RateLimitsTooltip", () => {
 	});
 
 	it("keeps the theme's level colours in dark mode", () => {
-		const theme = createTheme({ palette: { mode: "dark" } });
+		const theme = createDesignTheme("classic", "dark");
 		render(
-			<ThemeProvider theme={theme}>
-				<RateLimitsTooltip
-					rateLimits={{ seven_day: usageWindow(35, 0.4, SEVEN_DAY_SECONDS) }}
-				/>
-			</ThemeProvider>,
+			<RateLimitsTooltip
+				rateLimits={{ seven_day: usageWindow(35, 0.4, SEVEN_DAY_SECONDS) }}
+			/>,
+			{ mode: "dark" },
 		);
 
 		expect(colorOf("35%")).toBe(hexToRgb(theme.palette.warning.main));

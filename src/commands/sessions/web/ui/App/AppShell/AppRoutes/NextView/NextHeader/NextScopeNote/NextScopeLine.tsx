@@ -23,7 +23,7 @@ export function NextScopeLine({
 					<Typography
 						component="code"
 						variant="body2"
-						sx={{ fontFamily: "monospace" }}
+						sx={{ fontFamily: "fontFamilyMono" }}
 					>
 						{setter}
 					</Typography>

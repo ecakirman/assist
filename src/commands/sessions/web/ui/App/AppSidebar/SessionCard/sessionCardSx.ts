@@ -1,9 +1,11 @@
 import type { SxProps, Theme } from "@mui/material";
 import type { DisplayStatus } from "../../../displayStatus";
 
-const attentionBg: Partial<Record<DisplayStatus, string>> = {
-	waiting: "rgba(255, 167, 38, 0.09)",
-	error: "rgba(244, 67, 54, 0.09)",
+const attentionWash: Partial<
+	Record<DisplayStatus, keyof Theme["tokens"]["color"]["wash"]>
+> = {
+	waiting: "warning",
+	error: "error",
 };
 
 export function sessionCardSx(
@@ -21,9 +23,11 @@ export function sessionCardSx(
 		borderRadius: 0,
 		borderLeft: 2,
 		borderLeftColor: active ? "primary.main" : "transparent",
-		bgcolor: active
-			? "action.selected"
-			: (attentionBg[status] ?? "background.default"),
+		bgcolor: (t) => {
+			const wash = attentionWash[status];
+			if (active) return t.palette.action.selected;
+			return wash ? t.tokens.color.wash[wash] : t.palette.background.default;
+		},
 		cursor: active ? "default" : "pointer",
 		transition: "background 0.2s ease",
 		"&:hover": !active ? { bgcolor: "action.hover" } : undefined,

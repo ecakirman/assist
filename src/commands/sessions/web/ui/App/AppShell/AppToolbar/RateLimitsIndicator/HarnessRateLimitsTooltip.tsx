@@ -11,7 +11,7 @@ export function HarnessRateLimitsTooltip({
 }) {
 	const now = useNowSeconds(30_000);
 	return (
-		<Box sx={{ fontFamily: "monospace", fontSize: 12 }}>
+		<Box sx={{ fontFamily: "fontFamilyMono", fontSize: 12 }}>
 			{groups.map((group) => (
 				<Box key={group.harness} sx={{ mb: 0.5 }}>
 					<Box sx={{ opacity: 0.8 }}>{harnessLabel(group.harness)}</Box>

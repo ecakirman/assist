@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { Fragment } from "react";
 import { harnessLabel } from "../../../../../../../../shared/harnessLabel";
 import type { HarnessLimitGroup } from "./harnessLimitGroups";
-import { ON_DARK_SECONDARY } from "./limitLevelOnDarkColor";
+import { onDarkSecondary } from "./limitLevelOnDarkColor";
 import { RateLimitChips } from "./RateLimitChips";
 
 export function HarnessRateLimitChips({
@@ -16,7 +16,7 @@ export function HarnessRateLimitChips({
 				<Fragment key={group.harness}>
 					<Box
 						component="span"
-						sx={{ color: ON_DARK_SECONDARY, ml: i > 0 ? 1 : 0, mr: 0.5 }}
+						sx={{ color: onDarkSecondary, ml: i > 0 ? 1 : 0, mr: 0.5 }}
 					>
 						{harnessLabel(group.harness)}
 					</Box>

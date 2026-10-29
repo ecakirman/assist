@@ -41,7 +41,7 @@ export function FileDiffHeader({
 			)}
 			<Typography
 				variant="body2"
-				sx={{ fontFamily: "monospace", fontWeight: 700 }}
+				sx={{ fontFamily: "fontFamilyMono", fontWeight: 700 }}
 			>
 				{path}
 			</Typography>

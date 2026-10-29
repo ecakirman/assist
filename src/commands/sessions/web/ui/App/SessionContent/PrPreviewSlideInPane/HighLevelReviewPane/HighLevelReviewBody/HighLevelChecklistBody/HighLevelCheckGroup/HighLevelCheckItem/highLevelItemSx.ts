@@ -1,6 +1,7 @@
+import type { Theme } from "@mui/material/styles";
 import { JUMP_TARGET_OFFSET } from "../../../../../highLevelCheckDomId";
 
-const FAILED_TINT = "rgba(244, 67, 54, 0.1)";
+const failedTint = (t: Theme) => t.tokens.color.wash.error;
 
 export function highLevelItemSx(failed: boolean) {
 	return {
@@ -9,6 +10,6 @@ export function highLevelItemSx(failed: boolean) {
 		py: 1.25,
 		borderLeft: 3,
 		borderColor: failed ? "error.main" : "transparent",
-		bgcolor: failed ? FAILED_TINT : undefined,
+		bgcolor: failed ? failedTint : undefined,
 	} as const;
 }

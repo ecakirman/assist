@@ -37,7 +37,7 @@ export function BranchDiffLink({
 				p: 0,
 				bgcolor: "transparent",
 				cursor: "pointer",
-				fontFamily: "monospace",
+				fontFamily: "fontFamilyMono",
 				whiteSpace: "nowrap",
 				color: "text.disabled",
 				"&:hover": { color: "text.primary" },

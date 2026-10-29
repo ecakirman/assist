@@ -20,13 +20,13 @@ const labelsSx = {
 } as const;
 
 const basenameSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 13,
 	whiteSpace: "nowrap",
 } as const;
 
 const dirSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 11,
 	overflow: "hidden",
 	textOverflow: "ellipsis",

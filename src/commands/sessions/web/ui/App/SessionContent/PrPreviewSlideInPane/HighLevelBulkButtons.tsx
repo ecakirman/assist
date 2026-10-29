@@ -19,7 +19,7 @@ function CountBadge({ count }: { count: number }) {
 				minWidth: 18,
 				borderRadius: 1,
 				bgcolor: "action.selected",
-				fontFamily: "monospace",
+				fontFamily: "fontFamilyMono",
 				fontSize: 11,
 				lineHeight: "16px",
 				textAlign: "center",

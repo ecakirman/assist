@@ -34,7 +34,12 @@ export function HighLevelGlobInput({
 					spellCheck: false,
 					autoComplete: "off",
 				}}
-				sx={{ flex: 1, minWidth: 0, fontFamily: "monospace", fontSize: 12 }}
+				sx={{
+					flex: 1,
+					minWidth: 0,
+					fontFamily: "fontFamilyMono",
+					fontSize: 12,
+				}}
 			/>
 			{glob.trim() && (
 				<Typography

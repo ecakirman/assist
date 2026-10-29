@@ -32,7 +32,7 @@ export function HighLevelTreeIgnoredChip({
 			{label}
 			<Box
 				component="span"
-				sx={{ fontFamily: "monospace", color: "text.secondary" }}
+				sx={{ fontFamily: "fontFamilyMono", color: "text.secondary" }}
 			>
 				{globs.join(", ")}
 			</Box>

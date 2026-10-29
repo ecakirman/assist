@@ -12,7 +12,7 @@ import {
 type UsagePeakWindowInfo = {
 	label: string;
 	seconds: number;
-	tint?: { light: string; dark: string };
+	striped?: boolean;
 };
 
 const baseWindow: Record<RateLimitWindow, UsagePeakWindowInfo> = {
@@ -23,7 +23,7 @@ const baseWindow: Record<RateLimitWindow, UsagePeakWindowInfo> = {
 	seven_day: {
 		label: "7d",
 		seconds: SEVEN_DAY_SECONDS,
-		tint: { light: "rgba(0, 0, 0, 0.1)", dark: "rgba(255, 255, 255, 0.1)" },
+		striped: true,
 	},
 };
 

@@ -30,7 +30,7 @@ export function SessionIdCaption({
 					<Typography
 						variant="caption"
 						color="text.disabled"
-						sx={{ fontFamily: "monospace" }}
+						sx={{ fontFamily: "fontFamilyMono" }}
 					>
 						{sessionId.slice(0, 8)}
 					</Typography>

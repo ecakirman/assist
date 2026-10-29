@@ -11,7 +11,7 @@ export function NextRepoRef({
 		<Typography
 			variant="body2"
 			sx={{
-				fontFamily: "monospace",
+				fontFamily: "fontFamilyMono",
 				color: "text.secondary",
 				whiteSpace: "nowrap",
 			}}

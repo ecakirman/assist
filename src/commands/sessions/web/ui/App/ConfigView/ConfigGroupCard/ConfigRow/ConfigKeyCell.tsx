@@ -10,7 +10,7 @@ type Props = {
 export function ConfigKeyCell({ entry, readOnly }: Props) {
 	return (
 		<TableCell sx={{ verticalAlign: "top", width: "35%" }}>
-			<Typography variant="body2" sx={{ fontFamily: "monospace" }}>
+			<Typography variant="body2" sx={{ fontFamily: "fontFamilyMono" }}>
 				{entry.key}
 			</Typography>
 			{entry.note && (
@@ -28,7 +28,7 @@ export function ConfigKeyCell({ entry, readOnly }: Props) {
 						display: "block",
 						mt: 0.25,
 						color: "text.secondary",
-						fontFamily: "monospace",
+						fontFamily: "fontFamilyMono",
 					}}
 				>
 					{entry.setter}

@@ -1,3 +1,7 @@
+import type { Theme } from "@mui/material/styles";
+
+const onAppBar = (t: Theme) => t.tokens.color.onAppBar;
+
 export const versionBadgeSx = (ready: boolean) =>
 	({
 		display: "inline-flex",
@@ -10,18 +14,18 @@ export const versionBadgeSx = (ready: boolean) =>
 		lineHeight: 1.5,
 		color: "inherit",
 		opacity: ready ? 1 : 0.55,
-		bgcolor: ready ? "rgba(255,255,255,0.16)" : "transparent",
+		bgcolor: (t: Theme) => (ready ? onAppBar(t).active : "transparent"),
 		transition: "opacity .2s ease, background-color .2s ease",
 		"&:hover, &:focus-visible": {
 			opacity: 1,
-			bgcolor: "rgba(255,255,255,0.12)",
+			bgcolor: (t: Theme) => onAppBar(t).hover,
 		},
 		"& .ready-dot": {
 			width: 8,
 			height: 8,
 			borderRadius: "50%",
-			bgcolor: "#ffb74d",
-			boxShadow: "0 0 0 2px rgba(0,0,0,.15)",
+			bgcolor: (t: Theme) => onAppBar(t).dot,
+			boxShadow: (t: Theme) => `0 0 0 2px ${onAppBar(t).dotRing}`,
 		},
 		"& .ready-count": { fontWeight: 500 },
 	}) as const;

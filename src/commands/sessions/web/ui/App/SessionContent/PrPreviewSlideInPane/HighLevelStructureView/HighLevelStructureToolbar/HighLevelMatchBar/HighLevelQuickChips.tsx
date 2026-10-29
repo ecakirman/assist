@@ -31,7 +31,7 @@ export function HighLevelQuickChips({
 						onClick={() => onSelect(glob)}
 						sx={{
 							height: 20,
-							fontFamily: "monospace",
+							fontFamily: "fontFamilyMono",
 							fontSize: 11,
 							border: 1,
 							borderColor: pressed ? "warning.main" : "transparent",

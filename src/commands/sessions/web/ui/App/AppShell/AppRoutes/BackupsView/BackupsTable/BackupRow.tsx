@@ -12,7 +12,7 @@ export function BackupRow({ backup }: { backup: BackupRowData }) {
 	return (
 		<TableRow>
 			<TableCell>{new Date(backup.createdAt).toLocaleString()}</TableCell>
-			<TableCell sx={{ fontFamily: "monospace", wordBreak: "break-all" }}>
+			<TableCell sx={{ fontFamily: "fontFamilyMono", wordBreak: "break-all" }}>
 				<Tooltip title={backup.filePath}>
 					<span>{basename(backup.filePath)}</span>
 				</Tooltip>

@@ -12,7 +12,7 @@ export const releaseQueuedCommitRowSx = {
 			opacity: live ? 0.62 : 1,
 			"&:hover": { bgcolor: "action.hover" },
 		}) as const,
-	ref: { fontFamily: "monospace", fontSize: 12.5 },
+	ref: { fontFamily: "fontFamilyMono", fontSize: 12.5 },
 	subject: {
 		display: "flex",
 		alignItems: "baseline",

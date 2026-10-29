@@ -6,6 +6,7 @@ export function typography({ font, type }: ActiveTokens) {
 	const { scale } = type;
 	return {
 		fontFamily: font.ui,
+		fontFamilyMono: font.mono,
 		fontSize: type.fontSize,
 		button: { ...type.button, fontSize: rem(scale.button) },
 		caption: { fontSize: rem(scale.caption) },

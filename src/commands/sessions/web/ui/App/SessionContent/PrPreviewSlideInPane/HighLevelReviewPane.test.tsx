@@ -1,12 +1,7 @@
 // @vitest-environment jsdom
-import {
-	cleanup,
-	fireEvent,
-	render,
-	screen,
-	within,
-} from "@testing-library/react";
+import { cleanup, fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { renderWithTheme as render } from "../../../../../../../test/renderWithTheme";
 import type {
 	HighLevelCheckResult,
 	HighLevelPreviewPayload,

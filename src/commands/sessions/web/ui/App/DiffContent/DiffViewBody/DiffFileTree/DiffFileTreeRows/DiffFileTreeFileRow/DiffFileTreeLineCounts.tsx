@@ -9,7 +9,7 @@ const wrapperSx = {
 	flexShrink: 0,
 } as const;
 
-const countSx = { fontFamily: "monospace", fontSize: 11 } as const;
+const countSx = { fontFamily: "fontFamilyMono", fontSize: 11 } as const;
 
 export function DiffFileTreeLineCounts({
 	added,

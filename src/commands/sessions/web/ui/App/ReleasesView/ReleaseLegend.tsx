@@ -20,7 +20,7 @@ const legendSx = {
 const entrySx = { display: "inline-flex", alignItems: "center", gap: 0.75 };
 
 const headSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 12.6,
 	letterSpacing: "0.09em",
 	textTransform: "uppercase",

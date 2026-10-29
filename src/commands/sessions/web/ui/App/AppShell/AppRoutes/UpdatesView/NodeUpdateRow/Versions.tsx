@@ -5,7 +5,7 @@ import type { NodeUpdateEntry } from "../../../NodeUpdateEntry";
 const wideCellSx = { gridColumn: { xs: "2", sm: "auto" } } as const;
 
 const monoSx = {
-	fontFamily: "'Roboto Mono', ui-monospace, Menlo, monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 12,
 	fontVariantNumeric: "tabular-nums",
 } as const;

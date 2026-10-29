@@ -11,8 +11,19 @@ type ColorTokens = {
 	lineSoft: string;
 	text: { primary: string; secondary: string; disabled: string };
 	selected: string;
+	wash: { warning: string; error: string };
+	well: string;
+	stripe: string;
 	overlay: { background: string; text: string };
 	appBar?: { background: string; text: string };
+	onAppBar: {
+		secondary: string;
+		hover: string;
+		active: string;
+		dot: string;
+		dotRing: string;
+		level: { ok: string; warn: string; over: string };
+	};
 	primary: SimplePaletteColorOptions;
 	secondary: SimplePaletteColorOptions;
 	success: SimplePaletteColorOptions;

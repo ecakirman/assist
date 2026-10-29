@@ -12,7 +12,7 @@ const headerSx = {
 	mb: 1,
 } as const;
 
-const pathSx = { fontFamily: "monospace", fontSize: 13 } as const;
+const pathSx = { fontFamily: "fontFamilyMono", fontSize: 13 } as const;
 
 const titleSx = {
 	display: "flex",

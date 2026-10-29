@@ -3,7 +3,7 @@ export const releaseFactLineSx = {
 	alignItems: "baseline",
 	flexWrap: "wrap",
 	gap: 1,
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 13.2,
 	color: "text.secondary",
 } as const;

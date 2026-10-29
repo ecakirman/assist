@@ -1,4 +1,5 @@
-import { type CSSProperties, useEffect, useRef } from "react";
+import { useTheme } from "@mui/material/styles";
+import { useEffect, useRef } from "react";
 import { copyRenderRates } from "./RenderRateHud/copyRenderRates";
 import { renderCounters } from "../../../renderCounters";
 import {
@@ -6,25 +7,12 @@ import {
 	sampleRenderRates,
 } from "./RenderRateHud/sampleRenderRates";
 import { useRenderHudEnabled } from "../useRenderHudEnabled";
+import { hudStyle } from "./RenderRateHud/hudStyle";
 
 const SAMPLE_MS = 500;
 
-const hudStyle: CSSProperties = {
-	position: "fixed",
-	bottom: 8,
-	right: 8,
-	zIndex: 3000,
-	background: "rgba(0, 0, 0, 0.8)",
-	color: "#7cfc9a",
-	font: "11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace",
-	padding: "6px 8px",
-	borderRadius: 4,
-	whiteSpace: "pre",
-	cursor: "pointer",
-	userSelect: "none",
-};
-
 export function RenderRateHud() {
+	const { font } = useTheme().tokens;
 	const ref = useRef<HTMLDivElement | null>(null);
 	const text = useRef("");
 	const enabled = useRenderHudEnabled();
@@ -55,7 +43,7 @@ export function RenderRateHud() {
 	return (
 		<div
 			ref={ref}
-			style={hudStyle}
+			style={hudStyle(font.mono)}
 			title="Click to copy"
 			onClick={() => copyRenderRates(ref.current, text.current)}
 			onKeyDown={() => copyRenderRates(ref.current, text.current)}

@@ -1,6 +1,7 @@
 import { keyframes } from "@emotion/react";
 import Box from "@mui/material/Box";
 import GlobalStyles from "@mui/material/GlobalStyles";
+import { swatches } from "../../../../../designSystem/swatches";
 
 const registerAnimatableHue =
 	'@property --rainbow-pill-h { syntax: "<number>"; inherits: true; initial-value: 0; }';
@@ -42,7 +43,10 @@ const pillSx = {
 		filter: "blur(9px)",
 		opacity: 0.85,
 	},
-	"& span": { color: "#fff", textShadow: "0 1px 1px rgb(0 0 0 / 0.35)" },
+	"& span": {
+		color: swatches.rainbowPill.text,
+		textShadow: swatches.rainbowPill.shadow,
+	},
 	"@media (prefers-reduced-motion: reduce)": {
 		animation: "none",
 		"&::before, &::after": { animation: "none" },

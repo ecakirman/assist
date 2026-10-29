@@ -1,6 +1,6 @@
 export const topBarIdSx = {
 	color: "text.disabled",
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: "0.8125rem",
 	whiteSpace: "nowrap",
 	flexShrink: 0,

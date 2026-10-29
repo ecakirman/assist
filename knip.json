@@ -2,6 +2,7 @@
 	"entry": [
 		"src/index.ts",
 		"oxlint-rules/filenameConvention.ts",
+		"oxlint-rules/noRawStyleValues.ts",
 		"src/commands/sessions/web/ui/App.tsx",
 		"src/commands/sessions/web/ui/installMonacoGlobal.ts",
 		"src/commands/extension/criteriaContentScript.ts",

@@ -24,7 +24,9 @@ describe("createDesignTheme", () => {
 			const classic = createDesignTheme("classic", mode);
 			const previous = previousTheme(mode);
 			expect(dataOf(classic.palette)).toEqual(dataOf(previous.palette));
-			expect(dataOf(classic.typography)).toEqual(dataOf(previous.typography));
+			const { fontFamilyMono, ...typography } = classic.typography;
+			expect(fontFamilyMono).toBe("monospace");
+			expect(dataOf(typography)).toEqual(dataOf(previous.typography));
 			expect(classic.shape).toEqual(previous.shape);
 			expect(classic.spacing(2)).toBe(previous.spacing(2));
 		},

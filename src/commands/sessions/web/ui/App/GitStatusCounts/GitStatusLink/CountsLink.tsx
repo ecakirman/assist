@@ -8,7 +8,7 @@ const containerSx = {
 	display: "flex",
 	alignItems: "center",
 	gap: 0.75,
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	whiteSpace: "nowrap",
 	border: 0,
 	p: 0,

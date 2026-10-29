@@ -52,7 +52,7 @@ export const diffFileTreeActiveRowSx = {
 } as const;
 
 export const diffFileTreeNameSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 12,
 	overflow: "hidden",
 	textOverflow: "ellipsis",

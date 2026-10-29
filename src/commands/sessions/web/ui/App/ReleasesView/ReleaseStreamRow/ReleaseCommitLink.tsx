@@ -5,11 +5,11 @@ import type { ReleaseCommit } from "../../../../releases/types";
 
 const SHORT_SHA = 7;
 
-const linkSx = { fontFamily: "monospace" } as const;
+const linkSx = { fontFamily: "fontFamilyMono" } as const;
 
 const subjectSx = { mt: 0.5 } as const;
 
-const authorSx = { opacity: 0.75, fontFamily: "monospace" } as const;
+const authorSx = { opacity: 0.75, fontFamily: "fontFamilyMono" } as const;
 
 export function ReleaseCommitLink({
 	repo,

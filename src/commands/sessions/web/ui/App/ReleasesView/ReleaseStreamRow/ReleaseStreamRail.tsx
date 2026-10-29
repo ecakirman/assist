@@ -17,7 +17,7 @@ const railSx = {
 const nameSx = { fontSize: "1.05rem" } as const;
 
 const metaSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	display: "block",
 	fontSize: 13.2,
 	color: "text.secondary",

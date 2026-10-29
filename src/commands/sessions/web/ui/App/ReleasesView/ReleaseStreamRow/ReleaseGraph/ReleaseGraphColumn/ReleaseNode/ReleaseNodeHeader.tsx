@@ -7,7 +7,7 @@ const topSx = {
 	display: "flex",
 	alignItems: "center",
 	gap: 1,
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontWeight: 600,
 	fontSize: 15.6,
 } as const;

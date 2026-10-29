@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { makeSessionInfo } from "../../../../../../test/mothers/makeSessionInfo";
+import { renderWithTheme as render } from "../../../../../../test/renderWithTheme";
 import { SessionCard } from "./SessionCard";
 import { StarredSessionsProvider } from "../useStarredSessions";
 

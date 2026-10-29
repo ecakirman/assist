@@ -25,27 +25,30 @@ import VuejsOriginal from "devicons-react/icons/VuejsOriginal";
 import XmlOriginal from "devicons-react/icons/XmlOriginal";
 import YamlOriginal from "devicons-react/icons/YamlOriginal";
 import type { ComponentType } from "react";
+import { swatches } from "../../designSystem/swatches";
 
 type Devicon = ComponentType<{ size: number; fill?: string }>;
 
 type DeviconEntry = { Icon: Devicon; unpaintedFill?: string };
 
-const bash: DeviconEntry = { Icon: BashOriginal, unpaintedFill: "#4eaa25" };
+const fills = swatches.fileType;
+
+const bash: DeviconEntry = { Icon: BashOriginal, unpaintedFill: fills.bash };
 const cpp: DeviconEntry = { Icon: CplusplusOriginal };
 const css: DeviconEntry = { Icon: Css3Original };
 const html: DeviconEntry = { Icon: Html5Original };
 const js: DeviconEntry = { Icon: JavascriptOriginal };
-const json: DeviconEntry = { Icon: JsonOriginal, unpaintedFill: "#d4a017" };
+const json: DeviconEntry = { Icon: JsonOriginal, unpaintedFill: fills.json };
 const kotlin: DeviconEntry = { Icon: KotlinOriginal };
 const markdown: DeviconEntry = {
 	Icon: MarkdownOriginal,
-	unpaintedFill: "#519aba",
+	unpaintedFill: fills.markdown,
 };
 const react: DeviconEntry = { Icon: ReactOriginal };
 const sass: DeviconEntry = { Icon: SassOriginal };
 const ts: DeviconEntry = { Icon: TypescriptOriginal };
-const xml: DeviconEntry = { Icon: XmlOriginal, unpaintedFill: "#e37933" };
-const yaml: DeviconEntry = { Icon: YamlOriginal, unpaintedFill: "#cb4b16" };
+const xml: DeviconEntry = { Icon: XmlOriginal, unpaintedFill: fills.xml };
+const yaml: DeviconEntry = { Icon: YamlOriginal, unpaintedFill: fills.yaml };
 
 export const deviconForExtension = (key: string): DeviconEntry | undefined =>
 	devicons[key];
@@ -81,7 +84,7 @@ const devicons: Record<string, DeviconEntry> = {
 	ps1: { Icon: PowershellOriginal },
 	py: { Icon: PythonOriginal },
 	rb: { Icon: RubyOriginal },
-	rs: { Icon: RustOriginal, unpaintedFill: "#b7410e" },
+	rs: { Icon: RustOriginal, unpaintedFill: fills.rust },
 	sass,
 	scss: sass,
 	sh: bash,

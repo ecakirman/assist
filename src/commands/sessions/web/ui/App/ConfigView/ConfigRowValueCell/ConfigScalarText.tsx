@@ -8,7 +8,7 @@ export function ConfigScalarText({ value }: { value: unknown }) {
 			variant="body2"
 			sx={{
 				m: 0,
-				fontFamily: "monospace",
+				fontFamily: "fontFamilyMono",
 				whiteSpace: "pre-wrap",
 				overflowWrap: "anywhere",
 			}}

@@ -18,7 +18,7 @@ const containerSx = {
 	display: "flex",
 	alignItems: "center",
 	ml: 2,
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 13,
 } as const;
 

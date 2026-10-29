@@ -18,7 +18,7 @@ export const criterionGripSx = {
 } as const;
 
 export const criterionNumberSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: "0.8rem",
 	color: "text.secondary",
 	minWidth: 32,

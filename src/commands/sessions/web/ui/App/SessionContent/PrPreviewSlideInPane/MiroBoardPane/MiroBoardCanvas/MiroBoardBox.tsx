@@ -1,4 +1,5 @@
 import type { MiroItem } from "../../../../../../../../miro/types";
+import { swatches } from "../../../../../designSystem/swatches";
 import { miroBoxStyle } from "./MiroBoardBox/miroBoxStyle";
 import type { AnchorRole } from "../useMiroAnchorSelection";
 
@@ -41,7 +42,7 @@ export function MiroBoardBox({
 				textAnchor="middle"
 				dominantBaseline="central"
 				fontSize={style.fontSize}
-				fill="#263238"
+				fill={swatches.miro.text}
 			>
 				{box.text}
 			</text>

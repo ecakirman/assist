@@ -21,6 +21,17 @@ const tangoAnsi = {
 
 const onDarkText = "rgba(0, 0, 0, 0.87)";
 const tooltip = { background: "rgba(97, 97, 97, 0.92)", text: "#fff" };
+const wash = {
+	warning: "rgba(255, 167, 38, 0.09)",
+	error: "rgba(244, 67, 54, 0.09)",
+};
+const onAppBar = {
+	secondary: "rgba(255, 255, 255, 0.7)",
+	hover: "rgba(255, 255, 255, 0.12)",
+	active: "rgba(255, 255, 255, 0.16)",
+	dot: "#ffb74d",
+	dotRing: "rgba(0, 0, 0, 0.15)",
+};
 
 export const classicDesign: DesignTokens = {
 	name: "classic",
@@ -37,7 +48,14 @@ export const classicDesign: DesignTokens = {
 				disabled: "rgba(255, 255, 255, 0.5)",
 			},
 			selected: "rgba(255, 255, 255, 0.16)",
+			wash,
+			well: "#1b1b1c",
+			stripe: "rgba(255, 255, 255, 0.1)",
 			overlay: tooltip,
+			onAppBar: {
+				...onAppBar,
+				level: { ok: "#66bb6a", warn: "#ffa726", over: "#f44336" },
+			},
 			primary: {
 				main: "#90caf9",
 				light: "#e3f2fd",
@@ -98,7 +116,14 @@ export const classicDesign: DesignTokens = {
 				disabled: "rgba(0, 0, 0, 0.38)",
 			},
 			selected: "rgba(0, 0, 0, 0.08)",
+			wash,
+			well: "#f3f4f6",
+			stripe: "rgba(0, 0, 0, 0.1)",
 			overlay: tooltip,
+			onAppBar: {
+				...onAppBar,
+				level: { ok: "#b9f6ca", warn: "#ffe57f", over: "#ffcdd2" },
+			},
 			primary: {
 				main: "#1976d2",
 				light: "#42a5f5",

@@ -1,9 +1,10 @@
 import type { MiroItem } from "../../../../../../../../../miro/types";
+import { swatches } from "../../../../../../designSystem/swatches";
 import type { AnchorRole } from "../../useMiroAnchorSelection";
 
 const roleColour: Record<AnchorRole, string> = {
-	"top-left": "#2e7d32",
-	"bottom-right": "#1565c0",
+	"top-left": swatches.miro.topLeft,
+	"bottom-right": swatches.miro.bottomRight,
 };
 
 type MiroBoxStyle = {
@@ -27,7 +28,7 @@ export function miroBoxStyle(
 		height,
 		fontSize: Math.max(6, Math.min(height * 0.3, width / 6, 28)),
 		radius: Math.min(8, height / 4),
-		colour: role ? roleColour[role] : "#546e7a",
+		colour: role ? roleColour[role] : swatches.miro.box,
 		opacity: role ? 0.75 : 0.35,
 		strokeWidth: Math.max(1, width * 0.004),
 	};

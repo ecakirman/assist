@@ -5,7 +5,11 @@ const ink = "#0e1116";
 const surface = "#141820";
 const raised = "#1b202a";
 const fg = "#e3e7ee";
+const muted = "#8a93a3";
 const accent = "#8b9cff";
+const green = "#5fd0a0";
+const amber = "#f2b45a";
+const red = "#f27a7a";
 
 export const slateDesign: DesignTokens = {
 	name: "slate",
@@ -16,15 +20,26 @@ export const slateDesign: DesignTokens = {
 			raised,
 			line: "#262c37",
 			lineSoft: "#1d222b",
-			text: { primary: fg, secondary: "#8a93a3", disabled: "#5c6473" },
+			text: { primary: fg, secondary: muted, disabled: "#5c6473" },
 			selected: "rgba(139, 156, 255, 0.14)",
+			wash: {
+				warning: "rgba(242, 180, 90, 0.09)",
+				error: "rgba(242, 122, 122, 0.09)",
+			},
+			well: ink,
+			stripe: raised,
 			overlay: { background: raised, text: fg },
 			appBar: { background: surface, text: fg },
+			onAppBar: {
+				...classicDesign.dark.color.onAppBar,
+				secondary: muted,
+				level: { ok: green, warn: amber, over: red },
+			},
 			primary: { main: accent, contrastText: ink },
 			secondary: { main: "#c99bff", contrastText: ink },
-			success: { main: "#5fd0a0", contrastText: ink },
-			warning: { main: "#f2b45a", contrastText: ink },
-			error: { main: "#f27a7a", contrastText: ink },
+			success: { main: green, contrastText: ink },
+			warning: { main: amber, contrastText: ink },
+			error: { main: red, contrastText: ink },
 			info: { main: "#6cb6ff", contrastText: ink },
 		},
 		terminal: {
@@ -34,9 +49,9 @@ export const slateDesign: DesignTokens = {
 			cursorAccent: ink,
 			selectionBackground: "rgba(139, 156, 255, 0.28)",
 			black: "#1b2029",
-			red: "#f27a7a",
-			green: "#5fd0a0",
-			yellow: "#f2b45a",
+			red,
+			green,
+			yellow: amber,
 			blue: accent,
 			magenta: "#c99bff",
 			cyan: "#6cc8d8",

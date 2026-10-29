@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, screen } from "@testing-library/react";
 import { useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { isFocusHeld } from "../../../holdFocus";
@@ -8,6 +8,7 @@ import { SessionList } from "./SessionList";
 import type { SessionInfo } from "../../../../types";
 import { StarredSessionsProvider } from "../../../useStarredSessions";
 import { makeSessionInfo } from "../../../../../../../../test/mothers/makeSessionInfo";
+import { renderWithTheme as render } from "../../../../../../../../test/renderWithTheme";
 
 let frames: FrameRequestCallback[] = [];
 

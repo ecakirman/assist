@@ -5,7 +5,7 @@ export function BinaryNotice() {
 		<Typography
 			variant="body2"
 			color="text.secondary"
-			sx={{ fontFamily: "monospace", py: 1 }}
+			sx={{ fontFamily: "fontFamilyMono", py: 1 }}
 		>
 			Binary file — no preview.
 		</Typography>

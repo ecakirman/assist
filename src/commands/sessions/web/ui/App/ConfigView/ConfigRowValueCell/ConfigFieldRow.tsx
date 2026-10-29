@@ -13,7 +13,7 @@ export function ConfigFieldRow({ label, children }: Props) {
 			<Typography
 				variant="caption"
 				color="text.secondary"
-				sx={{ fontFamily: "monospace", flexShrink: 0, minWidth: "7rem" }}
+				sx={{ fontFamily: "fontFamilyMono", flexShrink: 0, minWidth: "7rem" }}
 			>
 				{label}
 			</Typography>

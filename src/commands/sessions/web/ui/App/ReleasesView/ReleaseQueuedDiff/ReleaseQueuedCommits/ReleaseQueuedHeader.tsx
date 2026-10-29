@@ -18,7 +18,7 @@ const headSx = {
 const titleSx = { fontWeight: 500, fontSize: 13.5 } as const;
 
 const rangeSx = {
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 12,
 	color: "text.secondary",
 	whiteSpace: "nowrap",

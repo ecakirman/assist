@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { renderWithTheme as render } from "../../../../../../../test/renderWithTheme";
 import { RateLimitsIndicator } from "./RateLimitsIndicator";
 
 const NOW = 1_700_000_000;

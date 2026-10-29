@@ -7,7 +7,7 @@ const chipSx = {
 	border: 1,
 	borderColor: "grey.500",
 	borderRadius: 0.5,
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	fontSize: 11,
 	whiteSpace: "nowrap",
 } as const;

@@ -16,7 +16,7 @@ type Props = {
 export function ConfigGroupCard({ group, cwd, onSaved, onError }: Props) {
 	return (
 		<Box>
-			<Typography variant="h6" sx={{ mb: 1, fontFamily: "monospace" }}>
+			<Typography variant="h6" sx={{ mb: 1, fontFamily: "fontFamilyMono" }}>
 				{group.name}
 			</Typography>
 			<Paper variant="outlined">
