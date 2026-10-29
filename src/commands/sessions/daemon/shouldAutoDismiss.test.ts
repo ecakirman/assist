@@ -104,7 +104,7 @@ describe("shouldAutoDismiss", () => {
 	});
 
 	describe("when a backlog run reached review and Continue is off", () => {
-		it("keeps", () => {
+		it("dismisses", () => {
 			const session = makeSession({
 				status: "done",
 				assistArgs: ["backlog"],
@@ -112,7 +112,7 @@ describe("shouldAutoDismiss", () => {
 				autoAdvance: false,
 			});
 
-			expect(shouldAutoDismiss(session, 0)).toBe(false);
+			expect(shouldAutoDismiss(session, 0)).toBe(true);
 		});
 	});
 

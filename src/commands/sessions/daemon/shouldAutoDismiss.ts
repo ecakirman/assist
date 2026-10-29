@@ -7,11 +7,9 @@ export function shouldAutoDismiss(
 	if (session.status !== "done" || exitCode !== 0) {
 		return false;
 	}
-	/* why: a backlog run that reached its review phase (#409) dismisses only if
-	 * "Continue" is left/switched on (autoAdvance); left off, it stays at "done". */
-	if (session.reviewStarted) {
-		return session.autoAdvance === true;
-	}
+	/* why: a backlog run that reached its review phase (#409) dismisses on a
+	 * clean exit whether "Continue" (autoAdvance) is on or off. */
+	if (session.reviewStarted) return true;
 	const args = session.assistArgs;
 	if (args === undefined) return false;
 	if (args[0] === "update") return true;

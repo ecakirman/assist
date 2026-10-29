@@ -1,3 +1,4 @@
+import { autoDismissReason } from "./autoDismissReason";
 import type { Session } from "./createSession";
 import { daemonLog } from "./daemonLog";
 import { flushPhaseActiveMs } from "./flushPhaseActiveMs";
@@ -33,6 +34,10 @@ export function finishStatusChange(
 	if (status !== "stopped") session.undurable = undefined;
 	if (endsWithoutRestart(session, status))
 		reportUndeliveredPrompts(session, `ended (${status})`);
-	if (shouldAutoDismiss(session, exitCode)) deps.dismiss(session.id);
-	else deps.notify();
+	if (shouldAutoDismiss(session, exitCode)) {
+		daemonLog(
+			`session ${session.id} auto-dismissed: ${autoDismissReason(session)}`,
+		);
+		deps.dismiss(session.id);
+	} else deps.notify();
 }
