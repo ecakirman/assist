@@ -33,26 +33,26 @@ mkdirSync(other, { recursive: true });
 afterEach(() => rmSync(globalConfig, { force: true }));
 afterAll(() => rmSync(root, { recursive: true, force: true }));
 
-function modeFor(cwd: string): unknown {
-	const req = {
-		url: `/api/new-session-defaults?cwd=${encodeURIComponent(cwd)}`,
-	};
+function modesFor(...cwds: string[]): unknown {
+	const query = cwds.map((cwd) => `cwd=${encodeURIComponent(cwd)}`).join("&");
+	const req = { url: `/api/new-session-defaults?${query}` };
 	newSessionDefaults(req as IncomingMessage, {} as ServerResponse);
 	return mockRespondJson.mock.lastCall?.[2];
 }
 
 describe("newSessionDefaults", () => {
-	it("applies the selected repo's override", () => {
+	it("applies each repo's override", () => {
 		writeFileSync(
 			globalConfig,
 			"sessions:\n  newSessionMode: bug\nrepos:\n  apm:\n    sessions:\n      newSessionMode: prompt\n",
 		);
 
-		expect(modeFor(apm)).toEqual({ mode: "prompt" });
-		expect(modeFor(other)).toEqual({ mode: "bug" });
+		expect(modesFor(apm, other)).toEqual({
+			modes: { [apm]: "prompt", [other]: "bug" },
+		});
 	});
 
 	it("falls back to draft when nothing is set", () => {
-		expect(modeFor(other)).toEqual({ mode: "draft" });
+		expect(modesFor(other)).toEqual({ modes: { [other]: "draft" } });
 	});
 });
