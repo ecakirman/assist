@@ -1,4 +1,7 @@
+import { findRepoRoot } from "../../shared/findRepoRoot";
 import { remoteUrl, tryGit } from "./remoteUrl";
+
+const WINDOWS_PATH = /^[A-Za-z]:[\\/]/;
 
 function stripLeadingSlashes(path: string): string {
 	return path.replace(/^\/+/, "");
@@ -59,6 +62,8 @@ export type OriginResolution = {
  * (note: separate clones without a shared remote do NOT share a backlog).
  */
 export function resolveCurrentOrigin(cwd: string): OriginResolution {
+	if (!WINDOWS_PATH.test(cwd) && findRepoRoot(cwd) === null)
+		return { origin: `local:${cwd}`, stable: false };
 	const remote = remoteUrl(cwd);
 	if (remote.url) return { origin: normalizeOrigin(remote.url), stable: true };
 	const root = tryGit(cwd, ["rev-parse", "--show-toplevel"]);

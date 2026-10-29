@@ -10,6 +10,11 @@ vi.mock("node:child_process", async () =>
 	).childProcessMock(),
 );
 
+vi.mock("../../shared/findRepoRoot", () => ({
+	findRepoRoot: vi.fn((dir: string) => dir),
+}));
+
+import { findRepoRoot } from "../../shared/findRepoRoot";
 import { normalizeOrigin, resolveCurrentOrigin } from "./getCurrentOrigin";
 
 const mockExecFileSync = vi.mocked(execFileSync);
@@ -119,6 +124,16 @@ describe("resolveCurrentOrigin", () => {
 			origin: "local:/git/flaky",
 			stable: false,
 		});
+	});
+
+	it("resolves a directory outside any repo without running git", () => {
+		vi.mocked(findRepoRoot).mockReturnValueOnce(null);
+
+		expect(resolveCurrentOrigin("/home/me")).toEqual({
+			origin: "local:/home/me",
+			stable: false,
+		});
+		expect(mockExecFileSync).not.toHaveBeenCalled();
 	});
 
 	it("reports the local key as unstable when a listed remote's url cannot be read", () => {
