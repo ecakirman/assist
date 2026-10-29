@@ -7,6 +7,17 @@ covers:
   - claude:extension
   - config:extension.redirects
 screenshots:
+  - file: browser-extension-comment-popover.png
+    alt: The assist popover open beside a pull request comment, with an instructions field and Prompt, Draft and Bug buttons
+    url: https://github.com/staff0rd/sandbox/pull/12
+    actions:
+      - click: "a[href*='#issuecomment-'] + [data-assist-send]"
+      - type: Add an example under Usage
+    crop:
+      - "[id^='issuecomment-']:visible"
+      - "textarea:visible"
+      - "text=/Esc to/ >> visible=true"
+    cropPadding: 16
   - file: browser-extension-review-menu.png
     alt: The assist button's menu on a GitHub pull request, listing review modes, options and pull request actions
     url: https://github.com/staff0rd/sandbox/pull/12
@@ -42,6 +53,8 @@ The extension adds an **assist** button beside each comment and review on a pull
 | Prompt | Starts a session in your clone of the repo, with the link and your instructions. **Enter** picks this |
 | Draft  | [Drafts a backlog item](../backlog-writing/) from the link and your instructions                      |
 | Bug    | Files a backlog bug from the link and your instructions                                               |
+
+::screenshot{file="browser-extension-comment-popover.png"}
 
 The repo must be cloned under `clone.baseDir`.
 
