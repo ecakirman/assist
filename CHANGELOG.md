@@ -1,3 +1,10 @@
+# [0.935.0](https://github.com/staff0rd/assist/compare/v0.934.5...v0.935.0) (2026-10-29)
+
+
+### Features
+
+* restyle Slate sessions, backlog, Next ([42ae917](https://github.com/staff0rd/assist/commit/42ae9174e1c8adc7b6228e74a4a7a27b48845f39))
+
 ## [0.934.5](https://github.com/staff0rd/assist/compare/v0.934.4...v0.934.5) (2026-10-29)
 
 
