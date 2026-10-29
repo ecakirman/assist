@@ -1,3 +1,10 @@
+## [0.926.2](https://github.com/staff0rd/assist/compare/v0.926.1...v0.926.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* load all repo modes on dialog open ([adfa901](https://github.com/staff0rd/assist/commit/adfa901cdf6bbb9ab7e8be2c11e3443bba8e365c))
+
 ## [0.926.1](https://github.com/staff0rd/assist/compare/v0.926.0...v0.926.1) (2026-10-28)
 
 
