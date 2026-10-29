@@ -1,3 +1,10 @@
+## [0.934.2](https://github.com/staff0rd/assist/compare/v0.934.1...v0.934.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* show change in long modified tests ([533aa12](https://github.com/staff0rd/assist/commit/533aa121328adcfc4d138b6ac692cbc601ad8551))
+
 ## [0.934.1](https://github.com/staff0rd/assist/compare/v0.934.0...v0.934.1) (2026-10-29)
 
 
