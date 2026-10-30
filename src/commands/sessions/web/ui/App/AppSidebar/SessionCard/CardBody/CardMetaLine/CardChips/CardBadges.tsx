@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import type { Theme } from "@mui/material/styles";
 import { CloneBadge } from "./CardBadges/CloneBadge";
 import { tokenBadgeSx } from "../../../../../../designSystem/tokenBadgeSx";
 import { HarnessBadge } from "../../../../HarnessBadge";
@@ -9,9 +10,18 @@ import { useCloneBadgeContext } from "../../../../useCloneBadgeContext";
 
 const reviewPhaseSx = tokenBadgeSx("primary");
 
-function ReviewPhaseBadge({ label }: { label: string }) {
+const doneReviewPhaseSx = [
+	reviewPhaseSx,
+	(t: Theme) => ({
+		bgcolor: t.palette.primary.main,
+		borderColor: t.palette.primary.main,
+		color: t.palette.primary.contrastText,
+	}),
+];
+
+function ReviewPhaseBadge({ label, done }: { label: string; done: boolean }) {
 	return (
-		<Box component="span" sx={reviewPhaseSx}>
+		<Box component="span" sx={done ? doneReviewPhaseSx : reviewPhaseSx}>
 			{label}
 		</Box>
 	);
@@ -31,7 +41,10 @@ export function CardBadges({ session }: { session: SessionInfo }) {
 			{badgeClone && clone && <CloneBadge clone={clone} />}
 			<NodeBadge node={session.node} />
 			{inReview && (
-				<ReviewPhaseBadge label={`${activity.phase}/${activity.totalPhases}`} />
+				<ReviewPhaseBadge
+					label={`${activity.phase}/${activity.totalPhases}`}
+					done={session.status === "done"}
+				/>
 			)}
 		</>
 	);
