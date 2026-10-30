@@ -1,3 +1,10 @@
+## [0.954.4](https://github.com/staff0rd/assist/compare/v0.954.3...v0.954.4) (2026-10-30)
+
+
+### Bug Fixes
+
+* inbox scan JSON schema draft ([74a8c9a](https://github.com/staff0rd/assist/commit/74a8c9a40e066e3db54fce5adb938f3d06580705))
+
 ## [0.954.3](https://github.com/staff0rd/assist/compare/v0.954.2...v0.954.3) (2026-10-30)
 
 
