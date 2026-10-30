@@ -67,6 +67,48 @@ describe("unassignIssue", () => {
 		expect(logged.join("\n")).toContain("other/thing#7");
 	});
 
+	it("removes a named --assignee instead of @me", () => {
+		unassignIssue("7", { assignee: ["alice"] });
+
+		expect(execFileSync).toHaveBeenCalledWith(
+			"gh",
+			[
+				"issue",
+				"edit",
+				"7",
+				"--repo",
+				"acme/widgets",
+				"--remove-assignee",
+				"alice",
+			],
+			expect.anything(),
+		);
+		expect(logged.join("\n")).toContain("Removed alice from acme/widgets#7");
+	});
+
+	it("removes each of several --assignee values", () => {
+		unassignIssue("7", { assignee: ["alice", "bob"] });
+
+		expect(execFileSync).toHaveBeenCalledWith(
+			"gh",
+			[
+				"issue",
+				"edit",
+				"7",
+				"--repo",
+				"acme/widgets",
+				"--remove-assignee",
+				"alice",
+				"--remove-assignee",
+				"bob",
+			],
+			expect.anything(),
+		);
+		expect(logged.join("\n")).toContain(
+			"Removed alice, bob from acme/widgets#7",
+		);
+	});
+
 	it("prints usage and exits 1 for an invalid number", () => {
 		expect(() => unassignIssue("nonsense", {})).toThrow("process.exit");
 		expect(process.exit).toHaveBeenCalledWith(1);
@@ -82,7 +124,7 @@ describe("unassignIssue", () => {
 		expect(() => unassignIssue("7", {})).toThrow("process.exit");
 		expect(process.exit).toHaveBeenCalledWith(1);
 		expect(errors.join("\n")).toContain(
-			"Could not unassign you from acme/widgets#7",
+			"Could not unassign @me from acme/widgets#7",
 		);
 		expect(logged).toEqual([]);
 	});
