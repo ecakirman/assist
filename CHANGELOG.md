@@ -1,3 +1,10 @@
+# [0.940.0](https://github.com/staff0rd/assist/compare/v0.939.0...v0.940.0) (2026-10-30)
+
+
+### Features
+
+* Slate toolbar, sidebar, status bar ([a4a336e](https://github.com/staff0rd/assist/commit/a4a336e7011d8625161ef8a6f0e4d6acc306d5bc))
+
 # [0.939.0](https://github.com/staff0rd/assist/compare/v0.938.0...v0.939.0) (2026-10-30)
 
 
