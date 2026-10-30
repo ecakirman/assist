@@ -20,6 +20,10 @@ export function attachSessionSocket(server: Server, ctx: RelayContext): void {
 		) {
 			wss.handleUpgrade(req, socket, head, (ws) => browserLink.attach(ws));
 		} else {
+			if (req.url === BROWSER_LINK_PATH)
+				console.log(
+					`browser link: refused origin ${req.headers.origin ?? "(none)"}`,
+				);
 			socket.destroy();
 		}
 	});

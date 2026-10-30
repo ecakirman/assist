@@ -27,8 +27,10 @@ export function createBrowserLink(options: LinkStateOptions = {}) {
 
 	function onMessage(ws: LinkSocket, raw: unknown): void {
 		const message = parseLinkMessage(raw);
-		if (message?.type === "hello") state.open(ws, message.version);
-		else if (message?.type === "response") {
+		if (message?.type === "hello") {
+			console.log(`browser link: extension v${message.version} connected`);
+			state.open(ws, message.version);
+		} else if (message?.type === "response") {
 			const { type: _type, id, ...reply } = message;
 			replies.settle(id, reply as BrowserReply);
 		}
@@ -38,6 +40,7 @@ export function createBrowserLink(options: LinkStateOptions = {}) {
 		attach(ws: LinkSocket): void {
 			ws.on("message", (data) => onMessage(ws, data));
 			ws.on("close", () => {
+				console.log("browser link: socket closed");
 				state.close(ws);
 				replies.dropSocket(ws);
 			});
