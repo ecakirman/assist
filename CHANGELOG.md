@@ -1,3 +1,10 @@
+# [0.936.0](https://github.com/staff0rd/assist/compare/v0.935.2...v0.936.0) (2026-10-30)
+
+
+### Features
+
+* advise linking to URLs, not click paths ([9533cb9](https://github.com/staff0rd/assist/commit/9533cb9970f79cae94a64fd7584b68ec681f2768))
+
 ## [0.935.2](https://github.com/staff0rd/assist/compare/v0.935.1...v0.935.2) (2026-10-30)
 
 
