@@ -55,6 +55,7 @@ This starts the web server on port 3100 and opens it in your browser. `assist se
 
 From left to right:
 
+- **Help** opens these docs in a new window.
 - **Refresh** restarts the web server. Sessions keep running.
 - **Tabs**:
   - **Sessions** (:kbd[Alt+1]) — this page.
