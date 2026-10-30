@@ -1,11 +1,10 @@
 import Box from "@mui/material/Box";
-import type { Theme } from "@mui/material/styles";
 import { SidebarBody } from "./Sidebar/SidebarBody";
 import { SidebarTabs } from "./Sidebar/SidebarTabs";
 import type { SidebarProps } from "../../types";
 
 const sidebarSx = {
-	width: (t: Theme) => (t.design === "slate" ? 300 : 400),
+	width: 400,
 	flexShrink: 0,
 	borderRight: 1,
 	borderColor: "divider",
