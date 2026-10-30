@@ -16,10 +16,12 @@ vi.mock("../../isMacPlatform", () => ({ isMacPlatform: () => mac }));
 
 const configuredByCwd: Record<string, boolean> = {};
 let showNewsInNav = false;
+let inboxMessages: { id: string }[] = [];
 const fetchMock = vi.fn(async (url: string) => {
 	const parsed = new URL(url, "http://localhost");
 	if (parsed.pathname === "/api/news/nav")
 		return Response.json({ showInNav: showNewsInNav });
+	if (parsed.pathname === "/api/inbox") return Response.json(inboxMessages);
 	const cwd = parsed.searchParams.get("cwd") ?? "";
 	return Response.json({ configured: configuredByCwd[cwd] ?? false });
 });
@@ -36,6 +38,7 @@ beforeEach(() => {
 	configuredByCwd["/with"] = true;
 	configuredByCwd["/without"] = false;
 	showNewsInNav = false;
+	inboxMessages = [];
 });
 
 afterEach(() => {
@@ -78,7 +81,13 @@ describe("NavTabs", () => {
 	it("shows the Releases tab when the repo declares release streams", async () => {
 		render(ui("/with", "/sessions"));
 		await waitFor(() =>
-			expect(tabLabels()).toEqual(["Sessions", "Backlog", "Next", "Releases"]),
+			expect(tabLabels()).toEqual([
+				"Sessions",
+				"Backlog",
+				"Next",
+				"Releases",
+				"Inbox",
+			]),
 		);
 		expect(fetchMock).toHaveBeenCalledWith(
 			"/api/releases/configured?cwd=%2Fwith",
@@ -88,12 +97,12 @@ describe("NavTabs", () => {
 	it("hides the Releases tab when the repo declares no release streams", async () => {
 		render(ui("/without", "/sessions"));
 		await waitFor(releasesChecked);
-		expect(tabLabels()).toEqual(["Sessions", "Backlog", "Next"]);
+		expect(tabLabels()).toEqual(["Sessions", "Backlog", "Next", "Inbox"]);
 	});
 
 	it("keeps the Releases tab hidden while the check is pending", () => {
 		render(ui("/with", "/sessions"));
-		expect(tabLabels()).toEqual(["Sessions", "Backlog", "Next"]);
+		expect(tabLabels()).toEqual(["Sessions", "Backlog", "Next", "Inbox"]);
 	});
 
 	it("hides the News tab by default", async () => {
@@ -114,6 +123,7 @@ describe("NavTabs", () => {
 				"Next",
 				"Releases",
 				"News",
+				"Inbox",
 			]),
 		);
 	});
@@ -144,6 +154,7 @@ describe("NavTabs", () => {
 				"Next",
 				"Releases",
 				"News",
+				"Inbox",
 			]),
 		);
 		expect(selectedLabel()).toBe("News");
@@ -164,7 +175,7 @@ describe("NavTabs", () => {
 		fetchMock.mockRejectedValueOnce(new Error("offline"));
 		render(ui("/with", "/sessions"));
 		await waitFor(releasesChecked);
-		expect(tabLabels()).toEqual(["Sessions", "Backlog", "Next"]);
+		expect(tabLabels()).toEqual(["Sessions", "Backlog", "Next", "Inbox"]);
 	});
 
 	it("redirects a deep link under /releases to /sessions when not configured", async () => {
@@ -216,8 +227,8 @@ describe("NavTabs", () => {
 		await waitFor(releasesChecked);
 
 		const unhandled = fireEvent.keyDown(document.body, {
-			key: "4",
-			code: "Digit4",
+			key: "6",
+			code: "Digit6",
 			altKey: true,
 		});
 		expect(unhandled).toBe(true);
@@ -247,6 +258,16 @@ describe("NavTabs", () => {
 		);
 
 		expect(chords).toEqual(["⌥3"]);
+	});
+
+	it("badges the Inbox tab with the flagged message count", async () => {
+		inboxMessages = [{ id: "gmail:1" }, { id: "slack:2" }];
+		render(ui("/without", "/sessions"));
+		await waitFor(() =>
+			expect(screen.getByRole("tab", { name: /Inbox/ }).textContent).toBe(
+				"Inbox2",
+			),
+		);
 	});
 
 	it("leaves routes that merely share the prefix alone", async () => {

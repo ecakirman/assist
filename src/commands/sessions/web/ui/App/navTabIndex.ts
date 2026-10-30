@@ -1,7 +1,7 @@
 import type { HotkeyChord } from "../../../../../shared/hotkeys/HotkeyChord";
 import { matchesChord } from "./matchesChord";
 
-const NAV_TAB_DIGIT = /^Digit([1-5])$/;
+const NAV_TAB_DIGIT = /^Digit([1-6])$/;
 
 export function navTabIndex(
 	event: KeyboardEvent,

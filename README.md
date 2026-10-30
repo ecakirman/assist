@@ -390,7 +390,7 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 ### Sessions
 
 - `assist sessions` - Start the web dashboard (same as `sessions web`)
-- `assist sessions web [-p, --port <number>] [--no-open]` - Start the web dashboard with Sessions, Backlog and News tabs (default port 3100)
+- `assist sessions web [-p, --port <number>] [--no-open]` - Start the web dashboard with Sessions, Backlog, News and Inbox tabs (default port 3100); the Inbox tab lists the messages `assist inbox scan` flagged, newest first, each linking to the original with a dismiss button, and its badge shows how many are waiting
 - `assist sessions close` - End the current daemon-managed session
 - `assist sessions rename <title>` - Retitle the current daemon-managed session's dashboard card
 - `assist sessions output [session-id] [--server [group]] [-n, --lines <count>]` - Print the recent output of a session on this node, or with `--server [group]` the current repo's live server run
@@ -431,7 +431,7 @@ The topnav's **+** button (or Ctrl+N / Alt+N; Cmd+N on macOS) opens the new-sess
 
 Every hotkey is Alt plus a left-hand key, one keyboard row per screen region, and works while the terminal has focus; on macOS use Option.
 
-- **Numbers**: Alt+1 to Alt+5 select the Nth visible top-level tab (with Releases hidden, News is Alt+4).
+- **Numbers**: Alt+1 to Alt+6 select the Nth visible top-level tab (with Releases hidden, News is Alt+4; Inbox is always last).
 - **Q W E** (top right): Alt+Q opens the Updates page (the version badge), Alt+W opens the config page and Alt+E opens the menu with focus on its first item.
 - **R** (toolbar): Alt+R focuses the toolbar's repo picker; Tab / Shift+Tab then move along the toolbar.
 - **A S D** (main area, left to right): Alt+A focuses the active session's sidebar card (expanding the sidebar and switching to Active), Alt+S focuses its terminal, and Alt+D opens and focuses its diff panel, or closes it back to the terminal when the diff already has focus. While the session's preview pane is open, Alt+D focuses the pane instead (landing on its primary decision button, **Approve & start** or else **Approve**, when it has one), and pressing it again returns focus to the terminal, leaving the pane open.
@@ -439,7 +439,7 @@ Every hotkey is Alt plus a left-hand key, one keyboard row per screen region, an
 
 Keys whose target is on Sessions return there first. Ctrl+/ (Cmd+/ on macOS) or the menu's **Keyboard shortcuts** item opens a sheet listing every sessions-view shortcut. The top-level tabs, the new-session button, the repo picker, the top-bar add agent / VS Code / done buttons, the active session's diff counts, the version badge, the config cog and the menu button show their chord in their tooltip on hover and keyboard focus.
 
-Each shortcut's chord can be overridden under `sessions.hotkeys.<action>`, e.g. `assist config set sessions.hotkeys.focusTerminal Ctrl+Alt+J -g`; restart the web server and reload the page to apply it. `assist sessions web --help` lists every action with its default. A chord is modifiers plus one key joined by `+`, such as `Alt+S`, `Ctrl+Shift+K` or `Mod+/`: the modifiers are `Ctrl`, `Alt` (`Option`), `Shift`, `Meta` (`Cmd`) and `Mod` (Cmd on macOS, Ctrl elsewhere), at least one of them other than Shift, and the key is a letter, digit, punctuation, `F1`–`F12` or a named key such as `Enter` or `ArrowUp`. Keys match the physical key, so macOS Option chords work. `navTab` takes modifiers only (e.g. `Ctrl+Alt`); its digits stay 1–5. An override replaces all of an action's default chords, and `assist config set` rejects an invalid chord. Tab card-cycling is fixed.
+Each shortcut's chord can be overridden under `sessions.hotkeys.<action>`, e.g. `assist config set sessions.hotkeys.focusTerminal Ctrl+Alt+J -g`; restart the web server and reload the page to apply it. `assist sessions web --help` lists every action with its default. A chord is modifiers plus one key joined by `+`, such as `Alt+S`, `Ctrl+Shift+K` or `Mod+/`: the modifiers are `Ctrl`, `Alt` (`Option`), `Shift`, `Meta` (`Cmd`) and `Mod` (Cmd on macOS, Ctrl elsewhere), at least one of them other than Shift, and the key is a letter, digit, punctuation, `F1`–`F12` or a named key such as `Enter` or `ArrowUp`. Keys match the physical key, so macOS Option chords work. `navTab` takes modifiers only (e.g. `Ctrl+Alt`); its digits stay 1–6. An override replaces all of an action's default chords, and `assist config set` rejects an invalid chord. Tab card-cycling is fixed.
 
 Every live session card carries an **add-agent** button (👥) that starts a second agent inside that session's existing workspace rather than allocating a new one. While several agents share a workspace, only the last one to leave triggers teardown.
 

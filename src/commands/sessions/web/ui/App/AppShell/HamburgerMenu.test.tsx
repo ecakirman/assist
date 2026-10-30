@@ -250,7 +250,7 @@ describe("HamburgerMenu", () => {
 		const sheet = screen.getByRole("dialog", { name: "Keyboard shortcuts" });
 		expect(within(sheet).getByText("Navigate")).toBeTruthy();
 		expect(within(sheet).getByText("Switch top-level tab")).toBeTruthy();
-		expect(within(sheet).getByText("Alt+1–5")).toBeTruthy();
+		expect(within(sheet).getByText("Alt+1–6")).toBeTruthy();
 		expect(within(sheet).getByText("Ctrl+/")).toBeTruthy();
 	});
 

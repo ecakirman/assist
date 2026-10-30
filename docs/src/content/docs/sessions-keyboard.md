@@ -36,7 +36,7 @@ The dashboard can be driven without the mouse. Most shortcuts are :kbd[Alt] plus
 
 | Keys                                    | Action                                                                             |
 | --------------------------------------- | ---------------------------------------------------------------------------------- |
-| :kbd[Alt+1] … :kbd[Alt+5]               | Select the Nth top-level tab                                                       |
+| :kbd[Alt+1] … :kbd[Alt+6]               | Select the Nth top-level tab                                                       |
 | :kbd[Alt+Q]                             | Open the Updates page (the version badge)                                          |
 | :kbd[Alt+W]                             | Open the config page                                                               |
 | :kbd[Alt+E]                             | Open the menu, focused on its first item                                           |
@@ -68,6 +68,6 @@ assist config set sessions.hotkeys.focusTerminal Ctrl+Alt+J
 
 Restart the web server and reload the page to apply it. A chord is modifiers plus one key joined by `+`, such as `Alt+S`, `Ctrl+Shift+K` or `Mod+/`. The modifiers are `Ctrl`, `Alt` (`Option`), `Shift`, `Meta` (`Cmd`) and `Mod` (Cmd on macOS, Ctrl elsewhere), and at least one must be something other than Shift. The key is a letter, digit, punctuation, `F1`–`F12` or a named key such as `Enter` or `ArrowUp`. Option chords work on macOS.
 
-An override replaces all of that action's default chords, and `assist config set` rejects an invalid one. `navTab` takes modifiers only (for example `Ctrl+Alt`); the tab digits stay 1–5. Tab card-cycling can't be changed.
+An override replaces all of that action's default chords, and `assist config set` rejects an invalid one. `navTab` takes modifiers only (for example `Ctrl+Alt`); the tab digits stay 1–6. Tab card-cycling can't be changed.
 
 The actions are `navTab`, `focusSidebar`, `focusTerminal`, `toggleDiff`, `focusRepoPicker`, `openUpdates`, `openConfig`, `openMenu`, `focusAddAgent`, `focusVsCode`, `focusDone`, `nextWaiting`, `newSession`, `quickOpen`, `save` and `shortcutsSheet`. `assist sessions web --help` lists each with its default.

@@ -5,6 +5,7 @@ const BACKLOG: NavTab = { path: "/backlog", label: "Backlog" };
 const NEXT: NavTab = { path: "/next", label: "Next" };
 const RELEASES: NavTab = { path: "/releases", label: "Releases" };
 const NEWS: NavTab = { path: "/news", label: "News" };
+const INBOX: NavTab = { path: "/inbox", label: "Inbox" };
 
 export function visibleTabs(
 	releasesConfigured: boolean,
@@ -16,5 +17,6 @@ export function visibleTabs(
 		NEXT,
 		...(releasesConfigured ? [RELEASES] : []),
 		...(newsShownInNav ? [NEWS] : []),
+		INBOX,
 	];
 }

@@ -10,7 +10,7 @@ import {
 	shortcutRegistry,
 } from "./shortcutRegistry";
 
-const NAV_TAB_DIGITS = "1–5";
+const NAV_TAB_DIGITS = "1–6";
 const resolved = new WeakMap<HotkeyBindings, Map<ShortcutName, Shortcut>>();
 
 export function resolveShortcut(

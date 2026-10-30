@@ -2,7 +2,6 @@ import { createFallbackHandler } from "../../../shared/createFallbackHandler";
 import { createHtmlHandler, type Handler } from "../../../shared/web";
 import { getBacklogSummary } from "../../backlog/web/getBacklogSummary";
 import { getRepoLocation } from "../../backlog/web/getRepoLocation";
-import { handleItemRoute } from "../../backlog/web/handleItemRoute";
 import { listItems } from "../../backlog/web/shared";
 import { browserRelay } from "./browser/browserRelay";
 import { daemonLogTail } from "./daemonLogTail";
@@ -24,9 +23,11 @@ import { getReviewSynthesis } from "./getReviewSynthesis";
 import { githubFileContent } from "./githubFileContent";
 import { githubUrl } from "./githubUrl";
 import { gitStatus } from "./gitStatus";
+import { handleDynamicRoute } from "./handleDynamicRoute";
 import { harnessCapabilities } from "./harnessCapabilities";
 import { health } from "./health";
 import { historySearch } from "./historySearch";
+import { listInbox } from "./inbox/listInbox";
 import { hotkeyBindings } from "./hotkeyBindings";
 import { jiraSite } from "./jiraSite";
 import { listFiles } from "./listFiles";
@@ -39,7 +40,6 @@ import { listUsageHistory } from "./listUsageHistory";
 import { listUsageItems } from "./listUsageItems";
 import { openInCode } from "./openInCode";
 import { prList } from "./prList";
-import { proxyToNode } from "./proxyToNode";
 import { previewImage } from "./previewImage";
 import { prStatus } from "./prStatus";
 import { releasesCompare } from "./releases/releasesCompare";
@@ -106,6 +106,7 @@ const routes: Record<string, Handler> = {
 	"GET /api/pr-list": prList,
 	"GET /api/next": nextItems,
 	"POST /api/next/pickup": nextPickup,
+	"GET /api/inbox": listInbox,
 	"GET /api/news/items": listNewsItems,
 	"GET /api/news/nav": newsNavConfig,
 	"GET /api/releases/state": releasesState,
@@ -126,6 +127,5 @@ const routes: Record<string, Handler> = {
 export const handleRequest = createFallbackHandler(
 	routes,
 	htmlHandler,
-	async (req, res, pathname) =>
-		(await proxyToNode(req, res)) || handleItemRoute(req, res, pathname),
+	handleDynamicRoute,
 );

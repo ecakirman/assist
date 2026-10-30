@@ -4,6 +4,7 @@ import { BackupsView } from "./AppRoutes/BackupsView";
 import { ConfigView } from "../ConfigView";
 import { NodeScopedDiffView } from "./AppRoutes/NodeScopedDiffView";
 import { NodeScopedFileView } from "./AppRoutes/NodeScopedFileView";
+import { InboxView } from "./AppRoutes/InboxView";
 import { NewsView } from "./AppRoutes/NewsView";
 import { NextView } from "./AppRoutes/NextView";
 import { ReleasesView } from "../ReleasesView";
@@ -38,6 +39,7 @@ export function AppRoutes({ socket }: { socket: SessionSocket }) {
 						}
 					/>
 					<Route path="news" element={<NewsView />} />
+					<Route path="inbox" element={<InboxView />} />
 					<Route path="releases" element={<ReleasesView />} />
 					<Route path="usage" element={<UsageHistoryView />} />
 					<Route path="backups" element={<BackupsView />} />

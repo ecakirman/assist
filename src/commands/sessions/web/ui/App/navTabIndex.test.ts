@@ -18,8 +18,8 @@ function event(overrides: Partial<KeyboardEvent>): KeyboardEvent {
 }
 
 describe("navTabIndex", () => {
-	it("maps Alt+1 to Alt+5 onto tab indexes 0 to 4", () => {
-		for (const n of [1, 2, 3, 4, 5])
+	it("maps Alt+1 to Alt+6 onto tab indexes 0 to 5", () => {
+		for (const n of [1, 2, 3, 4, 5, 6])
 			expect(
 				navTabIndex(event({ key: String(n), code: `Digit${n}` }), alt),
 			).toBe(n - 1);
@@ -35,9 +35,9 @@ describe("navTabIndex", () => {
 		expect(navTabIndex(event({}), ctrlAlt)).toBeUndefined();
 	});
 
-	it("ignores digits beyond 5 and the numpad", () => {
+	it("ignores digits beyond 6 and the numpad", () => {
 		expect(
-			navTabIndex(event({ key: "6", code: "Digit6" }), alt),
+			navTabIndex(event({ key: "7", code: "Digit7" }), alt),
 		).toBeUndefined();
 		expect(navTabIndex(event({ code: "Numpad1" }), alt)).toBeUndefined();
 	});

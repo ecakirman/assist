@@ -2,6 +2,7 @@ import Tabs from "@mui/material/Tabs";
 import { useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { NavTab } from "./NavTabs/NavTab";
+import { useInboxCount } from "./NavTabs/useInboxCount";
 import { useNavTabHotkey } from "./NavTabs/useNavTabHotkey";
 import { useNewsShownInNav } from "./NavTabs/useNewsShownInNav";
 import { useReleasesConfigured } from "./NavTabs/useReleasesConfigured";
@@ -15,6 +16,7 @@ export function NavTabs({ cwd }: { cwd: string }) {
 	const navigate = useNavigate();
 	const releasesConfigured = useReleasesConfigured(cwd);
 	const newsShownInNav = useNewsShownInNav();
+	const inboxCount = useInboxCount();
 	useReleasesRedirect(releasesConfigured);
 	const showReleases = releasesConfigured === true;
 	const tabs = useMemo(
@@ -47,6 +49,7 @@ export function NavTabs({ cwd }: { cwd: string }) {
 					key={t.path}
 					index={index}
 					label={t.label}
+					count={t.path === "/inbox" ? inboxCount : undefined}
 					onClick={() => goTo(t.path)}
 				/>
 			))}
