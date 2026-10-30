@@ -1,3 +1,10 @@
+## [0.946.1](https://github.com/staff0rd/assist/compare/v0.946.0...v0.946.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* send inline comments on Approve ([2fcb1b8](https://github.com/staff0rd/assist/commit/2fcb1b81ff2aad0f4e373de999942c8937933853))
+
 # [0.946.0](https://github.com/staff0rd/assist/compare/v0.945.1...v0.946.0) (2026-10-30)
 
 
