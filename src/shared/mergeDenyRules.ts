@@ -1,4 +1,5 @@
 import { deepMergeRawConfig } from "./deepMergeRawConfig";
+import { mergeAdviceRules } from "./mergeAdviceRules";
 
 type DenyRule = { pattern: string; message: string };
 
@@ -58,7 +59,11 @@ export function mergeRawConfigs(
 		globalRaw.run as Record<string, unknown>[] | undefined,
 		projectRaw.run as Record<string, unknown>[] | undefined,
 	);
+	const adviceRules = mergeAdviceRules(globalRaw, projectRaw);
 	const merged = deepMergeRawConfig(globalRaw, projectRaw);
+	if (adviceRules !== undefined) {
+		merged.advice = { ...(merged.advice as object), rules: adviceRules };
+	}
 	if (deny !== undefined) {
 		merged.deny = deny;
 	}

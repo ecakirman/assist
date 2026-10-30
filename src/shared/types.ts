@@ -34,6 +34,9 @@ const assistConfigShape = {
 				.default({}),
 			extra: z.string().optional(),
 			verify: z.string().optional(),
+			rules: z
+				.array(z.strictObject({ title: z.string(), text: z.string() }))
+				.optional(),
 		})
 		.optional(),
 	backup: z

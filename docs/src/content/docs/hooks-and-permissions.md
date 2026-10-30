@@ -8,6 +8,7 @@ covers:
   - config:advice.sections
   - config:advice.extra
   - config:advice.verify
+  - config:advice.rules
   - config:deny
   - config:cliHook.blockNpmRun
   - config:notify.enabled
@@ -37,6 +38,15 @@ Tune them per repo:
 
   ```bash
   assist config set advice.verify "Run make check"
+  ```
+
+- List your own rules under `advice.rules`, each with a `title` and `text`, shown as a **Your rules** section:
+
+  ```yaml
+  advice:
+    rules:
+      - title: Link, don't navigate
+        text: Give the direct URL whenever you send me to a web page or setting.
   ```
 
 ## Fewer permission prompts

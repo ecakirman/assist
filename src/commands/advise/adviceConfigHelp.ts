@@ -16,4 +16,10 @@ export const adviceConfigHelp: ConfigHelpEntry[] = [
 		setter: 'assist config set advice.verify "Run make check"',
 		note: "replaces the verify fragment's text and forces it in",
 	},
+	{
+		key: "advice.rules",
+		setter:
+			"edit advice.rules ({ title, text } entries) in ~/.assist.yml or the repo's assist.yml",
+		note: 'listed under "Your rules"; global and repo entries are concatenated, global first',
+	},
 ];

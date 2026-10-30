@@ -2,6 +2,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { mergeRawConfigs } from "../../shared/mergeDenyRules";
 import { assistConfigSchema } from "../../shared/types";
 import type { AdviceContext } from "./AdviceContext";
 import { adviceConditions } from "./adviceConditions";
@@ -133,6 +134,38 @@ describe("composeAdvice", () => {
 		);
 
 		expect(markdown).toContain("## Repo notes\n\nDeploy from main only.");
+	});
+
+	it("emits no rules section when advice.rules is empty", () => {
+		expect(composeAdvice(contextWith({}), fragments)).not.toContain(
+			"## Your rules",
+		);
+		expect(
+			composeAdvice(contextWith({ advice: { rules: [] } }), fragments),
+		).not.toContain("## Your rules");
+	});
+
+	it("lists global advice.rules as their own section", () => {
+		const markdown = composeAdvice(
+			contextWith({
+				advice: { rules: [{ title: "Links", text: "Give URLs." }] },
+			}),
+			[],
+		);
+
+		expect(markdown).toContain("## Your rules\n\n- **Links** — Give URLs.");
+	});
+
+	it("lists global rules before repo rules once configs are merged", () => {
+		const merged = mergeRawConfigs(
+			{ advice: { rules: [{ title: "Links", text: "Give URLs." }] } },
+			{ advice: { rules: [{ title: "Deploy", text: "Main only." }] } },
+		);
+		const markdown = composeAdvice(contextWith(merged), []);
+
+		expect(markdown).toContain(
+			"## Your rules\n\n- **Links** — Give URLs.\n- **Deploy** — Main only.",
+		);
 	});
 
 	it("returns nothing when no fragment applies", () => {

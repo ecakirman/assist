@@ -127,3 +127,29 @@ describe("mergeRawConfigs nested objects", () => {
 		expect(merged.transcript).toEqual({ dir: "~/t", format: "md" });
 	});
 });
+
+describe("mergeRawConfigs advice.rules", () => {
+	const globalRule = { title: "Links", text: "Give URLs." };
+	const repoRule = { title: "Deploy", text: "Main only." };
+
+	it("concatenates global and repo rules with global first", () => {
+		const merged = mergeRawConfigs(
+			{ advice: { rules: [globalRule], extra: "g" } },
+			{ advice: { rules: [repoRule] } },
+		);
+		expect(merged.advice).toEqual({
+			rules: [globalRule, repoRule],
+			extra: "g",
+		});
+	});
+
+	it("keeps whichever side has rules when only one does", () => {
+		expect(
+			mergeRawConfigs({ advice: { rules: [globalRule] } }, { advice: {} })
+				.advice,
+		).toEqual({ rules: [globalRule] });
+		expect(
+			mergeRawConfigs({}, { advice: { rules: [repoRule] } }).advice,
+		).toEqual({ rules: [repoRule] });
+	});
+});

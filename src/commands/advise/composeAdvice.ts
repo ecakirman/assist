@@ -20,6 +20,12 @@ export function composeAdvice(
 	const extra = context.config.advice?.extra?.trim();
 	if (extra) sections.push(`## Repo notes\n\n${extra}`);
 
+	const rules = context.config.advice?.rules ?? [];
+	if (rules.length > 0)
+		sections.push(
+			`## Your rules\n\n${rules.map(({ title, text }) => `- **${title}** — ${text}`).join("\n")}`,
+		);
+
 	if (sections.length === 0) return "";
 	return [heading, ...sections].join("\n\n");
 }
