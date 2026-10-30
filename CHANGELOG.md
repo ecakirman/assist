@@ -1,3 +1,15 @@
+# [0.942.0](https://github.com/staff0rd/assist/compare/v0.941.0...v0.942.0) (2026-10-30)
+
+
+### Bug Fixes
+
+* log browser link connections ([807e312](https://github.com/staff0rd/assist/commit/807e3122b8fef0869e340590082502b8ba95dec7))
+
+
+### Features
+
+* Slate backlog item, Next and dialog ([d503835](https://github.com/staff0rd/assist/commit/d5038357c698605373466620a49331b117a77e8d))
+
 # [0.941.0](https://github.com/staff0rd/assist/compare/v0.940.3...v0.941.0) (2026-10-30)
 
 
