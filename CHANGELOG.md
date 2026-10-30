@@ -1,3 +1,10 @@
+## [0.948.1](https://github.com/staff0rd/assist/compare/v0.948.0...v0.948.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* name --assignee in unassign denies ([6cff808](https://github.com/staff0rd/assist/commit/6cff808b910c7a585447346645ea7b7bbc5d44d6))
+
 # [0.948.0](https://github.com/staff0rd/assist/compare/v0.947.0...v0.948.0) (2026-10-30)
 
 
