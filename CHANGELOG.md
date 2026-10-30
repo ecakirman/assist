@@ -1,3 +1,10 @@
+# [0.946.0](https://github.com/staff0rd/assist/compare/v0.945.1...v0.946.0) (2026-10-30)
+
+
+### Features
+
+* Slate is the only design ([4a26c87](https://github.com/staff0rd/assist/commit/4a26c8724d09e80833e3ca9161216e82183f938c))
+
 ## [0.945.1](https://github.com/staff0rd/assist/compare/v0.945.0...v0.945.1) (2026-10-30)
 
 
