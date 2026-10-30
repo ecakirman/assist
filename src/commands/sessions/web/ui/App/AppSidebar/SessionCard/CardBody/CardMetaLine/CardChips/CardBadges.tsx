@@ -8,10 +8,8 @@ import { ServingChip } from "./CardBadges/ServingChip";
 import type { SessionInfo } from "../../../../../../types";
 import { useCloneBadgeContext } from "../../../../useCloneBadgeContext";
 
-const reviewPhaseSx = tokenBadgeSx("primary");
-
-const doneReviewPhaseSx = [
-	reviewPhaseSx,
+const reviewPhaseSx = [
+	tokenBadgeSx("primary"),
 	(t: Theme) => ({
 		bgcolor: t.palette.primary.main,
 		borderColor: t.palette.primary.main,
@@ -19,9 +17,9 @@ const doneReviewPhaseSx = [
 	}),
 ];
 
-function ReviewPhaseBadge({ label, done }: { label: string; done: boolean }) {
+function ReviewPhaseBadge({ label }: { label: string }) {
 	return (
-		<Box component="span" sx={done ? doneReviewPhaseSx : reviewPhaseSx}>
+		<Box component="span" sx={reviewPhaseSx}>
 			{label}
 		</Box>
 	);
@@ -41,10 +39,7 @@ export function CardBadges({ session }: { session: SessionInfo }) {
 			{badgeClone && clone && <CloneBadge clone={clone} />}
 			<NodeBadge node={session.node} />
 			{inReview && (
-				<ReviewPhaseBadge
-					label={`${activity.phase}/${activity.totalPhases}`}
-					done={session.status === "done"}
-				/>
+				<ReviewPhaseBadge label={`${activity.phase}/${activity.totalPhases}`} />
 			)}
 		</>
 	);
