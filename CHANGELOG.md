@@ -1,3 +1,10 @@
+# [0.952.0](https://github.com/staff0rd/assist/compare/v0.951.1...v0.952.0) (2026-10-30)
+
+
+### Features
+
+* assist button on each Gmail message ([47e9b76](https://github.com/staff0rd/assist/commit/47e9b7619b2f5a5dede078080ed3eae667ea536b))
+
 ## [0.951.1](https://github.com/staff0rd/assist/compare/v0.951.0...v0.951.1) (2026-10-30)
 
 
