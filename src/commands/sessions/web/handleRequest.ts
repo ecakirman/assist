@@ -10,9 +10,11 @@ import { diff } from "./diff";
 import { diffScopes } from "./diffScopes";
 import { docsFeedback } from "./docsFeedback/docsFeedback";
 import { fileContent } from "./fileContent";
+import { getClones } from "./fromGithub/getClones";
 import { reviewFromGithub } from "./fromGithub/reviewFromGithub";
 import { sessionFromGithub } from "./fromGithub/sessionFromGithub";
 import { sessionFromGithubPreflight } from "./fromGithub/sessionFromGithubPreflight";
+import { sessionFromLink } from "./fromGithub/sessionFromLink";
 import { getBackupStatus } from "./getBackupStatus";
 import { getBackups } from "./getBackups";
 import { getConfig } from "./getConfig";
@@ -69,6 +71,9 @@ const routes: Record<string, Handler> = {
 	"GET /api/repo-location": getRepoLocation,
 	"POST /api/sessions/from-github": sessionFromGithub,
 	"OPTIONS /api/sessions/from-github": sessionFromGithubPreflight,
+	"POST /api/sessions/from-link": sessionFromLink,
+	"OPTIONS /api/sessions/from-link": sessionFromGithubPreflight,
+	"GET /api/clones": getClones,
 	"POST /api/sessions/review-from-github": reviewFromGithub,
 	"OPTIONS /api/sessions/review-from-github": sessionFromGithubPreflight,
 	"POST /api/sessions/docs-feedback": docsFeedback,

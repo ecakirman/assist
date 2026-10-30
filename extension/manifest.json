@@ -22,6 +22,7 @@
 				"https://github.com/*",
 				"https://dev.azure.com/*",
 				"https://*.visualstudio.com/*",
+				"https://mail.google.com/*",
 				"http://localhost/*",
 				"http://127.0.0.1/*"
 			]
@@ -40,7 +41,8 @@
 			"matches": [
 				"https://github.com/*",
 				"https://dev.azure.com/*",
-				"https://*.visualstudio.com/*"
+				"https://*.visualstudio.com/*",
+				"https://mail.google.com/*"
 			],
 			"js": ["content.js"],
 			"run_at": "document_idle"

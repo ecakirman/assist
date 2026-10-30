@@ -1,11 +1,9 @@
 import { Paper } from "@mui/material";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { AssistInstructionsField } from "./AssistInstructionsField";
 import { AssistPopoverButtons } from "./AssistPopoverButtons";
 import { AssistPopoverFooter } from "./AssistPopoverFooter";
-import { closeWhenFocusLeaves } from "./closeWhenFocusLeaves";
-import { copyWhenEmptyKeyDown } from "./copyWhenEmptyKeyDown";
-import { popoverKeyDown } from "./popoverKeyDown";
+import { usePopoverHandlers } from "./usePopoverHandlers";
 
 export function AssistPopover({
 	onSend,
@@ -16,6 +14,7 @@ export function AssistPopover({
 	keepDraftOnBlur = false,
 	copyWhenEmpty,
 	buttons,
+	children,
 }: {
 	onSend: (instructions: string, button: number) => void;
 	onClose: (restoreFocus: boolean) => void;
@@ -25,24 +24,18 @@ export function AssistPopover({
 	keepDraftOnBlur?: boolean;
 	copyWhenEmpty?: string;
 	buttons?: string[];
+	children?: ReactNode;
 }) {
 	const [instructions, setInstructions] = useState("");
-
-	const send = (button: number) => {
-		if (!busy) onSend(instructions, button);
-	};
-
-	const onKeyDown = copyWhenEmptyKeyDown(
-		copyWhenEmpty,
-		!instructions,
-		popoverKeyDown(onClose, () => send(0)),
-	);
-
-	const hasDraft = keepDraftOnBlur && instructions.trim() !== "";
-	const onBlur = closeWhenFocusLeaves(
-		Boolean(error) || busy || hasDraft,
+	const { send, onKeyDown, onBlur } = usePopoverHandlers({
+		instructions,
+		onSend,
 		onClose,
-	);
+		busy,
+		keepOpen: Boolean(error),
+		keepDraftOnBlur,
+		copyWhenEmpty,
+	});
 
 	return (
 		<Paper elevation={8} sx={{ p: 1.5 }} onBlur={onBlur}>
@@ -53,6 +46,7 @@ export function AssistPopover({
 				placeholder={placeholder}
 				error={Boolean(error)}
 			/>
+			{children}
 			{buttons && (
 				<AssistPopoverButtons labels={buttons} disabled={busy} onClick={send} />
 			)}

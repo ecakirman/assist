@@ -4,13 +4,24 @@ import type {
 } from "./isAssistSendMessage";
 import { postAssistJson } from "./postAssistJson";
 
+function endpointFor({
+	url,
+	instructions,
+	args,
+	mode,
+	repo,
+}: AssistSendMessage): [string, unknown] {
+	if (args) return ["review-from-github", { url, args }];
+	if (repo !== undefined)
+		return ["from-link", { url, repo, instructions, mode }];
+	return ["from-github", { url, instructions, mode }];
+}
+
 export async function postToAssist(
 	server: string,
-	{ url, instructions, args, mode }: AssistSendMessage,
+	message: AssistSendMessage,
 ): Promise<AssistSendResult> {
-	const [endpoint, body] = args
-		? ["review-from-github", { url, args }]
-		: ["from-github", { url, instructions, mode }];
+	const [endpoint, body] = endpointFor(message);
 	const result = await postAssistJson(
 		server,
 		`/api/sessions/${endpoint}`,

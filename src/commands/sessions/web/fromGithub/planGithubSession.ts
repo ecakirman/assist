@@ -2,6 +2,7 @@ import {
 	type GithubAssistMode,
 	isGithubAssistMode,
 } from "../../../../shared/githubAssistModes";
+import { linkPrompt } from "./linkPrompt";
 import { type GithubPlanError, resolveGithubClone } from "./resolveGithubClone";
 
 export function planGithubSession(
@@ -16,7 +17,6 @@ export function planGithubSession(
 		return { ok: false, status: 400, error: `Unknown mode: ${mode}` };
 	const clone = resolveGithubClone(url, baseDir, redirects);
 	if (!clone.ok) return clone;
-	const extra = typeof instructions === "string" ? instructions.trim() : "";
-	const prompt = extra ? `${clone.url}\n\n${extra}` : clone.url;
+	const prompt = linkPrompt(clone.url, instructions);
 	return { ok: true, cwd: clone.cwd, prompt, ...(mode && { mode }) };
 }

@@ -1,29 +1,20 @@
-import { parseAzureDevopsPrUrl } from "../../../shared/azureDevops/parseAzureDevopsPrUrl";
-import { githubPullNumber } from "../../../shared/githubPullNumber";
-import {
-	type AssistPopoverKind,
-	type AssistSendRequest,
-	assistPopoverContent,
-} from "./assistPopoverContent";
+import { assistPopoverContent } from "./assistPopoverContent";
 import { ensureAssistButtonStyles } from "./ensureAssistButtonStyles";
+import type { AssistSendRequest } from "./isAssistSendMessage";
 import { sendToAssist } from "./sendToAssist";
 import { showAssistToast } from "./showAssistToast";
 import { toggleAssistPopover } from "./toggleAssistPopover";
 import { assistIcon } from "./assistIcon";
+import { type AssistSendTarget, popoverKind } from "./popoverKind";
 
 const LABEL = "assist";
 
-function popoverKind(
-	placement: "comment" | "header",
-	url: string,
-): AssistPopoverKind {
-	if (placement !== "header") return "instructions";
-	if (parseAzureDevopsPrUrl(url)) return "azure-devops-review";
-	return githubPullNumber(url) ? "review" : "instructions";
+async function resolveTarget(target: AssistSendTarget): Promise<string> {
+	return typeof target === "function" ? target() : target.link();
 }
 
 export function assistSendButton(
-	url: () => string,
+	target: AssistSendTarget,
 	title: string,
 	placement: "comment" | "header" = "comment",
 ): HTMLButtonElement {
@@ -43,7 +34,13 @@ export function assistSendButton(
 	const send = async (request: AssistSendRequest) => {
 		button.disabled = true;
 		label.textContent = "sending…";
-		const result = await sendToAssist({ url: url(), ...request });
+		const result = await resolveTarget(target).then(
+			(url) => sendToAssist({ url, ...request }),
+			(error: unknown) => ({
+				ok: false,
+				message: error instanceof Error ? error.message : String(error),
+			}),
+		);
 		showAssistToast(result.message, result.ok);
 		button.disabled = false;
 		label.textContent = LABEL;
@@ -54,7 +51,7 @@ export function assistSendButton(
 		event.preventDefault();
 		event.stopPropagation();
 		toggleAssistPopover(button, (dismiss) =>
-			assistPopoverContent(popoverKind(placement, url()), { send, dismiss }),
+			assistPopoverContent(popoverKind(placement, target), { send, dismiss }),
 		);
 	});
 	return button;

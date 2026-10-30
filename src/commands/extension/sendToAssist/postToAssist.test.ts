@@ -57,6 +57,29 @@ describe("postToAssist", () => {
 		);
 	});
 
+	it("posts a picked repo to the from-link endpoint", async () => {
+		respond(200, { sessionId: "s1", cwd: "/base/repo" });
+		const MAIL = "https://mail.google.com/mail/u/0/#search/rfc822msgid%3Ax";
+		await postToAssist(SERVER, {
+			...message,
+			url: MAIL,
+			repo: "repo",
+			instructions: "go",
+			mode: "bug",
+		});
+		expect(fetch).toHaveBeenCalledWith(
+			`${SERVER}/api/sessions/from-link`,
+			expect.objectContaining({
+				body: JSON.stringify({
+					url: MAIL,
+					repo: "repo",
+					instructions: "go",
+					mode: "bug",
+				}),
+			}),
+		);
+	});
+
 	it("relays the server's error", async () => {
 		respond(404, { error: "org/repo is not cloned under /base" });
 		expect(await postToAssist(SERVER, message)).toEqual({

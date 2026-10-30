@@ -1,22 +1,11 @@
 import type { ReactNode } from "react";
-import type { GithubAssistMode } from "../../../shared/githubAssistModes";
-import { AssistPopover } from "./AssistPopover";
 import { AssistReviewMenu } from "./AssistReviewMenu";
-
-export type AssistSendRequest = {
-	instructions?: string;
-	args?: string[];
-	mode?: GithubAssistMode;
-};
-
-const sendModes: { label: string; mode?: GithubAssistMode }[] = [
-	{ label: "Prompt" },
-	{ label: "Draft", mode: "draft" },
-	{ label: "Bug", mode: "bug" },
-];
+import { AssistSendModesPopover } from "./AssistSendModesPopover";
+import type { AssistSendRequest } from "./isAssistSendMessage";
 
 export type AssistPopoverKind =
 	| "instructions"
+	| "link"
 	| "review"
 	| "azure-devops-review";
 
@@ -30,7 +19,7 @@ export function assistPopoverContent(
 		dismiss: (restoreFocus: boolean) => void;
 	},
 ): ReactNode {
-	if (kind !== "instructions")
+	if (kind === "review" || kind === "azure-devops-review")
 		return (
 			<AssistReviewMenu
 				actionsOnly={kind === "azure-devops-review"}
@@ -42,17 +31,10 @@ export function assistPopoverContent(
 			/>
 		);
 	return (
-		<AssistPopover
-			buttons={sendModes.map(({ label }) => label)}
-			onSend={(instructions, button) => {
-				dismiss(false);
-				const { mode } = sendModes[button];
-				send({
-					instructions: instructions || undefined,
-					...(mode && { mode }),
-				});
-			}}
-			onClose={dismiss}
+		<AssistSendModesPopover
+			pickRepo={kind === "link"}
+			send={send}
+			dismiss={dismiss}
 		/>
 	);
 }
