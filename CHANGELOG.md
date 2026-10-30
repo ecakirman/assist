@@ -1,3 +1,10 @@
+## [0.945.1](https://github.com/staff0rd/assist/compare/v0.945.0...v0.945.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* keep extension description under 250 ([e8a0b7b](https://github.com/staff0rd/assist/commit/e8a0b7b61287ecc67b6345a67d1eb4b0118c995d))
+
 # [0.945.0](https://github.com/staff0rd/assist/compare/v0.944.0...v0.945.0) (2026-10-30)
 
 
