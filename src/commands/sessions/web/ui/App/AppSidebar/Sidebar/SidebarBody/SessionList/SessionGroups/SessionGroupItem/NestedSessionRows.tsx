@@ -9,18 +9,25 @@ const branchSx = {
 		content: '""',
 		position: "absolute",
 		left: 0,
-		top: "15px",
-		width: "7px",
-		height: "1px",
-		bgcolor: "divider",
+		top: "-1px",
+		width: "6px",
+		height: "19.5px",
+		borderLeft: 1,
+		borderBottom: 1,
+		borderColor: "divider",
+	},
+	"&:not(:last-of-type)::after": {
+		content: '""',
+		position: "absolute",
+		left: 0,
+		top: 0,
+		bottom: "-1px",
+		borderLeft: 1,
+		borderColor: "divider",
 	},
 } as const;
 
-const nestedChildrenSx = {
-	ml: "13px",
-	borderLeft: 1,
-	borderColor: "divider",
-} as const;
+const nestedChildrenSx = { ml: "13px" } as const;
 
 export function NestedSessionRows({
 	rows,
