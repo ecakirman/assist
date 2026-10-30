@@ -1,3 +1,10 @@
+# [0.947.0](https://github.com/staff0rd/assist/compare/v0.946.1...v0.947.0) (2026-10-30)
+
+
+### Features
+
+* add assist github issue unassign ([fa18446](https://github.com/staff0rd/assist/commit/fa1844654392ebdc287461c4eb18e23ec7cbcbb6))
+
 ## [0.946.1](https://github.com/staff0rd/assist/compare/v0.946.0...v0.946.1) (2026-10-30)
 
 
