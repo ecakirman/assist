@@ -1,3 +1,10 @@
+## [0.954.2](https://github.com/staff0rd/assist/compare/v0.954.1...v0.954.2) (2026-10-30)
+
+
+### Bug Fixes
+
+* light New session fill, backlog tokens ([4af1c97](https://github.com/staff0rd/assist/commit/4af1c97f5e8499be761b77ba9a9faeb70879425e))
+
 ## [0.954.1](https://github.com/staff0rd/assist/compare/v0.954.0...v0.954.1) (2026-10-30)
 
 
