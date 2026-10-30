@@ -1,3 +1,10 @@
+# [0.948.0](https://github.com/staff0rd/assist/compare/v0.947.0...v0.948.0) (2026-10-30)
+
+
+### Features
+
+* unassign named logins via --assignee ([7328ec0](https://github.com/staff0rd/assist/commit/7328ec02d72bcc72cddee5992945ff7d032fa92e))
+
 # [0.947.0](https://github.com/staff0rd/assist/compare/v0.946.1...v0.947.0) (2026-10-30)
 
 
