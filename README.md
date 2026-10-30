@@ -272,6 +272,7 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 
 - `assist rules list [path] [--full]` - List the rules in scope for a path (default: cwd); `--full` adds each rule's description
 - `assist rules add <text> [--title <title>] [--scope <path>]` - Add a rule to the `## Rules` section of the `CLAUDE.md` nearest `--scope` (default cwd)
+- `assist rules add <text> --title <title> --global` - Append a `{ title, text }` entry to `advice.rules` in `~/.assist.yml` instead, for rules about agent conduct that hold in every repo; it takes no R-code and can't be combined with `--scope`. Global rules are per machine (WSL and Windows each have their own `~/.assist.yml`)
 - `assist rules index` - Record the directories that carry their own `## Rules` in the repo root's `CLAUDE.md`; run it after hand-editing a `## Rules` section
 
 ### Devlog
@@ -297,7 +298,7 @@ Rules are `- **<code>** — **<title>** — <text>` bullets, the title optional,
 - `assist code-comment confirm <pin>` - Insert the pinned comment at its file/line
 - `assist db-migration unlock` - Ask a human to approve creating the next migration module
 - `assist db-migration confirm <pin>` - Confirm a pin from `db-migration unlock`, letting that migration's file be written once
-- `assist advise [--hook] [--explain]` - Print the advice fragments that apply to the current repo; `--hook` runs it as a SessionStart hook and `--explain` shows why each fragment was or wasn't included. `advice.sections` forces a fragment in or out by name, `advice.verify` replaces the verify fragment's text and `advice.extra` appends repo notes
+- `assist advise [--hook] [--explain]` - Print the advice fragments that apply to the current repo; `--hook` runs it as a SessionStart hook and `--explain` shows why each fragment was or wasn't included. `advice.sections` forces a fragment in or out by name, `advice.verify` replaces the verify fragment's text, `advice.extra` appends repo notes and `advice.rules` (`{ title, text }` entries, global and repo lists concatenated, global first) adds a "Your rules" section
 - `assist notify` - Show desktop notification from JSON stdin (macOS, Windows, WSL)
 - `assist status-line` - Format Claude Code status line from JSON stdin
 

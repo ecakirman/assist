@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { internalCommand } from "../shared/internalCommand";
+import { addGlobalRule } from "./rules/addGlobalRule";
 import { addRule } from "./rules/addRule";
 import { indexRules } from "./rules/indexRules";
 import { listRules } from "./rules/listRules";
@@ -33,8 +34,18 @@ export function registerRules(program: Command): void {
 				"--scope <path>",
 				"File or directory whose nearest CLAUDE.md receives the rule, or a CLAUDE.md path to write to directly (default: cwd)",
 			)
-			.action((text: string, options: { scope?: string; title?: string }) =>
-				addRule(text, options),
+			.option(
+				"--global",
+				"Append the rule to advice.rules in ~/.assist.yml instead of a CLAUDE.md, for rules about agent conduct that hold in every repo. Needs --title; takes no R-code and cannot be combined with --scope",
+			)
+			.action(
+				(
+					text: string,
+					options: { scope?: string; title?: string; global?: boolean },
+				) =>
+					options.global
+						? addGlobalRule(text, options)
+						: addRule(text, options),
 			),
 		"/add-rule and /fix-rules",
 	);

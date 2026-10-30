@@ -18,8 +18,7 @@ export const adviceConfigHelp: ConfigHelpEntry[] = [
 	},
 	{
 		key: "advice.rules",
-		setter:
-			"edit advice.rules ({ title, text } entries) in ~/.assist.yml or the repo's assist.yml",
+		setter: "assist rules add '<text>' --title '<title>' --global",
 		note: 'listed under "Your rules"; global and repo entries are concatenated, global first',
 	},
 ];
