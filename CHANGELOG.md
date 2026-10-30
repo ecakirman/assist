@@ -1,3 +1,10 @@
+## [0.940.3](https://github.com/staff0rd/assist/compare/v0.940.2...v0.940.3) (2026-10-30)
+
+
+### Bug Fixes
+
+* keep Slate sidebar at 400px ([eb29b2f](https://github.com/staff0rd/assist/commit/eb29b2f5e07305cebb131aa11d1e2c2b8f653fba))
+
 ## [0.940.2](https://github.com/staff0rd/assist/compare/v0.940.1...v0.940.2) (2026-10-30)
 
 
