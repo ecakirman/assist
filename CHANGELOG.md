@@ -1,3 +1,10 @@
+## [0.940.1](https://github.com/staff0rd/assist/compare/v0.940.0...v0.940.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* Slate GitHub icon and switch label gap ([8184310](https://github.com/staff0rd/assist/commit/8184310a7c351872ddf898e447b32e1cb9111157))
+
 # [0.940.0](https://github.com/staff0rd/assist/compare/v0.939.0...v0.940.0) (2026-10-30)
 
 
