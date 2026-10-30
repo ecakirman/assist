@@ -1,3 +1,4 @@
+import { cardCloseClassName } from "../../../../../cardCloseClassName";
 import { DiscardButton } from "./CardCloseActions/DiscardButton";
 import { DismissButton } from "../../../../../DismissButton";
 import { RestartButton } from "../../../../../RestartButton";
@@ -18,22 +19,26 @@ export function CardCloseActions({
 	if (session.closing) return null;
 	if (status !== "stopped")
 		return (
-			<DismissButton
-				id={id}
-				status={status}
-				onDismiss={onDismiss}
-				childDismiss={childDismiss}
-			/>
+			<span className={cardCloseClassName}>
+				<DismissButton
+					id={id}
+					status={status}
+					onDismiss={onDismiss}
+					childDismiss={childDismiss}
+				/>
+			</span>
 		);
 	return (
 		<>
 			{session.undurable && (
-				<DiscardButton
-					id={id}
-					reason={session.undurable.reason}
-					path={session.cwd}
-					removesTree={session.undurable.removesTree}
-				/>
+				<span className={cardCloseClassName}>
+					<DiscardButton
+						id={id}
+						reason={session.undurable.reason}
+						path={session.cwd}
+						removesTree={session.undurable.removesTree}
+					/>
+				</span>
 			)}
 			{onRestart && (
 				<RestartButton id={id} onRestart={onRestart} harness={harness} />

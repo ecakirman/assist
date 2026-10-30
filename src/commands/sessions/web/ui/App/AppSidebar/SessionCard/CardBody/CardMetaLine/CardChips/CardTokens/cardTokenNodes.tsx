@@ -35,12 +35,14 @@ export function cardTokenNodes(
 	if (targetPr !== undefined)
 		tokens.push({
 			key: "pr",
+			badge: true,
 			node: <PrNumberLink session={session} prNumber={targetPr} />,
 		});
 
 	if (activity?.itemId != null)
 		tokens.push({
 			key: "item",
+			badge: true,
 			node: <BacklogItemLink itemId={activity.itemId} cwd={session.cwd} />,
 		});
 

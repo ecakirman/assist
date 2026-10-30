@@ -3,7 +3,8 @@ export type ActionButtonTone =
 	| "start"
 	| "stop"
 	| "starred"
-	| "inherit";
+	| "inherit"
+	| "secondary";
 
 const tones: Record<
 	ActionButtonTone,
@@ -22,6 +23,7 @@ const tones: Record<
 	stop: { color: "success.main", hover: "error.main" },
 	starred: { color: "warning.main", hover: "warning.main" },
 	inherit: { color: "inherit" },
+	secondary: { color: "text.secondary", hover: "text.primary" },
 };
 
 type ToneSx = { color: string; "&:hover"?: { color: string } };

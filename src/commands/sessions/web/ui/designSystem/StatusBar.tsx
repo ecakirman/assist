@@ -26,7 +26,7 @@ const barSx = {
 	bgcolor: (t: Theme) => t.tokens.color.statusBar?.background,
 	color: (t: Theme) => t.tokens.color.statusBar?.text,
 	fontFamily: "fontFamilyMono",
-	fontSize: (t: Theme) => t.typography.caption.fontSize,
+	fontSize: "11.5px",
 	whiteSpace: "nowrap",
 	minWidth: 0,
 } as const;

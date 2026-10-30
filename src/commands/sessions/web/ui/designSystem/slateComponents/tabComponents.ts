@@ -35,6 +35,7 @@ export function tabComponents({
 					padding: "6px 10px",
 					borderRadius: radius.sm,
 					textTransform: "none",
+					fontSize: 13,
 					fontWeight: 500,
 					opacity: 1,
 					color: color.text.secondary,

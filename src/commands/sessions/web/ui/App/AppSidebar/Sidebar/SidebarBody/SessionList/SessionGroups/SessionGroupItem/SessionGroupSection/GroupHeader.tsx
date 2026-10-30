@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import {
 	GroupCloseButton,
 	groupCloseClassName,
@@ -21,6 +22,12 @@ const headerSx = {
 	[`&:hover .${groupCloseClassName}`]: { opacity: 1 },
 } as const;
 
+const slateHeaderSx = {
+	...headerSx,
+	gap: 0.75,
+	p: "8px 12px 4px",
+} as const;
+
 export function GroupHeader({
 	label,
 	sessions,
@@ -36,8 +43,9 @@ export function GroupHeader({
 	onToggle: () => void;
 	onDismiss: (id: string) => void;
 }) {
+	const slate = useTheme().design === "slate";
 	return (
-		<Box sx={headerSx}>
+		<Box sx={slate ? slateHeaderSx : headerSx}>
 			<GroupToggle
 				label={label}
 				count={sessions.length}

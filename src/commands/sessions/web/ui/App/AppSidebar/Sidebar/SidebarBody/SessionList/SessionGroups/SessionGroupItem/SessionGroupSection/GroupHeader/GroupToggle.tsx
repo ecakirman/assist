@@ -1,39 +1,11 @@
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
+import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import type { ReactNode } from "react";
+import { GroupCaret } from "./GroupToggle/GroupCaret";
 import { GroupLabel } from "./GroupToggle/GroupLabel";
-
-const toggleSx = {
-	flex: 1,
-	minWidth: 0,
-	display: "flex",
-	alignItems: "center",
-	gap: 1,
-	justifyContent: "flex-start",
-	textAlign: "left",
-	borderRadius: 0.5,
-	"&:focus-visible": { outline: 1, outlineColor: "primary.main" },
-} as const;
-
-const caretSx = {
-	color: "text.disabled",
-	fontSize: "0.7rem",
-	width: "0.7rem",
-	flexShrink: 0,
-} as const;
-
-const countSx = {
-	color: "text.disabled",
-	fontVariantNumeric: "tabular-nums",
-} as const;
-
-const ruleSx = {
-	flex: 1,
-	minWidth: 8,
-	height: "1px",
-	bgcolor: "divider",
-} as const;
+import { groupToggleSx } from "./GroupToggle/groupToggleSx";
 
 export function GroupToggle({
 	label,
@@ -50,20 +22,20 @@ export function GroupToggle({
 	pinned: boolean;
 	onToggle: () => void;
 }) {
+	const slate = useTheme().design === "slate";
+	const sx = groupToggleSx(slate);
 	return (
-		<ButtonBase aria-expanded={!collapsed} onClick={onToggle} sx={toggleSx}>
-			<Typography variant="caption" sx={caretSx}>
-				{collapsed ? "▸" : "▾"}
-			</Typography>
+		<ButtonBase aria-expanded={!collapsed} onClick={onToggle} sx={sx.toggle}>
+			<GroupCaret collapsed={collapsed} slate={slate} />
 			<GroupLabel label={label} collapsed={collapsed} pinned={pinned} />
 			{collapsed ? (
 				collapsedSummary
 			) : (
-				<Typography variant="caption" sx={countSx}>
+				<Typography variant="caption" sx={sx.count}>
 					{count}
 				</Typography>
 			)}
-			<Box sx={ruleSx} />
+			{sx.rule && <Box sx={sx.rule} />}
 		</ButtonBase>
 	);
 }

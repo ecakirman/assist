@@ -1,19 +1,12 @@
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { SidebarCollapseToggle } from "../../SidebarCollapseToggle";
 import type { SidebarTab } from "../../../types";
 import { useSidebarCollapsedContext } from "../../useSidebarCollapsedContext";
-
-const tabSx = { minHeight: 36, py: 0, fontSize: 12 } as const;
-const rowSx = {
-	display: "flex",
-	alignItems: "center",
-	minHeight: 36,
-	borderBottom: 1,
-	borderColor: "divider",
-} as const;
-const tabsSx = { flex: 1, minWidth: 0, minHeight: 36 } as const;
+import { sidebarTabsSx } from "./SidebarTabs/sidebarTabsSx";
+import { SidebarTabLabel } from "./SidebarTabs/SidebarTabLabel";
 
 export function SidebarTabs({
 	tab,
@@ -27,9 +20,10 @@ export function SidebarTabs({
 	onChange: (tab: SidebarTab) => void;
 }) {
 	const { collapsed, onToggleCollapsed } = useSidebarCollapsedContext();
+	const sx = sidebarTabsSx(useTheme().design);
 	const tabIndex = tab === "active" ? 0 : 1;
 	return (
-		<Box sx={rowSx}>
+		<Box sx={sx.row}>
 			<SidebarCollapseToggle
 				collapsed={collapsed}
 				onToggleCollapsed={onToggleCollapsed}
@@ -39,10 +33,16 @@ export function SidebarTabs({
 				value={tabIndex}
 				onChange={(_e, v: number) => onChange(v === 0 ? "active" : "history")}
 				variant="fullWidth"
-				sx={tabsSx}
+				sx={sx.tabs}
 			>
-				<Tab label={`Active ${activeCount}`} sx={tabSx} />
-				<Tab label={`History ${historyCount}`} sx={tabSx} />
+				<Tab
+					label={<SidebarTabLabel label="Active" count={activeCount} />}
+					sx={sx.tab}
+				/>
+				<Tab
+					label={<SidebarTabLabel label="History" count={historyCount} />}
+					sx={sx.tab}
+				/>
 			</Tabs>
 		</Box>
 	);
