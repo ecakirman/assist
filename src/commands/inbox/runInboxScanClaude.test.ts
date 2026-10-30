@@ -27,6 +27,11 @@ describe("buildInboxScanArgs", () => {
 			"mcp__claude_ai_Gmail__update_message_labels",
 		);
 	});
+
+	it("passes a draft-07 schema, the newest draft claude -p validates", () => {
+		const schema = JSON.parse(args[args.indexOf("--json-schema") + 1]);
+		expect(schema.$schema).toBe("http://json-schema.org/draft-07/schema#");
+	});
 });
 
 describe("parseInboxScanOutput", () => {

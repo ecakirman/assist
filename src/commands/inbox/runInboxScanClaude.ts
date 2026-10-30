@@ -22,7 +22,7 @@ export function buildInboxScanArgs(since: Date): string[] {
 		"--output-format",
 		"json",
 		"--json-schema",
-		JSON.stringify(z.toJSONSchema(inboxScanSchema)),
+		JSON.stringify(z.toJSONSchema(inboxScanSchema, { target: "draft-07" })),
 		"--",
 		buildInboxScanPrompt(since),
 	];
@@ -42,11 +42,13 @@ export function parseInboxScanOutput(stdout: string): FlaggedMessage[] {
 export async function runInboxScanClaude(
 	since: Date,
 ): Promise<FlaggedMessage[]> {
-	const { stdout } = await execFileAsync("claude", buildInboxScanArgs(since), {
+	const run = execFileAsync("claude", buildInboxScanArgs(since), {
 		encoding: "utf8",
 		windowsHide: true,
 		timeout: 20 * 60_000,
 		maxBuffer: 64 * 1024 * 1024,
 	});
+	run.child.stdin?.end();
+	const { stdout } = await run;
 	return parseInboxScanOutput(stdout);
 }
