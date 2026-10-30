@@ -1,3 +1,10 @@
+## [0.935.2](https://github.com/staff0rd/assist/compare/v0.935.1...v0.935.2) (2026-10-30)
+
+
+### Bug Fixes
+
+* swap status bar version and usage ([889ebdd](https://github.com/staff0rd/assist/commit/889ebdde94df3474504ecd898185b0a66dca89fc))
+
 ## [0.935.1](https://github.com/staff0rd/assist/compare/v0.935.0...v0.935.1) (2026-10-29)
 
 
