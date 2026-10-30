@@ -16,6 +16,8 @@ Config is stored in `.claude/assist.yml` or `assist.yml`, validated with Zod. To
 1. Update the schema in `src/shared/types.ts` (`assistConfigSchema`)
 2. Use `loadConfig()` from `src/shared/loadConfig.ts` to read values where needed
 
+To remove a config key, delete it from `assistConfigSchema`, add it to `src/shared/stripLegacyConfigKeys.ts` so existing `assist.yml` files still validate, and drop its `configHelp` entry. Nested `sessions` and `worktree` keys go in `LEGACY_SESSIONS_KEYS` / `LEGACY_WORKTREE_KEYS`; top-level keys are also stripped from each `repos` entry. Entries in `stripLegacyConfigKeys.ts` are kept indefinitely.
+
 ### Surfacing config keys in --help
 
 Every command that reads config keys must document them in its `--help` via the `configHelp(command, entries)` helper (`src/shared/configHelp.ts`). Each entry names the key, its setter (an `assist config set <key> ...` line for scalar knobs, or a dedicated command like `assist sql auth` for connections/secrets), and a short note. See `src/commands/registerBranch.ts` for the reference example.
