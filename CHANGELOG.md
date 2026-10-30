@@ -1,3 +1,10 @@
+# [0.943.0](https://github.com/staff0rd/assist/compare/v0.942.0...v0.943.0) (2026-10-30)
+
+
+### Features
+
+* Slate groups lone sessions by repo ([09ceaf7](https://github.com/staff0rd/assist/commit/09ceaf79376c626ed50442b4f66bf5ff8b82d8c2))
+
 # [0.942.0](https://github.com/staff0rd/assist/compare/v0.941.0...v0.942.0) (2026-10-30)
 
 
