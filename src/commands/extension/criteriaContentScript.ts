@@ -1,5 +1,5 @@
 import { answerBrowserProbes } from "./browserLink/answerBrowserProbes";
-import { attachGmailHeaderButton } from "./gmail/attachGmailHeaderButton";
+import { attachGmailMessageButtons } from "./gmail/attachGmailMessageButtons";
 import { attachAssistButtons } from "./sendToAssist/attachAssistButtons";
 import { attachAssistHeaderButtons } from "./sendToAssist/attachAssistHeaderButtons";
 import { attachAzureDevopsHeaderButton } from "./sendToAssist/attachAzureDevopsHeaderButton";
@@ -12,7 +12,7 @@ function isAzureDevopsHost(hostname: string): boolean {
 
 export function criteriaContentScript(): void {
 	if (location.hostname === "mail.google.com") {
-		watchGithubPage(attachGmailHeaderButton);
+		watchGithubPage(attachGmailMessageButtons);
 		return;
 	}
 	answerBrowserProbes();
