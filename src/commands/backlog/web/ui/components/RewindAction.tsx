@@ -1,9 +1,26 @@
 import { Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
 import { rewindPhase } from "../api";
 import { useApiNode } from "../../../../sessions/web/ui/useApiNode";
 import { useRepoCwd } from "../useRepoCwd";
 import { RewindDialog } from "./RewindDialog";
+
+const classicRewindSx = {
+	ml: "auto",
+	textTransform: "none",
+	fontSize: "0.75rem",
+} as const;
+
+const slateRewindSx = {
+	ml: "auto",
+	minHeight: 0,
+	px: "6px",
+	py: "2px",
+	fontSize: 12,
+	fontWeight: 500,
+	borderRadius: "4px",
+} as const;
 
 type RewindActionProps = {
 	itemId: number;
@@ -21,14 +38,15 @@ export function RewindAction({
 	const cwd = useRepoCwd();
 	const node = useApiNode();
 	const [showDialog, setShowDialog] = useState(false);
+	const slate = useTheme().design === "slate";
 	return (
 		<>
 			<Button
 				size="small"
-				color="warning"
-				variant="outlined"
+				color={slate ? "primary" : "warning"}
+				variant={slate ? "text" : "outlined"}
 				onClick={() => setShowDialog(true)}
-				sx={{ ml: "auto", textTransform: "none", fontSize: "0.75rem" }}
+				sx={slate ? slateRewindSx : classicRewindSx}
 			>
 				Rewind
 			</Button>

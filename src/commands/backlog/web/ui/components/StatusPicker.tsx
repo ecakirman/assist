@@ -1,5 +1,7 @@
 import { Chip } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import type { BacklogItem } from "../types";
+import { slateStatusLabel, slateStatusSelectSx } from "./slateStatusSelectSx";
 import { StatusSelect } from "./StatusSelect";
 import { statusChipColors } from "./typeChipColors";
 
@@ -27,16 +29,21 @@ export function StatusPicker({
 	current: BacklogItem["status"];
 	onStatusChange?: (status: BacklogItem["status"]) => void;
 }) {
+	const slate = useTheme().design === "slate";
 	if (!onStatusChange) {
 		return (
 			<Chip
-				label={current}
+				label={slate ? slateStatusLabel(current) : current}
 				size="small"
 				color={statusChipColors[current]}
-				sx={{
-					fontWeight: 500,
-					fontSize: "0.75rem",
-				}}
+				sx={
+					slate
+						? undefined
+						: {
+								fontWeight: 500,
+								fontSize: "0.75rem",
+							}
+				}
 			/>
 		);
 	}
@@ -46,6 +53,8 @@ export function StatusPicker({
 			options={allStatuses}
 			colors={selectColors}
 			onChange={onStatusChange}
+			label={slate ? slateStatusLabel : undefined}
+			sx={slate ? slateStatusSelectSx(current) : undefined}
 		/>
 	);
 }

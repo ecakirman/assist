@@ -3,6 +3,7 @@ import type { PhaseSession, PhaseUsage, PlanPhase } from "../types";
 import { ItemUsageTotal } from "./ItemUsageTotal";
 import { itemSectionAnchor } from "./itemSectionAnchor";
 import { PhaseCardList } from "./PhaseCardList";
+import { sectionHeadingSx } from "./sectionHeadingSx";
 
 type PlanSectionProps = {
 	phases: PlanPhase[];
@@ -19,11 +20,7 @@ const headerRowSx = {
 	mb: 1,
 } as const;
 
-const overlineSx = {
-	color: "text.secondary",
-	display: "block",
-	letterSpacing: "0.08em",
-} as const;
+const overlineSx = [sectionHeadingSx, { mb: 0 }];
 
 export function PlanSection({
 	phases,

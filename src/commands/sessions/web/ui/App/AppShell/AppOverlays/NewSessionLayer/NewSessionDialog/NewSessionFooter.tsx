@@ -1,8 +1,12 @@
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-
-const HINTS = ["Enter start", "Shift+Enter newline", "Esc close"];
+import { SlateNewSessionFooter } from "./NewSessionFooter/SlateNewSessionFooter";
+import {
+	FOOTER_HINTS,
+	type FooterProps,
+	SubmitButton,
+} from "./NewSessionFooter/SubmitButton";
 
 const footerSx = {
 	alignItems: "center",
@@ -13,33 +17,19 @@ const footerSx = {
 	bgcolor: "action.hover",
 } as const;
 
-export function NewSessionFooter({
-	submitLabel,
-	disabled = false,
-	loading = false,
-}: {
-	submitLabel: string;
-	disabled?: boolean;
-	loading?: boolean;
-}) {
+export function NewSessionFooter(props: FooterProps) {
+	const slate = useTheme().design === "slate";
+	if (slate) return <SlateNewSessionFooter {...props} />;
 	return (
 		<Stack direction="row" spacing={1.5} sx={footerSx}>
 			<Stack direction="row" spacing={1.5} sx={{ mr: "auto" }}>
-				{HINTS.map((hint) => (
-					<Typography key={hint} variant="caption" color="text.secondary">
-						{hint}
+				{FOOTER_HINTS.map(([key, action]) => (
+					<Typography key={key} variant="caption" color="text.secondary">
+						{key} {action}
 					</Typography>
 				))}
 			</Stack>
-			<Button
-				type="submit"
-				variant="contained"
-				size="small"
-				disabled={disabled}
-				loading={loading}
-			>
-				{submitLabel}
-			</Button>
+			<SubmitButton {...props} size="small" />
 		</Stack>
 	);
 }

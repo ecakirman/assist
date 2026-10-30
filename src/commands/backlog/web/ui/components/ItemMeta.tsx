@@ -1,4 +1,5 @@
 import { Chip, Stack, Typography } from "@mui/material";
+import { type Theme, useTheme } from "@mui/material/styles";
 import { formatItemId } from "../../../formatItemId";
 import type { BacklogItem } from "../types";
 import { GithubIssueLink } from "./GithubIssueLink";
@@ -18,6 +19,11 @@ const chipSx = {
 	fontSize: "0.75rem",
 } as const;
 
+const idSx = (t: Theme) =>
+	t.design === "slate"
+		? { fontFamily: t.typography.fontFamilyMono, fontSize: 12 }
+		: {};
+
 const usageSx = { color: "text.secondary", fontSize: "0.75rem" } as const;
 
 export function ItemMeta({
@@ -27,14 +33,20 @@ export function ItemMeta({
 	item: BacklogItem;
 	onStatusChange?: (status: BacklogItem["status"]) => void;
 }) {
+	const slate = useTheme().design === "slate";
 	const color = typeChipColors[item.type];
 	return (
-		<Stack direction="row" spacing={1} sx={metaRowSx}>
-			<Typography variant="body2" color="text.disabled">
+		<Stack direction="row" spacing={slate ? 0.75 : 1} sx={metaRowSx}>
+			<Typography variant="body2" color="text.disabled" sx={idSx}>
 				{formatItemId(item.id)}
 			</Typography>
 			{color && (
-				<Chip label={item.type} size="small" color={color} sx={chipSx} />
+				<Chip
+					label={item.type}
+					size="small"
+					color={color}
+					sx={slate ? undefined : chipSx}
+				/>
 			)}
 			<StatusPicker current={item.status} onStatusChange={onStatusChange} />
 			<JiraKeyLink jiraKey={item.jiraKey} />

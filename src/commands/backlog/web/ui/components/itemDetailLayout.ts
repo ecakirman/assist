@@ -11,4 +11,10 @@ export const itemDetailLayout = {
 		display: "flex",
 		columnGap: 3,
 	},
+	slateColumnsSx: {
+		display: "flex",
+		alignItems: "flex-start",
+		columnGap: 4,
+	},
+	mainColumnSx: { flex: 1, minWidth: 0 },
 } as const;

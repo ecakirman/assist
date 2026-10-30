@@ -1,4 +1,5 @@
 import type { SxProps, Theme } from "@mui/material";
+import { slateProseSx } from "./slateProseSx";
 
 const staticSx = {
 	maxWidth: "72ch",
@@ -80,11 +81,16 @@ const themedSx = (theme: Theme) => {
 	};
 };
 
+const proseSx = (theme: Theme) => ({
+	...themedSx(theme),
+	...(theme.design === "slate" && slateProseSx(theme)),
+});
+
 export const markdownContentSx = (theme: Theme) => themedSx(theme);
 
-export const markdownSx: SxProps<Theme> = themedSx;
+export const markdownSx: SxProps<Theme> = proseSx;
 
 export const wideMarkdownSx: SxProps<Theme> = (theme) => ({
-	...themedSx(theme),
+	...proseSx(theme),
 	maxWidth: "none",
 });

@@ -1,13 +1,11 @@
 import { Box, Stack, Typography } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import type { Ref } from "react";
-import type { BacklogItem } from "../types";
 import { BackButton } from "./BackButton";
-import { canPlay } from "./canPlay";
-import { DeleteAction } from "./DeleteAction";
+import { HeaderActions, type HeaderContentProps } from "./HeaderActions";
 import { ItemMeta } from "./ItemMeta";
-import { PlayAction } from "./PlayAction";
-import { RefineAction } from "./RefineAction";
+import { SlateHeaderContent } from "./SlateHeaderContent";
 import { useStuckSentinel } from "./useStuckSentinel";
 
 const headerSx = {
@@ -31,41 +29,46 @@ function pinnedSx(stuck: boolean): SxProps<Theme> {
 		mx: -2,
 		px: 2,
 		pb: 2,
-		borderBottom: 1,
+		borderBottom: theme.design === "slate" ? 0 : 1,
 		borderColor: "divider",
 		boxShadow: stuck ? stuckShadow(theme) : "none",
 		transition: theme.transitions.create("box-shadow"),
 	});
 }
 
-export function PinnedHeader({
+type PinnedHeaderProps = HeaderContentProps & { ref: Ref<HTMLDivElement> };
+
+function ClassicHeaderContent({
 	item,
 	onDeleted,
 	onStatusChange,
-	ref,
-}: {
-	item: BacklogItem;
-	onDeleted: () => Promise<void>;
-	onStatusChange: (status: BacklogItem["status"]) => void;
-	ref: Ref<HTMLDivElement>;
-}) {
+}: HeaderContentProps) {
+	return (
+		<>
+			<Stack direction="row" sx={headerSx}>
+				<BackButton to="/backlog" />
+				<HeaderActions item={item} onDeleted={onDeleted} />
+			</Stack>
+			<Typography variant="h5" component="h2">
+				{item.name}
+			</Typography>
+			<ItemMeta item={item} onStatusChange={onStatusChange} />
+		</>
+	);
+}
+
+export function PinnedHeader({ ref, ...props }: PinnedHeaderProps) {
 	const { sentinelRef, stuck } = useStuckSentinel();
+	const slate = useTheme().design === "slate";
 	return (
 		<>
 			<Box ref={sentinelRef} sx={{ height: 0 }} />
 			<Box ref={ref} sx={pinnedSx(stuck)}>
-				<Stack direction="row" sx={headerSx}>
-					<BackButton to="/backlog" />
-					<Stack direction="row" spacing={1}>
-						{canPlay(item) && <PlayAction itemId={item.id} />}
-						<RefineAction itemId={item.id} />
-						<DeleteAction itemId={item.id} onDeleted={onDeleted} />
-					</Stack>
-				</Stack>
-				<Typography variant="h5" component="h2">
-					{item.name}
-				</Typography>
-				<ItemMeta item={item} onStatusChange={onStatusChange} />
+				{slate ? (
+					<SlateHeaderContent {...props} />
+				) : (
+					<ClassicHeaderContent {...props} />
+				)}
 			</Box>
 		</>
 	);

@@ -1,20 +1,23 @@
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
+import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { Link as RouterLink } from "react-router";
 import type { NextResponse } from "../../../../../next/types";
 import { NextScopeNote } from "./NextHeader/NextScopeNote";
+import { SlateNextHeader } from "./NextHeader/SlateNextHeader";
 
-export function NextHeader({
-	loading,
-	data,
-	onRefresh,
-}: {
+type NextHeaderProps = {
 	loading: boolean;
 	data: NextResponse | null;
 	onRefresh: () => void;
-}) {
+};
+
+export function NextHeader(props: NextHeaderProps) {
+	const { loading, data, onRefresh } = props;
+	const slate = useTheme().design === "slate";
+	if (slate) return <SlateNextHeader {...props} />;
 	return (
 		<Stack spacing={0.5} sx={{ mb: 2 }}>
 			<Stack direction="row" spacing={2} sx={{ alignItems: "baseline" }}>

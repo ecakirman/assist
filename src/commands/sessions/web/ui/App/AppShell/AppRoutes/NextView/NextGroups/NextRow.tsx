@@ -1,9 +1,30 @@
 import Stack from "@mui/material/Stack";
+import type { Theme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import type { ReactNode } from "react";
 import type { SessionInfo } from "../../../../../types";
 import { NextItemActions } from "../NextItemActions";
 import { NextRepoRef } from "../NextRepoRef";
+
+const nextRowSx = (t: Theme) => ({
+	px: 2,
+	py: 1.25,
+	alignItems: { sm: "center" },
+	"& + &": { borderTop: 1, borderColor: "divider" },
+	...(t.design === "slate" && {
+		px: "14px",
+		py: "10px",
+		transition: "background-color .2s ease",
+		"&:hover": { bgcolor: t.tokens.color.raised },
+		"& + &": { borderTop: 1, borderColor: t.tokens.color.lineSoft },
+	}),
+});
+
+const titleSx = (t: Theme) => ({
+	fontWeight: 500,
+	overflowWrap: "anywhere",
+	...(t.design === "slate" && { fontWeight: 600, fontSize: 14 }),
+});
 
 export function NextRow({
 	repo,
@@ -23,16 +44,7 @@ export function NextRow({
 	sessions?: SessionInfo[];
 }) {
 	return (
-		<Stack
-			direction={{ xs: "column", sm: "row" }}
-			spacing={1}
-			sx={{
-				px: 2,
-				py: 1.25,
-				alignItems: { sm: "center" },
-				"& + &": { borderTop: 1, borderColor: "divider" },
-			}}
-		>
+		<Stack direction={{ xs: "column", sm: "row" }} spacing={1} sx={nextRowSx}>
 			<Stack spacing={0.25} sx={{ flex: 1, minWidth: 0 }}>
 				<Stack
 					direction="row"
@@ -41,9 +53,7 @@ export function NextRow({
 					sx={{ alignItems: "baseline", flexWrap: "wrap" }}
 				>
 					<NextRepoRef repo={repo} number={number} />
-					<Typography sx={{ fontWeight: 500, overflowWrap: "anywhere" }}>
-						{title}
-					</Typography>
+					<Typography sx={titleSx}>{title}</Typography>
 				</Stack>
 				{facts}
 			</Stack>

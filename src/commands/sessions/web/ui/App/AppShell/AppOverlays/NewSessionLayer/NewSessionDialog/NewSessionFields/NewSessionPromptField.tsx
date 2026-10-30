@@ -1,6 +1,23 @@
+import { useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import type { Ref, SyntheticEvent } from "react";
 import { handleEnterSubmit } from "../../../../../handleEnterSubmit";
+
+const outline = ".MuiOutlinedInput-notchedOutline";
+
+const slatePromptSx = {
+	"& .MuiOutlinedInput-root": {
+		px: "18px",
+		py: 2,
+		minHeight: 92,
+		alignItems: "flex-start",
+		bgcolor: "transparent",
+		borderRadius: 0,
+		fontSize: 15,
+	},
+	[`&&& ${outline}`]: { border: 0 },
+	"& textarea::placeholder": { color: "text.disabled", opacity: 1 },
+} as const;
 
 export function NewSessionPromptField({
 	value,
@@ -17,8 +34,10 @@ export function NewSessionPromptField({
 	autoFocus: boolean;
 	onTrack: (e: SyntheticEvent) => void;
 }) {
+	const slate = useTheme().design === "slate";
 	return (
 		<TextField
+			sx={slate ? slatePromptSx : undefined}
 			value={value}
 			onChange={(e) => onChange(e.target.value)}
 			onKeyDown={handleEnterSubmit}
@@ -33,7 +52,7 @@ export function NewSessionPromptField({
 			maxRows={12}
 			slotProps={{
 				htmlInput: { "aria-label": "Prompt" },
-				input: { sx: { fontSize: 14 } },
+				input: { sx: slate ? undefined : { fontSize: 14 } },
 			}}
 		/>
 	);

@@ -5,14 +5,8 @@ import type { Conversation, GitRef } from "../types";
 import { CommitOverflowToggle } from "./CommitOverflowToggle";
 import { ConversationRow } from "./ConversationRow";
 import { itemSectionAnchor } from "./itemSectionAnchor";
+import { sectionHeadingSx } from "./sectionHeadingSx";
 import { RefRow } from "./RefRow";
-
-const headingSx = {
-	color: "text.secondary",
-	mb: 1,
-	display: "block",
-	letterSpacing: "0.08em",
-} as const;
 
 export function ActivitySection({
 	gitRefs,
@@ -34,7 +28,7 @@ export function ActivitySection({
 	if (ordered.length === 0 && conversations.length === 0) return null;
 	return (
 		<Box {...itemSectionAnchor("activity")}>
-			<Typography variant="overline" sx={headingSx}>
+			<Typography variant="overline" sx={sectionHeadingSx}>
 				Activity
 			</Typography>
 			<Stack spacing={1}>

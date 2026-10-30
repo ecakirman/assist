@@ -1,9 +1,11 @@
 import { Stack } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import type { BacklogItem } from "../types";
 import { itemDetailLayout } from "./itemDetailLayout";
 import { itemNavSections } from "./itemNavSections";
 import { ItemNavigatorRow } from "./ItemNavigatorRow";
 import { pinnedHeaderHeight } from "./itemSectionAnchor";
+import { SlateItemNavigator } from "./SlateItemNavigator";
 import { useActiveSection } from "./useActiveSection";
 
 const APP_BAR_HEIGHT = 48;
@@ -37,12 +39,21 @@ export function ItemNavigator({
 	item: BacklogItem;
 	headerHeight: number;
 }) {
+	const slate = useTheme().design === "slate";
 	const sections = itemNavSections(item);
 	const activeId = useActiveSection(
 		sections.map((section) => section.id),
 		headerHeight,
 	);
 	if (sections.length === 0) return null;
+	if (slate)
+		return (
+			<SlateItemNavigator
+				sections={sections}
+				activeId={activeId}
+				onSelect={scrollToSection}
+			/>
+		);
 	return (
 		<Stack component="nav" spacing={1} sx={panelSx}>
 			{sections.map((section) => (

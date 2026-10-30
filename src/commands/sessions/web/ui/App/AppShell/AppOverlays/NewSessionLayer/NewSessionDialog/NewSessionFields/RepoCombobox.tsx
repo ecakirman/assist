@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import { type RefObject, useRef } from "react";
 import { RepoMenuList } from "../../../../../../RepoMenuList";
@@ -23,6 +24,7 @@ export function RepoCombobox({
 }) {
 	const combo = useRepoCombobox(repos, value, onChange);
 	const anchorRef = useRef<HTMLDivElement>(null);
+	const slate = useTheme().design === "slate";
 
 	return (
 		<Box ref={anchorRef} sx={{ flex: 1, minWidth: 0 }}>
@@ -42,7 +44,7 @@ export function RepoCombobox({
 				placeholder="Repo"
 				size="small"
 				fullWidth
-				slotProps={repoComboboxSlotProps(combo.open)}
+				slotProps={repoComboboxSlotProps(combo.open, slate)}
 			/>
 			<RepoComboboxPopper open={combo.open} anchor={anchorRef.current}>
 				<RepoMenuList

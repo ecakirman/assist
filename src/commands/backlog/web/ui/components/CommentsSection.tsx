@@ -2,13 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import type { BacklogComment } from "../types";
 import { CommentCard } from "./CommentCard";
 import { itemSectionAnchor } from "./itemSectionAnchor";
-
-const headingSx = {
-	color: "text.secondary",
-	mb: 1,
-	display: "block",
-	letterSpacing: "0.08em",
-} as const;
+import { sectionHeadingSx } from "./sectionHeadingSx";
 
 export function CommentsSection({
 	comments,
@@ -22,7 +16,7 @@ export function CommentsSection({
 	if (comments.length === 0) return null;
 	return (
 		<Box {...itemSectionAnchor("comments")}>
-			<Typography variant="overline" sx={headingSx}>
+			<Typography variant="overline" sx={sectionHeadingSx}>
 				Comments
 			</Typography>
 			<Stack spacing={1}>

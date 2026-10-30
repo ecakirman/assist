@@ -3,6 +3,7 @@ import type { ComponentProps } from "react";
 import type { NodeClone } from "../../../../../useNodeClones";
 import { useRepoSelectionContext } from "../../../../../useRepoSelectionContext";
 import { MachineSelector } from "./NewSessionFields/MachineSelector";
+import { NewSessionFieldsLayout } from "./NewSessionFields/NewSessionFieldsLayout";
 import { NewSessionPromptField } from "./NewSessionFields/NewSessionPromptField";
 import { NewSessionSelectors } from "./NewSessionFields/NewSessionSelectors";
 import { newSessionModes } from "../newSessionModes";
@@ -16,17 +17,19 @@ export function NewSessionFields({
 }) {
 	const { draft, focus } = props;
 	const { repos } = useRepoSelectionContext();
-
 	return (
-		<Stack spacing={1} sx={{ p: 1 }}>
-			<NewSessionPromptField
-				value={draft.prompt}
-				onChange={draft.setPrompt}
-				placeholder={newSessionModes[draft.mode].placeholder}
-				inputRef={focus.promptRef}
-				autoFocus={focus.autoFocus === "prompt"}
-				onTrack={focus.trackPrompt}
-			/>
+		<NewSessionFieldsLayout
+			prompt={
+				<NewSessionPromptField
+					value={draft.prompt}
+					onChange={draft.setPrompt}
+					placeholder={newSessionModes[draft.mode].placeholder}
+					inputRef={focus.promptRef}
+					autoFocus={focus.autoFocus === "prompt"}
+					onTrack={focus.trackPrompt}
+				/>
+			}
+		>
 			<Stack direction="row" spacing={1} sx={{ alignItems: "flex-start" }}>
 				<RepoCombobox
 					repos={repos}
@@ -43,6 +46,6 @@ export function NewSessionFields({
 				onChange={draft.setNode}
 				cloneState={cloneState}
 			/>
-		</Stack>
+		</NewSessionFieldsLayout>
 	);
 }

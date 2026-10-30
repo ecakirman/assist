@@ -8,6 +8,7 @@ import { useCloneLookup } from "./NextView/useCloneLookup";
 import { useNextActions } from "./NextView/useNextActions";
 import { NextCloneContext } from "./NextView/useNextClone";
 import { useNextItems } from "./NextView/useNextItems";
+import { useNextPageLayout } from "./NextView/useNextPageLayout";
 import { NextSessionsContext } from "./NextView/useNextSessions";
 import { useNextSessionsValue } from "./NextView/useNextSessionsValue";
 import { PageShell } from "../../PageShell";
@@ -29,9 +30,11 @@ export function NextView({
 	);
 	const cloneFor = useCloneLookup(data?.scope.selfRepo ?? null);
 	const nextSessions = useNextSessionsValue(sessions, selectSession);
+	const layout = useNextPageLayout();
 
 	return (
 		<PageShell
+			{...layout.shell}
 			loading={loading && !data}
 			header={<NextHeader loading={loading} data={data} onRefresh={refresh} />}
 			isEmpty={!data}
@@ -40,7 +43,7 @@ export function NextView({
 			{data && (
 				<NextCloneContext.Provider value={cloneFor}>
 					<NextSessionsContext.Provider value={nextSessions}>
-						<Stack spacing={3}>
+						<Stack spacing={layout.spacing}>
 							<NextPickupStatus {...pickup} />
 							<NextRecommended data={data} {...actions} />
 							<NextGroups data={data} {...actions} />

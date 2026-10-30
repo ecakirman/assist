@@ -1,4 +1,5 @@
 import { Paper } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import type {
 	PhaseSession,
 	PhaseStatus,
@@ -7,7 +8,7 @@ import type {
 } from "../types";
 import { phaseAnchor } from "./itemSectionAnchor";
 import { ManualChecks } from "./ManualChecks";
-import { markers, phaseCardSx } from "./phaseCardSx";
+import { markers, phaseCardSx, slateMarkers } from "./phaseCardSx";
 import { PhaseHeader } from "./PhaseHeader";
 import { PhaseSessionsLine } from "./PhaseSessionsLine";
 import { PhaseUsageLine } from "./PhaseUsageLine";
@@ -34,6 +35,9 @@ export function PhaseCard({
 }: PhaseCardProps) {
 	const checks = phase.manualChecks ?? [];
 	const anchor = phaseAnchor(index);
+	const marker = (useTheme().design === "slate" ? slateMarkers : markers)[
+		status
+	];
 	return (
 		<Paper
 			variant="outlined"
@@ -48,7 +52,7 @@ export function PhaseCard({
 				onRewind={onRewind}
 			/>
 			{usage && <PhaseUsageLine usage={usage} />}
-			<TaskList tasks={phase.tasks} marker={markers[status]} />
+			<TaskList tasks={phase.tasks} marker={marker} />
 			{checks.length > 0 && <ManualChecks checks={checks} />}
 			{sessions && sessions.length > 0 && (
 				<PhaseSessionsLine sessions={sessions} />

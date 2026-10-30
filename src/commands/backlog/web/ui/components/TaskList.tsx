@@ -2,6 +2,7 @@ import { List, ListItem, Typography } from "@mui/material";
 import type { PlanPhase } from "../types";
 import { MarkdownHtml } from "./MarkdownHtml";
 import { renderMarkdownInline } from "./renderMarkdown";
+import { taskMarkerClassName } from "./taskMarkerClassName";
 
 export function TaskList({
 	tasks,
@@ -19,7 +20,11 @@ export function TaskList({
 					disablePadding
 					sx={{ py: 0.25, display: "flex", alignItems: "baseline" }}
 				>
-					<Typography component="span" sx={{ color: "text.secondary", mr: 1 }}>
+					<Typography
+						component="span"
+						className={taskMarkerClassName}
+						sx={{ color: "text.secondary", mr: 1 }}
+					>
 						{marker}
 					</Typography>
 					<MarkdownHtml

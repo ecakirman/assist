@@ -1,4 +1,3 @@
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -7,6 +6,7 @@ import { useTheme } from "@mui/material/styles";
 import type { SessionInfo } from "../../../../types";
 import { NextSessionLinks } from "./NextItemActions/NextSessionLinks";
 import { actionVariants } from "./NextItemActions/actionVariants";
+import { NextGithubButton } from "./NextItemActions/NextGithubButton";
 import { useNextClone } from "./useNextClone";
 
 export function NextItemActions({
@@ -47,16 +47,7 @@ export function NextItemActions({
 					</Button>
 				</span>
 			</Tooltip>
-			<Button
-				variant={variants.link}
-				size={size}
-				startIcon={<OpenInNewIcon />}
-				href={url}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				GitHub
-			</Button>
+			<NextGithubButton url={url} variant={variants.link} size={size} />
 		</Stack>
 	);
 }

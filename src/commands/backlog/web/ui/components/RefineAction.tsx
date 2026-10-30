@@ -26,7 +26,7 @@ export function RefineAction({ itemId }: { itemId: number }) {
 				disabled={launched}
 			>
 				<Button
-					startIcon={<TuneIcon />}
+					startIcon={design === "slate" ? undefined : <TuneIcon />}
 					onClick={(event) => {
 						stop(event);
 						launch([]);

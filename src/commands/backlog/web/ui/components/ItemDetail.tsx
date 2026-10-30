@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import { countRender } from "../../../../sessions/web/ui/renderCounters";
 import { updateItemStatus } from "../api";
@@ -6,7 +5,7 @@ import type { BacklogItem } from "../types";
 import { useApiNode } from "../../../../sessions/web/ui/useApiNode";
 import { useRepoCwd } from "../useRepoCwd";
 import { ItemBody } from "./ItemBody";
-import { itemDetailLayout } from "./itemDetailLayout";
+import { ItemDetailColumns } from "./ItemDetailColumns";
 import { ItemNavigator } from "./ItemNavigator";
 import { PinnedHeader } from "./PinnedHeader";
 import { usePinnedHeaderHeight } from "./usePinnedHeaderHeight";
@@ -31,23 +30,20 @@ export function ItemDetail({ item, onReload }: ItemDetailProps) {
 		await onReload();
 	};
 	return (
-		<Box style={style}>
-			<PinnedHeader
-				ref={headerRef}
-				item={item}
-				onDeleted={handleDeleted}
-				onStatusChange={handleStatusChange}
-			/>
-			<Box sx={itemDetailLayout.containerSx}>
-				<Box sx={itemDetailLayout.columnsSx}>
-					<ItemBody
-						item={item}
-						onRewind={onReload}
-						onCommentDeleted={onReload}
-					/>
-					<ItemNavigator item={item} headerHeight={headerHeight} />
-				</Box>
-			</Box>
-		</Box>
+		<ItemDetailColumns
+			style={style}
+			header={
+				<PinnedHeader
+					ref={headerRef}
+					item={item}
+					onDeleted={handleDeleted}
+					onStatusChange={handleStatusChange}
+				/>
+			}
+			body={
+				<ItemBody item={item} onRewind={onReload} onCommentDeleted={onReload} />
+			}
+			navigator={<ItemNavigator item={item} headerHeight={headerHeight} />}
+		/>
 	);
 }
