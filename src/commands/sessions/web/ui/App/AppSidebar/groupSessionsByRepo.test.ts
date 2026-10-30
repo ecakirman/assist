@@ -41,6 +41,21 @@ describe("groupSessionsByRepo", () => {
 		expect(groups).toEqual([{ kind: "single", session: sessions[0] }]);
 	});
 
+	it("groups a single session when the minimum group size is 1", () => {
+		const sessions = [makeSessionInfo({ id: "a", cwd: "/home/me/git/assist" })];
+
+		const groups = groupSessionsByRepo(sessions, () => false, 1);
+
+		expect(groups).toEqual([
+			{
+				kind: "repo",
+				key: "/home/me/git/assist",
+				label: "assist",
+				rows: [row(sessions[0])],
+			},
+		]);
+	});
+
 	it("pins starred sessions above non-starred within a group", () => {
 		const sessions = [
 			makeSessionInfo({ id: "a", cwd: "/repo" }),

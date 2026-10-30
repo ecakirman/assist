@@ -18,10 +18,11 @@ type SessionGroup =
 export function groupSessionsByRepo(
 	sessions: SessionInfo[],
 	isStarred: (session: SessionInfo) => boolean,
+	minGroupSize = 2,
 ): SessionGroup[] {
 	const groups = bucketSessionsByRepoKey(sessions).map(
 		({ key, label, members }): SessionGroup =>
-			members.length < 2
+			members.length < minGroupSize
 				? { kind: "single", session: members[0]! }
 				: {
 						kind: "repo",

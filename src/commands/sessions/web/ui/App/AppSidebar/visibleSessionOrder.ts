@@ -9,9 +9,10 @@ export function visibleSessionOrder(
 	sessions: SessionInfo[],
 	isStarred: (session: SessionInfo) => boolean,
 	isGroupCollapsed: (key: string, members: SessionInfo[]) => boolean = never,
+	minGroupSize = 2,
 ): SessionInfo[] {
 	return flattenSessionGroups(
-		groupSessionsByRepo(sessions, isStarred).filter(
+		groupSessionsByRepo(sessions, isStarred, minGroupSize).filter(
 			(group) =>
 				group.kind === "single" ||
 				!isGroupCollapsed(group.key, groupSessions(group.rows)),
