@@ -1,3 +1,10 @@
+# [0.949.0](https://github.com/staff0rd/assist/compare/v0.948.1...v0.949.0) (2026-10-30)
+
+
+### Features
+
+* help button links to the docs ([a0eb760](https://github.com/staff0rd/assist/commit/a0eb760428a39e6efb5cc5b91bc93dcc8a3732e1))
+
 ## [0.948.1](https://github.com/staff0rd/assist/compare/v0.948.0...v0.948.1) (2026-10-30)
 
 
