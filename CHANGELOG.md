@@ -1,3 +1,10 @@
+# [0.941.0](https://github.com/staff0rd/assist/compare/v0.940.3...v0.941.0) (2026-10-30)
+
+
+### Features
+
+* Slate top bar, preview pane and diff ([3f948a7](https://github.com/staff0rd/assist/commit/3f948a72c423ea8a036aeb6979b7979fc48625f6))
+
 ## [0.940.3](https://github.com/staff0rd/assist/compare/v0.940.2...v0.940.3) (2026-10-30)
 
 
