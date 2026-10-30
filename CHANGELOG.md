@@ -1,3 +1,10 @@
+# [0.954.0](https://github.com/staff0rd/assist/compare/v0.953.0...v0.954.0) (2026-10-30)
+
+
+### Features
+
+* Inbox tab on the web dashboard ([4c37536](https://github.com/staff0rd/assist/commit/4c37536892c201d26ee71b9a751678b0cef7088e))
+
 # [0.953.0](https://github.com/staff0rd/assist/compare/v0.952.2...v0.953.0) (2026-10-30)
 
 
