@@ -1,3 +1,10 @@
+## [0.952.1](https://github.com/staff0rd/assist/compare/v0.952.0...v0.952.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* dark plus fill, tighter server menu gap ([93fbce4](https://github.com/staff0rd/assist/commit/93fbce45ec1c67e2b91642ef53ca965daaab6094))
+
 # [0.952.0](https://github.com/staff0rd/assist/compare/v0.951.1...v0.952.0) (2026-10-30)
 
 
