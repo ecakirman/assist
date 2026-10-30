@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { HelpButton } from "./AppToolbar/HelpButton";
 import { MachinePicker } from "./AppToolbar/MachinePicker";
 import { NavTabs } from "./AppToolbar/NavTabs";
 import { NewSessionButton } from "./AppToolbar/NewSessionButton";
@@ -27,7 +26,6 @@ export function AppToolbar({
 
 	return (
 		<Toolbar variant="dense" disableGutters sx={toolbarSx}>
-			<HelpButton />
 			{collapsed && (
 				<SidebarCollapseToggle
 					collapsed={collapsed}

@@ -4,8 +4,6 @@ import Tooltip from "@mui/material/Tooltip";
 
 const HELP_URL = "https://staffordwilliams.com/assist";
 
-const sx = { color: "inherit", mr: 0.5 } as const;
-
 export function HelpButton() {
 	return (
 		<Tooltip title="Help">
@@ -15,9 +13,10 @@ export function HelpButton() {
 				target="_blank"
 				rel="noopener noreferrer"
 				aria-label="Help"
-				sx={sx}
+				size="small"
+				sx={{ color: "inherit" }}
 			>
-				<HelpOutlineIcon />
+				<HelpOutlineIcon fontSize="small" />
 			</IconButton>
 		</Tooltip>
 	);

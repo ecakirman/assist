@@ -28,6 +28,11 @@ export function iconButtonComponents({
 					style: {
 						color: color.text.secondary,
 						"&:hover": { color: color.text.primary },
+						...(!color.appBar && {
+							".MuiAppBar-root &, .MuiAppBar-root &:hover": {
+								color: "inherit",
+							},
+						}),
 					},
 				},
 			],

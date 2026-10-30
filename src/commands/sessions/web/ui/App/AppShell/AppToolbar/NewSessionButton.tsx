@@ -5,15 +5,7 @@ import { useSearchParams } from "react-router";
 import { ChordTooltipTitle } from "../../ChordTooltipTitle";
 import { useShortcut } from "../../useShortcut";
 
-const sx = {
-	ml: 0.75,
-	bgcolor: "primary.main",
-	color: "primary.contrastText",
-	transition: "filter 0.2s ease, transform 0.2s ease",
-	"& .MuiSvgIcon-root": { fontSize: 18 },
-	"&:hover": { bgcolor: "primary.main", filter: "brightness(1.08)" },
-	"&:active": { transform: "translateY(1px)" },
-} as const;
+const sx = { ml: 0.75 } as const;
 
 export function NewSessionButton() {
 	const [, setSearchParams] = useSearchParams();

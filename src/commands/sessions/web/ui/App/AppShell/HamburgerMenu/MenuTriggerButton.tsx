@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { HelpButton } from "./MenuTriggerButton/HelpButton";
 import { ConfigButton } from "./MenuTriggerButton/ConfigButton";
 import { MenuButton } from "./MenuTriggerButton/MenuButton";
 
@@ -19,9 +20,11 @@ export function MenuTriggerButton({
 				display: "flex",
 				alignItems: "center",
 				gap: 0.5,
-				color: "inherit",
+				color: (t) =>
+					t.tokens.color.appBar?.text ?? t.palette.primary.contrastText,
 			}}
 		>
+			<HelpButton />
 			<ConfigButton />
 			<MenuButton open={open} onOpen={onOpen} />
 		</Box>
