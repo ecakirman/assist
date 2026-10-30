@@ -1,3 +1,11 @@
+## [0.954.1](https://github.com/staff0rd/assist/compare/v0.954.0...v0.954.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* resume done backlog run on restart ([c6eab7b](https://github.com/staff0rd/assist/commit/c6eab7b48904c83e9374a417bf493996202071a6))
+* space Gmail assist button from date ([bb700be](https://github.com/staff0rd/assist/commit/bb700be2a9a7409fbd0568031e43c3b19f54cca7))
+
 # [0.954.0](https://github.com/staff0rd/assist/compare/v0.953.0...v0.954.0) (2026-10-30)
 
 
