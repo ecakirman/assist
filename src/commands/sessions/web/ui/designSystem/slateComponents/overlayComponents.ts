@@ -1,14 +1,12 @@
 import type { Components, Theme } from "@mui/material/styles";
 import type { ActiveTokens } from "../DesignTokens";
+import { menuComponents } from "./menuComponents";
 
-export function overlayComponents({
-	color,
-	radius,
-	elevation,
-	type,
-}: ActiveTokens): Components<Theme> {
+export function overlayComponents(tokens: ActiveTokens): Components<Theme> {
+	const { color, radius, elevation, type } = tokens;
 	const frame = { border: `1px solid ${color.line}` };
 	return {
+		...menuComponents(tokens),
 		MuiTooltip: {
 			styleOverrides: {
 				tooltip: {
@@ -26,6 +24,16 @@ export function overlayComponents({
 		MuiPopover: {
 			styleOverrides: {
 				paper: { ...frame, boxShadow: elevation.overlay },
+			},
+		},
+		MuiBackdrop: {
+			styleOverrides: {
+				root: {
+					"&:not(.MuiBackdrop-invisible)": {
+						backgroundColor: color.scrim,
+						backdropFilter: "blur(2px)",
+					},
+				},
 			},
 		},
 		MuiDialog: {

@@ -31,6 +31,7 @@ type ColorTokens = {
 	well: string;
 	stripe: string;
 	overlay: { background: string; text: string };
+	scrim?: string;
 	appBar?: { background: string; text: string };
 	onAppBar: ChromeColors;
 	statusBar?: StatusBarColors;

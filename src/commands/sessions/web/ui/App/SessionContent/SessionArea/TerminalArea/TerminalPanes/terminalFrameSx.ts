@@ -20,5 +20,7 @@ export const terminalFrameSx: SxProps<Theme> = (t) => ({
 	}),
 });
 
-export const terminalInset = (t: Theme) =>
-	t.design === "slate" ? "34px 6px 6px 12px" : "0 0 0 8px";
+export function terminalInset(t: Theme, hasLastMessage: boolean) {
+	if (t.design !== "slate") return "0 0 0 8px";
+	return `${hasLastMessage ? 34 : 6}px 6px 6px 12px`;
+}

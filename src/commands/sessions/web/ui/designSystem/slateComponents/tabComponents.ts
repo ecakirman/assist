@@ -4,7 +4,22 @@ import type { ActiveTokens } from "../DesignTokens";
 const tint = (percent: number) =>
 	`color-mix(in srgb, currentColor ${percent}%, transparent)`;
 
-export function tabComponents({ radius }: ActiveTokens): Components<Theme> {
+const onAppBarTab = {
+	".MuiAppBar-root &": {
+		color: "inherit",
+		"&:hover": { backgroundColor: tint(8) },
+		"&.Mui-selected": {
+			color: "inherit",
+			backgroundColor: tint(12),
+			boxShadow: `inset 0 0 0 1px ${tint(18)}`,
+		},
+	},
+};
+
+export function tabComponents({
+	color,
+	radius,
+}: ActiveTokens): Components<Theme> {
 	return {
 		MuiTabs: {
 			styleOverrides: {
@@ -21,11 +36,18 @@ export function tabComponents({ radius }: ActiveTokens): Components<Theme> {
 					borderRadius: radius.sm,
 					textTransform: "none",
 					fontWeight: 500,
-					"&:hover": { backgroundColor: tint(8) },
-					"&.Mui-selected": {
-						backgroundColor: tint(12),
-						boxShadow: `inset 0 0 0 1px ${tint(18)}`,
+					opacity: 1,
+					color: color.text.secondary,
+					"&:hover": {
+						backgroundColor: color.raised,
+						color: color.text.primary,
 					},
+					"&.Mui-selected": {
+						color: color.text.primary,
+						backgroundColor: color.raised,
+						boxShadow: `inset 0 0 0 1px ${color.line}`,
+					},
+					...(!color.appBar && onAppBarTab),
 				},
 			},
 		},

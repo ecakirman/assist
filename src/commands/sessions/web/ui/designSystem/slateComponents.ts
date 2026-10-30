@@ -3,12 +3,20 @@ import type { ActiveTokens } from "./DesignTokens";
 import { overlayComponents } from "./slateComponents/overlayComponents";
 import { controlComponents } from "./slateComponents/controlComponents";
 import { tabComponents } from "./slateComponents/tabComponents";
+import { iconButtonComponents } from "./slateComponents/iconButtonComponents";
+import { toggleButtonComponents } from "./slateComponents/toggleButtonComponents";
+import { inputComponents } from "./slateComponents/inputComponents";
+import { switchComponents } from "./slateComponents/switchComponents";
 
 export function slateComponents(tokens: ActiveTokens): Components<Theme> {
 	const { appBar } = tokens.color;
 	return {
 		...overlayComponents(tokens),
 		...controlComponents(tokens),
+		...iconButtonComponents(tokens),
+		...toggleButtonComponents(tokens),
+		...inputComponents(tokens),
+		...switchComponents(tokens),
 		...tabComponents(tokens),
 		MuiPaper: {
 			styleOverrides: {

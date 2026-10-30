@@ -41,6 +41,7 @@ export function TerminalPanes({
 						visible={s.id === activeId}
 						ownership={ownershipOf(s.activeViewer)}
 						ended={hasEnded(s.status)}
+						hasLastMessage={!!s.lastUserMessage?.trim()}
 						activeNode={s.activeViewerNode}
 						onOutput={onOutput}
 						sendInput={sendInput}

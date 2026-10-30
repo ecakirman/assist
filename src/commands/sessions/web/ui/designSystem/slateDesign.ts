@@ -29,6 +29,7 @@ export const slateDesign: DesignTokens = {
 			well: ink,
 			stripe: raised,
 			overlay: { background: raised, text: fg },
+			scrim: "rgba(0, 0, 0, 0.5)",
 			appBar: { background: surface, text: fg },
 			onAppBar: {
 				...classicDesign.dark.color.onAppBar,
@@ -87,6 +88,7 @@ export const slateDesign: DesignTokens = {
 		...classicDesign.light,
 		color: {
 			...classicDesign.light.color,
+			scrim: "rgba(15, 23, 42, 0.32)",
 			statusBar: {
 				background: "#f3f4f6",
 				text: "rgba(0, 0, 0, 0.6)",

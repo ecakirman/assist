@@ -13,6 +13,7 @@ export function TerminalPane({
 	visible,
 	ownership,
 	ended,
+	hasLastMessage,
 	activeNode,
 	onOutput,
 	sendInput,
@@ -22,6 +23,7 @@ export function TerminalPane({
 	visible: boolean;
 	ownership: Ownership;
 	ended: boolean;
+	hasLastMessage: boolean;
 	activeNode?: string;
 	onOutput: (sessionId: string, handler: (data: string) => void) => () => void;
 	sendInput: (sessionId: string, data: string) => void;
@@ -47,7 +49,7 @@ export function TerminalPane({
 			data-terminal-session-id={sessionId}
 			sx={{
 				position: "absolute",
-				inset: terminalInset(theme),
+				inset: terminalInset(theme, hasLastMessage),
 				visibility: visible ? "visible" : "hidden",
 				pointerEvents: visible ? "auto" : "none",
 			}}

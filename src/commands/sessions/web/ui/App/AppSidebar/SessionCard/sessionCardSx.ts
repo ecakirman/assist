@@ -23,7 +23,7 @@ function selectionSx(t: Theme, active: boolean) {
 			borderLeftColor: active ? t.palette.primary.main : "transparent",
 		};
 	return {
-		width: "auto",
+		width: `calc(100% - ${t.spacing(1.5)})`,
 		mx: 0.75,
 		my: "1px",
 		borderRadius: `${t.tokens.radius.sm}px`,
