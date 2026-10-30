@@ -2,21 +2,10 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Button from "@mui/material/Button";
 import { DiffOptionMenu } from "../DiffOptionMenu";
 import { DiffScopeLabel } from "./DiffScopeButton/DiffScopeLabel";
+import { scopeButtonSx } from "./DiffScopeButton/scopeButtonSx";
 import { activeDiffScope, diffScopeOptions } from "../../diffScopeOptions";
 import type { DiffScopeState } from "../useDiffScopeState";
 import { useMenuAnchor } from "../useMenuAnchor";
-
-const buttonSx = {
-	minWidth: 0,
-	flex: "0 1 auto",
-	height: 28,
-	px: 0.75,
-	textTransform: "none",
-	fontSize: 13,
-	fontWeight: 500,
-	color: "text.primary",
-	"& .MuiButton-endIcon": { ml: 0.25, color: "text.disabled" },
-} as const;
 
 export function DiffScopeButton({
 	scope,
@@ -41,7 +30,7 @@ export function DiffScopeButton({
 				aria-expanded={menu.isOpen}
 				onClick={menu.open}
 				endIcon={<ExpandMore sx={{ fontSize: 16 }} />}
-				sx={buttonSx}
+				sx={scopeButtonSx}
 			>
 				<DiffScopeLabel
 					label={active.label}

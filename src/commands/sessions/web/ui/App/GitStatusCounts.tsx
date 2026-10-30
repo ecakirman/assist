@@ -9,12 +9,14 @@ export function GitStatusCounts({
 	sessionId,
 	offerBranchDiff = false,
 	toggleChordHint = false,
+	countButton = false,
 }: {
 	panelSessionId: string;
 	cwd: string;
 	sessionId?: string;
 	offerBranchDiff?: boolean;
 	toggleChordHint?: boolean;
+	countButton?: boolean;
 }) {
 	const affordance = sessionDiffAffordance(useGitStatusCounts(cwd, sessionId));
 	if (!affordance) return null;
@@ -37,6 +39,7 @@ export function GitStatusCounts({
 			groups={affordance.groups}
 			uncommitted={affordance.uncommitted}
 			toggleChordHint={toggleChordHint}
+			countButton={countButton}
 		/>
 	);
 }

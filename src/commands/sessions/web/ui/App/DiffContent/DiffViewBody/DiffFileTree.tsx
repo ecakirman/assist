@@ -4,6 +4,7 @@ import type { FileData } from "react-diff-view";
 import { buildDiffFileTree } from "../buildDiffFileTree";
 import { DiffFileTreeHeader } from "./DiffFileTree/DiffFileTreeHeader";
 import { DiffFileTreeRows } from "./DiffFileTree/DiffFileTreeRows";
+import { slateTreePanelSx } from "./DiffFileTree/slateTreeSx";
 import { DIFF_TOOLBAR_HEIGHT } from "../DiffToolbar";
 import { treeFileKeys } from "../treeFileKeys";
 import { useCollapsedDirs } from "./DiffFileTree/useCollapsedDirs";
@@ -40,7 +41,7 @@ export function DiffFileTree({
 	if (nodes.length === 0) return null;
 
 	return (
-		<Box sx={panelSx} aria-label="Changed files">
+		<Box sx={[panelSx, slateTreePanelSx]} aria-label="Changed files">
 			{onRevertPaths && (
 				<DiffFileTreeHeader
 					paths={treeFileKeys(nodes)}

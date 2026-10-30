@@ -30,7 +30,12 @@ export function PrPreviewActions({
 		<Stack
 			direction="row"
 			spacing={1}
-			sx={{ p: 2, alignItems: "center", justifyContent: "flex-end" }}
+			sx={{
+				px: 2,
+				py: design === "slate" ? 1.5 : 2,
+				alignItems: "center",
+				justifyContent: "flex-end",
+			}}
 		>
 			{chain && (
 				<PrPreviewChainToggles

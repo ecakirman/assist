@@ -1,5 +1,9 @@
 import { keyframes } from "@emotion/react";
+import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { statusPillSx } from "../../../../../../../../designSystem/statusPillSx";
+import { statusGlyph } from "../../../../../../../../statusGlyph";
 import { statusColors } from "../../../../../../../statusColors";
 import type { DisplayStatus } from "../../../../../../../../displayStatus";
 
@@ -29,6 +33,14 @@ export function SessionStatusDot({
 	status: DisplayStatus;
 	label?: boolean;
 }) {
+	const slate = useTheme().design === "slate";
+	if (label && slate)
+		return (
+			<Box component="span" sx={statusPillSx(statusColors[status])}>
+				{statusGlyph[status]} {status}
+			</Box>
+		);
+
 	if (label)
 		return (
 			<Typography

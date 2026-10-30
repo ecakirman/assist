@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, type SxProps, type Theme } from "@mui/material";
 
 const quoteSx = {
 	borderLeft: 3,
@@ -12,6 +12,12 @@ const quoteSx = {
 	overflow: "auto",
 } as const;
 
-export function QuoteBlock({ text }: { text: string }) {
-	return <Box sx={quoteSx}>{text}</Box>;
+export function QuoteBlock({
+	text,
+	sx,
+}: {
+	text: string;
+	sx?: SxProps<Theme>;
+}) {
+	return <Box sx={[quoteSx, ...(Array.isArray(sx) ? sx : [sx])]}>{text}</Box>;
 }

@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { DIFF_TOOLBAR_HEIGHT } from "./DiffToolbar";
+import { slateFileHeaderSx } from "./FileDiff/slateFileCardSx";
 
 const headerSx = {
 	position: "sticky",
@@ -33,7 +34,7 @@ export function FileDiffHeader({
 	onPreview?: () => void;
 }) {
 	return (
-		<Box sx={headerSx} onClick={onToggle}>
+		<Box sx={[headerSx, slateFileHeaderSx]} onClick={onToggle}>
 			{collapsed ? (
 				<ChevronRight fontSize="small" />
 			) : (

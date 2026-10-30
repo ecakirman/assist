@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import type { Theme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import type { FileData, ViewType } from "react-diff-view";
 import { diffSx } from "../../diffSx";
@@ -6,6 +7,8 @@ import { FileDiff, filePath } from "../FileDiff";
 import type { AddRuleRequest } from "../../formatAddRuleCommand";
 import type { DiffComment } from "../../formatDiffComment";
 import type { FileComment } from "../../formatFileComment";
+
+const slateFileListSx = (t: Theme) => (t.design === "slate" ? { p: 1 } : {});
 
 export type DiffFileListProps = {
 	files: FileData[];
@@ -40,7 +43,7 @@ export function DiffFileList({
 		);
 
 	return (
-		<Box sx={diffSx}>
+		<Box sx={[diffSx, slateFileListSx]}>
 			{files.map((file) => (
 				<FileDiff
 					key={filePath(file)}

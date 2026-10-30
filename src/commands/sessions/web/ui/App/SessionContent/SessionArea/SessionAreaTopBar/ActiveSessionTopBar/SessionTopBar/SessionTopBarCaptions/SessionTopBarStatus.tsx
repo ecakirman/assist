@@ -1,6 +1,9 @@
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { statusPillSx } from "../../../../../../../designSystem/statusPillSx";
 import { displayStatus } from "../../../../../../../displayStatus";
+import { statusGlyph } from "../../../../../../../statusGlyph";
 import { isVerifying } from "../../../../../../isVerifying";
 import { SessionRunningDot } from "../../../../../../SessionRunningDot";
 import { SessionStatusDot } from "./SessionTopBarStatus/SessionStatusDot";
@@ -17,8 +20,16 @@ const verifyingSx = {
 } as const;
 
 function StatusLabel({ session }: { session: SessionInfo }) {
+	const slate = useTheme().design === "slate";
 	if (!isVerifying(session))
 		return <SessionStatusDot status={displayStatus(session)} label />;
+
+	if (slate)
+		return (
+			<Box component="span" sx={statusPillSx(statusColors.running)}>
+				{statusGlyph.running} verifying
+			</Box>
+		);
 
 	return (
 		<Box sx={verifyingSx}>

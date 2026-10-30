@@ -11,6 +11,7 @@ export function SessionTopBarDiff({ session }: { session: SessionInfo }) {
 			sessionId={session.claudeSessionId}
 			offerBranchDiff
 			toggleChordHint
+			countButton
 		/>
 	);
 }

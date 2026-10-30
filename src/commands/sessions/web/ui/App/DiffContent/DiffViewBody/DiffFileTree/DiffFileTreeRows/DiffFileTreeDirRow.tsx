@@ -9,6 +9,7 @@ import {
 	diffFileTreeRevertSx,
 	diffFileTreeRowSx,
 } from "../diffFileTreeRowSx";
+import { slateTreeDirSx } from "../slateTreeSx";
 import { DiffFolderRevertButton } from "./DiffFileTreeDirRow/DiffFolderRevertButton";
 
 export function DiffFileTreeDirRow({
@@ -29,7 +30,7 @@ export function DiffFileTreeDirRow({
 	onRevertPaths?: (paths: string[]) => void;
 }) {
 	return (
-		<Box sx={diffFileTreeFileRowSx}>
+		<Box sx={[diffFileTreeFileRowSx, slateTreeDirSx]}>
 			<ButtonBase
 				onClick={onToggle}
 				aria-expanded={!collapsed}

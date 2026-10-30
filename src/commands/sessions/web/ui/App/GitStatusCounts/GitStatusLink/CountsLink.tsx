@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import { useDiffPanels } from "../../useDiffPanels";
 import { DiffToggleTooltip } from "./CountsLink/DiffToggleTooltip";
+import { useCountButton } from "./CountsLink/useCountButton";
 import { GitStatusChips, type StatusGroup } from "../GitStatusChips";
 
 const containerSx = {
@@ -24,6 +25,7 @@ export function CountsLink({
 	groups,
 	bracketed,
 	toggleChordHint = false,
+	countButton = false,
 }: {
 	panelSessionId: string;
 	cwd: string;
@@ -32,8 +34,10 @@ export function CountsLink({
 	groups: StatusGroup[];
 	bracketed?: boolean;
 	toggleChordHint?: boolean;
+	countButton?: boolean;
 }) {
 	const { togglePanel } = useDiffPanels();
+	const boxed = useCountButton(panelSessionId, scope, countButton);
 
 	return (
 		<DiffToggleTooltip show={toggleChordHint}>
@@ -48,9 +52,10 @@ export function CountsLink({
 					})
 				}
 				variant="caption"
-				underline="hover"
+				underline={boxed ? "none" : "hover"}
 				color="inherit"
-				sx={containerSx}
+				aria-pressed={boxed?.pressed}
+				sx={[containerSx, boxed?.sx ?? {}]}
 			>
 				{bracketed && <Box component="span">(</Box>}
 				<GitStatusChips groups={groups} />

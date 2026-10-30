@@ -8,6 +8,7 @@ import { FileDiffHeader } from "./FileDiffHeader";
 import type { FileDiffProps } from "./FileDiff/FileDiffProps";
 import { isMarkdownPath } from "./FileDiff/isMarkdownPath";
 import { MarkdownPreviewDialog } from "./FileDiff/MarkdownPreviewDialog";
+import { slateFileCardSx } from "./FileDiff/slateFileCardSx";
 
 export function filePath(file: FileData): string {
 	return file.newPath && file.newPath !== "/dev/null"
@@ -30,7 +31,7 @@ export function FileDiff({
 	const path = filePath(file);
 
 	return (
-		<Box id={diffFileDomId(path)} sx={{ mb: 3 }}>
+		<Box id={diffFileDomId(path)} sx={[{ mb: 3 }, slateFileCardSx]}>
 			<FileDiffHeader
 				path={path}
 				collapsed={collapsed}

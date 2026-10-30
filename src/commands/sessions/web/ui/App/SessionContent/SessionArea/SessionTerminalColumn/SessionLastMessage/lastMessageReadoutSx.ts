@@ -3,8 +3,9 @@ import { lastMessageSx } from "./lastMessageSx";
 
 function slatePillSx(t: Theme, expanded: boolean, hasPosition: boolean) {
 	return {
-		top: 16,
-		left: 16,
+		top: 18,
+		left: 18,
+		color: "text.primary",
 		width: "auto",
 		maxWidth: { xs: "60%", md: "40%" },
 		px: 1.25,

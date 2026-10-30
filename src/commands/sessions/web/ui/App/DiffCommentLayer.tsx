@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import { type ReactNode, useMemo } from "react";
 import type { HunkData } from "react-diff-view";
 import { buildChangeIndex } from "./DiffCommentLayer/buildChangeIndex";
-import { commentColor } from "./commentColor";
 import { diffCommentActions } from "./DiffCommentLayer/diffCommentActions";
 import { CommentPopover } from "./CommentPopover";
 import { DragOverlay } from "./DragOverlay";
@@ -10,6 +9,7 @@ import type { AddRuleRequest } from "./formatAddRuleCommand";
 import type { DiffComment } from "./formatDiffComment";
 import { selectionLayerSx } from "./selectionLayerSx";
 import { useDiffSelection } from "./DiffCommentLayer/useDiffSelection";
+import { useSelectionColor } from "./DiffCommentLayer/useSelectionColor";
 
 export function DiffCommentLayer({
 	cwd,
@@ -27,6 +27,7 @@ export function DiffCommentLayer({
 	unavailable?: string | undefined;
 	children: ReactNode;
 }) {
+	const selectionColor = useSelectionColor();
 	const index = useMemo(() => buildChangeIndex(hunks), [hunks]);
 	const { wrapperRef, contentRef, pending, rects, onMouseDown, clear } =
 		useDiffSelection(index);
@@ -39,7 +40,7 @@ export function DiffCommentLayer({
 	return (
 		<Box ref={wrapperRef} onMouseDown={onMouseDown} sx={selectionLayerSx}>
 			<Box ref={contentRef}>{children}</Box>
-			<DragOverlay rects={rects} color={commentColor(0).fill} />
+			<DragOverlay rects={rects} color={selectionColor} />
 			<CommentPopover
 				pending={pending}
 				moved={pending?.moved}

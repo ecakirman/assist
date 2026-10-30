@@ -1,4 +1,5 @@
 import { alpha, type Theme } from "@mui/material/styles";
+import { slateDiffSx } from "./diffSx/slateDiffSx";
 import { syntaxTokenSx } from "./diffSx/syntaxTokenSx";
 
 export const diffSx = (theme: Theme) => {
@@ -17,5 +18,6 @@ export const diffSx = (theme: Theme) => {
 		"& .diff": { fontSize: 14 },
 		"& .diff-gutter": { color: text.secondary },
 		...syntaxTokenSx(theme),
+		...(theme.design === "slate" && slateDiffSx(theme)),
 	};
 };

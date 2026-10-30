@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import type { Theme } from "@mui/material/styles";
 import { useRef } from "react";
 import {
 	type DiffToolbarActionProps,
@@ -35,6 +36,16 @@ const toolbarSx = {
 	borderColor: "divider",
 } as const;
 
+const slateToolbarSx = (t: Theme) =>
+	t.design === "slate"
+		? {
+				gap: "6px",
+				px: 1.25,
+				bgcolor: "background.paper",
+				borderColor: t.tokens.color.lineSoft,
+			}
+		: {};
+
 type DiffToolbarProps = DiffToolbarSubjectProps &
 	DiffToolbarControlProps &
 	DiffToolbarActionProps & {
@@ -48,7 +59,7 @@ export function DiffToolbar(props: DiffToolbarProps) {
 	const compact = width !== null && width < COMPACT_WIDTH;
 
 	return (
-		<Box ref={barRef} sx={toolbarSx}>
+		<Box ref={barRef} sx={[toolbarSx, slateToolbarSx]}>
 			<DiffTreeToggle
 				treeVisible={props.treeVisible}
 				onToggleTree={props.onToggleTree}

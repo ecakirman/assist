@@ -12,7 +12,8 @@ import {
 	diffFileTreeRevertSx,
 	diffFileTreeRowSx,
 } from "../diffFileTreeRowSx";
-import { FileTypeIcon } from "../../../../FileTypeIcon";
+import { slateTreeSx } from "../slateTreeSx";
+import { DiffTreeFileGlyph } from "./DiffFileTreeFileRow/DiffTreeFileGlyph";
 
 export function DiffFileTreeFileRow({
 	file,
@@ -29,10 +30,11 @@ export function DiffFileTreeFileRow({
 }) {
 	return (
 		<Box
-			sx={{
-				...diffFileTreeFileRowSx,
-				...(active ? diffFileTreeActiveRowSx : {}),
-			}}
+			sx={[
+				diffFileTreeFileRowSx,
+				active && diffFileTreeActiveRowSx,
+				slateTreeSx(active),
+			]}
 		>
 			<ButtonBase
 				onClick={() => onSelect(file.fileKey)}
@@ -44,7 +46,7 @@ export function DiffFileTreeFileRow({
 					pl: `calc(${indent} + ${DIFF_TREE_CHEVRON_WIDTH}px)`,
 				}}
 			>
-				<FileTypeIcon path={file.fileKey} />
+				<DiffTreeFileGlyph path={file.fileKey} />
 				<Typography component="span" sx={diffFileTreeNameSx}>
 					{file.name}
 				</Typography>

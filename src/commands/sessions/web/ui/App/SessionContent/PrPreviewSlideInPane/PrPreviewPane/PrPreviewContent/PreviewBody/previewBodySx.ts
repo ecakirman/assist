@@ -1,5 +1,6 @@
 import type { Theme } from "@mui/material";
 import { markdownContentSx } from "../../../../../../../../../backlog/web/ui/components/markdownSx";
+import { slateDocSx } from "../../../../../../designSystem/slateDocSx";
 
 export const previewBodySx = (theme: Theme) => ({
 	flex: 1,
@@ -16,4 +17,5 @@ export const previewBodySx = (theme: Theme) => ({
 		color: "inherit",
 		borderRadius: "2px",
 	},
+	...slateDocSx(theme),
 });

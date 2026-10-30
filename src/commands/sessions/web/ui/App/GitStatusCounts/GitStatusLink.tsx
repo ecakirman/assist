@@ -23,6 +23,7 @@ export function GitStatusLink({
 	groups,
 	uncommitted,
 	toggleChordHint,
+	countButton,
 }: {
 	panelSessionId: string;
 	cwd: string;
@@ -30,6 +31,7 @@ export function GitStatusLink({
 	groups: StatusGroup[];
 	uncommitted?: StatusGroup[];
 	toggleChordHint?: boolean;
+	countButton?: boolean;
 }) {
 	return (
 		<StopCardActivation>
@@ -42,6 +44,7 @@ export function GitStatusLink({
 						scope="all"
 						groups={groups}
 						toggleChordHint={toggleChordHint}
+						countButton={countButton}
 					/>
 				)}
 				{uncommitted && uncommitted.length > 0 && (
@@ -52,6 +55,7 @@ export function GitStatusLink({
 						scope="uncommitted"
 						groups={uncommitted}
 						bracketed
+						countButton={countButton}
 					/>
 				)}
 			</Box>
