@@ -1,3 +1,10 @@
+# [0.945.0](https://github.com/staff0rd/assist/compare/v0.944.0...v0.945.0) (2026-10-30)
+
+
+### Features
+
+* Gmail assist remembers last repo ([19e995f](https://github.com/staff0rd/assist/commit/19e995f46d6d762322deb5e59f41eba673248449))
+
 # [0.944.0](https://github.com/staff0rd/assist/compare/v0.943.0...v0.944.0) (2026-10-30)
 
 
