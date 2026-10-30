@@ -6,10 +6,11 @@ import { useDiffPanels } from "../../../useDiffPanels";
 
 const columnSx = {
 	minWidth: 0,
-	overflow: "auto",
+	display: "flex",
+	flexDirection: "column",
+	overflow: "hidden",
 	bgcolor: "background.paper",
 	borderColor: "divider",
-	"&:focus": { outline: "none" },
 } as const;
 
 const halfSx = { ...columnSx, width: "50%", borderLeft: 1 } as const;
@@ -29,11 +30,7 @@ export function DiffPanelColumn({
 	const { closePanel, setPanelScope, togglePanelMode } = useDiffPanels();
 
 	return (
-		<Box
-			data-diff-session-id={sessionId}
-			tabIndex={-1}
-			sx={panel.mode === "full" ? fullSx : halfSx}
-		>
+		<Box sx={panel.mode === "full" ? fullSx : halfSx}>
 			<DiffContent
 				cwd={panel.cwd}
 				sessionId={panel.claudeSessionId}
@@ -44,6 +41,10 @@ export function DiffPanelColumn({
 				mode={panel.mode}
 				onToggleMode={() => togglePanelMode(sessionId)}
 				onClose={() => closePanel(sessionId)}
+				scrollRegionProps={{
+					"data-diff-session-id": sessionId,
+					tabIndex: -1,
+				}}
 			/>
 		</Box>
 	);

@@ -1,3 +1,7 @@
+import {
+	DiffClosableLayout,
+	type DiffScrollRegionProps,
+} from "./DiffContent/DiffClosableLayout";
 import { diffBodyProps } from "./DiffContent/diffBodyProps";
 import { DiffContentBody } from "./DiffContent/DiffContentBody";
 import { DiffSnackbars } from "./DiffContent/DiffSnackbars";
@@ -16,6 +20,7 @@ export function DiffContent({
 	mode,
 	onToggleMode,
 	onClose,
+	scrollRegionProps,
 }: {
 	cwd: string;
 	sessionId?: string;
@@ -26,24 +31,30 @@ export function DiffContent({
 	mode?: DiffPanelMode;
 	onToggleMode?: () => void;
 	onClose?: () => void;
+	scrollRegionProps?: DiffScrollRegionProps;
 }) {
 	const diff = useDiffContent(cwd, sessionId, scope, sessions, sendInput);
 
 	return (
 		<>
-			<DiffToolbar
-				{...diff.filters}
-				{...diff.treePanel}
-				{...diff.collapseAll}
-				scope={diff.scopeState}
-				onScopeChange={onScopeChange}
-				totals={diff.totals}
-				commentHint={diff.comments.unavailable}
-				mode={mode}
-				onToggleMode={onToggleMode}
+			<DiffClosableLayout
 				onClose={onClose}
-			/>
-			<DiffContentBody {...diffBodyProps(diff, cwd)} />
+				scrollRegionProps={scrollRegionProps}
+			>
+				<DiffToolbar
+					{...diff.filters}
+					{...diff.treePanel}
+					{...diff.collapseAll}
+					scope={diff.scopeState}
+					onScopeChange={onScopeChange}
+					totals={diff.totals}
+					commentHint={diff.comments.unavailable}
+					mode={mode}
+					onToggleMode={onToggleMode}
+					onClose={onClose}
+				/>
+				<DiffContentBody {...diffBodyProps(diff, cwd)} />
+			</DiffClosableLayout>
 			<DiffSnackbars
 				sentTo={diff.comments.sentTo}
 				clearSent={diff.comments.clearSent}
