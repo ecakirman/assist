@@ -1,3 +1,10 @@
+# [0.938.0](https://github.com/staff0rd/assist/compare/v0.937.0...v0.938.0) (2026-10-30)
+
+
+### Features
+
+* add assist rules add --global ([40e69ef](https://github.com/staff0rd/assist/commit/40e69efc5196a881c7bc78bd66e1ef6946ee1ccc))
+
 # [0.937.0](https://github.com/staff0rd/assist/compare/v0.936.0...v0.937.0) (2026-10-30)
 
 
