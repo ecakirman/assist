@@ -11,14 +11,13 @@ export function attachGmailMessageButtons(): void {
 	)) {
 		const date = message.querySelector<HTMLElement>(DATE_SELECTOR);
 		if (!date || message.querySelector("[data-assist-send]")) continue;
-		date.before(
-			assistSendButton(
-				{
-					link: async () =>
-						gmailPermalink(await resolveGmailMessageId(message)),
-				},
-				"Start an assist session from this email",
-			),
+		const button = assistSendButton(
+			{
+				link: async () => gmailPermalink(await resolveGmailMessageId(message)),
+			},
+			"Start an assist session from this email",
 		);
+		button.classList.add("assist-send--before-date");
+		date.before(button);
 	}
 }

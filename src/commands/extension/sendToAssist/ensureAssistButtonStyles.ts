@@ -30,6 +30,9 @@ const CSS = `
 	padding: 3px 12px 3px 8px;
 	margin-left: 0;
 }
+.assist-send--before-date {
+	margin-right: 8px;
+}
 .assist-send:hover:not(:disabled) {
 	background: var(--button-default-bgColor-hover, #eff2f5);
 	border-color: var(--fgColor-muted, #59636e);
