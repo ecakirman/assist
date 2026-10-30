@@ -1,3 +1,10 @@
+# [0.939.0](https://github.com/staff0rd/assist/compare/v0.938.0...v0.939.0) (2026-10-30)
+
+
+### Features
+
+* Slate overrides for controls ([8197950](https://github.com/staff0rd/assist/commit/819795036aa4f0a2ed2985096ba8f0afbedda1d7))
+
 # [0.938.0](https://github.com/staff0rd/assist/compare/v0.937.0...v0.938.0) (2026-10-30)
 
 
