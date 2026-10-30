@@ -24,7 +24,13 @@ const slate = {
 		borderColor: (t: Theme) => t.tokens.color.lineSoft,
 	},
 	tabs: { minHeight: 0, "& .MuiTabs-list": { gap: 0.5 } },
-	tab: { minHeight: 30, minWidth: 0, p: "5px 8px" },
+	tab: {
+		minHeight: 30,
+		minWidth: 0,
+		p: "5px 8px",
+		flexDirection: "row",
+		alignItems: "baseline",
+	},
 } as const;
 
 export const sidebarTabsSx = (design: DesignName | undefined) =>
