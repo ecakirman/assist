@@ -1,3 +1,15 @@
+# [0.950.0](https://github.com/staff0rd/assist/compare/v0.949.0...v0.950.0) (2026-10-30)
+
+
+### Bug Fixes
+
+* route table drops to RETIRED_TABLES ([5d45b55](https://github.com/staff0rd/assist/commit/5d45b551be3e98f89a42ae43cb6438abfd0b1576))
+
+
+### Features
+
+* pinned Close footer in diff panel ([e4f3be5](https://github.com/staff0rd/assist/commit/e4f3be54b0cb31a2470879587d74eef17920d712))
+
 # [0.949.0](https://github.com/staff0rd/assist/compare/v0.948.1...v0.949.0) (2026-10-30)
 
 
