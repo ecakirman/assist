@@ -27,7 +27,7 @@ const staticSx = {
 	"& li": { mb: 0.5 },
 	"& li > ul, & li > ol": { mt: 0.5, mb: 0 },
 	"& code": {
-		fontFamily: "monospace",
+		fontFamily: "fontFamilyMono",
 		fontSize: "0.85em",
 		px: 0.5,
 		py: 0.25,
@@ -69,10 +69,7 @@ const staticSx = {
 } as const;
 
 const themedSx = (theme: Theme) => {
-	const codeBg =
-		theme.palette.mode === "dark"
-			? "rgba(255,255,255,0.08)"
-			: "rgba(0,0,0,0.06)";
+	const codeBg = theme.tokens.color.codeWash;
 	return {
 		...staticSx,
 		"& code": { ...staticSx["& code"], bgcolor: codeBg },

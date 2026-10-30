@@ -11,7 +11,7 @@ const labelSx = {
 const sessionSx = {
 	color: "text.secondary",
 	fontSize: "0.75rem",
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 	display: "block",
 } as const;
 

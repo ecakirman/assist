@@ -73,7 +73,9 @@
 		{
 			"files": [
 				"src/commands/sessions/web/ui/**/*.ts",
-				"src/commands/sessions/web/ui/**/*.tsx"
+				"src/commands/sessions/web/ui/**/*.tsx",
+				"src/commands/backlog/web/ui/**/*.ts",
+				"src/commands/backlog/web/ui/**/*.tsx"
 			],
 			"rules": {
 				"design/no-raw-style-values": "error"
@@ -83,7 +85,9 @@
 			"files": [
 				"src/commands/sessions/web/ui/designSystem/**",
 				"src/commands/sessions/web/ui/**/*.test.ts",
-				"src/commands/sessions/web/ui/**/*.test.tsx"
+				"src/commands/sessions/web/ui/**/*.test.tsx",
+				"src/commands/backlog/web/ui/**/*.test.ts",
+				"src/commands/backlog/web/ui/**/*.test.tsx"
 			],
 			"rules": {
 				"design/no-raw-style-values": "off"

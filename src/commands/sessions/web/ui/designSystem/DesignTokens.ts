@@ -28,6 +28,7 @@ type ColorTokens = {
 	wash: { warning: string; error: string };
 	well: string;
 	stripe: string;
+	codeWash: string;
 	overlay: { background: string; text: string };
 	scrim: string;
 	appBar?: { background: string; text: string };
@@ -45,6 +46,7 @@ type ElevationTokens = {
 	appBar: number;
 	overlay: string;
 	dialog: string;
+	stuckHeader: string;
 };
 
 type ModeTokens = {

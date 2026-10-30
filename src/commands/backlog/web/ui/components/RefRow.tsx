@@ -6,7 +6,7 @@ import { refLabel } from "../../../refLabel";
 const kindSx = {
 	color: "text.secondary",
 	mr: 1,
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 } as const;
 
 function RefText({ gitRef }: { gitRef: GitRef }) {

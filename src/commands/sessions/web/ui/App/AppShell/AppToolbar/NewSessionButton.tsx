@@ -6,17 +6,20 @@ import { useSearchParams } from "react-router";
 import { ChordTooltipTitle } from "../../ChordTooltipTitle";
 import { useShortcut } from "../../useShortcut";
 
-const filledSx = {
-	bgcolor: "primary.main",
-	color: "primary.contrastText",
+const filledSx = (fill: string, ink: string) => ({
+	bgcolor: fill,
+	color: ink,
+	"& .MuiSvgIcon-root": { color: ink },
 	transition: "filter 0.2s ease, transform 0.2s ease",
-	"&:hover": { bgcolor: "primary.main", filter: "brightness(1.08)" },
+	"&:hover": { bgcolor: fill, color: ink, filter: "brightness(1.08)" },
 	"&:active": { transform: "translateY(1px)" },
-} as const;
+});
 
 const sx = (t: Theme) => ({
 	ml: 0.75,
-	...(t.tokens.color.appBar && filledSx),
+	...(t.tokens.color.appBar
+		? filledSx("primary.main", "primary.contrastText")
+		: filledSx("primary.contrastText", "primary.main")),
 });
 
 export function NewSessionButton() {

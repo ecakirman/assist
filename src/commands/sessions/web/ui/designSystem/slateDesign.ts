@@ -33,6 +33,7 @@ export const slateDesign: DesignTokens = {
 			},
 			well: ink,
 			stripe: raised,
+			codeWash: "rgba(255, 255, 255, 0.08)",
 			overlay: { background: raised, text: fg },
 			scrim: "rgba(0, 0, 0, 0.5)",
 			appBar: { background: surface, text: fg },
@@ -87,6 +88,7 @@ export const slateDesign: DesignTokens = {
 			appBar: 0,
 			overlay: "0 14px 34px rgba(0, 0, 0, 0.45)",
 			dialog: "0 30px 60px rgba(0, 0, 0, 0.5)",
+			stuckHeader: "0 8px 8px -9px rgba(0, 0, 0, 0.8)",
 		},
 	},
 	light: {
@@ -108,6 +110,7 @@ export const slateDesign: DesignTokens = {
 			},
 			well: "#f3f4f6",
 			stripe: "rgba(0, 0, 0, 0.1)",
+			codeWash: "rgba(0, 0, 0, 0.06)",
 			overlay: { background: "rgba(97, 97, 97, 0.92)", text: "#fff" },
 			onAppBar: {
 				...onAppBar,
@@ -190,6 +193,7 @@ export const slateDesign: DesignTokens = {
 			appBar: 0,
 			overlay: "0 8px 24px rgba(15, 23, 42, 0.12)",
 			dialog: "0 24px 48px rgba(15, 23, 42, 0.18)",
+			stuckHeader: "0 6px 6px -7px rgba(0, 0, 0, 0.2)",
 		},
 	},
 	font: {

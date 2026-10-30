@@ -5,12 +5,6 @@ import type { HeaderContentProps } from "./HeaderActions";
 import { SlateHeaderContent } from "./SlateHeaderContent";
 import { useStuckSentinel } from "./useStuckSentinel";
 
-function stuckShadow(theme: Theme) {
-	return theme.palette.mode === "dark"
-		? "0 8px 8px -9px rgba(0, 0, 0, 0.8)"
-		: "0 6px 6px -7px rgba(0, 0, 0, 0.2)";
-}
-
 function pinnedSx(stuck: boolean): SxProps<Theme> {
 	return (theme) => ({
 		position: "sticky",
@@ -20,7 +14,7 @@ function pinnedSx(stuck: boolean): SxProps<Theme> {
 		mx: -2,
 		px: 2,
 		pb: 2,
-		boxShadow: stuck ? stuckShadow(theme) : "none",
+		boxShadow: stuck ? theme.tokens.elevation.stuckHeader : "none",
 		transition: theme.transitions.create("box-shadow"),
 	});
 }

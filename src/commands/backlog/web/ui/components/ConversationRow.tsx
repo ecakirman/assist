@@ -8,7 +8,7 @@ const rowSx = { display: "flex", alignItems: "center", gap: 1 } as const;
 
 const kindSx = {
 	color: "text.secondary",
-	fontFamily: "monospace",
+	fontFamily: "fontFamilyMono",
 } as const;
 
 const labelSx = { flex: 1, overflowWrap: "anywhere" } as const;
