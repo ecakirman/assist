@@ -1,5 +1,4 @@
 import AppBar from "@mui/material/AppBar";
-import { useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import { AppRoutes } from "./AppShell/AppRoutes";
 import { AppStatusBar } from "./AppShell/AppStatusBar";
@@ -19,15 +18,12 @@ const toolbarSx = { minHeight: 48 } as const;
 export function AppShell({
 	mode,
 	toggle,
-	toggleDesign,
 }: {
 	mode: "light" | "dark";
 	toggle: () => void;
-	toggleDesign: () => void;
 }) {
 	const shell = useAppShell();
 	const { socket, selection, viewLaunchedSession } = shell;
-	const { design } = useTheme();
 
 	return (
 		<AppShellProviders shell={shell}>
@@ -35,7 +31,6 @@ export function AppShell({
 				<HamburgerMenu
 					mode={mode}
 					toggle={toggle}
-					toggleDesign={toggleDesign}
 					sessions={socket.sessions}
 					reconnecting={socket.reconnecting}
 				/>
@@ -46,7 +41,7 @@ export function AppShell({
 				<ServerRunLayer socket={socket}>
 					<AppRoutes socket={socket} />
 				</ServerRunLayer>
-				{design === "slate" && <AppStatusBar socket={socket} />}
+				<AppStatusBar socket={socket} />
 				<AppOverlays
 					socket={socket}
 					onViewLaunchedSession={viewLaunchedSession}

@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import { nextWaitingSessionId } from "./useJumpToNextWaiting/nextWaitingSessionId";
 import { scrollSessionCardIntoView } from "./scrollSessionCardIntoView";
 import { useCollapsedGroups } from "./useCollapsedGroups";
-import { useMinGroupSize } from "./useMinGroupSize";
 import type { SessionInfo, SidebarTab } from "../../types";
 import { useNextWaitingHotkey } from "./useJumpToNextWaiting/useNextWaitingHotkey";
 import { useStarredSessions } from "../useStarredSessions";
@@ -23,11 +22,10 @@ export function useJumpToNextWaiting({
 }): void {
 	const { isStarred } = useStarredSessions();
 	const { isCollapsed } = useCollapsedGroups();
-	const minGroupSize = useMinGroupSize();
 	useNextWaitingHotkey(
 		useCallback(() => {
 			const id = nextWaitingSessionId(
-				visibleSessionOrder(sessions, isStarred, isCollapsed, minGroupSize),
+				visibleSessionOrder(sessions, isStarred, isCollapsed, 1),
 				activeId,
 			);
 			if (!id) return;
@@ -38,7 +36,6 @@ export function useJumpToNextWaiting({
 			sessions,
 			isStarred,
 			isCollapsed,
-			minGroupSize,
 			activeId,
 			tab,
 			onSelect,

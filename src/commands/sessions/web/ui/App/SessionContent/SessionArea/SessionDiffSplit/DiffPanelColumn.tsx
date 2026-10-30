@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import type { Theme } from "@mui/material/styles";
 import { DiffContent } from "../../../DiffContent";
 import type { DiffPanel } from "../../../toggleDiffPanel";
 import type { SessionInfo } from "../../../../types";
@@ -8,16 +7,13 @@ import { useDiffPanels } from "../../../useDiffPanels";
 const columnSx = {
 	minWidth: 0,
 	overflow: "auto",
-	px: 1,
+	bgcolor: "background.paper",
 	borderColor: "divider",
 	"&:focus": { outline: "none" },
 } as const;
 
 const halfSx = { ...columnSx, width: "50%", borderLeft: 1 } as const;
 const fullSx = { ...columnSx, width: "100%" } as const;
-
-const slateSx = (t: Theme) =>
-	t.design === "slate" ? { px: 0, bgcolor: "background.paper" } : {};
 
 export function DiffPanelColumn({
 	sessionId,
@@ -36,7 +32,7 @@ export function DiffPanelColumn({
 		<Box
 			data-diff-session-id={sessionId}
 			tabIndex={-1}
-			sx={[panel.mode === "full" ? fullSx : halfSx, slateSx]}
+			sx={panel.mode === "full" ? fullSx : halfSx}
 		>
 			<DiffContent
 				cwd={panel.cwd}

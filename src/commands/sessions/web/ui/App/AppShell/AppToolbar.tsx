@@ -1,12 +1,10 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import { MachinePicker } from "./AppToolbar/MachinePicker";
 import { NavTabs } from "./AppToolbar/NavTabs";
 import { NewSessionButton } from "./AppToolbar/NewSessionButton";
 import { OpenInCodeButton } from "../OpenInCodeButton";
 import { OpenInGitHubButton } from "./AppToolbar/OpenInGitHubButton";
-import { RateLimitsIndicator } from "./AppToolbar/RateLimitsIndicator";
 import { RefreshWebserverButton } from "./AppToolbar/RefreshWebserverButton";
 import { RepoPicker } from "./AppToolbar/RepoPicker";
 import { SidebarCollapseToggle } from "../SidebarCollapseToggle";
@@ -25,7 +23,6 @@ export function AppToolbar({
 	selection: RepoSelection;
 }) {
 	const { collapsed, onToggleCollapsed } = useSidebarCollapsedContext();
-	const { design } = useTheme();
 
 	return (
 		<Toolbar variant="dense" disableGutters sx={toolbarSx}>
@@ -52,12 +49,6 @@ export function AppToolbar({
 				onCreateAssist={socket.createAssistSession}
 				onStartRun={socket.startRun}
 			/>
-			{design !== "slate" && (
-				<RateLimitsIndicator
-					rateLimits={socket.rateLimits}
-					harnessRateLimits={socket.harnessRateLimits}
-				/>
-			)}
 		</Toolbar>
 	);
 }

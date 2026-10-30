@@ -398,8 +398,8 @@ describe("SessionArea last message beside the diff panel", () => {
 		openDiff();
 
 		const readout = screen.getByTestId("session-last-message");
-		expect(getComputedStyle(readout).top).toBe("0px");
-		expect(getComputedStyle(readout).left).toBe("0px");
+		expect(getComputedStyle(readout).top).toBe("18px");
+		expect(getComputedStyle(readout).left).toBe("18px");
 		expect(getComputedStyle(readout).right).toBe("auto");
 	});
 });

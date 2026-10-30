@@ -37,6 +37,6 @@ describe("SessionStatusDot", () => {
 	it("leaves the labelled dot unanimated", () => {
 		render(<SessionStatusDot status="waiting" label />);
 
-		expect(getComputedStyle(screen.getByText("● waiting")).animation).toBe("");
+		expect(getComputedStyle(screen.getByText("◆ waiting")).animation).toBe("");
 	});
 });

@@ -1,6 +1,4 @@
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import { useTheme } from "@mui/material/styles";
 import { CloneBadge } from "./CardBadges/CloneBadge";
 import { tokenBadgeSx } from "../../../../../../designSystem/tokenBadgeSx";
 import { HarnessBadge } from "../../../../HarnessBadge";
@@ -9,18 +7,14 @@ import { ServingChip } from "./CardBadges/ServingChip";
 import type { SessionInfo } from "../../../../../../types";
 import { useCloneBadgeContext } from "../../../../useCloneBadgeContext";
 
-const chipSx = { height: 16, fontSize: "0.65rem" };
-
-const slateSx = tokenBadgeSx("primary");
+const reviewPhaseSx = tokenBadgeSx("primary");
 
 function ReviewPhaseBadge({ label }: { label: string }) {
-	if (useTheme().design === "slate")
-		return (
-			<Box component="span" sx={slateSx}>
-				{label}
-			</Box>
-		);
-	return <Chip label={label} size="small" color="primary" sx={chipSx} />;
+	return (
+		<Box component="span" sx={reviewPhaseSx}>
+			{label}
+		</Box>
+	);
 }
 
 export function CardBadges({ session }: { session: SessionInfo }) {

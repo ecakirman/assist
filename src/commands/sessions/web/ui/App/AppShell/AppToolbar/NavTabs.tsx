@@ -1,4 +1,3 @@
-import type { Theme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import { useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -9,7 +8,7 @@ import { useReleasesConfigured } from "./NavTabs/useReleasesConfigured";
 import { useReleasesRedirect } from "./NavTabs/useReleasesRedirect";
 import { visibleTabs } from "./NavTabs/visibleTabs";
 
-const navTabsSx = { mx: (t: Theme) => (t.design === "slate" ? "6px" : 0) };
+const navTabsSx = { mx: "6px" };
 
 export function NavTabs({ cwd }: { cwd: string }) {
 	const location = useLocation();

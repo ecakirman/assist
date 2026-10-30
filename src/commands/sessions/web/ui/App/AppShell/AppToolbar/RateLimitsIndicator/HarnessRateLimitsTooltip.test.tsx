@@ -11,7 +11,7 @@ import {
 	FIVE_HOUR_SECONDS,
 	SEVEN_DAY_SECONDS,
 } from "../../../../../../../../shared/rateLimitLevel";
-import { RateLimitsTooltip } from "./RateLimitsTooltip";
+import { HarnessRateLimitsTooltip } from "./HarnessRateLimitsTooltip";
 
 const NOW = 1_700_000_000;
 
@@ -42,11 +42,20 @@ function usageWindow(pct: number, elapsed: number, windowSeconds: number) {
 	};
 }
 
-function renderTooltip(rateLimits: RateLimits) {
-	render(<RateLimitsTooltip rateLimits={rateLimits} />);
+function renderTooltip(rateLimits: RateLimits, mode?: "dark") {
+	render(
+		<HarnessRateLimitsTooltip groups={[{ harness: "claude", rateLimits }]} />,
+		{ mode },
+	);
 }
 
-describe("RateLimitsTooltip", () => {
+describe("HarnessRateLimitsTooltip", () => {
+	it("heads each harness's rows with its label", () => {
+		renderTooltip({ five_hour: usageWindow(18, 0.4, FIVE_HOUR_SECONDS) });
+
+		expect(screen.getByText("Claude")).toBeTruthy();
+	});
+
 	it("steps a green window to its yellow threshold", () => {
 		renderTooltip({ five_hour: usageWindow(18, 0.4, FIVE_HOUR_SECONDS) });
 
@@ -99,12 +108,10 @@ describe("RateLimitsTooltip", () => {
 	});
 
 	it("keeps the theme's level colours in dark mode", () => {
-		const theme = createDesignTheme("classic", "dark");
-		render(
-			<RateLimitsTooltip
-				rateLimits={{ seven_day: usageWindow(35, 0.4, SEVEN_DAY_SECONDS) }}
-			/>,
-			{ mode: "dark" },
+		const theme = createDesignTheme("dark");
+		renderTooltip(
+			{ seven_day: usageWindow(35, 0.4, SEVEN_DAY_SECONDS) },
+			"dark",
 		);
 
 		expect(colorOf("35%")).toBe(hexToRgb(theme.palette.warning.main));

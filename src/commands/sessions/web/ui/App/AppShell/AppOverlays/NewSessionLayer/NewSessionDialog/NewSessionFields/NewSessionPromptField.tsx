@@ -1,11 +1,10 @@
-import { useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import type { Ref, SyntheticEvent } from "react";
 import { handleEnterSubmit } from "../../../../../handleEnterSubmit";
 
 const outline = ".MuiOutlinedInput-notchedOutline";
 
-const slatePromptSx = {
+const promptSx = {
 	"& .MuiOutlinedInput-root": {
 		px: "18px",
 		py: 2,
@@ -34,10 +33,9 @@ export function NewSessionPromptField({
 	autoFocus: boolean;
 	onTrack: (e: SyntheticEvent) => void;
 }) {
-	const slate = useTheme().design === "slate";
 	return (
 		<TextField
-			sx={slate ? slatePromptSx : undefined}
+			sx={promptSx}
 			value={value}
 			onChange={(e) => onChange(e.target.value)}
 			onKeyDown={handleEnterSubmit}
@@ -50,10 +48,7 @@ export function NewSessionPromptField({
 			multiline
 			minRows={3}
 			maxRows={12}
-			slotProps={{
-				htmlInput: { "aria-label": "Prompt" },
-				input: { sx: slate ? undefined : { fontSize: 14 } },
-			}}
+			slotProps={{ htmlInput: { "aria-label": "Prompt" } }}
 		/>
 	);
 }

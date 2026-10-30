@@ -30,10 +30,10 @@ function renderIndicator(props: Parameters<typeof RateLimitsIndicator>[0]) {
 }
 
 describe("RateLimitsIndicator", () => {
-	it("shows Claude's chips without a harness label when only Claude reports", () => {
+	it("labels Claude's chips when only Claude reports", () => {
 		renderIndicator({ rateLimits: claude });
 
-		expect(screen.getByRole("link").textContent).toBe("12% (1h 0m)");
+		expect(screen.getByRole("link").textContent).toBe("Claude12% (1h 0m)");
 	});
 
 	it("labels each harness when Codex reports alongside Claude", () => {

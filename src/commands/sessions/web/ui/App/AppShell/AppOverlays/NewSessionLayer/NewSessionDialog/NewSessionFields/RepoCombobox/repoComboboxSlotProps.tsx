@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import InputAdornment from "@mui/material/InputAdornment";
 
-const slateInputSx = {
+const inputSx = {
 	fontSize: 13,
 	height: 36,
 	pr: 1,
@@ -11,22 +11,20 @@ const slateInputSx = {
 
 const chevronSx = { fontSize: 16, color: "text.disabled" } as const;
 
-export function repoComboboxSlotProps(open: boolean, slate = false) {
+export function repoComboboxSlotProps(open: boolean) {
 	return {
 		htmlInput: {
 			role: "combobox",
 			"aria-label": "Repo",
 			"aria-expanded": open,
 		},
-		input: slate
-			? {
-					sx: slateInputSx,
-					endAdornment: (
-						<InputAdornment position="end">
-							<KeyboardArrowDownIcon sx={chevronSx} />
-						</InputAdornment>
-					),
-				}
-			: { sx: { fontSize: 13, height: 40 } },
+		input: {
+			sx: inputSx,
+			endAdornment: (
+				<InputAdornment position="end">
+					<KeyboardArrowDownIcon sx={chevronSx} />
+				</InputAdornment>
+			),
+		},
 	};
 }

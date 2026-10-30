@@ -124,7 +124,7 @@ describe("SessionTopBar", () => {
 
 		const idLine = screen.getByText("#7").parentElement;
 		expect(screen.getByText("conv-1").parentElement).toBe(idLine);
-		expect(screen.getByText("● waiting").parentElement).toBe(idLine);
+		expect(screen.getByText("◆ waiting").parentElement).toBe(idLine);
 		expect(screen.getByText("restored").parentElement).toBe(idLine);
 		expect(screen.getByText("1m 30s").parentElement).not.toBe(idLine);
 	});

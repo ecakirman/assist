@@ -1,40 +1,26 @@
-import { createTheme } from "@mui/material/styles";
 import { describe, expect, it } from "vitest";
 import { createDesignTheme } from "./createDesignTheme";
-
-const previousTheme = (mode: "dark" | "light") =>
-	createTheme({
-		palette: {
-			mode,
-			...(mode === "dark" && {
-				background: { default: "#1e1e1e", paper: "#252526" },
-			}),
-		},
-	});
-
-function dataOf(value: object): unknown {
-	const withoutFunctions = JSON.stringify(value);
-	return JSON.parse(withoutFunctions);
-}
+import { slateDesign } from "./slateDesign";
 
 describe("createDesignTheme", () => {
 	it.each(["dark", "light"] as const)(
-		"reproduces the previous %s palette, type and shape under classic",
+		"builds the %s palette and type from the Slate tokens",
 		(mode) => {
-			const classic = createDesignTheme("classic", mode);
-			const previous = previousTheme(mode);
-			expect(dataOf(classic.palette)).toEqual(dataOf(previous.palette));
-			const { fontFamilyMono, ...typography } = classic.typography;
-			expect(fontFamilyMono).toBe("monospace");
-			expect(dataOf(typography)).toEqual(dataOf(previous.typography));
-			expect(classic.shape).toEqual(previous.shape);
-			expect(classic.spacing(2)).toBe(previous.spacing(2));
+			const theme = createDesignTheme(mode);
+			const { color } = slateDesign[mode];
+			expect(theme.palette.mode).toBe(mode);
+			expect(theme.palette.background.default).toBe(color.background);
+			expect(theme.palette.background.paper).toBe(color.surface);
+			expect(theme.palette.primary.main).toBe(color.primary.main);
+			expect(theme.palette.divider).toBe(color.line);
+			expect(theme.typography.fontFamily).toBe(slateDesign.font.ui);
+			expect(theme.typography.fontFamilyMono).toBe(slateDesign.font.mono);
+			expect(theme.shape.borderRadius).toBe(slateDesign.radius.sm);
 		},
 	);
 
-	it("carries the active design and tokens on the theme", () => {
-		const theme = createDesignTheme("slate", "dark");
-		expect(theme.design).toBe("slate");
+	it("carries the active tokens on the theme", () => {
+		const theme = createDesignTheme("dark");
 		expect(theme.palette.background.default).toBe(
 			theme.tokens.color.background,
 		);

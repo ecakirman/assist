@@ -7,19 +7,16 @@ import { useMenuAnchor } from "./HamburgerMenu/useMenuAnchor";
 import { type MenuDialog, useMenuDialog } from "./HamburgerMenu/useMenuDialog";
 import { useSelectedPeer } from "./HamburgerMenu/useSelectedPeer";
 import { menuTargetLabels } from "./HamburgerMenu/menuTargetLabels";
-import { toggleHandlers } from "./HamburgerMenu/toggleHandlers";
 import type { SessionInfo } from "../../types";
 
 export function HamburgerMenu({
 	mode,
 	toggle,
-	toggleDesign,
 	sessions,
 	reconnecting,
 }: {
 	mode: "light" | "dark";
 	toggle: () => void;
-	toggleDesign: () => void;
 	sessions: SessionInfo[];
 	reconnecting: boolean;
 }) {
@@ -46,7 +43,10 @@ export function HamburgerMenu({
 				{hamburgerMenuItems({
 					mode,
 					...menuTargetLabels(peer),
-					...toggleHandlers(close, toggle, toggleDesign),
+					onToggleColorMode: () => {
+						toggle();
+						close();
+					},
 					onShowShortcuts: closeAndShow("shortcuts"),
 					onRestart: closeAndShow("restart"),
 					onUpdate: closeAndShow("update"),

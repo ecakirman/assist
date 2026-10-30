@@ -11,11 +11,7 @@ import { assistVersion } from "../../assistVersion";
 import { DaemonMismatchWarning } from "./VersionBadge/DaemonMismatchWarning";
 import { versionBadgeSx } from "./VersionBadge/versionBadgeSx";
 
-export function VersionBadge({
-	onStatusBar = false,
-}: {
-	onStatusBar?: boolean;
-}) {
+export function VersionBadge() {
 	const { entries } = useNodeUpdatesContext();
 	const navigate = useNavigate();
 	const openUpdates = useCallback(() => navigate("/updates"), [navigate]);
@@ -27,7 +23,7 @@ export function VersionBadge({
 		<>
 			<Tooltip
 				describeChild
-				placement={onStatusBar ? "top-end" : "bottom"}
+				placement="top-end"
 				title={<ChordTooltipTitle label="Updates" chords={chords} />}
 			>
 				<ButtonBase
@@ -38,7 +34,7 @@ export function VersionBadge({
 							? `Updates: ${ready} node${ready > 1 ? "s have" : " has"} an update ready`
 							: "Updates"
 					}
-					sx={versionBadgeSx(ready > 0, onStatusBar)}
+					sx={versionBadgeSx(ready > 0)}
 				>
 					{ready > 0 && <span className="ready-dot" aria-hidden />}
 					<span>v{assistVersion}</span>

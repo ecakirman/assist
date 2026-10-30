@@ -1,27 +1,20 @@
 import type { PaletteMode } from "@mui/material";
 import { createTheme, type Theme } from "@mui/material/styles";
-import { classicDesign } from "./classicDesign";
-import type { ActiveTokens, DesignName } from "./DesignTokens";
+import type { ActiveTokens } from "./DesignTokens";
 import { slateComponents } from "./slateComponents";
 import { slateDesign } from "./slateDesign";
 import { typography } from "./createDesignTheme/typography";
 import { baseComponents } from "./createDesignTheme/baseComponents";
 
-const designs = { classic: classicDesign, slate: slateDesign };
-
-function activeTokens(design: DesignName, mode: PaletteMode): ActiveTokens {
-	const { dark, light, ...shared } = designs[design];
+function activeTokens(mode: PaletteMode): ActiveTokens {
+	const { dark, light, ...shared } = slateDesign;
 	return { ...shared, ...(mode === "dark" ? dark : light), mode };
 }
 
-export function createDesignTheme(
-	design: DesignName,
-	mode: PaletteMode,
-): Theme {
-	const tokens = activeTokens(design, mode);
+export function createDesignTheme(mode: PaletteMode): Theme {
+	const tokens = activeTokens(mode);
 	const { color } = tokens;
 	return createTheme({
-		design,
 		tokens,
 		palette: {
 			mode,
@@ -41,7 +34,7 @@ export function createDesignTheme(
 		spacing: tokens.spacing,
 		components: {
 			...baseComponents(tokens),
-			...(design === "slate" && slateComponents(tokens)),
+			...slateComponents(tokens),
 		},
 	});
 }

@@ -23,6 +23,6 @@ describe("HarnessBadge", () => {
 
 	it("renders the codex label", () => {
 		render(<HarnessBadge harness="codex" />);
-		expect(screen.getByText("Codex")).toBeTruthy();
+		expect(screen.getByText("codex")).toBeTruthy();
 	});
 });

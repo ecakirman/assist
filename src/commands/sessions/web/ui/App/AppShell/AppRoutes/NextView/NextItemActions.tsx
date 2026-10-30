@@ -2,7 +2,6 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
-import { useTheme } from "@mui/material/styles";
 import type { SessionInfo } from "../../../../types";
 import { NextSessionLinks } from "./NextItemActions/NextSessionLinks";
 import { actionVariants } from "./NextItemActions/actionVariants";
@@ -23,7 +22,7 @@ export function NextItemActions({
 	size?: "small" | "medium";
 }) {
 	const cwd = useNextClone()(repo);
-	const variants = actionVariants(useTheme().design, size);
+	const variants = actionVariants(size);
 	return (
 		<Stack
 			direction="row"

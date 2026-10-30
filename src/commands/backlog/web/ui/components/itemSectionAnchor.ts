@@ -12,7 +12,7 @@ export const DEFAULT_PINNED_HEADER_HEIGHT = 140;
 
 export const PINNED_HEADER_HEIGHT_VAR = "--pinned-header-height";
 
-export const pinnedHeaderHeight = `var(${PINNED_HEADER_HEIGHT_VAR}, ${DEFAULT_PINNED_HEADER_HEIGHT}px)`;
+const pinnedHeaderHeight = `var(${PINNED_HEADER_HEIGHT_VAR}, ${DEFAULT_PINNED_HEADER_HEIGHT}px)`;
 
 const scrollMarginTop = `calc(${pinnedHeaderHeight} + 8px)`;
 

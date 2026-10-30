@@ -83,7 +83,7 @@ const themedSx = (theme: Theme) => {
 
 const proseSx = (theme: Theme) => ({
 	...themedSx(theme),
-	...(theme.design === "slate" && slateProseSx(theme)),
+	...slateProseSx(theme),
 });
 
 export const markdownContentSx = (theme: Theme) => themedSx(theme);

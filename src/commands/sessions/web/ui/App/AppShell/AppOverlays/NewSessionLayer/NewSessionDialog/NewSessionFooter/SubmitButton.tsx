@@ -16,13 +16,11 @@ export function SubmitButton({
 	submitLabel,
 	disabled = false,
 	loading = false,
-	size,
-}: FooterProps & { size: "small" | "medium" }) {
+}: FooterProps) {
 	return (
 		<Button
 			type="submit"
 			variant="contained"
-			size={size}
 			disabled={disabled}
 			loading={loading}
 		>

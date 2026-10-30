@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import { harnessLabel } from "../../../../../../../../shared/harnessLabel";
 import { harnessRateLimitsTooltipSx } from "./HarnessRateLimitsTooltip/harnessRateLimitsTooltipSx";
 import type { HarnessLimitGroup } from "./harnessLimitGroups";
@@ -12,7 +11,7 @@ export function HarnessRateLimitsTooltip({
 	groups: HarnessLimitGroup[];
 }) {
 	const now = useNowSeconds(30_000);
-	const sx = harnessRateLimitsTooltipSx(useTheme().design === "slate");
+	const sx = harnessRateLimitsTooltipSx;
 	return (
 		<Box sx={sx.root}>
 			{groups.map((group) => (

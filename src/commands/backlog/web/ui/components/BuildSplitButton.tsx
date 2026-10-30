@@ -4,7 +4,6 @@ import { type MouseEvent, useRef, useState } from "react";
 import { useHarnessCapabilities } from "../../../../sessions/web/ui/useHarnessCapabilities";
 import { BuildSegment } from "./BuildSegment";
 import { HarnessMenu, harnessOptions } from "./HarnessMenu";
-import { useBuildColor } from "./useBuildColor";
 
 export function BuildSplitButton({
 	tooltip,
@@ -17,7 +16,6 @@ export function BuildSplitButton({
 	onBuild: () => void;
 	onSelectHarness: (kind: string) => void;
 }) {
-	const color = useBuildColor();
 	const options = harnessOptions(useHarnessCapabilities());
 	const anchorRef = useRef<HTMLDivElement>(null);
 	const [open, setOpen] = useState(false);
@@ -27,7 +25,7 @@ export function BuildSplitButton({
 			<ButtonGroup
 				ref={anchorRef}
 				variant="contained"
-				color={color}
+				color="primary"
 				size="small"
 				disabled={disabled}
 			>

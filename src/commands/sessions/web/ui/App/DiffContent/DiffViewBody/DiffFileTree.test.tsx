@@ -68,7 +68,7 @@ describe("DiffFileTree", () => {
 		);
 
 		expect(screen.getByText("+3")).toBeTruthy();
-		expect(screen.getByText("-1")).toBeTruthy();
+		expect(screen.getByText("−1")).toBeTruthy();
 	});
 
 	it("marks the active file's row as current", () => {

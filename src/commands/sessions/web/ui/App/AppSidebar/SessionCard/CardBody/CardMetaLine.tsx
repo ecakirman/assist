@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import type { Theme } from "@mui/material/styles";
 import { areChipsLoading } from "../areChipsLoading";
 import { CardChips } from "./CardMetaLine/CardChips";
 import { CardToggleCaptions } from "./CardMetaLine/CardToggleCaptions";
@@ -16,8 +15,7 @@ const metaSx = {
 	overflow: "hidden",
 	fontSize: "0.6875rem",
 	lineHeight: "16px",
-	color: (t: Theme) =>
-		t.design === "slate" ? t.palette.text.secondary : t.palette.text.disabled,
+	color: "text.secondary",
 } as const;
 
 export function CardMetaLine({ session }: { session: SessionInfo }) {

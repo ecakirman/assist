@@ -1,17 +1,14 @@
 import Box from "@mui/material/Box";
-import type { Theme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import type { DiffTotals } from "../diffFileTotals";
 
-const summarySx = (t: Theme) => ({
+const summarySx = {
 	flex: "0 0 auto",
 	fontVariantNumeric: "tabular-nums",
-	...(t.design === "slate" && {
-		fontFamily: t.typography.fontFamilyMono,
-		fontSize: 12,
-		color: "text.secondary",
-	}),
-});
+	fontFamily: "fontFamilyMono",
+	fontSize: 12,
+	color: "text.secondary",
+} as const;
 
 export function DiffCountsSummary({
 	totals,

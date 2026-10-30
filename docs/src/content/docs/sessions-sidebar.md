@@ -18,9 +18,9 @@ screenshots:
     alt: The History tab listing past sessions in the selected repo
     route: /sessions
     scene: history
-    waitFor: text=History 4
+    waitFor: "role=tab[name=/^History\\s*4$/]"
     actions:
-      - click: text=History 4
+      - click: "role=tab[name=/^History/]"
     viewport:
       width: 1280
       height: 560

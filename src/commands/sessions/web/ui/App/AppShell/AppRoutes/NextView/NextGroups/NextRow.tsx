@@ -7,24 +7,19 @@ import { NextItemActions } from "../NextItemActions";
 import { NextRepoRef } from "../NextRepoRef";
 
 const nextRowSx = (t: Theme) => ({
-	px: 2,
-	py: 1.25,
+	px: "14px",
+	py: "10px",
 	alignItems: { sm: "center" },
-	"& + &": { borderTop: 1, borderColor: "divider" },
-	...(t.design === "slate" && {
-		px: "14px",
-		py: "10px",
-		transition: "background-color .2s ease",
-		"&:hover": { bgcolor: t.tokens.color.raised },
-		"& + &": { borderTop: 1, borderColor: t.tokens.color.lineSoft },
-	}),
+	transition: "background-color .2s ease",
+	"&:hover": { bgcolor: t.tokens.color.raised },
+	"& + &": { borderTop: 1, borderColor: t.tokens.color.lineSoft },
 });
 
-const titleSx = (t: Theme) => ({
-	fontWeight: 500,
+const titleSx = {
+	fontWeight: 600,
+	fontSize: 14,
 	overflowWrap: "anywhere",
-	...(t.design === "slate" && { fontWeight: 600, fontSize: 14 }),
-});
+} as const;
 
 export function NextRow({
 	repo,

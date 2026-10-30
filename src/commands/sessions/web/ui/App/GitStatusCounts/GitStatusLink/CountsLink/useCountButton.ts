@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material/styles";
 import { countButtonSx } from "../../../../designSystem/countButtonSx";
 import { useDiffPanels } from "../../../useDiffPanels";
 
@@ -7,9 +6,8 @@ export function useCountButton(
 	scope: string,
 	countButton: boolean,
 ) {
-	const slate = useTheme().design === "slate";
 	const open = useDiffPanels().panelFor(panelSessionId);
-	if (!countButton || !slate) return undefined;
+	if (!countButton) return undefined;
 	const pressed =
 		open !== undefined &&
 		(scope === "uncommitted"

@@ -9,20 +9,14 @@ type AcceptanceCriteriaListProps = {
 	criteria: string[];
 };
 
-const listSx = (t: Theme) =>
-	t.design === "slate"
-		? { maxWidth: "68ch", fontSize: 14 }
-		: { maxWidth: "72ch" };
+const listSx = { maxWidth: "68ch", fontSize: 14 } as const;
 
 const markerSx = (t: Theme) => ({
-	color: "text.secondary",
 	mr: 1,
-	...(t.design === "slate" && {
-		minWidth: 14,
-		color: "text.disabled",
-		fontFamily: t.typography.fontFamilyMono,
-		fontSize: 12,
-	}),
+	minWidth: 14,
+	color: "text.disabled",
+	fontFamily: t.typography.fontFamilyMono,
+	fontSize: 12,
 });
 
 export function AcceptanceCriteriaList({

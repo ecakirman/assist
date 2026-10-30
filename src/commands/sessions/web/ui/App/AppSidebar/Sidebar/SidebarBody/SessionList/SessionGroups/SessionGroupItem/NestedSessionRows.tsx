@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import type { ReactNode } from "react";
 import type { NestedSessionRow } from "../../../../../../nestUnderBacklogRun";
 import type { SessionInfo } from "../../../../../../../useSessionSocket";
@@ -30,7 +29,6 @@ export function NestedSessionRows({
 	rows: NestedSessionRow[];
 	renderCard: (session: SessionInfo, nested?: SessionInfo[]) => ReactNode;
 }) {
-	const railless = useTheme().design === "slate";
 	const renderBranch = (
 		session: SessionInfo,
 		nested?: SessionInfo[],
@@ -42,10 +40,10 @@ export function NestedSessionRows({
 	);
 	return rows.map((row) =>
 		row.children.length === 0 ? (
-			renderBranch(row.session, undefined, !railless)
+			renderBranch(row.session, undefined, false)
 		) : (
 			<Box key={row.session.id}>
-				{renderBranch(row.session, row.children, !railless)}
+				{renderBranch(row.session, row.children, false)}
 				<Box sx={nestedChildrenSx}>
 					{row.children.map((child) => renderBranch(child))}
 				</Box>

@@ -1,7 +1,26 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterAll } from "vitest";
+import { afterAll, vi } from "vitest";
+
+vi.mock("@testing-library/react", async (importOriginal) => {
+	const actual =
+		await importOriginal<typeof import("@testing-library/react")>();
+	const { withDesignTheme } = await import("./src/test/withDesignTheme");
+	return {
+		...actual,
+		render: ((ui, options) =>
+			actual.render(ui, {
+				...options,
+				wrapper: withDesignTheme(options?.wrapper),
+			})) as typeof actual.render,
+		renderHook: ((hook, options) =>
+			actual.renderHook(hook, {
+				...options,
+				wrapper: withDesignTheme(options?.wrapper),
+			})) as typeof actual.renderHook,
+	};
+});
 
 const storeDir = mkdtempSync(join(tmpdir(), "assist-test-store-"));
 process.env.ASSIST_STORE_DIR = storeDir;

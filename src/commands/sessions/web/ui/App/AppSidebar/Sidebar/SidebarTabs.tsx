@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { SidebarCollapseToggle } from "../../SidebarCollapseToggle";
@@ -20,7 +19,7 @@ export function SidebarTabs({
 	onChange: (tab: SidebarTab) => void;
 }) {
 	const { collapsed, onToggleCollapsed } = useSidebarCollapsedContext();
-	const sx = sidebarTabsSx(useTheme().design);
+	const sx = sidebarTabsSx;
 	const tabIndex = tab === "active" ? 0 : 1;
 	return (
 		<Box sx={sx.row}>

@@ -46,7 +46,7 @@ export function DiffFileTreeFileRow({
 					pl: `calc(${indent} + ${DIFF_TREE_CHEVRON_WIDTH}px)`,
 				}}
 			>
-				<DiffTreeFileGlyph path={file.fileKey} />
+				<DiffTreeFileGlyph />
 				<Typography component="span" sx={diffFileTreeNameSx}>
 					{file.name}
 				</Typography>

@@ -5,7 +5,6 @@ import { scrollSessionCardIntoView } from "../../../../scrollSessionCardIntoView
 import { isCycleCardKey } from "../../../../../isCycleCardKey";
 import type { SessionInfo } from "../../../../../../types";
 import { useCollapsedGroups } from "../../../../useCollapsedGroups";
-import { useMinGroupSize } from "../../../../useMinGroupSize";
 import { useStarredSessions } from "../../../../../useStarredSessions";
 import { visibleSessionOrder } from "../../../../visibleSessionOrder";
 
@@ -18,7 +17,6 @@ export function useCycleSessionCards({
 }): (event: KeyboardEvent) => void {
 	const { isStarred } = useStarredSessions();
 	const { isCollapsed } = useCollapsedGroups();
-	const minGroupSize = useMinGroupSize();
 	return useCallback(
 		(event: KeyboardEvent) => {
 			if (!isCycleCardKey(event.nativeEvent)) return;
@@ -28,7 +26,7 @@ export function useCycleSessionCards({
 				sessions,
 				isStarred,
 				isCollapsed,
-				minGroupSize,
+				1,
 			).map((s) => s.id);
 			const currentId = card.getAttribute("data-session-id");
 			const id = adjacentSessionId(order, currentId, event.shiftKey ? -1 : 1);
@@ -38,6 +36,6 @@ export function useCycleSessionCards({
 			holdSessionCardFocus(id);
 			scrollSessionCardIntoView(id);
 		},
-		[sessions, isStarred, isCollapsed, minGroupSize, onSelect],
+		[sessions, isStarred, isCollapsed, onSelect],
 	);
 }

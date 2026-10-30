@@ -30,8 +30,7 @@ export function TerminalPane({
 	sendResize: ResizeFn;
 }) {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const theme = useTheme();
-	const { tokens } = theme;
+	const { tokens } = useTheme();
 	const look = useMemo(() => terminalTheme(tokens), [tokens]);
 	const inactive = ownership === "other";
 	const onPress = useTerminal(containerRef, sessionId, {
@@ -49,7 +48,7 @@ export function TerminalPane({
 			data-terminal-session-id={sessionId}
 			sx={{
 				position: "absolute",
-				inset: terminalInset(theme, hasLastMessage),
+				inset: terminalInset(hasLastMessage),
 				visibility: visible ? "visible" : "hidden",
 				pointerEvents: visible ? "auto" : "none",
 			}}

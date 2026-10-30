@@ -9,10 +9,6 @@ export const itemDetailLayout = {
 	},
 	columnsSx: {
 		display: "flex",
-		columnGap: 3,
-	},
-	slateColumnsSx: {
-		display: "flex",
 		alignItems: "flex-start",
 		columnGap: 4,
 	},

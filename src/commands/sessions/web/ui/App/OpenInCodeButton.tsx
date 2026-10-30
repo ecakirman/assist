@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
 import { ActionButton } from "./ActionButton";
 import { ErrorSnackbar } from "../ErrorSnackbar";
@@ -19,21 +18,20 @@ export function OpenInCodeButton({
 }) {
 	const [error, setError] = useState<string | null>(null);
 	const isCard = variant === "card";
-	const outlined = useTheme().design === "slate" && !isCard;
 	const node = useApiNode();
 
 	return (
 		<>
-			<OpenInCodeTooltip show={!shortcut} outlined={outlined}>
+			<OpenInCodeTooltip show={!shortcut} outlined={!isCard}>
 				<ActionButton
 					label="VS Code"
 					title={shortcut ? "Open in VS Code" : undefined}
 					ariaLabel="Open in VS Code"
-					tone={isCard ? "muted" : outlined ? "secondary" : "inherit"}
+					tone={isCard ? "muted" : "secondary"}
 					size={isCard ? "small" : "medium"}
 					disabled={!cwd}
 					shortcut={shortcut}
-					icon={<OpenInCodeIcon outlined={outlined} small={isCard} />}
+					icon={<OpenInCodeIcon outlined={!isCard} small={isCard} />}
 					onClick={(e) => {
 						e.stopPropagation();
 						void requestOpenInCode(cwd, node).then(

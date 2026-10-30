@@ -16,23 +16,20 @@ function renderStatus(overrides: Partial<SessionInfo> = {}) {
 }
 
 describe("SessionTopBarStatus", () => {
-	it("rings the running dot while the session is verifying", () => {
-		const { container } = renderStatus({ verifying: true });
+	it("labels the pill verifying while the session is verifying", () => {
+		renderStatus({ verifying: true });
 
-		expect(screen.getByTitle("verifying")).toBeTruthy();
-		expect(container.querySelector(".verify-ring")).toBeTruthy();
-		expect(screen.getByText("running")).toBeTruthy();
+		expect(screen.getByText("● verifying")).toBeTruthy();
 	});
 
-	it("reverts to the labelled dot once verify finishes", () => {
-		const { container } = renderStatus({ verifying: false });
+	it("reverts to the running pill once verify finishes", () => {
+		renderStatus({ verifying: false });
 
 		expect(screen.getByText("● running")).toBeTruthy();
-		expect(container.querySelector(".verify-ring")).toBeNull();
 	});
 
 	it("leaves the waiting label in place for a session awaiting a pr preview", () => {
-		const { container } = renderStatus({
+		renderStatus({
 			verifying: true,
 			pendingPrPreview: {
 				requestId: "r1",
@@ -42,11 +39,10 @@ describe("SessionTopBarStatus", () => {
 			},
 		});
 
-		expect(screen.getByText("● waiting")).toBeTruthy();
-		expect(container.querySelector(".verify-ring")).toBeNull();
+		expect(screen.getByText("◆ waiting")).toBeTruthy();
 	});
 
-	it("keeps naming the restore state alongside the ring", () => {
+	it("keeps naming the restore state while verifying", () => {
 		renderStatus({ verifying: true, restored: false });
 
 		expect(screen.getByText("not restored")).toBeTruthy();

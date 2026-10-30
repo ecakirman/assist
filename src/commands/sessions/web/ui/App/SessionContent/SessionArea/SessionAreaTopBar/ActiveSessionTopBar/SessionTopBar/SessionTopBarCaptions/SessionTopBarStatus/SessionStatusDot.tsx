@@ -1,6 +1,5 @@
 import { keyframes } from "@emotion/react";
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { statusPillSx } from "../../../../../../../../designSystem/statusPillSx";
 import { statusGlyph } from "../../../../../../../../statusGlyph";
@@ -18,8 +17,6 @@ const dotSx = {
 	lineHeight: 0.6,
 } as const;
 
-const labelSx = { flexShrink: 0, whiteSpace: "nowrap" } as const;
-
 const pulsingDotSx = {
 	...dotSx,
 	animation: `${pulse} 1.4s ease-in-out infinite`,
@@ -33,22 +30,11 @@ export function SessionStatusDot({
 	status: DisplayStatus;
 	label?: boolean;
 }) {
-	const slate = useTheme().design === "slate";
-	if (label && slate)
+	if (label)
 		return (
 			<Box component="span" sx={statusPillSx(statusColors[status])}>
 				{statusGlyph[status]} {status}
 			</Box>
-		);
-
-	if (label)
-		return (
-			<Typography
-				variant="caption"
-				sx={{ ...labelSx, color: statusColors[status] }}
-			>
-				● {status}
-			</Typography>
 		);
 
 	return (

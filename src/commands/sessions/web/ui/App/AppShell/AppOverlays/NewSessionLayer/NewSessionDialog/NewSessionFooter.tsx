@@ -1,35 +1,50 @@
+import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { useTheme } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
-import { SlateNewSessionFooter } from "./NewSessionFooter/SlateNewSessionFooter";
+import type { Theme } from "@mui/material/styles";
 import {
 	FOOTER_HINTS,
 	type FooterProps,
 	SubmitButton,
 } from "./NewSessionFooter/SubmitButton";
 
-const footerSx = {
+const footerSx = (t: Theme) => ({
 	alignItems: "center",
-	px: 1.5,
-	py: 1,
+	flexWrap: "wrap",
+	gap: "14px",
+	py: "10px",
+	pl: "18px",
+	pr: 1.5,
 	borderTop: 1,
+	borderColor: t.tokens.color.lineSoft,
+	bgcolor: "background.default",
+	fontSize: 12,
+	color: "text.secondary",
+});
+
+const kbdSx = (t: Theme) => ({
+	mr: 0.5,
+	px: "5px",
+	border: 1,
 	borderColor: "divider",
-	bgcolor: "action.hover",
-} as const;
+	borderRadius: "4px",
+	fontFamily: t.typography.fontFamilyMono,
+	fontSize: 10.5,
+	color: "text.primary",
+});
 
 export function NewSessionFooter(props: FooterProps) {
-	const slate = useTheme().design === "slate";
-	if (slate) return <SlateNewSessionFooter {...props} />;
 	return (
-		<Stack direction="row" spacing={1.5} sx={footerSx}>
-			<Stack direction="row" spacing={1.5} sx={{ mr: "auto" }}>
-				{FOOTER_HINTS.map(([key, action]) => (
-					<Typography key={key} variant="caption" color="text.secondary">
-						{key} {action}
-					</Typography>
-				))}
-			</Stack>
-			<SubmitButton {...props} size="small" />
+		<Stack direction="row" sx={footerSx}>
+			{FOOTER_HINTS.map(([key, action]) => (
+				<span key={key}>
+					<Box component="kbd" sx={kbdSx}>
+						{key}
+					</Box>
+					{action}
+				</span>
+			))}
+			<Box sx={{ flex: 1 }} />
+			<SubmitButton {...props} />
 		</Stack>
 	);
 }

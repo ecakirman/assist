@@ -28,8 +28,6 @@ export function lastMessageReadoutSx(
 ) {
 	return (t: Theme) => ({
 		...lastMessageSx(pinned, expanded),
-		...(t.design === "slate"
-			? slatePillSx(t, expanded, hasPosition)
-			: hasPosition && { pr: 8 }),
+		...slatePillSx(t, expanded, hasPosition),
 	});
 }

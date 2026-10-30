@@ -7,16 +7,12 @@ import type { ReactNode } from "react";
 import { NextChipLabel } from "../NextChipLabel";
 import type { NextChip } from "../nextChips";
 
-const groupTitleSx = (t: Theme) =>
-	t.design === "slate" ? { fontSize: 14, fontWeight: 600 } : {};
+const groupTitleSx = { fontSize: 14, fontWeight: 600 } as const;
 
 const countSx = (t: Theme) => ({
-	color: "text.secondary",
-	...(t.design === "slate" && {
-		color: "text.disabled",
-		fontFamily: t.typography.fontFamilyMono,
-		fontSize: 12,
-	}),
+	color: "text.disabled",
+	fontFamily: t.typography.fontFamilyMono,
+	fontSize: 12,
 });
 
 export function NextGroup({

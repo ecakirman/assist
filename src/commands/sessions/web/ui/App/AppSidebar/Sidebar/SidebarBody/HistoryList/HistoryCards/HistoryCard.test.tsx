@@ -89,7 +89,7 @@ describe("HistoryCard harness", () => {
 	it("badges a non-claude session", () => {
 		renderCard("codex");
 
-		expect(screen.getByText("Codex")).toBeDefined();
+		expect(screen.getByText("codex")).toBeDefined();
 	});
 
 	it("badges nothing for a claude session", () => {

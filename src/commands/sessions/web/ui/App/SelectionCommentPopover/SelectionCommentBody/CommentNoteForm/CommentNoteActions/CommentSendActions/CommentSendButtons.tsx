@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 
 export function CommentSendButtons({
 	onSend,
@@ -10,7 +9,7 @@ export function CommentSendButtons({
 	onQueue: (() => void) | undefined;
 	queuePrimary: boolean;
 }) {
-	const secondary = useTheme().design === "slate" ? "tonal" : "outlined";
+	const secondary = "tonal";
 	return (
 		<>
 			<Button

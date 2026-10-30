@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 
 const wrapperSx = {
@@ -19,18 +18,16 @@ export function DiffFileTreeLineCounts({
 	added: number;
 	removed: number;
 }) {
-	const slate = useTheme().design === "slate";
 	return (
 		<Box sx={wrapperSx}>
-			{(!slate || added > 0) && (
+			{added > 0 && (
 				<Typography component="span" sx={countSx} color="success.main">
 					+{added}
 				</Typography>
 			)}
-			{(!slate || removed > 0) && (
+			{removed > 0 && (
 				<Typography component="span" sx={countSx} color="error.main">
-					{slate ? "−" : "-"}
-					{removed}
+					−{removed}
 				</Typography>
 			)}
 		</Box>

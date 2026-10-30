@@ -1,8 +1,6 @@
 import type { PaletteMode, SimplePaletteColorOptions } from "@mui/material";
 import type { ITheme } from "@xterm/xterm";
 
-export type DesignName = "classic" | "slate";
-
 type ChromeColors = {
 	secondary: string;
 	hover: string;
@@ -31,10 +29,10 @@ type ColorTokens = {
 	well: string;
 	stripe: string;
 	overlay: { background: string; text: string };
-	scrim?: string;
+	scrim: string;
 	appBar?: { background: string; text: string };
 	onAppBar: ChromeColors;
-	statusBar?: StatusBarColors;
+	statusBar: StatusBarColors;
 	primary: SimplePaletteColorOptions;
 	secondary: SimplePaletteColorOptions;
 	success: SimplePaletteColorOptions;
@@ -45,8 +43,8 @@ type ColorTokens = {
 
 type ElevationTokens = {
 	appBar: number;
-	overlay?: string;
-	dialog?: string;
+	overlay: string;
+	dialog: string;
 };
 
 type ModeTokens = {
@@ -68,7 +66,6 @@ type TypeScale = {
 };
 
 export type DesignTokens = {
-	name: DesignName;
 	dark: ModeTokens;
 	light: ModeTokens;
 	font: { ui: string; mono: string; terminal: string };
@@ -76,7 +73,7 @@ export type DesignTokens = {
 		fontSize: number;
 		terminalFontSize: number;
 		scale: TypeScale;
-		button: { textTransform: "uppercase" | "none"; fontWeight: number };
+		button: { textTransform: "none"; fontWeight: number };
 	};
 	radius: { sm: number; md: number };
 	spacing: number;

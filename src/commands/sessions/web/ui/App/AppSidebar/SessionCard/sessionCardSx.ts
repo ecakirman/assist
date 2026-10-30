@@ -1,5 +1,4 @@
 import { type SxProps, type Theme } from "@mui/material/styles";
-import { cardCloseClassName } from "../../cardCloseClassName";
 import type { DisplayStatus } from "../../../displayStatus";
 import { selectionSx } from "./sessionCardSx/selectionSx";
 
@@ -14,7 +13,7 @@ function cardBackground(t: Theme, active: boolean, status: DisplayStatus) {
 	const wash = attentionWash[status];
 	if (active) return t.palette.action.selected;
 	if (wash) return t.tokens.color.wash[wash];
-	return t.design === "slate" ? "transparent" : t.palette.background.default;
+	return "transparent";
 }
 
 export function sessionCardSx(
@@ -23,13 +22,9 @@ export function sessionCardSx(
 ): SxProps<Theme> {
 	return (t) => ({
 		display: "grid",
-		gridTemplateColumns: "16px minmax(0, 1fr) auto",
 		columnGap: 1,
 		alignItems: "center",
-		width: "100%",
 		textAlign: "left",
-		p: "5px 10px",
-		[`& .${cardCloseClassName}`]: { display: "inline-flex" },
 		...selectionSx(t, active),
 		bgcolor: cardBackground(t, active, status),
 		cursor: active ? "default" : "pointer",

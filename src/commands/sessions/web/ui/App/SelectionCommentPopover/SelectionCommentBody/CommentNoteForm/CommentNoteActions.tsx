@@ -1,5 +1,4 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { CommentSendActions } from "./CommentNoteActions/CommentSendActions";
 
 export function CommentNoteActions({
@@ -19,8 +18,6 @@ export function CommentNoteActions({
 	onCancel: () => void;
 	onCollapse?: (() => void) | undefined;
 }) {
-	const slate = useTheme().design === "slate";
-	const secondary = slate ? "text" : "outlined";
 	return (
 		<>
 			{unavailable && (
@@ -39,11 +36,11 @@ export function CommentNoteActions({
 					onAdd={onAdd}
 					onQueue={onQueue}
 				/>
-				{slate && <Box sx={{ flex: 1 }} />}
+				<Box sx={{ flex: 1 }} />
 				{onAddRule && (
 					<Button
 						size="small"
-						variant={secondary}
+						variant="text"
 						disabled={disabled}
 						onClick={onAddRule}
 					>
@@ -51,7 +48,7 @@ export function CommentNoteActions({
 					</Button>
 				)}
 				{onCollapse && (
-					<Button size="small" variant={secondary} onClick={onCollapse}>
+					<Button size="small" variant="text" onClick={onCollapse}>
 						Collapse
 					</Button>
 				)}

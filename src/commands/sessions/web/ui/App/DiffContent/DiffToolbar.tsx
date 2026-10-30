@@ -29,22 +29,12 @@ const toolbarSx = {
 	display: "flex",
 	alignItems: "center",
 	flexWrap: "wrap",
-	gap: 0.5,
-	px: 0.5,
-	bgcolor: "background.default",
+	gap: "6px",
+	px: 1.25,
+	bgcolor: "background.paper",
 	borderBottom: 1,
-	borderColor: "divider",
+	borderColor: (t: Theme) => t.tokens.color.lineSoft,
 } as const;
-
-const slateToolbarSx = (t: Theme) =>
-	t.design === "slate"
-		? {
-				gap: "6px",
-				px: 1.25,
-				bgcolor: "background.paper",
-				borderColor: t.tokens.color.lineSoft,
-			}
-		: {};
 
 type DiffToolbarProps = DiffToolbarSubjectProps &
 	DiffToolbarControlProps &
@@ -59,7 +49,7 @@ export function DiffToolbar(props: DiffToolbarProps) {
 	const compact = width !== null && width < COMPACT_WIDTH;
 
 	return (
-		<Box ref={barRef} sx={[toolbarSx, slateToolbarSx]}>
+		<Box ref={barRef} sx={toolbarSx}>
 			<DiffTreeToggle
 				treeVisible={props.treeVisible}
 				onToggleTree={props.onToggleTree}

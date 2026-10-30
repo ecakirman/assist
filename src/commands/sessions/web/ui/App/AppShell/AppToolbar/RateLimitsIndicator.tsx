@@ -17,28 +17,25 @@ const NO_HARNESS_LIMITS: HarnessRateLimits = {};
 export function RateLimitsIndicator({
 	rateLimits,
 	harnessRateLimits = NO_HARNESS_LIMITS,
-	onStatusBar = false,
 }: {
 	rateLimits: RateLimits | null;
 	harnessRateLimits?: HarnessRateLimits;
-	onStatusBar?: boolean;
 }) {
 	const { title, content } = rateLimitsIndicatorContent(
 		harnessLimitGroups(rateLimits, harnessRateLimits),
-		onStatusBar,
 	);
 	return (
 		<Tooltip
 			title={title}
-			placement={onStatusBar ? "top-start" : "bottom"}
-			slotProps={onStatusBar ? statusBarTooltipSlotProps : undefined}
+			placement="top-start"
+			slotProps={statusBarTooltipSlotProps}
 		>
 			<Link
 				component={RouterLink}
 				to="/usage"
-				underline={onStatusBar ? "none" : "hover"}
+				underline="none"
 				color="inherit"
-				sx={rateLimitsIndicatorSx(onStatusBar)}
+				sx={rateLimitsIndicatorSx}
 			>
 				{content}
 			</Link>

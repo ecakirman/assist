@@ -1,17 +1,6 @@
 import { alpha, type Theme } from "@mui/material/styles";
 import type { PhaseStatus } from "../types";
-import { phaseStatusStyles } from "./phaseStatusStyles";
 import { taskMarkerClassName } from "./taskMarkerClassName";
-
-function classicPhaseCardSx(status: PhaseStatus) {
-	const styles = phaseStatusStyles[status];
-	return {
-		p: 2,
-		borderColor: styles.ring ? "info.main" : styles.borderColor,
-		bgcolor: styles.bgcolor,
-		...(styles.ring ? { boxShadow: "0 0 0 2px" as const } : {}),
-	};
-}
 
 function slateBorder(theme: Theme, status: PhaseStatus) {
 	const { primary, success, divider } = theme.palette;
@@ -51,20 +40,11 @@ function slatePhaseCardSx(theme: Theme, status: PhaseStatus) {
 }
 
 export function phaseCardSx(status: PhaseStatus) {
-	return (theme: Theme) =>
-		theme.design === "slate"
-			? slatePhaseCardSx(theme, status)
-			: classicPhaseCardSx(status);
+	return (theme: Theme) => slatePhaseCardSx(theme, status);
 }
 
 export const markers: Record<PhaseStatus, string> = {
 	done: "✓",
-	current: "•",
-	upcoming: "•",
-};
-
-export const slateMarkers: Record<PhaseStatus, string> = {
-	...markers,
 	current: "·",
 	upcoming: "·",
 };

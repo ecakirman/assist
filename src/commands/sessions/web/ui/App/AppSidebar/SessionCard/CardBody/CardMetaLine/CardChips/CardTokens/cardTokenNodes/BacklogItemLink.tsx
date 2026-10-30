@@ -1,18 +1,11 @@
 import Link from "@mui/material/Link";
-import { useTheme } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router";
 import { formatItemId } from "../../../../../../../../../../../backlog/formatItemId";
 import { itemDetailPath } from "../../../../../../../../../../../backlog/web/ui/itemDetailPath";
 import { tokenBadgeSx } from "../../../../../../../../designSystem/tokenBadgeSx";
 import { useApiNode } from "../../../../../../../../useApiNode";
 
-const classicSx = {
-	color: "primary.main",
-	opacity: 0.85,
-	whiteSpace: "nowrap",
-} as const;
-
-const slateSx = tokenBadgeSx("primary");
+const sx = tokenBadgeSx("primary");
 
 export function BacklogItemLink({
 	itemId,
@@ -22,13 +15,12 @@ export function BacklogItemLink({
 	cwd?: string;
 }) {
 	const node = useApiNode();
-	const slate = useTheme().design === "slate";
 	return (
 		<Link
 			component={RouterLink}
 			to={itemDetailPath(itemId, cwd, node)}
 			underline="hover"
-			sx={slate ? slateSx : classicSx}
+			sx={sx}
 			onMouseDown={(e) => e.stopPropagation()}
 			onClick={(e) => e.stopPropagation()}
 		>

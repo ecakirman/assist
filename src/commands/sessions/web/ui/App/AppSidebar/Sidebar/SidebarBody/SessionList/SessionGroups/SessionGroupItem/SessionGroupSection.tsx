@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import type { Theme } from "@mui/material/styles";
 import type { ReactNode } from "react";
 import { GroupHeader } from "./SessionGroupSection/GroupHeader";
 import { InRepoGroupContext } from "../../../../../useInRepoGroupContext";
@@ -7,11 +6,6 @@ import type { SessionInfo } from "../../../../../../../types";
 import { useCollapsedGroups } from "../../../../../useCollapsedGroups";
 
 const containerSx = { mb: 0.5 } as const;
-
-const bodySx = (t: Theme) =>
-	t.design === "slate"
-		? {}
-		: { ml: "17px", borderLeft: 1, borderColor: "divider" };
 
 export function SessionGroupSection({
 	groupKey,
@@ -39,11 +33,9 @@ export function SessionGroupSection({
 				onDismiss={onDismiss}
 			/>
 			{!collapsed && (
-				<Box sx={bodySx}>
-					<InRepoGroupContext.Provider value>
-						{children}
-					</InRepoGroupContext.Provider>
-				</Box>
+				<InRepoGroupContext.Provider value>
+					{children}
+				</InRepoGroupContext.Provider>
 			)}
 		</Box>
 	);

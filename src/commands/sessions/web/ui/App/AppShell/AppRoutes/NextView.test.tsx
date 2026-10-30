@@ -178,7 +178,7 @@ describe("NextView ranking", () => {
 		expect(screen.getByText("PR 2")).toBeTruthy();
 		expect(screen.getByText("o/r#2")).toBeTruthy();
 		expect(screen.getAllByText("Start session")).toHaveLength(2);
-		expect(screen.getAllByText("GitHub")).toHaveLength(2);
+		expect(screen.getAllByText("GitHub ↗")).toHaveLength(2);
 	});
 
 	it("ranks peer PRs above assigned issues", async () => {
@@ -242,7 +242,7 @@ describe("NextView Start session", () => {
 		const start = (await screen.findByText("Start session")).closest("button");
 		expect(start?.disabled).toBe(true);
 		expect(
-			screen.getByRole("link", { name: "GitHub" }).getAttribute("href"),
+			screen.getByRole("link", { name: "GitHub ↗" }).getAttribute("href"),
 		).toBe("https://github.com/o/elsewhere/issues/5");
 	});
 

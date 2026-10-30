@@ -1,9 +1,6 @@
 import type { SvgIconComponent } from "@mui/icons-material";
 import ViewColumnOutlined from "@mui/icons-material/ViewColumnOutlined";
 import ViewStreamOutlined from "@mui/icons-material/ViewStreamOutlined";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import { useTheme } from "@mui/material/styles";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import type { ViewType } from "react-diff-view";
@@ -13,12 +10,13 @@ const options: { value: ViewType; label: string; Icon: SvgIconComponent }[] = [
 	{ value: "split", label: "Split view", Icon: ViewColumnOutlined },
 ];
 
-type Props = {
+export function DiffViewTypeToggle({
+	viewType,
+	onChange,
+}: {
 	viewType: ViewType;
 	onChange: (viewType: ViewType) => void;
-};
-
-function SegmentedViewTypeToggle({ viewType, onChange }: Props) {
+}) {
 	return (
 		<ToggleButtonGroup
 			exclusive
@@ -39,35 +37,5 @@ function SegmentedViewTypeToggle({ viewType, onChange }: Props) {
 				</ToggleButton>
 			))}
 		</ToggleButtonGroup>
-	);
-}
-
-export function DiffViewTypeToggle({ viewType, onChange }: Props) {
-	const { design } = useTheme();
-	if (design === "slate")
-		return <SegmentedViewTypeToggle viewType={viewType} onChange={onChange} />;
-	return (
-		<Box sx={{ display: "flex", flex: "0 0 auto" }}>
-			{options.map(({ value, label, Icon }) => {
-				const active = viewType === value;
-				return (
-					<IconButton
-						key={value}
-						size="small"
-						title={label}
-						aria-label={label}
-						aria-pressed={active}
-						onClick={() => onChange(value)}
-						sx={{
-							color: active ? "text.primary" : "text.disabled",
-							bgcolor: active ? "action.selected" : undefined,
-							"&:hover": { color: "text.primary" },
-						}}
-					>
-						<Icon sx={{ fontSize: 16 }} />
-					</IconButton>
-				);
-			})}
-		</Box>
 	);
 }

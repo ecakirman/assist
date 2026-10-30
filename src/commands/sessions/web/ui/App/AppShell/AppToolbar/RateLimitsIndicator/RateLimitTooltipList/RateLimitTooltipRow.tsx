@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import { nextRateLimitStep } from "../../../../../../../../../shared/nextRateLimitStep";
 import { rateLimitLevel } from "../../../../../../../../../shared/rateLimitLevel";
 import { limitLevelOnDarkColor } from "../limitLevelOnDarkColor";
@@ -20,7 +19,7 @@ export function RateLimitTooltipRow({
 	windowSeconds: number;
 	now: number;
 }) {
-	const sx = rateLimitTooltipRowSx(useTheme().design === "slate");
+	const sx = rateLimitTooltipRowSx;
 	const level = rateLimitLevel(pct, resetsAt, windowSeconds, now);
 	const next = nextRateLimitStep(pct, resetsAt, windowSeconds, now);
 	const projected = next.kind === "projected" ? next : undefined;

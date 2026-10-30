@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import type { RateLimitLevel } from "../../../../../../../../../../shared/rateLimitLevel";
 import { limitLevelOnDarkColor } from "../../limitLevelOnDarkColor";
-import { thresholdSlotSx } from "./thresholdSlotSx";
+
+const slotSx = { display: "contents" } as const;
 
 export function RateLimitThresholdSlot({
 	direction,
@@ -11,18 +11,12 @@ export function RateLimitThresholdSlot({
 	direction: "back" | "forward";
 	threshold: { level: RateLimitLevel; pct: number } | undefined;
 }) {
-	const slate = useTheme().design === "slate";
 	const back = direction === "back";
-	const slotSx = thresholdSlotSx(slate, back);
 	if (!threshold)
 		return (
 			<Box component="span" sx={slotSx}>
-				{slate && (
-					<>
-						<span />
-						<span />
-					</>
-				)}
+				<span />
+				<span />
 			</Box>
 		);
 	const arrow = (
@@ -35,7 +29,7 @@ export function RateLimitThresholdSlot({
 			component="span"
 			sx={{
 				color: limitLevelOnDarkColor(threshold.level),
-				textAlign: slate ? "right" : undefined,
+				textAlign: "right",
 			}}
 		>
 			{Math.round(threshold.pct)}%

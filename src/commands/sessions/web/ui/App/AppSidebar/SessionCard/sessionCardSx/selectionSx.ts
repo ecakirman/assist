@@ -2,12 +2,6 @@ import { alpha, type Theme } from "@mui/material/styles";
 import { cardCloseClassName } from "../../../cardCloseClassName";
 
 export function selectionSx(t: Theme, active: boolean) {
-	if (t.design !== "slate")
-		return {
-			borderRadius: 0,
-			borderLeft: 2,
-			borderLeftColor: active ? t.palette.primary.main : "transparent",
-		};
 	return {
 		gridTemplateColumns: "14px minmax(0, 1fr) auto",
 		width: `calc(100% - ${t.spacing(1.5)})`,

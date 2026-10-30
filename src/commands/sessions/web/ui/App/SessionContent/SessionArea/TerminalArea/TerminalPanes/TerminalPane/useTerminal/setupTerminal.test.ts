@@ -5,7 +5,7 @@ import type { TerminalHandle } from "./createTerminal";
 import { setupTerminal } from "./setupTerminal";
 import { terminalTheme } from "./terminalTheme";
 
-const look = terminalTheme(createDesignTheme("classic", "dark").tokens);
+const look = terminalTheme(createDesignTheme("dark").tokens);
 
 const fit = vi.fn();
 let term = { cols: 120, rows: 40 };

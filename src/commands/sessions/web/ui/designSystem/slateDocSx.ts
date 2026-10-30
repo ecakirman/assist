@@ -7,10 +7,6 @@ const outrankMarkdown = (selector: string) =>
 		.join(", ");
 
 export function slateDocSx(t: Theme) {
-	return { ...(t.design === "slate" && slateDoc(t)) };
-}
-
-function slateDoc(t: Theme) {
 	const { color, radius } = t.tokens;
 	return {
 		px: 2.5,

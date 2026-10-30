@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 
 const countSx = {
 	ml: 0.5,
@@ -16,7 +15,6 @@ export function SidebarTabLabel({
 	label: string;
 	count: number;
 }) {
-	if (useTheme().design !== "slate") return `${label} ${count}`;
 	return (
 		<>
 			{label}

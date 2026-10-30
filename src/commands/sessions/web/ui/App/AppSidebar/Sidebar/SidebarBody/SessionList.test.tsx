@@ -103,7 +103,7 @@ describe("SessionList scroll area", () => {
 });
 
 function groupToggle() {
-	return document.querySelector<HTMLElement>("[aria-expanded]")!;
+	return screen.getByTitle("assist").closest<HTMLElement>("[aria-expanded]")!;
 }
 
 function renderGroupedList(onSelect = vi.fn()) {
@@ -218,7 +218,15 @@ describe("SessionList group order", () => {
 		renderGroupedList();
 
 		expect(groupToggle().getAttribute("aria-expanded")).toBe("true");
-		expect(renderedOrder()).toEqual(["solo", "group", "g1", "g2", "last"]);
+		expect(renderedOrder()).toEqual([
+			"group",
+			"solo",
+			"group",
+			"g1",
+			"g2",
+			"group",
+			"last",
+		]);
 	});
 
 	it("shows the pushpin on a group the user collapsed", () => {

@@ -10,10 +10,9 @@ export function AppStatusBar({ socket }: { socket: SessionSocket }) {
 				<RateLimitsIndicator
 					rateLimits={socket.rateLimits}
 					harnessRateLimits={socket.harnessRateLimits}
-					onStatusBar
 				/>
 			}
-			end={<VersionBadge onStatusBar />}
+			end={<VersionBadge />}
 		/>
 	);
 }

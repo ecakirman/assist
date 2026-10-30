@@ -1,5 +1,3 @@
-import Stack from "@mui/material/Stack";
-import { useTheme } from "@mui/material/styles";
 import type { NextBoard, NextScope } from "../../../../../../next/types";
 import { InlineScopeLines } from "./NextScopeNote/InlineScopeLines";
 import { NextScopeLine } from "./NextScopeNote/NextScopeLine";
@@ -17,11 +15,9 @@ export function NextScopeNote({
 	scope: NextScope;
 	boards: NextBoard[];
 }) {
-	const inline = useTheme().design === "slate";
 	const lines = [
 		<NextScopeLine
 			key="peers"
-			inline={inline}
 			label="Peers"
 			value={scope.peers.length > 0 ? scope.peers.join(", ") : null}
 			unset="none — only PRs requesting your review appear"
@@ -30,7 +26,6 @@ export function NextScopeNote({
 		/>,
 		<NextScopeLine
 			key="repos"
-			inline={inline}
 			label="Repos"
 			value={repoValue(scope.repos, scope.selfRepo)}
 			unset="none"
@@ -39,7 +34,6 @@ export function NextScopeNote({
 		/>,
 		<NextScopeLine
 			key="projects"
-			inline={inline}
 			label="Projects"
 			value={projectsValue(scope, boards)}
 			unset="none — no project items are suggested"
@@ -47,6 +41,5 @@ export function NextScopeNote({
 			showSetter={scope.projects.length === 0}
 		/>,
 	];
-	if (inline) return <InlineScopeLines lines={lines} />;
-	return <Stack spacing={0.25}>{lines}</Stack>;
+	return <InlineScopeLines lines={lines} />;
 }

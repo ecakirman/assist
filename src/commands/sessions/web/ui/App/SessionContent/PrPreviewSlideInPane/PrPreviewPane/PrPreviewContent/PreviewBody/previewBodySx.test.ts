@@ -1,8 +1,9 @@
-import { createTheme } from "@mui/material";
 import { describe, expect, it } from "vitest";
+import { createDesignTheme } from "../../../../../../designSystem/createDesignTheme";
 import { previewBodySx } from "./previewBodySx";
 
-const markdownRules = () => previewBodySx(createTheme())["& .markdown"];
+const theme = createDesignTheme("dark");
+const markdownRules = () => previewBodySx(theme)["& .markdown"];
 
 describe("previewBodySx", () => {
 	it("renders blockquotes as quotes", () => {
@@ -29,7 +30,7 @@ describe("previewBodySx", () => {
 	});
 
 	it("keeps the preview highlight styling", () => {
-		expect(previewBodySx(createTheme())["& mark.pr-comment"]).toMatchObject({
+		expect(previewBodySx(theme)["& mark.pr-comment"]).toMatchObject({
 			color: "inherit",
 		});
 	});

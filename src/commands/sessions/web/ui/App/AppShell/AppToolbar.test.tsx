@@ -78,19 +78,15 @@ describe("AppToolbar sidebar toggle", () => {
 });
 
 describe("AppToolbar usage placement", () => {
-	it.each([
-		["classic", 1],
-		["slate", 0],
-	] as const)("under %s shows %i usage indicators", (design, count) => {
+	it("keeps usage out of the toolbar", () => {
 		renderWithTheme(
 			<SidebarCollapsedContext.Provider
 				value={{ collapsed: false, onToggleCollapsed: vi.fn() }}
 			>
 				<AppToolbar socket={socket} selection={selection} />
 			</SidebarCollapsedContext.Provider>,
-			{ design },
 		);
 
-		expect(screen.queryAllByTestId("usage")).toHaveLength(count);
+		expect(screen.queryAllByTestId("usage")).toHaveLength(0);
 	});
 });

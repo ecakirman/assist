@@ -1,4 +1,3 @@
-import { classicDesign } from "./classicDesign";
 import type { DesignTokens } from "./DesignTokens";
 
 const ink = "#0e1116";
@@ -10,9 +9,15 @@ const accent = "#8b9cff";
 const green = "#5fd0a0";
 const amber = "#f2b45a";
 const red = "#f27a7a";
+const onAppBar = {
+	secondary: "rgba(255, 255, 255, 0.7)",
+	hover: "rgba(255, 255, 255, 0.12)",
+	active: "rgba(255, 255, 255, 0.16)",
+	dot: "#ffb74d",
+	dotRing: "rgba(0, 0, 0, 0.15)",
+};
 
 export const slateDesign: DesignTokens = {
-	name: "slate",
 	dark: {
 		color: {
 			background: ink,
@@ -32,7 +37,7 @@ export const slateDesign: DesignTokens = {
 			scrim: "rgba(0, 0, 0, 0.5)",
 			appBar: { background: surface, text: fg },
 			onAppBar: {
-				...classicDesign.dark.color.onAppBar,
+				...onAppBar,
 				secondary: muted,
 				level: { ok: green, warn: amber, over: red },
 			},
@@ -85,9 +90,65 @@ export const slateDesign: DesignTokens = {
 		},
 	},
 	light: {
-		...classicDesign.light,
 		color: {
-			...classicDesign.light.color,
+			background: "#fff",
+			surface: "#fff",
+			raised: "rgba(0, 0, 0, 0.04)",
+			line: "rgba(0, 0, 0, 0.12)",
+			lineSoft: "rgba(0, 0, 0, 0.12)",
+			text: {
+				primary: "rgba(0, 0, 0, 0.87)",
+				secondary: "rgba(0, 0, 0, 0.6)",
+				disabled: "rgba(0, 0, 0, 0.38)",
+			},
+			selected: "rgba(0, 0, 0, 0.08)",
+			wash: {
+				warning: "rgba(255, 167, 38, 0.09)",
+				error: "rgba(244, 67, 54, 0.09)",
+			},
+			well: "#f3f4f6",
+			stripe: "rgba(0, 0, 0, 0.1)",
+			overlay: { background: "rgba(97, 97, 97, 0.92)", text: "#fff" },
+			onAppBar: {
+				...onAppBar,
+				level: { ok: "#b9f6ca", warn: "#ffe57f", over: "#ffcdd2" },
+			},
+			primary: {
+				main: "#1976d2",
+				light: "#42a5f5",
+				dark: "#1565c0",
+				contrastText: "#fff",
+			},
+			secondary: {
+				main: "#9c27b0",
+				light: "#ba68c8",
+				dark: "#7b1fa2",
+				contrastText: "#fff",
+			},
+			success: {
+				main: "#2e7d32",
+				light: "#4caf50",
+				dark: "#1b5e20",
+				contrastText: "#fff",
+			},
+			warning: {
+				main: "#ed6c02",
+				light: "#ff9800",
+				dark: "#e65100",
+				contrastText: "#fff",
+			},
+			error: {
+				main: "#d32f2f",
+				light: "#ef5350",
+				dark: "#c62828",
+				contrastText: "#fff",
+			},
+			info: {
+				main: "#0288d1",
+				light: "#03a9f4",
+				dark: "#01579b",
+				contrastText: "#fff",
+			},
 			scrim: "rgba(15, 23, 42, 0.32)",
 			statusBar: {
 				background: "#f3f4f6",
@@ -101,6 +162,29 @@ export const slateDesign: DesignTokens = {
 				readyText: "#1976d2",
 				level: { ok: "#2e7d32", warn: "#ed6c02", over: "#d32f2f" },
 			},
+		},
+		terminal: {
+			background: "#ffffff",
+			foreground: "#333333",
+			cursor: "#333333",
+			cursorAccent: "#ffffff",
+			selectionBackground: "#add6ff",
+			black: "#000000",
+			red: "#cd3131",
+			green: "#107c10",
+			yellow: "#949800",
+			blue: "#0451a5",
+			magenta: "#bc05bc",
+			cyan: "#0598bc",
+			white: "#555555",
+			brightBlack: "#666666",
+			brightRed: "#cd3131",
+			brightGreen: "#14ce14",
+			brightYellow: "#b5ba00",
+			brightBlue: "#0451a5",
+			brightMagenta: "#bc05bc",
+			brightCyan: "#0598bc",
+			brightWhite: "#a5a5a5",
 		},
 		elevation: {
 			appBar: 0,

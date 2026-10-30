@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { renderWithTheme as render } from "../../../../../test/renderWithTheme";
 import { AcceptanceCriteriaList } from "./AcceptanceCriteriaList";
 import { MarkdownBlock } from "./MarkdownBlock";
 

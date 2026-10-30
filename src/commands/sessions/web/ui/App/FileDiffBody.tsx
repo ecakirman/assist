@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material/styles";
 import type { ReactElement } from "react";
 import {
 	Decoration,
@@ -22,7 +21,7 @@ export function FileDiffBody({
 	renderGap?: ((index: number) => ReactElement | null) | undefined;
 }) {
 	const tokens = useDiffTokens(file.hunks, path);
-	const hunkHeaders = useTheme().design === "slate" && !renderGap;
+	const hunkHeaders = !renderGap;
 
 	if (file.hunks.length === 0) return <BinaryNotice />;
 

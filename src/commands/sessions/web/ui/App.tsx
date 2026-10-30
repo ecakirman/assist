@@ -7,19 +7,17 @@ import { AppShell } from "./App/AppShell";
 import { useColorMode } from "./App/useColorMode";
 import { createDesignTheme } from "./designSystem/createDesignTheme";
 import { loadFontsBeforeTerminalsOpen } from "./designSystem/loadFontsBeforeTerminalsOpen";
-import { useDesign } from "./designSystem/useDesign";
 import { ToastStack } from "./ToastStack";
 
 function Root() {
 	const { mode, toggle } = useColorMode();
-	const { design, toggleDesign } = useDesign();
-	const theme = useMemo(() => createDesignTheme(design, mode), [design, mode]);
+	const theme = useMemo(() => createDesignTheme(mode), [mode]);
 
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<ToastStack>
-				<AppShell mode={mode} toggle={toggle} toggleDesign={toggleDesign} />
+				<AppShell mode={mode} toggle={toggle} />
 			</ToastStack>
 		</ThemeProvider>
 	);

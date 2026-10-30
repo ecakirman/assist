@@ -1,10 +1,14 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
+import { renderWithTheme as render } from "../../../../../test/renderWithTheme";
 import type { PhaseSession, PlanPhase } from "../types";
 import { PlanSection } from "./PlanSection";
 
 afterEach(cleanup);
+
+const phaseNumberOf = (name: string) =>
+	screen.getByText(name).previousSibling?.textContent;
 
 const phases: PlanPhase[] = [
 	{ name: "First", tasks: [{ task: "do a" }] },
@@ -47,7 +51,7 @@ describe("PlanSection", () => {
 			<PlanSection phases={phases} currentPhase={3} sessions={sessions} />,
 		);
 
-		expect(screen.getByText("Phase 3: Review")).toBeTruthy();
+		expect(phaseNumberOf("Review")).toBe("3");
 		expect(screen.getByText("host-r / carol / sess-review")).toBeTruthy();
 	});
 
@@ -74,7 +78,7 @@ describe("PlanSection", () => {
 		);
 
 		expect(screen.getAllByText(/Review$/)).toHaveLength(1);
-		expect(screen.getByText("Phase 2: Review")).toBeTruthy();
+		expect(phaseNumberOf("Review")).toBe("2");
 		expect(screen.getByText("host-r / carol / sess-review")).toBeTruthy();
 	});
 });
