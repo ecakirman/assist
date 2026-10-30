@@ -48,4 +48,8 @@ To change schema/data, append the next numbered module and register it in `index
 Keep changes additive: a dropped or renamed column also breaks older builds' Drizzle `select()` reads (columns are named explicitly), so never drop or rename in the same migration that stops using the column. Split it across releases:
 
 - **Expand**: add the new column/table and start writing to it; leave the old one in place. Ships and back-fills without breaking older builds.
-- **Contract**: in a _later_ migration, once no live build reads the old column/table, drop it. A `DROP TABLE`, `DROP COLUMN`, or `RENAME COLUMN` must carry a `-- destructive-ok` comment in that migration's `sql` to pass `verify:migrations`; the marker is the explicit acknowledgement that the expand step shipped and nothing still reads the target.
+- **Contract**: for a column, in a _later_ migration, once no live build reads the old column, drop it. A `DROP COLUMN` or `RENAME COLUMN` must carry a `-- destructive-ok` comment in that migration's `sql` to pass `verify:migrations`; the marker is the explicit acknowledgement that the expand step shipped and nothing still reads the target. For a table, retire it instead (below) — `-- destructive-ok` is for column drops and renames only.
+
+### Retiring a table
+
+A table is never dropped by a migration. Once no live build reads it, add its name to `RETIRED_TABLES` in `src/shared/db/retired/findRetiredTables.ts`. `assist db status` and `assist db migrate` then warn while it still exists, and the user drops it with `assist db drop-retired` after a confirm. Keep entries in `RETIRED_TABLES` indefinitely: databases that haven't run `drop-retired` yet still need the warning.

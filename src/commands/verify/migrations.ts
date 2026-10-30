@@ -23,7 +23,7 @@ export function migrations(): void {
 
 	for (const finding of checkDestructive(bundledMigrations)) {
 		problems.push(
-			`Migration ${finding.id} (${finding.name}) contains destructive DDL (${finding.statements.join(", ")}) without a \`-- ${DESTRUCTIVE_ACK_MARKER}\` acknowledgement. Prefer expand/contract; add the marker only once the drop is deliberate and no live build reads the column/table.`,
+			`Migration ${finding.id} (${finding.name}) contains destructive DDL (${finding.statements.join(", ")}) without a \`-- ${DESTRUCTIVE_ACK_MARKER}\` acknowledgement. Prefer expand/contract; add the marker only for a column drop or rename once no live build reads the column. Retire a table via RETIRED_TABLES instead of dropping it in a migration.`,
 		);
 	}
 
