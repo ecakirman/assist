@@ -29,5 +29,10 @@ export function switchComponents({ color }: ActiveTokens): Components<Theme> {
 		MuiSwitch: {
 			styleOverrides: { root: pill },
 		},
+		MuiFormControlLabel: {
+			styleOverrides: {
+				root: { "&:has(.MuiSwitch-root)": { marginLeft: 0, gap: 8 } },
+			},
+		},
 	};
 }
