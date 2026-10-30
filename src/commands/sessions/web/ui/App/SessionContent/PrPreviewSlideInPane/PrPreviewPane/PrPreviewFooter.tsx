@@ -24,6 +24,7 @@ export function PrPreviewFooter({
 	canStart,
 	onChainChange,
 }: PrPreviewFooterProps) {
+	const sent = () => comments.map((c) => ({ quote: c.quote, note: c.note }));
 	return (
 		<>
 			<PrCommentList
@@ -38,15 +39,10 @@ export function PrPreviewFooter({
 				newPr={newPr}
 				canStart={canStart}
 				onChainChange={onChainChange}
-				onApprove={() => onDecision("approve", [])}
-				onApproveAndStart={() => onDecision("approve", [], true)}
+				onApprove={() => onDecision("approve", sent())}
+				onApproveAndStart={() => onDecision("approve", sent(), true)}
 				onReject={() => onDecision("reject", [])}
-				onRequestChanges={() =>
-					onDecision(
-						"reject",
-						comments.map((c) => ({ quote: c.quote, note: c.note })),
-					)
-				}
+				onRequestChanges={() => onDecision("reject", sent())}
 			/>
 			<SelectionCommentPopover
 				pending={pending}
