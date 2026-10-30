@@ -77,8 +77,8 @@ The menu has **Toggle dark mode**, **Toggle Slate design** (switches between the
 
 The bar along the bottom of every page holds:
 
-- The **version badge** (:kbd[Alt+Q]) on the left, which shows how many updates are ready and opens the [Updates](../updating/#the-updates-page) page.
-- The **usage figures** on the right, your current 5-hour and 7-day usage per harness. Hover them for the breakdown, or click to open the [Usage](../usage/) page.
+- The **usage figures** on the left, your current 5-hour and 7-day usage per harness. Hover them for the breakdown, or click to open the [Usage](../usage/) page.
+- The **version badge** (:kbd[Alt+Q]) on the right, which shows how many updates are ready and opens the [Updates](../updating/#the-updates-page) page.
 
 ## Releases and News
 

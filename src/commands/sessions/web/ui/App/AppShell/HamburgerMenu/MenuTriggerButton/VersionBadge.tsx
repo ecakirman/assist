@@ -27,7 +27,7 @@ export function VersionBadge({
 		<>
 			<Tooltip
 				describeChild
-				placement={onStatusBar ? "top-start" : "bottom"}
+				placement={onStatusBar ? "top-end" : "bottom"}
 				title={<ChordTooltipTitle label="Updates" chords={chords} />}
 			>
 				<ButtonBase

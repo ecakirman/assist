@@ -6,14 +6,14 @@ import { VersionBadge } from "./HamburgerMenu/MenuTriggerButton/VersionBadge";
 export function AppStatusBar({ socket }: { socket: SessionSocket }) {
 	return (
 		<StatusBar
-			start={<VersionBadge onStatusBar />}
-			end={
+			start={
 				<RateLimitsIndicator
 					rateLimits={socket.rateLimits}
 					harnessRateLimits={socket.harnessRateLimits}
 					onStatusBar
 				/>
 			}
+			end={<VersionBadge onStatusBar />}
 		/>
 	);
 }

@@ -39,7 +39,7 @@ export function RateLimitsIndicator({
 		content = <HarnessRateLimitChips groups={groups} />;
 	}
 	return (
-		<Tooltip title={title} placement={onStatusBar ? "top-end" : "bottom"}>
+		<Tooltip title={title} placement={onStatusBar ? "top-start" : "bottom"}>
 			<Link
 				component={RouterLink}
 				to="/usage"
