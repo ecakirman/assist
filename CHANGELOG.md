@@ -1,3 +1,16 @@
+# [0.951.0](https://github.com/staff0rd/assist/compare/v0.950.0...v0.951.0) (2026-10-30)
+
+
+### Bug Fixes
+
+* divergence prompt requires clean tree ([a5c1360](https://github.com/staff0rd/assist/commit/a5c1360976f6ed4512e5f5efcd8187eca0527fe3))
+
+
+### Features
+
+* elbow connectors for nested sessions ([c3aeabc](https://github.com/staff0rd/assist/commit/c3aeabcecb718b2ea14642ee5df6224c78c019b8))
+* fill final-phase badge when done ([41d469e](https://github.com/staff0rd/assist/commit/41d469e901170f15b0e8aaa80a24357ff63f5e1a))
+
 # [0.950.0](https://github.com/staff0rd/assist/compare/v0.949.0...v0.950.0) (2026-10-30)
 
 
