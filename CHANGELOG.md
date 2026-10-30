@@ -1,3 +1,10 @@
+## [0.951.1](https://github.com/staff0rd/assist/compare/v0.951.0...v0.951.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* help top-right, plain plus, light icons ([268e10d](https://github.com/staff0rd/assist/commit/268e10dbbf5b80446fe52476adc68a234774911e))
+
 # [0.951.0](https://github.com/staff0rd/assist/compare/v0.950.0...v0.951.0) (2026-10-30)
 
 
