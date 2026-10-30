@@ -28,7 +28,7 @@ export function TopNavActions({
 		<Stack
 			direction="row"
 			spacing={0.5}
-			sx={{ alignItems: "center", "&:not(:empty)": { ml: 2 } }}
+			sx={{ alignItems: "center", "&:not(:empty)": { ml: 0.75 } }}
 		>
 			<ReviewDropdown
 				cwd={selectedCwd}
