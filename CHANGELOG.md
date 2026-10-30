@@ -1,3 +1,10 @@
+## [0.940.2](https://github.com/staff0rd/assist/compare/v0.940.1...v0.940.2) (2026-10-30)
+
+
+### Bug Fixes
+
+* Slate sidebar tabs and branch ticks ([67113f0](https://github.com/staff0rd/assist/commit/67113f06d109973aec76318b9d9a89e6fed04162))
+
 ## [0.940.1](https://github.com/staff0rd/assist/compare/v0.940.0...v0.940.1) (2026-10-30)
 
 
