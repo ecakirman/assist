@@ -1,3 +1,10 @@
+# [0.944.0](https://github.com/staff0rd/assist/compare/v0.943.0...v0.944.0) (2026-10-30)
+
+
+### Features
+
+* Gmail assist button with repo picker ([3886f9f](https://github.com/staff0rd/assist/commit/3886f9f3d3726678728783bbd4ec8c9c2bc79de6))
+
 # [0.943.0](https://github.com/staff0rd/assist/compare/v0.942.0...v0.943.0) (2026-10-30)
 
 
