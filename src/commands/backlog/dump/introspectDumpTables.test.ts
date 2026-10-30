@@ -40,6 +40,7 @@ describe("introspectDumpTables", () => {
 				"phase_cycle_context",
 				"phase_sessions",
 				"repo_configs",
+				"inbox_messages",
 			]),
 		);
 	});

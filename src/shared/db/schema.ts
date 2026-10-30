@@ -1,6 +1,7 @@
 import { integer, pgTable, text } from "drizzle-orm/pg-core";
 import { backups } from "./backups";
 import { comments } from "./comments";
+import { inboxMessages } from "./inboxMessages";
 import { itemGitRefs } from "./itemGitRefs";
 import { items } from "./items";
 import { links } from "./links";
@@ -53,6 +54,7 @@ export const schema = {
 	phaseCycleContext,
 	phaseSessions,
 	repoConfigs,
+	inboxMessages,
 };
 
 export type ItemRow = typeof items.$inferSelect;

@@ -169,6 +169,8 @@ Every command supports `--help` for full detail on its flags and behaviour.
 - `assist github issue started <number> [-R <owner>/<repo>]` - Assign a GitHub issue to yourself and move it to In Progress on its project boards
 - `assist github issue unassign <number> [-R <owner>/<repo>] [--assignee <login>...]` - Remove yourself, or each `--assignee` login, from a GitHub issue's assignees
 - `assist github issue fix-structure <target> [-R <owner>/<repo>] [--level <level>] [--type-chain <names>] [--strip-label <label>...] [--apply]` - Normalise the issue types across an issue's sub-issue subtree to a type chain (default `Epic,Story,Subtask`); `--level` sets the target's position in the chain, `--strip-label` removes a label, and nothing is written without `--apply`
+- `assist inbox scan` - Run a read-only headless `claude -p` (allowed only Gmail `search_threads`/`get_thread` and Slack `slack_search_public_and_private`/`slack_read_thread`) over unread Gmail inbox threads and Slack DMs and @mentions since the last scan, and store each message a person wrote that looks like it needs a reply; bots, notification systems, mailing lists, your own Slack messages and Slack threads you already replied in are skipped, and a message already flagged (from any node) is not added again
+- `assist inbox list` - List the flagged inbox messages, newest first, with sender, source, summary and link
 - `assist news add [url]` - Add an RSS feed URL to `news.feeds` (rendered in the sessions web News tab)
 - `assist news list` - List the feed URLs in `news.feeds`
 - `assist news remove <url>` - Remove a feed URL from `news.feeds`

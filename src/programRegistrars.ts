@@ -23,6 +23,7 @@ import { registerDevlog } from "./commands/registerDevlog";
 import { registerDotnet } from "./commands/registerDotnet";
 import { registerEditHook } from "./commands/registerEditHook";
 import { registerGithub } from "./commands/registerGithub";
+import { registerInbox } from "./commands/registerInbox";
 import { registerJira } from "./commands/registerJira";
 import { registerLaunch } from "./commands/registerLaunch";
 import { registerList } from "./commands/registerList";
@@ -74,6 +75,7 @@ export const programRegistrars: ((program: Command) => void)[] = [
 	registerPiHook,
 	registerEditHook,
 	registerGithub,
+	registerInbox,
 	registerJira,
 	registerMermaid,
 	registerMiro,
