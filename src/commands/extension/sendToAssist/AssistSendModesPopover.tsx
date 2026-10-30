@@ -3,6 +3,7 @@ import type { GithubAssistMode } from "../../../shared/githubAssistModes";
 import { AssistPopover } from "./AssistPopover";
 import { AssistRepoPicker } from "./AssistRepoPicker";
 import type { AssistSendRequest } from "./isAssistSendMessage";
+import { showAssistToast } from "./showAssistToast";
 
 const sendModes: { label: string; mode?: GithubAssistMode }[] = [
 	{ label: "Prompt" },
@@ -24,6 +25,10 @@ export function AssistSendModesPopover({
 		<AssistPopover
 			buttons={sendModes.map(({ label }) => label)}
 			onSend={(instructions, button) => {
+				if (pickRepo && !repo) {
+					showAssistToast("Pick a repo to start the assist session in", false);
+					return;
+				}
 				dismiss(false);
 				const { mode } = sendModes[button];
 				send({

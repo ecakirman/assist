@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { lastAssistRepo } from "./lastAssistRepo";
 import { requestAssistClones } from "./requestAssistClones";
 
 export function AssistRepoPicker({
@@ -14,15 +15,18 @@ export function AssistRepoPicker({
 
 	useEffect(() => {
 		let active = true;
-		void requestAssistClones().then((result) => {
-			if (!active) return;
-			if (result.ok) setClones(result.clones);
-			else setError(result.message);
-		});
+		void Promise.all([requestAssistClones(), lastAssistRepo.load()]).then(
+			([result, last]) => {
+				if (!active) return;
+				if (!result.ok) return setError(result.message);
+				setClones(result.clones);
+				if (last && result.clones.includes(last)) onChange(last);
+			},
+		);
 		return () => {
 			active = false;
 		};
-	}, []);
+	}, [onChange]);
 
 	return (
 		<TextField
@@ -31,7 +35,10 @@ export function AssistRepoPicker({
 			size="small"
 			sx={{ mt: 1 }}
 			value={value}
-			onChange={(event) => onChange(event.target.value)}
+			onChange={(event) => {
+				lastAssistRepo.save(event.target.value);
+				onChange(event.target.value);
+			}}
 			error={Boolean(error)}
 			helperText={error}
 			slotProps={{
