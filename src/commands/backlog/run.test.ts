@@ -40,6 +40,10 @@ vi.mock("../sessions/daemon/appendDaemonLog", () => ({
 	appendDaemonLog: vi.fn(),
 }));
 
+vi.mock("./resumeDoneConversation", () => ({
+	resumeDoneConversation: vi.fn(async () => true),
+}));
+
 vi.mock("./acquireLock", () => ({
 	acquireLock: vi.fn(),
 	foreignLockHolder: vi.fn(),
@@ -52,6 +56,7 @@ import { clearPause, consumePause, isPausePending } from "./consumePause";
 import { executePhase } from "./executePhase";
 import { prepareRun } from "./prepareRun";
 import { reloadPlan } from "./reloadPlan";
+import { resumeDoneConversation } from "./resumeDoneConversation";
 import { run } from "./run";
 import { setStatus } from "./shared";
 
@@ -97,6 +102,27 @@ describe("run", () => {
 
 			await run("99");
 
+			expect(mockExecutePhase).not.toHaveBeenCalled();
+			expect(mockSetStatus).not.toHaveBeenCalled();
+		});
+	});
+
+	describe("when restarting a done item with a resume session", () => {
+		it("resumes the conversation without running phases or changing status", async () => {
+			const item = makeBacklogItem({ plan, status: "done" });
+			const prepared = {
+				kind: "resume-done",
+				item,
+				resumeSessionId: "sess-1",
+			};
+			mockPrepareRun.mockReturnValue(prepared);
+
+			const result = await run("1", { resumeSessionId: "sess-1" });
+
+			expect(result).toBe(true);
+			expect(resumeDoneConversation).toHaveBeenCalledWith(prepared, {
+				resumeSessionId: "sess-1",
+			});
 			expect(mockExecutePhase).not.toHaveBeenCalled();
 			expect(mockSetStatus).not.toHaveBeenCalled();
 		});

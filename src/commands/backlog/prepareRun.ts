@@ -11,10 +11,16 @@ export type PreparedRun = {
 	startPhase: number;
 };
 
+export type DoneResume = {
+	kind: "resume-done";
+	item: BacklogItem;
+	resumeSessionId: string;
+};
+
 export async function prepareRun(
 	id: string,
 	resumeSessionId?: string,
-): Promise<PreparedRun | undefined> {
+): Promise<PreparedRun | DoneResume | undefined> {
 	const found = await findOneItem(id);
 	if (!found) return undefined;
 
@@ -22,6 +28,9 @@ export async function prepareRun(
 	const plan = resolvePlan(item);
 
 	if (item.status === "done") {
+		if (resumeSessionId) {
+			return { kind: "resume-done", item, resumeSessionId };
+		}
 		console.log(
 			chalk.green(`Already done: ${formatItemId(item.id)}: ${item.name}`),
 		);

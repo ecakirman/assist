@@ -18,9 +18,14 @@ vi.mock("./reconcileResumePhase", () => ({
 	reconcileResumePhase: vi.fn(),
 }));
 
-import { prepareRun } from "./prepareRun";
+import { type PreparedRun, prepareRun } from "./prepareRun";
 import { reconcileResumePhase } from "./reconcileResumePhase";
 import { findOneItem, setStatus } from "./shared";
+
+async function prepareStartPhase(id: string, resumeSessionId?: string) {
+	const result = await prepareRun(id, resumeSessionId);
+	return (result as PreparedRun | undefined)?.startPhase;
+}
 
 const mockFindOneItem = findOneItem as unknown as MockInstance;
 const mockSetStatus = setStatus as unknown as MockInstance;
@@ -63,6 +68,19 @@ describe("prepareRun", () => {
 			expect(await prepareRun("1")).toBeUndefined();
 			expect(mockSetStatus).not.toHaveBeenCalled();
 		});
+
+		it("returns a done resume when restarted with a resume session", async () => {
+			const item = makeBacklogItem({ plan, currentPhase: 3, status: "done" });
+			mockFindOneItem.mockReturnValue({ orm: {}, item });
+
+			expect(await prepareRun("1", "sess-1")).toEqual({
+				kind: "resume-done",
+				item,
+				resumeSessionId: "sess-1",
+			});
+			expect(mockReconcile).not.toHaveBeenCalled();
+			expect(mockSetStatus).not.toHaveBeenCalled();
+		});
 	});
 
 	describe("when all phases including review are already complete", () => {
@@ -97,18 +115,14 @@ describe("prepareRun", () => {
 			const item = makeBacklogItem({ plan, currentPhase: undefined });
 			mockFindOneItem.mockReturnValue({ orm: {}, item });
 
-			const result = await prepareRun("1");
-
-			expect(result?.startPhase).toBe(0);
+			expect(await prepareStartPhase("1")).toBe(0);
 		});
 
 		it("uses currentPhase as startPhase when resuming", async () => {
 			const item = makeBacklogItem({ plan, currentPhase: 2 });
 			mockFindOneItem.mockReturnValue({ orm: {}, item });
 
-			const result = await prepareRun("1");
-
-			expect(result?.startPhase).toBe(1);
+			expect(await prepareStartPhase("1")).toBe(1);
 		});
 
 		it("uses the reconciled phase when a resumed conversation diverges", async () => {
@@ -116,10 +130,10 @@ describe("prepareRun", () => {
 			mockFindOneItem.mockReturnValue({ orm: {}, item });
 			mockReconcile.mockResolvedValue(2);
 
-			const result = await prepareRun("1", "f4f18318");
+			const startPhase = await prepareStartPhase("1", "f4f18318");
 
 			expect(mockReconcile).toHaveBeenCalledWith({}, item, 1, "f4f18318");
-			expect(result?.startPhase).toBe(2);
+			expect(startPhase).toBe(2);
 		});
 	});
 });

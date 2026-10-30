@@ -1,16 +1,14 @@
 import chalk from "chalk";
-import { withoutResumeSession } from "../../shared/spawnClaude";
 import { acquireLock, foreignLockHolder, releaseLock } from "./acquireLock";
 import { ensureStoryBranch } from "./ensureStoryBranch";
 import { formatItemId, parseItemId } from "./formatItemId";
-import { handleReviewResult } from "./handleReviewResult";
 import { type PreparedRun, prepareRun } from "./prepareRun";
 import { reportDuplicateRun } from "./reportDuplicateRun";
-import { runOnce } from "./runOnce";
+import { resumeDoneConversation } from "./resumeDoneConversation";
 import { setStatus } from "./shared";
 import type { BacklogRunOptions } from "./types";
-import { clearSignalOwner } from "./recordSignalOwner";
 import { discardStalePause } from "./discardStalePause";
+import { runPrepared } from "./runPrepared";
 
 export async function run(
 	id: string,
@@ -36,35 +34,15 @@ async function runLocked(
 ): Promise<boolean> {
 	const prepared = await prepareRun(id, spawnOptions?.resumeSessionId);
 	if (!prepared) return false;
+	if ("kind" in prepared) {
+		return resumeDoneConversation(prepared, spawnOptions);
+	}
 
 	await ensureStoryBranch(prepared.item);
 	await setStatus(id, "in-progress");
 	discardStalePause(prepared.item.id);
 	logProgress(prepared);
 	return runPrepared(id, prepared, spawnOptions);
-}
-
-async function runPrepared(
-	id: string,
-	prepared: PreparedRun,
-	spawnOptions?: BacklogRunOptions,
-): Promise<boolean> {
-	const { item } = prepared;
-	let { plan, startPhase } = prepared;
-	try {
-		while (true) {
-			const review = await runOnce(item, startPhase, plan, spawnOptions);
-			spawnOptions = withoutResumeSession(spawnOptions);
-			const outcome = await handleReviewResult(id, review);
-			if (outcome.kind === "stop") {
-				return outcome.success;
-			}
-			startPhase = outcome.startPhase;
-			plan = outcome.plan;
-		}
-	} finally {
-		clearSignalOwner(item.id);
-	}
 }
 
 function logProgress({ plan, startPhase, item }: PreparedRun): void {
