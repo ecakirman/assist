@@ -1,3 +1,10 @@
+## [0.952.2](https://github.com/staff0rd/assist/compare/v0.952.1...v0.952.2) (2026-10-30)
+
+
+### Bug Fixes
+
+* always fill final-phase chip ([52c6202](https://github.com/staff0rd/assist/commit/52c620213c189840fecf31ac1ce11eef66574e46))
+
 ## [0.952.1](https://github.com/staff0rd/assist/compare/v0.952.0...v0.952.1) (2026-10-30)
 
 
