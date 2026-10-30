@@ -1,3 +1,10 @@
+## [0.954.3](https://github.com/staff0rd/assist/compare/v0.954.2...v0.954.3) (2026-10-30)
+
+
+### Bug Fixes
+
+* wider gap after New session ([6731189](https://github.com/staff0rd/assist/commit/67311896aef936bbe690cb8669e42753c5573bf4))
+
 ## [0.954.2](https://github.com/staff0rd/assist/compare/v0.954.1...v0.954.2) (2026-10-30)
 
 
