@@ -2,7 +2,9 @@ import type { ExistingSetup } from "../detectExistingSetup";
 
 export type OptionDef = {
 	toolKey: keyof {
-		[K in keyof ExistingSetup as ExistingSetup[K] extends { hasScript: boolean }
+		[K in keyof ExistingSetup as ExistingSetup[K] extends {
+			hasScript: boolean;
+		}
 			? K
 			: never]: true;
 	};

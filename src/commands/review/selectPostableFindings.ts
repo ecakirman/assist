@@ -35,7 +35,10 @@ export function selectPostableFindings(
 		);
 	}
 	const carriedUnlocated = unlocated.map(
-		(finding): UnanchoredFinding => ({ ...finding, reason: "unlocated" }),
+		(finding): UnanchoredFinding => ({
+			...finding,
+			reason: "unlocated",
+		}),
 	);
 	if (lineBound.length === 0) {
 		console.log("No line-bound findings to comment on.");

@@ -28,7 +28,10 @@ export function selectInDiffFindings(
 	return {
 		inDiff,
 		unanchored: outOfDiff.map(
-			(finding): UnanchoredFinding => ({ ...finding, reason: "out-of-diff" }),
+			(finding): UnanchoredFinding => ({
+				...finding,
+				reason: "out-of-diff",
+			}),
 		),
 	};
 }
