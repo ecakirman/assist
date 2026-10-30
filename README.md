@@ -167,6 +167,7 @@ Every command supports `--help` for full detail on its flags and behaviour.
 - `assist github issue comment <number> --body <body> [-R <owner>/<repo>]` - Comment on a GitHub issue, previewed for approval in a web session; `--body -` reads stdin
 - `assist github issue edit-comment <comment-id> --body <body> [-R <owner>/<repo>]` - Replace the body of a posted issue comment, previewed for approval in a web session; `--body -` reads stdin
 - `assist github issue started <number> [-R <owner>/<repo>]` - Assign a GitHub issue to yourself and move it to In Progress on its project boards
+- `assist github issue unassign <number> [-R <owner>/<repo>]` - Remove yourself from a GitHub issue's assignees
 - `assist github issue fix-structure <target> [-R <owner>/<repo>] [--level <level>] [--type-chain <names>] [--strip-label <label>...] [--apply]` - Normalise the issue types across an issue's sub-issue subtree to a type chain (default `Epic,Story,Subtask`); `--level` sets the target's position in the chain, `--strip-label` removes a label, and nothing is written without `--apply`
 - `assist news add [url]` - Add an RSS feed URL to `news.feeds` (rendered in the sessions web News tab)
 - `assist news list` - List the feed URLs in `news.feeds`

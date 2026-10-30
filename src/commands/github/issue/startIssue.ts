@@ -1,6 +1,6 @@
 import { assignIssueToSelf } from "./assignIssueToSelf";
 import { moveIssueToInProgress } from "./moveIssueToInProgress";
-import { resolveIssueRepoTarget } from "./resolveIssueRepoTarget";
+import { parseIssueTarget } from "./parseIssueTarget";
 
 type StartIssueOptions = {
 	repo?: string;
@@ -12,14 +12,11 @@ export function startIssue(
 	numberArg: string,
 	options: StartIssueOptions,
 ): void {
-	const number = Number.parseInt(numberArg, 10);
-	if (!Number.isInteger(number) || number <= 0) {
-		console.error(USAGE);
-		process.exit(1);
-	}
-
-	const { owner, repo } = resolveIssueRepoTarget(options.repo);
-	const slug = `${owner}/${repo}`;
+	const { owner, repo, number, slug } = parseIssueTarget(
+		numberArg,
+		options.repo,
+		USAGE,
+	);
 
 	try {
 		assignIssueToSelf(number, slug);

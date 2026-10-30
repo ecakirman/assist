@@ -196,6 +196,27 @@ describe("findBuiltinDeny gh issue edit", () => {
 	it("does not deny the assist wrapper that delegates to it", () => {
 		expect(findBuiltinDeny(["assist github issue edit 42"])).toBeUndefined();
 	});
+
+	it("points assignee removal to 'assist github issue unassign'", () => {
+		const decision = findBuiltinDeny([
+			"gh issue edit 42 --remove-assignee @me",
+		]);
+		expect(decision?.permissionDecisionReason).toContain(
+			"assist github issue unassign",
+		);
+	});
+});
+
+describe("findBuiltinDeny gh api assignee removal", () => {
+	it("points assignee removal to 'assist github issue unassign'", () => {
+		const decision = findBuiltinDeny([
+			"gh api -X DELETE repos/acme/widgets/issues/42/assignees -f assignees[]=me",
+		]);
+		expect(decision?.permissionDecision).toBe("deny");
+		expect(decision?.permissionDecisionReason).toContain(
+			"assist github issue unassign",
+		);
+	});
 });
 
 describe("findBuiltinDeny gh api issue writes", () => {

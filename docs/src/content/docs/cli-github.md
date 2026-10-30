@@ -12,6 +12,7 @@ covers:
   - cli:github issue comment
   - cli:github issue edit-comment
   - cli:github issue started
+  - cli:github issue unassign
 ---
 
 ## Activity
@@ -36,3 +37,4 @@ These back [`/github`](../github-issues/). Each takes `-R <owner/repo>` for an i
 - `assist github issue comment <number>` :badge[internal] comments on an issue with `--body`. Called by `/github update`.
 - `assist github issue edit-comment <comment-id>` :badge[internal] replaces a posted comment with `--body`. Called by agents revising an issue comment.
 - `assist github issue started <number>` :badge[internal] assigns the issue to you and moves it to In Progress on its boards. Called by `/github started`.
+- `assist github issue unassign <number>` :badge[internal] removes you from the issue's assignees. Called by agents removing an assignee.

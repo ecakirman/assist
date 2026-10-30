@@ -5,6 +5,7 @@ import { registerCreateIssue } from "./github/issue/registerCreateIssue";
 import { registerEditIssue } from "./github/issue/registerEditIssue";
 import { registerEditIssueComment } from "./github/issue/registerEditIssueComment";
 import { registerStartIssue } from "./github/issue/registerStartIssue";
+import { registerUnassignIssue } from "./github/issue/registerUnassignIssue";
 
 export function registerGithubIssue(githubCommand: Command): void {
 	const issueCommand = githubCommand
@@ -16,5 +17,6 @@ export function registerGithubIssue(githubCommand: Command): void {
 	registerCommentIssue(issueCommand);
 	registerEditIssueComment(issueCommand);
 	registerStartIssue(issueCommand);
+	registerUnassignIssue(issueCommand);
 	registerFixStructure(issueCommand);
 }
