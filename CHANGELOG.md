@@ -1,3 +1,10 @@
+# [0.937.0](https://github.com/staff0rd/assist/compare/v0.936.0...v0.937.0) (2026-10-30)
+
+
+### Features
+
+* add advice.rules to session advice ([0c0c637](https://github.com/staff0rd/assist/commit/0c0c6374c4dbb8252de7ffe57006497590d00aa4))
+
 # [0.936.0](https://github.com/staff0rd/assist/compare/v0.935.2...v0.936.0) (2026-10-30)
 
 
