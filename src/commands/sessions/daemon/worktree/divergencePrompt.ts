@@ -10,11 +10,15 @@ const RECONCILE_STEPS = [
 	"1. Inspect `git status`, `git log --oneline @{u}..@` and `git log --oneline @..@{u}`.",
 	'2. Stash any uncommitted work with `git stash push -u -m "assist divergence"`, and restore it with `git stash pop` once the branch is reconciled.',
 	"3. Rebase the local commits onto the upstream with `git rebase @{u}`, resolving conflicts so both sides' changes survive. If the rebase cannot be resolved cleanly, `git rebase --abort` and `git merge @{u}` instead.",
-	"4. Push the result with a plain `git push` so the branch matches its upstream again.",
-	"5. Build the clone with `assist run auto-build`.",
-	"6. Run /close. The daemon resumes its auto-update loop once this session closes.",
+	"4. Commit the restored uncommitted work. Uncommitted changes left in the clone block the next fast-forward the same way, so they must not stay uncommitted.",
+	"5. Push the result with a plain `git push` so the branch matches its upstream again.",
+	"6. Build the clone with `assist run auto-build`, then commit and push anything the build changed.",
+	"7. Confirm `git status` shows a clean working copy and nothing ahead of or behind the upstream.",
+	"8. Run /close. The daemon resumes its auto-update loop once this session closes.",
 	"",
 	"Never force-push, `git reset`, or otherwise discard commits. If you cannot reconcile the branch without doing so, explain what is blocking it and leave this session open for the user instead of closing it.",
+	"",
+	"Never run /close while the working copy is dirty. If you cannot get it clean — the uncommitted work isn't yours to commit, or it is unclear whether it should be committed — leave it in place, explain what is uncommitted, and leave this session open to ask the user instead of closing it.",
 ];
 
 const SIMULATED_STEPS = [
