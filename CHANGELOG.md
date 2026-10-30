@@ -1,3 +1,10 @@
+# [0.953.0](https://github.com/staff0rd/assist/compare/v0.952.2...v0.953.0) (2026-10-30)
+
+
+### Features
+
+* assist inbox scan and list ([ac18621](https://github.com/staff0rd/assist/commit/ac1862139df82530accab40c7510de2e9e5d26b6))
+
 ## [0.952.2](https://github.com/staff0rd/assist/compare/v0.952.1...v0.952.2) (2026-10-30)
 
 
